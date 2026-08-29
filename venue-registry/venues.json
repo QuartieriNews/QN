@@ -1,0 +1,79 @@
+{
+ "version": "1.2",
+ "purpose": "Resolve a Facebook location.id to a place, once and forever, with no name matching, no accent handling and no AI call.",
+ "lifecycle": "LEARNED AT RUNTIME. This file is NOT generated from the workbook and build_gazetteer.py never touches it. The write path is the Firestore collection `venues`; this file is the export the site and the n8n workflow read.",
+ "why_not_in_gazetteer_json": "gazetteer.json is regenerated from Rome_Neighbourhood_Gazetteer_EN.xlsx. Merging the two would erase every learned venue on the first rebuild.",
+ "key": "location.id from the Apify Facebook Events actor. Present in 106 of 107 measured records with a location, and stable across events at the same place.",
+ "position_in_resolution": "After human_verified and the tier-A guards; before the tier-B guards and the alias lookup. A hit skips tier B and the model entirely. A MISS IS NOT A REJECT — it continues to the next step.",
+ "changes_in_1_1": [
+  "venue_nature added: a signal for the editorial filter, not a shortcut past it.",
+  "editorial_override added: the only two cases where the venue decides on its own.",
+  "promotion_count added: how a blacklist is earned rather than assumed."
+ ],
+ "record_schema": {
+  "name": "string — venue name as last seen, for human review only, never a key",
+  "neighbourhood_id": "string|null — joins gazetteer.neighbourhoods.neighbourhood_id",
+  "publication_zone_id": "string — joins publication_zones.publication_zone_id. Required when status = resolved",
+  "human_verified": "boolean — true means a person decided. Wins over any recomputation",
+  "verified_by": "string|null",
+  "verified_at": "ISO 8601 timestamp|null",
+  "status": "resolved | unresolved | disputed",
+  "venue_nature": "community | cultural | commercial | unknown — see venue_nature below",
+  "editorial_override": "none | whitelist | blacklist — see editorial_override below",
+  "promotion_count": "integer — how many items from this venue were classified `promotion`",
+  "first_seen": "ISO 8601 timestamp",
+  "last_seen": "ISO 8601 timestamp",
+  "event_count": "integer — how many events have carried this location.id",
+  "source": "human_review | alias_match | ai_agreement",
+  "note": "string"
+ },
+ "venue_nature": {
+  "purpose": "A prior passed to the editorial classifier alongside the item text. It moves the judgement; it does not make it.",
+  "why_not_a_shortcut": "A neighbourhood pub hosts both its ordinary Thursday karaoke and a one-off gig by a named band. A permanent verdict on the venue would discard the gig — which is exactly the kind of item that is on no other site. Judge the item, with the venue as context.",
+  "values": {
+   "community": "Parish, committee, association, library, school, municipio premises, social centre.",
+   "cultural": "Theatre, cinema, museum, bookshop, auditorium. Programming is the point of the place.",
+   "commercial": "Bar, pub, restaurant, club, shop, gym. Events are a side of the trade.",
+   "unknown": "Not yet judged. The default, and not an error."
+  }
+ },
+ "editorial_override": {
+  "purpose": "The two extremes where the venue alone is enough, so the model is not spent on a decided question.",
+  "values": {
+   "whitelist": "Everything from this venue is local interest. Set by a person, for community venues only. A parish hall does not need its bingo night re-judged every month.",
+   "blacklist": "Everything from this venue is skipped as promotion. EARNED, not assumed: set only after promotion_count reaches 3 with no local_interest item in between, and only by a person.",
+   "none": "The default. The classifier runs."
+  },
+  "rule": "An override is a human act and is logged like one. A blacklisted venue that later posts something real is a bug you will only find in the discarded sample — which is why ten discards are reviewed every week."
+ },
+ "rules": [
+  "A venue with status = unresolved is not an error and not, on its own, a reject: resolution continues to the alias lookup and the model. reject_reason = venue_unresolved is TERMINAL and fires only when the registry, the alias lookup and the model have all failed. One review then resolves every future event at that address.",
+  "human_verified = true is sticky. A later alias or AI result that disagrees sets status = disputed and is logged; it never overwrites the human value.",
+  "publication_zone_id must point at a zone with is_page = true. If the venue genuinely sits in Agro Romano, set status = resolved with the neighbourhood_id and leave publication_zone_id empty, then handle it as zone_not_published.",
+  "Never key on venue name. Two parish halls share a name; two spellings of one theatre do not share an id.",
+  "venue_nature and the geographic resolution are independent. A venue can be resolved geographically and unknown editorially, and the reverse."
+ ],
+ "venues": {
+  "406634282835342": {
+   "name": "St Georges Church",
+   "neighbourhood_id": null,
+   "publication_zone_id": "",
+   "human_verified": false,
+   "verified_by": null,
+   "verified_at": null,
+   "status": "unresolved",
+   "venue_nature": "unknown",
+   "editorial_override": "none",
+   "promotion_count": 0,
+   "first_seen": "2026-08-19",
+   "last_seen": "2026-08-19",
+   "event_count": 2,
+   "source": null,
+   "note": "Seed record from the 19 August sample: the same id appeared on two unrelated events, which is the behaviour this registry exists to exploit. Resolve it on first review."
+  }
+ },
+ "changes_in_1_2": [
+  "Registry miss is explicitly NOT a reject: it continues to the alias lookup and the model. venue_unresolved is terminal. v1.3 WORKFLOW_FIXES said otherwise and, with location.id present in 106 of 107 records, that reading would have queued the whole corpus on day one.",
+  "Position updated: after human_verified and the tier-A guards, BEFORE the tier-B suspicion guards. A hit skips tier B entirely."
+ ]
+}
