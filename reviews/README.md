@@ -3,7 +3,7 @@
 Historical memory of the chat era, when a review had nowhere else to live, plus
 the home of review reports tied to no pull request. A Codex review of a PR is
 archived by the PR itself — see the Code Review Rules in `AGENTS.md`, which own
-this rule; do not copy such a review here.
+this rule (`decisions/DEC-007`); do not copy such a review here.
 
 Naming: `YYYY-MM-DD—<scope>—<verdict>.md`.
 Template: Drive → QN Hub → 30 Reviews → *Review Report — Template*.

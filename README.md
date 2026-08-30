@@ -33,7 +33,7 @@ reviewed and verified. No DECIDED entry in `decisions/` is reopened by either AI
 | `tests/` | `test_guards.py` (37 checks, executably asserted), `zone_distribution.py`, the two golden sets | `test_guards.py` must exit 0 on every change. Golden sets are hand-marked expectations; a disagreement is first evidence the prompt is unclear. Raw samples are **not** committed (DEC-104): they live in the Drive release package; see `tests/samples/README.md`. |
 | `workflows/` | n8n workflow JSON exports | One file per workflow. **No structural change in n8n without exporting and opening a PR** — see `workflows/README.md`. |
 | `code-nodes/` | The JavaScript/Python of each n8n Code node, one file per node | Each node testable outside n8n. The node in production must match the file here. |
-| `reviews/` | Review reports written by the reviewing AI, and its mandate | One file per cycle, `YYYY-MM-DD—<scope>—<verdict>.md`. The mandate to paste into the reviewer is `reviews/REVIEW_MANDATE_CODE.md`. |
+| `reviews/` | Review reports written by the reviewing AI, and its mandate | Where a code review is archived is the Code Review Rules' to state (`AGENTS.md`, pending `decisions/DEC-007`); reports that do live here are named `YYYY-MM-DD—<scope>—<verdict>.md`. The mandate to paste into the reviewer is `reviews/REVIEW_MANDATE_CODE.md`. |
 | `docs/` | The narrative documents of the events package (release 1.4.5) | Working copies. The frozen release zip stays in Drive `20 Packages`. `docs/START_HERE.md` is the reading order; the version number lives only there. |
 | `decisions/` | The decision log — one file per decision | **A decision exists only if it is written here.** DECIDED entries are never re-asked. Format and rules in `decisions/README.md`. |
 
@@ -67,7 +67,8 @@ the workbook edit is wrong, not that the build needs patching.
 3. A PR that changes a prompt must update `prompts/CHANGELOG.md` and state which revision
    integer it bumps (`generation_revision` or `geo_logic_revision`).
 4. Every PR is reviewed against **specification v2.5 and `gazetteer.json`** — never against
-   memory. The review report lands in `reviews/` before merge.
+   memory. The review must exist before merge; where it is archived is stated by the Code
+   Review Rules in `AGENTS.md` (pending `decisions/DEC-007`), not here.
 5. Nothing normative is decided in a change. If it needs an owner decision, it points at
    the `decisions/DEC-NNN` entry (drafting it if missing) and waits for it.
 
@@ -77,4 +78,4 @@ the workbook edit is wrong, not that the build needs patching.
   `it_strings.json`, `Mappa_Quartieri_Normalizzata.xlsx`).
 - A regeneration of `venue-registry/venues.json` — venues are learned, not built.
 - A second copy of a rule. Documents point at `gazetteer.json`; they do not restate it.
-- A merge without a review report, or a workflow change without its export.
+- A merge without a review, or a workflow change without its export.

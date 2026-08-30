@@ -37,7 +37,8 @@ owner decisions / regressions.
   and stay attached to the diff they judge. Do not copy a PR's review into
   `reviews/`. That folder is the historical memory of the chat era, when there
   was nowhere else to put a report, and remains the home of reports tied to no
-  PR; those are still named `reviews/YYYY-MM-DD—<scope>—<verdict>.md`.
+  PR; those are still named `reviews/YYYY-MM-DD—<scope>—<verdict>.md`. This
+  rule is `decisions/DEC-007` and takes effect when that entry is DECIDED.
 - Review the diff since the last review of the same scope; on a first pass,
   review everything.
 - The reviewer app holds write permissions on this repository. They exist
