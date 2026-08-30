@@ -100,7 +100,15 @@ MATCHING = [
 failures = []
 
 
+# Executable check count — cycle-1 review, item 3: the documented total was 38,
+# the real total is 37; the number is now asserted so a silently dropped case
+# (or a stale documented count) can never print ALL PASS again.
+EXPECTED_CHECKS = 37
+_check_count = [0]
+
+
 def check(label, got, want):
+    _check_count[0] += 1
     ok = got == want
     print(f"  {'PASS' if ok else 'FAIL'}  {label:<45} got={got!r}")
     if not ok:
@@ -131,7 +139,13 @@ for s in ["S. Angelo", "Tor de' Schiavi", "Città Test", "Conca d'Oro", "  EUR  
     check(f"norm({s!r})", build_norm(s), norm(s))
 check("no double spaces", "  " not in build_norm("S. Angelo"), True)
 
+if _check_count[0] != EXPECTED_CHECKS:
+    failures.append(
+        f"check count drifted: ran {_check_count[0]}, expected {EXPECTED_CHECKS}"
+    )
+
 print(f"\n{'ALL PASS' if not failures else str(len(failures)) + ' FAILURE(S)'}")
+print(f"({_check_count[0]} checks)")
 for f in failures:
     print("  -", f)
 sys.exit(1 if failures else 0)
