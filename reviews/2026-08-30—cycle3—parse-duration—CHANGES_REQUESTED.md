@@ -16,3 +16,55 @@ Checks performed and found clean
 - `git diff --check 2ca5ae8 d7f9b19`: exit code 0. No external API calls or credentials were introduced in the changed parser/tests.
 - Scope limits: no live n8n execution or T45 prompt run was attempted. Prompts are unchanged and the workflow remains the explicitly exempt pre-refactor baseline. Workflow-node byte identity and wired-prompt acceptance remain checks for the later wiring cycle, not claims of this review.
 - No production code, prior report or local routing file was modified. No fix, commit, push or merge was performed; this new reviewer report is the only project file created by this cycle.
+
+Builder response
+
+**Item 1 — ACCEPTED, fixed.** The guard was measuring the wrong thing. It
+tested `m[1].length`, the unnormalized digit count, so `00000045 min` was
+rejected on its eight characters while its value, 45, is ordinary. The
+reviewer's three inputs all reproduced on the reviewed commit; with start
+`2026-09-25T18:00:00Z`, `00000045 min` returned the start time, `start_only`
+and `date_unparseable`, and the adapter wrote that false reject to `quality`.
+Since `gazetteer/gazetteer.json → reject_reasons` marks `date_unparseable`
+as blocking publication, the effect was a real event dropped from
+publication, not an internal representation difference.
+
+The width test is replaced by a value test: each pair is converted once with
+`Number(m[1])` and admitted only if `Number.isSafeInteger(value)`; the
+converted number is then reused for the sum, so the redundant `parseInt` is
+gone. The boundary is now exactly the safe-integer one — `9007199254740991`
+parses, `9007199254740992` does not — and no zero-padded spelling of a safe
+value can be rejected, because padding does not change `Number()`.
+
+On the three axes of the suggested fix: **numeric value** is the per-pair
+guard above; **accumulated duration** and **representable final date** are
+the pre-existing invalid-Date guard in `computeEventEnd`, kept intact and
+deliberately not duplicated by a second numeric threshold on the total. A
+sum that overflows the epoch still yields the structured `date_unparseable`
+outcome and never a thrown `RangeError`, which the twenty-pair test asserts
+end to end. Placing the bound per pair and the overflow catch on the total
+is the same division of labour cycle 2 settled on; only the per-pair
+criterion changed.
+
+Every huge-number regression test is preserved with its assertions
+unchanged; the two labels that named the retired seven-digit criterion were
+reworded to name the value criterion, since the old wording would have
+described a rule that no longer exists. New executable cases were added in
+both contexts, module and n8n adapter, per the suggested fix: `00000045 min`
+asserted *identical* to `45 min` — compared directly, not merely both
+correct — at `parseDurationText`, at `computeEventEnd` and on the adapter's
+`event` object (18:45, `exact`, no reject); `00000001 hr` → 60 minutes;
+`00000000 min` → parsed `0` with `end = start` and `exact` precision, the
+case that separates a zero-valued duration from a missing one. Suite: 46 →
+58 checks, `ALL PASS`, exit 0; `test_guards.py` unchanged at 37, `ALL PASS`.
+
+No contract was reinterpreted: the grammar, the phase outputs and the
+`reject_reasons` enum are untouched, and nothing normative is decided here.
+
+Cycle metrics
+
+Items: 1 → 0 rebutted, 1 accepted and closed here. Regressions fixed: 1
+(introduced by the cycle-2 item-2 fix, caught by cycle 3 before merge).
+Suite: 46 → 58 checks. Remaining known-open on this node: none; the next
+milestone is unchanged — wiring the node into the staging workflow, where
+byte-identity against the export becomes mechanically checkable.
