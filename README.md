@@ -17,6 +17,12 @@ Current baseline: **events package release 1.4.5** (28 August 2026), consolidate
 shared project *QuartieriNews*; this repository mirrors and certifies what runs there —
 pushing here deploys nothing.
 
+This repository is worked by an **AI development loop** (DEC-104): **Claude builds,
+ChatGPT reviews** (`reviews/REVIEW_MANDATE_CODE.md`), **the owner decides**
+(`decisions/`) and operates the hands-on steps. Staging before production: pipeline
+work runs against `staging_`-prefixed Drive folders and Firestore collections until
+reviewed and verified. No DECIDED entry in `decisions/` is reopened by either AI.
+
 ## Layout
 
 | Folder | Contents | Rule |
@@ -24,11 +30,12 @@ pushing here deploys nothing.
 | `gazetteer/` | The master workbook, `build_gazetteer.py`, and its generated outputs (`gazetteer.json`, prompt list, Italian export, normalized map) | Edit **only** the workbook, then re-run the build. Never hand-edit a generated file. `gazetteer.json` is the contract: when any document disagrees with it, the JSON wins. |
 | `venue-registry/` | `venues.json` — contract and seed for the Firestore `venues` collection | Learned at runtime, **never regenerated** by any build. |
 | `prompts/` | `PROMPT_GEO_BLOCK.md`, `EDITORIAL_FILTER.md`, `CHANGELOG.md` | Every prompt change gets a changelog entry and bumps the relevant revision integer. Prompt text pasted into n8n must be byte-identical to the file here. |
-| `tests/` | `test_guards.py` (38 checks), `zone_distribution.py`, the two golden sets, measured samples | `test_guards.py` must exit 0 on every PR. Golden sets are hand-marked expectations; a disagreement is first evidence the prompt is unclear. |
+| `tests/` | `test_guards.py` (38 checks), `zone_distribution.py`, the two golden sets | `test_guards.py` must exit 0 on every change. Golden sets are hand-marked expectations; a disagreement is first evidence the prompt is unclear. Raw samples are **not** committed (DEC-104): they live in the Drive release package; see `tests/samples/README.md`. |
 | `workflows/` | n8n workflow JSON exports | One file per workflow. **No structural change in n8n without exporting and opening a PR** — see `workflows/README.md`. |
 | `code-nodes/` | The JavaScript/Python of each n8n Code node, one file per node | Each node testable outside n8n. The node in production must match the file here. |
-| `reviews/` | PR review reports written by the review AI | One file per PR, named `PR-<number>—<verdict>.md`, based on the template in Drive `30 Reviews`. |
+| `reviews/` | Review reports written by the reviewing AI, and its mandate | One file per cycle, `YYYY-MM-DD—<scope>—<verdict>.md`. The mandate to paste into the reviewer is `reviews/REVIEW_MANDATE_CODE.md`. |
 | `docs/` | The narrative documents of the events package (release 1.4.5) | Working copies. The frozen release zip stays in Drive `20 Packages`. `docs/START_HERE.md` is the reading order; the version number lives only there. |
+| `decisions/` | The decision log — one file per decision | **A decision exists only if it is written here.** DECIDED entries are never re-asked. Format and rules in `decisions/README.md`. |
 
 ## Running the checks
 
@@ -54,8 +61,8 @@ the workbook edit is wrong, not that the build needs patching.
    integer it bumps (`generation_revision` or `geo_logic_revision`).
 4. Every PR is reviewed against **specification v2.5 and `gazetteer.json`** — never against
    memory. The review report lands in `reviews/` before merge.
-5. Nothing normative is decided in a PR. If the change needs an owner decision, it points
-   at the entry in the Drive decision log (`QN Hub / 40 Decisions`) and waits for it.
+5. Nothing normative is decided in a change. If it needs an owner decision, it points at
+   the `decisions/DEC-NNN` entry (drafting it if missing) and waits for it.
 
 ## What must never happen here
 
