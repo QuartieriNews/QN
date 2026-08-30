@@ -89,10 +89,10 @@ check('multi-day span across DST, "5 days"',
   '2026-10-28T18:00:00.000Z');
 
 console.log('bounds and overflow — untrusted numbers must stay structured (cycle-2, item 2)');
-check('"999999999999999999999999 days" (>7 digits) -> unparseable',
+check('"999999999999999999999999 days" (not a safe integer) -> unparseable',
   parseDurationText('999999999999999999999999 days'),
   { status: 'unparseable', minutes: null });
-check('"9999999 days" (7 digits, in range) still parses',
+check('"9999999 days" (safe integer, in range) still parses',
   parseDurationText('9999999 days'),
   { status: 'parsed', minutes: 9999999 * 1440 });
 const hugeSum = Array(20).fill('9999999 days').join(' ');
@@ -102,6 +102,33 @@ check('…but computeEventEnd catches the out-of-range epoch -> date_unparseable
   computeEventEnd('2026-09-25T18:00:00Z', hugeSum),
   { ok: true, end_at_utc: '2026-09-25T18:00:00.000Z', date_precision: 'start_only',
     reject_reason: 'date_unparseable', duration_minutes: null, error: null });
+
+console.log('zero-padded numbers — the value bound must not reject them (cycle-3)');
+// Cycle-3 reproducer: the old width bound counted characters, so a zero-padded
+// number in range was rejected and the item took a spurious date_unparseable.
+check('"00000045 min" parses as 45 (was rejected by the width bound)',
+  parseDurationText('00000045 min'), { status: 'parsed', minutes: 45 });
+check('"00000045 min" is identical to "45 min"',
+  parseDurationText('00000045 min'), parseDurationText('45 min'));
+check('computeEventEnd("00000045 min") -> 18:45, exact, no reject',
+  computeEventEnd('2026-09-25T18:00:00Z', '00000045 min'),
+  { ok: true, end_at_utc: '2026-09-25T18:45:00.000Z', date_precision: 'exact',
+    reject_reason: null, duration_minutes: 45, error: null });
+check('computeEventEnd("00000045 min") is identical to computeEventEnd("45 min")',
+  computeEventEnd('2026-09-25T18:00:00Z', '00000045 min'),
+  computeEventEnd('2026-09-25T18:00:00Z', '45 min'));
+check('"00000001 hr" -> 60 minutes',
+  parseDurationText('00000001 hr'), { status: 'parsed', minutes: 60 });
+check('computeEventEnd("00000001 hr") -> 19:00, exact',
+  computeEventEnd('2026-09-25T18:00:00Z', '00000001 hr'),
+  { ok: true, end_at_utc: '2026-09-25T19:00:00.000Z', date_precision: 'exact',
+    reject_reason: null, duration_minutes: 60, error: null });
+check('"00000000 min" -> parsed 0, not unparseable',
+  parseDurationText('00000000 min'), { status: 'parsed', minutes: 0 });
+check('computeEventEnd("00000000 min") -> end = start, exact, no reject',
+  computeEventEnd('2026-09-25T18:00:00Z', '00000000 min'),
+  { ok: true, end_at_utc: '2026-09-25T18:00:00.000Z', date_precision: 'exact',
+    reject_reason: null, duration_minutes: 0, error: null });
 
 console.log('computeEventEnd — invalid start stays distinct from date_unparseable');
 check('garbage start -> invalid_start_timestamp',
@@ -141,6 +168,23 @@ function runNode(json) {
   const out = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: '999999999999999999999999 days', event: {}, quality: {} });
   check('adapter overflow -> structured item, NO throw (cycle-2 item 2)',
     [out.json.event.date_precision, out.json.quality.reject_reason], ['start_only', 'date_unparseable']);
+}
+{
+  // cycle-3: the zero-padded cases must hold in the adapter branch too.
+  const padded = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: '00000045 min', event: {}, quality: {} });
+  const plain  = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: '45 min', event: {}, quality: {} });
+  check('adapter "00000045 min" -> 18:45, exact, no reject',
+    [padded.json.event.end_at_utc, padded.json.event.date_precision, padded.json.quality.reject_reason || null],
+    ['2026-09-25T18:45:00.000Z', 'exact', null]);
+  check('adapter "00000045 min" event is identical to "45 min"',
+    padded.json.event, plain.json.event);
+  const hr = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: '00000001 hr', event: {}, quality: {} });
+  check('adapter "00000001 hr" -> 19:00 (60 minutes), exact',
+    [hr.json.event.end_at_utc, hr.json.event.date_precision], ['2026-09-25T19:00:00.000Z', 'exact']);
+  const zero = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: '00000000 min', event: {}, quality: {} });
+  check('adapter "00000000 min" -> end = start, exact, no reject',
+    [zero.json.event.end_at_utc, zero.json.event.date_precision, zero.json.quality.reject_reason || null],
+    ['2026-09-25T18:00:00.000Z', 'exact', null]);
 }
 {
   let threw = null;
