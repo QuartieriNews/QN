@@ -1,0 +1,7 @@
+# Python dependencies for the executable checks.
+#
+# openpyxl: gazetteer/build_gazetteer.py reads and writes the master workbook.
+# It is imported at module level there, so tests/test_guards.py — which imports
+# norm() from build_gazetteer to assert build and runtime normalise alike —
+# needs it too, not only a workbook rebuild.
+openpyxl>=3.1
