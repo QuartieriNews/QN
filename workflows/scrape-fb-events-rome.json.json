@@ -1,0 +1,894 @@
+{
+  "name": "Scrape FB Events Rome Italy",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1290abd7-ffeb-4a3d-91ce-bea061679c0c",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        2528
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/apify~facebook-events-scraper/runs?memory=2048",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"maxEvents\": 200,\n  \"searchQueries\": [\n    \"Italy Roma\"\n  ],\n  \"startUrls\": []\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "314a7512-03c9-405c-aad9-fd362e4d34fe",
+      "name": "Launch FB Events Scraper",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1232,
+        2624
+      ],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "cNHvQowQq8HNuWyR",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 90
+      },
+      "id": "ecf8ad70-2483-426c-a3ea-6584be8c9fd5",
+      "name": "Wait for Scraper",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        2624
+      ],
+      "webhookId": "08146ebc-b75d-4dba-9d3e-e34ae8fccc47"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "9a4018e4-c5aa-4708-840c-9e4e984ebff2",
+      "name": "Get Scraper Results",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1680,
+        2624
+      ],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "cNHvQowQq8HNuWyR",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "d33006ad-8849-488c-a236-4f5c1139444e",
+      "name": "Done Processing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2128,
+        2048
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1",
+              "leftValue": "={{ $json.id || $json.eventId || \"\" }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              },
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "10c597cc-afa8-4a65-a7bc-8a27de3d633b",
+      "name": "Has Event ID?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2128,
+        2240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "city-rome",
+              "leftValue": "={{ (($json.location?.city || \"\") + \" \" + ($json.location?.streetAddress || \"\") + \" \" + ($json.location?.name || \"\") + \" \" + ($json.location?.contextualName || \"\")).toLowerCase() }}",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              },
+              "rightValue": "\\b(rome|roma)\\b"
+            },
+            {
+              "id": "date-not-empty",
+              "leftValue": "={{ $json.utcStartDate || \"\" }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              },
+              "rightValue": ""
+            },
+            {
+              "id": "date-future",
+              "leftValue": "={{ $json.utcStartDate }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              },
+              "rightValue": "={{ $now.toISO() }}"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c526c1d7-7979-462c-b1a2-07a618ecf944",
+      "name": "Is Rome & Future?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2352,
+        2240
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "projectId": "roma-pipeline",
+        "database": "facebook-posts",
+        "collection": "events",
+        "documentId": "={{ $json.id || $json.eventId }}"
+      },
+      "id": "2edba0c7-336b-4a99-bdec-16b9616205c2",
+      "name": "Check Existing Event",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1.1,
+      "position": [
+        2576,
+        2144
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleApi": {
+          "id": "NyINjpstDJJKFBSK",
+          "name": "Google Service Account account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1",
+              "leftValue": "={{ $json._name || \"\" }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              },
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8e762df3-e4d5-49ef-b441-635308deb561",
+      "name": "Doc Exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2800,
+        2144
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "cc9d4043-5596-460d-86f6-fae84ed5c9d7",
+      "name": "Skip Existing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3024,
+        2240
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8b1b5a13-eff7-4b09-b394-a523c5f3d430",
+      "name": "Batch Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1904,
+        2624
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "create",
+        "projectId": "roma-pipeline",
+        "database": "facebook-posts",
+        "collection": "events",
+        "documentId": "={{ $(\"Has Event ID?\").item.json.id || $(\"Has Event ID?\").item.json.eventId }}",
+        "columns": "id,name,utcStartDate,url,description"
+      },
+      "id": "f5438e1e-7e8c-443d-a618-e8509215ea10",
+      "name": "Save Event to Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1.1,
+      "position": [
+        3024,
+        2480
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "NyINjpstDJJKFBSK",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $(\"Has Event ID?\").item.json.imageUrl || \"\" }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "74ff1546-5a6e-4e98-989a-d166e4e48d3d",
+      "name": "Download Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3248,
+        2480
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "name": "={{ ($(\"Has Event ID?\").item.json.id || $(\"Has Event ID?\").item.json.eventId) + \".jpg\" }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {
+          "simplifyOutput": true
+        }
+      },
+      "id": "2b7b2fe5-6e8c-4a45-8959-d68337a5c366",
+      "name": "Upload to Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3472,
+        2480
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "NyINjpstDJJKFBSK",
+          "name": "Google Service Account account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "reader",
+            "type": "anyone"
+          }
+        },
+        "options": {}
+      },
+      "id": "627a734e-c282-4835-a92a-efdf3d3cf04c",
+      "name": "Share Drive File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3696,
+        2480
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "NyINjpstDJJKFBSK",
+          "name": "Google Service Account account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "contentType": "=json",
+        "specifyBody": "json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={{\n  {\n    \"model\": \"gpt-5.6-terra\",\n    \"messages\": [\n      {\n        \"role\": \"system\",\n        \"content\": \"You are a Rome (Italy) geography expert. Given a venue location, return ONLY a JSON object with this key:\\n{\\n  \\\"neighborhood\\\": string\\n}\\n\\nRules:\\n- Pick the closest match from the allowed list using the venue address. If you are not confident, return \\\"\\\".\\n- Do NOT invent neighborhood names. Only return values from the list.\\n- Output a single valid JSON object. No explanation, no markdown.\\n\\nAllowed neighborhood values (case-sensitive, copy exactly):\\nCampitelli, Campo Marzio, Castro Pretorio, Celio, Colonna, Esquilino, Ludovisi, Monti, Parione, Pigna, Ponte, Prati, Regola, Ripa, S. Angelo, S. Eustachio, S. Saba, Sallustiano, Testaccio, Trastevere, Trevi, Della Vittoria, Trionfale, Igea, Mazzini, Miani, Parco di Monte Mario, Africano, Belle Arti, Flaminio, Italia, Lanciani, Nomentano, Parioli, Pinciano, Salario, Trieste, Verbano, Vescovio, Villaggio Olimpico, Acqua Acetosa, San Lorenzo, Valle Giulia, Verano, Villa Ada, Villa Borghese, Bufalotta, Casal Boccone, Casale Nei, Castel Giubileo, Cecchina, Cinquina, Colle Salario, Conca D'oro, Fidene, Monte Sacro, Nuovo Salario, Porta Di Roma, Prati Fiscali, Sacco Pastore, Santa Maria Delle Grazie, Serpentara, Settebagni, Talenti, Tufello, Val Melaina, Vigne Nuove, Villa Spada, Inviolatella Salaria, Marcigliana, Parco Delle Sabine, Parco Delle Valli, Tor S. Giovanni, Casal Bertone, Casal Bruciato, Casal Dei Pazzi, Casal Monastero, Casal Tidei, Casale Rocchi, Case Rosse, Colli Aniene, Collina Lanciani, Monte Del Pecoraro, Pietralata, Monti Tiburtini, Podere Rosa, Ponte Mammolo, Portonaccio, Rebibbia, S. Alessandro, S. Basilio, S. Cleto, Settecamini, Tecnopolo, Tor Cervara, Torraccia, Verderocca, Casale Cavallari, Forno Casale, Parco Della Cervelletta, Parco Della Serenissima, Parco Di Aguzzano, Parco Valle Dell'Aniene, Alessandrino, Casale Caletto, Centocelle, Certosa, Collatino, La Marranella, La Rustica, Longoni, Maggiolino, Nuova Gordiani, Pigneto, Prampolini, Prenestino, Labicano, Quadraro, Quarticciolo, Tor De' Schiavi, Tor Pignattara, Tor Sapienza, Tor Tre Teste, Vigne Alessandrine, Villa De Sanctis, Villa Gordiani, Villini Santa Maria, Casale Rosso, Mistica, Omo, Torre Di Salone, Borghesiana, Castelverde, Colle Degli Abeti, Colle Del Sole, Colle Della Lite, Colle Monfortani, Colle Prenestino, Corcolle, Due Leoni, Finocchio, Fontana Candida, Fosso San Giuliano, Giardinetti, Grotte Celoni, Lunghezza, Lunghezzina, Nuova Ponte Di Nona, Osteria Dell'osa, Prato Fiorito, Rocca Cencia, S. Vittorino, Tor Bella Monaca, Tor Vergata, Torre Angela, Torre Gaia, Torre Maura, Torrenova, Valle Borghesiana, Valle Fiorita, Villa Verde, Villaggio Breda, Villaggio Falcone, Villaggio Prenestino, Acqua Vergine, Area Archeologica Gabii, Campo Grazia, Colle Mattia, Salone, Toragnola, Valle Bagnata, Appio Claudio, Appio Latino - Alberone, Appio S. Giovanni, Arco Di Travertino, Campo Romano, Capannelle, Cecafumo, Centroni, Valle Marciana, Cinecittà, Colle Tappi, Colli Albani, Don Bosco, Furio Camillo, Gregna S. Andrea, Lamaro, Mandrione, Morena, Nuova Romanina, Nuova Tor Vergata, Osteria Del Curato, Quadraretto, Quarto Miglio, Romanina, Statuario, Tor Di Mezzavia, Tor Fiscale, Tor Santi Quattro, Torre Spaccata, Tuscolano, Vermicino, Villaggio Appio, Aeroporto Giovanni Battista Pastine, Parco Degli Acquedotti, Ardeatino, Cava Pace, Garbatella, Grotta Perfetta, L'annunziatella, Montagnola, Ostiense, Ottavo Colle, Rinnovamento, Roma 70, San Paolo, Tintoretto, Tor Marancia, Torricola, Cornacchiole, Fioranello, Fiorano, Parco Dell'appia Antica, Tenuta S. Alessio, Tre Fontane, Caffarella, Acqua Acetosa Ostiense, Casal Brunori, Castel Di Leva, Castellaccio, Cecchignola, Colle Del Pino, Colle Di Mezzo, Decima, Eur, Divino Amore, Ferratella, Fonte Laurentina, Fonte Meravigliosa, Giuliano Dalmata, La Castelluccia, La Selvotta, Laurentino Fonte Ostiense, Mezzocammino, Millevoi, Molino S. Felicola, Monte Migliore, Mostacciano, Santa Fumia, Santa Palomba, Schizzanello, Spinaceto, Spregamore, Tor De' Cenci, Tor Pagnotta, Torrino, Trigoria, Trigoria Alta, Vallerano, Vitinia, Castel Di Decima, Castel Romano, Laurentino, Monte Della Caccia, Monte Di Leva, Monte Lungo, Porta Medaglia Bella Cenci, Solfarata, Tor Di Valle, Valle Della Perna, Acilia Nord, Acilia Sud, Acilia, Axa, Bagnoletto, Casal Bernocchi, Casal Palocco, Centro Giano, Dragona, Dragoncello, Giardino Di Roma, Infernetto, La Lingua, Lido Di Castel Fusano, Madonnetta, Malafede, Ostia Antica, Ostia, San Giorgio, Stagni Di Ostia, Castel Fusano, Castel Porziano, Borgata Petrelli, Casetta Mattei, Corviale, Magliana, Marconi, Monte Cucco, Monte Delle Capre, Monte Stallonara, Muratella, Parrocchietta, Piana Del Sole, Pisana, Ponte Galeria, Portuense, Spallette, Tenuta Dei Massimi, Trullo, Vigna Pia, Villa Bonelli, Campo Di Merlo, Chiesola, Malnome, Nuova Fiera Di Roma, Parco De' Medici, Pian Due Torri, Prati Della Chiavichetta, Bravetta, Casal Lumbroso, Colle Aurelio, Colli Portuensi, La Pisana, Massimina, Monteverde Nuovo, Monteverde Vecchio, Monteverde, Porta Portese, Santa Cecilia, Vignaccia, Villa Troili, Villini, Castel Di Guido, Maglianella Di Sotto, Malagrotta, Pantan Di Grano, Villa Pamphili, Acquafredda, Aurelio, Baldo Degli Ubaldi, Bastogi, Boccea, Casal Selce, Casalotti, Cavalleggeri, Collina Delle Muse, Forno Saraceno, Gregorio XI, Maglianella, Monte Del Marmo, Montespaccato, Pantan Monastero, Pineta Sacchetti, S. Rufina, Torrevecchia Bassa, Val Cannuta, Valle Aurelia, Maglianella Di Sopra, Monachina, Appiano, Balduina, Battistini, Castelluccia, Cerquette Grandi, Medaglie D'oro, Monte Mario, Ottavia, Palmarola, Pian Saccoccia, Podere S. Giusto, Primavalle, Quartaccio, S. Andrea, S. Maria Di Galeria, S. Nicola, Selva Candida, Selva Nera, Torresina, Torrevecchia, Tragliatella, Valle Santa, Casal Del Marmo, Fosso Pietroso, Parco Dell'Insugherata, Parco Monte Ciocci, Pineto, Santa Rosa Marina Militare, Anguillarese - Colle Due Pini, Borgo Di Cesano, Camilluccia, Cesano, Collina Fleming, Cortina D'ampezzo, Due Ponti, Farnesina, Giustiniana, Grottarossa, Isola Farnese, La Storta, Labaro, Olgiata, Osteria Nuova, Pietra Pertusa, Ponte Milvio, Prima Porta, Quarto Peperino, S. Cornelia, San Godenzo, Saxa Rubra, Tiberina - S. Isidoro, Tomba Di Nerone, Valle Muricana, Veientana, Vigna Clara, Bosco Baccano, Casaccia, Cimitero Flaminio, Farneto, Foro Italico, Inviolatella Borghese, Malborghetto, Monte Caminetto, Monte Oliviero, Parchi Volusia E Papacci, Piana Del Tevere, Polline Martignano, Prato Corazza, Procoio, Radio Vaticana, Riserva Di Livia, Tor Di Quinto, Torre Dei Venti, Vaccareccia, Valle Vescovo, Veio\"\n      },\n      {\n        \"role\": \"user\",\n        \"content\": \"Location: \" + ($(\"Has Event ID?\").item.json.location?.name || \"\") + \", \" + ($(\"Has Event ID?\").item.json.location?.streetAddress || \"\") + \"\\n\\nEvent description: \" + ($(\"Has Event ID?\").item.json.description || \"\")\n      }\n    ],\n    \"response_format\": {\n      \"type\": \"json_object\"\n    }\n  }\n}}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 1500
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "527e02bf-f7e4-4587-8eab-bcf64e83e85c",
+      "name": "Enrich Location",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3920,
+        2480
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "dUtk3BvTfLZLSIGs",
+          "name": "Bearer Auth account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const ROME_QUARTERS = {\n  \"acilia\": [\"Acilia\", \"Municipio 10\", \"Acilia\"],\n  \"acilia nord\": [\"Acilia Nord\", \"Municipio 10\", \"Acilia\"],\n  \"acilia sud\": [\"Acilia Sud\", \"Municipio 10\", \"Acilia\"],\n  \"acqua acetosa\": [\"Acqua Acetosa\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"acqua acetosa ostiense\": [\"Acqua Acetosa Ostiense\", \"Municipio 9\", \"EUR\"],\n  \"acqua vergine\": [\"Acqua Vergine\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"acquafredda\": [\"Acquafredda\", \"Municipio 13\", \"Boccea\"],\n  \"aeroporto giovanni battista pastine\": [\"Aeroporto Giovanni Battista Pastine\", \"Municipio 7\", \"Agro Romano\"],\n  \"africano\": [\"Africano\", \"Municipio 2\", \"Trieste-Salario\"],\n  \"alessandrino\": [\"Alessandrino\", \"Municipio 5\", \"Alessandrino\"],\n  \"anguillarese - colle due pini\": [\"Anguillarese - Colle Due Pini\", \"Municipio 15\", \"La Storta\"],\n  \"appiano\": [\"Appiano\", \"Municipio 14\", \"Balduina\"],\n  \"appio claudio\": [\"Appio Claudio\", \"Municipio 7\", \"Cinecittà\"],\n  \"appio latino - alberone\": [\"Appio Latino - Alberone\", \"Municipio 7\", \"Appio Latino\"],\n  \"appio s giovanni\": [\"Appio S. Giovanni\", \"Municipio 7\", \"San Giovanni\"],\n  \"arco di travertino\": [\"Arco Di Travertino\", \"Municipio 7\", \"Tuscolano\"],\n  \"ardeatino\": [\"Ardeatino\", \"Municipio 8\", \"Ardeatino\"],\n  \"area archeologica gabii\": [\"Area Archeologica Gabii\", \"Municipio 6\", \"Agro Romano\"],\n  \"aurelio\": [\"Aurelio\", \"Municipio 13\", \"Aurelio\"],\n  \"axa\": [\"Axa\", \"Municipio 10\", \"Casal Palocco\"],\n  \"bagnoletto\": [\"Bagnoletto\", \"Municipio 10\", \"Dragona-Dragoncello\"],\n  \"baldo degli ubaldi\": [\"Baldo Degli Ubaldi\", \"Municipio 13\", \"Aurelio\"],\n  \"balduina\": [\"Balduina\", \"Municipio 14\", \"Balduina\"],\n  \"bastogi\": [\"Bastogi\", \"Municipio 13\", \"Montespaccato\"],\n  \"battistini\": [\"Battistini\", \"Municipio 14\", \"Primavalle\"],\n  \"belle arti\": [\"Belle Arti\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"boccea\": [\"Boccea\", \"Municipio 13\", \"Boccea\"],\n  \"borgata petrelli\": [\"Borgata Petrelli\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"borghesiana\": [\"Borghesiana\", \"Municipio 6\", \"Borghesiana\"],\n  \"borgo di cesano\": [\"Borgo Di Cesano\", \"Municipio 15\", \"Cesano\"],\n  \"bosco baccano\": [\"Bosco Baccano\", \"Municipio 15\", \"La Storta\"],\n  \"bravetta\": [\"Bravetta\", \"Municipio 12\", \"Bravetta\"],\n  \"bufalotta\": [\"Bufalotta\", \"Municipio 3\", \"Bufalotta\"],\n  \"caffarella\": [\"Caffarella\", \"Municipio 8\", \"Appia Antica\"],\n  \"camilluccia\": [\"Camilluccia\", \"Municipio 15\", \"Vigna Clara\"],\n  \"campitelli\": [\"Campitelli\", \"Municipio 1\", \"Centro Storico\"],\n  \"campo di merlo\": [\"Campo Di Merlo\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"campo grazia\": [\"Campo Grazia\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"campo marzio\": [\"Campo Marzio\", \"Municipio 1\", \"Centro Storico\"],\n  \"campo romano\": [\"Campo Romano\", \"Municipio 7\", \"Agro Romano\"],\n  \"capannelle\": [\"Capannelle\", \"Municipio 7\", \"Appia Antica\"],\n  \"casaccia\": [\"Casaccia\", \"Municipio 15\", \"Agro Romano\"],\n  \"casal bernocchi\": [\"Casal Bernocchi\", \"Municipio 10\", \"Acilia\"],\n  \"casal bertone\": [\"Casal Bertone\", \"Municipio 4\", \"Pietralata\"],\n  \"casal boccone\": [\"Casal Boccone\", \"Municipio 3\", \"Talenti\"],\n  \"casal bruciato\": [\"Casal Bruciato\", \"Municipio 4\", \"Pietralata\"],\n  \"casal brunori\": [\"Casal Brunori\", \"Municipio 9\", \"Torrino\"],\n  \"casal dei pazzi\": [\"Casal Dei Pazzi\", \"Municipio 4\", \"Rebibbia\"],\n  \"casal del marmo\": [\"Casal Del Marmo\", \"Municipio 14\", \"Ottavia\"],\n  \"casal lumbroso\": [\"Casal Lumbroso\", \"Municipio 12\", \"Casal Lumbroso\"],\n  \"casal monastero\": [\"Casal Monastero\", \"Municipio 4\", \"Torraccia\"],\n  \"casal palocco\": [\"Casal Palocco\", \"Municipio 10\", \"Casal Palocco\"],\n  \"casal selce\": [\"Casal Selce\", \"Municipio 13\", \"Casalotti\"],\n  \"casal tidei\": [\"Casal Tidei\", \"Municipio 4\", \"Rebibbia\"],\n  \"casale caletto\": [\"Casale Caletto\", \"Municipio 5\", \"Tor Sapienza\"],\n  \"casale cavallari\": [\"Casale Cavallari\", \"Municipio 4\", \"Tor Cervara\"],\n  \"casale nei\": [\"Casale Nei\", \"Municipio 3\", \"Talenti\"],\n  \"casale rocchi\": [\"Casale Rocchi\", \"Municipio 4\", \"Settecamini\"],\n  \"casale rosso\": [\"Casale Rosso\", \"Municipio 5\", \"Tor Sapienza\"],\n  \"casalotti\": [\"Casalotti\", \"Municipio 13\", \"Casalotti\"],\n  \"case rosse\": [\"Case Rosse\", \"Municipio 4\", \"Settecamini\"],\n  \"casetta mattei\": [\"Casetta Mattei\", \"Municipio 11\", \"Pisana\"],\n  \"castel di decima\": [\"Castel Di Decima\", \"Municipio 9\", \"Castel di Leva\"],\n  \"castel di guido\": [\"Castel Di Guido\", \"Municipio 12\", \"Agro Romano\"],\n  \"castel di leva\": [\"Castel Di Leva\", \"Municipio 9\", \"Castel di Leva\"],\n  \"castel fusano\": [\"Castel Fusano\", \"Municipio 10\", \"Ostia\"],\n  \"castel giubileo\": [\"Castel Giubileo\", \"Municipio 3\", \"Fidene-Settebagni\"],\n  \"castel porziano\": [\"Castel Porziano\", \"Municipio 10\", \"Ostia\"],\n  \"castel romano\": [\"Castel Romano\", \"Municipio 9\", \"Castel di Leva\"],\n  \"castellaccio\": [\"Castellaccio\", \"Municipio 9\", \"Castel di Leva\"],\n  \"castelluccia\": [\"Castelluccia\", \"Municipio 14\", \"Agro Romano\"],\n  \"castelverde\": [\"Castelverde\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"castro pretorio\": [\"Castro Pretorio\", \"Municipio 1\", \"Esquilino-Termini\"],\n  \"cava pace\": [\"Cava Pace\", \"Municipio 8\", \"Ardeatino\"],\n  \"cavalleggeri\": [\"Cavalleggeri\", \"Municipio 13\", \"Aurelio\"],\n  \"cecafumo\": [\"Cecafumo\", \"Municipio 7\", \"Agro Romano\"],\n  \"cecchignola\": [\"Cecchignola\", \"Municipio 9\", \"Laurentino\"],\n  \"cecchina\": [\"Cecchina\", \"Municipio 3\", \"Talenti\"],\n  \"celio\": [\"Celio\", \"Municipio 1\", \"Centro Storico\"],\n  \"centocelle\": [\"Centocelle\", \"Municipio 5\", \"Centocelle\"],\n  \"centro giano\": [\"Centro Giano\", \"Municipio 10\", \"Acilia\"],\n  \"centroni\": [\"Centroni\", \"Municipio 7\", \"Morena\"],\n  \"cerquette grandi\": [\"Cerquette Grandi\", \"Municipio 14\", \"Agro Romano\"],\n  \"certosa\": [\"Certosa\", \"Municipio 5\", \"Centocelle\"],\n  \"cesano\": [\"Cesano\", \"Municipio 15\", \"Cesano\"],\n  \"chiesola\": [\"Chiesola\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"cimitero flaminio\": [\"Cimitero Flaminio\", \"Municipio 15\", \"Prima Porta\"],\n  \"cinecitta\": [\"Cinecittà\", \"Municipio 7\", \"Cinecittà\"],\n  \"cinquina\": [\"Cinquina\", \"Municipio 3\", \"Bufalotta\"],\n  \"collatino\": [\"Collatino\", \"Municipio 5\", \"Prenestino\"],\n  \"colle aurelio\": [\"Colle Aurelio\", \"Municipio 12\", \"Pisana\"],\n  \"colle degli abeti\": [\"Colle Degli Abeti\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"colle del pino\": [\"Colle Del Pino\", \"Municipio 9\", \"Laurentino\"],\n  \"colle del sole\": [\"Colle Del Sole\", \"Municipio 11\", \"Pisana\"],\n  \"colle della lite\": [\"Colle Della Lite\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"colle di mezzo\": [\"Colle Di Mezzo\", \"Municipio 9\", \"Laurentino\"],\n  \"colle mattia\": [\"Colle Mattia\", \"Municipio 6\", \"Agro Romano\"],\n  \"colle monfortani\": [\"Colle Monfortani\", \"Municipio 6\", \"Colle Prenestino\"],\n  \"colle prenestino\": [\"Colle Prenestino\", \"Municipio 6\", \"Colle Prenestino\"],\n  \"colle salario\": [\"Colle Salario\", \"Municipio 3\", \"Fidene-Settebagni\"],\n  \"colle tappi\": [\"Colle Tappi\", \"Municipio 7\", \"Agro Romano\"],\n  \"colli albani\": [\"Colli Albani\", \"Municipio 7\", \"Tuscolano\"],\n  \"colli aniene\": [\"Colli Aniene\", \"Municipio 4\", \"Colli Aniene\"],\n  \"colli portuensi\": [\"Colli Portuensi\", \"Municipio 12\", \"Colli Portuensi\"],\n  \"collina delle muse\": [\"Collina Delle Muse\", \"Municipio 13\", \"Boccea\"],\n  \"collina fleming\": [\"Collina Fleming\", \"Municipio 15\", \"Roma Nord\"],\n  \"collina lanciani\": [\"Collina Lanciani\", \"Municipio 4\", \"Pietralata\"],\n  \"colonna\": [\"Colonna\", \"Municipio 1\", \"Centro Storico\"],\n  \"conca d oro\": [\"Conca D'oro\", \"Municipio 3\", \"Montesacro\"],\n  \"corcolle\": [\"Corcolle\", \"Municipio 6\", \"Agro Romano\"],\n  \"cornacchiole\": [\"Cornacchiole\", \"Municipio 8\", \"Agro Romano\"],\n  \"cortina d ampezzo\": [\"Cortina D'ampezzo\", \"Municipio 15\", \"Vigna Clara\"],\n  \"corviale\": [\"Corviale\", \"Municipio 11\", \"Corviale\"],\n  \"decima\": [\"Decima\", \"Municipio 9\", \"Torrino\"],\n  \"della vittoria\": [\"Della Vittoria\", \"Municipio 1\", \"Prati\"],\n  \"divino amore\": [\"Divino Amore\", \"Municipio 9\", \"Castel di Leva\"],\n  \"don bosco\": [\"Don Bosco\", \"Municipio 7\", \"Cinecittà\"],\n  \"dragona\": [\"Dragona\", \"Municipio 10\", \"Dragona-Dragoncello\"],\n  \"dragoncello\": [\"Dragoncello\", \"Municipio 10\", \"Dragona-Dragoncello\"],\n  \"due leoni\": [\"Due Leoni\", \"Municipio 6\", \"Borghesiana\"],\n  \"due ponti\": [\"Due Ponti\", \"Municipio 15\", \"Cassia\"],\n  \"esquilino\": [\"Esquilino\", \"Municipio 1\", \"Esquilino-Termini\"],\n  \"eur\": [\"Eur\", \"Municipio 9\", \"EUR\"],\n  \"farnesina\": [\"Farnesina\", \"Municipio 15\", \"Roma Nord\"],\n  \"farneto\": [\"Farneto\", \"Municipio 15\", \"Roma Nord\"],\n  \"ferratella\": [\"Ferratella\", \"Municipio 9\", \"EUR\"],\n  \"fidene\": [\"Fidene\", \"Municipio 3\", \"Fidene-Settebagni\"],\n  \"finocchio\": [\"Finocchio\", \"Municipio 6\", \"Borghesiana\"],\n  \"fioranello\": [\"Fioranello\", \"Municipio 8\", \"Agro Romano\"],\n  \"fiorano\": [\"Fiorano\", \"Municipio 8\", \"Agro Romano\"],\n  \"flaminio\": [\"Flaminio\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"fontana candida\": [\"Fontana Candida\", \"Municipio 6\", \"Tor Vergata\"],\n  \"fonte laurentina\": [\"Fonte Laurentina\", \"Municipio 9\", \"Laurentino\"],\n  \"fonte meravigliosa\": [\"Fonte Meravigliosa\", \"Municipio 9\", \"Laurentino\"],\n  \"forno casale\": [\"Forno Casale\", \"Municipio 4\", \"Settecamini\"],\n  \"forno saraceno\": [\"Forno Saraceno\", \"Municipio 13\", \"Casalotti\"],\n  \"foro italico\": [\"Foro Italico\", \"Municipio 15\", \"Roma Nord\"],\n  \"fosso pietroso\": [\"Fosso Pietroso\", \"Municipio 14\", \"Ottavia\"],\n  \"fosso s giuliano\": [\"Fosso San Giuliano\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"furio camillo\": [\"Furio Camillo\", \"Municipio 7\", \"Tuscolano\"],\n  \"garbatella\": [\"Garbatella\", \"Municipio 8\", \"Garbatella\"],\n  \"giardinetti\": [\"Giardinetti\", \"Municipio 6\", \"Tor Vergata\"],\n  \"giardino di roma\": [\"Giardino Di Roma\", \"Municipio 10\", \"Giardino di Roma\"],\n  \"giuliano dalmata\": [\"Giuliano Dalmata\", \"Municipio 9\", \"Laurentino\"],\n  \"giustiniana\": [\"Giustiniana\", \"Municipio 15\", \"La Giustiniana\"],\n  \"gregna s andrea\": [\"Gregna S. Andrea\", \"Municipio 7\", \"Morena\"],\n  \"gregorio xi\": [\"Gregorio XI\", \"Municipio 13\", \"Boccea\"],\n  \"grotta perfetta\": [\"Grotta Perfetta\", \"Municipio 8\", \"Montagnola\"],\n  \"grottarossa\": [\"Grottarossa\", \"Municipio 15\", \"Cassia\"],\n  \"grotte celoni\": [\"Grotte Celoni\", \"Municipio 6\", \"Borghesiana\"],\n  \"igea\": [\"Igea\", \"Municipio 1\", \"Monte Mario\"],\n  \"infernetto\": [\"Infernetto\", \"Municipio 10\", \"Infernetto\"],\n  \"inviolatella borghese\": [\"Inviolatella Borghese\", \"Municipio 15\", \"La Giustiniana\"],\n  \"inviolatella salaria\": [\"Inviolatella Salaria\", \"Municipio 3\", \"Fidene-Settebagni\"],\n  \"isola farnese\": [\"Isola Farnese\", \"Municipio 15\", \"La Storta\"],\n  \"italia\": [\"Italia\", \"Municipio 2\", \"Nomentano\"],\n  \"l annunziatella\": [\"L'annunziatella\", \"Municipio 8\", \"Ardeatino\"],\n  \"la castelluccia\": [\"La Castelluccia\", \"Municipio 9\", \"Castel di Leva\"],\n  \"la lingua\": [\"La Lingua\", \"Municipio 10\", \"Casal Palocco\"],\n  \"la marranella\": [\"La Marranella\", \"Municipio 5\", \"Pigneto-Torpignattara\"],\n  \"la pisana\": [\"La Pisana\", \"Municipio 12\", \"Pisana\"],\n  \"la rustica\": [\"La Rustica\", \"Municipio 5\", \"La Rustica\"],\n  \"la selvotta\": [\"La Selvotta\", \"Municipio 9\", \"Castel di Leva\"],\n  \"la storta\": [\"La Storta\", \"Municipio 15\", \"La Storta\"],\n  \"labaro\": [\"Labaro\", \"Municipio 15\", \"Prima Porta\"],\n  \"labicano\": [\"Labicano\", \"Municipio 5\", \"Pigneto-Torpignattara\"],\n  \"lamaro\": [\"Lamaro\", \"Municipio 7\", \"Cinecittà\"],\n  \"lanciani\": [\"Lanciani\", \"Municipio 2\", \"Nomentano\"],\n  \"laurentino\": [\"Laurentino\", \"Municipio 9\", \"Laurentino\"],\n  \"laurentino fonte ostiense\": [\"Laurentino Fonte Ostiense\", \"Municipio 9\", \"Laurentino\"],\n  \"lido di castel fusano\": [\"Lido Di Castel Fusano\", \"Municipio 10\", \"Ostia\"],\n  \"longoni\": [\"Longoni\", \"Municipio 5\", \"Tor Sapienza\"],\n  \"ludovisi\": [\"Ludovisi\", \"Municipio 1\", \"Parioli-Flaminio\"],\n  \"lunghezza\": [\"Lunghezza\", \"Municipio 6\", \"Lunghezza\"],\n  \"lunghezzina\": [\"Lunghezzina\", \"Municipio 6\", \"Lunghezza\"],\n  \"madonnetta\": [\"Madonnetta\", \"Municipio 10\", \"Casal Palocco\"],\n  \"maggiolino\": [\"Maggiolino\", \"Municipio 5\", \"Tor Sapienza\"],\n  \"magliana\": [\"Magliana\", \"Municipio 11\", \"Magliana\"],\n  \"maglianella\": [\"Maglianella\", \"Municipio 13\", \"Casalotti\"],\n  \"maglianella di sopra\": [\"Maglianella Di Sopra\", \"Municipio 13\", \"Casalotti\"],\n  \"maglianella di sotto\": [\"Maglianella Di Sotto\", \"Municipio 12\", \"Pisana\"],\n  \"malafede\": [\"Malafede\", \"Municipio 10\", \"Acilia\"],\n  \"malagrotta\": [\"Malagrotta\", \"Municipio 12\", \"Casal Lumbroso\"],\n  \"malborghetto\": [\"Malborghetto\", \"Municipio 15\", \"La Storta\"],\n  \"malnome\": [\"Malnome\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"mandrione\": [\"Mandrione\", \"Municipio 7\", \"Appia Antica\"],\n  \"marcigliana\": [\"Marcigliana\", \"Municipio 3\", \"Marcigliana\"],\n  \"marconi\": [\"Marconi\", \"Municipio 11\", \"Marconi\"],\n  \"massimina\": [\"Massimina\", \"Municipio 12\", \"Massimina\"],\n  \"mazzini\": [\"Mazzini\", \"Municipio 1\", \"Prati\"],\n  \"medaglie d oro\": [\"Medaglie D'oro\", \"Municipio 14\", \"Balduina\"],\n  \"mezzocammino\": [\"Mezzocammino\", \"Municipio 9\", \"Torrino\"],\n  \"miani\": [\"Miani\", \"Municipio 1\", \"Monte Mario\"],\n  \"millevoi\": [\"Millevoi\", \"Municipio 9\", \"Laurentino\"],\n  \"mistica\": [\"Mistica\", \"Municipio 5\", \"Tor Sapienza\"],\n  \"molino s felicola\": [\"Molino S. Felicola\", \"Municipio 9\", \"Castel di Leva\"],\n  \"monachina\": [\"Monachina\", \"Municipio 13\", \"Casalotti\"],\n  \"montagnola\": [\"Montagnola\", \"Municipio 8\", \"Montagnola\"],\n  \"monte caminetto\": [\"Monte Caminetto\", \"Municipio 15\", \"Olgiata\"],\n  \"monte cucco\": [\"Monte Cucco\", \"Municipio 11\", \"Corviale\"],\n  \"monte del marmo\": [\"Monte Del Marmo\", \"Municipio 13\", \"Boccea\"],\n  \"monte del pecoraro\": [\"Monte Del Pecoraro\", \"Municipio 4\", \"Pietralata\"],\n  \"monte della caccia\": [\"Monte Della Caccia\", \"Municipio 9\", \"Castel di Leva\"],\n  \"monte delle capre\": [\"Monte Delle Capre\", \"Municipio 11\", \"Corviale\"],\n  \"monte di leva\": [\"Monte Di Leva\", \"Municipio 9\", \"Castel di Leva\"],\n  \"monte lungo\": [\"Monte Lungo\", \"Municipio 9\", \"Castel di Leva\"],\n  \"monte mario\": [\"Monte Mario\", \"Municipio 14\", \"Monte Mario\"],\n  \"monte migliore\": [\"Monte Migliore\", \"Municipio 9\", \"Castel di Leva\"],\n  \"monte oliviero\": [\"Monte Oliviero\", \"Municipio 15\", \"Olgiata\"],\n  \"monte sacro\": [\"Monte Sacro\", \"Municipio 3\", \"Montesacro\"],\n  \"monte stallonara\": [\"Monte Stallonara\", \"Municipio 11\", \"Pisana\"],\n  \"montespaccato\": [\"Montespaccato\", \"Municipio 13\", \"Montespaccato\"],\n  \"monteverde\": [\"Monteverde\", \"Municipio 12\", \"Monteverde\"],\n  \"monteverde nuovo\": [\"Monteverde Nuovo\", \"Municipio 12\", \"Monteverde\"],\n  \"monteverde vecchio\": [\"Monteverde Vecchio\", \"Municipio 12\", \"Monteverde\"],\n  \"monti\": [\"Monti\", \"Municipio 1\", \"Esquilino-Termini\"],\n  \"monti tiburtini\": [\"Monti Tiburtini\", \"Municipio 4\", \"Pietralata\"],\n  \"morena\": [\"Morena\", \"Municipio 7\", \"Morena\"],\n  \"mostacciano\": [\"Mostacciano\", \"Municipio 9\", \"EUR\"],\n  \"muratella\": [\"Muratella\", \"Municipio 11\", \"Muratella\"],\n  \"nomentano\": [\"Nomentano\", \"Municipio 2\", \"Nomentano\"],\n  \"nuova fiera di roma\": [\"Nuova Fiera Di Roma\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"nuova gordiani\": [\"Nuova Gordiani\", \"Municipio 5\", \"Prenestino\"],\n  \"nuova ponte di nona\": [\"Nuova Ponte Di Nona\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"nuova romanina\": [\"Nuova Romanina\", \"Municipio 7\", \"Romanina\"],\n  \"nuova tor vergata\": [\"Nuova Tor Vergata\", \"Municipio 7\", \"Romanina\"],\n  \"nuovo salario\": [\"Nuovo Salario\", \"Municipio 3\", \"Montesacro\"],\n  \"olgiata\": [\"Olgiata\", \"Municipio 15\", \"Olgiata\"],\n  \"omo\": [\"Omo\", \"Municipio 5\", \"Tor Sapienza\"],\n  \"osteria del curato\": [\"Osteria Del Curato\", \"Municipio 7\", \"Morena\"],\n  \"osteria dell osa\": [\"Osteria Dell'osa\", \"Municipio 6\", \"Agro Romano\"],\n  \"osteria nuova\": [\"Osteria Nuova\", \"Municipio 15\", \"La Storta\"],\n  \"ostia\": [\"Ostia\", \"Municipio 10\", \"Ostia\"],\n  \"ostia antica\": [\"Ostia Antica\", \"Municipio 10\", \"Ostia\"],\n  \"ostiense\": [\"Ostiense\", \"Municipio 8\", \"Ostiense-San Paolo\"],\n  \"other\": [\"Other\", \"Other\", \"Other\"],\n  \"ottavia\": [\"Ottavia\", \"Municipio 14\", \"Ottavia\"],\n  \"ottavo colle\": [\"Ottavo Colle\", \"Municipio 8\", \"Garbatella\"],\n  \"palmarola\": [\"Palmarola\", \"Municipio 14\", \"Primavalle\"],\n  \"pantan di grano\": [\"Pantan Di Grano\", \"Municipio 12\", \"Agro Romano\"],\n  \"pantan monastero\": [\"Pantan Monastero\", \"Municipio 13\", \"Casalotti\"],\n  \"parchi volusia e papacci\": [\"Parchi Volusia E Papacci\", \"Municipio 15\", \"La Giustiniana\"],\n  \"parco de medici\": [\"Parco De' Medici\", \"Municipio 11\", \"Muratella\"],\n  \"parco degli acquedotti\": [\"Parco Degli Acquedotti\", \"Municipio 7\", \"Appia Antica\"],\n  \"parco dell appia antica\": [\"Parco Dell'appia Antica\", \"Municipio 8\", \"Appia Antica\"],\n  \"parco dell insugherata\": [\"Parco Dell'Insugherata\", \"Municipio 14\", \"Monte Mario\"],\n  \"parco della cervelletta\": [\"Parco Della Cervelletta\", \"Municipio 4\", \"Tor Cervara\"],\n  \"parco della serenissima\": [\"Parco Della Serenissima\", \"Municipio 4\", \"Tor Cervara\"],\n  \"parco delle sabine\": [\"Parco Delle Sabine\", \"Municipio 3\", \"Bufalotta\"],\n  \"parco delle valli\": [\"Parco Delle Valli\", \"Municipio 3\", \"Montesacro\"],\n  \"parco di aguzzano\": [\"Parco Di Aguzzano\", \"Municipio 4\", \"Rebibbia\"],\n  \"parco di monte mario\": [\"Parco di Monte Mario\", \"Municipio 1\", \"Monte Mario\"],\n  \"parco monte ciocci\": [\"Parco Monte Ciocci\", \"Municipio 14\", \"Balduina\"],\n  \"parco valle dell aniene\": [\"Parco Valle Dell'Aniene\", \"Municipio 4\", \"Colli Aniene\"],\n  \"parioli\": [\"Parioli\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"parione\": [\"Parione\", \"Municipio 1\", \"Centro Storico\"],\n  \"parrocchietta\": [\"Parrocchietta\", \"Municipio 11\", \"Magliana\"],\n  \"pian due torri\": [\"Pian Due Torri\", \"Municipio 11\", \"Marconi\"],\n  \"pian saccoccia\": [\"Pian Saccoccia\", \"Municipio 14\", \"Ottavia\"],\n  \"piana del sole\": [\"Piana Del Sole\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"piana del tevere\": [\"Piana Del Tevere\", \"Municipio 15\", \"Prima Porta\"],\n  \"pietra pertusa\": [\"Pietra Pertusa\", \"Municipio 15\", \"La Giustiniana\"],\n  \"pietralata\": [\"Pietralata\", \"Municipio 4\", \"Pietralata\"],\n  \"pigna\": [\"Pigna\", \"Municipio 1\", \"Centro Storico\"],\n  \"pigneto\": [\"Pigneto\", \"Municipio 5\", \"Pigneto-Torpignattara\"],\n  \"pinciano\": [\"Pinciano\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"pineta sacchetti\": [\"Pineta Sacchetti\", \"Municipio 13\", \"Torrevecchia\"],\n  \"pineto\": [\"Pineto\", \"Municipio 14\", \"Monte Mario\"],\n  \"pisana\": [\"Pisana\", \"Municipio 11\", \"Pisana\"],\n  \"podere rosa\": [\"Podere Rosa\", \"Municipio 4\", \"San Basilio\"],\n  \"podere s giusto\": [\"Podere S. Giusto\", \"Municipio 14\", \"Selva Candida\"],\n  \"polline martignano\": [\"Polline Martignano\", \"Municipio 15\", \"Agro Romano\"],\n  \"ponte\": [\"Ponte\", \"Municipio 1\", \"Centro Storico\"],\n  \"ponte galeria\": [\"Ponte Galeria\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"ponte mammolo\": [\"Ponte Mammolo\", \"Municipio 4\", \"Rebibbia\"],\n  \"ponte milvio\": [\"Ponte Milvio\", \"Municipio 15\", \"Roma Nord\"],\n  \"porta di roma\": [\"Porta Di Roma\", \"Municipio 3\", \"Bufalotta\"],\n  \"porta medaglia bella cenci\": [\"Porta Medaglia Bella Cenci\", \"Municipio 9\", \"Castel di Leva\"],\n  \"porta portese\": [\"Porta Portese\", \"Municipio 12\", \"Monteverde\"],\n  \"portonaccio\": [\"Portonaccio\", \"Municipio 4\", \"Pietralata\"],\n  \"portuense\": [\"Portuense\", \"Municipio 11\", \"Portuense\"],\n  \"prampolini\": [\"Prampolini\", \"Municipio 5\", \"Centocelle\"],\n  \"prati\": [\"Prati\", \"Municipio 1\", \"Prati\"],\n  \"prati della chiavichetta\": [\"Prati Della Chiavichetta\", \"Municipio 11\", \"Muratella\"],\n  \"prati fiscali\": [\"Prati Fiscali\", \"Municipio 3\", \"Montesacro\"],\n  \"prato corazza\": [\"Prato Corazza\", \"Municipio 15\", \"Cesano\"],\n  \"prato fiorito\": [\"Prato Fiorito\", \"Municipio 6\", \"Tor Bella Monaca\"],\n  \"prenestino\": [\"Prenestino\", \"Municipio 5\", \"Prenestino\"],\n  \"prima porta\": [\"Prima Porta\", \"Municipio 15\", \"Prima Porta\"],\n  \"primavalle\": [\"Primavalle\", \"Municipio 14\", \"Primavalle\"],\n  \"procoio\": [\"Procoio\", \"Municipio 15\", \"La Storta\"],\n  \"quadraro\": [\"Quadraro\", \"Municipio 5\", \"Tuscolano-Quadraro\"],\n  \"quartaccio\": [\"Quartaccio\", \"Municipio 14\", \"Primavalle\"],\n  \"quarticciolo\": [\"Quarticciolo\", \"Municipio 5\", \"Centocelle\"],\n  \"quarto miglio\": [\"Quarto Miglio\", \"Municipio 7\", \"Appia Antica\"],\n  \"quarto peperino\": [\"Quarto Peperino\", \"Municipio 15\", \"Cesano\"],\n  \"radio vaticana\": [\"Radio Vaticana\", \"Municipio 15\", \"La Storta\"],\n  \"rebibbia\": [\"Rebibbia\", \"Municipio 4\", \"Rebibbia\"],\n  \"regola\": [\"Regola\", \"Municipio 1\", \"Centro Storico\"],\n  \"rinnovamento\": [\"Rinnovamento\", \"Municipio 8\", \"Montagnola\"],\n  \"ripa\": [\"Ripa\", \"Municipio 1\", \"Testaccio\"],\n  \"riserva di livia\": [\"Riserva Di Livia\", \"Municipio 15\", \"Prima Porta\"],\n  \"rocca cencia\": [\"Rocca Cencia\", \"Municipio 6\", \"Tor Bella Monaca\"],\n  \"roma 70\": [\"Roma 70\", \"Municipio 8\", \"Montagnola\"],\n  \"romanina\": [\"Romanina\", \"Municipio 7\", \"Romanina\"],\n  \"s alessandro\": [\"S. Alessandro\", \"Municipio 4\", \"Settecamini\"],\n  \"s andrea\": [\"S. Andrea\", \"Municipio 14\", \"Ottavia\"],\n  \"s angelo\": [\"S. Angelo\", \"Municipio 1\", \"Centro Storico\"],\n  \"s basilio\": [\"S. Basilio\", \"Municipio 4\", \"San Basilio\"],\n  \"s cecilia\": [\"Santa Cecilia\", \"Municipio 12\", \"Massimina\"],\n  \"s cleto\": [\"S. Cleto\", \"Municipio 4\", \"San Basilio\"],\n  \"s cornelia\": [\"S. Cornelia\", \"Municipio 15\", \"Cesano\"],\n  \"s eustachio\": [\"S. Eustachio\", \"Municipio 1\", \"Centro Storico\"],\n  \"s fumia\": [\"Santa Fumia\", \"Municipio 9\", \"Castel di Leva\"],\n  \"s giorgio\": [\"San Giorgio\", \"Municipio 10\", \"Acilia\"],\n  \"s godenzo\": [\"San Godenzo\", \"Municipio 15\", \"Roma Nord\"],\n  \"s lorenzo\": [\"San Lorenzo\", \"Municipio 2\", \"San Lorenzo\"],\n  \"s maria delle grazie\": [\"Santa Maria Delle Grazie\", \"Municipio 3\", \"Montesacro\"],\n  \"s maria di galeria\": [\"S. Maria Di Galeria\", \"Municipio 14\", \"Agro Romano\"],\n  \"s nicola\": [\"S. Nicola\", \"Municipio 14\", \"Agro Romano\"],\n  \"s palomba\": [\"Santa Palomba\", \"Municipio 9\", \"Agro Romano\"],\n  \"s paolo\": [\"San Paolo\", \"Municipio 8\", \"Ostiense-San Paolo\"],\n  \"s rosa marina militare\": [\"Santa Rosa Marina Militare\", \"Municipio 14\", \"Monte Mario\"],\n  \"s rufina\": [\"S. Rufina\", \"Municipio 13\", \"Agro Romano\"],\n  \"s saba\": [\"S. Saba\", \"Municipio 1\", \"Testaccio\"],\n  \"s vittorino\": [\"S. Vittorino\", \"Municipio 6\", \"Agro Romano\"],\n  \"sacco pastore\": [\"Sacco Pastore\", \"Municipio 3\", \"Montesacro\"],\n  \"salario\": [\"Salario\", \"Municipio 2\", \"Trieste-Salario\"],\n  \"sallustiano\": [\"Sallustiano\", \"Municipio 1\", \"Trieste-Salario\"],\n  \"salone\": [\"Salone\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"saxa rubra\": [\"Saxa Rubra\", \"Municipio 15\", \"Prima Porta\"],\n  \"schizzanello\": [\"Schizzanello\", \"Municipio 9\", \"Castel di Leva\"],\n  \"selva candida\": [\"Selva Candida\", \"Municipio 14\", \"Selva Candida\"],\n  \"selva nera\": [\"Selva Nera\", \"Municipio 14\", \"Selva Candida\"],\n  \"serpentara\": [\"Serpentara\", \"Municipio 3\", \"Bufalotta\"],\n  \"settebagni\": [\"Settebagni\", \"Municipio 3\", \"Fidene-Settebagni\"],\n  \"settecamini\": [\"Settecamini\", \"Municipio 4\", \"Settecamini\"],\n  \"solfarata\": [\"Solfarata\", \"Municipio 9\", \"Castel di Leva\"],\n  \"spallette\": [\"Spallette\", \"Municipio 11\", \"Ponte Galeria\"],\n  \"spinaceto\": [\"Spinaceto\", \"Municipio 9\", \"Spinaceto\"],\n  \"spregamore\": [\"Spregamore\", \"Municipio 9\", \"Castel di Leva\"],\n  \"stagni di ostia\": [\"Stagni Di Ostia\", \"Municipio 10\", \"Ostia\"],\n  \"statuario\": [\"Statuario\", \"Municipio 7\", \"Appia Antica\"],\n  \"talenti\": [\"Talenti\", \"Municipio 3\", \"Talenti\"],\n  \"tecnopolo\": [\"Tecnopolo\", \"Municipio 4\", \"Settecamini\"],\n  \"tenuta dei massimi\": [\"Tenuta Dei Massimi\", \"Municipio 11\", \"Pisana\"],\n  \"tenuta s alessio\": [\"Tenuta S. Alessio\", \"Municipio 8\", \"Appia Antica\"],\n  \"testaccio\": [\"Testaccio\", \"Municipio 1\", \"Testaccio\"],\n  \"tiberina - s isidoro\": [\"Tiberina - S. Isidoro\", \"Municipio 15\", \"Prima Porta\"],\n  \"tintoretto\": [\"Tintoretto\", \"Municipio 8\", \"Montagnola\"],\n  \"tomba di nerone\": [\"Tomba Di Nerone\", \"Municipio 15\", \"Cassia\"],\n  \"tor bella monaca\": [\"Tor Bella Monaca\", \"Municipio 6\", \"Tor Bella Monaca\"],\n  \"tor cervara\": [\"Tor Cervara\", \"Municipio 4\", \"Tor Cervara\"],\n  \"tor de cenci\": [\"Tor De' Cenci\", \"Municipio 9\", \"Spinaceto\"],\n  \"tor de schiavi\": [\"Tor De' Schiavi\", \"Municipio 5\", \"Centocelle\"],\n  \"tor di mezzavia\": [\"Tor Di Mezzavia\", \"Municipio 7\", \"Romanina\"],\n  \"tor di quinto\": [\"Tor Di Quinto\", \"Municipio 15\", \"Roma Nord\"],\n  \"tor di valle\": [\"Tor Di Valle\", \"Municipio 9\", \"EUR\"],\n  \"tor fiscale\": [\"Tor Fiscale\", \"Municipio 7\", \"Appia Antica\"],\n  \"tor marancia\": [\"Tor Marancia\", \"Municipio 8\", \"Ardeatino\"],\n  \"tor pagnotta\": [\"Tor Pagnotta\", \"Municipio 9\", \"Laurentino\"],\n  \"tor pignattara\": [\"Tor Pignattara\", \"Municipio 5\", \"Pigneto-Torpignattara\"],\n  \"tor s giovanni\": [\"Tor S. Giovanni\", \"Municipio 3\", \"Fidene-Settebagni\"],\n  \"tor santi quattro\": [\"Tor Santi Quattro\", \"Municipio 7\", \"Appia Antica\"],\n  \"tor sapienza\": [\"Tor Sapienza\", \"Municipio 5\", \"Tor Sapienza\"],\n  \"tor tre teste\": [\"Tor Tre Teste\", \"Municipio 5\", \"Alessandrino\"],\n  \"tor vergata\": [\"Tor Vergata\", \"Municipio 6\", \"Tor Vergata\"],\n  \"toragnola\": [\"Toragnola\", \"Municipio 6\", \"Colle Prenestino\"],\n  \"torraccia\": [\"Torraccia\", \"Municipio 4\", \"Torraccia\"],\n  \"torre angela\": [\"Torre Angela\", \"Municipio 6\", \"Torre Angela\"],\n  \"torre dei venti\": [\"Torre Dei Venti\", \"Municipio 15\", \"Prima Porta\"],\n  \"torre di salone\": [\"Torre Di Salone\", \"Municipio 5\", \"La Rustica\"],\n  \"torre gaia\": [\"Torre Gaia\", \"Municipio 6\", \"Torre Angela\"],\n  \"torre maura\": [\"Torre Maura\", \"Municipio 6\", \"Torre Angela\"],\n  \"torre spaccata\": [\"Torre Spaccata\", \"Municipio 7\", \"Cinecittà\"],\n  \"torrenova\": [\"Torrenova\", \"Municipio 6\", \"Tor Vergata\"],\n  \"torresina\": [\"Torresina\", \"Municipio 14\", \"Primavalle\"],\n  \"torrevecchia\": [\"Torrevecchia\", \"Municipio 14\", \"Torrevecchia\"],\n  \"torrevecchia bassa\": [\"Torrevecchia Bassa\", \"Municipio 13\", \"Torrevecchia\"],\n  \"torricola\": [\"Torricola\", \"Municipio 8\", \"Agro Romano\"],\n  \"torrino\": [\"Torrino\", \"Municipio 9\", \"Torrino\"],\n  \"tragliatella\": [\"Tragliatella\", \"Municipio 14\", \"Agro Romano\"],\n  \"trastevere\": [\"Trastevere\", \"Municipio 1\", \"Trastevere\"],\n  \"tre fontane\": [\"Tre Fontane\", \"Municipio 8\", \"EUR\"],\n  \"trevi\": [\"Trevi\", \"Municipio 1\", \"Centro Storico\"],\n  \"trieste\": [\"Trieste\", \"Municipio 2\", \"Trieste-Salario\"],\n  \"trigoria\": [\"Trigoria\", \"Municipio 9\", \"Trigoria\"],\n  \"trigoria alta\": [\"Trigoria Alta\", \"Municipio 9\", \"Trigoria\"],\n  \"trionfale\": [\"Trionfale\", \"Municipio 1\", \"Prati\"],\n  \"trullo\": [\"Trullo\", \"Municipio 11\", \"Magliana\"],\n  \"tufello\": [\"Tufello\", \"Municipio 3\", \"Montesacro\"],\n  \"tuscolano\": [\"Tuscolano\", \"Municipio 7\", \"Tuscolano\"],\n  \"vaccareccia\": [\"Vaccareccia\", \"Municipio 15\", \"Agro Romano\"],\n  \"val cannuta\": [\"Val Cannuta\", \"Municipio 13\", \"Boccea\"],\n  \"val melaina\": [\"Val Melaina\", \"Municipio 3\", \"Montesacro\"],\n  \"valle aurelia\": [\"Valle Aurelia\", \"Municipio 13\", \"Aurelio\"],\n  \"valle bagnata\": [\"Valle Bagnata\", \"Municipio 6\", \"Agro Romano\"],\n  \"valle borghesiana\": [\"Valle Borghesiana\", \"Municipio 6\", \"Borghesiana\"],\n  \"valle della perna\": [\"Valle Della Perna\", \"Municipio 9\", \"Castel di Leva\"],\n  \"valle fiorita\": [\"Valle Fiorita\", \"Municipio 6\", \"Tor Vergata\"],\n  \"valle giulia\": [\"Valle Giulia\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"valle marciana\": [\"Valle Marciana\", \"Municipio 7\", \"Agro Romano\"],\n  \"valle muricana\": [\"Valle Muricana\", \"Municipio 15\", \"Prima Porta\"],\n  \"valle s\": [\"Valle Santa\", \"Municipio 14\", \"Selva Candida\"],\n  \"valle vescovo\": [\"Valle Vescovo\", \"Municipio 15\", \"Cassia\"],\n  \"vallerano\": [\"Vallerano\", \"Municipio 9\", \"Torrino\"],\n  \"veientana\": [\"Veientana\", \"Municipio 15\", \"La Giustiniana\"],\n  \"veio\": [\"Veio\", \"Municipio 15\", \"Agro Romano\"],\n  \"verano\": [\"Verano\", \"Municipio 2\", \"San Lorenzo\"],\n  \"verbano\": [\"Verbano\", \"Municipio 2\", \"Trieste-Salario\"],\n  \"verderocca\": [\"Verderocca\", \"Municipio 4\", \"Colli Aniene\"],\n  \"vermicino\": [\"Vermicino\", \"Municipio 7\", \"Morena\"],\n  \"vescovio\": [\"Vescovio\", \"Municipio 2\", \"Trieste-Salario\"],\n  \"vigna clara\": [\"Vigna Clara\", \"Municipio 15\", \"Vigna Clara\"],\n  \"vigna pia\": [\"Vigna Pia\", \"Municipio 11\", \"Portuense\"],\n  \"vignaccia\": [\"Vignaccia\", \"Municipio 12\", \"Casal Lumbroso\"],\n  \"vigne alessandrine\": [\"Vigne Alessandrine\", \"Municipio 5\", \"Alessandrino\"],\n  \"vigne nuove\": [\"Vigne Nuove\", \"Municipio 3\", \"Montesacro\"],\n  \"villa ada\": [\"Villa Ada\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"villa bonelli\": [\"Villa Bonelli\", \"Municipio 11\", \"Portuense\"],\n  \"villa borghese\": [\"Villa Borghese\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"villa de sanctis\": [\"Villa De Sanctis\", \"Municipio 5\", \"Centocelle\"],\n  \"villa gordiani\": [\"Villa Gordiani\", \"Municipio 5\", \"Prenestino\"],\n  \"villa pamphili\": [\"Villa Pamphili\", \"Municipio 12\", \"Monteverde\"],\n  \"villa spada\": [\"Villa Spada\", \"Municipio 3\", \"Fidene-Settebagni\"],\n  \"villa troili\": [\"Villa Troili\", \"Municipio 12\", \"Casal Lumbroso\"],\n  \"villa verde\": [\"Villa Verde\", \"Municipio 6\", \"Torre Angela\"],\n  \"villaggio appio\": [\"Villaggio Appio\", \"Municipio 7\", \"Appia Antica\"],\n  \"villaggio breda\": [\"Villaggio Breda\", \"Municipio 6\", \"Tor Vergata\"],\n  \"villaggio falcone\": [\"Villaggio Falcone\", \"Municipio 6\", \"Ponte di Nona\"],\n  \"villaggio olimpico\": [\"Villaggio Olimpico\", \"Municipio 2\", \"Parioli-Flaminio\"],\n  \"villaggio prenestino\": [\"Villaggio Prenestino\", \"Municipio 6\", \"Colle Prenestino\"],\n  \"villini\": [\"Villini\", \"Municipio 12\", \"Colli Portuensi\"],\n  \"villini s maria\": [\"Villini Santa Maria\", \"Municipio 5\", \"Centocelle\"],\n  \"vitinia\": [\"Vitinia\", \"Municipio 9\", \"Vitinia\"]\n};\n\nfunction normName(s) {\n  return (s == null ? '' : String(s))\n    .normalize('NFD').replace(/[\\u0300-\\u036f]/g, '')   // убрать диакритику\n    .toLowerCase()\n    .replace(/[.'\\u2019]/g, ' ')                         // точки/апострофы -> пробел\n    .replace(/\\b(san|sant|santa|santo|s)\\b/g, 's')      // San/Sant'/Santa/S. -> s\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nfunction resolveLocation(neighborhoodRaw) {\n  const key = normName(neighborhoodRaw);\n  if (!key) return { neighborhood: '', municipio: '', urban_zone: '' };\n  const hit = ROME_QUARTERS[key];\n  if (hit) return { neighborhood: hit[0], municipio: hit[1], urban_zone: hit[2] };\n  // нет в справочнике — отдаём распознанное моделью, без municipio/urban_zone\n  return { neighborhood: String(neighborhoodRaw || '').trim(), municipio: '', urban_zone: '' };\n}\n\n\nconst e = $(\"Has Event ID?\").item.json;\nconst loc = e.location || {};\n\nlet enriched = {};\nlet txt = \"\";\ntry {\n  const enrichNode = $(\"Enrich Location\").item.json;\n  txt = enrichNode.choices?.[0]?.message?.content || \"\";\n  if (txt) {\n    const cleanTxt = txt.replace(/```json/gi, \"\").replace(/```/g, \"\").trim();\n    enriched = JSON.parse(cleanTxt);\n  }\n} catch (_) {}\n\n// Resolve location using dictionary\nconst locResolved = resolveLocation(enriched.neighborhood || \"\");\n\nlet driveUrl = \"\";\ntry {\n  const uploaded = $(\"Upload to Drive\").item?.json || {};\n  if (uploaded.id) driveUrl = \"https://drive.google.com/uc?export=view&id=\" + uploaded.id;\n} catch (_) {}\n\nconst isoDate = e.utcStartDate || \"\";\nconst start_date = isoDate.slice(0, 10);\nlet end_date = start_date;\n\nconst dur = (e.duration == null ? \"\" : String(e.duration)).toLowerCase();\nif (start_date && dur && /day/.test(dur)) {\n  const m = dur.match(/(\\d+)\\s*day/);\n  const days = m ? parseInt(m[1], 10) : 0;\n  if (Number.isFinite(days) && days > 0) {\n    const startMs = Date.parse(isoDate);\n    if (!Number.isNaN(startMs)) {\n      end_date = new Date(startMs + days * 86400 * 1000).toISOString().slice(0, 10);\n    }\n  }\n}\n\nconst organizers = Array.isArray(e.organizators) ? e.organizators : [];\nconst pageName = (organizers[0] && organizers[0].name) || (e.organizedBy || \"\").replace(/^Event by\\s*/, \"\") || \"\";\n\nconst record = {\n  post_id:           e.id || e.eventId || \"\",\n  post_link:         e.url || \"\",\n  page_name:         pageName,\n  post_date:         isoDate,\n  event_location:    loc.name || loc.streetAddress || loc.city || \"\",\n  start_date:        start_date,\n  end_date:          end_date,\n  time:              isoDate.slice(11, 16),\n  city:              loc.city || \"Roma\",\n  municipio:         locResolved.municipio,\n  urban_zone:        locResolved.urban_zone,\n  neighborhood:      locResolved.neighborhood,\n  event_description: e.name || \"\",\n  full_post_text:    e.description || \"\",\n  image_url:         driveUrl || e.imageUrl || \"\",\n  event_cost:        e.paidContent ? \"paid\" : \"free\"\n};\n\nconst raw = JSON.stringify(record);\nconst safe = raw.replace(/[Ā-]/g,\n  c => \"\\\\u\" + c.charCodeAt(0).toString(16).padStart(4, \"0\")\n);\n\nreturn { json: { event_json: JSON.stringify(safe), neighborhood: locResolved.neighborhood, ai_raw: txt, ai_parsed: enriched } };"
+      },
+      "id": "e0ed5f0c-e026-4551-b1b2-cfaaada375c9",
+      "name": "Build Event Record",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4144,
+        2480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1tbP_06qJ1HUp813RRo1COYdia_wcXuRbacsKrfMihsc",
+          "mode": "list",
+          "cachedResultName": "QuartieriNews _ Events and Posts File",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tbP_06qJ1HUp813RRo1COYdia_wcXuRbacsKrfMihsc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Posts in Pages to Events ",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "event_json"
+          ],
+          "schema": [
+            {
+              "id": "event_json",
+              "displayName": "event_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "neighborhood",
+              "displayName": "neighborhood",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ai_raw",
+              "displayName": "ai_raw",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ai_parsed",
+              "displayName": "ai_parsed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "d7d17a34-85db-4546-900e-64595041b0b1",
+      "name": "Save to Events Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        4368,
+        2576
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RHHuOZLCqS4Ztk0v",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "741e6b51-2844-45da-9291-470e58b6d295",
+      "name": "Skip Filtered Out",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        1760
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "97fae8f9-e759-4c20-a66b-e8234aefcafc",
+      "name": "Skip No EventID",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2352,
+        2432
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 3 */2 * *"
+            }
+          ]
+        }
+      },
+      "id": "01015407-06ee-45e7-9187-c02e7e25a684",
+      "name": "Daily Night Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        1008,
+        2720
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2704,
+        1904
+      ],
+      "id": "4fa9449f-a344-4fe7-8113-d512fd2ae4c4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7eff9b5c-dad4-45b2-885b-6c0d6dfd93ae",
+              "leftValue": true,
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4304,
+        1984
+      ],
+      "id": "19de970c-07e5-490c-8a9c-70afa6a2a4a9",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Launch FB Events Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Launch FB Events Scraper": {
+      "main": [
+        [
+          {
+            "node": "Wait for Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Scraper": {
+      "main": [
+        [
+          {
+            "node": "Get Scraper Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Scraper Results": {
+      "main": [
+        [
+          {
+            "node": "Batch Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Event ID?": {
+      "main": [
+        [
+          {
+            "node": "Is Rome & Future?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip No EventID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Rome & Future?": {
+      "main": [
+        [
+          {
+            "node": "Check Existing Event",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip Filtered Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Existing Event": {
+      "main": [
+        [
+          {
+            "node": "Doc Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Doc Exists?": {
+      "main": [
+        [
+          {
+            "node": "Skip Existing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save Event to Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip Existing": {
+      "main": [
+        [
+          {
+            "node": "Batch Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Batch Loop": {
+      "main": [
+        [
+          {
+            "node": "Done Processing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Has Event ID?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Event to Firestore": {
+      "main": [
+        [
+          {
+            "node": "Download Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "Upload to Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Drive": {
+      "main": [
+        [
+          {
+            "node": "Share Drive File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Share Drive File": {
+      "main": [
+        [
+          {
+            "node": "Enrich Location",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrich Location": {
+      "main": [
+        [
+          {
+            "node": "Build Event Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Event Record": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Events Sheet": {
+      "main": [
+        [
+          {
+            "node": "Batch Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip Filtered Out": {
+      "main": [
+        [
+          {
+            "node": "Batch Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip No EventID": {
+      "main": [
+        [
+          {
+            "node": "Batch Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Night Schedule": {
+      "main": [
+        [
+          {
+            "node": "Launch FB Events Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Save to Events Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "8e198c80-26fe-48d6-b2d9-88ccd2d00e9b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "816748bb778abf48dc84b3867ace1925e4c4e22223c7f6f92e5b195c7742ac63"
+  },
+  "nodeGroups": [],
+  "id": "ANKjgGbrQbX42FR1",
+  "tags": [
+    {
+      "updatedAt": "2026-07-17T14:40:30.373Z",
+      "createdAt": "2026-07-17T14:40:30.373Z",
+      "id": "QIQmtsN2qPdCwjXm",
+      "name": "Roma Pipeline"
+    }
+  ]
+}
