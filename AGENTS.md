@@ -29,7 +29,9 @@ owner decisions / regressions.
   never against a rendered page or memory. Run the executable checks where
   possible: `cd gazetteer && python ../tests/test_guards.py` (must print
   ALL PASS, 37 checks, executably asserted) and
-  `node tests/test_parse_duration.js` (must exit 0, ALL PASS).
+  `node tests/test_parse_duration.js` (must exit 0, ALL PASS). The Python
+  checks need the dependencies declared in `requirements.txt` (repository
+  root): `pip install -r requirements.txt` before the first run.
 - Review the diff since the last report in `reviews/`; on a first pass, review
   everything. Save each report as `reviews/YYYY-MM-DD—<scope>—<verdict>.md`.
 - Check specifically: divergence from the specification's phase contracts and

@@ -39,6 +39,13 @@ reviewed and verified. No DECIDED entry in `decisions/` is reopened by either AI
 
 ## Running the checks
 
+Install the Python dependencies first (`requirements.txt`, in the repository root —
+`openpyxl`, needed by the gazetteer build and therefore by `test_guards.py`):
+
+```bash
+pip install -r requirements.txt
+```
+
 All scripts read paths relative to `gazetteer/`:
 
 ```bash
