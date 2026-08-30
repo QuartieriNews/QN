@@ -1,5 +1,8 @@
 /**
  * test_parse_duration.js — executable acceptance for code-nodes/parse-duration.js.
+ * Covers BOTH contexts of the one-source file: the CommonJS module branch and
+ * the n8n adapter branch, evaluated from the exact committed file with stubbed
+ * $input/$json (cycle-2 review, item 3). Overflow bounds per cycle-2, item 2.
  *
  * Covers spec v2.5 Phase 3.3 and acceptance case T39, the five measured source
  * shapes (SOURCE_DATA_FINDINGS), and the traps a lax parser fails: partial
@@ -85,6 +88,21 @@ check('multi-day span across DST, "5 days"',
   computeEventEnd('2026-10-23T18:00:00Z', '5 days').end_at_utc,
   '2026-10-28T18:00:00.000Z');
 
+console.log('bounds and overflow — untrusted numbers must stay structured (cycle-2, item 2)');
+check('"999999999999999999999999 days" (>7 digits) -> unparseable',
+  parseDurationText('999999999999999999999999 days'),
+  { status: 'unparseable', minutes: null });
+check('"9999999 days" (7 digits, in range) still parses',
+  parseDurationText('9999999 days'),
+  { status: 'parsed', minutes: 9999999 * 1440 });
+const hugeSum = Array(20).fill('9999999 days').join(' ');
+check('20×"9999999 days" parses numerically (bound is per pair)',
+  parseDurationText(hugeSum).status, 'parsed');
+check('…but computeEventEnd catches the out-of-range epoch -> date_unparseable, no throw',
+  computeEventEnd('2026-09-25T18:00:00Z', hugeSum),
+  { ok: true, end_at_utc: '2026-09-25T18:00:00.000Z', date_precision: 'start_only',
+    reject_reason: 'date_unparseable', duration_minutes: null, error: null });
+
 console.log('computeEventEnd — invalid start stays distinct from date_unparseable');
 check('garbage start -> invalid_start_timestamp',
   computeEventEnd('not-a-date', '2 hrs'),
@@ -92,6 +110,44 @@ check('garbage start -> invalid_start_timestamp',
     reject_reason: null, duration_minutes: null, error: 'invalid_start_timestamp' });
 check('null start -> invalid_start_timestamp',
   computeEventEnd(null, '2 hrs').error, 'invalid_start_timestamp');
+
+console.log('n8n adapter branch — exact committed file, stubbed $input/$json (cycle-2, item 3)');
+const fs = require('fs');
+const src = fs.readFileSync(path.join(__dirname, '..', 'code-nodes', 'parse-duration.js'), 'utf8');
+function runNode(json) {
+  const item = { json };
+  const fn = new Function('$input', '$json', src);
+  return fn({ item }, json);
+}
+{
+  const out = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: '1 hr 30 min', event: {}, quality: {} });
+  check('adapter parseable -> exact end on event', out.json.event.end_at_utc, '2026-09-25T19:30:00.000Z');
+  check('adapter parseable -> date_precision exact', out.json.event.date_precision, 'exact');
+  check('adapter emits NO duration_minutes (off-contract, cycle-2 item 1)',
+    'duration_minutes' in out.json.event, false);
+  check('adapter parseable -> no reject', out.json.quality.reject_reason || null, null);
+}
+{
+  const out = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: null, event: {}, quality: {} });
+  check('adapter missing -> start_only, no reject',
+    [out.json.event.date_precision, out.json.quality.reject_reason || null], ['start_only', null]);
+}
+{
+  const out = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: 'circa due ore', event: {}, quality: {} });
+  check('adapter unparseable -> date_unparseable on quality',
+    out.json.quality.reject_reason, 'date_unparseable');
+}
+{
+  const out = runNode({ start_at_utc: '2026-09-25T18:00:00Z', duration_raw: '999999999999999999999999 days', event: {}, quality: {} });
+  check('adapter overflow -> structured item, NO throw (cycle-2 item 2)',
+    [out.json.event.date_precision, out.json.quality.reject_reason], ['start_only', 'date_unparseable']);
+}
+{
+  let threw = null;
+  try { runNode({ start_at_utc: 'not-a-date', duration_raw: '2 hrs', event: {}, quality: {} }); }
+  catch (e) { threw = e.message; }
+  check('adapter invalid start -> throws declared invalid_start_timestamp', threw, 'invalid_start_timestamp');
+}
 
 console.log('');
 if (failures === 0) {

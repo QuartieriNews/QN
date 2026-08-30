@@ -26,6 +26,11 @@ const UNIT_MINUTES = {
  *  match must start exactly where the previous token ended. */
 const PAIR_RE = /(\d+)\s*(days?|hours?|hrs?|minutes?|mins?)/giy;
 
+/** Cycle-2 review, item 2: bound untrusted numbers. More than 7 digits of any
+ *  unit is not a real event duration; treating it as unparseable keeps the
+ *  arithmetic finite and the item structured instead of throwing. */
+const MAX_PAIR_DIGITS = 7;
+
 /**
  * Parse the raw `duration` field.
  * @param {*} durationText - raw source value (string, null, undefined, …)
@@ -60,6 +65,9 @@ function parseDurationText(durationText) {
     const m = PAIR_RE.exec(lower);
     if (!m || m.index !== pos) {
       return { status: 'unparseable', minutes: null };
+    }
+    if (m[1].length > MAX_PAIR_DIGITS) {
+      return { status: 'unparseable', minutes: null }; // out-of-range number (item 2)
     }
     const unit = m[2];
     if (!(unit in UNIT_MINUTES)) {
@@ -118,9 +126,23 @@ function computeEventEnd(startAtUtc, durationText) {
     };
   }
 
+  const end = new Date(startMs + parsed.minutes * 60000);
+  if (Number.isNaN(end.getTime())) {
+    // Summed pairs can still exceed the valid Date range; an untrusted value
+    // must yield a structured item, never a thrown RangeError (cycle-2, item 2).
+    return {
+      ok: true,
+      end_at_utc: new Date(startMs).toISOString(),
+      date_precision: 'start_only',
+      reject_reason: 'date_unparseable',
+      duration_minutes: null,
+      error: null,
+    };
+  }
+
   return {
     ok: true,
-    end_at_utc: new Date(startMs + parsed.minutes * 60000).toISOString(),
+    end_at_utc: end.toISOString(),
     date_precision: 'exact',
     reject_reason: null,
     duration_minutes: parsed.minutes,
@@ -145,9 +167,9 @@ $json.event = Object.assign({}, $json.event, {
   end_at_utc: r.end_at_utc,
   date_precision: r.date_precision,
 });
-if (r.duration_minutes !== null) {
-  $json.event.duration_minutes = r.duration_minutes;
-}
+// duration_minutes stays internal to the module API: it is not a field of the
+// schema-2.0 event object (Part III), so the adapter must not emit it (cycle-2,
+// item 1). Adding it to the contract would be a spec revision, not a side effect.
 if (r.reject_reason) {
   $json.quality = Object.assign({}, $json.quality, {
     reject_reason: r.reject_reason, // 'date_unparseable' — counted, queued, never deleted

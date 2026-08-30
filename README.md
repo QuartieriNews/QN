@@ -30,7 +30,7 @@ reviewed and verified. No DECIDED entry in `decisions/` is reopened by either AI
 | `gazetteer/` | The master workbook, `build_gazetteer.py`, and its generated outputs (`gazetteer.json`, prompt list, Italian export, normalized map) | Edit **only** the workbook, then re-run the build. Never hand-edit a generated file. `gazetteer.json` is the contract: when any document disagrees with it, the JSON wins. |
 | `venue-registry/` | `venues.json` — contract and seed for the Firestore `venues` collection | Learned at runtime, **never regenerated** by any build. |
 | `prompts/` | `PROMPT_GEO_BLOCK.md`, `EDITORIAL_FILTER.md`, `CHANGELOG.md` | Every prompt change gets a changelog entry and bumps the relevant revision integer. Prompt text pasted into n8n must be byte-identical to the file here. |
-| `tests/` | `test_guards.py` (38 checks), `zone_distribution.py`, the two golden sets | `test_guards.py` must exit 0 on every change. Golden sets are hand-marked expectations; a disagreement is first evidence the prompt is unclear. Raw samples are **not** committed (DEC-104): they live in the Drive release package; see `tests/samples/README.md`. |
+| `tests/` | `test_guards.py` (37 checks, executably asserted), `zone_distribution.py`, the two golden sets | `test_guards.py` must exit 0 on every change. Golden sets are hand-marked expectations; a disagreement is first evidence the prompt is unclear. Raw samples are **not** committed (DEC-104): they live in the Drive release package; see `tests/samples/README.md`. |
 | `workflows/` | n8n workflow JSON exports | One file per workflow. **No structural change in n8n without exporting and opening a PR** — see `workflows/README.md`. |
 | `code-nodes/` | The JavaScript/Python of each n8n Code node, one file per node | Each node testable outside n8n. The node in production must match the file here. |
 | `reviews/` | Review reports written by the reviewing AI, and its mandate | One file per cycle, `YYYY-MM-DD—<scope>—<verdict>.md`. The mandate to paste into the reviewer is `reviews/REVIEW_MANDATE_CODE.md`. |
@@ -44,7 +44,7 @@ All scripts read paths relative to `gazetteer/`:
 ```bash
 cd gazetteer
 python build_gazetteer.py                                    # rebuild after editing the master
-python ../tests/test_guards.py                               # 38 checks, must print ALL PASS
+python ../tests/test_guards.py                               # 37 checks, must print ALL PASS
 python ../tests/zone_distribution.py ../tests/samples/sample_107_direct_urls.json
 ```
 
