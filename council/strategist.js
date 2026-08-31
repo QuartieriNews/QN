@@ -502,6 +502,7 @@ function classifyCouncil(input = {}) {
     tier,
     claudePosition,
     gptPosition,
+    insufficientInformation,
     sameRecommendation,
     materialDisagreements,
     missingEvidence,
@@ -531,6 +532,23 @@ function classifyCouncil(input = {}) {
         'a position here means the run was not tier 1'
       );
     }
+    // Without positions, tier 1 had no way to say the evidence did not support
+    // an answer — it could only converge or disagree. This carries that, and is
+    // required so its absence cannot mean "nobody thought to ask".
+    if (typeof insufficientInformation !== 'boolean') {
+      throw new Error(
+        'tier 1 requires insufficientInformation as a boolean: with no final ' +
+        'positions it is the only way either first-pass view can report that ' +
+        'the evidence does not support an answer, not ' +
+        `${insufficientInformation === undefined ? 'omitted' : typeof insufficientInformation}`
+      );
+    }
+  } else if (insufficientInformation !== undefined) {
+    throw new Error(
+      `tier ${tier} carries insufficient information in the final positions, ` +
+      'so insufficientInformation is not read here; supplying it means the ' +
+      'run did not follow the tier it reports'
+    );
   } else if (given !== 2) {
     // One position is the dangerous case: it looks like tier 1 and classifies
     // as though the other model never had to conclude.
@@ -567,7 +585,9 @@ function classifyCouncil(input = {}) {
   }
 
   let classification;
-  if (claudePosition === 'INSUFFICIENT_INFORMATION' || gptPosition === 'INSUFFICIENT_INFORMATION') {
+  if (insufficientInformation === true
+    || claudePosition === 'INSUFFICIENT_INFORMATION'
+    || gptPosition === 'INSUFFICIENT_INFORMATION') {
     classification = CLASSIFICATIONS.INSUFFICIENT_INFORMATION;
   } else if (!sameRecommendation || materialDisagreements.length > 0) {
     classification = CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT;
@@ -578,9 +598,14 @@ function classifyCouncil(input = {}) {
   }
 
   // Agreement is evidence, never authority: convergence alone does not clear a
-  // question that commits the project to something normative.
-  const ownerDecisionRequired =
-    classification !== CLASSIFICATIONS.STRONG_CONVERGENCE || normativeImpact;
+  // question that commits the project to something normative. Tier 3 is the
+  // foundational tier by definition — hard to reverse, or carrying lock-in,
+  // editorial policy, legal exposure or recurring cost — so it always reaches
+  // the owner. Leaving that to a model-authored boolean would let the Council
+  // clear its own most consequential questions.
+  const ownerDecisionRequired = tier === 3
+    || classification !== CLASSIFICATIONS.STRONG_CONVERGENCE
+    || normativeImpact;
 
   return {
     classification,

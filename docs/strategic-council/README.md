@@ -112,9 +112,15 @@ no n8n orchestration in the MVP: an earlier draft of this document proposed a
 Council Room UI behind an n8n webhook, and the owner ruled that out as more
 machinery than the first working version needs.
 
-`owner asks in Claude Code -> Claude gathers only relevant context -> independent
-GPT view via council/cli.js -> independent Operator view -> cross-review ->
-synthesis -> one council result`
+`owner asks in Claude Code -> Claude gathers only relevant context -> Operator
+view formed and retained -> independent strategist view via council/cli.js, which
+is not given it -> cross-review -> synthesis -> one council result`
+
+The order is the independence rule, not a preference: Claude forms and records
+the Operator view **before** the `FIRST_PASS` call, because in one conversation
+the strategist's answer would otherwise be in front of Claude while its own view
+was still unformed. The call itself carries no Operator view — see protocol step
+4 and `council/README.md`.
 
 Claude Code is the orchestrator. `council/cli.js` is the only moving part, and
 `council/README.md` documents it. GitHub holds durable context and final

@@ -130,6 +130,7 @@ result is `tier`, which is a label, not a measure.
 | `missingEvidence` | array | always — empty means the Council found none |
 | `normativeImpact` | boolean | always |
 | `claudePosition`, `gptPosition` | `MAINTAIN` / `REVISE` / `INSUFFICIENT_INFORMATION` | tiers 2–3 only, both or neither |
+| `insufficientInformation` | boolean | tier 1 only — tiers 2–3 say it in the positions |
 | `assumptions`, `failureScenarios`, `reconsiderationTriggers` | array of non-empty strings | tier 3 |
 
 Every field that drives the classification or the gate is required outright,
@@ -143,14 +144,24 @@ one.
 
 - **Tier 1** supplies no `claudePosition`/`gptPosition` — it stops after the two
   first-pass views, so there is no `MAINTAIN` or `REVISE` to report. Supplying
-  one is refused: it means the run was not tier 1.
+  one is refused: it means the run was not tier 1. It supplies
+  `insufficientInformation` instead, and must: without positions to carry it,
+  a tier-1 council could otherwise only converge or disagree, never report that
+  the evidence did not support an answer. Tiers 2–3 refuse the field, because
+  there the positions say it.
 - **Tiers 2 and 3** require *both* positions. A single position is the dangerous
   case — it reads like tier 1 and would classify as though the other model never
   had to conclude — so a partial pair is refused.
 - **Tier 3** additionally requires non-empty `assumptions`, `failureScenarios`
   and `reconsiderationTriggers`. A foundational decision that names none has not
   been examined as one, and an empty array would meet the contract on paper
-  only.
+  only. A tier-3 result also **always** carries
+  `OWNER_DECISION_REQUIRED: YES`, whatever `normativeImpact` says and however
+  strongly the two converged: tier 3 is the foundational tier by definition, and
+  letting a model-authored boolean clear the gate there would let the Council
+  settle its own most consequential questions. The classification is still
+  reported honestly — convergence is convergence — the gate simply does not
+  follow from it at that tier.
 
 ## Choosing the tier
 

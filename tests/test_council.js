@@ -38,7 +38,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 200;
+const CHECKS_EXPECTED = 212;
 
 let failures = 0;
 let checks = 0;
@@ -95,6 +95,9 @@ const NEUTRAL = {
   missingEvidence: [],
   normativeImpact: false,
 };
+// Tier 1 has no final positions, so it carries insufficiency as its own field
+// (cycle 8). Tiers 2-3 must not carry it: their positions say it.
+const NEUTRAL_TIER_1 = { ...NEUTRAL, tier: 1, insufficientInformation: false };
 const QUESTION = 'Generalise the geography engine for many cities now, or optimise for Rome?';
 const CLAUDE_VIEW = '### OPERATOR_VIEW\nRecommendation: optimise for Rome first.';
 
@@ -535,6 +538,16 @@ async function main() {
       /Council Room UI ->/.test(architecture), false);
     check('…and puts the owner in one Claude Code conversation',
       /\*\*one Claude Code conversation\*\*/.test(architecture), true);
+    // Cycle 8: the MVP flow listed the strategist call before the Operator
+    // view, which in one conversation is the independence rule run backwards.
+    check('the MVP flow forms the Operator view before the strategist call',
+      architecture.indexOf('Operator\nview formed and retained')
+        < architecture.indexOf('independent strategist view via council/cli.js'), true);
+    check('…and no longer lists the GPT view first',
+      /independent\nGPT view via council\/cli\.js -> independent Operator view/.test(architecture),
+      false);
+    check('…and says why the order is the rule, not a preference',
+      /order is the independence rule/.test(architecture), true);
   }
 
   console.log('deterministic synthesis — classification and the owner gate');
@@ -589,19 +602,43 @@ async function main() {
     // Tier 1 stops after the two first-pass views, so there is no MAINTAIN or
     // REVISE to report and the synthesis must not demand one.
     check('tier 1 synthesises without any final position',
-      classifyCouncil({ ...NEUTRAL,
-        tier: 1, sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
-      }).classification, CLASSIFICATIONS.STRONG_CONVERGENCE);
+      classifyCouncil({ ...NEUTRAL_TIER_1 }).classification,
+      CLASSIFICATIONS.STRONG_CONVERGENCE);
     check('…and still separates disagreement',
-      classifyCouncil({ ...NEUTRAL,
-        tier: 1, sameRecommendation: false, materialDisagreements: [], missingEvidence: [],
-      }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
+      classifyCouncil({ ...NEUTRAL_TIER_1, sameRecommendation: false }).classification,
+      CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
+
+    // Cycle 8: with no positions to carry it, tier 1 could only converge or
+    // disagree — it had no way to report that the evidence ran out.
+    check('tier 1 can report insufficient information',
+      classifyCouncil({ ...NEUTRAL_TIER_1, insufficientInformation: true }).classification,
+      CLASSIFICATIONS.INSUFFICIENT_INFORMATION);
+    check('…and it forces the owner gate',
+      classifyCouncil({ ...NEUTRAL_TIER_1, insufficientInformation: true })
+        .owner_decision_required, 'YES');
+    check('…even when both sides otherwise agreed',
+      classifyCouncil({
+        ...NEUTRAL_TIER_1, insufficientInformation: true, sameRecommendation: true,
+      }).classification, CLASSIFICATIONS.INSUFFICIENT_INFORMATION);
+    check('omitting it on tier 1 is an error, not a quiet false',
+      /tier 1 requires insufficientInformation/.test(threw(() => classifyCouncil({
+        ...NEUTRAL, tier: 1,
+      })) || ''), true);
+    check('…and a string is refused like the other booleans',
+      /not string/.test(threw(() => classifyCouncil({
+        ...NEUTRAL_TIER_1, insufficientInformation: 'false',
+      })) || ''), true);
+    check('tiers 2 and 3 refuse it: their positions say it',
+      /the run did not follow the tier it reports/.test(threw(() => classifyCouncil({
+        ...NEUTRAL, tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN',
+        insufficientInformation: false,
+      })) || ''), true);
 
     // Cycle 7: a default answers the question the Council was asked. An omitted
     // materialDisagreements read as "they did not disagree", which is a finding.
     for (const field of
       ['sameRecommendation', 'materialDisagreements', 'missingEvidence', 'normativeImpact']) {
-      const partial = { ...NEUTRAL, tier: 1 };
+      const partial = { ...NEUTRAL_TIER_1 };
       delete partial[field];
       check(`omitting ${field} is an error, not a silent gap`,
         new RegExp(`${field} is required`).test(threw(() => classifyCouncil(partial)) || ''), true);
@@ -610,7 +647,7 @@ async function main() {
     }
     check('a wrong type is still distinguished from an omission',
       /not string/.test(threw(() => classifyCouncil({
-        ...NEUTRAL, tier: 1, missingEvidence: 'none',
+        ...NEUTRAL_TIER_1, missingEvidence: 'none',
       })) || ''), true);
 
     // The tier is what makes the position rules enforceable at all.
@@ -619,8 +656,8 @@ async function main() {
         claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
       })) || ''), true);
     check('a position on a tier-1 run is refused: it was not tier 1',
-      /a position here means the run was not tier 1/.test(threw(() => classifyCouncil({ ...NEUTRAL,
-        tier: 1, claudePosition: 'MAINTAIN', sameRecommendation: true,
+      /a position here means the run was not tier 1/.test(threw(() => classifyCouncil({
+        ...NEUTRAL_TIER_1, claudePosition: 'MAINTAIN',
       })) || ''), true);
     check('a partial position pair is refused on tier 2',
       /both claudePosition and gptPosition are required; 1 of 2 supplied/.test(
@@ -711,6 +748,22 @@ async function main() {
       failureScenarios: ['the second city never materialises'],
       reconsiderationTriggers: ['a second city is funded'],
     });
+    // Cycle 8: tier 3 is the foundational tier by definition, so it always
+    // reaches the owner. A model-authored normativeImpact: false must not clear
+    // the gate on the most consequential class of question there is.
+    const cleared = buildCouncilResult({
+      ...tier3,
+      failureScenarios: ['the second city never materialises'],
+      reconsiderationTriggers: ['a second city is funded'],
+      normativeImpact: false,
+    });
+    check('a tier-3 run with everything aligned still gates on the owner',
+      cleared.OWNER_DECISION_REQUIRED, 'YES');
+    check('…while still reporting the convergence honestly',
+      cleared.classification, CLASSIFICATIONS.STRONG_CONVERGENCE);
+    check('tier 2 in the same shape does not force the gate',
+      buildCouncilResult({ ...judgements, normativeImpact: false }).OWNER_DECISION_REQUIRED,
+      'NO');
     check('a complete tier 3 emits its evidence',
       [founded.failure_scenarios.length, founded.reconsideration_triggers.length,
         founded.assumptions.length], [1, 1, 1]);
