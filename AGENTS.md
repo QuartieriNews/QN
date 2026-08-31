@@ -38,7 +38,11 @@ owner decisions / regressions.
   `reviews/`. That folder is the historical memory of the chat era, when there
   was nowhere else to put a report, and remains the home of reports tied to no
   PR; those are still named `reviews/YYYY-MM-DD—<scope>—<verdict>.md`. This
-  rule is `decisions/DEC-007` and takes effect when that entry is DECIDED.
+  rule is `decisions/DEC-007`.
+- Clause of that rule: a PR closed **without** merging, where the work or the
+  review taught something worth keeping, leaves that behind in writing — a note
+  in `reviews/` or a decision entry. Closing a PR is what discards its threads,
+  so it is the one case where the archive needs a hand.
 - Review the diff since the last review of the same scope; on a first pass,
   review everything.
 - The reviewer app holds write permissions on this repository. They exist
