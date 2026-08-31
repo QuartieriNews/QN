@@ -26,11 +26,6 @@ const UNIT_MINUTES = {
  *  match must start exactly where the previous token ended. */
 const PAIR_RE = /(\d+)\s*(days?|hours?|hrs?|minutes?|mins?)/giy;
 
-/** Cycle-2 review, item 2: bound untrusted numbers. More than 7 digits of any
- *  unit is not a real event duration; treating it as unparseable keeps the
- *  arithmetic finite and the item structured instead of throwing. */
-const MAX_PAIR_DIGITS = 7;
-
 /**
  * Parse the raw `duration` field.
  * @param {*} durationText - raw source value (string, null, undefined, …)
@@ -66,14 +61,18 @@ function parseDurationText(durationText) {
     if (!m || m.index !== pos) {
       return { status: 'unparseable', minutes: null };
     }
-    if (m[1].length > MAX_PAIR_DIGITS) {
-      return { status: 'unparseable', minutes: null }; // out-of-range number (item 2)
+    // Bound untrusted numbers by VALUE (cycle-2 item 2, narrowed by cycle-3):
+    // what cannot be summed exactly is unparseable. Digit width was the wrong
+    // proxy — it rejected zero-padded numbers that are perfectly in range.
+    const value = Number(m[1]);
+    if (!Number.isSafeInteger(value)) {
+      return { status: 'unparseable', minutes: null };
     }
     const unit = m[2];
     if (!(unit in UNIT_MINUTES)) {
       return { status: 'unparseable', minutes: null }; // defensive; regex prevents this
     }
-    total += parseInt(m[1], 10) * UNIT_MINUTES[unit];
+    total += value * UNIT_MINUTES[unit];
     pairs += 1;
     pos = PAIR_RE.lastIndex;
   }
