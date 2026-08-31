@@ -69,6 +69,17 @@ When ChatGPT's independent view is later supplied:
 
 Do not defend your first answer for consistency.
 
+Return:
+
+### CROSS_REVIEW
+**Strongest point in the strategist view:**
+
+**Where it over- or under-estimates risk:**
+
+**What it found that I missed:**
+
+**Position change, if any, and why:**
+
 ## Final output
 
 Return one of:

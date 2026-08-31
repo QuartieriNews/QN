@@ -76,6 +76,19 @@ When Claude's independent view is later supplied:
 
 Do not oppose Claude merely to create disagreement.
 
+Return:
+
+### CROSS_REVIEW
+**Strongest point in the Operator view:**
+
+**Where the sequence optimises activity rather than learning:**
+
+**Hidden future cost or unnecessary present complexity:**
+
+**What the Operator found that I missed:**
+
+**Position change, if any, and why:**
+
 ## Final output
 
 Return one of:

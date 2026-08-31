@@ -41,4 +41,23 @@ their entry here and by the commit that made them.
 
 ---
 
+## 31 August 2026 — Council role prompts state a cross-review output
+
+Files: `prompts/STRATEGIC_COUNCIL_CHATGPT.md`, `prompts/STRATEGIC_COUNCIL_CLAUDE.md`
+
+What changed: both cross-review sections now say what to return, under a
+`### CROSS_REVIEW` heading, in the same shape as their first-pass sections.
+
+Why: the cross-review had instructions but no stated output, so a refusal there
+returned ordinary prose and nothing could tell it from a critique. The final
+stage requires only that the exchange be nonempty, so a council could conclude
+without the adversarial step that makes its convergence mean anything. The tool
+now requires the heading on a `CROSS_REVIEW` response, which it can only do if
+the prompt of record asks for one.
+
+Revision bumped: none, and none applies — for the reason given in the entry
+above; Council prompts sit outside the pipeline revision integers.
+
+---
+
 _No pipeline prompt changes yet after the v2.5 consolidation._

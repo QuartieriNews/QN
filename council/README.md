@@ -80,13 +80,15 @@ The remaining guarantee is Claude's discipline, which `CLAUDE.md` binds. The
 tool closes the accidental path and says plainly that it cannot close the
 deliberate one.
 
-A completed `FIRST_PASS` response is checked to carry the `### STRATEGY_VIEW`
-heading the role prompt requires — the heading on its own line, not the words
-anywhere in the text, so "I cannot provide a STRATEGY_VIEW for this question"
-does not pass as one. A refusal or an off-format answer is nonempty text and
-would otherwise be accepted, and the later stages only require the first pass to
-be nonempty — so it would be cross-reviewed and concluded upon as though a view
-had been formed.
+A completed `FIRST_PASS` or `CROSS_REVIEW` response is checked to carry the
+heading its role prompt requires — `### STRATEGY_VIEW` and `### CROSS_REVIEW`
+respectively, on its own line, not the words anywhere in the text, so "I cannot
+provide a STRATEGY_VIEW for this question" does not pass as one. A refusal or an
+off-format answer is nonempty text and would otherwise be accepted, and each
+later stage requires only that the earlier artefacts be nonempty — so a refused
+first pass would be cross-reviewed, and a refused cross-review concluded upon,
+as though the work had been done. The cross-review is the step that makes
+convergence mean anything, so an invisible refusal there is the costlier one.
 
 A completed `FINAL_POSITION` response must **open by declaring exactly one** of
 `MAINTAIN`, `REVISE` or `INSUFFICIENT_INFORMATION`, uppercase and word-bounded.
@@ -199,6 +201,13 @@ deserves; here is what each costs to run.
 
 Reasoning below `high` is not offered. A question that does not deserve `high`
 does not deserve the Council; answer it in Builder mode.
+
+The mapping binds in both directions. Tiers 1 and 2 run at `high` and refuse
+`xhigh` or `max`, as tier 3 refuses `high`: a reversible question answered at
+foundational depth breaks the table the same way round as the reverse, and a
+question that deserves more depth deserves a higher tier — classifying it is
+what the tier is for. A request that states no tier is free to choose, because
+nothing has classified it yet.
 
 The tier is also stated in the request itself, so the depth a run claims is one
 the strategist was actually asked for: a tier-3 request tells it to name the

@@ -40,7 +40,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 261;
+const CHECKS_EXPECTED = 273;
 
 let failures = 0;
 let checks = 0;
@@ -302,6 +302,38 @@ async function main() {
     check('an unclassified request states no tier at all',
       buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION }, SEAM)
         .input.includes('Escalation tier'), false);
+    // Cycle 12: capping only tier 3 left --tier 1 --effort max spending
+    // foundational reasoning on a reversible question — the mapping broken the
+    // other way round.
+    for (const tier of [1, 2]) {
+      for (const effort of TIER_3_EFFORTS) {
+        check(`tier ${tier} refuses '${effort}'`,
+          new RegExp(`tier ${tier} runs at reasoning effort 'high'`).test(threw(() =>
+            buildRequest({
+              stage: STAGES.FIRST_PASS, question: QUESTION, tier, effort,
+            }, SEAM)) || ''), true);
+      }
+      check(`tier ${tier} still accepts the depth it is assigned`,
+        buildRequest({
+          stage: STAGES.FIRST_PASS, question: QUESTION, tier, effort: 'high',
+        }, SEAM).reasoning.effort, 'high');
+    }
+    check('the message says a deeper question is a tier-3 question',
+      /classify it as one/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 2, effort: 'max',
+      }, SEAM)) || ''), true);
+    check('an unclassified request is still free to choose its depth',
+      buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, effort: 'max',
+      }, SEAM).reasoning.effort, 'max');
+    check('the synthesis applies the same rule to the stages it is given',
+      /runs at reasoning effort 'high'/.test(threw(() => buildCouncilResult({
+        tier: 2, question: 'q', claudeRecommendation: 'a', gptRecommendation: 'b',
+        strongestAgreement: 'c', costAndReversibility: 'd',
+        claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN',
+        sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
+        normativeImpact: false, stages: stagesFor(2, 'max'),
+      })) || ''), true);
     check('an impossible tier is refused',
       /tier must be 1, 2 or 3/.test(threw(() => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION, tier: 4
@@ -593,14 +625,54 @@ async function main() {
           }),
         }
       )).stage, STAGES.FIRST_PASS);
-    check('a cross-review is not held to that marker',
-      (await callStrategist(
+    // Cycle 12: a cross-review refusal was invisible, and FINAL_POSITION only
+    // requires a nonempty exchange — so the run could conclude without the
+    // critique that makes convergence mean anything. Its role prompt now states
+    // a ### CROSS_REVIEW heading, and the stage requires it.
+    check('a cross-review refusal is refused too',
+      /returned no ### CROSS_REVIEW heading/.test(await threwAsync(() => callStrategist(
         {
           stage: STAGES.CROSS_REVIEW, question: QUESTION,
           claudeView: CLAUDE_VIEW, gptFirstPass: 'mine',
         },
         { rolePrompt: ROLE_PROMPT, env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: refused }
+      )) || ''), true);
+    check('…and a real cross-review passes',
+      (await callStrategist(
+        {
+          stage: STAGES.CROSS_REVIEW, question: QUESTION,
+          claudeView: CLAUDE_VIEW, gptFirstPass: 'mine',
+        },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [{ type: 'output_text',
+              text: '### CROSS_REVIEW\n**Strongest point:** the cost reading.' }] }] }),
+          }),
+        }
       )).stage, STAGES.CROSS_REVIEW);
+    check('a final position is not held to a heading',
+      (await callStrategist(
+        {
+          stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique',
+        },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [{ type: 'output_text',
+              text: 'MAINTAIN — Rome first.' }] }] }),
+          }),
+        }
+      )).stage, STAGES.FINAL_POSITION);
+    check('both role prompts of record state the cross-review heading',
+      ['STRATEGIC_COUNCIL_CHATGPT.md', 'STRATEGIC_COUNCIL_CLAUDE.md'].every((name) =>
+        /^###\s*CROSS_REVIEW\s*$/m.test(
+          fs.readFileSync(path.join(REPO_ROOT, 'prompts', name), 'utf8'))), true);
 
     // Cycle 9: a transport that never settles held the interactive CLI open
     // with no deadline of its own.
@@ -986,7 +1058,7 @@ async function main() {
         ],
       })) || ''), true);
     check('a tier-3 stage run at high is refused',
-      /not a tier-3 depth/.test(threw(() => buildCouncilResult({
+      /tier 3 requires reasoning effort/.test(threw(() => buildCouncilResult({
         ...tier3,
         failureScenarios: ['the second city never materialises'],
         reconsiderationTriggers: ['a second city is funded'],

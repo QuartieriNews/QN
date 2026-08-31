@@ -50,7 +50,7 @@ const REQUEST_TIMEOUT_MS = 10 * 60 * 1000;
  * this question" through, which is a refusal that mentions the format.
  */
 const STRATEGY_VIEW_MARKER = 'STRATEGY_VIEW';
-const STRATEGY_VIEW_HEADING = /^\s{0,3}#{1,6}\s*STRATEGY_VIEW\s*$/m;
+
 
 /**
  * The final position as *declared*, not as mentioned: the role prompt says to
@@ -72,6 +72,18 @@ const STAGES = {
 const FINAL_POSITIONS_ALL = /\b(MAINTAIN|REVISE|INSUFFICIENT_INFORMATION)\b/g;
 
 /** Council result classifications. Deliberately not a numeric score. */
+/**
+ * The heading each stage's role prompt tells the strategist to return. Only the
+ * declaring stages appear: FINAL_POSITION declares a token instead, checked
+ * below. Cycle 12 added CROSS_REVIEW — a refusal there is invisible otherwise,
+ * and the cross-review is the step that makes convergence mean anything.
+ */
+const REQUIRED_HEADINGS = {
+  [STAGES.FIRST_PASS]: 'STRATEGY_VIEW',
+  [STAGES.CROSS_REVIEW]: 'CROSS_REVIEW',
+};
+const headingPattern = (name) => new RegExp(`^\\s{0,3}#{1,6}\\s*${name}\\s*$`, 'm');
+
 const CLASSIFICATIONS = {
   STRONG_CONVERGENCE: 'STRONG_CONVERGENCE',
   WEAK_CONVERGENCE: 'WEAK_CONVERGENCE',
@@ -317,6 +329,34 @@ function buildFinalPositionInput({ question, context, claudeView, gptFirstPass, 
  * the ordinary argument would be running the pinned model under an arbitrary
  * role, which is the one substitution the model pin exists to prevent.
  */
+/**
+ * The tier table fixes the depth in both directions (cycle 12).
+ *
+ * Capping only tier 3 left `--tier 1 --effort max` spending foundational
+ * reasoning on a reversible question, which is the mapping broken the other
+ * way round. A question that deserves more depth deserves a higher tier — that
+ * is what classifying it is for.
+ */
+function assertEffortMatchesTier(tier, effort) {
+  if (tier === 3) {
+    if (!TIER_3_EFFORTS.includes(effort)) {
+      throw new Error(
+        `tier 3 requires reasoning effort ${TIER_3_EFFORTS.join(' or ')}, not ` +
+        `'${effort}': a foundational question answered at a lower depth is not ` +
+        'a tier-3 run'
+      );
+    }
+    return;
+  }
+  if (effort !== DEFAULT_EFFORT) {
+    throw new Error(
+      `tier ${tier} runs at reasoning effort '${DEFAULT_EFFORT}', not ` +
+      `'${effort}': the tier decides the depth. A question that deserves ` +
+      `${TIER_3_EFFORTS.join(' or ')} is a tier-3 question — classify it as one.`
+    );
+  }
+}
+
 function buildRequest(options = {}, deps = {}) {
   const { rolePrompt } = deps;
   const {
@@ -353,13 +393,7 @@ function buildRequest(options = {}, deps = {}) {
     if (![1, 2, 3].includes(tier)) {
       throw new Error('tier must be 1, 2 or 3');
     }
-    if (tier === 3 && !TIER_3_EFFORTS.includes(effort)) {
-      throw new Error(
-        `tier 3 requires reasoning effort ${TIER_3_EFFORTS.join(' or ')}, not ` +
-        `'${effort}': a foundational question answered at a lower depth is not ` +
-        'a tier-3 run'
-      );
-    }
+    assertEffortMatchesTier(tier, effort);
     // Tier 1 stops after the two first-pass views. A later stage at tier 1 is
     // either a mis-stated tier or a run the tier-1 synthesis will refuse, and
     // both are cheaper to catch before the call than after it.
@@ -616,11 +650,12 @@ async function callStrategist(options = {}, deps = {}) {
   // completed refusal is nonempty text, and the later stages only require the
   // first pass to be nonempty — so an unchecked one would be cross-reviewed and
   // concluded upon as though a view had been formed.
-  if (options.stage === STAGES.FIRST_PASS && !STRATEGY_VIEW_HEADING.test(parsed.text)) {
+  const requiredHeading = REQUIRED_HEADINGS[options.stage];
+  if (requiredHeading && !headingPattern(requiredHeading).test(parsed.text)) {
     throw invalid(
-      `${STAGES.FIRST_PASS} response returned no ### ${STRATEGY_VIEW_MARKER} ` +
-      'heading: the role prompt requires one, and text that only mentions the ' +
-      'format — a refusal naming it, say — is not a first-pass view'
+      `${options.stage} response returned no ### ${requiredHeading} heading: ` +
+      'the role prompt requires one, and text that only mentions the format — ' +
+      'a refusal naming it, say — is not the answer this stage asked for'
     );
   }
 
@@ -834,14 +869,13 @@ function assertStagesMatchTier(tier, stages) {
         `reports tier ${tier}. A run is the tier it was asked for.`
       );
     }
-    if (tier === 3 && !TIER_3_EFFORTS.includes(entry.effort)) {
-      throw new Error(
-        `stages: ${entry.stage} ran at effort '${entry.effort}', which is not ` +
-        `a tier-3 depth (${TIER_3_EFFORTS.join(' or ')})`
-      );
-    }
     if (!ALLOWED_EFFORTS.includes(entry.effort)) {
       throw new Error(`stages: ${entry.stage} ran at unknown effort '${entry.effort}'`);
+    }
+    try {
+      assertEffortMatchesTier(tier, entry.effort);
+    } catch (cause) {
+      throw new Error(`stages: ${entry.stage} — ${cause.message}`);
     }
   }
 
