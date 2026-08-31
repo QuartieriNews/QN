@@ -28,6 +28,7 @@ const {
   readRolePrompt,
   buildRequest,
   parseResponse,
+  salvageResponse,
   readApiKey,
   callStrategist,
   classifyCouncil,
@@ -39,7 +40,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 246;
+const CHECKS_EXPECTED = 261;
 
 let failures = 0;
 let checks = 0;
@@ -99,6 +100,14 @@ const NEUTRAL = {
 // Tier 1 has no final positions, so it carries insufficiency as its own field
 // (cycle 8). Tiers 2-3 must not carry it: their positions say it.
 const NEUTRAL_TIER_1 = { ...NEUTRAL, tier: 1, insufficientInformation: false };
+// A council result states the stages it actually ran, so the tier it reports
+// is the tier the strategist was asked for (cycle 11).
+const stagesFor = (tier, effort = tier === 3 ? 'xhigh' : 'high') => (
+  tier === 1
+    ? [{ stage: STAGES.FIRST_PASS, tier, effort }]
+    : [STAGES.FIRST_PASS, STAGES.CROSS_REVIEW, STAGES.FINAL_POSITION]
+      .map((stage) => ({ stage, tier, effort }))
+);
 const QUESTION = 'Generalise the geography engine for many cities now, or optimise for Rome?';
 const CLAUDE_VIEW = '### OPERATOR_VIEW\nRecommendation: optimise for Rome first.';
 
@@ -884,6 +893,7 @@ async function main() {
       materialDisagreements: [],
       missingEvidence: [],
       normativeImpact: true,
+      stages: stagesFor(2),
     };
     const result = buildCouncilResult(judgements);
     for (const field of ['tier', 'question', 'claude_final_recommendation',
@@ -912,7 +922,7 @@ async function main() {
         ...judgements, normativeImpact: 'false',
       })) || ''), true);
     // Tier 3 is the foundational tier; its evidence is the contract.
-    const tier3 = { ...judgements, tier: 3 };
+    const tier3 = { ...judgements, tier: 3, stages: stagesFor(3) };
     for (const field of ['assumptions', 'failureScenarios', 'reconsiderationTriggers']) {
       check(`tier 3 requires ${field}`,
         new RegExp(`tier 3 requires ${field}`).test(threw(() => buildCouncilResult({
@@ -958,6 +968,48 @@ async function main() {
     check('tier 2 does not demand tier-3 evidence',
       buildCouncilResult(judgements).failure_scenarios, []);
 
+    // Cycle 11: the tier reached the request but nothing carried it back, so a
+    // judgements file could declare tier 3 over three stages run at tier 2.
+    check('a result must state the stages it ran',
+      /stages is required in a council result/.test(threw(() => {
+        const { stages, ...without } = judgements;
+        return buildCouncilResult(without);
+      }) || ''), true);
+    check('a stage that ran at another tier is refused',
+      /ran at tier 2, but this result reports tier 3/.test(threw(() => buildCouncilResult({
+        ...tier3,
+        failureScenarios: ['the second city never materialises'],
+        reconsiderationTriggers: ['a second city is funded'],
+        stages: [
+          { stage: STAGES.FIRST_PASS, tier: 2, effort: 'xhigh' },
+          ...stagesFor(3).slice(1),
+        ],
+      })) || ''), true);
+    check('a tier-3 stage run at high is refused',
+      /not a tier-3 depth/.test(threw(() => buildCouncilResult({
+        ...tier3,
+        failureScenarios: ['the second city never materialises'],
+        reconsiderationTriggers: ['a second city is funded'],
+        stages: stagesFor(3, 'high'),
+      })) || ''), true);
+    check('a skipped cross-review is refused on tier 2',
+      /is missing CROSS_REVIEW/.test(threw(() => buildCouncilResult({
+        ...judgements,
+        stages: stagesFor(2).filter((entry) => entry.stage !== STAGES.CROSS_REVIEW),
+      })) || ''), true);
+    check('a tier-1 result carrying a later stage is refused',
+      /which tier 1 does not run/.test(threw(() => buildCouncilResult({
+        ...judgements, tier: 1,
+        claudePosition: undefined, gptPosition: undefined, insufficientInformation: false,
+        stages: [...stagesFor(1), { stage: STAGES.CROSS_REVIEW, tier: 1, effort: 'high' }],
+      })) || ''), true);
+    check('a tier-1 result with only its own stage passes',
+      buildCouncilResult({
+        ...judgements, tier: 1,
+        claudePosition: undefined, gptPosition: undefined, insufficientInformation: false,
+        stages: stagesFor(1),
+      }).tier, 1);
+
     check('a missing required field throws rather than emitting a gap',
       /strongestAgreement is required/.test(threw(() => buildCouncilResult({
         ...judgements, strongestAgreement: '',
@@ -981,6 +1033,7 @@ async function main() {
       materialDisagreements: [],
       missingEvidence: [],
       normativeImpact: false,
+      stages: stagesFor(2),
     }));
     const { main } = require(path.join(REPO_ROOT, 'council', 'cli.js'));
     const written = [];
@@ -1133,6 +1186,8 @@ async function main() {
         } catch (error) { return error.response; }
       })());
       check('…and carries the response it rejected', rejected !== null, true);
+      check('…with the tier and effort the run was asked for',
+        [rejected.tier, rejected.effort], [null, 'high']);
       check('…marked invalid', rejected.valid, false);
       check('…with the usage the account was charged', rejected.usage.total_tokens, 912);
       const file = saveSession(rejected, { dir, now: new Date('2026-08-31T15:00:00.000Z') });
@@ -1141,6 +1196,47 @@ async function main() {
       check('the sessions directory is still the gitignored one',
         SESSIONS_DIR.endsWith(path.join('council', 'sessions')), true);
       fs.rmSync(dir, { recursive: true, force: true });
+    }
+
+    // Cycle 11: an incomplete response throws from parseResponse, before the
+    // stage checks — earlier than the cycle-10 rescue, so the paid call still
+    // vanished. Salvage never throws, so the usage survives with no answer.
+    {
+      const { callStrategist: call2 } = require(COUNCIL);
+      const incomplete = async () => ({
+        ok: true, status: 200,
+        json: async () => ({
+          status: 'incomplete',
+          incomplete_details: { reason: 'max_output_tokens' },
+          output: [{ type: 'message', content: [{ type: 'output_text',
+            text: '### STRATEGY_VIEW\n**Recommendation:** optim' }] }],
+          usage: {
+            input_tokens: 4000, output_tokens: 8000, total_tokens: 12000,
+            output_tokens_details: { reasoning_tokens: 7900 },
+          },
+        }),
+      });
+      const salvaged = await (async () => {
+        try {
+          await call2(
+            { stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3, effort: 'max' },
+            { rolePrompt: ROLE_PROMPT, env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: incomplete }
+          );
+          return null;
+        } catch (error) { return error.response; }
+      })();
+      check('an incomplete response still rejects', salvaged !== null, true);
+      check('…and keeps the usage the account was charged',
+        salvaged.usage.total_tokens, 12000);
+      check('…and the reasoning tokens', salvaged.usage.reasoning_tokens, 7900);
+      check('…and the fragment that arrived',
+        salvaged.text.endsWith('optim'), true);
+      check('…and the tier and effort it ran at', [salvaged.tier, salvaged.effort], [3, 'max']);
+      check('…marked invalid', salvaged.valid, false);
+      check('salvageResponse itself never throws on rubbish',
+        salvageResponse(null).text, '');
+      check('…and reports no usage rather than inventing it',
+        salvageResponse(undefined).usage.total_tokens, null);
     }
 
     // Cycle 5: process.exit() dropped whatever stdout had buffered, so a large

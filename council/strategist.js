@@ -428,6 +428,53 @@ function raceDeadline(work, controller) {
  * Usage is returned so cost can be measured later; it is never invented when
  * the API omits it.
  */
+/**
+ * Best-effort extraction, which never throws.
+ *
+ * A rejected response was still charged for, so the usage and whatever text
+ * arrived must survive the rejection (cycle 11). `parseResponse` decides
+ * whether the answer is usable; this only reads what is there.
+ */
+function salvageResponse(payload) {
+  const object = payload !== null && typeof payload === 'object' ? payload : {};
+  const chunks = [];
+  const output = Array.isArray(object.output) ? object.output : [];
+  for (const item of output) {
+    if (item === null || typeof item !== 'object') continue;
+    // Reasoning items carry no answer text; only message content is the answer.
+    if (item.type !== 'message') continue;
+    const content = Array.isArray(item.content) ? item.content : [];
+    for (const part of content) {
+      if (part && part.type === 'output_text' && typeof part.text === 'string') {
+        chunks.push(part.text);
+      }
+    }
+  }
+  // Some payloads carry the convenience field; fall back to it only if the
+  // structured walk found nothing.
+  if (chunks.length === 0 && typeof object.output_text === 'string') {
+    chunks.push(object.output_text);
+  }
+
+  const usage = object.usage && typeof object.usage === 'object' ? object.usage : {};
+  const details = usage.output_tokens_details && typeof usage.output_tokens_details === 'object'
+    ? usage.output_tokens_details
+    : {};
+
+  return {
+    text: chunks.join('\n').trim(),
+    model: typeof object.model === 'string' ? object.model : null,
+    id: typeof object.id === 'string' ? object.id : null,
+    status: typeof object.status === 'string' ? object.status : null,
+    usage: {
+      input_tokens: numberOrNull(usage.input_tokens),
+      output_tokens: numberOrNull(usage.output_tokens),
+      reasoning_tokens: numberOrNull(details.reasoning_tokens),
+      total_tokens: numberOrNull(usage.total_tokens),
+    },
+  };
+}
+
 function parseResponse(payload) {
   if (payload === null || typeof payload !== 'object') {
     throw new Error('response payload is not an object');
@@ -445,48 +492,13 @@ function parseResponse(payload) {
     throw new Error(`strategist response is '${payload.status}'${details}`);
   }
 
-  const chunks = [];
-  const output = Array.isArray(payload.output) ? payload.output : [];
-  for (const item of output) {
-    if (item === null || typeof item !== 'object') continue;
-    // Reasoning items carry no answer text; only message content is the answer.
-    if (item.type !== 'message') continue;
-    const content = Array.isArray(item.content) ? item.content : [];
-    for (const part of content) {
-      if (part && part.type === 'output_text' && typeof part.text === 'string') {
-        chunks.push(part.text);
-      }
-    }
+  const { status, ...salvaged } = salvageResponse(payload);
+  if (salvaged.text === '') {
+    throw new Error(
+      `response carried no output text${payload.status ? ` (status: ${payload.status})` : ''}`
+    );
   }
-
-  // Some payloads carry the convenience field; fall back to it only if the
-  // structured walk found nothing.
-  if (chunks.length === 0 && typeof payload.output_text === 'string') {
-    chunks.push(payload.output_text);
-  }
-
-  const text = chunks.join('\n').trim();
-  if (text === '') {
-    const status = payload.status ? ` (status: ${payload.status})` : '';
-    throw new Error(`response carried no output text${status}`);
-  }
-
-  const usage = payload.usage && typeof payload.usage === 'object' ? payload.usage : {};
-  const details = usage.output_tokens_details && typeof usage.output_tokens_details === 'object'
-    ? usage.output_tokens_details
-    : {};
-
-  return {
-    text,
-    model: typeof payload.model === 'string' ? payload.model : null,
-    id: typeof payload.id === 'string' ? payload.id : null,
-    usage: {
-      input_tokens: numberOrNull(usage.input_tokens),
-      output_tokens: numberOrNull(usage.output_tokens),
-      reasoning_tokens: numberOrNull(details.reasoning_tokens),
-      total_tokens: numberOrNull(usage.total_tokens),
-    },
-  };
+  return salvaged;
 }
 
 function numberOrNull(value) {
@@ -577,14 +589,28 @@ async function callStrategist(options = {}, deps = {}) {
     clearTimeout(timer);
   }
 
-  const parsed = parseResponse(payload);
-
-  // A stage validation below rejects an answer the account was already charged
-  // for. The parsed response rides on the error so the CLI can still log what
-  // was paid for, rather than losing the usage with the answer.
-  const invalid = (message) => Object.assign(new Error(message), {
-    response: { ...parsed, stage: options.stage, valid: false },
+  // Every rejection below is of an answer the account was already charged for.
+  // What arrived rides on the error so the CLI can still log the call, rather
+  // than losing the usage along with the answer (cycles 10 and 11).
+  const rejected = (message, response) => Object.assign(new Error(message), {
+    response: {
+      ...response,
+      stage: options.stage,
+      tier: options.tier === undefined ? null : options.tier,
+      effort: body.reasoning.effort,
+      valid: false,
+    },
   });
+
+  let parsed;
+  try {
+    parsed = parseResponse(payload);
+  } catch (cause) {
+    // An incomplete or empty response is still a paid one: salvage never
+    // throws, so the usage survives even when there is no answer to keep.
+    throw rejected(cause.message, salvageResponse(payload));
+  }
+  const invalid = (message) => rejected(message, parsed);
 
   // The role prompt requires the first pass to return a ### STRATEGY_VIEW. A
   // completed refusal is nonempty text, and the later stages only require the
@@ -620,7 +646,14 @@ async function callStrategist(options = {}, deps = {}) {
     }
   }
 
-  return { ...parsed, stage: options.stage };
+  // The tier and effort travel with the answer, so the run's declared depth can
+  // be checked later against the depth it was actually asked for (cycle 11).
+  return {
+    ...parsed,
+    stage: options.stage,
+    tier: options.tier === undefined ? null : options.tier,
+    effort: body.reasoning.effort,
+  };
 }
 
 /**
@@ -764,9 +797,68 @@ function classifyCouncil(input = {}) {
  * the owner read". Every field is supplied by the Council — nothing here is
  * inferred, and no numeric confidence is produced.
  */
+/**
+ * Check that the stages actually run match the tier the synthesis declares.
+ *
+ * Cycle 11: the tier reached the request but nothing carried it back, so three
+ * stages run at tier 2 and a judgements file declaring tier 3 agreed with each
+ * other by assertion only. Each stage record states the tier and effort it ran
+ * (the CLI writes them with --save), and this refuses a mismatch rather than
+ * reporting a depth the run did not have.
+ */
+function assertStagesMatchTier(tier, stages) {
+  if (!Array.isArray(stages) || stages.length === 0) {
+    throw new Error(
+      'stages is required in a council result: an array of the stage runs ' +
+      '({ stage, tier, effort }), so the tier reported here is the tier the ' +
+      'strategist was actually asked for rather than an assertion about it'
+    );
+  }
+  const expected = tier === 1
+    ? [STAGES.FIRST_PASS]
+    : [STAGES.FIRST_PASS, STAGES.CROSS_REVIEW, STAGES.FINAL_POSITION];
+
+  for (const entry of stages) {
+    if (entry === null || typeof entry !== 'object') {
+      throw new Error('each entry of stages must be an object { stage, tier, effort }');
+    }
+    if (!expected.includes(entry.stage)) {
+      throw new Error(
+        `stages carries '${entry.stage}', which tier ${tier} does not run ` +
+        `(expected ${expected.join(', ')})`
+      );
+    }
+    if (entry.tier !== tier) {
+      throw new Error(
+        `stages: ${entry.stage} ran at tier ${entry.tier}, but this result ` +
+        `reports tier ${tier}. A run is the tier it was asked for.`
+      );
+    }
+    if (tier === 3 && !TIER_3_EFFORTS.includes(entry.effort)) {
+      throw new Error(
+        `stages: ${entry.stage} ran at effort '${entry.effort}', which is not ` +
+        `a tier-3 depth (${TIER_3_EFFORTS.join(' or ')})`
+      );
+    }
+    if (!ALLOWED_EFFORTS.includes(entry.effort)) {
+      throw new Error(`stages: ${entry.stage} ran at unknown effort '${entry.effort}'`);
+    }
+  }
+
+  const ran = new Set(stages.map((entry) => entry.stage));
+  const missing = expected.filter((stage) => !ran.has(stage));
+  if (missing.length > 0) {
+    throw new Error(
+      `tier ${tier} runs ${expected.join(', ')}; stages is missing ` +
+      `${missing.join(', ')}. A skipped stage is a shorter protocol, not this one.`
+    );
+  }
+}
+
 function buildCouncilResult(input = {}) {
   const {
     tier,
+    stages,
     question,
     claudeRecommendation,
     gptRecommendation,
@@ -800,6 +892,7 @@ function buildCouncilResult(input = {}) {
   }
 
   const classified = classifyCouncil(input);
+  assertStagesMatchTier(tier, stages);
 
   // Tier 3 is the foundational tier, and the protocol requires it to say what
   // it assumed, how it could fail, and what would justify reopening it. An
@@ -851,6 +944,7 @@ module.exports = {
   readRolePrompt,
   buildRequest,
   parseResponse,
+  salvageResponse,
   readApiKey,
   callStrategist,
   classifyCouncil,

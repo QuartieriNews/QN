@@ -133,6 +133,7 @@ result is `tier`, which is a label, not a measure.
 | Field | Type | Required |
 |---|---|---|
 | `tier` | `1`, `2` or `3` | always |
+| `stages` | array of `{ stage, tier, effort }` | always — the runs that actually happened |
 | `question` | string | always |
 | `claudeRecommendation`, `gptRecommendation` | string | always |
 | `strongestAgreement` | string | always |
@@ -153,6 +154,14 @@ that explicitly, and the error distinguishes an omitted field from a mistyped
 one. A blank entry is refused for the same reason from the other side: the
 length of these arrays decides the classification, so `[null]` would report a
 disagreement that names nothing — the reverse of what an empty array says.
+
+**`stages` binds the reported tier to the runs behind it.** Each entry is one
+stage as it ran — the CLI writes `tier` and `effort` into every session record,
+so `--save` supplies them. The synthesis refuses a result whose stages ran at
+another tier, a tier-3 stage run below `xhigh`, a stage the tier does not have,
+or a missing one: tier 1 runs `FIRST_PASS` alone, tiers 2–3 run all three. Left
+unchecked, a tier-3 result and three tier-2 runs agreed with each other by
+assertion only.
 
 **The tier is required**, because it is what makes the rest enforceable:
 
@@ -224,10 +233,15 @@ session is not an artefact of record: only an explicit owner decision becomes a
 
 A record is never overwritten: two saves of the same stage within one
 millisecond get distinct filenames rather than the second silently replacing the
-first. A record logs a call that was paid for — including one whose answer the
-stage validation rejected, which is written with `"valid": false` rather than
-lost. The account was charged either way, and a log of successes only is not a
-usage log.
+first. A record logs a call that was paid for — including one whose answer was
+rejected, which is written with `"valid": false` rather than lost. That covers
+both kinds of rejection: an answer that failed its stage's format check, and one
+the API returned as `incomplete`, where the usage is often largest and the text
+a fragment. The account was charged either way, and a log of successes only is
+not a usage log.
+
+Each record also carries the `tier` and `effort` the call ran at, which is what
+the synthesis checks its `stages` against.
 
 A session record is a **response and usage log**, not a resume point: it keeps
 the stage, the question, the answer and the token usage, and deliberately not

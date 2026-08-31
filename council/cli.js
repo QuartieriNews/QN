@@ -195,6 +195,10 @@ async function main(argv = process.argv.slice(2)) {
 
   const record = (result) => ({
     stage: result.stage,
+    // The depth the run was actually asked for, so a later synthesis claiming
+    // a tier can be checked against what the stages did.
+    tier: result.tier,
+    effort: result.effort,
     model: result.model,
     id: result.id,
     usage: result.usage,
