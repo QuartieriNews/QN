@@ -21,6 +21,7 @@ const {
   DEFAULT_EFFORT,
   ALLOWED_EFFORTS,
   TIER_3_EFFORTS,
+  REQUEST_TIMEOUT_MS,
   RESPONSES_ENDPOINT,
   STAGES,
   CLASSIFICATIONS,
@@ -38,7 +39,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 212;
+const CHECKS_EXPECTED = 217;
 
 let failures = 0;
 let checks = 0;
@@ -376,7 +377,8 @@ async function main() {
         status: 200,
         json: async () => ({
           model: 'gpt-5.6-sol',
-          output: [{ type: 'message', content: [{ type: 'output_text', text: 'stub answer' }] }],
+          output: [{ type: 'message',
+            content: [{ type: 'output_text', text: '### STRATEGY_VIEW\nstub answer' }] }],
           usage: { input_tokens: 10, output_tokens: 5, total_tokens: 15 },
         }),
       };
@@ -388,7 +390,7 @@ async function main() {
     check('the injected transport was used', state.called, true);
     check('it posted to the Responses endpoint', state.seen.url, RESPONSES_ENDPOINT);
     check('it sent the bearer key', state.seen.init.headers.Authorization, 'Bearer sk-test');
-    check('the answer came back', result.text, 'stub answer');
+    check('the answer came back', result.text, '### STRATEGY_VIEW\nstub answer');
     check('the stage is echoed on the result', result.stage, STAGES.FIRST_PASS);
     check('usage came back', result.usage.total_tokens, 15);
 
@@ -480,10 +482,71 @@ async function main() {
           fetchImpl: async () => ({
             ok: true, status: 200,
             json: async () => ({ output: [{ type: 'message', content: [
-              { type: 'output_text', text: 'Recommendation: stay Rome-only.' }] }] }),
+              { type: 'output_text',
+                text: '### STRATEGY_VIEW\nRecommendation: stay Rome-only.' }] }] }),
           }),
         }
-      )).text, 'Recommendation: stay Rome-only.');
+      )).text, '### STRATEGY_VIEW\nRecommendation: stay Rome-only.');
+
+    // Cycle 9: a completed refusal is nonempty text, and the later stages only
+    // require the first pass to be nonempty — so an unchecked one would be
+    // cross-reviewed and concluded upon as though a view had been formed.
+    const refused = async () => ({
+      ok: true, status: 200,
+      json: async () => ({ output: [{ type: 'message', content: [
+        { type: 'output_text', text: 'I cannot answer that.' }] }] }),
+    });
+    check('a first pass without a STRATEGY_VIEW is refused',
+      /returned no STRATEGY_VIEW/.test(await threwAsync(() => callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION },
+        { rolePrompt: ROLE_PROMPT, env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: refused }
+      )) || ''), true);
+    check('a cross-review is not held to that marker',
+      (await callStrategist(
+        {
+          stage: STAGES.CROSS_REVIEW, question: QUESTION,
+          claudeView: CLAUDE_VIEW, gptFirstPass: 'mine',
+        },
+        { rolePrompt: ROLE_PROMPT, env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: refused }
+      )).stage, STAGES.CROSS_REVIEW);
+
+    // Cycle 9: a transport that never settles held the interactive CLI open
+    // with no deadline of its own.
+    const stalled = (signal) => new Promise((_, reject) => {
+      signal.addEventListener('abort', () => reject(new Error('aborted')));
+    });
+    check('a request that never settles hits its deadline',
+      /exceeded its .*deadline/.test(await threwAsync(() => callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          timeoutMs: 25,
+          fetchImpl: (url, init) => stalled(init.signal),
+        }
+      )) || ''), true);
+    check('…and the deadline reaches the transport as a signal',
+      await (async () => {
+        let seen;
+        await callStrategist(
+          { stage: STAGES.FIRST_PASS, question: QUESTION },
+          {
+            rolePrompt: ROLE_PROMPT,
+            env: { OPENAI_API_KEY: 'sk-test' },
+            fetchImpl: async (url, init) => {
+              seen = init.signal;
+              return {
+                ok: true, status: 200,
+                json: async () => ({ output: [{ type: 'message', content: [
+                  { type: 'output_text', text: '### STRATEGY_VIEW\nfine' }] }] }),
+              };
+            },
+          }
+        );
+        return typeof seen === 'object' && seen !== null && seen.aborted === false;
+      })(), true);
+    check('the default deadline is finite and documented',
+      Number.isFinite(REQUEST_TIMEOUT_MS) && REQUEST_TIMEOUT_MS > 0, true);
 
     const errorMsg = await threwAsync(() => callStrategist(
       { stage: STAGES.FIRST_PASS, question: QUESTION }, 

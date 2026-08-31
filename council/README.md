@@ -80,6 +80,12 @@ The remaining guarantee is Claude's discipline, which `CLAUDE.md` binds. The
 tool closes the accidental path and says plainly that it cannot close the
 deliberate one.
 
+A completed `FIRST_PASS` response is checked to contain the `### STRATEGY_VIEW`
+the role prompt requires. A refusal or an off-format answer is nonempty text and
+would otherwise pass, and the later stages only require the first pass to be
+nonempty — so it would be cross-reviewed and concluded upon as though a view had
+been formed.
+
 A completed `FINAL_POSITION` response is also checked to state **exactly one**
 of `MAINTAIN`, `REVISE` or `INSUFFICIENT_INFORMATION`, uppercase and
 word-bounded — prose that merely uses the word "maintain" is not a position, and
@@ -220,6 +226,14 @@ Every request also sends `store: false`, so the provider is asked not to retain
 the council material on its side either. Keeping the answer is the session
 record's job, and it is gitignored; provider-side retention would put the same
 material somewhere neither the owner nor this repository controls.
+
+## When a call stalls
+
+Every request carries a deadline — ten minutes, generous because the Council
+reasons at `high` or above and a foundational question legitimately takes
+minutes, but finite because the CLI is interactive. On expiry the request is
+aborted and the error says so; nothing partial is returned or saved. A stalled
+connection therefore fails visibly instead of holding the conversation open.
 
 ## Cost
 

@@ -36,6 +36,17 @@ const DEFAULT_EFFORT = 'high';
 /** The foundational tier is the reason the higher efforts exist. */
 const TIER_3_EFFORTS = ['xhigh', 'max'];
 
+/**
+ * Deadline for one strategist call, in milliseconds. Generous because the
+ * Council reasons at 'high' or above and a foundational question legitimately
+ * takes minutes — but finite, because the CLI is interactive and a stalled
+ * connection would otherwise block until the runtime gave up, if it ever did.
+ */
+const REQUEST_TIMEOUT_MS = 10 * 60 * 1000;
+
+/** The first-pass output the role prompt requires. Cycle 9. */
+const STRATEGY_VIEW_MARKER = 'STRATEGY_VIEW';
+
 /** Protocol stages (Issue #5, implementation req. 2). */
 const STAGES = {
   FIRST_PASS: 'FIRST_PASS',
@@ -429,6 +440,7 @@ async function callStrategist(options = {}, deps = {}) {
     env = process.env,
     fetchImpl = globalThis.fetch,
     endpoint = RESPONSES_ENDPOINT,
+    timeoutMs = REQUEST_TIMEOUT_MS,
   } = deps;
 
   const apiKey = readApiKey(env);
@@ -438,6 +450,11 @@ async function callStrategist(options = {}, deps = {}) {
     throw new Error('no fetch implementation available');
   }
 
+  // A stalled connection would otherwise hold the interactive CLI open with no
+  // deadline of its own. The timer is cleared on every path, so a finished call
+  // never leaves the process alive waiting for it.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   let response;
   try {
     response = await fetchImpl(endpoint, {
@@ -447,9 +464,18 @@ async function callStrategist(options = {}, deps = {}) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
   } catch (cause) {
+    if (controller.signal.aborted) {
+      throw new Error(
+        `strategist request exceeded its ${Math.round(timeoutMs / 1000)}s deadline ` +
+        'and was aborted; nothing was returned'
+      );
+    }
     throw new Error(`strategist request failed to reach ${endpoint}: ${cause.message}`);
+  } finally {
+    clearTimeout(timer);
   }
 
   if (!response.ok) {
@@ -470,6 +496,17 @@ async function callStrategist(options = {}, deps = {}) {
   }
 
   const parsed = parseResponse(payload);
+
+  // The role prompt requires the first pass to return a ### STRATEGY_VIEW. A
+  // completed refusal is nonempty text, and the later stages only require the
+  // first pass to be nonempty — so an unchecked one would be cross-reviewed and
+  // concluded upon as though a view had been formed.
+  if (options.stage === STAGES.FIRST_PASS && !parsed.text.includes(STRATEGY_VIEW_MARKER)) {
+    throw new Error(
+      `${STAGES.FIRST_PASS} response returned no ${STRATEGY_VIEW_MARKER}: the ` +
+      'role prompt requires one, and text without it is not a first-pass view'
+    );
+  }
 
   // The role prompt requires the final stage to return one of three tokens.
   // Uppercase and word-bounded, so ordinary prose like "I maintain my view"
@@ -701,6 +738,7 @@ module.exports = {
   DEFAULT_EFFORT,
   ALLOWED_EFFORTS,
   TIER_3_EFFORTS,
+  REQUEST_TIMEOUT_MS,
   RESPONSES_ENDPOINT,
   STAGES,
   CLASSIFICATIONS,
