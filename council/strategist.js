@@ -33,6 +33,9 @@ const RESPONSES_ENDPOINT = 'https://api.openai.com/v1/responses';
 const ALLOWED_EFFORTS = ['high', 'xhigh', 'max'];
 const DEFAULT_EFFORT = 'high';
 
+/** The foundational tier is the reason the higher efforts exist. */
+const TIER_3_EFFORTS = ['xhigh', 'max'];
+
 /** Protocol stages (Issue #5, implementation req. 2). */
 const STAGES = {
   FIRST_PASS: 'FIRST_PASS',
@@ -253,6 +256,7 @@ function buildRequest(options = {}) {
     exchange,
     model = DEFAULT_MODEL,
     effort = DEFAULT_EFFORT,
+    tier,
     rolePrompt,
   } = options;
 
@@ -263,6 +267,23 @@ function buildRequest(options = {}) {
   }
   assertDecidedModel(model);
   assertAllowedEffort(effort);
+
+  // The tier is optional on a stage request — a caller may not have classified
+  // the question yet — but when given it governs the depth. A foundational
+  // question answered at tier-1 depth and reported as tier 3 is the failure
+  // the tier table exists to prevent.
+  if (tier !== undefined) {
+    if (![1, 2, 3].includes(tier)) {
+      throw new Error('tier must be 1, 2 or 3');
+    }
+    if (tier === 3 && !TIER_3_EFFORTS.includes(effort)) {
+      throw new Error(
+        `tier 3 requires reasoning effort ${TIER_3_EFFORTS.join(' or ')}, not ` +
+        `'${effort}': a foundational question answered at a lower depth is not ` +
+        'a tier-3 run'
+      );
+    }
+  }
 
   let input;
   if (stage === STAGES.FIRST_PASS) {
@@ -577,10 +598,12 @@ function buildCouncilResult(input = {}) {
       ['failureScenarios', failureScenarios],
       ['reconsiderationTriggers', reconsiderationTriggers],
     ]) {
-      if (value.length === 0) {
+      // Length alone is not content: [""] and [null] would satisfy a count
+      // while naming nothing, which is the same gap one level down.
+      if (value.length === 0 || !value.every(isPresent)) {
         throw new Error(
           `tier 3 requires ${name}: a foundational decision that names none ` +
-          'has not been examined as one'
+          'has not been examined as one, and a blank entry names nothing'
         );
       }
     }
@@ -607,6 +630,7 @@ module.exports = {
   DEFAULT_MODEL,
   DEFAULT_EFFORT,
   ALLOWED_EFFORTS,
+  TIER_3_EFFORTS,
   RESPONSES_ENDPOINT,
   STAGES,
   CLASSIFICATIONS,

@@ -61,8 +61,9 @@ This avoids false consensus and makes convergence more meaningful.
 1. Owner asks the question in Claude Code.
 2. Claude Code attaches only the relevant strategic context and existing decisions.
 3. Claude produces `OPERATOR_VIEW` independently.
-4. The strategist produces `STRATEGY_VIEW` independently (`FIRST_PASS`), a
-   request that structurally cannot carry the Operator view.
+4. The strategist produces `STRATEGY_VIEW` independently (`FIRST_PASS`). What
+   the tool guarantees about that request, and what it does not, is stated once
+   in `council/README.md`; this document does not keep a second copy.
 5. Each model receives the other model's view and produces a critique
    (`CROSS_REVIEW`).
 6. Both models produce a final position (`FINAL_POSITION`): `MAINTAIN`,
@@ -126,7 +127,11 @@ decisions; it is not the chat interface.
 - Retrieve only decision files and docs relevant to the current question.
 - Cache stable prompts/context where supported.
 - Record token/cost usage per council session.
-- Use a monthly hard budget and require owner approval before exceeding it.
+- Set a monthly hard budget **on the OpenAI account**, which is where a limit can
+  actually be enforced. The Council tool reports usage per call and enforces no
+  spend limit of its own; `council/README.md` says so, and this line no longer
+  implies otherwise. Adding a cumulative preflight limit to the tool would be an
+  owner decision about machinery, not a gap to close silently.
 
 ## What the Council must never do
 

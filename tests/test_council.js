@@ -20,6 +20,7 @@ const {
   DEFAULT_MODEL,
   DEFAULT_EFFORT,
   ALLOWED_EFFORTS,
+  TIER_3_EFFORTS,
   RESPONSES_ENDPOINT,
   STAGES,
   CLASSIFICATIONS,
@@ -37,7 +38,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 150;
+const CHECKS_EXPECTED = 165;
 
 let failures = 0;
 let checks = 0;
@@ -215,6 +216,33 @@ async function main() {
       })) === 'string', true);
     check('the endpoint is the Responses API',
       RESPONSES_ENDPOINT, 'https://api.openai.com/v1/responses');
+  }
+
+  console.log('the tier governs the depth of a stage request');
+  {
+    check('tier 3 refuses the default effort',
+      /tier 3 requires reasoning effort/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3, rolePrompt: ROLE_PROMPT,
+      })) || ''), true);
+    for (const effort of TIER_3_EFFORTS) {
+      check(`tier 3 accepts '${effort}'`,
+        buildRequest({
+          stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3, effort,
+          rolePrompt: ROLE_PROMPT,
+        }).reasoning.effort, effort);
+    }
+    check('tiers 1 and 2 are content with the default',
+      [1, 2].every((tier) => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier, rolePrompt: ROLE_PROMPT,
+      }).reasoning.effort === DEFAULT_EFFORT), true);
+    check('the tier stays optional on a stage request',
+      buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT,
+      }).reasoning.effort, DEFAULT_EFFORT);
+    check('an impossible tier is refused',
+      /tier must be 1, 2 or 3/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 4, rolePrompt: ROLE_PROMPT,
+      })) || ''), true);
   }
 
   console.log('acceptance 4 — reasoning effort defaults to high and is validated');
@@ -422,6 +450,16 @@ async function main() {
       /never implements|does not implement|do not implement/i.test(councilReadme), true);
     check('the architecture doc keeps the independence rule',
       /Independence rule/i.test(architecture), true);
+    check('the architecture doc keeps no second copy of the independence claim',
+      /structurally cannot carry/.test(architecture), false);
+    check('…and points at the file that owns it',
+      /council\/README\.md/.test(architecture), true);
+    check('neither doc promises a budget the tool does not enforce',
+      /monthly hard budget and require owner approval/.test(architecture), false);
+    check('the architecture doc puts the hard budget on the OpenAI account',
+      /OpenAI account/.test(architecture), true);
+    check('council/README.md agrees on where the budget lives',
+      /hard budget lives on the OpenAI account/i.test(councilReadme), true);
     check('the architecture doc rules out n8n orchestration for the MVP',
       /no n8n orchestration in the MVP/i.test(architecture), true);
     check('…and no longer diagrams a Council Room UI pipeline',
@@ -572,6 +610,15 @@ async function main() {
           failureScenarios: ['the second city never materialises'],
           reconsiderationTriggers: ['a second city is funded'],
           [field]: [],
+        })) || ''), true);
+    }
+    for (const blank of [[''], ['   '], [null], [{}]]) {
+      check(`tier 3 refuses a content-free entry ${JSON.stringify(blank)}`,
+        /a blank entry names nothing/.test(threw(() => buildCouncilResult({
+          ...tier3,
+          failureScenarios: ['the second city never materialises'],
+          reconsiderationTriggers: ['a second city is funded'],
+          assumptions: blank,
         })) || ''), true);
     }
     const founded = buildCouncilResult({

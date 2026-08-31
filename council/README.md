@@ -130,12 +130,17 @@ deserves; here is what each costs to run.
 | Tier | When | Protocol | Effort |
 |---|---|---|---|
 | **1 — Reversible** | low cost, easy to undo, little architectural impact | one independent view each, then synthesis — no final-position step, so the synthesis takes no `MAINTAIN`/`REVISE` value | `high` |
-
 | **2 — Material** | meaningful cost, dependencies, weeks of downstream work | full: first pass, cross-review, final position | `high` |
 | **3 — Foundational** | hard to reverse, vendor or platform lock-in, editorial policy, legal exposure, material recurring cost | full protocol, plus explicit assumptions, failure scenarios and reconsideration triggers | `xhigh` or `max` |
 
 Reasoning below `high` is not offered. A question that does not deserve `high`
 does not deserve the Council; answer it in Builder mode.
+
+Pass `--tier` on a stage request and the mapping is enforced rather than
+trusted: a tier-3 request refuses effort `high`, because a foundational
+question answered at a lower depth and then reported as tier 3 is exactly what
+the table exists to prevent. The flag is optional — a question may not be
+classified yet — but the synthesis requires the tier, so it is known by the end.
 
 ## What is kept, and what is not
 
@@ -167,8 +172,11 @@ and total. `--json` prints it; the plain form writes a `[usage]` line to stderr;
 `--save` keeps it in the session record. Nothing is estimated or invented: when
 the API omits a figure the field is `null` rather than a guess.
 
-Usage is reported per call. Adding it up across a session, and setting a budget,
-is the owner's; the tool does not enforce a spend limit.
+Usage is reported per call. **The hard budget lives on the OpenAI account**,
+which is the only place a limit can actually be enforced; set it there. This
+tool reports and does not enforce — adding a cumulative preflight limit would be
+machinery the owner should choose, not a gap closed quietly. The architecture
+doc's cost-control list says the same thing, so the two do not disagree.
 
 ## What this tool must never do
 

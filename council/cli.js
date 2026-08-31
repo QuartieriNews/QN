@@ -41,7 +41,7 @@ const SESSIONS_DIR = path.join(__dirname, 'sessions');
 const FLAGS_WITH_VALUES = new Set([
   '--stage', '--question', '--question-file', '--context', '--context-file',
   '--claude-view', '--claude-view-file', '--gpt-first-pass', '--gpt-first-pass-file',
-  '--exchange', '--exchange-file', '--effort', '--synthesis-file',
+  '--exchange', '--exchange-file', '--effort', '--synthesis-file', '--tier',
 ]);
 
 function parseArgv(argv) {
@@ -97,6 +97,7 @@ tier 3 also carries assumptions, failure scenarios and reconsideration triggers.
   node council/cli.js --synthesis-file judgements.json
 
   --effort ${ALLOWED_EFFORTS.join('|')}   (default ${DEFAULT_EFFORT})
+  --tier 1|2|3              the tier this run is; tier 3 refuses effort 'high'
   --dry-run                 print the request; make no API call
   --json                    print the full result as JSON
   --save                    write the session record under council/sessions/
@@ -154,6 +155,7 @@ async function main(argv = process.argv.slice(2)) {
     gptFirstPass: readIfFile(args['gpt-first-pass'], args['gpt-first-pass-file'], 'gpt-first-pass'),
     exchange: readIfFile(args.exchange, args['exchange-file'], 'exchange'),
     effort: args.effort || DEFAULT_EFFORT,
+    tier: args.tier === undefined ? undefined : Number(args.tier),
   };
 
   if (!ALLOWED_EFFORTS.includes(options.effort)) {
