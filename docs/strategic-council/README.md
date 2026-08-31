@@ -27,11 +27,16 @@ Claude should:
 
 Claude should be biased toward action, but never toward premature implementation.
 
-### ChatGPT — Systems Strategist / Reviewer
+### GPT-5.6 Sol — Systems Strategist / Reviewer
 
-ChatGPT's job is to improve the quality of the decision before action begins.
+The strategist is the **general reasoning** model `gpt-5.6-sol`, never Codex.
+Codex is the Technical Council and the code reviewer; a coding model asked to
+critique strategy would collapse two of the three layers of DEC-008. The tool
+refuses a Codex model outright.
 
-ChatGPT should:
+Its job is to improve the quality of the decision before action begins.
+
+The strategist should:
 - test whether the problem is framed correctly;
 - inspect second-order effects and hidden dependencies;
 - challenge assumptions, estimates and irreversible choices;
@@ -41,11 +46,11 @@ ChatGPT should:
 - identify missing evidence and alternative paths;
 - explicitly challenge owner and Claude when their reasoning is weak.
 
-ChatGPT should be biased toward decision quality, not toward adding process or complexity.
+It should be biased toward decision quality, not toward adding process or complexity.
 
 ## Independence rule
 
-For a new strategic question, Claude and ChatGPT must form their first view independently. Neither receives the other's first answer.
+For a new strategic question, Claude and the strategist must form their first view independently. Neither receives the other's first answer, and the `FIRST_PASS` request has no field that could carry one.
 
 After the independent pass, each receives the other's answer and performs an adversarial review.
 
@@ -53,12 +58,15 @@ This avoids false consensus and makes convergence more meaningful.
 
 ## Council protocol
 
-1. Owner submits a question in the Council Room.
-2. Orchestrator attaches only the relevant strategic context and existing decisions.
+1. Owner asks the question in Claude Code.
+2. Claude Code attaches only the relevant strategic context and existing decisions.
 3. Claude produces `OPERATOR_VIEW` independently.
-4. ChatGPT produces `STRATEGY_VIEW` independently.
-5. Each model receives the other model's view and produces a critique.
-6. Both models produce a final position.
+4. The strategist produces `STRATEGY_VIEW` independently (`FIRST_PASS`), a
+   request that structurally cannot carry the Operator view.
+5. Each model receives the other model's view and produces a critique
+   (`CROSS_REVIEW`).
+6. Both models produce a final position (`FINAL_POSITION`): `MAINTAIN`,
+   `REVISE` or `INSUFFICIENT_INFORMATION`.
 7. A deterministic synthesis step classifies the result as:
    - `STRONG_CONVERGENCE`
    - `WEAK_CONVERGENCE`
@@ -97,13 +105,18 @@ When the owner decides, the system drafts a `DEC-NNN-*.md` entry using the exist
 
 ## MVP interface
 
-Use one Council Room UI for the owner. Behind it, an orchestrator calls the OpenAI and Anthropic APIs separately.
+The owner stays in **one Claude Code conversation**. There is no separate UI and
+no n8n orchestration in the MVP: an earlier draft of this document proposed a
+Council Room UI behind an n8n webhook, and the owner ruled that out as more
+machinery than the first working version needs.
 
-Recommended first implementation:
+`owner asks in Claude Code -> Claude gathers only relevant context -> independent
+GPT view via council/cli.js -> independent Operator view -> cross-review ->
+synthesis -> one council result`
 
-`Council Room UI -> n8n webhook/chat trigger -> context builder -> parallel Claude/OpenAI calls -> cross-review -> synthesis -> Council Room UI`
-
-GitHub is used for durable context and final decisions, not as the primary chat interface.
+Claude Code is the orchestrator. `council/cli.js` is the only moving part, and
+`council/README.md` documents it. GitHub holds durable context and final
+decisions; it is not the chat interface.
 
 ## Cost controls
 

@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 .DS_Store
 ~$*
+
+# Council session records: they quote repository content and the owner's own
+# framing, and only an owner decision is an artefact of record (DEC-008).
+council/sessions/

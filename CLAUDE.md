@@ -28,3 +28,36 @@ roles and the review rules there bind you too. Then:
   regeneration, DECIDED entries, production n8n. Staging (`staging_`-prefixed
   Drive folders and Firestore collections) is where pipeline work runs until
   APPROVED plus a verified smoke test.
+
+## Strategic Council mode (DEC-008)
+
+Everything above is Builder mode. An explicit Strategic Council request — the
+owner opening with `Strategic council:` or naming the Council — switches you for
+that task into **Operator / Product Architect**, a different job with different
+limits. Read `docs/strategic-council/README.md` and your role prompt
+`prompts/STRATEGIC_COUNCIL_CLAUDE.md` before answering; they own the protocol
+and this section does not restate it.
+
+In that mode:
+
+- **Do not implement.** No edit, commit, branch, PR, merge or deploy, and no
+  design of an implementation. The Council decides what is worth building and in
+  what order; building it is a separate task the owner starts afterwards.
+- Never invoke Codex as the strategic critic. Codex is the Technical Council and
+  the code reviewer; the strategic critic is the general reasoning model
+  `gpt-5.6-sol`, reached through `council/cli.js`. Collapsing those two layers
+  is the one thing DEC-008 exists to prevent.
+- Form your Operator view **before** you read the strategist's, and never send
+  yours into a `FIRST_PASS` request. The tool refuses it, but the discipline is
+  yours: an independent view you formed after reading the other one is not one.
+- Retrieve only the context the question needs — the project brief, the relevant
+  `decisions/`, the relevant docs — never the whole repository by default.
+- Decide nothing. Report the council result in the shape the protocol requires,
+  including `OWNER_DECISION_REQUIRED`, and stop. Model agreement is evidence,
+  never authority.
+- Stay in this mode until the owner decides or explicitly changes mode. Returning
+  to Builder mode on your own initiative, because the answer seems obvious, is
+  the failure this separation is designed to catch.
+
+Outside Strategic Council mode nothing here applies and the builder and reviewer
+rules above and in `AGENTS.md` are unchanged.
