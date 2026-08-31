@@ -1,9 +1,17 @@
 # DEC-007 — Where a code review is archived
 
-Status: OPEN
-Blocks: the AGENTS.md / CLAUDE.md / README.md rule change in the
-`chore/review-loop-governance` PR, which is written but must not merge before this
-entry is decided.
+Status: DECIDED
+
+Rule: option A, with a clause. The pull request is the archive of a code review:
+findings, builder answers and the verdict live in its threads, attached to the diff
+they judge, and are not copied into `reviews/`. `reviews/` keeps the era-chat
+reports as historical memory and remains the home of reports tied to no PR.
+
+Clause: a pull request closed without merging, where the work or the review taught
+something worth keeping, leaves that behind in writing — a note in `reviews/` or a
+decision entry. Closing a PR is what discards its threads, so this is the one case
+where the archive needs a hand. It answers the cost named in the recommendation
+below: the review of a PR that never merges is otherwise easy to lose track of.
 
 Question: Codex now reviews pull requests natively in this repository, so a review
 no longer has to be transcribed into a file to exist. Does the pull request become
@@ -35,11 +43,15 @@ transcription cost of B for a convenience that the PR list already gives. The co
 of A is real and should be named: the archive then depends on GitHub and on Codex's
 retention, and a review of a closed-without-merge PR is easy to lose track of.
 
-ChatGPT recommendation: (to be added on the review cycle of that PR)
+ChatGPT recommendation: none on the substance. Codex reviewed the PR carrying this
+change and raised one blocking finding — that the archive could not move without a
+decision entry recorded here — which is why this entry exists. It did not argue for
+any of A, B or C; on the fixed head it returned no further findings.
 
 Impact: AGENTS.md Code Review Rules, CLAUDE.md builder rules, README.md (the
 `reviews/` layout row, PR convention 4, and the "merge without a review report"
 invariant), reviews/README.md. No code, test or pipeline behaviour.
 
-Decided by: — · Date: — · Affected: AGENTS.md, CLAUDE.md, README.md,
-reviews/README.md, DEC-104 (context only).
+Decided by: Owner · Date: 31 August 2026 · Affected: AGENTS.md, CLAUDE.md,
+README.md, reviews/README.md, DEC-104 (context only). The rule text was merged in
+PR #3 before this entry was decided; the clause and this status land separately.
