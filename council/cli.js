@@ -193,20 +193,33 @@ async function main(argv = process.argv.slice(2)) {
     return 0;
   }
 
-  const result = await callStrategist(options);
-
-  if (args.save) {
-    const file = saveSession({
-      stage: result.stage,
-      model: result.model,
-      id: result.id,
-      usage: result.usage,
-      question: options.question,
-      text: result.text,
-      at: new Date().toISOString(),
-    });
+  const record = (result) => ({
+    stage: result.stage,
+    model: result.model,
+    id: result.id,
+    usage: result.usage,
+    question: options.question,
+    text: result.text,
+    // Absent on a normal record; false on one the stage validation rejected.
+    ...(result.valid === false ? { valid: false } : {}),
+    at: new Date().toISOString(),
+  });
+  const save = (result) => {
+    const file = saveSession(record(result));
     process.stderr.write(`session saved: ${path.relative(process.cwd(), file)}\n`);
+  };
+
+  let result;
+  try {
+    result = await callStrategist(options);
+  } catch (error) {
+    // A rejected answer was still charged for. Losing the usage along with the
+    // answer would make the record a log of successes, which is not what it is.
+    if (args.save && error.response) save(error.response);
+    throw error;
   }
+
+  if (args.save) save(result);
 
   if (args.json) {
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);

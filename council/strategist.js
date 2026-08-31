@@ -44,8 +44,22 @@ const TIER_3_EFFORTS = ['xhigh', 'max'];
  */
 const REQUEST_TIMEOUT_MS = 10 * 60 * 1000;
 
-/** The first-pass output the role prompt requires. Cycle 9. */
+/**
+ * The first-pass output the role prompt requires, as a *heading* on its own
+ * line. Cycle 10: the bare substring let "I cannot provide a STRATEGY_VIEW for
+ * this question" through, which is a refusal that mentions the format.
+ */
 const STRATEGY_VIEW_MARKER = 'STRATEGY_VIEW';
+const STRATEGY_VIEW_HEADING = /^\s{0,3}#{1,6}\s*STRATEGY_VIEW\s*$/m;
+
+/**
+ * The final position as *declared*, not as mentioned: the role prompt says to
+ * return one of the three tokens and then explain, so the declaration is the
+ * first thing said. Cycle 10: counting distinct tokens still accepted
+ * "I have not reached a final position; MAINTAIN is one option".
+ */
+const FINAL_POSITION_DECLARED =
+  /^[\s>*_#`-]*(MAINTAIN|REVISE|INSUFFICIENT_INFORMATION)\b/;
 
 /** Protocol stages (Issue #5, implementation req. 2). */
 const STAGES = {
@@ -123,6 +137,46 @@ function assertAllowedEffort(effort) {
 /** Non-empty string, after trimming. Empty context is legitimate; empty question is not. */
 function isPresent(value) {
   return typeof value === 'string' && value.trim() !== '';
+}
+
+/**
+ * State the tier in the request, so the depth the run claims is one the
+ * strategist was actually asked for.
+ *
+ * Cycle 10: the tier only validated the effort locally, so a tier-3 request was
+ * a tier-2 request with more reasoning tokens — the strategist was never asked
+ * for the assumptions, failure scenarios and reconsideration triggers the
+ * tier-3 synthesis then requires of it.
+ */
+function renderTier(tier) {
+  if (tier === undefined) return '';
+  const lines = [`## Escalation tier: ${tier}`, ''];
+  if (tier === 1) {
+    lines.push(
+      'Reversible: low cost, easy to undo. This runs the first pass only —',
+      'there is no cross-review or final position after it. Say so plainly if',
+      'the evidence does not support an answer; nothing later will ask again.'
+    );
+  } else if (tier === 2) {
+    lines.push(
+      'Material: meaningful cost, dependencies, weeks of downstream work.',
+      'The full protocol follows — cross-review, then a final position.'
+    );
+  } else {
+    lines.push(
+      'Foundational: hard to reverse, or carrying lock-in, editorial policy,',
+      'legal exposure or material recurring cost. Beyond the full protocol,',
+      'this tier must name explicitly, and separately from the argument:',
+      '',
+      '- the assumptions the recommendation rests on;',
+      '- the failure scenarios that would make it the wrong call;',
+      '- the reconsideration triggers that should reopen it later.',
+      '',
+      'The synthesis requires all three and refuses a tier-3 result without',
+      'them, so a recommendation that names none is incomplete, not concise.'
+    );
+  }
+  return lines.join('\n');
 }
 
 function renderContext(context) {
@@ -318,6 +372,7 @@ function buildRequest(options = {}, deps = {}) {
   }
 
   let input;
+  const tierBlock = renderTier(tier);
   if (stage === STAGES.FIRST_PASS) {
     if (isPresent(claudeView)) {
       throw new Error(
@@ -333,6 +388,9 @@ function buildRequest(options = {}, deps = {}) {
       question, context, claudeView, gptFirstPass, exchange,
     });
   }
+  if (tierBlock) {
+    input = `${input}\n\n${tierBlock}`;
+  }
 
   return {
     model,
@@ -344,6 +402,25 @@ function buildRequest(options = {}, deps = {}) {
     // provider-side retention on by default would undo the same care.
     store: false,
   };
+}
+
+/**
+ * Settle with `work`, or reject as soon as the deadline aborts.
+ *
+ * `fetch` honours the signal while streaming a body, but a transport need not,
+ * and the abort must bound the read either way — otherwise a stalled body is
+ * an unbounded call with a timer that has already fired.
+ */
+function raceDeadline(work, controller) {
+  if (controller.signal.aborted) return Promise.reject(new Error('aborted'));
+  return Promise.race([
+    work,
+    new Promise((_, reject) => {
+      controller.signal.addEventListener(
+        'abort', () => reject(new Error('aborted')), { once: true }
+      );
+    }),
+  ]);
 }
 
 /**
@@ -451,60 +528,73 @@ async function callStrategist(options = {}, deps = {}) {
   }
 
   // A stalled connection would otherwise hold the interactive CLI open with no
-  // deadline of its own. The timer is cleared on every path, so a finished call
-  // never leaves the process alive waiting for it.
+  // deadline of its own. The deadline covers the body too (cycle 10): a server
+  // that sends headers and then stalls the body hangs just as completely, and
+  // clearing the timer when fetch resolved left exactly that gap. The timer is
+  // cleared once the payload is in hand, on every path.
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
-  let response;
+  const deadlineExceeded = () => new Error(
+    `strategist request exceeded its ${Math.round(timeoutMs / 1000)}s deadline ` +
+    'and was aborted; nothing was returned'
+  );
+  let payload;
   try {
-    response = await fetchImpl(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-  } catch (cause) {
-    if (controller.signal.aborted) {
-      throw new Error(
-        `strategist request exceeded its ${Math.round(timeoutMs / 1000)}s deadline ` +
-        'and was aborted; nothing was returned'
-      );
+    let response;
+    try {
+      response = await fetchImpl(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+    } catch (cause) {
+      if (controller.signal.aborted) throw deadlineExceeded();
+      throw new Error(`strategist request failed to reach ${endpoint}: ${cause.message}`);
     }
-    throw new Error(`strategist request failed to reach ${endpoint}: ${cause.message}`);
+
+    if (!response.ok) {
+      let detail = '';
+      try {
+        detail = `: ${(await raceDeadline(response.text(), controller)).slice(0, 500)}`;
+      } catch (cause) {
+        if (controller.signal.aborted) throw deadlineExceeded();
+        detail = '';
+      }
+      throw new Error(`strategist API error ${response.status}${detail}`);
+    }
+
+    try {
+      payload = await raceDeadline(response.json(), controller);
+    } catch (cause) {
+      if (controller.signal.aborted) throw deadlineExceeded();
+      throw new Error(`strategist response was not JSON: ${cause.message}`);
+    }
   } finally {
     clearTimeout(timer);
   }
 
-  if (!response.ok) {
-    let detail = '';
-    try {
-      detail = `: ${(await response.text()).slice(0, 500)}`;
-    } catch {
-      detail = '';
-    }
-    throw new Error(`strategist API error ${response.status}${detail}`);
-  }
-
-  let payload;
-  try {
-    payload = await response.json();
-  } catch (cause) {
-    throw new Error(`strategist response was not JSON: ${cause.message}`);
-  }
-
   const parsed = parseResponse(payload);
+
+  // A stage validation below rejects an answer the account was already charged
+  // for. The parsed response rides on the error so the CLI can still log what
+  // was paid for, rather than losing the usage with the answer.
+  const invalid = (message) => Object.assign(new Error(message), {
+    response: { ...parsed, stage: options.stage, valid: false },
+  });
 
   // The role prompt requires the first pass to return a ### STRATEGY_VIEW. A
   // completed refusal is nonempty text, and the later stages only require the
   // first pass to be nonempty — so an unchecked one would be cross-reviewed and
   // concluded upon as though a view had been formed.
-  if (options.stage === STAGES.FIRST_PASS && !parsed.text.includes(STRATEGY_VIEW_MARKER)) {
-    throw new Error(
-      `${STAGES.FIRST_PASS} response returned no ${STRATEGY_VIEW_MARKER}: the ` +
-      'role prompt requires one, and text without it is not a first-pass view'
+  if (options.stage === STAGES.FIRST_PASS && !STRATEGY_VIEW_HEADING.test(parsed.text)) {
+    throw invalid(
+      `${STAGES.FIRST_PASS} response returned no ### ${STRATEGY_VIEW_MARKER} ` +
+      'heading: the role prompt requires one, and text that only mentions the ' +
+      'format — a refusal naming it, say — is not a first-pass view'
     );
   }
 
@@ -512,14 +602,20 @@ async function callStrategist(options = {}, deps = {}) {
   // Uppercase and word-bounded, so ordinary prose like "I maintain my view"
   // does not count as a position that was never declared.
   if (options.stage === STAGES.FINAL_POSITION) {
-    const declared = new Set(parsed.text.match(FINAL_POSITIONS_ALL) || []);
-    if (declared.size !== 1) {
-      // "Return one of" is not "mention some": a response weighing MAINTAIN
-      // against REVISE has declared nothing the synthesis can carry.
-      throw new Error(
-        `${STAGES.FINAL_POSITION} response must declare exactly one of ` +
-        `MAINTAIN, REVISE or INSUFFICIENT_INFORMATION; found ${declared.size}` +
-        (declared.size > 1 ? ` (${[...declared].join(', ')})` : '')
+    // The declaration is the first thing said, per the role prompt. Anywhere
+    // else it is prose: "MAINTAIN is one option" declares nothing, and a
+    // response weighing MAINTAIN against REVISE declares nothing either.
+    const firstLine = parsed.text.split('\n').find((line) => line.trim() !== '') || '';
+    const declaration = firstLine.match(FINAL_POSITION_DECLARED);
+    const mentioned = new Set(parsed.text.match(FINAL_POSITIONS_ALL) || []);
+    if (!declaration || mentioned.size !== 1) {
+      throw invalid(
+        `${STAGES.FINAL_POSITION} response must open by declaring exactly one ` +
+        'of MAINTAIN, REVISE or INSUFFICIENT_INFORMATION; ' +
+        (declaration
+          ? `it opened with ${declaration[1]} but also names ` +
+            `${[...mentioned].filter((t) => t !== declaration[1]).join(', ')}`
+          : `it opens with none (${mentioned.size} mentioned later)`)
       );
     }
   }
@@ -605,6 +701,15 @@ function classifyCouncil(input = {}) {
       throw new Error(
         `${name} is required and must be an array (empty means the Council ` +
         `found none), not ${value === undefined ? 'omitted' : typeof value}`
+      );
+    }
+    // Length is what drives the classification, so a content-free entry is not
+    // a cosmetic flaw: [null] would report a disagreement that names nothing
+    // and reverse the meaning an empty array carries.
+    if (!value.every(isPresent)) {
+      throw new Error(
+        `${name} carries a blank entry: its length decides the classification, ` +
+        'so an entry that names nothing would report a finding there is none of'
       );
     }
   }

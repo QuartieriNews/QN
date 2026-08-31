@@ -63,7 +63,7 @@ The Node suites run from the repository root and need no installation:
 
 ```bash
 node tests/test_parse_duration.js                            # 58 checks, must print ALL PASS
-node tests/test_council.js                                   # 217 checks, must print ALL PASS
+node tests/test_council.js                                   # 246 checks, must print ALL PASS
 ```
 
 `test_council.js` is fully offline: it never makes an OpenAI call, so it needs no

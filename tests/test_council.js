@@ -39,7 +39,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 217;
+const CHECKS_EXPECTED = 246;
 
 let failures = 0;
 let checks = 0;
@@ -273,6 +273,26 @@ async function main() {
       buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION, tier: 1
       }, SEAM).reasoning.effort, DEFAULT_EFFORT);
+    // Cycle 10: the tier only validated the effort, so a tier-3 request was a
+    // tier-2 request with more reasoning tokens — the strategist was never
+    // asked for the evidence the tier-3 synthesis then requires of it.
+    const tier3Body = buildRequest({
+      stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3, effort: 'xhigh',
+    }, SEAM);
+    check('the tier reaches the strategist', tier3Body.input.includes('tier: 3'), true);
+    for (const asked of ['assumptions', 'failure scenarios', 'reconsideration triggers']) {
+      check(`…and tier 3 asks for the ${asked} it will be judged on`,
+        tier3Body.input.includes(asked), true);
+    }
+    check('tier 2 states its tier without the tier-3 demands',
+      buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION, tier: 2 }, SEAM)
+        .input.includes('reconsideration triggers'), false);
+    check('tier 1 says the run stops after the first pass',
+      buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION, tier: 1 }, SEAM)
+        .input.includes('first pass only'), true);
+    check('an unclassified request states no tier at all',
+      buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION }, SEAM)
+        .input.includes('Escalation tier'), false);
     check('an impossible tier is refused',
       /tier must be 1, 2 or 3/.test(threw(() => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION, tier: 4
@@ -459,6 +479,43 @@ async function main() {
       /exactly one of/.test(ambiguous || ''), true);
     check('…and the refusal names both tokens it found',
       /MAINTAIN, REVISE|REVISE, MAINTAIN/.test(ambiguous || ''), true);
+    // Cycle 10: exactly one token is not the same as one declared. The role
+    // prompt returns the position first, then explains.
+    const noncommittal = await threwAsync(() => callStrategist(
+      {
+        stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+        gptFirstPass: 'mine', exchange: 'the critique',
+      },
+      {
+        rolePrompt: ROLE_PROMPT,
+        env: { OPENAI_API_KEY: 'sk-test' },
+        fetchImpl: async () => ({
+          ok: true, status: 200,
+          json: async () => ({ output: [{ type: 'message', content: [{ type: 'output_text',
+            text: 'I have not reached a final position; MAINTAIN is one option.' }] }] }),
+        }),
+      }
+    ));
+    check('one token mentioned in prose is not a declaration',
+      /must open by declaring exactly one/.test(noncommittal || ''), true);
+    check('…and the message says it opened with none',
+      /it opens with none/.test(noncommittal || ''), true);
+    check('a decorated declaration still counts',
+      (await callStrategist(
+        {
+          stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique',
+        },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [{ type: 'output_text',
+              text: '**REVISE** — the second city changes the sequencing.' }] }] }),
+          }),
+        }
+      )).stage, STAGES.FINAL_POSITION);
     check('one position repeated is still one position',
       (await callStrategist(
         {
@@ -497,10 +554,36 @@ async function main() {
         { type: 'output_text', text: 'I cannot answer that.' }] }] }),
     });
     check('a first pass without a STRATEGY_VIEW is refused',
-      /returned no STRATEGY_VIEW/.test(await threwAsync(() => callStrategist(
+      /returned no ### STRATEGY_VIEW/.test(await threwAsync(() => callStrategist(
         { stage: STAGES.FIRST_PASS, question: QUESTION },
         { rolePrompt: ROLE_PROMPT, env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: refused }
       )) || ''), true);
+    check('…and so is one that merely names the format',
+      /returned no ### STRATEGY_VIEW/.test(await threwAsync(() => callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [{ type: 'output_text',
+              text: 'I cannot provide a STRATEGY_VIEW for this question.' }] }] }),
+          }),
+        }
+      )) || ''), true);
+    check('a real heading passes',
+      (await callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [{ type: 'output_text',
+              text: 'Preamble.\n\n### STRATEGY_VIEW\n**Recommendation:** Rome.' }] }] }),
+          }),
+        }
+      )).stage, STAGES.FIRST_PASS);
     check('a cross-review is not held to that marker',
       (await callStrategist(
         {
@@ -523,6 +606,33 @@ async function main() {
           env: { OPENAI_API_KEY: 'sk-test' },
           timeoutMs: 25,
           fetchImpl: (url, init) => stalled(init.signal),
+        }
+      )) || ''), true);
+    // Cycle 10: the timer was cleared as soon as fetch returned headers, so a
+    // server that sends headers and then stalls the body hung just as
+    // completely. The deadline now covers the read.
+    check('a stalled response body hits the deadline too',
+      /exceeded its .*deadline/.test(await threwAsync(() => callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          timeoutMs: 25,
+          fetchImpl: async () => ({
+            ok: true, status: 200, json: () => new Promise(() => {}),
+          }),
+        }
+      )) || ''), true);
+    check('…and so does a stalled error body',
+      /exceeded its .*deadline/.test(await threwAsync(() => callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          timeoutMs: 25,
+          fetchImpl: async () => ({
+            ok: false, status: 500, text: () => new Promise(() => {}),
+          }),
         }
       )) || ''), true);
     check('…and the deadline reaches the transport as a signal',
@@ -712,6 +822,21 @@ async function main() {
       /not string/.test(threw(() => classifyCouncil({
         ...NEUTRAL_TIER_1, missingEvidence: 'none',
       })) || ''), true);
+
+    // Cycle 10: length decides the classification, so [null] would report a
+    // disagreement that names nothing — the reverse of what an empty array says.
+    for (const field of ['materialDisagreements', 'missingEvidence']) {
+      for (const blank of [[''], ['  '], [null], [{}]]) {
+        check(`${field} refuses ${JSON.stringify(blank)}`,
+          new RegExp(`${field} carries a blank entry`).test(threw(() => classifyCouncil({
+            ...NEUTRAL_TIER_1, [field]: blank,
+          })) || ''), true);
+      }
+    }
+    check('a named disagreement is still accepted',
+      classifyCouncil({
+        ...NEUTRAL_TIER_1, materialDisagreements: ['sequencing of the venue registry'],
+      }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
 
     // The tier is what makes the position rules enforceable at all.
     check('the tier is required, not inferred',
@@ -960,6 +1085,61 @@ async function main() {
         JSON.parse(fs.readFileSync(first, 'utf8')).text, 'one');
       check('…and the second one too',
         JSON.parse(fs.readFileSync(second, 'utf8')).text, 'two');
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+
+    // Cycle 10: a rejected answer was still charged for. Losing the usage with
+    // the answer would make the record a log of successes, which it is not.
+    {
+      const os3 = require('os');
+      const { SESSIONS_DIR } = require(path.join(REPO_ROOT, 'council', 'cli.js'));
+      const { callStrategist: call } = require(COUNCIL);
+      const dir = fs.mkdtempSync(path.join(os3.tmpdir(), 'council-invalid-'));
+      const { saveSession } = require(path.join(REPO_ROOT, 'council', 'cli.js'));
+      const failure = await threwAsync(() => call(
+        { stage: STAGES.FIRST_PASS, question: QUESTION },
+        {
+          rolePrompt: ROLE_PROMPT,
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({
+              output: [{ type: 'message', content: [{ type: 'output_text',
+                text: 'I cannot answer that.' }] }],
+              usage: { input_tokens: 900, output_tokens: 12, total_tokens: 912 },
+            }),
+          }),
+        }
+      ));
+      check('a rejected first pass still throws', /returned no ###/.test(failure || ''), true);
+      const rejected = (await (async () => {
+        try {
+          await call(
+            { stage: STAGES.FIRST_PASS, question: QUESTION },
+            {
+              rolePrompt: ROLE_PROMPT,
+              env: { OPENAI_API_KEY: 'sk-test' },
+              fetchImpl: async () => ({
+                ok: true, status: 200,
+                json: async () => ({
+                  output: [{ type: 'message', content: [{ type: 'output_text',
+                    text: 'I cannot answer that.' }] }],
+                  usage: { input_tokens: 900, output_tokens: 12, total_tokens: 912 },
+                }),
+              }),
+            }
+          );
+          return null;
+        } catch (error) { return error.response; }
+      })());
+      check('…and carries the response it rejected', rejected !== null, true);
+      check('…marked invalid', rejected.valid, false);
+      check('…with the usage the account was charged', rejected.usage.total_tokens, 912);
+      const file = saveSession(rejected, { dir, now: new Date('2026-08-31T15:00:00.000Z') });
+      check('…and it is savable as a record',
+        JSON.parse(fs.readFileSync(file, 'utf8')).valid, false);
+      check('the sessions directory is still the gitignored one',
+        SESSIONS_DIR.endsWith(path.join('council', 'sessions')), true);
       fs.rmSync(dir, { recursive: true, force: true });
     }
 

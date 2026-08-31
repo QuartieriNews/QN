@@ -80,19 +80,25 @@ The remaining guarantee is Claude's discipline, which `CLAUDE.md` binds. The
 tool closes the accidental path and says plainly that it cannot close the
 deliberate one.
 
-A completed `FIRST_PASS` response is checked to contain the `### STRATEGY_VIEW`
-the role prompt requires. A refusal or an off-format answer is nonempty text and
-would otherwise pass, and the later stages only require the first pass to be
-nonempty — so it would be cross-reviewed and concluded upon as though a view had
-been formed.
+A completed `FIRST_PASS` response is checked to carry the `### STRATEGY_VIEW`
+heading the role prompt requires — the heading on its own line, not the words
+anywhere in the text, so "I cannot provide a STRATEGY_VIEW for this question"
+does not pass as one. A refusal or an off-format answer is nonempty text and
+would otherwise be accepted, and the later stages only require the first pass to
+be nonempty — so it would be cross-reviewed and concluded upon as though a view
+had been formed.
 
-A completed `FINAL_POSITION` response is also checked to state **exactly one**
-of `MAINTAIN`, `REVISE` or `INSUFFICIENT_INFORMATION`, uppercase and
-word-bounded — prose that merely uses the word "maintain" is not a position, and
-an answer that names two of them ("I cannot choose between MAINTAIN and REVISE")
-has not taken one either. Both cases are refused rather than resolved by
-first-match, because guessing which token the strategist meant is the error the
-stage exists to prevent.
+A completed `FINAL_POSITION` response must **open by declaring exactly one** of
+`MAINTAIN`, `REVISE` or `INSUFFICIENT_INFORMATION`, uppercase and word-bounded.
+The role prompt returns the position first and explains afterwards, so the
+declaration is the first thing said; anywhere else the token is prose. All three
+of these are refused rather than resolved by first-match, because guessing which
+token the strategist meant is the error the stage exists to prevent:
+
+- prose that merely uses the word "maintain";
+- an answer naming two ("I cannot choose between MAINTAIN and REVISE");
+- an answer naming one without taking it ("I have not reached a final position;
+  MAINTAIN is one option").
 
 There is no `--model` flag. DEC-008 fixes the strategic critic as `gpt-5.6-sol`,
 and the tool refuses any other model: running the Council on a different one
@@ -132,8 +138,8 @@ result is `tier`, which is a label, not a measure.
 | `strongestAgreement` | string | always |
 | `costAndReversibility` | string | always |
 | `sameRecommendation` | boolean | always |
-| `materialDisagreements` | array | always — empty means the Council found none |
-| `missingEvidence` | array | always — empty means the Council found none |
+| `materialDisagreements` | array of non-empty strings | always — empty means the Council found none |
+| `missingEvidence` | array of non-empty strings | always — empty means the Council found none |
 | `normativeImpact` | boolean | always |
 | `claudePosition`, `gptPosition` | `MAINTAIN` / `REVISE` / `INSUFFICIENT_INFORMATION` | tiers 2–3 only, both or neither |
 | `insufficientInformation` | boolean | tier 1 only — tiers 2–3 say it in the positions |
@@ -144,7 +150,9 @@ with **no default**. An omitted `materialDisagreements` is not an empty one: a
 default would answer the question the Council was asked, and "they found no
 material disagreement" is a finding, not a blank. Empty arrays and `false` say
 that explicitly, and the error distinguishes an omitted field from a mistyped
-one.
+one. A blank entry is refused for the same reason from the other side: the
+length of these arrays decides the classification, so `[null]` would report a
+disagreement that names nothing — the reverse of what an empty array says.
 
 **The tier is required**, because it is what makes the rest enforceable:
 
@@ -183,6 +191,12 @@ deserves; here is what each costs to run.
 Reasoning below `high` is not offered. A question that does not deserve `high`
 does not deserve the Council; answer it in Builder mode.
 
+The tier is also stated in the request itself, so the depth a run claims is one
+the strategist was actually asked for: a tier-3 request tells it to name the
+assumptions, failure scenarios and reconsideration triggers the tier-3 synthesis
+will require of it, and a tier-1 request says the run stops after the first pass.
+An unclassified request states no tier at all rather than implying one.
+
 `--tier` is **required** on a stage request, so the mapping is enforced rather
 than trusted: a tier-3 request refuses effort `high`, because a foundational
 question answered at a lower depth and then reported as tier 3 is exactly what
@@ -210,7 +224,10 @@ session is not an artefact of record: only an explicit owner decision becomes a
 
 A record is never overwritten: two saves of the same stage within one
 millisecond get distinct filenames rather than the second silently replacing the
-first. A record logs a call that was paid for.
+first. A record logs a call that was paid for — including one whose answer the
+stage validation rejected, which is written with `"valid": false` rather than
+lost. The account was charged either way, and a log of successes only is not a
+usage log.
 
 A session record is a **response and usage log**, not a resume point: it keeps
 the stage, the question, the answer and the token usage, and deliberately not
@@ -231,8 +248,10 @@ material somewhere neither the owner nor this repository controls.
 
 Every request carries a deadline — ten minutes, generous because the Council
 reasons at `high` or above and a foundational question legitimately takes
-minutes, but finite because the CLI is interactive. On expiry the request is
-aborted and the error says so; nothing partial is returned or saved. A stalled
+minutes, but finite because the CLI is interactive. The deadline covers reading
+the response body as well as opening the connection: a server that sends headers
+and then stalls the body hangs just as completely. On expiry the request is
+aborted and the error says so; nothing partial is returned. A stalled
 connection therefore fails visibly instead of holding the conversation open.
 
 ## Cost
