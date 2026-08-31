@@ -33,6 +33,7 @@ reviewed and verified. No DECIDED entry in `decisions/` is reopened by either AI
 | `tests/` | `test_guards.py` (37 checks, executably asserted), `zone_distribution.py`, the two golden sets | `test_guards.py` must exit 0 on every change. Golden sets are hand-marked expectations; a disagreement is first evidence the prompt is unclear. Raw samples are **not** committed (DEC-104): they live in the Drive release package; see `tests/samples/README.md`. |
 | `workflows/` | n8n workflow JSON exports | One file per workflow. **No structural change in n8n without exporting and opening a PR** — see `workflows/README.md`. |
 | `code-nodes/` | The JavaScript/Python of each n8n Code node, one file per node | Each node testable outside n8n. The node in production must match the file here. |
+| `council/` | The Strategic Council tool: the CLI Claude Code calls for the independent strategic view | Advises only — never implements, merges, deploys or decides (DEC-008). No dependencies, and the API key lives in the environment, never in the repository. Setup and tiers in `council/README.md`. |
 | `reviews/` | Review reports written by the reviewing AI, and its mandate | Where a code review is archived is the Code Review Rules' to state (`AGENTS.md`, pending `decisions/DEC-007`); reports that do live here are named `YYYY-MM-DD—<scope>—<verdict>.md`. The mandate to paste into the reviewer is `reviews/REVIEW_MANDATE_CODE.md`. |
 | `docs/` | The narrative documents of the events package (release 1.4.5) | Working copies. The frozen release zip stays in Drive `20 Packages`. `docs/START_HERE.md` is the reading order; the version number lives only there. |
 | `decisions/` | The decision log — one file per decision | **A decision exists only if it is written here.** DECIDED entries are never re-asked. Format and rules in `decisions/README.md`. |
@@ -57,6 +58,16 @@ python ../tests/zone_distribution.py ../tests/samples/sample_107_direct_urls.jso
 
 `build_gazetteer.py` fails rather than warns on a broken invariant — a failing build means
 the workbook edit is wrong, not that the build needs patching.
+
+The Node suites run from the repository root and need no installation:
+
+```bash
+node tests/test_parse_duration.js                            # 58 checks, must print ALL PASS
+node tests/test_council.js                                   # 273 checks, must print ALL PASS
+```
+
+`test_council.js` is fully offline: it never makes an OpenAI call, so it needs no
+`OPENAI_API_KEY` and costs nothing to run.
 
 ## Pull request conventions
 
