@@ -69,13 +69,18 @@ function readRolePrompt(promptPath = ROLE_PROMPT_PATH) {
 }
 
 /**
- * A coding model must never be used as the strategic critic: that is the
- * Technical Council's job, and it would collapse two of the three layers
- * (DEC-008). Enforced here, not only in documentation.
+ * DEC-008 names the strategic critic: the general reasoning model
+ * `gpt-5.6-sol`. It is pinned, not merely defaulted — running the Council on
+ * another model would broaden a DECIDED entry silently, and widening it is an
+ * owner decision, not a flag. A coding model gets its own message because that
+ * is the mistake the three-layer split exists to prevent.
  */
-function assertNotACodingModel(model) {
+function assertDecidedModel(model) {
   if (typeof model !== 'string' || model.trim() === '') {
     throw new Error('model must be a non-empty string');
+  }
+  if (model === DEFAULT_MODEL) {
+    return;
   }
   if (/codex/i.test(model)) {
     throw new Error(
@@ -83,6 +88,10 @@ function assertNotACodingModel(model) {
       'model, never a coding model'
     );
   }
+  throw new Error(
+    `refusing model '${model}': DEC-008 fixes the strategic critic as ` +
+    `'${DEFAULT_MODEL}'. Using another model is a new owner decision, not a flag.`
+  );
 }
 
 function assertAllowedEffort(effort) {
@@ -168,6 +177,15 @@ function buildFinalPositionInput({ question, context, claudeView, gptFirstPass, 
   if (!isPresent(claudeView)) {
     throw new Error(`${STAGES.FINAL_POSITION} requires the Claude view`);
   }
+  // MAINTAIN and REVISE are both relative to a position the strategist already
+  // took. Without the first pass there is nothing to maintain or revise, and
+  // the independence rule would be satisfied on paper only.
+  if (!isPresent(gptFirstPass)) {
+    throw new Error(
+      `${STAGES.FINAL_POSITION} requires your own first-pass view: a position ` +
+      'cannot be maintained or revised if it was never formed'
+    );
+  }
   const parts = [
     `# Stage: ${STAGES.FINAL_POSITION}`,
     '',
@@ -179,9 +197,7 @@ function buildFinalPositionInput({ question, context, claudeView, gptFirstPass, 
     '',
     question.trim(),
   ];
-  if (isPresent(gptFirstPass)) {
-    parts.push('', '## Your first-pass STRATEGY_VIEW', '', gptFirstPass.trim());
-  }
+  parts.push('', '## Your first-pass STRATEGY_VIEW', '', gptFirstPass.trim());
   parts.push('', '## Claude OPERATOR_VIEW', '', claudeView.trim());
   if (isPresent(exchange)) {
     parts.push('', '## Cross-review exchange', '', exchange.trim());
@@ -215,7 +231,7 @@ function buildRequest(options = {}) {
       `unknown stage '${stage}'; use one of ${Object.keys(STAGES).join(', ')}`
     );
   }
-  assertNotACodingModel(model);
+  assertDecidedModel(model);
   assertAllowedEffort(effort);
 
   let input;
@@ -251,6 +267,18 @@ function buildRequest(options = {}) {
 function parseResponse(payload) {
   if (payload === null || typeof payload !== 'object') {
     throw new Error('response payload is not an object');
+  }
+
+  // A truncated answer can still be non-empty, and a fragment that lost its
+  // final position would enter cross-review looking like a real view. When the
+  // API states a status, only 'completed' is an answer.
+  if (typeof payload.status === 'string' && payload.status !== 'completed') {
+    const details = payload.incomplete_details
+      && typeof payload.incomplete_details === 'object'
+      && typeof payload.incomplete_details.reason === 'string'
+      ? `: ${payload.incomplete_details.reason}`
+      : '';
+    throw new Error(`strategist response is '${payload.status}'${details}`);
   }
 
   const chunks = [];
@@ -385,10 +413,16 @@ function classifyCouncil(input = {}) {
     normativeImpact = false,
   } = input;
 
+  // Tier 1 runs one independent view each and synthesises them, so there is no
+  // final position to report. A position is therefore optional; supplying an
+  // invented one to satisfy the signature would be worse than omitting it.
   const positions = ['MAINTAIN', 'REVISE', 'INSUFFICIENT_INFORMATION'];
   for (const [name, value] of [['claudePosition', claudePosition], ['gptPosition', gptPosition]]) {
-    if (!positions.includes(value)) {
-      throw new Error(`${name} must be one of ${positions.join(', ')}`);
+    if (value !== undefined && !positions.includes(value)) {
+      throw new Error(
+        `${name} must be one of ${positions.join(', ')}, or omitted for a ` +
+        'tier-1 synthesis of the two first-pass views'
+      );
     }
   }
   if (!Array.isArray(materialDisagreements) || !Array.isArray(missingEvidence)) {

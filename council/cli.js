@@ -12,10 +12,9 @@
  *   node council/cli.js --stage CROSS_REVIEW --question "..." \
  *        --claude-view-file F --gpt-first-pass-file F
  *   node council/cli.js --stage FINAL_POSITION --question "..." \
- *        --claude-view-file F [--gpt-first-pass-file F] [--exchange-file F]
+ *        --claude-view-file F --gpt-first-pass-file F [--exchange-file F]
  *
  *   --effort high|xhigh|max   (default high)
- *   --model <id>              (default gpt-5.6-sol)
  *   --dry-run                 print the request; make no API call
  *   --json                    print the full result as JSON
  *   --save                    write the session record under council/sessions/
@@ -40,25 +39,26 @@ const SESSIONS_DIR = path.join(__dirname, 'sessions');
 const FLAGS_WITH_VALUES = new Set([
   '--stage', '--question', '--question-file', '--context', '--context-file',
   '--claude-view', '--claude-view-file', '--gpt-first-pass', '--gpt-first-pass-file',
-  '--exchange', '--exchange-file', '--model', '--effort',
+  '--exchange', '--exchange-file', '--effort',
 ]);
 
 function parseArgv(argv) {
   const args = {};
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
-    if (!token.startsWith('--')) {
+    if (token === '-h') {
+      args.help = true;
+    } else if (!token.startsWith('--')) {
       throw new Error(`unexpected argument '${token}'`);
-    }
-    if (FLAGS_WITH_VALUES.has(token)) {
+    } else if (FLAGS_WITH_VALUES.has(token)) {
       const value = argv[i + 1];
       if (value === undefined || value.startsWith('--')) {
         throw new Error(`${token} needs a value`);
       }
       args[token.slice(2)] = value;
       i += 1;
-    } else if (['--dry-run', '--json', '--save', '--help', '-h'].includes(token)) {
-      args[token.replace(/^--?/, '')] = true;
+    } else if (['--dry-run', '--json', '--save', '--help'].includes(token)) {
+      args[token.slice(2)] = true;
     } else {
       throw new Error(`unknown flag '${token}'`);
     }
@@ -88,10 +88,11 @@ const USAGE = `council — the GPT strategist of the Strategic Council
        --claude-view-file F [--gpt-first-pass-file F] [--exchange-file F]
 
   --effort ${ALLOWED_EFFORTS.join('|')}   (default ${DEFAULT_EFFORT})
-  --model <id>              (default ${DEFAULT_MODEL})
   --dry-run                 print the request; make no API call
   --json                    print the full result as JSON
   --save                    write the session record under council/sessions/
+
+The model is ${DEFAULT_MODEL}, fixed by DEC-008 and not selectable here.
 
 FIRST_PASS accepts no Claude view: the two first-pass views are formed
 independently. See council/README.md and docs/strategic-council/README.md.`;
@@ -107,7 +108,7 @@ function saveSession(record) {
 async function main(argv = process.argv.slice(2)) {
   const args = parseArgv(argv);
 
-  if (args.help || args.h || argv.length === 0) {
+  if (args.help || argv.length === 0) {
     process.stdout.write(`${USAGE}\n`);
     return 0;
   }
@@ -126,7 +127,6 @@ async function main(argv = process.argv.slice(2)) {
     claudeView: readIfFile(args['claude-view'], args['claude-view-file'], 'claude-view'),
     gptFirstPass: readIfFile(args['gpt-first-pass'], args['gpt-first-pass-file'], 'gpt-first-pass'),
     exchange: readIfFile(args.exchange, args['exchange-file'], 'exchange'),
-    model: args.model || DEFAULT_MODEL,
     effort: args.effort || DEFAULT_EFFORT,
   };
 

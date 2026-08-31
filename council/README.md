@@ -52,7 +52,8 @@ node council/cli.js --stage CROSS_REVIEW --question "..." \
 
 # Stage 3 — maintain, revise, or declare insufficient information.
 node council/cli.js --stage FINAL_POSITION --question "..." \
-     --claude-view-file operator.md --exchange-file exchange.md
+     --claude-view-file operator.md --gpt-first-pass-file strategy.md \
+     --exchange-file exchange.md
 ```
 
 Useful flags:
@@ -60,13 +61,20 @@ Useful flags:
 | Flag | Effect |
 |---|---|
 | `--effort high\|xhigh\|max` | reasoning depth; default `high` |
-| `--model <id>` | default `gpt-5.6-sol`; a Codex model is refused |
 | `--dry-run` | print the request and stop — no key needed, no call made |
 | `--json` | full result including token usage |
 | `--save` | write the session record under `council/sessions/` |
 
 `--dry-run` is the cheap way to check what would be sent, including that a
 FIRST_PASS request carries no Operator view.
+
+There is no `--model` flag. DEC-008 fixes the strategic critic as `gpt-5.6-sol`,
+and the tool refuses any other model: running the Council on a different one
+would widen a DECIDED entry, which is an owner decision rather than a flag.
+
+`FINAL_POSITION` requires the strategist's own first-pass view as well as the
+Operator's. `MAINTAIN` and `REVISE` are both relative to a position it already
+took; without it there is nothing to maintain or revise.
 
 ## Choosing the tier
 
@@ -75,7 +83,7 @@ deserves; here is what each costs to run.
 
 | Tier | When | Protocol | Effort |
 |---|---|---|---|
-| **1 — Reversible** | low cost, easy to undo, little architectural impact | one independent view each, then synthesis | `high` |
+| **1 — Reversible** | low cost, easy to undo, little architectural impact | one independent view each, then synthesis — no final-position step, so the synthesis takes no `MAINTAIN`/`REVISE` value | `high` |
 | **2 — Material** | meaningful cost, dependencies, weeks of downstream work | full: first pass, cross-review, final position | `high` |
 | **3 — Foundational** | hard to reverse, vendor or platform lock-in, editorial policy, legal exposure, material recurring cost | full protocol, plus explicit assumptions, failure scenarios and reconsideration triggers | `xhigh` or `max` |
 

@@ -138,6 +138,17 @@ async function main() {
       /requires the Claude view/.test(threw(() => buildRequest({
         stage: STAGES.FINAL_POSITION, question: QUESTION, rolePrompt: ROLE_PROMPT,
       })) || ''), true);
+    // A position can only be maintained or revised if it was formed first.
+    check('FINAL_POSITION requires the strategist own first pass too',
+      /never formed/.test(threw(() => buildRequest({
+        stage: STAGES.FINAL_POSITION, question: QUESTION,
+        claudeView: CLAUDE_VIEW, rolePrompt: ROLE_PROMPT,
+      })) || ''), true);
+    check('FINAL_POSITION builds when both views are present',
+      buildRequest({
+        stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+        gptFirstPass: '### STRATEGY_VIEW\nmine', rolePrompt: ROLE_PROMPT,
+      }).input.includes('Your first-pass STRATEGY_VIEW'), true);
   }
 
   console.log('acceptance 3 — the model defaults to the general reasoning model');
@@ -145,11 +156,21 @@ async function main() {
     const body = buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT });
     check('default model', body.model, 'gpt-5.6-sol');
     check('exported default agrees', DEFAULT_MODEL, 'gpt-5.6-sol');
-    check('an explicit model is honoured',
-      buildRequest({
+    check('the model is pinned: another OpenAI model is refused (DEC-008)',
+      /DEC-008 fixes the strategic critic/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION,
+        model: 'gpt-4.1', rolePrompt: ROLE_PROMPT,
+      })) || ''), true);
+    check('…including a near-miss variant',
+      typeof threw(() => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION,
         model: 'gpt-5.6-sol-mini', rolePrompt: ROLE_PROMPT,
-      }).model, 'gpt-5.6-sol-mini');
+      })) === 'string', true);
+    check('the decided model is accepted',
+      buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION,
+        model: DEFAULT_MODEL, rolePrompt: ROLE_PROMPT,
+      }).model, DEFAULT_MODEL);
     check('a Codex model is refused as strategic critic',
       /never a coding model/.test(threw(() => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION, model: 'codex-max', rolePrompt: ROLE_PROMPT,
@@ -229,7 +250,24 @@ async function main() {
       { input_tokens: null, output_tokens: null, reasoning_tokens: null, total_tokens: null });
 
     check('an empty output throws',
-      /no output text/.test(threw(() => parseResponse({ output: [], status: 'incomplete' })) || ''), true);
+      /no output text/.test(threw(() => parseResponse({ output: [] })) || ''), true);
+    // A truncated fragment is non-empty but is not a strategic view.
+    check('an incomplete response throws rather than returning a fragment',
+      /is 'incomplete'/.test(threw(() => parseResponse({
+        status: 'incomplete',
+        incomplete_details: { reason: 'max_output_tokens' },
+        output: [{ type: 'message', content: [{ type: 'output_text', text: 'half a th' }] }],
+      })) || ''), true);
+    check('…and surfaces why',
+      /max_output_tokens/.test(threw(() => parseResponse({
+        status: 'incomplete',
+        incomplete_details: { reason: 'max_output_tokens' },
+        output: [{ type: 'message', content: [{ type: 'output_text', text: 'half a th' }] }],
+      })) || ''), true);
+    check("a 'completed' status parses normally", parseResponse({
+      status: 'completed',
+      output: [{ type: 'message', content: [{ type: 'output_text', text: 'done' }] }],
+    }).text, 'done');
     check('a non-object payload throws', typeof threw(() => parseResponse(null)) === 'string', true);
   }
   {
@@ -349,11 +387,56 @@ async function main() {
         claudePosition: 'YES', gptPosition: 'MAINTAIN',
       })) === 'string', true);
 
+    // Tier 1 stops after the two first-pass views, so there is no MAINTAIN or
+    // REVISE to report and the synthesis must not demand one.
+    check('tier 1 synthesises without any final position',
+      classifyCouncil({
+        sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
+      }).classification, CLASSIFICATIONS.STRONG_CONVERGENCE);
+    check('…and still separates disagreement',
+      classifyCouncil({
+        sameRecommendation: false, materialDisagreements: [], missingEvidence: [],
+      }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
+    check('…and still flags missing evidence',
+      classifyCouncil({
+        sameRecommendation: true, materialDisagreements: [],
+        missingEvidence: ['no cost data'],
+      }).classification, CLASSIFICATIONS.WEAK_CONVERGENCE);
+    check('an invalid position is still refused when one is given',
+      /or omitted for a tier-1 synthesis/.test(threw(() => classifyCouncil({
+        claudePosition: 'PROBABLY', sameRecommendation: true,
+      })) || ''), true);
+
     // "Do not manufacture a numeric confidence score" (Issue #5).
     check('the result carries no score-shaped key',
       Object.keys(converged).some((k) => /confidence|score|probability|percent/i.test(k)), false);
     check('the result carries no number at all',
       Object.values(converged).some((v) => typeof v === 'number'), false);
+  }
+
+  console.log('the repository records that made this change legal');
+  {
+    const dec008 = fs.readFileSync(
+      path.join(REPO_ROOT, 'decisions', 'DEC-008-three-layer-ai-model.md'), 'utf8');
+    // decisions/README.md names the required fields of an entry.
+    for (const field of ['Status:', 'Question:', 'Options:', 'Impact:', 'Blocks:',
+      'Decided by:', 'Date:', 'recommendation:']) {
+      check(`DEC-008 carries '${field}'`, dec008.includes(field), true);
+    }
+    check('DEC-008 is decided by the owner', /Decided by: Owner/.test(dec008), true);
+    check('DEC-008 pins the strategist model', dec008.includes(DEFAULT_MODEL), true);
+
+    const dec007 = fs.readFileSync(
+      path.join(REPO_ROOT, 'decisions', 'DEC-007-review-archive-location.md'), 'utf8');
+    // DEC-008 describes DEC-007 as fixed, which is only true once it is decided.
+    check('DEC-007 is DECIDED, as DEC-008 states', /Status: DECIDED/.test(dec007), true);
+
+    const changelog = fs.readFileSync(path.join(REPO_ROOT, 'prompts', 'CHANGELOG.md'), 'utf8');
+    check('the council prompts are in the prompt changelog',
+      changelog.includes('STRATEGIC_COUNCIL_CHATGPT.md')
+      && changelog.includes('STRATEGIC_COUNCIL_CLAUDE.md'), true);
+    check('…and the changelog states the revision handling',
+      /Revision bumped/.test(changelog), true);
   }
 
   console.log('the CLI parses its flags without needing a key');
@@ -366,6 +449,9 @@ async function main() {
     check('a value-less flag throws',
       /needs a value/.test(threw(() => parseArgv(['--stage'])) || ''), true);
     check('an unknown flag throws', /unknown flag/.test(threw(() => parseArgv(['--merge'])) || ''), true);
+    check('--model is not a flag any more (DEC-008 pins it)',
+      /unknown flag/.test(threw(() => parseArgv(['--model', 'gpt-4.1'])) || ''), true);
+    check('-h is reachable and means help', parseArgv(['-h']), { help: true });
     check('a bare argument throws',
       /unexpected argument/.test(threw(() => parseArgv(['merge'])) || ''), true);
   }
