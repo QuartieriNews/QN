@@ -44,7 +44,7 @@ const STAGES = {
 };
 
 /** The three positions the final stage may take, as the role prompt requires. */
-const FINAL_POSITIONS = /\b(MAINTAIN|REVISE|INSUFFICIENT_INFORMATION)\b/;
+const FINAL_POSITIONS_ALL = /\b(MAINTAIN|REVISE|INSUFFICIENT_INFORMATION)\b/g;
 
 /** Council result classifications. Deliberately not a numeric score. */
 const CLASSIFICATIONS = {
@@ -307,6 +307,10 @@ function buildRequest(options = {}) {
     instructions: rolePrompt === undefined ? readRolePrompt() : rolePrompt,
     input,
     reasoning: { effort },
+    // Council material quotes repository content and the owner's own framing.
+    // Session records are kept out of version control for that reason; leaving
+    // provider-side retention on by default would undo the same care.
+    store: false,
   };
 }
 
@@ -449,11 +453,17 @@ async function callStrategist(options = {}, deps = {}) {
   // The role prompt requires the final stage to return one of three tokens.
   // Uppercase and word-bounded, so ordinary prose like "I maintain my view"
   // does not count as a position that was never declared.
-  if (options.stage === STAGES.FINAL_POSITION && !FINAL_POSITIONS.test(parsed.text)) {
-    throw new Error(
-      `${STAGES.FINAL_POSITION} response states no position: expected one of ` +
-      'MAINTAIN, REVISE or INSUFFICIENT_INFORMATION'
-    );
+  if (options.stage === STAGES.FINAL_POSITION) {
+    const declared = new Set(parsed.text.match(FINAL_POSITIONS_ALL) || []);
+    if (declared.size !== 1) {
+      // "Return one of" is not "mention some": a response weighing MAINTAIN
+      // against REVISE has declared nothing the synthesis can carry.
+      throw new Error(
+        `${STAGES.FINAL_POSITION} response must declare exactly one of ` +
+        `MAINTAIN, REVISE or INSUFFICIENT_INFORMATION; found ${declared.size}` +
+        (declared.size > 1 ? ` (${[...declared].join(', ')})` : '')
+      );
+    }
   }
 
   return { ...parsed, stage: options.stage };

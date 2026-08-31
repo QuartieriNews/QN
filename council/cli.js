@@ -8,13 +8,14 @@
  *
  * Usage and tiers are documented in `council/README.md`.
  *
- *   node council/cli.js --stage FIRST_PASS --question "..." [--context-file F]
- *   node council/cli.js --stage CROSS_REVIEW --question "..." \
+ *   node council/cli.js --stage FIRST_PASS --tier N --question "..." [--context-file F]
+ *   node council/cli.js --stage CROSS_REVIEW --tier N --question "..." \
  *        --claude-view-file F --gpt-first-pass-file F
- *   node council/cli.js --stage FINAL_POSITION --question "..." \
+ *   node council/cli.js --stage FINAL_POSITION --tier N --question "..." \
  *        --claude-view-file F --gpt-first-pass-file F --exchange-file F
  *   node council/cli.js --synthesis-file judgements.json
  *
+ *   --tier 1|2|3              required on a stage request
  *   --effort high|xhigh|max   (default high)
  *   --dry-run                 print the request; make no API call
  *   --json                    print the full result as JSON
@@ -83,10 +84,10 @@ function readIfFile(inline, filePath, label) {
 
 const USAGE = `council — the GPT strategist of the Strategic Council
 
-  node council/cli.js --stage FIRST_PASS --question "..." [--context-file F]
-  node council/cli.js --stage CROSS_REVIEW --question "..." \\
+  node council/cli.js --stage FIRST_PASS --tier N --question "..." [--context-file F]
+  node council/cli.js --stage CROSS_REVIEW --tier N --question "..." \\
        --claude-view-file F --gpt-first-pass-file F
-  node council/cli.js --stage FINAL_POSITION --question "..." \\
+  node council/cli.js --stage FINAL_POSITION --tier N --question "..." \\
        --claude-view-file F --gpt-first-pass-file F --exchange-file F
 
 Synthesis — no model call, no key: classify the finished council and print the
@@ -97,7 +98,7 @@ tier 3 also carries assumptions, failure scenarios and reconsideration triggers.
   node council/cli.js --synthesis-file judgements.json
 
   --effort ${ALLOWED_EFFORTS.join('|')}   (default ${DEFAULT_EFFORT})
-  --tier 1|2|3              the tier this run is; tier 3 refuses effort 'high'
+  --tier 1|2|3              required on a stage request; tier 3 refuses 'high'
   --dry-run                 print the request; make no API call
   --json                    print the full result as JSON
   --save                    write the session record under council/sessions/
@@ -144,6 +145,14 @@ async function main(argv = process.argv.slice(2)) {
   if (!stage || !Object.prototype.hasOwnProperty.call(STAGES, stage)) {
     throw new Error(
       `--stage must be one of ${Object.keys(STAGES).join(', ')}`
+    );
+  }
+  // Optional here meant the depth rule could be skipped by omission: a tier-3
+  // run at default effort, reported as tier 3 by the synthesis afterwards.
+  if (args.tier === undefined) {
+    throw new Error(
+      '--tier is required on a stage request: it decides the reasoning depth, ' +
+      'and the synthesis will report the tier whether or not the run matched it'
     );
   }
 
@@ -201,11 +210,13 @@ async function main(argv = process.argv.slice(2)) {
 }
 
 if (require.main === module) {
+  // process.exit() discards whatever stdout has buffered, which truncates a
+  // large result on a pipe. Setting the code lets the event loop drain first.
   main().then(
-    (code) => process.exit(code),
+    (code) => { process.exitCode = code; },
     (error) => {
       process.stderr.write(`council: ${error.message}\n`);
-      process.exit(1);
+      process.exitCode = 1;
     }
   );
 }

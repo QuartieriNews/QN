@@ -44,15 +44,15 @@ returns one council result.
 
 ```bash
 # Stage 1 — independent views. Accepts no Claude view, by construction.
-node council/cli.js --stage FIRST_PASS --question "..." --context-file ctx.md
+node council/cli.js --stage FIRST_PASS --tier 2 --question "..." --context-file ctx.md
 
 # Stage 2 — both first-pass views exist; the strategist critiques the Operator.
-node council/cli.js --stage CROSS_REVIEW --question "..." \
+node council/cli.js --stage CROSS_REVIEW --tier 2 --question "..." \
      --claude-view-file operator.md --gpt-first-pass-file strategy.md
 
 # Stage 3 — maintain, revise, or declare insufficient information. All three
 # artefacts are required: the protocol critiques before it concludes.
-node council/cli.js --stage FINAL_POSITION --question "..." \
+node council/cli.js --stage FINAL_POSITION --tier 2 --question "..." \
      --claude-view-file operator.md --gpt-first-pass-file strategy.md \
      --exchange-file exchange.md
 ```
@@ -61,6 +61,7 @@ Useful flags:
 
 | Flag | Effect |
 |---|---|
+| `--tier 1\|2\|3` | **required** on a stage request; tier 3 refuses `high` |
 | `--effort high\|xhigh\|max` | reasoning depth; default `high` |
 | `--dry-run` | print the request and stop — no key needed, no call made |
 | `--json` | full result including token usage |
@@ -79,9 +80,13 @@ The remaining guarantee is Claude's discipline, which `CLAUDE.md` binds. The
 tool closes the accidental path and says plainly that it cannot close the
 deliberate one.
 
-A completed `FINAL_POSITION` response is also checked to state one of
-`MAINTAIN`, `REVISE` or `INSUFFICIENT_INFORMATION`, uppercase and
-word-bounded — prose that merely uses the word "maintain" is not a position.
+A completed `FINAL_POSITION` response is also checked to state **exactly one**
+of `MAINTAIN`, `REVISE` or `INSUFFICIENT_INFORMATION`, uppercase and
+word-bounded — prose that merely uses the word "maintain" is not a position, and
+an answer that names two of them ("I cannot choose between MAINTAIN and REVISE")
+has not taken one either. Both cases are refused rather than resolved by
+first-match, because guessing which token the strategist meant is the error the
+stage exists to prevent.
 
 There is no `--model` flag. DEC-008 fixes the strategic critic as `gpt-5.6-sol`,
 and the tool refuses any other model: running the Council on a different one
@@ -136,11 +141,13 @@ deserves; here is what each costs to run.
 Reasoning below `high` is not offered. A question that does not deserve `high`
 does not deserve the Council; answer it in Builder mode.
 
-Pass `--tier` on a stage request and the mapping is enforced rather than
-trusted: a tier-3 request refuses effort `high`, because a foundational
+`--tier` is **required** on a stage request, so the mapping is enforced rather
+than trusted: a tier-3 request refuses effort `high`, because a foundational
 question answered at a lower depth and then reported as tier 3 is exactly what
-the table exists to prevent. The flag is optional — a question may not be
-classified yet — but the synthesis requires the tier, so it is known by the end.
+the table exists to prevent. Optional, it could be skipped by omission — the
+stages run at the default depth, and the synthesis afterwards reports tier 3
+regardless. A question not yet classified is not yet a Council question; classify
+it, then run it.
 
 ## What is kept, and what is not
 
@@ -164,6 +171,11 @@ framing there for no gain the MVP needs.
 
 Records may still quote repository content and the question as asked, so they
 stay out of version control.
+
+Every request also sends `store: false`, so the provider is asked not to retain
+the council material on its side either. Keeping the answer is the session
+record's job, and it is gitignored; provider-side retention would put the same
+material somewhere neither the owner nor this repository controls.
 
 ## Cost
 

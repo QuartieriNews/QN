@@ -38,7 +38,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 165;
+const CHECKS_EXPECTED = 177;
 
 let failures = 0;
 let checks = 0;
@@ -128,6 +128,9 @@ async function main() {
     check('the context does reach the strategist',
       body.input.includes('DEC-104 fixes the loop roles.'), true);
     check('the stage is stated in the body', body.input.includes('Stage: FIRST_PASS'), true);
+    // Cycle 5: the record kept on disk is gitignored; provider-side retention
+    // would put the same material somewhere neither side controls.
+    check('the request asks the provider not to retain it', body.store, false);
 
     // context is free text, so the named parameter is not the only way in.
     check('a council view marker in the context is refused',
@@ -235,7 +238,7 @@ async function main() {
       [1, 2].every((tier) => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION, tier, rolePrompt: ROLE_PROMPT,
       }).reasoning.effort === DEFAULT_EFFORT), true);
-    check('the tier stays optional on a stage request',
+    check('buildRequest keeps its default when no tier is stated (the CLI requires one)',
       buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT,
       }).reasoning.effort, DEFAULT_EFFORT);
@@ -367,7 +370,7 @@ async function main() {
       }),
     });
     check('a completed FINAL_POSITION with no position is refused',
-      /states no position/.test(await threwAsync(() => callStrategist(
+      /exactly one of/.test(await threwAsync(() => callStrategist(
         {
           stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
           gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
@@ -375,7 +378,7 @@ async function main() {
         { env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: malformed }
       )) || ''), true);
     check('…and prose that merely uses the word does not count',
-      /states no position/.test(await threwAsync(() => callStrategist(
+      /exactly one of/.test(await threwAsync(() => callStrategist(
         {
           stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
           gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
@@ -401,6 +404,41 @@ async function main() {
             ok: true, status: 200,
             json: async () => ({ output: [{ type: 'message', content: [
               { type: 'output_text', text: 'MAINTAIN — Rome first.' }] }] }),
+          }),
+        }
+      )).stage, STAGES.FINAL_POSITION);
+    // Cycle 5: an unanchored search accepted "I cannot choose between MAINTAIN
+    // and REVISE" by matching the first token. Two positions are no position.
+    const ambiguous = await threwAsync(() => callStrategist(
+      {
+        stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+        gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
+      },
+      {
+        env: { OPENAI_API_KEY: 'sk-test' },
+        fetchImpl: async () => ({
+          ok: true, status: 200,
+          json: async () => ({ output: [{ type: 'message', content: [
+            { type: 'output_text', text: 'I cannot choose between MAINTAIN and REVISE.' }] }] }),
+        }),
+      }
+    ));
+    check('two positions in one answer are refused, not resolved by first match',
+      /exactly one of/.test(ambiguous || ''), true);
+    check('…and the refusal names both tokens it found',
+      /MAINTAIN, REVISE|REVISE, MAINTAIN/.test(ambiguous || ''), true);
+    check('one position repeated is still one position',
+      (await callStrategist(
+        {
+          stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
+        },
+        {
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [
+              { type: 'output_text', text: 'REVISE. To restate: REVISE, and here is why.' }] }] }),
           }),
         }
       )).stage, STAGES.FINAL_POSITION);
@@ -452,6 +490,10 @@ async function main() {
       /Independence rule/i.test(architecture), true);
     check('the architecture doc keeps no second copy of the independence claim',
       /structurally cannot carry/.test(architecture), false);
+    check('…nor the weaker restatement of the same guarantee',
+      /no field that could carry/.test(architecture), false);
+    check('…and it says the tool cannot enforce all of it',
+      /cannot enforce/i.test(architecture), true);
     check('…and points at the file that owns it',
       /council\/README\.md/.test(architecture), true);
     check('neither doc promises a budget the tool does not enforce',
@@ -719,6 +761,39 @@ async function main() {
     check('help does not call the exchange file optional',
       /\[--exchange-file/.test(help), false);
     check('help documents the synthesis path', help.includes('--synthesis-file'), true);
+    check('help states the tier is required on a stage request',
+      /--tier[^\n]*required/.test(help), true);
+    check('…and every stage example passes one',
+      help.split('\n').filter((l) => l.includes('--stage'))
+        .every((l) => l.includes('--tier')), true);
+
+    // Cycle 5: a stage could run at the default depth and be reported as tier 3
+    // by the synthesis afterwards. Omission is the one way to skip the rule.
+    const { main } = require(path.join(REPO_ROOT, 'council', 'cli.js'));
+    check('a stage request without --tier is refused',
+      /--tier is required/.test(
+        await threwAsync(() => main(['--stage', 'FIRST_PASS', '--question', 'q'])) || ''), true);
+    check('…and the synthesis path still needs no tier flag',
+      /cannot read --synthesis-file/.test(
+        await threwAsync(() => main(['--synthesis-file', '/nonexistent.json'])) || ''), true);
+
+    // Cycle 5: process.exit() dropped whatever stdout had buffered, so a large
+    // result was truncated at the pipe buffer. --dry-run makes no call, so the
+    // whole path is exercised offline.
+    const os = require('os');
+    const bigDir = fs.mkdtempSync(path.join(os.tmpdir(), 'council-'));
+    const bigFile = path.join(bigDir, 'context.md');
+    fs.writeFileSync(bigFile, 'DEC-104 fixes the loop roles. '.repeat(40000));
+    const piped = execFileSync('node', [
+      path.join(REPO_ROOT, 'council', 'cli.js'),
+      '--stage', 'FIRST_PASS', '--tier', '2', '--question', 'q',
+      '--context-file', bigFile, '--dry-run',
+    ], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    fs.rmSync(bigDir, { recursive: true, force: true });
+    check('a large result survives the pipe rather than being truncated',
+      piped.length > 1024 * 1024, true);
+    check('…and it is complete JSON, not a cut-off prefix',
+      JSON.parse(piped).store, false);
 
     // The count in the root README is a missing-test signal; stale, it is noise.
     // The brief is sent instead of the repository, so its facts must match the

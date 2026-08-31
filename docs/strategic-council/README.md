@@ -50,7 +50,7 @@ It should be biased toward decision quality, not toward adding process or comple
 
 ## Independence rule
 
-For a new strategic question, Claude and the strategist must form their first view independently. Neither receives the other's first answer, and the `FIRST_PASS` request has no field that could carry one.
+For a new strategic question, Claude and the strategist must form their first view independently. Neither receives the other's first answer. What the tool enforces on a `FIRST_PASS` request, and what it explicitly cannot enforce, is stated once in `council/README.md`; this document does not keep a second copy.
 
 After the independent pass, each receives the other's answer and performs an adversarial review.
 
