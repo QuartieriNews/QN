@@ -124,9 +124,15 @@ Conversation is working memory; GitHub is institutional memory. A council
 session is not an artefact of record: only an explicit owner decision becomes a
 `DEC` entry, drafted in the existing format and decided by the owner.
 
-Session records exist so a long question can be resumed and so token usage can
-be reviewed. They may quote repository content and the owner's own framing, so
-they stay out of version control.
+A session record is a **response and usage log**, not a resume point: it keeps
+the stage, the question, the answer and the token usage, and deliberately not
+the context, the Operator view or the cross-review exchange. Resuming an
+interrupted council is the Claude Code conversation's job — that is the working
+memory — and copying those artefacts onto disk would put more of the owner's
+framing there for no gain the MVP needs.
+
+Records may still quote repository content and the question as asked, so they
+stay out of version control.
 
 ## Cost
 

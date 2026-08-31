@@ -37,7 +37,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 126;
+const CHECKS_EXPECTED = 131;
 
 let failures = 0;
 let checks = 0;
@@ -460,6 +460,15 @@ async function main() {
       result.OWNER_DECISION_REQUIRED, 'YES');
     check('it still manufactures no number',
       Object.values(result).some((v) => typeof v === 'number'), false);
+    // A judgements file may be model-authored, and "false" is a truthy string.
+    check('a string "false" is refused rather than coerced',
+      /sameRecommendation must be a boolean/.test(threw(() => buildCouncilResult({
+        ...judgements, sameRecommendation: 'false',
+      })) || ''), true);
+    check('normativeImpact is type-checked too',
+      /normativeImpact must be a boolean/.test(threw(() => buildCouncilResult({
+        ...judgements, normativeImpact: 'false',
+      })) || ''), true);
     check('a missing required field throws rather than emitting a gap',
       /strongestAgreement is required/.test(threw(() => buildCouncilResult({
         ...judgements, strongestAgreement: '',
@@ -548,6 +557,24 @@ async function main() {
     check('help documents the synthesis path', help.includes('--synthesis-file'), true);
 
     // The count in the root README is a missing-test signal; stale, it is noise.
+    // The brief is sent instead of the repository, so its facts must match the
+    // entries that own them.
+    const brief = fs.readFileSync(
+      path.join(REPO_ROOT, 'docs', 'strategic-council', 'PROJECT_BRIEF.md'), 'utf8');
+    for (const [dec, scope] of [
+      ['DEC-001', 'editorial filter activation'],
+      ['DEC-004', 'schedule activation'],
+    ]) {
+      const entry = fs.readFileSync(
+        path.join(REPO_ROOT, 'decisions',
+          fs.readdirSync(path.join(REPO_ROOT, 'decisions')).find((f) => f.startsWith(dec))),
+        'utf8');
+      check(`${dec} still blocks what the brief says`,
+        entry.includes(scope), true);
+    }
+    check('the brief no longer restates the standing invariants',
+      /a flag\s+never deletes/.test(brief), false);
+
     const rootReadme = fs.readFileSync(path.join(REPO_ROOT, 'README.md'), 'utf8');
     const claimed = rootReadme.match(/test_council\.js\s+#\s+(\d+) checks/);
     check('the README states a council check count', Boolean(claimed), true);

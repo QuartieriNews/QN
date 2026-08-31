@@ -434,6 +434,15 @@ function classifyCouncil(input = {}) {
   if (!Array.isArray(materialDisagreements) || !Array.isArray(missingEvidence)) {
     throw new Error('materialDisagreements and missingEvidence must be arrays');
   }
+  // A judgements file may be written by a model, and "false" is a truthy string.
+  // Coercing it would flip the owner gate silently, so the type is checked.
+  for (const [name, value] of [
+    ['sameRecommendation', sameRecommendation], ['normativeImpact', normativeImpact],
+  ]) {
+    if (typeof value !== 'boolean') {
+      throw new Error(`${name} must be a boolean, not ${typeof value}`);
+    }
+  }
 
   let classification;
   if (claudePosition === 'INSUFFICIENT_INFORMATION' || gptPosition === 'INSUFFICIENT_INFORMATION') {

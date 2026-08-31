@@ -32,9 +32,12 @@ in public form.
 - **The development loop is the working part**: Claude builds, Codex reviews on
   the pull request, the owner decides and merges (DEC-104, DEC-007, DEC-008).
   `main` is protected; everything goes through a PR.
-- **Three decisions block pipeline activation** and none is technical:
-  DEC-001 commercial guided tours, DEC-002 Colle del Sole, DEC-003 five
-  addresses to verify.
+- **Four open decisions gate different things**, and none is technical. Their
+  own `Blocks:` lines are authoritative: DEC-001 (commercial guided tours) gates
+  editorial filter activation; DEC-004 (production event cap) gates schedule
+  activation; DEC-002 (Colle del Sole) and DEC-003 (five addresses to verify)
+  gate scoring of the geographic golden set. They are not interchangeable, and
+  sequencing around the wrong one wastes a cycle.
 
 ## Constraints that shape most answers
 
@@ -48,9 +51,11 @@ in public form.
   deadest week of the Roman year; 72 of 89 pages were empty. Do not size
   anything on it (DEC-006).
 - **Editorial trust is the asset.** A wrong neighbourhood or a promotional item
-  published as news costs more than a missed event. Standing invariants: a flag
-  never deletes, empty is a valid geography answer, a venue-registry miss is not
-  a reject.
+  published as news costs more than a missed event. The standing invariants that
+  follow from this are not restated here — they are owned by
+  `gazetteer/gazetteer.json`, `prompts/PROMPT_GEO_BLOCK.md` and
+  `venue-registry/venues.json`, and a copy in this brief would drift from them.
+  Retrieve those files when a question turns on one.
 
 ## Where the decisions live
 
@@ -59,9 +64,9 @@ entries are never reopened — if circumstances changed, a new entry supersedes
 and links back.
 
 Open and worth knowing before answering most product questions: DEC-001
-(commercial tours, ~19% of the sampled corpus), DEC-002, DEC-003, DEC-004
-(production event cap), DEC-005 (schema 2.0 sign-off), DEC-006 (thin-page
-fallback).
+(commercial tours, ~19% of the sampled corpus), DEC-002, DEC-003, DEC-004,
+DEC-005 (schema 2.0 sign-off), DEC-006 (thin-page fallback). Read the entry
+rather than this line when what it blocks matters.
 
 ## Questions the Council is for
 
