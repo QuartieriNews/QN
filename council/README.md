@@ -61,7 +61,7 @@ Useful flags:
 
 | Flag | Effect |
 |---|---|
-| `--tier 1\|2\|3` | **required** on a stage request; tier 3 refuses `high` |
+| `--tier 1\|2\|3` | **required** on a stage request; tier 3 refuses `high`, tier 1 refuses the later stages |
 | `--effort high\|xhigh\|max` | reasoning depth; default `high` |
 | `--dry-run` | print the request and stop — no key needed, no call made |
 | `--json` | full result including token usage |
@@ -144,7 +144,11 @@ does not deserve the Council; answer it in Builder mode.
 `--tier` is **required** on a stage request, so the mapping is enforced rather
 than trusted: a tier-3 request refuses effort `high`, because a foundational
 question answered at a lower depth and then reported as tier 3 is exactly what
-the table exists to prevent. Optional, it could be skipped by omission — the
+the table exists to prevent. The tier governs the length of the protocol as well
+as its depth: `CROSS_REVIEW` and `FINAL_POSITION` are refused at tier 1, which
+stops after the two first-pass views — such a call is either a mis-stated tier
+or a run the tier-1 synthesis would refuse afterwards, and both are cheaper to
+catch before the call than after paying for it. Optional, it could be skipped by omission — the
 stages run at the default depth, and the synthesis afterwards reports tier 3
 regardless. A question not yet classified is not yet a Council question; classify
 it, then run it.

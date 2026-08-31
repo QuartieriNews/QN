@@ -38,7 +38,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 177;
+const CHECKS_EXPECTED = 183;
 
 let failures = 0;
 let checks = 0;
@@ -241,6 +241,24 @@ async function main() {
     check('buildRequest keeps its default when no tier is stated (the CLI requires one)',
       buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT,
+      }).reasoning.effort, DEFAULT_EFFORT);
+    // Cycle 6: tier 1 stops after the two first-pass views, so a later stage
+    // at tier 1 is a run whose positions the tier-1 synthesis would refuse.
+    for (const stage of [STAGES.CROSS_REVIEW, STAGES.FINAL_POSITION]) {
+      check(`tier 1 refuses ${stage}`,
+        /tier 1 has no/.test(threw(() => buildRequest({
+          stage, question: QUESTION, tier: 1, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
+        })) || ''), true);
+      check(`…and tier 2 allows ${stage}`,
+        buildRequest({
+          stage, question: QUESTION, tier: 2, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
+        }).reasoning.effort, DEFAULT_EFFORT);
+    }
+    check('tier 1 still allows the stage it does have',
+      buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 1, rolePrompt: ROLE_PROMPT,
       }).reasoning.effort, DEFAULT_EFFORT);
     check('an impossible tier is refused',
       /tier must be 1, 2 or 3/.test(threw(() => buildRequest({
@@ -773,6 +791,12 @@ async function main() {
     check('a stage request without --tier is refused',
       /--tier is required/.test(
         await threwAsync(() => main(['--stage', 'FIRST_PASS', '--question', 'q'])) || ''), true);
+    check('a later stage at tier 1 is refused at the command line',
+      /tier 1 has no CROSS_REVIEW/.test(
+        await threwAsync(() => main([
+          '--stage', 'CROSS_REVIEW', '--tier', '1', '--question', 'q',
+          '--claude-view', 'theirs', '--gpt-first-pass', 'mine', '--dry-run',
+        ])) || ''), true);
     check('…and the synthesis path still needs no tier flag',
       /cannot read --synthesis-file/.test(
         await threwAsync(() => main(['--synthesis-file', '/nonexistent.json'])) || ''), true);

@@ -268,10 +268,9 @@ function buildRequest(options = {}) {
   assertDecidedModel(model);
   assertAllowedEffort(effort);
 
-  // The tier is optional on a stage request — a caller may not have classified
-  // the question yet — but when given it governs the depth. A foundational
-  // question answered at tier-1 depth and reported as tier 3 is the failure
-  // the tier table exists to prevent.
+  // The tier governs both the depth and the length of the protocol. The CLI
+  // requires it; here it stays optional, because a library caller building a
+  // request may legitimately not have classified the question yet.
   if (tier !== undefined) {
     if (![1, 2, 3].includes(tier)) {
       throw new Error('tier must be 1, 2 or 3');
@@ -281,6 +280,15 @@ function buildRequest(options = {}) {
         `tier 3 requires reasoning effort ${TIER_3_EFFORTS.join(' or ')}, not ` +
         `'${effort}': a foundational question answered at a lower depth is not ` +
         'a tier-3 run'
+      );
+    }
+    // Tier 1 stops after the two first-pass views. A later stage at tier 1 is
+    // either a mis-stated tier or a run the tier-1 synthesis will refuse, and
+    // both are cheaper to catch before the call than after it.
+    if (tier === 1 && stage !== STAGES.FIRST_PASS) {
+      throw new Error(
+        `tier 1 has no ${stage} stage: it stops after the two first-pass ` +
+        'views. Run this stage at tier 2 or 3, or run FIRST_PASS at tier 1'
       );
     }
   }
