@@ -1,8 +1,11 @@
 # reviews/
 
-Review reports written by the review AI, one per pull request, before merge.
+Historical memory of the chat era, when a review had nowhere else to live, plus
+the home of review reports tied to no pull request. A Codex review of a PR is
+archived by the PR itself — see the Code Review Rules in `AGENTS.md`, which own
+this rule (`decisions/DEC-007`); do not copy such a review here.
 
-Naming: `PR-<number>—<verdict>.md` (e.g. `PR-7—approve-with-notes.md`).
+Naming: `YYYY-MM-DD—<scope>—<verdict>.md`.
 Template: Drive → QN Hub → 30 Reviews → *Review Report — Template*.
 
 The report must state what it reviewed against (spec version + `gazetteer.json`), the

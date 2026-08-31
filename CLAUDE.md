@@ -16,10 +16,14 @@ roles and the review rules there bind you too. Then:
   the file (`cmp`-checkable).
 - Comments point at rules (`Spec v2.5 Phase X.Y / T-case`); they never restate
   contracts, percentages or enums that live elsewhere.
-- Answer every review item in the report file under `reviews/`, item by item:
-  accepted with the fix applied, or rebutted with a citation and evidence
-  gathered from the actual repository state. Never mark your own work APPROVED;
-  the reviewer's verdict and the owner's merge are the gates.
+- Answer every review item where the review lives — the pull request for a
+  Codex review, the report file under `reviews/` for one that belongs there —
+  item by item: accepted with the fix applied, or rebutted with a citation and
+  evidence gathered from the actual repository state. Never mark your own work
+  APPROVED; the reviewer's verdict and the owner's merge are the gates.
+- After every push of fixes to a PR under review, ask for the re-review
+  yourself: comment `@codex review` on the PR. A pushed fix nobody has looked
+  at again does not close a cycle.
 - Never touch: generated gazetteer files by hand, `venue-registry/venues.json`
   regeneration, DECIDED entries, production n8n. Staging (`staging_`-prefixed
   Drive folders and Firestore collections) is where pipeline work runs until

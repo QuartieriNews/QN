@@ -32,8 +32,20 @@ owner decisions / regressions.
   `node tests/test_parse_duration.js` (must exit 0, ALL PASS). The Python
   checks need the dependencies declared in `requirements.txt` (repository
   root): `pip install -r requirements.txt` before the first run.
-- Review the diff since the last report in `reviews/`; on a first pass, review
-  everything. Save each report as `reviews/YYYY-MM-DD—<scope>—<verdict>.md`.
+- Codex reviews run natively on pull requests, so the PR is the archive of a
+  code review: findings, builder answers and the verdict live in its threads
+  and stay attached to the diff they judge. Do not copy a PR's review into
+  `reviews/`. That folder is the historical memory of the chat era, when there
+  was nowhere else to put a report, and remains the home of reports tied to no
+  PR; those are still named `reviews/YYYY-MM-DD—<scope>—<verdict>.md`. This
+  rule is `decisions/DEC-007` and takes effect when that entry is DECIDED.
+- Review the diff since the last review of the same scope; on a first pass,
+  review everything.
+- The reviewer app holds write permissions on this repository. They exist
+  technically; the role, not the capability, decides what may be done with
+  them: use them only to post reviews and comments on pull requests, never to
+  commit. Every change to a file goes through the builder (DEC-104) — a
+  reviewer who edits the files stops being able to review them.
 - Check specifically: divergence from the specification's phase contracts and
   field names (keys not display names, British `neighbourhood_id`,
   Roman-numeral `municipality_code`); the standing invariants — flag never
