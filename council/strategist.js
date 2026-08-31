@@ -40,6 +40,9 @@ const STAGES = {
   FINAL_POSITION: 'FINAL_POSITION',
 };
 
+/** The three positions the final stage may take, as the role prompt requires. */
+const FINAL_POSITIONS = /\b(MAINTAIN|REVISE|INSUFFICIENT_INFORMATION)\b/;
+
 /** Council result classifications. Deliberately not a numeric score. */
 const CLASSIFICATIONS = {
   STRONG_CONVERGENCE: 'STRONG_CONVERGENCE',
@@ -120,9 +123,30 @@ function renderContext(context) {
  * Claude-view parameter at all, so there is no field through which Claude's
  * first answer could reach the strategist (Issue #5, independence rule).
  */
+/**
+ * The protocol's own section markers, refused in a first-pass request.
+ *
+ * This catches the realistic accident — a context file assembled from a
+ * conversation that already holds the Operator view — and nothing more. A
+ * caller who renames the heading defeats it, so the guarantee is stated
+ * accordingly in council/README.md: the tool has no field for the other view
+ * and rejects its markers; not pasting it in anyway is Claude's discipline,
+ * which CLAUDE.md binds.
+ */
+const VIEW_MARKERS = /OPERATOR_VIEW|STRATEGY_VIEW/;
+
 function buildFirstPassInput({ question, context }) {
   if (!isPresent(question)) {
     throw new Error('question is required');
+  }
+  for (const [name, value] of [['question', question], ['context', context]]) {
+    if (isPresent(value) && VIEW_MARKERS.test(value)) {
+      throw new Error(
+        `independence rule: the ${name} of a ${STAGES.FIRST_PASS} request ` +
+        'carries a council view marker. Neither view reaches the other before ' +
+        'both exist.'
+      );
+    }
   }
   return [
     `# Stage: ${STAGES.FIRST_PASS}`,
@@ -399,7 +423,19 @@ async function callStrategist(options = {}, deps = {}) {
     throw new Error(`strategist response was not JSON: ${cause.message}`);
   }
 
-  return { ...parseResponse(payload), stage: options.stage };
+  const parsed = parseResponse(payload);
+
+  // The role prompt requires the final stage to return one of three tokens.
+  // Uppercase and word-bounded, so ordinary prose like "I maintain my view"
+  // does not count as a position that was never declared.
+  if (options.stage === STAGES.FINAL_POSITION && !FINAL_POSITIONS.test(parsed.text)) {
+    throw new Error(
+      `${STAGES.FINAL_POSITION} response states no position: expected one of ` +
+      'MAINTAIN, REVISE or INSUFFICIENT_INFORMATION'
+    );
+  }
+
+  return { ...parsed, stage: options.stage };
 }
 
 /**
@@ -411,6 +447,7 @@ async function callStrategist(options = {}, deps = {}) {
  */
 function classifyCouncil(input = {}) {
   const {
+    tier,
     claudePosition,
     gptPosition,
     sameRecommendation = false,
@@ -419,17 +456,36 @@ function classifyCouncil(input = {}) {
     normativeImpact = false,
   } = input;
 
-  // Tier 1 runs one independent view each and synthesises them, so there is no
-  // final position to report. A position is therefore optional; supplying an
-  // invented one to satisfy the signature would be worse than omitting it.
+  // The tier decides whether final positions exist at all: tier 1 stops after
+  // the two first-pass views, tiers 2 and 3 run the full protocol. Without it
+  // an absent position is indistinguishable from a forgotten one, so the tier
+  // is required rather than inferred.
+  if (![1, 2, 3].includes(tier)) {
+    throw new Error('tier must be 1, 2 or 3 — the protocol run decides it, not the caller\'s mood');
+  }
+
   const positions = ['MAINTAIN', 'REVISE', 'INSUFFICIENT_INFORMATION'];
   for (const [name, value] of [['claudePosition', claudePosition], ['gptPosition', gptPosition]]) {
     if (value !== undefined && !positions.includes(value)) {
+      throw new Error(`${name} must be one of ${positions.join(', ')}`);
+    }
+  }
+
+  const given = [claudePosition, gptPosition].filter((v) => v !== undefined).length;
+  if (tier === 1) {
+    if (given > 0) {
       throw new Error(
-        `${name} must be one of ${positions.join(', ')}, or omitted for a ` +
-        'tier-1 synthesis of the two first-pass views'
+        'tier 1 has no final-position step, so it reports no MAINTAIN/REVISE; ' +
+        'a position here means the run was not tier 1'
       );
     }
+  } else if (given !== 2) {
+    // One position is the dangerous case: it looks like tier 1 and classifies
+    // as though the other model never had to conclude.
+    throw new Error(
+      `tier ${tier} runs the full protocol, so both claudePosition and ` +
+      `gptPosition are required; ${given} of 2 supplied`
+    );
   }
   if (!Array.isArray(materialDisagreements) || !Array.isArray(missingEvidence)) {
     throw new Error('materialDisagreements and missingEvidence must be arrays');
@@ -477,12 +533,15 @@ function classifyCouncil(input = {}) {
  */
 function buildCouncilResult(input = {}) {
   const {
+    tier,
     question,
     claudeRecommendation,
     gptRecommendation,
     strongestAgreement,
     costAndReversibility,
     assumptions = [],
+    failureScenarios = [],
+    reconsiderationTriggers = [],
   } = input;
 
   const required = {
@@ -497,19 +556,46 @@ function buildCouncilResult(input = {}) {
       throw new Error(`${name} is required in a council result`);
     }
   }
-  if (!Array.isArray(assumptions)) {
-    throw new Error('assumptions must be an array');
+  for (const [name, value] of [
+    ['assumptions', assumptions],
+    ['failureScenarios', failureScenarios],
+    ['reconsiderationTriggers', reconsiderationTriggers],
+  ]) {
+    if (!Array.isArray(value)) {
+      throw new Error(`${name} must be an array`);
+    }
   }
 
   const classified = classifyCouncil(input);
 
+  // Tier 3 is the foundational tier, and the protocol requires it to say what
+  // it assumed, how it could fail, and what would justify reopening it. An
+  // empty array here would be a contract met on paper only.
+  if (tier === 3) {
+    for (const [name, value] of [
+      ['assumptions', assumptions],
+      ['failureScenarios', failureScenarios],
+      ['reconsiderationTriggers', reconsiderationTriggers],
+    ]) {
+      if (value.length === 0) {
+        throw new Error(
+          `tier 3 requires ${name}: a foundational decision that names none ` +
+          'has not been examined as one'
+        );
+      }
+    }
+  }
+
   return {
+    tier,
     question: question.trim(),
     claude_final_recommendation: claudeRecommendation.trim(),
     gpt_final_recommendation: gptRecommendation.trim(),
     strongest_agreement: strongestAgreement.trim(),
     meaningful_disagreement: classified.material_disagreements,
     assumptions: [...assumptions],
+    failure_scenarios: [...failureScenarios],
+    reconsideration_triggers: [...reconsiderationTriggers],
     missing_evidence: classified.missing_evidence,
     cost_and_reversibility: costAndReversibility.trim(),
     classification: classified.classification,

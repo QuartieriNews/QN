@@ -69,6 +69,20 @@ Useful flags:
 `--dry-run` is the cheap way to check what would be sent, including that a
 FIRST_PASS request carries no Operator view.
 
+**What the independence rule is, exactly.** A first-pass request has no field
+for the other view, passing one throws, and the question and context are
+refused if they carry a council view marker (`OPERATOR_VIEW`, `STRATEGY_VIEW`).
+That catches the realistic accident — a context assembled from a conversation
+that already holds the Operator view. It does **not** defeat a caller who
+renames the heading: `context` is free text and no check on it can be complete.
+The remaining guarantee is Claude's discipline, which `CLAUDE.md` binds. The
+tool closes the accidental path and says plainly that it cannot close the
+deliberate one.
+
+A completed `FINAL_POSITION` response is also checked to state one of
+`MAINTAIN`, `REVISE` or `INSUFFICIENT_INFORMATION`, uppercase and
+word-bounded — prose that merely uses the word "maintain" is not a position.
+
 There is no `--model` flag. DEC-008 fixes the strategic critic as `gpt-5.6-sol`,
 and the tool refuses any other model: running the Council on a different one
 would widen a DECIDED entry, which is an owner decision rather than a flag.
@@ -86,16 +100,27 @@ The synthesis is deterministic and makes no model call, so it needs no key:
 node council/cli.js --synthesis-file judgements.json
 ```
 
-`judgements.json` carries what the Council concluded — the two final
-recommendations, the strongest agreement, the cost and reversibility reading,
-the assumptions, any material disagreement and any missing evidence, plus
-`normativeImpact` when the answer would commit the project to something. What
-the tool adds is the classification and the `OWNER_DECISION_REQUIRED` gate,
-computed the same way every time. Nothing is inferred and no confidence score
-is produced; a missing required field is an error rather than a silent gap.
+`judgements.json` carries what the Council concluded — the `tier` it ran, the
+two final recommendations, the strongest agreement, the cost and reversibility
+reading, the assumptions, any material disagreement and any missing evidence,
+plus `normativeImpact` when the answer would commit the project to something.
+What the tool adds is the classification and the `OWNER_DECISION_REQUIRED`
+gate, computed the same way every time. Nothing is inferred and no confidence
+score is produced; a missing required field is an error rather than a silent
+gap. The one number in the result is `tier`, which is a label, not a measure.
 
-Tier 1 supplies no `claudePosition`/`gptPosition`: it stops after the two
-first-pass views, so there is no `MAINTAIN` or `REVISE` to report.
+**The tier is required**, because it is what makes the rest enforceable:
+
+- **Tier 1** supplies no `claudePosition`/`gptPosition` — it stops after the two
+  first-pass views, so there is no `MAINTAIN` or `REVISE` to report. Supplying
+  one is refused: it means the run was not tier 1.
+- **Tiers 2 and 3** require *both* positions. A single position is the dangerous
+  case — it reads like tier 1 and would classify as though the other model never
+  had to conclude — so a partial pair is refused.
+- **Tier 3** additionally requires non-empty `assumptions`, `failureScenarios`
+  and `reconsiderationTriggers`. A foundational decision that names none has not
+  been examined as one, and an empty array would meet the contract on paper
+  only.
 
 ## Choosing the tier
 
@@ -105,6 +130,7 @@ deserves; here is what each costs to run.
 | Tier | When | Protocol | Effort |
 |---|---|---|---|
 | **1 — Reversible** | low cost, easy to undo, little architectural impact | one independent view each, then synthesis — no final-position step, so the synthesis takes no `MAINTAIN`/`REVISE` value | `high` |
+
 | **2 — Material** | meaningful cost, dependencies, weeks of downstream work | full: first pass, cross-review, final position | `high` |
 | **3 — Foundational** | hard to reverse, vendor or platform lock-in, editorial policy, legal exposure, material recurring cost | full protocol, plus explicit assumptions, failure scenarios and reconsideration triggers | `xhigh` or `max` |
 

@@ -90,7 +90,9 @@ const USAGE = `council — the GPT strategist of the Strategic Council
        --claude-view-file F --gpt-first-pass-file F --exchange-file F
 
 Synthesis — no model call, no key: classify the finished council and print the
-result the owner reads, including OWNER_DECISION_REQUIRED.
+result the owner reads, including OWNER_DECISION_REQUIRED. The judgements file
+states the tier it ran; tier 1 carries no final positions, tiers 2-3 carry both,
+tier 3 also carries assumptions, failure scenarios and reconsideration triggers.
 
   node council/cli.js --synthesis-file judgements.json
 

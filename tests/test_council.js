@@ -37,7 +37,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 131;
+const CHECKS_EXPECTED = 150;
 
 let failures = 0;
 let checks = 0;
@@ -127,6 +127,23 @@ async function main() {
     check('the context does reach the strategist',
       body.input.includes('DEC-104 fixes the loop roles.'), true);
     check('the stage is stated in the body', body.input.includes('Stage: FIRST_PASS'), true);
+
+    // context is free text, so the named parameter is not the only way in.
+    check('a council view marker in the context is refused',
+      /carries a council view marker/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION,
+        context: `background\n\n${CLAUDE_VIEW}`, rolePrompt: ROLE_PROMPT,
+      })) || ''), true);
+    check('…and in the question',
+      /carries a council view marker/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: `${QUESTION} ### STRATEGY_VIEW`,
+        rolePrompt: ROLE_PROMPT,
+      })) || ''), true);
+    check('ordinary context is unaffected',
+      buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION,
+        context: 'DEC-104 fixes the loop roles.', rolePrompt: ROLE_PROMPT,
+      }).input.includes('DEC-104'), true);
   }
   {
     // The later stages are the ones that may see it, and they require it.
@@ -314,6 +331,64 @@ async function main() {
     check('the stage is echoed on the result', result.stage, STAGES.FIRST_PASS);
     check('usage came back', result.usage.total_tokens, 15);
 
+    // The role prompt requires one of three tokens from the final stage.
+    const malformed = async () => ({
+      ok: true, status: 200,
+      json: async () => ({
+        output: [{ type: 'message', content: [{ type: 'output_text', text: 'I think we should wait.' }] }],
+      }),
+    });
+    check('a completed FINAL_POSITION with no position is refused',
+      /states no position/.test(await threwAsync(() => callStrategist(
+        {
+          stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
+        },
+        { env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: malformed }
+      )) || ''), true);
+    check('…and prose that merely uses the word does not count',
+      /states no position/.test(await threwAsync(() => callStrategist(
+        {
+          stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
+        },
+        {
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [
+              { type: 'output_text', text: 'I maintain my earlier view.' }] }] }),
+          }),
+        }
+      )) || ''), true);
+    check('a declared position passes',
+      (await callStrategist(
+        {
+          stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
+        },
+        {
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [
+              { type: 'output_text', text: 'MAINTAIN — Rome first.' }] }] }),
+          }),
+        }
+      )).stage, STAGES.FINAL_POSITION);
+    check('a first pass is not held to that rule',
+      (await callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT },
+        {
+          env: { OPENAI_API_KEY: 'sk-test' },
+          fetchImpl: async () => ({
+            ok: true, status: 200,
+            json: async () => ({ output: [{ type: 'message', content: [
+              { type: 'output_text', text: 'Recommendation: stay Rome-only.' }] }] }),
+          }),
+        }
+      )).text, 'Recommendation: stay Rome-only.');
+
     const errorMsg = await threwAsync(() => callStrategist(
       { stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT },
       {
@@ -358,7 +433,7 @@ async function main() {
   console.log('deterministic synthesis — classification and the owner gate');
   {
     const converged = classifyCouncil({
-      claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN',
+      tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN',
       sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
     });
     check('agreement with nothing missing -> strong convergence',
@@ -367,61 +442,75 @@ async function main() {
 
     check('…unless the question commits something normative',
       classifyCouncil({
-        claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
+        tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
         materialDisagreements: [], missingEvidence: [], normativeImpact: true,
       }).owner_decision_required, 'YES');
 
     check('agreement with missing evidence -> weak convergence',
       classifyCouncil({
-        claudePosition: 'MAINTAIN', gptPosition: 'REVISE', sameRecommendation: true,
+        tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'REVISE', sameRecommendation: true,
         materialDisagreements: [], missingEvidence: ['no cost data for a second city'],
       }).classification, CLASSIFICATIONS.WEAK_CONVERGENCE);
 
     check('a material disagreement outranks a shared recommendation',
       classifyCouncil({
-        claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
+        tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
         materialDisagreements: ['sequencing of the venue registry'], missingEvidence: [],
       }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
 
     check('different recommendations -> meaningful disagreement',
       classifyCouncil({
-        claudePosition: 'MAINTAIN', gptPosition: 'REVISE', sameRecommendation: false,
+        tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'REVISE', sameRecommendation: false,
       }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
 
     check('either side short of information outranks everything',
       classifyCouncil({
-        claudePosition: 'INSUFFICIENT_INFORMATION', gptPosition: 'MAINTAIN',
+        tier: 2, claudePosition: 'INSUFFICIENT_INFORMATION', gptPosition: 'MAINTAIN',
         sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
       }).classification, CLASSIFICATIONS.INSUFFICIENT_INFORMATION);
     check('…and forces the owner gate',
       classifyCouncil({
-        claudePosition: 'MAINTAIN', gptPosition: 'INSUFFICIENT_INFORMATION',
+        tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'INSUFFICIENT_INFORMATION',
         sameRecommendation: true,
       }).owner_decision_required, 'YES');
 
     check('an unknown position throws',
       typeof threw(() => classifyCouncil({
-        claudePosition: 'YES', gptPosition: 'MAINTAIN',
+        tier: 2, claudePosition: 'YES', gptPosition: 'MAINTAIN',
       })) === 'string', true);
 
     // Tier 1 stops after the two first-pass views, so there is no MAINTAIN or
     // REVISE to report and the synthesis must not demand one.
     check('tier 1 synthesises without any final position',
       classifyCouncil({
-        sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
+        tier: 1, sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
       }).classification, CLASSIFICATIONS.STRONG_CONVERGENCE);
     check('…and still separates disagreement',
       classifyCouncil({
-        sameRecommendation: false, materialDisagreements: [], missingEvidence: [],
+        tier: 1, sameRecommendation: false, materialDisagreements: [], missingEvidence: [],
       }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
-    check('…and still flags missing evidence',
-      classifyCouncil({
-        sameRecommendation: true, materialDisagreements: [],
-        missingEvidence: ['no cost data'],
-      }).classification, CLASSIFICATIONS.WEAK_CONVERGENCE);
-    check('an invalid position is still refused when one is given',
-      /or omitted for a tier-1 synthesis/.test(threw(() => classifyCouncil({
-        claudePosition: 'PROBABLY', sameRecommendation: true,
+
+    // The tier is what makes the position rules enforceable at all.
+    check('the tier is required, not inferred',
+      /tier must be 1, 2 or 3/.test(threw(() => classifyCouncil({
+        claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
+      })) || ''), true);
+    check('a position on a tier-1 run is refused: it was not tier 1',
+      /a position here means the run was not tier 1/.test(threw(() => classifyCouncil({
+        tier: 1, claudePosition: 'MAINTAIN', sameRecommendation: true,
+      })) || ''), true);
+    check('a partial position pair is refused on tier 2',
+      /both claudePosition and gptPosition are required; 1 of 2 supplied/.test(
+        threw(() => classifyCouncil({
+          tier: 2, claudePosition: 'MAINTAIN', sameRecommendation: true,
+        })) || ''), true);
+    check('…and a tier-2 run missing both is refused rather than read as tier 1',
+      /0 of 2 supplied/.test(threw(() => classifyCouncil({
+        tier: 2, sameRecommendation: true,
+      })) || ''), true);
+    check('an invalid position is still refused',
+      /must be one of MAINTAIN/.test(threw(() => classifyCouncil({
+        tier: 2, claudePosition: 'PROBABLY', gptPosition: 'MAINTAIN', sameRecommendation: true,
       })) || ''), true);
 
     // "Do not manufacture a numeric confidence score" (Issue #5).
@@ -434,6 +523,7 @@ async function main() {
   console.log('the council result the owner reads — produced, not described');
   {
     const judgements = {
+      tier: 2,
       question: QUESTION,
       claudeRecommendation: 'Optimise for Rome; revisit at the second city.',
       gptRecommendation: 'Same, and record the trigger that would reopen it.',
@@ -448,9 +538,10 @@ async function main() {
       normativeImpact: true,
     };
     const result = buildCouncilResult(judgements);
-    for (const field of ['question', 'claude_final_recommendation',
+    for (const field of ['tier', 'question', 'claude_final_recommendation',
       'gpt_final_recommendation', 'strongest_agreement', 'meaningful_disagreement',
-      'assumptions', 'missing_evidence', 'cost_and_reversibility',
+      'assumptions', 'failure_scenarios', 'reconsideration_triggers',
+      'missing_evidence', 'cost_and_reversibility',
       'classification', 'OWNER_DECISION_REQUIRED']) {
       check(`the result carries '${field}'`,
         Object.prototype.hasOwnProperty.call(result, field), true);
@@ -458,8 +549,11 @@ async function main() {
     check('it classifies', result.classification, CLASSIFICATIONS.STRONG_CONVERGENCE);
     check('it gates on the owner when the question is normative',
       result.OWNER_DECISION_REQUIRED, 'YES');
-    check('it still manufactures no number',
-      Object.values(result).some((v) => typeof v === 'number'), false);
+    check('it still manufactures no confidence score',
+      Object.keys(result).some((k) => /confidence|score|probability|percent/i.test(k)), false);
+    check('…and the only number is the tier, which is a label not a measure',
+      Object.entries(result).filter(([, v]) => typeof v === 'number').map(([k]) => k),
+      ['tier']);
     // A judgements file may be model-authored, and "false" is a truthy string.
     check('a string "false" is refused rather than coerced',
       /sameRecommendation must be a boolean/.test(threw(() => buildCouncilResult({
@@ -469,6 +563,28 @@ async function main() {
       /normativeImpact must be a boolean/.test(threw(() => buildCouncilResult({
         ...judgements, normativeImpact: 'false',
       })) || ''), true);
+    // Tier 3 is the foundational tier; its evidence is the contract.
+    const tier3 = { ...judgements, tier: 3 };
+    for (const field of ['assumptions', 'failureScenarios', 'reconsiderationTriggers']) {
+      check(`tier 3 requires ${field}`,
+        new RegExp(`tier 3 requires ${field}`).test(threw(() => buildCouncilResult({
+          ...tier3,
+          failureScenarios: ['the second city never materialises'],
+          reconsiderationTriggers: ['a second city is funded'],
+          [field]: [],
+        })) || ''), true);
+    }
+    const founded = buildCouncilResult({
+      ...tier3,
+      failureScenarios: ['the second city never materialises'],
+      reconsiderationTriggers: ['a second city is funded'],
+    });
+    check('a complete tier 3 emits its evidence',
+      [founded.failure_scenarios.length, founded.reconsideration_triggers.length,
+        founded.assumptions.length], [1, 1, 1]);
+    check('tier 2 does not demand tier-3 evidence',
+      buildCouncilResult(judgements).failure_scenarios, []);
+
     check('a missing required field throws rather than emitting a gap',
       /strongestAgreement is required/.test(threw(() => buildCouncilResult({
         ...judgements, strongestAgreement: '',
@@ -480,6 +596,7 @@ async function main() {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'council-'));
     const file = path.join(tmp, 'judgements.json');
     fs.writeFileSync(file, JSON.stringify({
+      tier: 2,
       question: 'q',
       claudeRecommendation: 'a',
       gptRecommendation: 'b',
