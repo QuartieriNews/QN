@@ -110,12 +110,24 @@ independently. FINAL_POSITION requires both first-pass views and the
 cross-review exchange: the protocol critiques before it concludes.
 See council/README.md and docs/strategic-council/README.md.`;
 
-function saveSession(record) {
-  fs.mkdirSync(SESSIONS_DIR, { recursive: true });
-  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const file = path.join(SESSIONS_DIR, `${stamp}-${record.stage}.json`);
-  fs.writeFileSync(file, `${JSON.stringify(record, null, 2)}\n`);
-  return file;
+// `dir` and `now` are test seams, like the fetch and env seams in strategist.js:
+// a collision is only reproducible with a fixed clock.
+function saveSession(record, { dir = SESSIONS_DIR, now = new Date() } = {}) {
+  fs.mkdirSync(dir, { recursive: true });
+  const stamp = now.toISOString().replace(/[:.]/g, '-');
+  // A record is a log of a call that was paid for, so it is never overwritten:
+  // two saves of the same stage within one millisecond would otherwise collide
+  // and the second would silently replace the first. 'wx' fails instead.
+  for (let attempt = 0; ; attempt += 1) {
+    const suffix = attempt === 0 ? '' : `-${attempt}`;
+    const file = path.join(dir, `${stamp}-${record.stage}${suffix}.json`);
+    try {
+      fs.writeFileSync(file, `${JSON.stringify(record, null, 2)}\n`, { flag: 'wx' });
+      return file;
+    } catch (cause) {
+      if (cause.code !== 'EEXIST') throw cause;
+    }
+  }
 }
 
 async function main(argv = process.argv.slice(2)) {
@@ -221,4 +233,4 @@ if (require.main === module) {
   );
 }
 
-module.exports = { main, parseArgv, SESSIONS_DIR };
+module.exports = { main, parseArgv, saveSession, SESSIONS_DIR };

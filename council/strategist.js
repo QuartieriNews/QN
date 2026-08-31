@@ -245,8 +245,15 @@ function buildFinalPositionInput({ question, context, claudeView, gptFirstPass, 
  * `claudeView` is rejected outright at FIRST_PASS rather than ignored: a caller
  * that passes it has misunderstood the protocol, and silently dropping it would
  * hide that.
+ *
+ * The strategist role prompt is a prompt of record and is read from the
+ * repository at call time. It is overridable only through `deps`, alongside the
+ * other test seams, and never through `options` — a caller reaching for it in
+ * the ordinary argument would be running the pinned model under an arbitrary
+ * role, which is the one substitution the model pin exists to prevent.
  */
-function buildRequest(options = {}) {
+function buildRequest(options = {}, deps = {}) {
+  const { rolePrompt } = deps;
   const {
     stage,
     question,
@@ -257,9 +264,15 @@ function buildRequest(options = {}) {
     model = DEFAULT_MODEL,
     effort = DEFAULT_EFFORT,
     tier,
-    rolePrompt,
   } = options;
 
+  if (Object.prototype.hasOwnProperty.call(options, 'rolePrompt')) {
+    throw new Error(
+      'rolePrompt is not a request option: the strategist prompt is a prompt ' +
+      'of record, read from the repository at call time. Tests inject it ' +
+      'through the second argument, alongside the other seams.'
+    );
+  }
   if (!Object.prototype.hasOwnProperty.call(STAGES, stage)) {
     throw new Error(
       `unknown stage '${stage}'; use one of ${Object.keys(STAGES).join(', ')}`
@@ -419,7 +432,7 @@ async function callStrategist(options = {}, deps = {}) {
   } = deps;
 
   const apiKey = readApiKey(env);
-  const body = buildRequest(options);
+  const body = buildRequest(options, deps);
 
   if (typeof fetchImpl !== 'function') {
     throw new Error('no fetch implementation available');
@@ -489,10 +502,10 @@ function classifyCouncil(input = {}) {
     tier,
     claudePosition,
     gptPosition,
-    sameRecommendation = false,
-    materialDisagreements = [],
-    missingEvidence = [],
-    normativeImpact = false,
+    sameRecommendation,
+    materialDisagreements,
+    missingEvidence,
+    normativeImpact,
   } = input;
 
   // The tier decides whether final positions exist at all: tier 1 stops after
@@ -526,8 +539,19 @@ function classifyCouncil(input = {}) {
       `gptPosition are required; ${given} of 2 supplied`
     );
   }
-  if (!Array.isArray(materialDisagreements) || !Array.isArray(missingEvidence)) {
-    throw new Error('materialDisagreements and missingEvidence must be arrays');
+  // Every field below drives the classification or the owner gate, so none may
+  // be defaulted. A default answers the question the Council was asked: an
+  // omitted materialDisagreements would read as "they did not disagree", which
+  // is a finding, not a blank. An omitted field is an error, as the README says.
+  for (const [name, value] of [
+    ['materialDisagreements', materialDisagreements], ['missingEvidence', missingEvidence],
+  ]) {
+    if (!Array.isArray(value)) {
+      throw new Error(
+        `${name} is required and must be an array (empty means the Council ` +
+        `found none), not ${value === undefined ? 'omitted' : typeof value}`
+      );
+    }
   }
   // A judgements file may be written by a model, and "false" is a truthy string.
   // Coercing it would flip the owner gate silently, so the type is checked.
@@ -535,7 +559,10 @@ function classifyCouncil(input = {}) {
     ['sameRecommendation', sameRecommendation], ['normativeImpact', normativeImpact],
   ]) {
     if (typeof value !== 'boolean') {
-      throw new Error(`${name} must be a boolean, not ${typeof value}`);
+      throw new Error(
+        `${name} is required and must be a boolean, not ` +
+        `${value === undefined ? 'omitted' : typeof value}`
+      );
     }
   }
 

@@ -92,6 +92,13 @@ There is no `--model` flag. DEC-008 fixes the strategic critic as `gpt-5.6-sol`,
 and the tool refuses any other model: running the Council on a different one
 would widen a DECIDED entry, which is an owner decision rather than a flag.
 
+There is no role-prompt flag either, and `rolePrompt` is refused as a request
+option. `prompts/STRATEGIC_COUNCIL_CHATGPT.md` is a prompt of record, read from
+the repository at call time and sent as the request instructions; substituting
+it would run the pinned model under an arbitrary role, which is exactly what
+pinning the model exists to prevent. The tests inject a stub through the same
+argument that carries the fetch and env seams, so the seam is visible as one.
+
 `FINAL_POSITION` requires the strategist's own first-pass view, the Operator's,
 and the cross-review exchange. `MAINTAIN` and `REVISE` are both relative to a
 position it already took, and the protocol critiques before it concludes — only
@@ -105,14 +112,32 @@ The synthesis is deterministic and makes no model call, so it needs no key:
 node council/cli.js --synthesis-file judgements.json
 ```
 
-`judgements.json` carries what the Council concluded — the `tier` it ran, the
-two final recommendations, the strongest agreement, the cost and reversibility
-reading, the assumptions, any material disagreement and any missing evidence,
-plus `normativeImpact` when the answer would commit the project to something.
-What the tool adds is the classification and the `OWNER_DECISION_REQUIRED`
-gate, computed the same way every time. Nothing is inferred and no confidence
-score is produced; a missing required field is an error rather than a silent
-gap. The one number in the result is `tier`, which is a label, not a measure.
+`judgements.json` carries what the Council concluded. What the tool adds is the
+classification and the `OWNER_DECISION_REQUIRED` gate, computed the same way
+every time. Nothing is inferred and no confidence score is produced; a missing
+required field is an error rather than a silent gap. The one number in the
+result is `tier`, which is a label, not a measure.
+
+| Field | Type | Required |
+|---|---|---|
+| `tier` | `1`, `2` or `3` | always |
+| `question` | string | always |
+| `claudeRecommendation`, `gptRecommendation` | string | always |
+| `strongestAgreement` | string | always |
+| `costAndReversibility` | string | always |
+| `sameRecommendation` | boolean | always |
+| `materialDisagreements` | array | always — empty means the Council found none |
+| `missingEvidence` | array | always — empty means the Council found none |
+| `normativeImpact` | boolean | always |
+| `claudePosition`, `gptPosition` | `MAINTAIN` / `REVISE` / `INSUFFICIENT_INFORMATION` | tiers 2–3 only, both or neither |
+| `assumptions`, `failureScenarios`, `reconsiderationTriggers` | array of non-empty strings | tier 3 |
+
+Every field that drives the classification or the gate is required outright,
+with **no default**. An omitted `materialDisagreements` is not an empty one: a
+default would answer the question the Council was asked, and "they found no
+material disagreement" is a finding, not a blank. Empty arrays and `false` say
+that explicitly, and the error distinguishes an omitted field from a mistyped
+one.
 
 **The tier is required**, because it is what makes the rest enforceable:
 
@@ -165,6 +190,10 @@ it, then run it.
 Conversation is working memory; GitHub is institutional memory. A council
 session is not an artefact of record: only an explicit owner decision becomes a
 `DEC` entry, drafted in the existing format and decided by the owner.
+
+A record is never overwritten: two saves of the same stage within one
+millisecond get distinct filenames rather than the second silently replacing the
+first. A record logs a call that was paid for.
 
 A session record is a **response and usage log**, not a resume point: it keeps
 the stage, the question, the answer and the token usage, and deliberately not

@@ -61,9 +61,11 @@ its roles; DEC-007 fixed where a code review is archived. Both stand unchanged.
 DEC-008 adds a layer above them and names the model that occupies it.
 
 Impact: `CLAUDE.md` (Strategic Council mode routing), `council/`,
-`docs/strategic-council/`, `prompts/STRATEGIC_COUNCIL_*.md`. No pipeline,
-gazetteer, prompt-of-record or n8n behaviour changes. Recurring cost: one
-OpenAI key and a per-question spend the owner controls; no minimum commitment.
+`docs/strategic-council/`, `prompts/STRATEGIC_COUNCIL_*.md`. Two new Council
+prompts of record are added — the role prompts named above, changelogged like
+any other. No pipeline, gazetteer or n8n behaviour changes, and no existing
+prompt of record is altered. Recurring cost: one OpenAI key and a per-question
+spend the owner controls; no minimum commitment.
 
 Decided by: Owner · Date: 31 August 2026 · Affected: CLAUDE.md, council/,
 docs/strategic-council/, prompts/, DEC-104 and DEC-007 (unchanged, referenced).

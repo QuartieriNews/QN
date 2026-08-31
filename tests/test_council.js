@@ -38,7 +38,7 @@ const {
  * silently stops being a missing-test signal. The root README states the same
  * number, and a check below holds the two together.
  */
-const CHECKS_EXPECTED = 183;
+const CHECKS_EXPECTED = 200;
 
 let failures = 0;
 let checks = 0;
@@ -83,6 +83,18 @@ function forbiddenFetch(state) {
 }
 
 const ROLE_PROMPT = '# stub strategist role prompt';
+// The role prompt is a prompt of record: overridable only through the test
+// seams, never through the request options (cycle 7).
+const SEAM = { rolePrompt: ROLE_PROMPT };
+// Every classification input is required (cycle 7): a default would answer the
+// question the Council was asked. Tests not about a particular field spread
+// this complete, deliberately neutral base and override what they are testing.
+const NEUTRAL = {
+  sameRecommendation: true,
+  materialDisagreements: [],
+  missingEvidence: [],
+  normativeImpact: false,
+};
 const QUESTION = 'Generalise the geography engine for many cities now, or optimise for Rome?';
 const CLAUDE_VIEW = '### OPERATOR_VIEW\nRecommendation: optimise for Rome first.';
 
@@ -100,8 +112,8 @@ async function main() {
   {
     const state = { called: false };
     const msg = await threwAsync(() => callStrategist(
-      { stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT },
-      { env: {}, fetchImpl: forbiddenFetch(state) }
+      { stage: STAGES.FIRST_PASS, question: QUESTION }, 
+      { rolePrompt: ROLE_PROMPT, env: {}, fetchImpl: forbiddenFetch(state) }
     ));
     check('callStrategist without a key throws', /OPENAI_API_KEY/.test(msg || ''), true);
     check('…and never reached the network', state.called, false);
@@ -111,14 +123,14 @@ async function main() {
   {
     const msg = threw(() => buildRequest({
       stage: STAGES.FIRST_PASS, question: QUESTION,
-      claudeView: CLAUDE_VIEW, rolePrompt: ROLE_PROMPT,
-    }));
+      claudeView: CLAUDE_VIEW
+    }, SEAM));
     check('passing a Claude view to FIRST_PASS throws', /independence rule/.test(msg || ''), true);
 
     const body = buildRequest({
       stage: STAGES.FIRST_PASS, question: QUESTION,
-      context: 'DEC-104 fixes the loop roles.', rolePrompt: ROLE_PROMPT,
-    });
+      context: 'DEC-104 fixes the loop roles.'
+    }, SEAM);
     const serialised = JSON.stringify(body);
     check('the built request contains no Claude view text',
       serialised.includes('optimise for Rome first'), false);
@@ -136,54 +148,52 @@ async function main() {
     check('a council view marker in the context is refused',
       /carries a council view marker/.test(threw(() => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION,
-        context: `background\n\n${CLAUDE_VIEW}`, rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        context: `background\n\n${CLAUDE_VIEW}`
+      }, SEAM)) || ''), true);
     check('…and in the question',
       /carries a council view marker/.test(threw(() => buildRequest({
-        stage: STAGES.FIRST_PASS, question: `${QUESTION} ### STRATEGY_VIEW`,
-        rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        stage: STAGES.FIRST_PASS, question: `${QUESTION} ### STRATEGY_VIEW`
+      }, SEAM)) || ''), true);
     check('ordinary context is unaffected',
       buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION,
-        context: 'DEC-104 fixes the loop roles.', rolePrompt: ROLE_PROMPT,
-      }).input.includes('DEC-104'), true);
+        context: 'DEC-104 fixes the loop roles.'
+      }, SEAM).input.includes('DEC-104'), true);
   }
   {
     // The later stages are the ones that may see it, and they require it.
     check('CROSS_REVIEW without the Claude view throws',
       /requires the Claude view/.test(threw(() => buildRequest({
         stage: STAGES.CROSS_REVIEW, question: QUESTION,
-        gptFirstPass: 'mine', rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        gptFirstPass: 'mine'
+      }, SEAM)) || ''), true);
 
     const body = buildRequest({
       stage: STAGES.CROSS_REVIEW, question: QUESTION, claudeView: CLAUDE_VIEW,
-      gptFirstPass: '### STRATEGY_VIEW\nmine', rolePrompt: ROLE_PROMPT,
-    });
+      gptFirstPass: '### STRATEGY_VIEW\nmine'
+    }, SEAM);
     check('CROSS_REVIEW does carry the Claude view',
       body.input.includes('optimise for Rome first'), true);
     check('FINAL_POSITION also requires it',
       /requires the Claude view/.test(threw(() => buildRequest({
-        stage: STAGES.FINAL_POSITION, question: QUESTION, rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        stage: STAGES.FINAL_POSITION, question: QUESTION
+      }, SEAM)) || ''), true);
     // A position can only be maintained or revised if it was formed first.
     check('FINAL_POSITION requires the strategist own first pass too',
       /never formed/.test(threw(() => buildRequest({
         stage: STAGES.FINAL_POSITION, question: QUESTION,
-        claudeView: CLAUDE_VIEW, rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        claudeView: CLAUDE_VIEW
+      }, SEAM)) || ''), true);
     // Only tiers 2 and 3 reach this stage, and both cross-review first.
     check('FINAL_POSITION requires the cross-review exchange',
       /critiques before it concludes/.test(threw(() => buildRequest({
         stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
-        gptFirstPass: '### STRATEGY_VIEW\nmine', rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        gptFirstPass: '### STRATEGY_VIEW\nmine'
+      }, SEAM)) || ''), true);
     const finalBody = buildRequest({
       stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
-      gptFirstPass: '### STRATEGY_VIEW\nmine', exchange: 'the critique',
-      rolePrompt: ROLE_PROMPT,
-    });
+      gptFirstPass: '### STRATEGY_VIEW\nmine', exchange: 'the critique'
+    }, SEAM);
     check('FINAL_POSITION builds when the whole protocol precedes it',
       finalBody.input.includes('Your first-pass STRATEGY_VIEW')
       && finalBody.input.includes('the critique'), true);
@@ -191,32 +201,32 @@ async function main() {
 
   console.log('acceptance 3 — the model defaults to the general reasoning model');
   {
-    const body = buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT });
+    const body = buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION }, SEAM);
     check('default model', body.model, 'gpt-5.6-sol');
     check('exported default agrees', DEFAULT_MODEL, 'gpt-5.6-sol');
     check('the model is pinned: another OpenAI model is refused (DEC-008)',
       /DEC-008 fixes the strategic critic/.test(threw(() => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION,
-        model: 'gpt-4.1', rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        model: 'gpt-4.1'
+      }, SEAM)) || ''), true);
     check('…including a near-miss variant',
       typeof threw(() => buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION,
-        model: 'gpt-5.6-sol-mini', rolePrompt: ROLE_PROMPT,
-      })) === 'string', true);
+        model: 'gpt-5.6-sol-mini'
+      }, SEAM)) === 'string', true);
     check('the decided model is accepted',
       buildRequest({
         stage: STAGES.FIRST_PASS, question: QUESTION,
-        model: DEFAULT_MODEL, rolePrompt: ROLE_PROMPT,
-      }).model, DEFAULT_MODEL);
+        model: DEFAULT_MODEL
+      }, SEAM).model, DEFAULT_MODEL);
     check('a Codex model is refused as strategic critic',
       /never a coding model/.test(threw(() => buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, model: 'codex-max', rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        stage: STAGES.FIRST_PASS, question: QUESTION, model: 'codex-max'
+      }, SEAM)) || ''), true);
     check('…case-insensitively',
       typeof threw(() => buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, model: 'GPT-5-CODEX', rolePrompt: ROLE_PROMPT,
-      })) === 'string', true);
+        stage: STAGES.FIRST_PASS, question: QUESTION, model: 'GPT-5-CODEX'
+      }, SEAM)) === 'string', true);
     check('the endpoint is the Responses API',
       RESPONSES_ENDPOINT, 'https://api.openai.com/v1/responses');
   }
@@ -225,67 +235,66 @@ async function main() {
   {
     check('tier 3 refuses the default effort',
       /tier 3 requires reasoning effort/.test(threw(() => buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3, rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3
+      }, SEAM)) || ''), true);
     for (const effort of TIER_3_EFFORTS) {
       check(`tier 3 accepts '${effort}'`,
         buildRequest({
-          stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3, effort,
-          rolePrompt: ROLE_PROMPT,
-        }).reasoning.effort, effort);
+          stage: STAGES.FIRST_PASS, question: QUESTION, tier: 3, effort
+        }, SEAM).reasoning.effort, effort);
     }
     check('tiers 1 and 2 are content with the default',
       [1, 2].every((tier) => buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, tier, rolePrompt: ROLE_PROMPT,
-      }).reasoning.effort === DEFAULT_EFFORT), true);
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier
+      }, SEAM).reasoning.effort === DEFAULT_EFFORT), true);
     check('buildRequest keeps its default when no tier is stated (the CLI requires one)',
       buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT,
-      }).reasoning.effort, DEFAULT_EFFORT);
+        stage: STAGES.FIRST_PASS, question: QUESTION
+      }, SEAM).reasoning.effort, DEFAULT_EFFORT);
     // Cycle 6: tier 1 stops after the two first-pass views, so a later stage
     // at tier 1 is a run whose positions the tier-1 synthesis would refuse.
     for (const stage of [STAGES.CROSS_REVIEW, STAGES.FINAL_POSITION]) {
       check(`tier 1 refuses ${stage}`,
         /tier 1 has no/.test(threw(() => buildRequest({
           stage, question: QUESTION, tier: 1, claudeView: CLAUDE_VIEW,
-          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
-        })) || ''), true);
+          gptFirstPass: 'mine', exchange: 'the critique'
+        }, SEAM)) || ''), true);
       check(`…and tier 2 allows ${stage}`,
         buildRequest({
           stage, question: QUESTION, tier: 2, claudeView: CLAUDE_VIEW,
-          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
-        }).reasoning.effort, DEFAULT_EFFORT);
+          gptFirstPass: 'mine', exchange: 'the critique'
+        }, SEAM).reasoning.effort, DEFAULT_EFFORT);
     }
     check('tier 1 still allows the stage it does have',
       buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 1, rolePrompt: ROLE_PROMPT,
-      }).reasoning.effort, DEFAULT_EFFORT);
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 1
+      }, SEAM).reasoning.effort, DEFAULT_EFFORT);
     check('an impossible tier is refused',
       /tier must be 1, 2 or 3/.test(threw(() => buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 4, rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        stage: STAGES.FIRST_PASS, question: QUESTION, tier: 4
+      }, SEAM)) || ''), true);
   }
 
   console.log('acceptance 4 — reasoning effort defaults to high and is validated');
   {
-    const body = buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT });
+    const body = buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION }, SEAM);
     check('default effort', body.reasoning.effort, 'high');
     check('exported default agrees', DEFAULT_EFFORT, 'high');
     check('allowed tiers', ALLOWED_EFFORTS, ['high', 'xhigh', 'max']);
     for (const effort of ALLOWED_EFFORTS) {
       check(`'${effort}' is accepted`,
         buildRequest({
-          stage: STAGES.FIRST_PASS, question: QUESTION, effort, rolePrompt: ROLE_PROMPT,
-        }).reasoning.effort, effort);
+          stage: STAGES.FIRST_PASS, question: QUESTION, effort
+        }, SEAM).reasoning.effort, effort);
     }
     check("'low' is refused (the Council does not reason cheaply)",
       /not allowed/.test(threw(() => buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, effort: 'low', rolePrompt: ROLE_PROMPT,
-      })) || ''), true);
+        stage: STAGES.FIRST_PASS, question: QUESTION, effort: 'low'
+      }, SEAM)) || ''), true);
     check("'' is refused",
       typeof threw(() => buildRequest({
-        stage: STAGES.FIRST_PASS, question: QUESTION, effort: '', rolePrompt: ROLE_PROMPT,
-      })) === 'string', true);
+        stage: STAGES.FIRST_PASS, question: QUESTION, effort: ''
+      }, SEAM)) === 'string', true);
   }
 
   console.log('acceptance 5 — a fixture response is parsed for text and usage, offline');
@@ -370,8 +379,8 @@ async function main() {
       };
     };
     const result = await callStrategist(
-      { stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT },
-      { env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl }
+      { stage: STAGES.FIRST_PASS, question: QUESTION }, 
+      { rolePrompt: ROLE_PROMPT, env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl }
     );
     check('the injected transport was used', state.called, true);
     check('it posted to the Responses endpoint', state.seen.url, RESPONSES_ENDPOINT);
@@ -391,17 +400,17 @@ async function main() {
       /exactly one of/.test(await threwAsync(() => callStrategist(
         {
           stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
-          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
-        },
-        { env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: malformed }
+          gptFirstPass: 'mine', exchange: 'the critique'
+        }, 
+        { rolePrompt: ROLE_PROMPT, env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: malformed }
       )) || ''), true);
     check('…and prose that merely uses the word does not count',
       /exactly one of/.test(await threwAsync(() => callStrategist(
         {
           stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
-          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
-        },
-        {
+          gptFirstPass: 'mine', exchange: 'the critique'
+        }, 
+        { rolePrompt: ROLE_PROMPT,
           env: { OPENAI_API_KEY: 'sk-test' },
           fetchImpl: async () => ({
             ok: true, status: 200,
@@ -414,9 +423,9 @@ async function main() {
       (await callStrategist(
         {
           stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
-          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
-        },
-        {
+          gptFirstPass: 'mine', exchange: 'the critique'
+        }, 
+        { rolePrompt: ROLE_PROMPT,
           env: { OPENAI_API_KEY: 'sk-test' },
           fetchImpl: async () => ({
             ok: true, status: 200,
@@ -430,9 +439,9 @@ async function main() {
     const ambiguous = await threwAsync(() => callStrategist(
       {
         stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
-        gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
-      },
-      {
+        gptFirstPass: 'mine', exchange: 'the critique'
+      }, 
+      { rolePrompt: ROLE_PROMPT,
         env: { OPENAI_API_KEY: 'sk-test' },
         fetchImpl: async () => ({
           ok: true, status: 200,
@@ -449,9 +458,9 @@ async function main() {
       (await callStrategist(
         {
           stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
-          gptFirstPass: 'mine', exchange: 'the critique', rolePrompt: ROLE_PROMPT,
-        },
-        {
+          gptFirstPass: 'mine', exchange: 'the critique'
+        }, 
+        { rolePrompt: ROLE_PROMPT,
           env: { OPENAI_API_KEY: 'sk-test' },
           fetchImpl: async () => ({
             ok: true, status: 200,
@@ -462,8 +471,8 @@ async function main() {
       )).stage, STAGES.FINAL_POSITION);
     check('a first pass is not held to that rule',
       (await callStrategist(
-        { stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT },
-        {
+        { stage: STAGES.FIRST_PASS, question: QUESTION }, 
+        { rolePrompt: ROLE_PROMPT,
           env: { OPENAI_API_KEY: 'sk-test' },
           fetchImpl: async () => ({
             ok: true, status: 200,
@@ -474,8 +483,8 @@ async function main() {
       )).text, 'Recommendation: stay Rome-only.');
 
     const errorMsg = await threwAsync(() => callStrategist(
-      { stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: ROLE_PROMPT },
-      {
+      { stage: STAGES.FIRST_PASS, question: QUESTION }, 
+      { rolePrompt: ROLE_PROMPT,
         env: { OPENAI_API_KEY: 'sk-test' },
         fetchImpl: async () => ({ ok: false, status: 429, text: async () => 'rate limited' }),
       }
@@ -530,7 +539,7 @@ async function main() {
 
   console.log('deterministic synthesis — classification and the owner gate');
   {
-    const converged = classifyCouncil({
+    const converged = classifyCouncil({ ...NEUTRAL,
       tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN',
       sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
     });
@@ -539,75 +548,91 @@ async function main() {
     check('…and no owner decision is forced', converged.owner_decision_required, 'NO');
 
     check('…unless the question commits something normative',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
         materialDisagreements: [], missingEvidence: [], normativeImpact: true,
       }).owner_decision_required, 'YES');
 
     check('agreement with missing evidence -> weak convergence',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'REVISE', sameRecommendation: true,
         materialDisagreements: [], missingEvidence: ['no cost data for a second city'],
       }).classification, CLASSIFICATIONS.WEAK_CONVERGENCE);
 
     check('a material disagreement outranks a shared recommendation',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
         materialDisagreements: ['sequencing of the venue registry'], missingEvidence: [],
       }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
 
     check('different recommendations -> meaningful disagreement',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'REVISE', sameRecommendation: false,
       }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
 
     check('either side short of information outranks everything',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'INSUFFICIENT_INFORMATION', gptPosition: 'MAINTAIN',
         sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
       }).classification, CLASSIFICATIONS.INSUFFICIENT_INFORMATION);
     check('…and forces the owner gate',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'MAINTAIN', gptPosition: 'INSUFFICIENT_INFORMATION',
         sameRecommendation: true,
       }).owner_decision_required, 'YES');
 
     check('an unknown position throws',
-      typeof threw(() => classifyCouncil({
+      typeof threw(() => classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'YES', gptPosition: 'MAINTAIN',
       })) === 'string', true);
 
     // Tier 1 stops after the two first-pass views, so there is no MAINTAIN or
     // REVISE to report and the synthesis must not demand one.
     check('tier 1 synthesises without any final position',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 1, sameRecommendation: true, materialDisagreements: [], missingEvidence: [],
       }).classification, CLASSIFICATIONS.STRONG_CONVERGENCE);
     check('…and still separates disagreement',
-      classifyCouncil({
+      classifyCouncil({ ...NEUTRAL,
         tier: 1, sameRecommendation: false, materialDisagreements: [], missingEvidence: [],
       }).classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
 
+    // Cycle 7: a default answers the question the Council was asked. An omitted
+    // materialDisagreements read as "they did not disagree", which is a finding.
+    for (const field of
+      ['sameRecommendation', 'materialDisagreements', 'missingEvidence', 'normativeImpact']) {
+      const partial = { ...NEUTRAL, tier: 1 };
+      delete partial[field];
+      check(`omitting ${field} is an error, not a silent gap`,
+        new RegExp(`${field} is required`).test(threw(() => classifyCouncil(partial)) || ''), true);
+      check(`…and the message says it was omitted, not mistyped`,
+        /not omitted/.test(threw(() => classifyCouncil(partial)) || ''), true);
+    }
+    check('a wrong type is still distinguished from an omission',
+      /not string/.test(threw(() => classifyCouncil({
+        ...NEUTRAL, tier: 1, missingEvidence: 'none',
+      })) || ''), true);
+
     // The tier is what makes the position rules enforceable at all.
     check('the tier is required, not inferred',
-      /tier must be 1, 2 or 3/.test(threw(() => classifyCouncil({
+      /tier must be 1, 2 or 3/.test(threw(() => classifyCouncil({ ...NEUTRAL,
         claudePosition: 'MAINTAIN', gptPosition: 'MAINTAIN', sameRecommendation: true,
       })) || ''), true);
     check('a position on a tier-1 run is refused: it was not tier 1',
-      /a position here means the run was not tier 1/.test(threw(() => classifyCouncil({
+      /a position here means the run was not tier 1/.test(threw(() => classifyCouncil({ ...NEUTRAL,
         tier: 1, claudePosition: 'MAINTAIN', sameRecommendation: true,
       })) || ''), true);
     check('a partial position pair is refused on tier 2',
       /both claudePosition and gptPosition are required; 1 of 2 supplied/.test(
-        threw(() => classifyCouncil({
+        threw(() => classifyCouncil({ ...NEUTRAL,
           tier: 2, claudePosition: 'MAINTAIN', sameRecommendation: true,
         })) || ''), true);
     check('…and a tier-2 run missing both is refused rather than read as tier 1',
-      /0 of 2 supplied/.test(threw(() => classifyCouncil({
+      /0 of 2 supplied/.test(threw(() => classifyCouncil({ ...NEUTRAL,
         tier: 2, sameRecommendation: true,
       })) || ''), true);
     check('an invalid position is still refused',
-      /must be one of MAINTAIN/.test(threw(() => classifyCouncil({
+      /must be one of MAINTAIN/.test(threw(() => classifyCouncil({ ...NEUTRAL,
         tier: 2, claudePosition: 'PROBABLY', gptPosition: 'MAINTAIN', sameRecommendation: true,
       })) || ''), true);
 
@@ -654,11 +679,11 @@ async function main() {
       ['tier']);
     // A judgements file may be model-authored, and "false" is a truthy string.
     check('a string "false" is refused rather than coerced',
-      /sameRecommendation must be a boolean/.test(threw(() => buildCouncilResult({
+      /sameRecommendation is required and must be a boolean/.test(threw(() => buildCouncilResult({
         ...judgements, sameRecommendation: 'false',
       })) || ''), true);
     check('normativeImpact is type-checked too',
-      /normativeImpact must be a boolean/.test(threw(() => buildCouncilResult({
+      /normativeImpact is required and must be a boolean/.test(threw(() => buildCouncilResult({
         ...judgements, normativeImpact: 'false',
       })) || ''), true);
     // Tier 3 is the foundational tier; its evidence is the contract.
@@ -712,6 +737,9 @@ async function main() {
       claudePosition: 'MAINTAIN',
       gptPosition: 'REVISE',
       sameRecommendation: false,
+      materialDisagreements: [],
+      missingEvidence: [],
+      normativeImpact: false,
     }));
     const { main } = require(path.join(REPO_ROOT, 'council', 'cli.js'));
     const written = [];
@@ -801,6 +829,24 @@ async function main() {
       /cannot read --synthesis-file/.test(
         await threwAsync(() => main(['--synthesis-file', '/nonexistent.json'])) || ''), true);
 
+    // Cycle 7: a session record logs a call that was paid for, so a second save
+    // in the same millisecond must not silently replace the first.
+    {
+      const { saveSession } = require(path.join(REPO_ROOT, 'council', 'cli.js'));
+      const os2 = require('os');
+      const dir = fs.mkdtempSync(path.join(os2.tmpdir(), 'council-save-'));
+      const now = new Date('2026-08-31T15:00:00.000Z');
+      const first = saveSession({ stage: 'FIRST_PASS', text: 'one' }, { dir, now });
+      const second = saveSession({ stage: 'FIRST_PASS', text: 'two' }, { dir, now });
+      check('a same-millisecond save does not reuse the filename', first === second, false);
+      check('…and both records survive', fs.readdirSync(dir).length, 2);
+      check('…with the first one intact',
+        JSON.parse(fs.readFileSync(first, 'utf8')).text, 'one');
+      check('…and the second one too',
+        JSON.parse(fs.readFileSync(second, 'utf8')).text, 'two');
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+
     // Cycle 5: process.exit() dropped whatever stdout had buffered, so a large
     // result was truncated at the pipe buffer. --dry-run makes no call, so the
     // whole path is exercised offline.
@@ -854,6 +900,24 @@ async function main() {
     check('read from the repo, not inlined', readRolePrompt(), onDisk);
     check('and it travels as the instructions',
       buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION }).instructions, onDisk);
+    // Cycle 7: the prompt of record is overridable only through the test seams.
+    // Through options, a caller could run the pinned model under any role.
+    check('rolePrompt is refused as a request option',
+      /prompt of record/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: 'be agreeable',
+      })) || ''), true);
+    check('…even when it names the committed prompt',
+      /not a request option/.test(threw(() => buildRequest({
+        stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: onDisk,
+      })) || ''), true);
+    check('…and callStrategist refuses it before reading a key',
+      /not a request option/.test(await threwAsync(() => callStrategist(
+        { stage: STAGES.FIRST_PASS, question: QUESTION, rolePrompt: 'be agreeable' },
+        { env: { OPENAI_API_KEY: 'sk-test' }, fetchImpl: forbiddenFetch({}) }
+      )) || ''), true);
+    check('the seam still works, so the suite is not calling the real prompt',
+      buildRequest({ stage: STAGES.FIRST_PASS, question: QUESTION }, SEAM).instructions,
+      ROLE_PROMPT);
     check('an unreadable prompt path throws',
       /not readable/.test(threw(() => readRolePrompt('/nonexistent/prompt.md')) || ''), true);
   }
