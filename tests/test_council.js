@@ -29,7 +29,15 @@ const {
   readApiKey,
   callStrategist,
   classifyCouncil,
+  buildCouncilResult,
 } = require(COUNCIL);
+
+/**
+ * The suite asserts its own size, as test_guards.py does: a count that drifts
+ * silently stops being a missing-test signal. The root README states the same
+ * number, and a check below holds the two together.
+ */
+const CHECKS_EXPECTED = 126;
 
 let failures = 0;
 let checks = 0;
@@ -144,11 +152,20 @@ async function main() {
         stage: STAGES.FINAL_POSITION, question: QUESTION,
         claudeView: CLAUDE_VIEW, rolePrompt: ROLE_PROMPT,
       })) || ''), true);
-    check('FINAL_POSITION builds when both views are present',
-      buildRequest({
+    // Only tiers 2 and 3 reach this stage, and both cross-review first.
+    check('FINAL_POSITION requires the cross-review exchange',
+      /critiques before it concludes/.test(threw(() => buildRequest({
         stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
         gptFirstPass: '### STRATEGY_VIEW\nmine', rolePrompt: ROLE_PROMPT,
-      }).input.includes('Your first-pass STRATEGY_VIEW'), true);
+      })) || ''), true);
+    const finalBody = buildRequest({
+      stage: STAGES.FINAL_POSITION, question: QUESTION, claudeView: CLAUDE_VIEW,
+      gptFirstPass: '### STRATEGY_VIEW\nmine', exchange: 'the critique',
+      rolePrompt: ROLE_PROMPT,
+    });
+    check('FINAL_POSITION builds when the whole protocol precedes it',
+      finalBody.input.includes('Your first-pass STRATEGY_VIEW')
+      && finalBody.input.includes('the critique'), true);
   }
 
   console.log('acceptance 3 — the model defaults to the general reasoning model');
@@ -414,6 +431,73 @@ async function main() {
       Object.values(converged).some((v) => typeof v === 'number'), false);
   }
 
+  console.log('the council result the owner reads — produced, not described');
+  {
+    const judgements = {
+      question: QUESTION,
+      claudeRecommendation: 'Optimise for Rome; revisit at the second city.',
+      gptRecommendation: 'Same, and record the trigger that would reopen it.',
+      strongestAgreement: 'No second city is in evidence yet.',
+      costAndReversibility: 'Low cost now; generalising later is a refactor, not a rewrite.',
+      assumptions: ['the gazetteer stays Rome-shaped'],
+      claudePosition: 'MAINTAIN',
+      gptPosition: 'MAINTAIN',
+      sameRecommendation: true,
+      materialDisagreements: [],
+      missingEvidence: [],
+      normativeImpact: true,
+    };
+    const result = buildCouncilResult(judgements);
+    for (const field of ['question', 'claude_final_recommendation',
+      'gpt_final_recommendation', 'strongest_agreement', 'meaningful_disagreement',
+      'assumptions', 'missing_evidence', 'cost_and_reversibility',
+      'classification', 'OWNER_DECISION_REQUIRED']) {
+      check(`the result carries '${field}'`,
+        Object.prototype.hasOwnProperty.call(result, field), true);
+    }
+    check('it classifies', result.classification, CLASSIFICATIONS.STRONG_CONVERGENCE);
+    check('it gates on the owner when the question is normative',
+      result.OWNER_DECISION_REQUIRED, 'YES');
+    check('it still manufactures no number',
+      Object.values(result).some((v) => typeof v === 'number'), false);
+    check('a missing required field throws rather than emitting a gap',
+      /strongestAgreement is required/.test(threw(() => buildCouncilResult({
+        ...judgements, strongestAgreement: '',
+      })) || ''), true);
+  }
+  {
+    // The whole synthesis path through the CLI, offline and keyless.
+    const os = require('os');
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'council-'));
+    const file = path.join(tmp, 'judgements.json');
+    fs.writeFileSync(file, JSON.stringify({
+      question: 'q',
+      claudeRecommendation: 'a',
+      gptRecommendation: 'b',
+      strongestAgreement: 'c',
+      costAndReversibility: 'd',
+      claudePosition: 'MAINTAIN',
+      gptPosition: 'REVISE',
+      sameRecommendation: false,
+    }));
+    const { main } = require(path.join(REPO_ROOT, 'council', 'cli.js'));
+    const written = [];
+    const realWrite = process.stdout.write.bind(process.stdout);
+    process.stdout.write = (chunk) => { written.push(chunk); return true; };
+    let code;
+    try {
+      code = await main(['--synthesis-file', file]);
+    } finally {
+      process.stdout.write = realWrite;
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+    check('the CLI synthesis path exits 0 with no key', code, 0);
+    const printed = JSON.parse(written.join(''));
+    check('…and prints the classification',
+      printed.classification, CLASSIFICATIONS.MEANINGFUL_DISAGREEMENT);
+    check('…and the owner gate', printed.OWNER_DECISION_REQUIRED, 'YES');
+  }
+
   console.log('the repository records that made this change legal');
   {
     const dec008 = fs.readFileSync(
@@ -452,6 +536,23 @@ async function main() {
     check('--model is not a flag any more (DEC-008 pins it)',
       /unknown flag/.test(threw(() => parseArgv(['--model', 'gpt-4.1'])) || ''), true);
     check('-h is reachable and means help', parseArgv(['-h']), { help: true });
+
+    // The rendered help must not advertise as optional what the code requires.
+    const { execFileSync } = require('child_process');
+    const help = execFileSync('node',
+      [path.join(REPO_ROOT, 'council', 'cli.js'), '--help'], { encoding: 'utf8' });
+    check('help does not call the first-pass file optional',
+      /\[--gpt-first-pass-file/.test(help), false);
+    check('help does not call the exchange file optional',
+      /\[--exchange-file/.test(help), false);
+    check('help documents the synthesis path', help.includes('--synthesis-file'), true);
+
+    // The count in the root README is a missing-test signal; stale, it is noise.
+    const rootReadme = fs.readFileSync(path.join(REPO_ROOT, 'README.md'), 'utf8');
+    const claimed = rootReadme.match(/test_council\.js\s+#\s+(\d+) checks/);
+    check('the README states a council check count', Boolean(claimed), true);
+    check('…and it is the count this suite actually runs',
+      claimed && Number(claimed[1]), CHECKS_EXPECTED);
     check('a bare argument throws',
       /unexpected argument/.test(threw(() => parseArgv(['merge'])) || ''), true);
   }
@@ -470,6 +571,12 @@ async function main() {
 
 main().then(
   () => {
+    if (checks !== CHECKS_EXPECTED) {
+      failures += 1;
+      console.log(
+        `  FAIL check count drifted: ran ${checks}, expected ${CHECKS_EXPECTED}`
+      );
+    }
     console.log('');
     if (failures === 0) {
       console.log(`ALL PASS (${checks} checks)`);

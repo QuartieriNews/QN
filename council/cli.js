@@ -12,7 +12,8 @@
  *   node council/cli.js --stage CROSS_REVIEW --question "..." \
  *        --claude-view-file F --gpt-first-pass-file F
  *   node council/cli.js --stage FINAL_POSITION --question "..." \
- *        --claude-view-file F --gpt-first-pass-file F [--exchange-file F]
+ *        --claude-view-file F --gpt-first-pass-file F --exchange-file F
+ *   node council/cli.js --synthesis-file judgements.json
  *
  *   --effort high|xhigh|max   (default high)
  *   --dry-run                 print the request; make no API call
@@ -32,6 +33,7 @@ const {
   ALLOWED_EFFORTS,
   buildRequest,
   callStrategist,
+  buildCouncilResult,
 } = require('./strategist');
 
 const SESSIONS_DIR = path.join(__dirname, 'sessions');
@@ -39,7 +41,7 @@ const SESSIONS_DIR = path.join(__dirname, 'sessions');
 const FLAGS_WITH_VALUES = new Set([
   '--stage', '--question', '--question-file', '--context', '--context-file',
   '--claude-view', '--claude-view-file', '--gpt-first-pass', '--gpt-first-pass-file',
-  '--exchange', '--exchange-file', '--effort',
+  '--exchange', '--exchange-file', '--effort', '--synthesis-file',
 ]);
 
 function parseArgv(argv) {
@@ -85,7 +87,12 @@ const USAGE = `council — the GPT strategist of the Strategic Council
   node council/cli.js --stage CROSS_REVIEW --question "..." \\
        --claude-view-file F --gpt-first-pass-file F
   node council/cli.js --stage FINAL_POSITION --question "..." \\
-       --claude-view-file F [--gpt-first-pass-file F] [--exchange-file F]
+       --claude-view-file F --gpt-first-pass-file F --exchange-file F
+
+Synthesis — no model call, no key: classify the finished council and print the
+result the owner reads, including OWNER_DECISION_REQUIRED.
+
+  node council/cli.js --synthesis-file judgements.json
 
   --effort ${ALLOWED_EFFORTS.join('|')}   (default ${DEFAULT_EFFORT})
   --dry-run                 print the request; make no API call
@@ -95,7 +102,9 @@ const USAGE = `council — the GPT strategist of the Strategic Council
 The model is ${DEFAULT_MODEL}, fixed by DEC-008 and not selectable here.
 
 FIRST_PASS accepts no Claude view: the two first-pass views are formed
-independently. See council/README.md and docs/strategic-council/README.md.`;
+independently. FINAL_POSITION requires both first-pass views and the
+cross-review exchange: the protocol critiques before it concludes.
+See council/README.md and docs/strategic-council/README.md.`;
 
 function saveSession(record) {
   fs.mkdirSync(SESSIONS_DIR, { recursive: true });
@@ -110,6 +119,21 @@ async function main(argv = process.argv.slice(2)) {
 
   if (args.help || argv.length === 0) {
     process.stdout.write(`${USAGE}\n`);
+    return 0;
+  }
+
+  if (args['synthesis-file']) {
+    // Deterministic synthesis. No model, no key, no network — the judgements
+    // are the Council's and only their classification happens here.
+    let judgements;
+    try {
+      judgements = JSON.parse(fs.readFileSync(args['synthesis-file'], 'utf8'));
+    } catch (cause) {
+      throw new Error(
+        `cannot read --synthesis-file ${args['synthesis-file']}: ${cause.message}`
+      );
+    }
+    process.stdout.write(`${JSON.stringify(buildCouncilResult(judgements), null, 2)}\n`);
     return 0;
   }
 

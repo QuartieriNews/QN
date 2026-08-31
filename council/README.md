@@ -50,7 +50,8 @@ node council/cli.js --stage FIRST_PASS --question "..." --context-file ctx.md
 node council/cli.js --stage CROSS_REVIEW --question "..." \
      --claude-view-file operator.md --gpt-first-pass-file strategy.md
 
-# Stage 3 — maintain, revise, or declare insufficient information.
+# Stage 3 — maintain, revise, or declare insufficient information. All three
+# artefacts are required: the protocol critiques before it concludes.
 node council/cli.js --stage FINAL_POSITION --question "..." \
      --claude-view-file operator.md --gpt-first-pass-file strategy.md \
      --exchange-file exchange.md
@@ -72,9 +73,29 @@ There is no `--model` flag. DEC-008 fixes the strategic critic as `gpt-5.6-sol`,
 and the tool refuses any other model: running the Council on a different one
 would widen a DECIDED entry, which is an owner decision rather than a flag.
 
-`FINAL_POSITION` requires the strategist's own first-pass view as well as the
-Operator's. `MAINTAIN` and `REVISE` are both relative to a position it already
-took; without it there is nothing to maintain or revise.
+`FINAL_POSITION` requires the strategist's own first-pass view, the Operator's,
+and the cross-review exchange. `MAINTAIN` and `REVISE` are both relative to a
+position it already took, and the protocol critiques before it concludes — only
+tiers 2 and 3 reach this stage, and both cross-review first.
+
+## Closing the council
+
+The synthesis is deterministic and makes no model call, so it needs no key:
+
+```bash
+node council/cli.js --synthesis-file judgements.json
+```
+
+`judgements.json` carries what the Council concluded — the two final
+recommendations, the strongest agreement, the cost and reversibility reading,
+the assumptions, any material disagreement and any missing evidence, plus
+`normativeImpact` when the answer would commit the project to something. What
+the tool adds is the classification and the `OWNER_DECISION_REQUIRED` gate,
+computed the same way every time. Nothing is inferred and no confidence score
+is produced; a missing required field is an error rather than a silent gap.
+
+Tier 1 supplies no `claudePosition`/`gptPosition`: it stops after the two
+first-pass views, so there is no `MAINTAIN` or `REVISE` to report.
 
 ## Choosing the tier
 

@@ -186,6 +186,14 @@ function buildFinalPositionInput({ question, context, claudeView, gptFirstPass, 
       'cannot be maintained or revised if it was never formed'
     );
   }
+  // Only tier 2 and tier 3 reach this stage, and both run cross-review before
+  // it. An absent exchange therefore means a skipped step, not a shorter tier.
+  if (!isPresent(exchange)) {
+    throw new Error(
+      `${STAGES.FINAL_POSITION} requires the cross-review exchange: the ` +
+      'protocol critiques before it concludes, and tier 1 stops before this stage'
+    );
+  }
   const parts = [
     `# Stage: ${STAGES.FINAL_POSITION}`,
     '',
@@ -199,9 +207,7 @@ function buildFinalPositionInput({ question, context, claudeView, gptFirstPass, 
   ];
   parts.push('', '## Your first-pass STRATEGY_VIEW', '', gptFirstPass.trim());
   parts.push('', '## Claude OPERATOR_VIEW', '', claudeView.trim());
-  if (isPresent(exchange)) {
-    parts.push('', '## Cross-review exchange', '', exchange.trim());
-  }
+  parts.push('', '## Cross-review exchange', '', exchange.trim());
   parts.push('', renderContext(context));
   return parts.join('\n');
 }
@@ -453,6 +459,55 @@ function classifyCouncil(input = {}) {
   };
 }
 
+/**
+ * Assemble the council result the owner sees (Issue #5, implementation req. 2).
+ *
+ * classifyCouncil answers "what kind of result is this"; this answers "what does
+ * the owner read". Every field is supplied by the Council — nothing here is
+ * inferred, and no numeric confidence is produced.
+ */
+function buildCouncilResult(input = {}) {
+  const {
+    question,
+    claudeRecommendation,
+    gptRecommendation,
+    strongestAgreement,
+    costAndReversibility,
+    assumptions = [],
+  } = input;
+
+  const required = {
+    question,
+    claudeRecommendation,
+    gptRecommendation,
+    strongestAgreement,
+    costAndReversibility,
+  };
+  for (const [name, value] of Object.entries(required)) {
+    if (!isPresent(value)) {
+      throw new Error(`${name} is required in a council result`);
+    }
+  }
+  if (!Array.isArray(assumptions)) {
+    throw new Error('assumptions must be an array');
+  }
+
+  const classified = classifyCouncil(input);
+
+  return {
+    question: question.trim(),
+    claude_final_recommendation: claudeRecommendation.trim(),
+    gpt_final_recommendation: gptRecommendation.trim(),
+    strongest_agreement: strongestAgreement.trim(),
+    meaningful_disagreement: classified.material_disagreements,
+    assumptions: [...assumptions],
+    missing_evidence: classified.missing_evidence,
+    cost_and_reversibility: costAndReversibility.trim(),
+    classification: classified.classification,
+    OWNER_DECISION_REQUIRED: classified.owner_decision_required,
+  };
+}
+
 module.exports = {
   DEFAULT_MODEL,
   DEFAULT_EFFORT,
@@ -467,4 +522,5 @@ module.exports = {
   readApiKey,
   callStrategist,
   classifyCouncil,
+  buildCouncilResult,
 };

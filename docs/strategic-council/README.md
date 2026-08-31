@@ -67,7 +67,8 @@ This avoids false consensus and makes convergence more meaningful.
    (`CROSS_REVIEW`).
 6. Both models produce a final position (`FINAL_POSITION`): `MAINTAIN`,
    `REVISE` or `INSUFFICIENT_INFORMATION`.
-7. A deterministic synthesis step classifies the result as:
+7. A deterministic synthesis step (`council/cli.js --synthesis-file`) classifies
+   the result as:
    - `STRONG_CONVERGENCE`
    - `WEAK_CONVERGENCE`
    - `MEANINGFUL_DISAGREEMENT`
