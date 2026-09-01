@@ -135,6 +135,56 @@ const POLICY_WITH_CATEGORY = {
   ok('T-3 a check from an untrusted producer is not evidence', r.readiness.includes('BLOCKED_TESTS'));
 }
 
+// ------------------------------------- several check runs sharing one name on one head
+
+// GitHub emits a check run per triggering event and per re-run, so one name can carry
+// several runs on a single commit. Selecting one arbitrarily is how a run that executed
+// nothing becomes evidence that the suite passed.
+{
+  const r = classify(goodSnapshot({ checkRuns: [
+    { name: 'tests', headSha: HEAD, conclusion: 'skipped', trustedProducer: true, completedAt: '2026-09-01T15:58:39Z' },
+    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:58:40Z' },
+  ] }), POLICY_WITH_CATEGORY);
+  ok('a skipped duplicate does not defeat a later success', r.readiness === READY);
+}
+{
+  const r = classify(goodSnapshot({ checkRuns: [
+    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:58:39Z' },
+    { name: 'tests', headSha: HEAD, conclusion: 'skipped', trustedProducer: true, completedAt: '2026-09-01T15:58:40Z' },
+  ] }), POLICY_WITH_CATEGORY);
+  ok('a skipped run that is the latest is not a pass', r.readiness.includes('BLOCKED_TESTS'));
+}
+{
+  const r = classify(goodSnapshot({ checkRuns: [
+    { name: 'tests', headSha: HEAD, conclusion: 'failure', trustedProducer: true, completedAt: '2026-09-01T15:00:00Z' },
+    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:30:00Z' },
+  ] }), POLICY_WITH_CATEGORY);
+  ok('a re-run that succeeded after failing is a pass', r.readiness === READY);
+}
+{
+  const r = classify(goodSnapshot({ checkRuns: [
+    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true },
+    { name: 'tests', headSha: HEAD, conclusion: 'skipped', trustedProducer: true },
+  ] }), POLICY_WITH_CATEGORY);
+  ok('duplicate runs without timestamps are ambiguous and block', r.readiness.includes('BLOCKED_TESTS'));
+}
+{
+  const at = '2026-09-01T15:58:40Z';
+  const r = classify(goodSnapshot({ checkRuns: [
+    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
+    { name: 'tests', headSha: HEAD, conclusion: 'failure', trustedProducer: true, completedAt: at },
+  ] }), POLICY_WITH_CATEGORY);
+  ok('a tie between runs that disagree blocks', r.readiness.includes('BLOCKED_TESTS'));
+}
+{
+  const at = '2026-09-01T15:58:40Z';
+  const r = classify(goodSnapshot({ checkRuns: [
+    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
+    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
+  ] }), POLICY_WITH_CATEGORY);
+  ok('a tie between runs that agree is not ambiguous', r.readiness === READY);
+}
+
 // --------------------------------------------------------- T-4 protected surfaces
 
 for (const path of ['AGENTS.md', 'decisions/DEC-001-x.md', 'prompts/EDITORIAL_FILTER.md',

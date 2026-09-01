@@ -274,10 +274,8 @@ function computeReadiness(snapshot) {
     blockers.push('BLOCKED_TESTS');
   } else {
     for (const name of required) {
-      const run = (snapshot.checkRuns || []).find(
-        (c) => c.name === name && sameSha(c.headSha, snapshot.headSha) && c.trustedProducer === true
-      );
-      if (!run || run.conclusion !== 'success') blockers.push(`BLOCKED_TESTS:${name}`);
+      const verdict = latestCheckVerdict(snapshot, name);
+      if (verdict !== 'success') blockers.push(`BLOCKED_TESTS:${name}`);
     }
   }
 
@@ -288,6 +286,36 @@ function computeReadiness(snapshot) {
   if (review.blockingFindingsOnHead > 0) blockers.push('BLOCKED_REVIEW');
 
   return blockers.length === 0 ? READY : blockers.join(',');
+}
+
+/**
+ * The conclusion of one required check on this head.
+ *
+ * A name is not unique: GitHub emits a check run per triggering event and per re-run,
+ * so a single name can carry several runs on one commit — a skipped duplicate beside a
+ * successful one, or an old failure beside a new success. Picking one of them
+ * arbitrarily would let the gate read a run that executed nothing as evidence that the
+ * suite passed, which is the fail-open LANE_POLICY §9 forbids.
+ *
+ * The latest completed run decides, matching how GitHub resolves a required check.
+ * When that cannot be established — no run, an unparseable or missing timestamp, or a
+ * tie between runs that disagree — there is no verdict and the caller blocks.
+ */
+function latestCheckVerdict(snapshot, name) {
+  const runs = (snapshot.checkRuns || []).filter(
+    (c) => c.name === name && sameSha(c.headSha, snapshot.headSha) && c.trustedProducer === true
+  );
+  if (runs.length === 0) return null;
+  if (runs.length === 1) return runs[0].conclusion;
+
+  const timed = runs.map((c) => ({ run: c, at: Date.parse(c.completedAt) }));
+  if (timed.some((t) => Number.isNaN(t.at))) return null;
+
+  const newest = Math.max(...timed.map((t) => t.at));
+  const winners = timed.filter((t) => t.at === newest);
+  // A tie between runs that agree is not ambiguous; one between runs that disagree is.
+  const conclusions = new Set(winners.map((t) => t.run.conclusion));
+  return conclusions.size === 1 ? winners[0].run.conclusion : null;
 }
 
 function sameSha(a, b) {

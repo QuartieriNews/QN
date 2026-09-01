@@ -189,6 +189,11 @@ the merge result GitHub generates. `M` is never `H`. A requirement that the gate
   most recent review request; a finding on `H`, or an unanswered request, blocks.
   Findings on an earlier head are superseded by a clean review of `H` — the builder
   never resolves its own threads to clear a signal.
+- A check name is not unique. GitHub emits a run per triggering event and per re-run,
+  so one name can carry several runs on one commit. The **latest completed** run
+  decides; where that cannot be established — a missing timestamp, or a tie between runs
+  that disagree — there is no verdict and the check blocks. Selecting one arbitrarily
+  would let a run that executed nothing stand as evidence that the suite passed.
 - Evidence carried in mutable places — a pull request body, a comment, a thread state —
   is re-read and re-bound at decision time, never trusted from an earlier read.
 - Merging must be atomic with the evidence: strict enforcement that `B` is current, or a

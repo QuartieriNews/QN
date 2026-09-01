@@ -53,8 +53,10 @@ for (const file of files) {
 
   // The merge-ref trap: checking out a pull request must name the head explicitly.
   if (/actions\/checkout/.test(code)) {
-    ok(`${file}: checkout names the head commit explicitly`,
-       /ref:\s*\$\{\{\s*github\.event\.pull_request\.head\.sha/.test(code));
+    // The merge-ref trap: a checkout that names no ref takes the event's default, which
+    // for a pull request is a synthetic merge commit that attests nothing about H.
+    ok(`${file}: checkout names a commit explicitly`,
+       /ref:\s*\$\{\{\s*github\.(sha|event\.pull_request\.head\.sha)/.test(code));
     ok(`${file}: checkout does not persist credentials`,
        /persist-credentials:\s*false/.test(code));
   }

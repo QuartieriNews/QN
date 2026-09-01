@@ -14,9 +14,18 @@
 # commit as `head_sha`, so evidence binds to `H` without inference.
 name: checks
 
+# Push only, and deliberately. A `pull_request` trigger would run the same suite a
+# second time on every internal change, and GitHub records the skipped duplicate as a
+# check run sharing the name — a second row on the same commit that the gate then has to
+# disambiguate. Push-triggered runs also carry the real commit as `head_sha`, so evidence
+# binds to `H` without inference.
+#
+# The cost is that a fork's pull request receives no checks. Forks can never be GREEN
+# (LANE_POLICY §7) and are merged by the owner under the reinforced control, so nothing
+# relies on evidence this does not produce. Covering them means a job with a *different*
+# name, never a condition on this one.
 on:
   push:
-  pull_request:
 
 # Least privilege for the whole file; no job widens it.
 permissions:
@@ -24,27 +33,20 @@ permissions:
 
 jobs:
   suites:
-    # A same-repository pull request is already covered by the push trigger, whose
-    # check runs carry the real commit. Running both doubles every run and buys
-    # nothing; the pull_request trigger earns its place only for forks, which push
-    # does not reach and which are GREEN-ineligible anyway (LANE_POLICY §7).
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       # Pin to an immutable commit SHA before this becomes a required check; a tag is
       # mutable and this job is the evidence the gate trusts.
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha }}
           persist-credentials: false
 
       # Proves property 1 rather than trusting it. The expected SHA arrives through the
       # environment, never interpolated into the shell (property 2).
       - name: verify the checked-out commit is the head under test
         env:
-          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          EXPECTED_SHA: ${{ github.sha }}
         run: |
           actual="$(git rev-parse HEAD)"
           if [ "$actual" != "$EXPECTED_SHA" ]; then
