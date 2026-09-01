@@ -35,13 +35,19 @@ and nothing is asserted by an agent.
 | `NEW_TOP_LEVEL` | a path's first segment is not in the base tree |
 | `UNUSUAL_FILE_KIND` | a symlink, a submodule, or a change of file mode |
 | `FORK` | the pull request comes from a fork (DEC-011 §2) |
-| `ESCALATED` | the builder or the reviewer escalated it |
+| `ESCALATED` | the pull request carries the `escalated` label |
 | `UNCLASSIFIABLE` | a fact is missing, or a path is not a shape git produces |
 
 **GREEN** if nothing above fired and every one of these holds: every path is under a
 GREEN prefix; every status is `A` or `M`; no file is binary; at most `maxFiles` files;
 at most `maxLines` lines added and deleted together. **AMBER** otherwise, naming which
 of those conditions failed.
+
+Escalation is signalled by applying the **`escalated` label** to the pull request. The
+builder or the reviewer applies it; CI reads it and tells the gate, which reads nothing
+from GitHub itself. Only someone with write access can label a pull request, and
+escalation only ever raises a lane, so a wrong label costs owner attention and never
+saves any.
 
 Protected-surface and control-file matching is case-folded, so `Docs/Autonomy/` is
 protected. Top-level novelty is case-**sensitive**, so `Docs/` beside an existing `docs/`

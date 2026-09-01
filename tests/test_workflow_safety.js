@@ -70,6 +70,18 @@ check('no job widens the file-level permissions',
   jobs.filter((job) => job.permissions !== undefined).length, 0);
 
 console.log('');
+console.log('The lane job is told the two facts it cannot compute from the diff');
+{
+  const laneJob = (doc && doc.jobs && doc.jobs.lane) || {};
+  const classify = (laneJob.steps || []).find((s) => typeof s.run === 'string' && s.run.includes('gate.js'));
+  const env = (classify && classify.env) || {};
+  check('fork provenance and escalation are both supplied',
+    ['LANE_FORK', 'LANE_ESCALATED'].filter((k) => !(k in env)), []);
+  check('and both are passed to the classifier',
+    ['--fork', '--escalated'].filter((f) => !classify.run.includes(f)), []);
+}
+
+console.log('');
 console.log('It has nothing to leak and nothing to be injected with');
 check('the secrets context appears in no value of the document',
   strings(doc).filter((v) => /\bsecrets\b/.test(v)), []);
