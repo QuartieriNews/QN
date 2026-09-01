@@ -47,6 +47,63 @@ const IMMUTABLE_CONTEXTS = [
  */
 const RE_EVALUATION = /(^|[\s;&|(])(eval|source|\.)\s|(^|[\s;&|(])(ba|z|k)?sh\s+-c\b/;
 
+/**
+ * The spans of a script in which a shell re-reads its own text: command substitution,
+ * backticks, and arithmetic expansion. Arithmetic belongs here because bash evaluates
+ * operands recursively, so `$((MESSAGE))` with a value of `x[$(touch /tmp/pwn)0]` runs
+ * the substitution inside it.
+ *
+ * Referencing a tainted variable *outside* these — `printf '%s\n' "$MESSAGE"` — is the
+ * mitigation working, not a defect, so the distinction is between consuming a value and
+ * executing it rather than between mentioning it and not.
+ */
+function executionSpans(script) {
+  const spans = [];
+  const text = String(script);
+  for (let i = 0; i < text.length; i += 1) {
+    if (text[i] === '`') {
+      const end = text.indexOf('`', i + 1);
+      spans.push(text.slice(i + 1, end === -1 ? text.length : end));
+      i = end === -1 ? text.length : end;
+      continue;
+    }
+    if (text[i] === '$' && text[i + 1] === '(') {
+      // Consume to the matching close, so nesting does not truncate the span.
+      let depth = 0;
+      let j = i + 1;
+      for (; j < text.length; j += 1) {
+        if (text[j] === '(') depth += 1;
+        else if (text[j] === ')') { depth -= 1; if (depth === 0) break; }
+      }
+      spans.push(text.slice(i + 2, j));
+      i = j;
+    }
+  }
+  return spans;
+}
+
+/** Whether a script hands the named value back to a shell to execute. */
+function executesValue(script, name) {
+  const inSpan = executionSpans(script).some((span) => new RegExp(`\\b${name}\\b`).test(span));
+  const inEval = RE_EVALUATION.test(script) && new RegExp(`\\b${name}\\b`).test(script);
+  return inSpan || inEval;
+}
+
+/**
+ * The complete expressions a checkout ref may be. Matched whole, not searched: a scalar
+ * merely *containing* an approved token — `${{ github.sha && github.event.before }}` —
+ * evaluates to something else entirely while passing a substring test.
+ */
+const APPROVED_HEAD_EXPRESSIONS = [
+  '${{ github.sha }}',
+  '${{ github.event.merge_group.head_sha || github.sha }}',
+  '${{ github.event.pull_request.head.sha }}',
+].map((e) => e.replace(/\s+/g, ' '));
+
+function isApprovedHeadExpression(value) {
+  return APPROVED_HEAD_EXPRESSIONS.includes(String(value).trim().replace(/\s+/g, ' '));
+}
+
 /** A value that carries a context a pull request can influence. */
 function isTainted(value) {
   return expressions(value).some((expr) =>
@@ -211,9 +268,8 @@ for (const file of files) {
   // direction.
   const tainted = taintedEnvNames(doc);
   const reEvaluated = runScripts(doc).filter((script) =>
-    RE_EVALUATION.test(script) ||
-    [...tainted].some((n) => new RegExp(`[\`$]\\(?\\{?${n}\\b`).test(script)));
-  ok(`${file}: no run script re-evaluates untrusted text as code`, reEvaluated.length === 0);
+    RE_EVALUATION.test(script) || [...tainted].some((n) => executesValue(script, n)));
+  ok(`${file}: no run script executes untrusted text`, reEvaluated.length === 0);
 
   // The merge-ref trap: a checkout naming no ref takes the event default, which for a
   // pull request is a synthetic merge commit that attests nothing about H.
@@ -224,17 +280,22 @@ for (const file of files) {
   for (const [jobName, job, step] of checkouts) {
     const w = step.with || {};
     const ref = w.ref === undefined ? '' : String(w.ref);
-    const namesHead =
-      /github\.sha|merge_group\.head_sha|pull_request\.head\.sha/.test(ref) &&
-      !/\bbase\.sha\b/.test(ref);
-    ok(`${file}: checkout in ${jobName} names the head under test`, namesHead);
+    ok(`${file}: checkout in ${jobName} names the head under test`,
+       isApprovedHeadExpression(ref));
     ok(`${file}: checkout in ${jobName} does not persist credentials`,
        w['persist-credentials'] === false);
-    const verifiers = (Array.isArray(job.steps) ? job.steps : [])
-      .map((st) => (st.env || {}).EXPECTED_SHA)
-      .filter((v) => v !== undefined).map(String);
-    ok(`${file}: the SHA verified in ${jobName} is the one checked out`,
-       verifiers.length > 0 && verifiers.includes(ref));
+    // A matching EXPECTED_SHA in some step's environment proves nothing on its own: the
+    // step must actually read it and compare it with the commit that was checked out,
+    // or removing the comparison would leave this suite green.
+    const verifiers = (Array.isArray(job.steps) ? job.steps : []).filter((st) => {
+      const sha = (st.env || {}).EXPECTED_SHA;
+      if (sha === undefined || String(sha) !== ref) return false;
+      const script = typeof st.run === 'string' ? st.run : '';
+      return /\bEXPECTED_SHA\b/.test(script) && /git\s+rev-parse\b/.test(script) &&
+             /(!=|-ne\b|\[\s|\bif\b)/.test(script);
+    });
+    ok(`${file}: the checkout in ${jobName} is verified against the SHA it named`,
+       verifiers.length > 0);
   }
 
   // A merge queue evaluates a commit of its own; without this trigger the queued commit
@@ -288,6 +349,36 @@ for (const script of ['eval "$MESSAGE"', 'sh -c "$MESSAGE"', 'bash -c "$X"',
 }
 for (const script of ['node tests/test_lane_gate.js', 'actual="$(git rev-parse HEAD)"']) {
   ok(`an ordinary script is not re-evaluation: ${script}`, !RE_EVALUATION.test(script));
+}
+for (const [label, script] of [
+  ['arithmetic expansion', 'echo "$((MESSAGE))"'],
+  ['command substitution', 'echo "$(echo $MESSAGE)"'],
+  ['backticks', 'echo `$MESSAGE`'],
+  ['eval', 'eval "$MESSAGE"'],
+]) {
+  ok(`executing a tainted value is refused: ${label}`, executesValue(script, 'MESSAGE'));
+}
+for (const [label, script] of [
+  ['quoted output', 'printf \'%s\\n\' "$MESSAGE"'],
+  ['a plain reference', 'echo "$MESSAGE"'],
+  ['a braced reference', 'echo "${MESSAGE}"'],
+]) {
+  ok(`consuming a tainted value is allowed: ${label}`, !executesValue(script, 'MESSAGE'));
+}
+ok('a fixed command substitution is not execution of a value',
+   !executesValue('actual="$(git rev-parse HEAD)"', 'MESSAGE'));
+for (const [label, expr] of [
+  ['an approved head expression', '${{ github.sha }}'],
+  ['the merge-queue form', '${{ github.event.merge_group.head_sha || github.sha }}'],
+]) {
+  ok(`checkout ref accepted: ${label}`, isApprovedHeadExpression(expr));
+}
+for (const [label, expr] of [
+  ['a scalar merely containing one', '${{ github.sha && github.event.before }}'],
+  ['the base commit', '${{ github.event.pull_request.base.sha }}'],
+  ['an empty ref', ''],
+]) {
+  ok(`checkout ref refused: ${label}`, !isApprovedHeadExpression(expr));
 }
 {
   // The shape the finding described: untrusted text parked in env, then executed.
