@@ -4,22 +4,30 @@
  * Executable acceptance for the workflow files themselves (Issue #7, acceptance 10).
  *
  * That criterion — that privileged logic never executes pull-request-supplied code or
- * secrets in its trusted context — is a static property of the YAML, not a runtime
- * one. A unit test of the gate cannot establish it, so it is asserted here by reading
- * the workflow definitions. Offline and dependency-free: this parses text, it does not
- * run a workflow.
+ * secrets in its trusted context — is a static property of the YAML, not a runtime one,
+ * so it is asserted here by reading the workflow definitions rather than by running one.
+ *
+ * **This suite parses YAML (DEC-011).** Five review cycles established that matching
+ * text cannot do it: the extractor was extended for quoted keys, then a spaced colon,
+ * then flow mappings, then to count keys independently so an unparsed shape would fail —
+ * and `"run"` decoded past all of it, as `"write"` decoded past the
+ * permissions check. YAML resolves escapes; a pattern over its source text does not, and
+ * every failure was in the direction of passing. The owner chose correctness of the
+ * check over the repository's dependency-free tooling, so this file needs `npm ci` while
+ * every other suite still needs nothing.
  */
 
 const fs = require('fs');
 const path = require('path');
+const YAML = require('yaml');
 
 const WORKFLOWS = path.join(__dirname, '..', '.github', 'workflows');
 
 /**
- * Contexts whose value cannot be influenced by a pull request, and which are therefore
- * safe to interpolate into a shell. Everything else is refused rather than enumerated
- * as dangerous: a branch name, a title, a body and a label are all attacker-chosen, and
- * an allowlist cannot be defeated by finding a spelling the denylist forgot.
+ * Contexts whose value a pull request cannot influence, and which are therefore safe to
+ * interpolate into a shell. An allowlist, because a denylist cannot be defeated only by
+ * the spellings someone remembered: a branch name, a title, a body and a label are all
+ * attacker-chosen. `github.token` is absent deliberately — it is the job credential.
  */
 const IMMUTABLE_CONTEXTS = [
   'github.sha', 'github.repository', 'github.repository_owner', 'github.run_id',
@@ -27,9 +35,6 @@ const IMMUTABLE_CONTEXTS = [
   'github.event_name', 'github.api_url', 'github.server_url', 'github.workspace',
   'github.action', 'github.action_path',
 ];
-// `github.token` is a credential, not an immutable value: interpolating it into a shell
-// exposes the job's own token and defeats the workflow's stated "no secrets" property,
-// so it is classified alongside `secrets.*` rather than allowed.
 
 let checks = 0;
 let failed = 0;
@@ -40,63 +45,53 @@ function ok(name, condition) {
   else { failed += 1; console.log(`  FAIL ${name}`); }
 }
 
-/**
- * Every `run:` scalar in a workflow, inline or block. Splitting the file on the token
- * would fold neighbouring steps together; indentation is what actually delimits a block
- * scalar, so it is what this follows.
- */
-function runBlocks(text) {
-  const lines = text.split('\n');
-  const blocks = [];
-  for (let i = 0; i < lines.length; i += 1) {
-    // Valid YAML spells the key several ways: quoted, and with space before the colon.
-    // Recognising only the bare form left `- "run": ...` invisible to every assertion.
-    const m = lines[i].match(/^(\s*)(?:-\s*)?["']?run["']?\s*:\s*(.*)$/);
-    if (!m) continue;
-    const indent = m[1].length;
-    const inline = m[2].trim();
-    if (inline !== '' && !/^[|>][-+]?$/.test(inline)) {
-      blocks.push(inline);
-      continue;
-    }
-    const body = [];
-    for (let j = i + 1; j < lines.length; j += 1) {
-      if (lines[j].trim() === '') { body.push(''); continue; }
-      const lead = lines[j].match(/^(\s*)/)[1].length;
-      if (lead <= indent) break;
-      body.push(lines[j]);
-    }
-    blocks.push(body.join('\n'));
+/** Walk a parsed document, yielding every [pathSegments, value] pair. */
+function* walk(node, trail = []) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) yield* walk(node[i], trail.concat(i));
+  } else if (node && typeof node === 'object') {
+    for (const [k, v] of Object.entries(node)) yield* walk(v, trail.concat(k));
+  } else {
+    yield [trail, node];
   }
-  return blocks;
 }
 
-/**
- * Every place a `run` key appears, however it is spelled — block, quoted, spaced,
- * or inside a flow mapping. Counting them independently of the extractor is what makes
- * an unparsed shape fail rather than pass: a spelling the extractor cannot read is
- * refused, instead of being silently exempt from every assertion below.
- */
-function runKeyOccurrences(text) {
-  return [...text.matchAll(/(?:^|[\s{,])["']?run["']?\s*:/gm)].length;
+/** Every resolved `run:` scalar, wherever a step sits and however the key was written. */
+function runScripts(doc) {
+  const out = [];
+  for (const [trail, value] of walk(doc)) {
+    if (trail[trail.length - 1] === 'run' && typeof value === 'string') out.push(value);
+  }
+  return out;
 }
 
-/** Every `${{ ... }}` expression in a fragment, with its inner text. */
+/** Every resolved permission value, top-level or per job. */
+function permissionValues(doc) {
+  const out = [];
+  for (const [trail, value] of walk(doc)) {
+    if (trail.includes('permissions')) out.push(String(value));
+  }
+  // `permissions: write-all` is a scalar rather than a mapping, so walk() yields it with
+  // 'permissions' as the last segment; both shapes land in the same list.
+  return out;
+}
+
+/** Every `${{ ... }}` expression in a fragment. */
 function expressions(fragment) {
-  return [...fragment.matchAll(/\$\{\{([^}]*)\}\}/g)].map((m) => m[1].trim());
+  return [...String(fragment).matchAll(/\$\{\{([^}]*)\}\}/g)].map((m) => m[1].trim());
 }
 
-function referencesSecrets(text) {
-  // Both spellings of the same access — `secrets.NAME` and `secrets['NAME']` — and the
-  // job credential, which is a secret whatever its permissions currently are.
-  return /\bsecrets\s*(\.|\[)/.test(text) || /\bgithub\s*\.\s*token\b/.test(text) ||
-         /\bgithub\s*\[\s*['\"]token['\"]\s*\]/.test(text);
-}
-
-/** Every `context.path` reference inside one expression, not merely its first. */
+/** Every context reference inside one expression, not merely the one it starts with. */
 function contextsIn(expression) {
-  return [...String(expression).matchAll(/\b(github|secrets|env|inputs|needs|vars|steps|job|runner|matrix)((?:\s*\.\s*[A-Za-z0-9_-]+|\s*\[[^\]]*\])*)/g)]
-    .map((m) => (m[1] + m[2]).replace(/\s+/g, ''));
+  return [...String(expression).matchAll(
+    /\b(github|secrets|env|inputs|needs|vars|steps|job|runner|matrix)((?:\s*\.\s*[A-Za-z0-9_-]+|\s*\[[^\]]*\])*)/g
+  )].map((m) => (m[1] + m[2]).replace(/\s+/g, ''));
+}
+
+function referencesCredential(text) {
+  const t = String(text);
+  return /\bsecrets\s*(\.|\[)/.test(t) || /\bgithub\s*\.\s*token\b/.test(t) ||
+         /\bgithub\s*\[\s*['"]token['"]\s*\]/.test(t);
 }
 
 const files = fs.existsSync(WORKFLOWS)
@@ -107,28 +102,37 @@ ok('at least one workflow exists to check', files.length > 0);
 
 for (const file of files) {
   const text = fs.readFileSync(path.join(WORKFLOWS, file), 'utf8');
-  const code = text.split('\n').filter((l) => !/^\s*#/.test(l)).join('\n');
+  let doc = null;
+  let parseError = null;
+  try {
+    // Duplicate keys are an error rather than a last-one-wins silent override: two
+    // `permissions` blocks would otherwise let the harmless one be the visible answer.
+    doc = YAML.parse(text, { uniqueKeys: true, strict: true });
+  } catch (e) {
+    parseError = e;
+  }
+  ok(`${file}: parses as YAML`, parseError === null && doc !== null);
+  if (!doc) continue;
+
+  const source = JSON.stringify(doc);
 
   // `pull_request_target` runs with a write-capable token in the base repository's
-  // context. Nothing here needs it, and it is the single sharpest edge in a public
-  // repository.
-  ok(`${file}: does not use pull_request_target`, !/pull_request_target/.test(code));
+  // context. Nothing here needs it, and it is the sharpest edge in a public repository.
+  ok(`${file}: does not use pull_request_target`,
+     !Object.prototype.hasOwnProperty.call(doc.on || {}, 'pull_request_target'));
 
-  ok(`${file}: declares permissions`, /^permissions:/m.test(code));
-  // Quoted scalars are valid YAML: `contents: "write"` and `permissions: "write-all"`
-  // both grant writes and both evaded an unquoted-only pattern.
-  const unquoted = code.replace(/["']([^"'\n]*)["']/g, '$1');
-  ok(`${file}: grants no write permission`, !/:\s*write(-all)?\b/.test(unquoted));
-  ok(`${file}: does not reference secrets`, !referencesSecrets(code));
+  ok(`${file}: declares permissions`, doc.permissions !== undefined);
+  const writes = permissionValues(doc).filter((v) => /^write(-all)?$/.test(v));
+  ok(`${file}: grants no write permission`, writes.length === 0);
+
+  ok(`${file}: references no credential`, !referencesCredential(source));
 
   // Untrusted text — a title, a body, a branch name — interpolated into a shell is
-  // command injection. Values reach `run:` through `env:` instead, so a run block may
+  // command injection. Values reach `run:` through `env:` instead, so a run script may
   // name only contexts a pull request cannot influence.
-  // Every context an expression names must be immutable, not merely the one it starts
-  // with: `${{ github.sha && github.head_ref }}` begins safely and ends attacker-chosen.
   const offending = [];
-  for (const block of runBlocks(code)) {
-    for (const expr of expressions(block)) {
+  for (const script of runScripts(doc)) {
+    for (const expr of expressions(script)) {
       const refs = contextsIn(expr);
       if (refs.length === 0) { offending.push(expr); continue; }
       for (const ref of refs) {
@@ -138,77 +142,64 @@ for (const file of files) {
       }
     }
   }
-  ok(`${file}: no mutable context is interpolated into a run block`, offending.length === 0);
+  ok(`${file}: no mutable context is interpolated into a run script`, offending.length === 0);
 
-  // Refuse what cannot be parsed. Every previous fix here added one more spelling to a
-  // regex — quoted keys, then spaced colons, then flow mappings — and the next shape
-  // would have passed unread. A run key the extractor did not capture fails instead.
-  ok(`${file}: every run block was actually read`,
-     runBlocks(code).length === runKeyOccurrences(code));
-
-  // The merge-ref trap: a checkout that names no ref takes the event's default, which
-  // for a pull request is a synthetic merge commit that attests nothing about H.
-  if (/actions\/checkout/.test(code)) {
-    // Naming *a* sha is not enough: `github.event.pull_request.base.sha` would test the
-    // base while satisfying a looser assertion. Only head-bearing expressions qualify.
-    const checkoutRef = (code.match(/ref:\s*(\$\{\{[^}]*\}\})/) || [])[1] || '';
-    const expected = (code.match(/EXPECTED_SHA:\s*(\$\{\{[^}]*\}\})/) || [])[1] || '';
-    const namesHead = /github\.sha|merge_group\.head_sha|pull_request\.head\.sha/.test(checkoutRef) &&
-                      !/\bbase\.sha\b/.test(checkoutRef);
+  // The merge-ref trap: a checkout naming no ref takes the event default, which for a
+  // pull request is a synthetic merge commit that attests nothing about H.
+  if (/actions\/checkout/.test(source)) {
+    const refs = [];
+    const expected = [];
+    for (const [trail, value] of walk(doc)) {
+      if (trail[trail.length - 1] === 'ref') refs.push(String(value));
+      if (trail[trail.length - 1] === 'EXPECTED_SHA') expected.push(String(value));
+    }
+    const namesHead = refs.length > 0 && refs.every(
+      (r) => /github\.sha|merge_group\.head_sha|pull_request\.head\.sha/.test(r) &&
+             !/\bbase\.sha\b/.test(r));
     ok(`${file}: checkout names the head under test`, namesHead);
     ok(`${file}: the verified SHA is the one checked out`,
-       expected !== '' && expected === checkoutRef);
+       expected.length > 0 && expected.every((e) => refs.includes(e)));
     ok(`${file}: checkout does not persist credentials`,
-       /persist-credentials:\s*false/.test(code));
+       /"persist-credentials":false/.test(source.replace(/\s/g, '')));
   }
 
-  // A merge queue evaluates a commit of its own. Without this trigger the queued commit
-  // never receives the required check, so the queue can never satisfy it
-  // (docs/autonomy/IDENTITY_AND_PERMISSIONS.md §3).
-  if (/^on:/m.test(code)) {
-    ok(`${file}: runs for merge-queue commits`, /^\s*merge_group:/m.test(code));
-  }
+  // A merge queue evaluates a commit of its own; without this trigger the queued commit
+  // never receives the required check (docs/autonomy/IDENTITY_AND_PERMISSIONS.md §3).
+  ok(`${file}: runs for merge-queue commits`,
+     Object.prototype.hasOwnProperty.call(doc.on || {}, 'merge_group'));
+
+  // Fork pull requests are refused in v1 (DEC-011), so no workflow may run on one.
+  ok(`${file}: does not run on pull_request events`,
+     !Object.prototype.hasOwnProperty.call(doc.on || {}, 'pull_request'));
 }
 
-// The extractor itself, since every assertion above rests on it seeing whole blocks.
+// The parser is the point of this suite, so the evasions that defeated its predecessors
+// are asserted directly. Each of these passed every text-matching version.
 {
-  const sample = [
-    'jobs:', '  a:', '    steps:', '      - run: echo one',
-    '      - name: two', '        run: |', '          echo ${{ github.head_ref }}',
-    '      - "run": echo ${{ github.event.pull_request.title }}',
-    '      - run : echo ${{ github.actor }}',
-    '      - uses: actions/checkout@v4',
-  ].join('\n');
-  const blocks = runBlocks(sample);
-  ok('the run extractor finds an inline block', blocks.some((b) => b.includes('echo one')));
-  ok('the run extractor finds a literal block', blocks.some((b) => b.includes('github.head_ref')));
-  ok('the run extractor stops at the next step',
-     !blocks.some((b) => b.includes('actions/checkout')));
-  ok('the run extractor sees a quoted key',
-     blocks.some((b) => b.includes('pull_request.title')));
-  ok('the run extractor sees a spaced colon', blocks.some((b) => b.includes('github.actor')));
-  ok('a mutable context in a run block is detected',
-     expressions(blocks.join('\n')).includes('github.head_ref'));
+  const escaped = YAML.parse('steps:\n  - { "r\\u0075n": "echo ${{ github.head_ref }}" }');
+  ok('an escaped run key decodes and is seen', runScripts(escaped).length === 1);
+  ok('its mutable context is then visible',
+     contextsIn(expressions(runScripts(escaped)[0])[0]).includes('github.head_ref'));
 }
-ok('bracket-form secret access is detected', referencesSecrets("echo ${{ secrets['TOKEN'] }}"));
-ok('dot-form secret access is detected', referencesSecrets('echo ${{ secrets.TOKEN }}'));
-ok('the job credential counts as a secret', referencesSecrets('echo ${{ github.token }}'));
-ok('bracket-form job credential counts as a secret', referencesSecrets("echo ${{ github['token'] }}"));
+{
+  const escaped = YAML.parse('permissions:\n  contents: "wr\\u0069te"');
+  ok('an escaped write permission decodes',
+     permissionValues(escaped).some((v) => v === 'write'));
+}
+{
+  const flow = YAML.parse('steps: [{ run: "echo ${{ github.actor }}" }]');
+  ok('a flow-style step is read like any other', runScripts(flow).length === 1);
+}
+{
+  let threw = false;
+  try { YAML.parse('permissions:\n  contents: read\npermissions:\n  contents: write',
+                   { uniqueKeys: true }); } catch (e) { threw = true; }
+  ok('a duplicate key is an error, not a silent override', threw);
+}
+ok('the job credential counts as a credential', referencesCredential('${{ github.token }}'));
+ok('bracket-form credential access counts', referencesCredential("${{ secrets['TOKEN'] }}"));
 ok('a compound expression exposes every context it names',
    contextsIn('github.sha && github.head_ref').includes('github.head_ref'));
-ok('a compound expression still reports the safe one too',
-   contextsIn('github.sha && github.head_ref').includes('github.sha'));
-{
-  // A flow-style step is valid YAML the line extractor cannot read; the counter must
-  // notice rather than let it through unexamined.
-  const flow = 'jobs:\n  a:\n    steps:\n      - { run: "echo ${{ github.head_ref }}" }';
-  ok('an unparsed flow-style run key is detected as unread',
-     runBlocks(flow).length !== runKeyOccurrences(flow));
-}
-ok('a quoted write permission is detected',
-   /:\s*write\b/.test('contents: "write"'.replace(/["']([^"'\n]*)["']/g, '$1')));
-ok('write-all is detected',
-   /:\s*write(-all)?\b/.test('permissions: "write-all"'.replace(/["']([^"'\n]*)["']/g, '$1')));
 
 console.log('');
 if (failed > 0) {

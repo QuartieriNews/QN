@@ -11,7 +11,9 @@
 #      no pull-request-controlled text reaching a shell (Issue #7 acceptance 10).
 #
 # The `push` trigger is the one the gate relies on: its check runs carry the real
-# commit as `head_sha`, so evidence binds to `H` without inference.
+# commit as `head_sha`, so evidence binds to `H` without inference. There is no
+# `pull_request` trigger: fork pull requests are refused in v1 (DEC-011), and a
+# same-repository one is already covered by the push.
 name: checks
 
 # Push only, and deliberately. A `pull_request` trigger would run the same suite a
@@ -58,6 +60,11 @@ jobs:
             exit 1
           fi
           echo "tested commit: $actual"
+
+      # Only the workflow-safety suite needs this, and only because DEC-011 chose a real
+      # YAML parser over matching text. `npm ci` installs exactly the lockfile.
+      - name: install node dependencies
+        run: npm ci --no-audit --no-fund
 
       - name: install python dependencies
         run: pip install --disable-pip-version-check -r requirements.txt

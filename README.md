@@ -41,6 +41,10 @@ reviewed and verified. No DECIDED entry in `decisions/` is reopened by either AI
 
 ## Running the checks
 
+One Node suite needs an installation now: `tests/test_workflow_safety.js` parses the
+workflow YAML with a real parser rather than matching its text (DEC-011), so run
+`npm ci` once. Every other suite is still dependency-free.
+
 Install the Python dependencies first (`requirements.txt`, in the repository root —
 `openpyxl`, needed by the gazetteer build and therefore by `test_guards.py`):
 

@@ -29,11 +29,13 @@ owner decisions / regressions.
   never against a rendered page or memory. Run the executable checks where
   possible: `cd gazetteer && python ../tests/test_guards.py` (must print
   ALL PASS, 37 checks, executably asserted) and
-  `node tests/test_parse_duration.js` and `node tests/test_council.js` (both
-  must exit 0, ALL PASS). The Python checks need the dependencies declared in
+  `node tests/test_parse_duration.js`, `node tests/test_council.js`,
+  `node tests/test_lane_gate.js` and `node tests/test_workflow_safety.js`
+  (all must exit 0, ALL PASS). The Python checks need the dependencies declared in
   `requirements.txt` (repository root): `pip install -r requirements.txt`
-  before the first run. The Node suites need no installation, and
-  `test_council.js` makes no API call, so it needs no key.
+  before the first run. Of the Node suites only `test_workflow_safety.js` needs
+  an installation — `npm ci`, for the YAML parser DEC-011 chose over matching
+  text — and `test_council.js` makes no API call, so it needs no key.
 - Codex reviews run natively on pull requests, so the PR is the archive of a
   code review: findings, builder answers and the verdict live in its threads
   and stay attached to the diff they judge. Do not copy a PR's review into

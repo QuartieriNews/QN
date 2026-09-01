@@ -399,6 +399,14 @@ function evaluateRed(snapshot) {
     }
   }
 
+  // Fork pull requests are refused in v1 (DEC-011). RED rather than a new state: the
+  // owner decides what to do with one, and it can never reach an autonomous lane. Its
+  // readiness stays blocked because no workflow runs on a fork, and that is now the
+  // stated contract rather than an accident.
+  if (snapshot.isFork === true) {
+    reasons.push('pull request originates in a fork, which v1 does not accept');
+  }
+
   // An owner decision, once raised, is the owner's to clear (DEC-009).
   if (snapshot.ownerDecisionRequired !== false) {
     reasons.push('an OWNER_DECISION_REQUIRED condition is open or unreported');
@@ -616,8 +624,14 @@ function declarationAgrees(snapshot, computedLane) {
  */
 function ownerExceptionBinds(snapshot) {
   const e = snapshot.ownerCycleException;
-  return Boolean(e) && typeof e === 'object' && sameSha(e.headSha, snapshot.headSha) &&
-         e.grantedByOwner === true;
+  return Boolean(e) && typeof e === 'object' &&
+         sameSha(e.headSha, snapshot.headSha) &&
+         e.grantedByOwner === true &&
+         // DEC-011: the grant is a comment on the pull request naming the head, so it is
+         // attributable and auditable where the work is. A permission that arrived only
+         // in a chat is one no gate can read and no record keeps.
+         e.source === 'pull_request_comment' &&
+         (Number.isInteger(e.commentId) || isNonEmptyString(e.commentId));
 }
 
 /**

@@ -1,9 +1,8 @@
 # DEC-011 — Three questions the autonomy-gate review could not settle
 
-Status: OPEN
-Blocks: closing the Issue #7 implementation (pull request #8). The gate, the policy and
-the CI are built and their defects fixed; these three are not defects and no further
-review cycle closes them.
+Status: DECIDED
+Blocks: nothing now — the three answers below are implemented in the same change that
+records them.
 
 Raised after five Codex review cycles on pull request #8 — one more than `AGENTS.md`
 allows, granted by the owner for this change specifically. Fifty-nine findings across
@@ -27,13 +26,21 @@ resolves to write access and reads as absent.
 This is not a gap in the pattern. YAML decodes escapes, and any text-matching approach
 is one encoding away from being wrong, silently and in the direction of passing.
 
-- **A.** Constrain the workflow to a canonical subset the suite fully parses, and refuse
+- A. Constrain the workflow to a canonical subset the suite fully parses, and refuse
   any file that does not match that grammar. No dependency; the cost is that workflows
   must stay in a restricted form, and the grammar is one more thing to maintain
-  correctly. **Recommended.**
-- **B.** Add a YAML parser dependency for the Node test suites. Correct by construction,
-  and it ends the repository's dependency-free tooling — `council/` states that property
-  explicitly, and `requirements.txt` is the only manifest today.
+  correctly.
+- **B. CHOSEN.** Add a YAML parser dependency for the Node test suites. Correct by
+  construction, and it ends the repository's dependency-free tooling for this one suite.
+
+  Owner: the correctness of the check matters more than the dependency-free property. A
+  gate that relies on the *meaning* of a workflow must use a tool that reads meaning.
+
+  Implemented with `yaml@2.9.0`, pinned, one package with no transitive dependencies —
+  the smallest thing that actually parses. `js-yaml` was the alternative and pulls two.
+  `package.json` and `package-lock.json` are dependency manifests and therefore already
+  protected surfaces; `node_modules/` is gitignored and `npm ci` runs in CI. Every other
+  suite still needs no installation.
 - **C.** Accept the residual risk and document it: the assertion is best-effort against
   a workflow only this project's agents write.
 
@@ -49,13 +56,21 @@ them under the reinforced control — was wrong in a way worth naming: the owner
 merging with the gate saying *blocked*, which is exactly the state the whole design says
 must never be routine.
 
-- **A.** Add an unprivileged fork-triggered job under a **different check name**, so it
-  cannot collide with the trusted `suites` run on a same-repository commit. **Recommended.**
+- A. Add an unprivileged fork-triggered job under a different check name.
 - **B.** Change the readiness contract so fork pull requests do not require the manifest,
   and say plainly in the policy that a fork is merged on the owner's judgement with no
   automated evidence.
-- **C.** Refuse fork pull requests as a matter of policy while the repository has no
-  external contributors.
+- **C. CHOSEN.** Refuse fork pull requests as a matter of policy while the repository
+  has no external contributors.
+
+  Owner: there is no real external-contribution requirement today that justifies the
+  extra complexity, and this is **not** a permanent limitation of the project.
+
+  The gate classifies a fork as RED — the owner decides what to do with it, and it can
+  never reach an autonomous lane. Its readiness stays blocked because no workflow runs on
+  a fork, which is now the stated contract rather than an accident. Supporting forks is a
+  reconsideration trigger: if external contributors become real, this reopens and the
+  unprivileged CI path is built then.
 
 ## 3. How an exception to the review-cycle cap is granted
 
@@ -69,9 +84,19 @@ There is also a number worth deciding on rather than inheriting. Findings per cy
 `AGENTS.md` sets four; whether four is right for governance-sized work is a question the
 data now speaks to.
 
-- **A.** An exception is an owner comment on the pull request naming the head SHA, which
-  the collector reads and binds. Auditable, and it keeps the grant where the work is.
-  **Recommended.**
+- **A. CHOSEN.** An exception is an owner comment on the pull request naming the head
+  SHA, which the collector reads and binds. Auditable, and it keeps the grant where the
+  work is.
+
+  The cap stays at four. Owner: reaching it means **autonomy stops and the owner
+  intervenes** — not that a pull request must be merged or abandoned because four cycles
+  are spent. The cap limits unsupervised autonomy, not the amount of review a correct
+  result needs.
+
+  The general cap is not raised. Pull request #8 is exceptionally large and critical, so
+  its numbers are not yet evidence about the cap itself; more evidence comes from smaller
+  pull requests. **Reconsideration trigger: the cap being reached frequently on smaller
+  changes.**
 - **B.** An owner-applied label, simpler to read and weaker to attribute.
 - **C.** Raise the cap for this class of change, which is a change to `AGENTS.md` and
   therefore RED in its own right.
@@ -82,6 +107,6 @@ None of the fifty-nine findings is disputed, and none of them is waiting on this
 The reviewer and the builder agree on every one; what is open is only what should be
 built next, which is the owner's to say.
 
-Decided by: — · Date: — · Affected: `tests/test_workflow_safety.js`,
-`.github/workflows/checks.yml`, `docs/autonomy/LANE_POLICY.md`, `AGENTS.md`, pull
-request #8.
+Decided by: Owner · Date: 1 September 2026 · Affected: `tests/test_workflow_safety.js`,
+`.github/workflows/checks.yml`, `docs/autonomy/LANE_POLICY.md`, `autonomy/lane_gate.js`,
+`package.json`, `package-lock.json`, `README.md`, pull request #8.

@@ -403,8 +403,9 @@ for (const kind of ['isSubmodule', 'isBinary', 'modeChanged']) {
   ok('a symlink with no stated target is UNCLASSIFIED', r.lane === LANE.UNCLASSIFIED);
 }
 {
+  // Refused outright since DEC-011; before that it was merely never GREEN.
   const r = classifyUnderPolicy(goodSnapshot({ isFork: true }), POLICY_WITH_CATEGORY);
-  ok('a fork pull request is never GREEN', r.lane === LANE.AMBER);
+  ok('a fork pull request is never GREEN', r.lane !== LANE.GREEN);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ authorIsAutomationIdentity: false }), POLICY_WITH_CATEGORY);
@@ -779,14 +780,16 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
 {
   const r = classifyUnderPolicy(goodSnapshot({
     reviewCycles: 5,
-    ownerCycleException: { headSha: HEAD, grantedByOwner: true },
+    ownerCycleException: { headSha: HEAD, grantedByOwner: true,
+                           source: 'pull_request_comment', commentId: 5497674423 },
   }), POLICY_WITH_CATEGORY);
   ok('an owner exception bound to this head clears the cap', r.readiness === READY);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({
     reviewCycles: 5,
-    ownerCycleException: { headSha: OTHER, grantedByOwner: true },
+    ownerCycleException: { headSha: OTHER, grantedByOwner: true,
+                           source: 'pull_request_comment', commentId: 1 },
   }), POLICY_WITH_CATEGORY);
   ok('an exception bound to another head does not carry over',
      r.readiness.includes('BLOCKED_CYCLE_CAP'));
@@ -818,6 +821,25 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
   }), POLICY_WITH_CATEGORY);
   ok('an audit published before the other was collected is not separated',
      r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
+}
+
+// ------------------------------------------- DEC-011: forks, and how a cap is lifted
+
+{
+  const r = classifyUnderPolicy(goodSnapshot({ isFork: true }), POLICY_WITH_CATEGORY);
+  ok('a fork pull request is RED, not merely non-GREEN', r.lane === LANE.RED);
+  ok('a fork pull request never auto-merges', r.wouldAutoMergeUnderPolicy === false);
+}
+for (const [label, exception] of [
+  ['granted only in chat', { headSha: HEAD, grantedByOwner: true }],
+  ['from an unattributable source', { headSha: HEAD, grantedByOwner: true, source: 'label' }],
+  ['naming no comment', { headSha: HEAD, grantedByOwner: true, source: 'pull_request_comment' }],
+  ['not granted by the owner', { headSha: HEAD, grantedByOwner: false,
+                                 source: 'pull_request_comment', commentId: 1 }],
+]) {
+  const r = classifyUnderPolicy(goodSnapshot({ reviewCycles: 5, ownerCycleException: exception }),
+                                POLICY_WITH_CATEGORY);
+  ok(`an exception ${label} does not lift the cap`, r.readiness.includes('BLOCKED_CYCLE_CAP'));
 }
 
 // ---------------------------------------------------------------- ordering and shape

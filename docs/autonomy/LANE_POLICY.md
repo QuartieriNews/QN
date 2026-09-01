@@ -152,8 +152,11 @@ Rules that hold for every category:
 - Fail closed on renames, case-only changes, symlinks, submodules, mode and
   executable-bit changes, binary or unparseable content, and any file the validator
   cannot read.
-- The pull request originates in this repository, not a fork; it targets the default
-  branch; its author is the automation identity.
+- The pull request originates in this repository. A fork is **refused** (DEC-011): it is
+  RED, no workflow runs on it, so its readiness stays blocked, and that is the contract
+  rather than an oversight. Supporting forks reopens as its own decision.
+- The pull request it targets the default branch; its author is
+  the automation identity.
 - It carries **positive** evidence of authorisation: a named task, an explicit owner
   signal, and an explicit statement that the pull request cannot alter it. An object
   that merely fails to say it is mutable is not authorisation.
@@ -244,8 +247,12 @@ it anywhere.
 
 - The four-cycle cap in `AGENTS.md` applies, and **audits are not exempt**. Every
   remediation that produces a new head consumes a cycle.
-- At the cap, automation stops and the work escalates to the owner. Reaching the cap is
-  a normal outcome, not a failure to route around.
+- At the cap, **autonomy stops and the owner intervenes**. The cap limits unsupervised
+  autonomy; it is not a limit on how much review a correct result may need, and reaching
+  it never means a pull request must be merged or abandoned (DEC-011).
+- An exception is granted by an **owner comment on the pull request naming the head
+  SHA**, which the gate requires to be attributable to that comment. A permission that
+  arrived only in a chat is one no gate can read and no record keeps.
 - Under this cap most autonomous work escalates rather than merges. That is the
   intended behaviour and not a defect to be tuned away; changing the cap is a governance
   decision on measured data.
