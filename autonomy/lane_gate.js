@@ -582,6 +582,10 @@ function computeReadiness(snapshot, policy = SHIPPED_POLICY, computedLane = null
     blockers.push('BLOCKED_CYCLE_CAP');
   }
 
+  // A refused fork stays unready by rule, not by the accident of having no check run:
+  // the same head can acquire a trusted check through another ref (DEC-011, §7).
+  if (snapshot.isFork === true) blockers.push('BLOCKED_FORK_REFUSED');
+
   if (computedLane === LANE.RED && !reinforcedAuditPasses(snapshot)) {
     // LANE_POLICY §10 requires two sealed audits of this head for RED, and the gate had
     // no record of either.

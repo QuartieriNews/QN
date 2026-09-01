@@ -830,6 +830,19 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
   ok('a fork pull request is RED, not merely non-GREEN', r.lane === LANE.RED);
   ok('a fork pull request never auto-merges', r.wouldAutoMergeUnderPolicy === false);
 }
+{
+  // Unready by rule rather than by the accident of having no check run: the same head
+  // can acquire a trusted check through another ref, and READY is the owner-merge state.
+  const audit = { headSha: HEAD, mandateSource: 'default_branch',
+                  sealedBeforePublication: true, findings: 0 };
+  const r = classifyUnderPolicy(goodSnapshot({
+    isFork: true,
+    declaration: { lane: LANE.RED, headSha: HEAD, reason: 'fork' },
+    reinforcedAudit: { claude: audit, codex: audit },
+  }), POLICY_WITH_CATEGORY);
+  ok('a fork with otherwise complete evidence is still not ready',
+     r.readiness.includes('BLOCKED_FORK_REFUSED'));
+}
 for (const [label, exception] of [
   ['granted only in chat', { headSha: HEAD, grantedByOwner: true }],
   ['from an unattributable source', { headSha: HEAD, grantedByOwner: true, source: 'label' }],

@@ -153,8 +153,9 @@ Rules that hold for every category:
   executable-bit changes, binary or unparseable content, and any file the validator
   cannot read.
 - The pull request originates in this repository. A fork is **refused** (DEC-011): it is
-  RED, no workflow runs on it, so its readiness stays blocked, and that is the contract
-  rather than an oversight. Supporting forks reopens as its own decision.
+  RED, and its readiness is blocked by rule rather than by the absence of a check run —
+  the same head can acquire a trusted check through another ref, and readiness is the
+  state on which an owner merges. Supporting forks reopens as its own decision.
 - The pull request it targets the default branch; its author is
   the automation identity.
 - It carries **positive** evidence of authorisation: a named task, an explicit owner
