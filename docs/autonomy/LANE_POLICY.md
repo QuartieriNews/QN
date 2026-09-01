@@ -63,6 +63,12 @@ Any agent may escalate a lane; none may lower one.
 - **That the protected list is complete.** A document under `docs/` that becomes
   normative is GREEN until it is added to the protected list. Adding it is the
   mechanism, and adding it is RED.
+- **That the diff it read is the diff a reader would see.** `git` reports a diff through
+  the attributes in effect, so a `.gitattributes` can change whether a file counts as
+  binary. One is therefore a control file and RED wherever it appears, which stops a
+  pull request from adding one and being classified under it — but a `.gitattributes`
+  already on the default branch is in effect for every classification after it, and got
+  there under owner merge.
 - **Cumulative drift.** Each pull request is classified alone. Ten GREEN pull requests
   are not a GREEN change. Under owner merge the owner is the mitigation.
 - **Anything about the review.** The gate does not read check runs, reviews, comments or

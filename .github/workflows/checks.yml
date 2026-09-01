@@ -5,9 +5,16 @@
 # and no expression interpolated into a shell script. Asserted, not assumed, by
 # tests/test_workflow_safety.js.
 #
-# The lane job deliberately runs the copy of the gate on the base branch, never the one
-# in the pull request: a change to the gate must not be classified by itself. Changes to
-# `autonomy/` and `.github/` are RED, so that copy only ever moves under owner merge.
+# The lane job runs the copy of the gate at the pull request's exact base commit, not the
+# one in the pull request and not the branch tip: a change to the gate must not be
+# classified by itself, and the same pull request must classify the same way twice.
+# Changes to `autonomy/` and `.github/` are RED, so that copy only moves under owner merge.
+#
+# One exception, and it is unavoidable: the first pull request to introduce the gate has
+# no gate at its base commit. That one falls back to its own copy and says so in the
+# output. After it merges the fallback has nothing left to do in normal operation, and a
+# later pull request reaching it means the base commit is not what it was thought to be —
+# which is why the step prints which copy it used rather than choosing silently.
 name: checks
 
 on:
@@ -76,11 +83,13 @@ jobs:
         run: |
           set -eu
           git fetch --no-tags --quiet origin "$LANE_BASE_REF"
-          if git show "origin/$LANE_BASE_REF:autonomy/lane_gate.js" > "$RUNNER_TEMP/gate.js" 2>/dev/null; then
-            echo "Classifier: the copy on $LANE_BASE_REF."
+          if git show "$LANE_BASE:autonomy/lane_gate.js" > "$RUNNER_TEMP/gate.js" 2>/dev/null; then
+            echo "Classifier: the copy at base commit $LANE_BASE."
           else
             cp autonomy/lane_gate.js "$RUNNER_TEMP/gate.js"
-            echo "Classifier: this pull request's own copy — the base branch has none yet."
+            echo "Classifier: this pull request's own copy. The base commit $LANE_BASE has"
+            echo "no autonomy/lane_gate.js — the bootstrap case, expected only until the"
+            echo "pull request that introduces the gate has merged."
           fi
           FORK_FLAG=""
           if [ "$LANE_FORK" = "true" ]; then FORK_FLAG="--fork"; fi

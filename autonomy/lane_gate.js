@@ -45,6 +45,10 @@ const PROTECTED_SURFACES = Object.freeze([
 
 /** Protected wherever they appear, not only at the root. */
 const CONTROL_FILENAMES = Object.freeze([
+  // A `.gitattributes` anywhere in the head changes how `git diff` reports the diff
+  // that classifies it — `*.md diff` makes a file with NUL bytes count as text, so the
+  // binary flag reads false. It configures the tool this gate reads from (cycle 1).
+  '.gitattributes',
   '.gitignore',
   'agents.md',
   'claude.md',
@@ -61,6 +65,17 @@ const GREEN_LIMITS = Object.freeze({ maxFiles: 10, maxLines: 200 });
 /** DEC-012: the capability exists, no category is authorised, nothing can auto-merge. */
 const AUTO_GREEN_CATEGORIES = Object.freeze([]);
 
+/** Every fact a file record must state. An omitted one is never read as a false one. */
+const FILE_FACT_SCHEMA = Object.freeze({
+  status: 'string',
+  path: 'string',
+  srcMode: 'string',
+  dstMode: 'string',
+  additions: 'number',
+  deletions: 'number',
+  binary: 'boolean',
+});
+
 const SYMLINK_MODE = '120000';
 const SUBMODULE_MODE = '160000';
 const ABSENT_MODE = '000000';
@@ -76,6 +91,33 @@ function basename(path) {
 
 function topSegment(path) {
   return String(path).split('/')[0];
+}
+
+/** What is missing or mistyped in the facts, named so the reason can say which. */
+function factProblems(facts) {
+  if (!facts || typeof facts !== 'object') return ['facts missing'];
+  const problems = [];
+  if (!Array.isArray(facts.files)) problems.push('files');
+  if (!Array.isArray(facts.baseTopLevel)) problems.push('baseTopLevel');
+  for (const key of ['isFork', 'escalated']) {
+    if (typeof facts[key] !== 'boolean') problems.push(key);
+  }
+  if (problems.length > 0) return problems;
+
+  facts.files.forEach((rec, i) => {
+    if (!rec || typeof rec !== 'object') { problems.push(`files[${i}]`); return; }
+    for (const [field, type] of Object.entries(FILE_FACT_SCHEMA)) {
+      // eslint-disable-next-line valid-typeof
+      if (typeof rec[field] !== type) problems.push(`files[${i}].${field}`);
+    }
+    if (rec.previousPath !== null && typeof rec.previousPath !== 'string') {
+      problems.push(`files[${i}].previousPath`);
+    }
+    if (!Number.isFinite(rec.additions) || !Number.isFinite(rec.deletions)) {
+      problems.push(`files[${i}] counts`);
+    }
+  });
+  return problems;
 }
 
 /** A path git should never emit; treated as unclassifiable rather than guessed at. */
@@ -124,14 +166,18 @@ function pathsOf(file) {
  * @returns {{gateVersion, lane, reasons, files, newTopLevel, isFork, summary, autoGreen}}
  */
 function classify(facts) {
-  const files = Array.isArray(facts && facts.files) ? facts.files : null;
-  const baseTopLevel = Array.isArray(facts && facts.baseTopLevel) ? facts.baseTopLevel : null;
   const reasons = [];
 
-  // Uncertainty escalates: a fact that is absent is not a fact that is false.
-  if (!files || !baseTopLevel) {
-    return result(LANE.RED, [{ rule: 'UNCLASSIFIABLE', paths: [], detail: 'facts missing' }], facts, []);
+  // Uncertainty escalates: a fact that is absent is not a fact that is false. Every
+  // field the schema declares must be stated before any rule is applied (cycle 1).
+  const problems = factProblems(facts);
+  if (problems.length > 0) {
+    return result(LANE.RED,
+      [{ rule: 'UNCLASSIFIABLE', paths: [], detail: `unstated or mistyped: ${problems.join(', ')}` }],
+      facts, []);
   }
+  const files = facts.files;
+  const baseTopLevel = facts.baseTopLevel;
 
   const malformed = files.flatMap(pathsOf).filter((p) => !isWellFormed(p));
   if (malformed.length > 0) {
@@ -256,7 +302,14 @@ function parseNumstatZ(text) {
   while (i < fields.length) {
     const head = fields[i];
     if (!head) { i += 1; continue; }
-    const [adds, dels, inlinePath] = head.split('\t');
+    // Split at the first two tabs only: a pathname may itself contain tabs, and `-z`
+    // does not quote them, so splitting on every tab truncates the path (cycle 1).
+    const firstTab = head.indexOf('\t');
+    const secondTab = head.indexOf('\t', firstTab + 1);
+    if (firstTab < 0 || secondTab < 0) throw new Error(`unexpected --numstat record: ${head}`);
+    const adds = head.slice(0, firstTab);
+    const dels = head.slice(firstTab + 1, secondTab);
+    const inlinePath = head.slice(secondTab + 1);
     const binary = adds === '-' || dels === '-';
     let path = inlinePath;
     let step = 1;
@@ -312,6 +365,19 @@ function readGitFacts(base, head, options) {
 
 /* ---------------------------------------------------------------------- output */
 
+/**
+ * A pathname may contain a newline, a backtick or a pipe, and the summary is what the
+ * owner reads to decide. Unescaped, a filename can close its own code span and write a
+ * row of its own — including one naming a different lane (cycle 1).
+ */
+function displayPath(value) {
+  return String(value)
+    .replace(/\\/g, '\\\\')
+    .replace(/[`|]/g, (c) => `\\${c}`)
+    .replace(/[\u0000-\u001f\u007f]/g,
+      (c) => `\\x${c.charCodeAt(0).toString(16).padStart(2, '0')}`);
+}
+
 function renderMarkdown(res) {
   const lines = [`## Lane: ${res.lane}`, ''];
   if (res.reasons.length === 0) {
@@ -320,13 +386,15 @@ function renderMarkdown(res) {
     lines.push('| Rule | Paths |', '| --- | --- |');
     for (const r of res.reasons) {
       const detail = r.detail ? ` _(${r.detail})_` : '';
-      lines.push(`| \`${r.rule}\`${detail} | ${r.paths.map((p) => `\`${p}\``).join(', ') || '—'} |`);
+      lines.push(`| \`${r.rule}\`${detail} | ${r.paths.map((p) => `\`${displayPath(p)}\``).join(', ') || '—'} |`);
     }
   }
   lines.push('', `${res.summary.files} files, +${res.summary.additions} −${res.summary.deletions}`, '');
   lines.push('| Status | Path | Modes | +/− |', '| --- | --- | --- | --- |');
   for (const f of res.files) {
-    const name = f.previousPath ? `${f.previousPath} → ${f.path}` : f.path;
+    const name = f.previousPath
+      ? `${displayPath(f.previousPath)} → ${displayPath(f.path)}`
+      : displayPath(f.path);
     const counts = f.binary ? 'binary' : `+${f.additions} −${f.deletions}`;
     lines.push(`| ${f.status} | \`${name}\` | ${f.srcMode}→${f.dstMode} | ${counts} |`);
   }
@@ -349,10 +417,18 @@ function main(argv) {
     process.stderr.write('usage: lane_gate.js --base <sha> --head <sha> [--fork] [--escalated]\n');
     return 2;
   }
-  const res = classify(readGitFacts(base, head, {
-    isFork: args.get('fork') === 'true',
-    escalated: args.get('escalated') === 'true',
-  }));
+  // Reading the facts can fail on a shape git produces and this file does not expect.
+  // The policy says that is RED with a reason, not an exception and no result at all.
+  let res;
+  try {
+    res = classify(readGitFacts(base, head, {
+      isFork: args.get('fork') === 'true',
+      escalated: args.get('escalated') === 'true',
+    }));
+  } catch (error) {
+    res = classify({ files: null, baseTopLevel: null, isFork: false, escalated: false });
+    res.reasons = [{ rule: 'UNCLASSIFIABLE', paths: [], detail: `could not read the diff: ${error.message}` }];
+  }
   process.stdout.write(`${JSON.stringify(res, null, 2)}\n`);
   if (process.env.GITHUB_STEP_SUMMARY) {
     require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${renderMarkdown(res)}\n`);
@@ -362,6 +438,8 @@ function main(argv) {
 
 module.exports = {
   classify,
+  displayPath,
+  factProblems,
   readGitFacts,
   parseRawZ,
   parseNumstatZ,

@@ -155,6 +155,39 @@ check('an absolute path is unclassifiable', rules([file({ path: '/etc/passwd' })
 check('an empty path is unclassifiable', rules([file({ path: '' })]), ['UNCLASSIFIABLE']);
 
 console.log('');
+console.log('Cycle 1: what the head must not be able to tell the gate');
+check('a .gitattributes is a control file wherever it appears',
+  rules([file({ path: 'docs/.gitattributes', status: 'A' })]), ['CONTROL_FILE']);
+check('the attack that reached GREEN now reaches RED',
+  lane([file({ path: 'docs/.gitattributes', status: 'A' }),
+        file({ path: 'docs/payload.md', status: 'A' })]), LANE.RED);
+{
+  // Every field the schema declares, deleted one at a time.
+  const required = ['status', 'path', 'srcMode', 'dstMode', 'additions', 'deletions', 'binary'];
+  for (const field of required) {
+    const broken = file({});
+    delete broken[field];
+    check(`an omitted \`${field}\` is UNCLASSIFIABLE, not GREEN`,
+      rules([broken]), ['UNCLASSIFIABLE']);
+  }
+  const mistyped = file({ additions: '3' });
+  check('a count that is a string is UNCLASSIFIABLE', rules([mistyped]), ['UNCLASSIFIABLE']);
+  check('an omitted isFork is UNCLASSIFIABLE, not false',
+    classify({ files: [file({})], baseTopLevel: ['docs'], escalated: false }).reasons
+      .map((r) => r.rule), ['UNCLASSIFIABLE']);
+  check('an omitted escalated is UNCLASSIFIABLE, not false',
+    classify({ files: [file({})], baseTopLevel: ['docs'], isFork: false }).reasons
+      .map((r) => r.rule), ['UNCLASSIFIABLE']);
+  check('the reason names which fact was unstated',
+    classify(facts([(() => { const f = file({}); delete f.binary; return f; })()]))
+      .reasons[0].detail.includes('files[0].binary'), true);
+}
+check('a pathname cannot close its own code span or open a row',
+  gate.displayPath('docs/a`b|c\nd.md'), 'docs/a\\`b\\|c\\x0ad.md');
+check('a backslash in a pathname is escaped before anything else',
+  gate.displayPath('docs/a\\b.md'), 'docs/a\\\\b.md');
+
+console.log('');
 console.log('No lane authorises a merge, and AUTO-GREEN has no categories');
 {
   const green = classify(facts([file({})]));
@@ -212,6 +245,14 @@ console.log('Parsers, on output captured verbatim from git');
   check('a rename takes its destination path', [counts[2].path, counts[2].binary],
     ['docs/new-name.md', false]);
   check('a text file keeps its counts', [counts[1].additions, counts[1].deletions], [1, 0]);
+
+  // A tab is a valid character in a Git pathname and `-z` does not quote it.
+  const tabbed = parseNumstatZ('1\t0\tdocs/a\tb.md\0');
+  check('a tab inside a pathname is not a field separator',
+    [tabbed.length, tabbed[0].path, tabbed[0].additions], [1, 'docs/a\tb.md', 1]);
+  check('a record with too few tabs throws rather than being read short', (() => {
+    try { parseNumstatZ('1\0'); return 'no throw'; } catch (e) { return 'threw'; }
+  })(), 'threw');
 
   const merged = mergeFacts(parsed, counts);
   check('merging pairs every record', merged.length, 4);
