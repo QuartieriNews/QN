@@ -71,6 +71,16 @@ function runBlocks(text) {
   return blocks;
 }
 
+/**
+ * Every place a `run` key appears, however it is spelled — block, quoted, spaced,
+ * or inside a flow mapping. Counting them independently of the extractor is what makes
+ * an unparsed shape fail rather than pass: a spelling the extractor cannot read is
+ * refused, instead of being silently exempt from every assertion below.
+ */
+function runKeyOccurrences(text) {
+  return [...text.matchAll(/(?:^|[\s{,])["']?run["']?\s*:/gm)].length;
+}
+
 /** Every `${{ ... }}` expression in a fragment, with its inner text. */
 function expressions(fragment) {
   return [...fragment.matchAll(/\$\{\{([^}]*)\}\}/g)].map((m) => m[1].trim());
@@ -105,7 +115,10 @@ for (const file of files) {
   ok(`${file}: does not use pull_request_target`, !/pull_request_target/.test(code));
 
   ok(`${file}: declares permissions`, /^permissions:/m.test(code));
-  ok(`${file}: grants no write permission`, !/:\s*write\b/.test(code));
+  // Quoted scalars are valid YAML: `contents: "write"` and `permissions: "write-all"`
+  // both grant writes and both evaded an unquoted-only pattern.
+  const unquoted = code.replace(/["']([^"'\n]*)["']/g, '$1');
+  ok(`${file}: grants no write permission`, !/:\s*write(-all)?\b/.test(unquoted));
   ok(`${file}: does not reference secrets`, !referencesSecrets(code));
 
   // Untrusted text — a title, a body, a branch name — interpolated into a shell is
@@ -126,6 +139,12 @@ for (const file of files) {
     }
   }
   ok(`${file}: no mutable context is interpolated into a run block`, offending.length === 0);
+
+  // Refuse what cannot be parsed. Every previous fix here added one more spelling to a
+  // regex — quoted keys, then spaced colons, then flow mappings — and the next shape
+  // would have passed unread. A run key the extractor did not capture fails instead.
+  ok(`${file}: every run block was actually read`,
+     runBlocks(code).length === runKeyOccurrences(code));
 
   // The merge-ref trap: a checkout that names no ref takes the event's default, which
   // for a pull request is a synthetic merge commit that attests nothing about H.
@@ -179,6 +198,17 @@ ok('a compound expression exposes every context it names',
    contextsIn('github.sha && github.head_ref').includes('github.head_ref'));
 ok('a compound expression still reports the safe one too',
    contextsIn('github.sha && github.head_ref').includes('github.sha'));
+{
+  // A flow-style step is valid YAML the line extractor cannot read; the counter must
+  // notice rather than let it through unexamined.
+  const flow = 'jobs:\n  a:\n    steps:\n      - { run: "echo ${{ github.head_ref }}" }';
+  ok('an unparsed flow-style run key is detected as unread',
+     runBlocks(flow).length !== runKeyOccurrences(flow));
+}
+ok('a quoted write permission is detected',
+   /:\s*write\b/.test('contents: "write"'.replace(/["']([^"'\n]*)["']/g, '$1')));
+ok('write-all is detected',
+   /:\s*write(-all)?\b/.test('permissions: "write-all"'.replace(/["']([^"'\n]*)["']/g, '$1')));
 
 console.log('');
 if (failed > 0) {

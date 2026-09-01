@@ -117,7 +117,10 @@ cannot become GREEN by being renamed, and against the resolved target of any sym
   artefact.
 - `workflows/**`, `code-nodes/**` — what runs, or is certified to run, in production.
 - `council/**` — the Strategic Council tool (DEC-008).
-- Any dependency manifest or lockfile, **matched by file name at any depth**. A manifest
+- Any dependency manifest or lockfile. The collector **states** this per file; the name
+  list is a second net for a collector that gets it wrong, never the primary rule. A
+  name list is a denylist and the ecosystems outrun it.
+- Any dependency manifest or lockfile the name list does know, **matched at any depth**. A manifest
   is a supply-chain surface wherever it sits, so a path prefix would miss every one that
   is not at the repository root.
 - `.gitignore` — it can hide a file from every rule above.
@@ -204,6 +207,11 @@ the merge result GitHub generates. `M` is never `H`. A requirement that the gate
 - Every fact the gate relies on must be **stated**, never inferred from the absence of
   its opposite. An omitted field is a collector that did not run, which is not the same
   as one that found nothing, and it goes to `UNCLASSIFIED`.
+- A category names the validator that checks its structural invariants, and that
+  validator must have run against this exact head and passed. Magnitude limits are not
+  that validator; a category with none cannot be GREEN.
+- A rename is never GREEN, as a file kind rather than as a path question: both of its
+  paths can sit inside one category while nothing about the move has been examined.
 - A check name is not unique. GitHub emits a run per triggering event and per re-run,
   so one name can carry several runs on one commit. The **latest completed** run
   decides; where that cannot be established — a missing timestamp, or a tie between runs

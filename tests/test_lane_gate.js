@@ -52,7 +52,8 @@ function goodSnapshot(overrides = {}) {
     ownerDecisionRequired: false,
     authorization: { taskId: 'issue-7', ownerAuthorised: true, mutableByThisPullRequest: false },
     requiredChecks: ['suites'],
-    checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true }],
+    checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true,
+                  completedAt: '2026-09-01T16:00:00Z' }],
     review: {
       cleanForHead: true,
       reviewedSha: HEAD,
@@ -63,6 +64,7 @@ function goodSnapshot(overrides = {}) {
     baseIsCurrent: true,
     mergeAtomicity: 'strict_base',
     killSwitch: { readable: true, autoMergeDisabled: false },
+    categoryValidation: { validator: 'docs-notes-v1', headSha: HEAD, passed: true },
     declaration: { lane: LANE.GREEN, headSha: HEAD, reason: 'inside the docs-notes category' },
     escalations: [],
   }, overrides);
@@ -78,13 +80,14 @@ function goodSnapshot(overrides = {}) {
 function stated(files) {
   return (files || []).map((f) => Object.assign(
     { isSymlink: false, isSubmodule: false, isBinary: false, modeChanged: false,
-      unreadable: false, additions: 1, deletions: 0 }, f));
+      isDependencyManifest: false, unreadable: false, additions: 1, deletions: 0 }, f));
 }
 
 /** A policy with one approved category, used only to prove GREEN is reachable at all. */
 const POLICY_WITH_CATEGORY = {
   greenAllowlist: [
-    { name: 'docs-notes', paths: ['docs/notes/'], limits: { maxFiles: 5, maxAdditions: 50 } },
+    { name: 'docs-notes', validator: 'docs-notes-v1', paths: ['docs/notes/'],
+      limits: { maxFiles: 5, maxAdditions: 50 } },
   ],
 };
 
@@ -132,7 +135,7 @@ const POLICY_WITH_CATEGORY = {
 // ------------------------------------------------------------------- T-3 test state
 
 {
-  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'failure', trustedProducer: true }] }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'failure', trustedProducer: true, completedAt: '2026-09-01T16:00:00Z' }] }), POLICY_WITH_CATEGORY);
   ok('T-3 failing required check blocks', r.readiness.includes('BLOCKED_TESTS'));
 }
 {
@@ -145,11 +148,11 @@ const POLICY_WITH_CATEGORY = {
   ok('T-3 empty required-check set withholds auto-merge', r.autoMergeAllowed === false);
 }
 {
-  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: OTHER, conclusion: 'success', trustedProducer: true }] }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: OTHER, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T16:00:00Z' }] }), POLICY_WITH_CATEGORY);
   ok('T-3 a check that passed on another commit is not evidence for this head', r.readiness.includes('BLOCKED_TESTS'));
 }
 {
-  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: false }] }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: false, completedAt: '2026-09-01T16:00:00Z' }] }), POLICY_WITH_CATEGORY);
   ok('T-3 a check from an untrusted producer is not evidence', r.readiness.includes('BLOCKED_TESTS'));
 }
 
@@ -181,8 +184,8 @@ const POLICY_WITH_CATEGORY = {
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
-    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true },
-    { name: 'suites', headSha: HEAD, conclusion: 'skipped', trustedProducer: true },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T16:00:00Z' },
+    { name: 'suites', headSha: HEAD, conclusion: 'skipped', trustedProducer: true, completedAt: '2026-09-01T16:00:00Z' },
   ] }), POLICY_WITH_CATEGORY);
   ok('duplicate runs without timestamps are ambiguous and block', r.readiness.includes('BLOCKED_TESTS'));
 }
@@ -296,11 +299,11 @@ for (const path of ['AGENTS.md', 'decisions/DEC-001-x.md', 'prompts/EDITORIAL_FI
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ declaration: undefined }), POLICY_WITH_CATEGORY);
-  ok('T-9 a missing declaration is not agreement', r.autoMergeAllowed === false);
+  ok('T-9 a missing declaration is not agreement', r.wouldAutoMergeUnderPolicy === false);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ declaration: { lane: LANE.GREEN, headSha: OTHER, reason: 'declared' } }), POLICY_WITH_CATEGORY);
-  ok('T-9 a declaration bound to another head does not count', r.autoMergeAllowed === false);
+  ok('T-9 a declaration bound to another head does not count', r.wouldAutoMergeUnderPolicy === false);
 }
 
 // ------------------------------------------- T-10 the evaluator never runs PR code
@@ -326,7 +329,8 @@ for (const path of ['AGENTS.md', 'decisions/DEC-001-x.md', 'prompts/EDITORIAL_FI
 
 {
   const r = classifyUnderPolicy(goodSnapshot({ mergeAtomicity: 'none' }), POLICY_WITH_CATEGORY);
-  ok('without atomic merge enforcement GREEN withholds auto-merge', r.lane === LANE.GREEN && r.autoMergeAllowed === false);
+  ok('without atomic merge enforcement GREEN withholds auto-merge',
+     r.lane === LANE.GREEN && r.wouldAutoMergeUnderPolicy === false);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ mergeAtomicity: 'merge_queue' }), POLICY_WITH_CATEGORY);
@@ -334,11 +338,12 @@ for (const path of ['AGENTS.md', 'decisions/DEC-001-x.md', 'prompts/EDITORIAL_FI
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ killSwitch: { readable: false, autoMergeDisabled: false } }), POLICY_WITH_CATEGORY);
-  ok('an unreadable kill switch fails closed', r.autoMergeAllowed === false);
+  ok('an unreadable kill switch fails closed', r.wouldAutoMergeUnderPolicy === false);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ killSwitch: { readable: true, autoMergeDisabled: true } }), POLICY_WITH_CATEGORY);
-  ok('the kill switch stops auto-merge without changing the lane', r.lane === LANE.GREEN && r.autoMergeAllowed === false);
+  ok('the kill switch stops auto-merge without changing the lane',
+     r.lane === LANE.GREEN && r.wouldAutoMergeUnderPolicy === false);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ baseIsCurrent: false }), POLICY_WITH_CATEGORY);
@@ -353,8 +358,8 @@ for (const path of ['AGENTS.md', 'decisions/DEC-001-x.md', 'prompts/EDITORIAL_FI
 
 {
   const twoCategories = { greenAllowlist: [
-    { name: 'docs-notes', paths: ['docs/notes/'], limits: {} },
-    { name: 'tests', paths: ['tests/'], limits: {} },
+    { name: 'docs-notes', validator: 'docs-notes-v1', paths: ['docs/notes/'], limits: {} },
+    { name: 'tests', validator: 'docs-notes-v1', paths: ['tests/'], limits: {} },
   ] };
   const r = classifyUnderPolicy(goodSnapshot({ files: [
     { status: 'modified', path: 'docs/notes/a.md', additions: 1, deletions: 0 },
@@ -362,17 +367,39 @@ for (const path of ['AGENTS.md', 'decisions/DEC-001-x.md', 'prompts/EDITORIAL_FI
   ] }), twoCategories);
   ok('two approved categories in one PR are not an approved category', r.lane === LANE.AMBER);
 }
-{
-  const r = classify(goodSnapshot({ files: [
-    { status: 'modified', path: 'docs/notes/a.md', additions: 999, deletions: 0 },
-  ] }), POLICY_WITH_CATEGORY);
-  ok('exceeding a category limit is AMBER', r.lane === LANE.AMBER);
+for (const [label, files] of [
+  ['additions', [{ status: 'modified', path: 'docs/notes/a.md', additions: 999, deletions: 0 }]],
+  ['file count', Array.from({ length: 6 }, (_, i) =>
+    ({ status: 'modified', path: `docs/notes/f${i}.md`, additions: 1, deletions: 0 }))],
+]) {
+  const under = classifyUnderPolicy(goodSnapshot({ files }), POLICY_WITH_CATEGORY);
+  ok(`exceeding the ${label} limit is AMBER`, under.lane === LANE.AMBER);
 }
-for (const kind of ['isSymlink', 'isSubmodule', 'isBinary', 'modeChanged']) {
+{
+  // The boundary itself, so the limit is proven to be enforced rather than present.
+  const at = classifyUnderPolicy(goodSnapshot({ files: [
+    { status: 'modified', path: 'docs/notes/a.md', additions: 50, deletions: 0 }] }), POLICY_WITH_CATEGORY);
+  ok('a change exactly at the addition limit is still GREEN', at.lane === LANE.GREEN);
+}
+for (const kind of ['isSubmodule', 'isBinary', 'modeChanged']) {
   const file = { status: 'modified', path: 'docs/notes/a.md', additions: 1, deletions: 0 };
   file[kind] = true;
   const r = classifyUnderPolicy(goodSnapshot({ files: [file] }), POLICY_WITH_CATEGORY);
   ok(`a file that is ${kind} fails closed out of GREEN`, r.lane === LANE.AMBER);
+}
+{
+  // A symlink with a target that resolves inside the category is still not GREEN: the
+  // kind fails closed on its own, independently of where it points.
+  const r = classifyUnderPolicy(goodSnapshot({ files: [
+    { status: 'modified', path: 'docs/notes/a.md', isSymlink: true,
+      symlinkTarget: 'b.md', additions: 1, deletions: 0 }] }), POLICY_WITH_CATEGORY);
+  ok('a symlink pointing inside its own category is still not GREEN', r.lane === LANE.AMBER);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({ files: [
+    { status: 'modified', path: 'docs/notes/a.md', isSymlink: true, additions: 1, deletions: 0 }] }),
+    POLICY_WITH_CATEGORY);
+  ok('a symlink with no stated target is UNCLASSIFIED', r.lane === LANE.UNCLASSIFIED);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ isFork: true }), POLICY_WITH_CATEGORY);
@@ -510,7 +537,7 @@ for (const [label, declaration] of [
   ['a non-string reason', { lane: LANE.GREEN, headSha: HEAD, reason: 42 }],
 ]) {
   const r = classifyUnderPolicy(goodSnapshot({ declaration }), POLICY_WITH_CATEGORY);
-  ok(`a declaration with ${label} does not agree`, r.autoMergeAllowed === false);
+  ok(`a declaration with ${label} does not agree`, r.wouldAutoMergeUnderPolicy === false);
 }
 
 // ------------------------------- cycle 1: a caller cannot substitute its own allowlist
@@ -589,7 +616,7 @@ for (const path of ['docs/composer.json', 'docs/composer.lock', 'a/uv.lock',
 {
   const r = classifyUnderPolicy(goodSnapshot({
     requiredChecks: ['unrelated-lint'],
-    checkRuns: [{ name: 'unrelated-lint', headSha: HEAD, conclusion: 'success', trustedProducer: true }],
+    checkRuns: [{ name: 'unrelated-lint', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T16:00:00Z' }],
   }), POLICY_WITH_CATEGORY);
   ok('a ruleset naming only an unrelated check does not satisfy the manifest',
      r.readiness.includes('BLOCKED_TESTS'));
@@ -686,7 +713,7 @@ for (const path of ['docs/AGENTS.md', 'docs/.gitignore', 'a/b/CLAUDE.md',
 {
   const r = classifyUnderPolicy(goodSnapshot({
     requiredChecks: ['unrelated'],
-    checkRuns: [{ name: 'unrelated', headSha: HEAD, conclusion: 'success', trustedProducer: true }],
+    checkRuns: [{ name: 'unrelated', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T16:00:00Z' }],
   }), { greenAllowlist: POLICY_WITH_CATEGORY.greenAllowlist, requiredChecks: ['unrelated'] });
   ok('a replay policy naming its own manifest does not become ready',
      r.readiness.includes('BLOCKED_TESTS'));

@@ -21,13 +21,13 @@
 const POLICY_VERSION = '1';
 
 /** Lanes, in the order LANE_POLICY §2 evaluates them. The first that applies wins. */
-const LANE = {
+const LANE = Object.freeze({
   PROHIBITED: 'PROHIBITED',
   UNCLASSIFIED: 'UNCLASSIFIED',
   RED: 'RED',
   GREEN: 'GREEN',
   AMBER: 'AMBER',
-};
+});
 
 /** Readiness is a separate output and never alters the lane (LANE_POLICY §1). */
 const READY = 'READY';
@@ -82,6 +82,8 @@ const DEPENDENCY_MANIFESTS = Object.freeze([
   'build.gradle.kts', 'pom.xml', 'mix.exs', 'mix.lock', 'gemspec', 'podfile',
   'podfile.lock', 'flake.nix', 'flake.lock', 'shard.yml', 'shard.lock',
   'pubspec.yaml', 'pubspec.lock', 'deno.json', 'deno.lock', 'renovate.json',
+  'package.swift', 'package.resolved', 'go.work', 'go.work.sum', 'environment.yml',
+  'packages.config', 'paket.dependencies', 'conanfile.txt', 'conanfile.py',
 ]);
 
 /**
@@ -281,6 +283,15 @@ function evaluateUnclassified(snapshot) {
   }
   if (typeof snapshot.isFork !== 'boolean') reasons.push('fork provenance is not stated');
   if (!Array.isArray(snapshot.checkRuns)) reasons.push('the check-run collection is missing or malformed');
+  if (!Array.isArray(snapshot.knownTopLevelPaths) ||
+      snapshot.knownTopLevelPaths.some((v) => !isNonEmptyString(v))) {
+    // A bare string satisfies .includes() by substring, so 'newthing' would have
+    // suppressed RED for an added newthing/x.
+    reasons.push('the top-level path inventory is missing or malformed');
+  }
+  for (const key of ['baseRef', 'defaultBranch']) {
+    if (!isNonEmptyString(snapshot[key])) reasons.push(`${key} is not stated`);
+  }
 
   // An absent escalation list is not an absence of escalations (LANE_POLICY §9).
   if (!Array.isArray(snapshot.escalations)) {
@@ -296,6 +307,8 @@ function evaluateUnclassified(snapshot) {
 
   if (!Array.isArray(snapshot.files)) {
     reasons.push('no changed-file set');
+  } else if (snapshot.files.some((f) => !f || typeof f !== 'object')) {
+    reasons.push('a changed-file record is not an object');
   } else if (snapshot.files.length === 0) {
     reasons.push('changed-file set is empty');
   } else {
@@ -307,7 +320,8 @@ function evaluateUnclassified(snapshot) {
       }
       // A collector that reports no file kinds is not one that found none: an omitted
       // flag is falsy and would have passed the GREEN kind check (LANE_POLICY §7).
-      for (const kind of ['isSymlink', 'isSubmodule', 'isBinary', 'modeChanged']) {
+      for (const kind of ['isSymlink', 'isSubmodule', 'isBinary', 'modeChanged',
+                          'isDependencyManifest']) {
         if (typeof f[kind] !== 'boolean') {
           reasons.push(`file kind ${kind} is not stated: ${f.path}`);
         }
@@ -315,6 +329,14 @@ function evaluateUnclassified(snapshot) {
       // Omitting `unreadable` said nothing, and was read as proof the file was read.
       if (f.unreadable !== false && f.unreadable !== true) {
         reasons.push(`file readability is not stated: ${f.path}`);
+      }
+      // A symlink whose target is not stated contributes no path to protected-surface
+      // matching, so an unknown target inside prompts/ or autonomy/ would read as AMBER.
+      if (f.isSymlink === true && resolveSymlinkTarget(f.path, f.symlinkTarget) === null) {
+        reasons.push(`a symlink states no resolvable target: ${f.path}`);
+      }
+      if (f.isSymlink === false && f.symlinkTarget !== undefined) {
+        reasons.push(`file kind and symlink target contradict each other: ${f.path}`);
       }
       // A magnitude limit compares against counts. An omitted count coerced to zero, so
       // a collector that skipped them satisfied any limit (LANE_POLICY §7).
@@ -341,6 +363,12 @@ function evaluateRed(snapshot) {
     for (const p of pathsOf(f)) {
       if (isProtectedPath(p)) reasons.push(`protected surface touched: ${p}`);
     }
+    // The name list is a denylist and the ecosystems outrun it — Codex named five more
+    // after it was "completed". The collector's own classification is the fact; the list
+    // stays as a second net for a collector that gets it wrong.
+    if (f.isDependencyManifest === true) {
+      reasons.push(`dependency manifest or lockfile: ${f.path}`);
+    }
   }
 
   // A new top-level path is an unknown surface and fails closed (LANE_POLICY §6).
@@ -349,7 +377,7 @@ function evaluateRed(snapshot) {
     // 'added' let `docs/notes/x -> newthing/x` past the unknown-surface rule.
     if (f.status === 'added' || f.status === 'renamed') {
       const top = normalise(f.path).split('/')[0];
-      if (top && !(snapshot.knownTopLevelPaths || []).includes(top)) {
+      if (top && !snapshot.knownTopLevelPaths.includes(top)) {
         reasons.push(`new top-level path: ${top}`);
       }
     }
@@ -403,6 +431,9 @@ function evaluateGreen(snapshot, policy) {
     if (f.isSymlink || f.isSubmodule || f.isBinary || f.modeChanged) {
       reasons.push(`file kind fails closed: ${f.path}`);
     }
+    // A rename inside one category kept both paths covered and every kind flag false.
+    // LANE_POLICY §7 fails closed on renames as a kind, not as a path question.
+    if (f.status === 'renamed') reasons.push(`a rename is never GREEN: ${f.path}`);
   }
   if (reasons.length > 0) return { green: false, reasons };
 
@@ -428,6 +459,14 @@ function categoryCovers(category, file) {
 }
 
 function satisfiesInvariants(category, snapshot) {
+  // LANE_POLICY §7 says a category names its structural invariants and the validator
+  // that checks them. Limits alone are not that validator, so a category is refused
+  // until one has run against this exact head and passed.
+  const v = snapshot.categoryValidation;
+  if (!isNonEmptyString(category.validator)) return false;
+  if (!v || v.validator !== category.validator ||
+      !sameSha(v.headSha, snapshot.headSha) || v.passed !== true) return false;
+
   const files = snapshot.files || [];
   const limits = category.limits || {};
   const added = files.reduce((n, f) => n + (f.additions || 0), 0);
@@ -452,14 +491,19 @@ function satisfiesInvariants(category, snapshot) {
  * tie between runs that disagree — there is no verdict and the caller blocks.
  */
 function latestCheckVerdict(snapshot, name) {
-  const runs = (Array.isArray(snapshot.checkRuns) ? snapshot.checkRuns : []).filter(
+  const all = Array.isArray(snapshot.checkRuns) ? snapshot.checkRuns : [];
+  if (all.some((c) => !c || typeof c !== 'object')) return null;
+  const runs = all.filter(
     (c) => c.name === name && sameSha(c.headSha, snapshot.headSha) && c.trustedProducer === true
   );
   if (runs.length === 0) return null;
-  if (runs.length === 1) return runs[0].conclusion;
 
+  // The single-run case needs its timestamp too: the policy says a missing one leaves
+  // the latest completed run unestablished, and one run is still a run whose completion
+  // was never stated.
   const timed = runs.map((c) => ({ run: c, at: Date.parse(c.completedAt) }));
   if (timed.some((t) => Number.isNaN(t.at))) return null;
+  if (runs.length === 1) return runs[0].conclusion;
 
   const newest = Math.max(...timed.map((t) => t.at));
   const winners = timed.filter((t) => t.at === newest);
