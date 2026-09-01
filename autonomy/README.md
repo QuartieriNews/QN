@@ -22,3 +22,7 @@ The one exception is the bootstrap: the pull request that first introduces the g
 no gate at its base commit, so it classifies itself. The step says which copy it used, so
 that case is visible rather than assumed. Once that pull request has merged, a fallback
 in normal operation means the base commit is not the one that was expected.
+
+A base commit that is *absent* from the clone is not the bootstrap and is not treated as
+it: the step establishes the commit is there before asking what it contains, and fails if
+it is not. The two failures look identical to `git show`, and only one of them is benign.

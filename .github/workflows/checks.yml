@@ -12,9 +12,12 @@
 #
 # One exception, and it is unavoidable: the first pull request to introduce the gate has
 # no gate at its base commit. That one falls back to its own copy and says so in the
-# output. After it merges the fallback has nothing left to do in normal operation, and a
-# later pull request reaching it means the base commit is not what it was thought to be —
-# which is why the step prints which copy it used rather than choosing silently.
+# output. After it merges the fallback has nothing left to do in normal operation.
+#
+# A base commit that is absent from the clone is a different thing entirely and must not
+# be read as the bootstrap: it means the check would classify with a copy that is not the
+# one this pull request will be merged against. The step establishes the commit is there
+# before asking what it contains, and fails rather than classifying with something else.
 name: checks
 
 on:
@@ -83,13 +86,19 @@ jobs:
         run: |
           set -eu
           git fetch --no-tags --quiet origin "$LANE_BASE_REF"
+          if ! git cat-file -e "$LANE_BASE^{commit}" 2>/dev/null; then
+            echo "The base commit $LANE_BASE is not in this clone, so the classifier cannot"
+            echo "be taken from it. Classifying with any other copy would not be the check"
+            echo "this reports. Failing instead."
+            exit 1
+          fi
           if git show "$LANE_BASE:autonomy/lane_gate.js" > "$RUNNER_TEMP/gate.js" 2>/dev/null; then
             echo "Classifier: the copy at base commit $LANE_BASE."
           else
             cp autonomy/lane_gate.js "$RUNNER_TEMP/gate.js"
-            echo "Classifier: this pull request's own copy. The base commit $LANE_BASE has"
-            echo "no autonomy/lane_gate.js — the bootstrap case, expected only until the"
-            echo "pull request that introduces the gate has merged."
+            echo "Classifier: this pull request's own copy. The base commit $LANE_BASE is"
+            echo "present and has no autonomy/lane_gate.js — the bootstrap case, expected"
+            echo "only until the pull request that introduces the gate has merged."
           fi
           FORK_FLAG=""
           if [ "$LANE_FORK" = "true" ]; then FORK_FLAG="--fork"; fi
