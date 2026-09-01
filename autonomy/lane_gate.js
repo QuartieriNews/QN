@@ -36,7 +36,7 @@ const READY = 'READY';
  * Protected surfaces — always RED (LANE_POLICY §6). Matched against every path a
  * change touches, old and new, so a rename cannot launder a protected file.
  */
-const PROTECTED_SURFACES = [
+const PROTECTED_SURFACES = Object.freeze([
   '.github/',
   'autonomy/',
   'decisions/',
@@ -56,14 +56,23 @@ const PROTECTED_SURFACES = [
   // otherwise be AMBER and could match a future tests category (LANE_POLICY §6).
   'tests/test_lane_gate.js',
   'tests/test_workflow_safety.js',
-];
+]);
+
+/**
+ * Control files that bind wherever they sit: a scoped `docs/AGENTS.md` rewrites the
+ * review mandate for that subtree, and a scoped `.gitignore` hides files there from
+ * every rule above. Matched by name at any depth (LANE_POLICY §4, §6).
+ */
+const CONTROL_FILENAMES = Object.freeze([
+  'agents.md', 'claude.md', '.gitignore', 'lane_policy.md', 'review_mandate_code.md',
+]);
 
 /**
  * Dependency manifests and lockfiles, matched by file name at any depth. A manifest is
  * a supply-chain surface wherever it sits, so a path prefix would miss the ones that
  * are not at the repository root (LANE_POLICY §6).
  */
-const DEPENDENCY_MANIFESTS = [
+const DEPENDENCY_MANIFESTS = Object.freeze([
   'requirements.txt', 'requirements.in', 'constraints.txt', 'setup.py', 'setup.cfg',
   'pyproject.toml', 'pipfile', 'pipfile.lock', 'poetry.lock',
   'package.json', 'package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock',
@@ -73,7 +82,7 @@ const DEPENDENCY_MANIFESTS = [
   'build.gradle.kts', 'pom.xml', 'mix.exs', 'mix.lock', 'gemspec', 'podfile',
   'podfile.lock', 'flake.nix', 'flake.lock', 'shard.yml', 'shard.lock',
   'pubspec.yaml', 'pubspec.lock', 'deno.json', 'deno.lock', 'renovate.json',
-];
+]);
 
 /**
  * A name list is a denylist and can never be complete — the ecosystems outrun it. The
@@ -86,14 +95,17 @@ function looksLikeLockfile(name) {
 }
 
 /** Files whose modification means the pull request is rewriting its own judge. */
-const SELF_REFERENTIAL = [
+const SELF_REFERENTIAL = Object.freeze([
   'reviews/REVIEW_MANDATE_CODE.md',
   'AGENTS.md',
   'CLAUDE.md',
   'docs/autonomy/LANE_POLICY.md',
   'autonomy/',
   '.github/',
-];
+]);
+
+/** Escalation is one-way and to a named lane; anything else is unreadable evidence. */
+const ESCALATION_LANES = Object.freeze([LANE.AMBER, LANE.RED]);
 
 /** A merge is atomic with its evidence only under these (LANE_POLICY §9). */
 const ATOMIC_MERGE_MODES = ['strict_base', 'merge_queue'];
@@ -196,7 +208,8 @@ function underSurface(path, surface) {
 function isProtectedPath(path) {
   if (PROTECTED_SURFACES.some((s) => underSurface(path, s))) return true;
   const name = basename(path);
-  return DEPENDENCY_MANIFESTS.includes(name) || looksLikeLockfile(name);
+  return DEPENDENCY_MANIFESTS.includes(name) || looksLikeLockfile(name) ||
+         CONTROL_FILENAMES.includes(name);
 }
 
 function touchesAny(files, surfaces) {
@@ -235,7 +248,9 @@ function evaluateProhibited(snapshot) {
   // Self-referential: the mandate and policy applied must come from the default
   // branch. Unproven provenance is prohibited rather than RED, because a RED review
   // would itself be conducted under the instructions in question.
-  if (touchesAny(files, SELF_REFERENTIAL) && snapshot.mandateSource !== 'default_branch') {
+  const rewritesItsOwnJudge = touchesAny(files, SELF_REFERENTIAL) ||
+    files.some((f) => pathsOf(f).some((p) => CONTROL_FILENAMES.includes(basename(p))));
+  if (rewritesItsOwnJudge && snapshot.mandateSource !== 'default_branch') {
     reasons.push('pull request changes its own review mandate or policy and provenance is not the default branch');
   }
 
@@ -265,14 +280,18 @@ function evaluateUnclassified(snapshot) {
     reasons.push('no evidence that evaluation avoids pull-request-controlled code');
   }
   if (typeof snapshot.isFork !== 'boolean') reasons.push('fork provenance is not stated');
+  if (!Array.isArray(snapshot.checkRuns)) reasons.push('the check-run collection is missing or malformed');
 
   // An absent escalation list is not an absence of escalations (LANE_POLICY §9).
   if (!Array.isArray(snapshot.escalations)) {
     reasons.push('escalations are not stated');
   } else if (snapshot.escalations.some(
-    (e) => !e || !isNonEmptyString(e.toLane) || !isNonEmptyString(e.by) || !isNonEmptyString(e.reason)
+    (e) => !e || !isNonEmptyString(e.by) || !isNonEmptyString(e.reason) ||
+           !ESCALATION_LANES.includes(e.toLane)
   )) {
-    reasons.push('an escalation record is malformed');
+    // `{toLane: 'PURPLE'}` was well-formed and honoured by no evaluator, so an
+    // escalation nobody could act on left the change GREEN.
+    reasons.push('an escalation record is malformed or names an unsupported lane');
   }
 
   if (!Array.isArray(snapshot.files)) {
@@ -291,6 +310,17 @@ function evaluateUnclassified(snapshot) {
       for (const kind of ['isSymlink', 'isSubmodule', 'isBinary', 'modeChanged']) {
         if (typeof f[kind] !== 'boolean') {
           reasons.push(`file kind ${kind} is not stated: ${f.path}`);
+        }
+      }
+      // Omitting `unreadable` said nothing, and was read as proof the file was read.
+      if (f.unreadable !== false && f.unreadable !== true) {
+        reasons.push(`file readability is not stated: ${f.path}`);
+      }
+      // A magnitude limit compares against counts. An omitted count coerced to zero, so
+      // a collector that skipped them satisfied any limit (LANE_POLICY §7).
+      for (const count of ['additions', 'deletions']) {
+        if (!Number.isInteger(f[count]) || f[count] < 0) {
+          reasons.push(`${count} is not a non-negative integer: ${f.path}`);
         }
       }
     }
@@ -422,7 +452,7 @@ function satisfiesInvariants(category, snapshot) {
  * tie between runs that disagree — there is no verdict and the caller blocks.
  */
 function latestCheckVerdict(snapshot, name) {
-  const runs = (snapshot.checkRuns || []).filter(
+  const runs = (Array.isArray(snapshot.checkRuns) ? snapshot.checkRuns : []).filter(
     (c) => c.name === name && sameSha(c.headSha, snapshot.headSha) && c.trustedProducer === true
   );
   if (runs.length === 0) return null;
@@ -588,11 +618,13 @@ function classify(snapshot) {
  */
 function classifyUnderPolicy(snapshot, policy) {
   if (!policy || !Array.isArray(policy.greenAllowlist)) fail('a policy with a greenAllowlist is required');
-  // What a fixture replays is the allowlist. The required-check manifest is not the
-  // seam's to weaken, so it is inherited unless the fixture states one deliberately.
-  const withManifest = policy.requiredChecks === undefined
-    ? Object.assign({}, policy, { requiredChecks: SHIPPED_POLICY.requiredChecks })
-    : policy;
+  // What a fixture replays is the allowlist, and only that. Letting it carry a manifest
+  // meant a replay could name one unrelated check and call a candidate category ready —
+  // evidence used to approve that category, gathered against substitutes for the real
+  // checks. The shipped manifest is inherited unconditionally.
+  const withManifest = Object.assign({}, policy, {
+    requiredChecks: SHIPPED_POLICY.requiredChecks,
+  });
   return evaluate(snapshot, withManifest, 'injected');
 }
 
@@ -604,7 +636,10 @@ module.exports = {
   LANE,
   READY,
   POLICY_VERSION,
-  PROTECTED_SURFACES,
-  DEPENDENCY_MANIFESTS,
+  // Copies: exporting the arrays themselves let a consumer splice the classifier's own
+  // protected list to empty before calling it.
+  PROTECTED_SURFACES: Object.freeze(PROTECTED_SURFACES.slice()),
+  DEPENDENCY_MANIFESTS: Object.freeze(DEPENDENCY_MANIFESTS.slice()),
+  CONTROL_FILENAMES: Object.freeze(CONTROL_FILENAMES.slice()),
   SHIPPED_POLICY,
 };

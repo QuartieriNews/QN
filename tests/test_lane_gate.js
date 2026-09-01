@@ -12,8 +12,8 @@
  * No test performs a real auto-merge; the gate cannot, having no I/O.
  */
 
-const { classify, classifyUnderPolicy, resolveSymlinkTarget, LANE, READY, POLICY_VERSION } =
-  require('../autonomy/lane_gate.js');
+const { classify, classifyUnderPolicy, resolveSymlinkTarget, PROTECTED_SURFACES,
+        LANE, READY, POLICY_VERSION } = require('../autonomy/lane_gate.js');
 
 let checks = 0;
 let failed = 0;
@@ -77,7 +77,8 @@ function goodSnapshot(overrides = {}) {
  */
 function stated(files) {
   return (files || []).map((f) => Object.assign(
-    { isSymlink: false, isSubmodule: false, isBinary: false, modeChanged: false }, f));
+    { isSymlink: false, isSubmodule: false, isBinary: false, modeChanged: false,
+      unreadable: false, additions: 1, deletions: 0 }, f));
 }
 
 /** A policy with one approved category, used only to prove GREEN is reachable at all. */
@@ -622,6 +623,86 @@ for (const [label, killSwitch] of [['null', null], ['a string', 'off'], ['omitte
   const r = classify(goodSnapshot());
   ok('a shipped result carries no replay field to confuse a consumer',
      r.wouldAutoMergeUnderPolicy === undefined);
+}
+
+// ------------------------------------ cycle 3: evidence the earlier passes had missed
+
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    escalations: [{ toLane: 'PURPLE', by: 'agent', reason: 'uncertain' }],
+  }), POLICY_WITH_CATEGORY);
+  ok('an escalation naming an unsupported lane is UNCLASSIFIED', r.lane === LANE.UNCLASSIFIED);
+}
+for (const [label, patch] of [
+  ['omitted additions', { additions: undefined }],
+  ['negative additions', { additions: -5 }],
+  ['non-integer deletions', { deletions: 'lots' }],
+  ['fractional additions', { additions: 2.5 }],
+]) {
+  const snap = goodSnapshot();
+  Object.assign(snap.files[0], patch);
+  if (patch.additions === undefined) delete snap.files[0].additions;
+  const r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY);
+  ok(`${label} is UNCLASSIFIED, so no magnitude limit is satisfied by default`,
+     r.lane === LANE.UNCLASSIFIED);
+}
+{
+  const snap = goodSnapshot();
+  delete snap.files[0].unreadable;
+  const r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY);
+  ok('unstated readability is UNCLASSIFIED, not proof the file was read',
+     r.lane === LANE.UNCLASSIFIED);
+}
+for (const [label, checkRuns] of [['an object', { a: 1 }], ['a scalar', 'ok'], ['omitted', undefined]]) {
+  const snap = goodSnapshot();
+  if (checkRuns === undefined) delete snap.checkRuns; else snap.checkRuns = checkRuns;
+  let threw = false;
+  let r = null;
+  try { r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY); } catch (e) { threw = true; }
+  ok(`a check-run collection that is ${label} fails closed without throwing`,
+     !threw && r.lane === LANE.UNCLASSIFIED);
+}
+
+// ----------------------------- cycle 3: control files bind wherever they sit
+
+for (const path of ['docs/AGENTS.md', 'docs/.gitignore', 'a/b/CLAUDE.md',
+                    'sub/LANE_POLICY.md']) {
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path }],
+    knownTopLevelPaths: ['docs', 'a', 'sub'],
+  }), POLICY_WITH_CATEGORY);
+  ok(`a scoped control file is RED at any depth: ${path}`, r.lane === LANE.RED);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'docs/AGENTS.md' }],
+    mandateSource: 'pull_request',
+  }), POLICY_WITH_CATEGORY);
+  ok('a scoped mandate applied from the pull request is PROHIBITED', r.lane === LANE.PROHIBITED);
+}
+
+// --------------------- cycle 3: the replay seam cannot weaken the check manifest
+
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    requiredChecks: ['unrelated'],
+    checkRuns: [{ name: 'unrelated', headSha: HEAD, conclusion: 'success', trustedProducer: true }],
+  }), { greenAllowlist: POLICY_WITH_CATEGORY.greenAllowlist, requiredChecks: ['unrelated'] });
+  ok('a replay policy naming its own manifest does not become ready',
+     r.readiness.includes('BLOCKED_TESTS'));
+}
+
+// ------------------------------ cycle 3: the exported tables are copies, and frozen
+
+{
+  const before = PROTECTED_SURFACES.length;
+  let threw = false;
+  try { PROTECTED_SURFACES.splice(0); } catch (e) { threw = true; }
+  ok('the exported protected list refuses mutation', threw || PROTECTED_SURFACES.length === before);
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'autonomy/lane_gate.js' }],
+  }), POLICY_WITH_CATEGORY);
+  ok('a consumer cannot empty the classifier\'s own protected table', r.lane === LANE.RED);
 }
 
 // ---------------------------------------------------------------- ordering and shape

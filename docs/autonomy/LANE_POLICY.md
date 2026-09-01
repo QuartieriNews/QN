@@ -121,6 +121,10 @@ cannot become GREEN by being renamed, and against the resolved target of any sym
   is a supply-chain surface wherever it sits, so a path prefix would miss every one that
   is not at the repository root.
 - `.gitignore` — it can hide a file from every rule above.
+- **Control files bind wherever they sit**, matched by name at any depth: a scoped
+  `docs/AGENTS.md` rewrites the review mandate for that subtree, and a scoped
+  `.gitignore` hides files there. A path prefix rooted at the repository would protect
+  only the top-level copies.
 
 Anything not classified by this list and not inside an approved GREEN category is AMBER.
 A **new top-level path** is never GREEN: unknown surfaces fail closed.

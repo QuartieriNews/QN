@@ -49,7 +49,9 @@ function runBlocks(text) {
   const lines = text.split('\n');
   const blocks = [];
   for (let i = 0; i < lines.length; i += 1) {
-    const m = lines[i].match(/^(\s*)(?:-\s*)?run:\s*(.*)$/);
+    // Valid YAML spells the key several ways: quoted, and with space before the colon.
+    // Recognising only the bare form left `- "run": ...` invisible to every assertion.
+    const m = lines[i].match(/^(\s*)(?:-\s*)?["']?run["']?\s*:\s*(.*)$/);
     if (!m) continue;
     const indent = m[1].length;
     const inline = m[2].trim();
@@ -154,6 +156,8 @@ for (const file of files) {
   const sample = [
     'jobs:', '  a:', '    steps:', '      - run: echo one',
     '      - name: two', '        run: |', '          echo ${{ github.head_ref }}',
+    '      - "run": echo ${{ github.event.pull_request.title }}',
+    '      - run : echo ${{ github.actor }}',
     '      - uses: actions/checkout@v4',
   ].join('\n');
   const blocks = runBlocks(sample);
@@ -161,6 +165,9 @@ for (const file of files) {
   ok('the run extractor finds a literal block', blocks.some((b) => b.includes('github.head_ref')));
   ok('the run extractor stops at the next step',
      !blocks.some((b) => b.includes('actions/checkout')));
+  ok('the run extractor sees a quoted key',
+     blocks.some((b) => b.includes('pull_request.title')));
+  ok('the run extractor sees a spaced colon', blocks.some((b) => b.includes('github.actor')));
   ok('a mutable context in a run block is detected',
      expressions(blocks.join('\n')).includes('github.head_ref'));
 }
