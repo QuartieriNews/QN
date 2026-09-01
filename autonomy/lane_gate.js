@@ -110,7 +110,13 @@ const SELF_REFERENTIAL = Object.freeze([
 const ESCALATION_LANES = Object.freeze([LANE.AMBER, LANE.RED]);
 
 /** A merge is atomic with its evidence only under these (LANE_POLICY §9). */
-const ATOMIC_MERGE_MODES = ['strict_base', 'merge_queue'];
+const ATOMIC_MERGE_MODES = Object.freeze(['strict_base', 'merge_queue']);
+
+/** The statuses a changed-file record may carry. Anything else is unread evidence. */
+const FILE_STATUSES = Object.freeze(['added', 'modified', 'removed', 'renamed']);
+
+/** The cap in AGENTS.md, mirrored here so the gate can refuse to authorise past it. */
+const REVIEW_CYCLE_CAP = 4;
 
 /**
  * The shipped policy. Empty by owner decision (DEC-010): no category is approved, so
@@ -283,11 +289,13 @@ function evaluateUnclassified(snapshot) {
   }
   if (typeof snapshot.isFork !== 'boolean') reasons.push('fork provenance is not stated');
   if (!Array.isArray(snapshot.checkRuns)) reasons.push('the check-run collection is missing or malformed');
-  if (!Array.isArray(snapshot.knownTopLevelPaths) ||
-      snapshot.knownTopLevelPaths.some((v) => !isNonEmptyString(v))) {
-    // A bare string satisfies .includes() by substring, so 'newthing' would have
-    // suppressed RED for an added newthing/x.
-    reasons.push('the top-level path inventory is missing or malformed');
+  // The inventory decides what counts as a *new* surface, so it must have been read
+  // from the base and say so. Collected from the post-change tree it would contain the
+  // new path and suppress the very rule it feeds.
+  const inv = snapshot.topLevelInventory;
+  if (!inv || typeof inv !== 'object' || !Array.isArray(inv.paths) ||
+      inv.paths.some((v) => !isNonEmptyString(v)) || !sameSha(inv.baseSha, snapshot.baseSha)) {
+    reasons.push('the top-level path inventory is missing, malformed, or not bound to the base commit');
   }
   for (const key of ['baseRef', 'defaultBranch']) {
     if (!isNonEmptyString(snapshot[key])) reasons.push(`${key} is not stated`);
@@ -315,8 +323,16 @@ function evaluateUnclassified(snapshot) {
     for (const f of snapshot.files) {
       if (f.unreadable === true) reasons.push(`file could not be read: ${f.path}`);
       if (!isNonEmptyString(f.path)) reasons.push('a changed file has no repository path');
+      if (!FILE_STATUSES.includes(f.status)) {
+        // Every kind rule keys off status, so an omitted or misspelled one exempted a
+        // record from the rename rule and from the new-top-level check at once.
+        reasons.push(`file status is missing or unsupported: ${f.path}`);
+      }
       if (f.status === 'renamed' && !isNonEmptyString(f.previousPath)) {
         reasons.push(`a rename states no previous path: ${f.path}`);
+      }
+      if (f.status !== 'renamed' && f.previousPath !== undefined) {
+        reasons.push(`a previous path on a non-rename contradicts the status: ${f.path}`);
       }
       // A collector that reports no file kinds is not one that found none: an omitted
       // flag is falsy and would have passed the GREEN kind check (LANE_POLICY §7).
@@ -377,7 +393,7 @@ function evaluateRed(snapshot) {
     // 'added' let `docs/notes/x -> newthing/x` past the unknown-surface rule.
     if (f.status === 'added' || f.status === 'renamed') {
       const top = normalise(f.path).split('/')[0];
-      if (top && !snapshot.knownTopLevelPaths.includes(top)) {
+      if (top && !snapshot.topLevelInventory.paths.includes(top)) {
         reasons.push(`new top-level path: ${top}`);
       }
     }
@@ -501,7 +517,11 @@ function latestCheckVerdict(snapshot, name) {
   // The single-run case needs its timestamp too: the policy says a missing one leaves
   // the latest completed run unestablished, and one run is still a run whose completion
   // was never stated.
-  const timed = runs.map((c) => ({ run: c, at: Date.parse(c.completedAt) }));
+  // Date.parse coerces, so completedAt: 0 became a valid date and a lone run passed.
+  const timed = runs.map((c) => ({
+    run: c,
+    at: isNonEmptyString(c.completedAt) ? Date.parse(c.completedAt) : NaN,
+  }));
   if (timed.some((t) => Number.isNaN(t.at))) return null;
   if (runs.length === 1) return runs[0].conclusion;
 
@@ -516,7 +536,7 @@ function latestCheckVerdict(snapshot, name) {
  * Readiness (LANE_POLICY §1, §9). Transient evidence state. A failure here blocks and
  * is retried; it never moves the lane.
  */
-function computeReadiness(snapshot, policy = SHIPPED_POLICY) {
+function computeReadiness(snapshot, policy = SHIPPED_POLICY, computedLane = null) {
   const blockers = [];
 
   if (snapshot.mergeable !== true) blockers.push('BLOCKED_MERGE_CONFLICT');
@@ -536,6 +556,28 @@ function computeReadiness(snapshot, policy = SHIPPED_POLICY) {
     for (const name of manifest) {
       if (latestCheckVerdict(snapshot, name) !== 'success') blockers.push(`BLOCKED_TESTS:${name}`);
     }
+  }
+
+  // A declaration that disagrees is a hard block, not merely a withheld permission:
+  // RED never auto-merges anyway, so clearing only that flag changed nothing an owner
+  // would see (LANE_POLICY §3).
+  if (snapshot.declaration && snapshot.declaration.lane !== computedLane) {
+    blockers.push('BLOCKED_DECLARATION_MISMATCH');
+  }
+
+  // The cap lives in AGENTS.md and the gate could not see it, so an eligible change
+  // stayed authorisable past the fourth remediation.
+  const cycles = snapshot.reviewCycles;
+  if (!Number.isInteger(cycles) || cycles < 0) {
+    blockers.push('BLOCKED_CYCLES');
+  } else if (cycles >= REVIEW_CYCLE_CAP && !ownerExceptionBinds(snapshot)) {
+    blockers.push('BLOCKED_CYCLE_CAP');
+  }
+
+  if (computedLane === LANE.RED && !reinforcedAuditPasses(snapshot)) {
+    // LANE_POLICY §10 requires two sealed audits of this head for RED, and the gate had
+    // no record of either.
+    blockers.push('BLOCKED_REINFORCED_AUDIT');
   }
 
   const review = snapshot.review || {};
@@ -566,6 +608,34 @@ function declarationAgrees(snapshot, computedLane) {
   return d.lane === computedLane &&
          sameSha(d.headSha, snapshot.headSha) &&
          isNonEmptyString(d.reason);
+}
+
+/**
+ * An owner exception to the cycle cap counts only when it names this exact head. A
+ * standing exception would be a policy change, and DEC-010 leaves that to the owner.
+ */
+function ownerExceptionBinds(snapshot) {
+  const e = snapshot.ownerCycleException;
+  return Boolean(e) && typeof e === 'object' && sameSha(e.headSha, snapshot.headSha) &&
+         e.grantedByOwner === true;
+}
+
+/**
+ * The reinforced control (LANE_POLICY §10): two audits of this exact head, from
+ * mandates read on the default branch, collected before either was published, with no
+ * finding outstanding. Anything unstated is not an audit that happened.
+ */
+function reinforcedAuditPasses(snapshot) {
+  const a = snapshot.reinforcedAudit;
+  if (!a || typeof a !== 'object') return false;
+  return ['claude', 'codex'].every((who) => {
+    const r = a[who];
+    return Boolean(r) && typeof r === 'object' &&
+           sameSha(r.headSha, snapshot.headSha) &&
+           r.mandateSource === 'default_branch' &&
+           r.sealedBeforePublication === true &&
+           Number.isInteger(r.findings) && r.findings === 0;
+  });
 }
 
 /**
@@ -617,13 +687,17 @@ function evaluate(snapshot, policy, policySource) {
     return result(LANE.UNCLASSIFIED, 'BLOCKED_UNCLASSIFIED', unclassified, snapshot, false, policySource);
   }
 
-  const readiness = computeReadiness(snapshot, policy);
-
   const red = evaluateRed(snapshot);
-  if (red.length > 0) return result(LANE.RED, readiness, red, snapshot, false, policySource);
+  if (red.length > 0) {
+    return result(LANE.RED, computeReadiness(snapshot, policy, LANE.RED), red, snapshot, false, policySource);
+  }
 
   const green = evaluateGreen(snapshot, policy);
-  if (!green.green) return result(LANE.AMBER, readiness, green.reasons, snapshot, false, policySource);
+  if (!green.green) {
+    return result(LANE.AMBER, computeReadiness(snapshot, policy, LANE.AMBER), green.reasons,
+                  snapshot, false, policySource);
+  }
+  const readiness = computeReadiness(snapshot, policy, LANE.GREEN);
 
   // Every condition must hold. The kill switch is read first and fails closed;
   // atomicity is required because a merge that is not atomic with its evidence merges

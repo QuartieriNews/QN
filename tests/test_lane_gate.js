@@ -42,7 +42,8 @@ function goodSnapshot(overrides = {}) {
     defaultBranch: 'main',
     isFork: false,
     authorIsAutomationIdentity: true,
-    knownTopLevelPaths: ['docs', 'tests', 'autonomy', 'council'],
+    topLevelInventory: { baseSha: BASE, paths: ['docs', 'tests', 'autonomy', 'council'] },
+    reviewCycles: 1,
     files: [{ status: 'modified', path: 'docs/notes/example.md', additions: 3, deletions: 1 }],
     filesComplete: true,
     filesTruncated: false,
@@ -485,7 +486,7 @@ for (const path of ['docs/package.json', 'tools/package-lock.json', 'sub/dir/go.
                     'nested/Cargo.toml', 'a/b/yarn.lock']) {
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path, additions: 1, deletions: 0 }],
-    knownTopLevelPaths: ['docs', 'tests', 'autonomy', 'council', 'tools', 'sub', 'nested', 'a'],
+    topLevelInventory: { baseSha: BASE, paths: ['docs', 'tests', 'autonomy', 'council', 'tools', 'sub', 'nested', 'a'] },
   }), POLICY_WITH_CATEGORY);
   ok(`a dependency manifest outside the root is RED: ${path}`, r.lane === LANE.RED);
 }
@@ -596,7 +597,7 @@ for (const path of ['docs/composer.json', 'docs/composer.lock', 'a/uv.lock',
                     'b/gradle.lockfile', 'c/something.lock', 'd/pnpm-lock.yaml']) {
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path, additions: 1, deletions: 0 }],
-    knownTopLevelPaths: ['docs', 'a', 'b', 'c', 'd'],
+    topLevelInventory: { baseSha: BASE, paths: ['docs', 'a', 'b', 'c', 'd'] },
   }), POLICY_WITH_CATEGORY);
   ok(`a dependency manifest or lockfile is RED: ${path}`, r.lane === LANE.RED);
 }
@@ -696,7 +697,7 @@ for (const path of ['docs/AGENTS.md', 'docs/.gitignore', 'a/b/CLAUDE.md',
                     'sub/LANE_POLICY.md']) {
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path }],
-    knownTopLevelPaths: ['docs', 'a', 'sub'],
+    topLevelInventory: { baseSha: BASE, paths: ['docs', 'a', 'sub'] },
   }), POLICY_WITH_CATEGORY);
   ok(`a scoped control file is RED at any depth: ${path}`, r.lane === LANE.RED);
 }
@@ -730,6 +731,93 @@ for (const path of ['docs/AGENTS.md', 'docs/.gitignore', 'a/b/CLAUDE.md',
     files: [{ status: 'modified', path: 'autonomy/lane_gate.js' }],
   }), POLICY_WITH_CATEGORY);
   ok('a consumer cannot empty the classifier\'s own protected table', r.lane === LANE.RED);
+}
+
+// --------------------------- cycle 5: status, binding, cycles and the reinforced audit
+
+for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed' }]]) {
+  const snap = goodSnapshot();
+  if (label === 'omitted') delete snap.files[0].status; else Object.assign(snap.files[0], patch);
+  const r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY);
+  ok(`a ${label} file status is UNCLASSIFIED`, r.lane === LANE.UNCLASSIFIED);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({ files: [
+    { status: 'modified', path: 'docs/notes/a.md', previousPath: 'docs/notes/b.md' }] }),
+    POLICY_WITH_CATEGORY);
+  ok('a previous path on a non-rename contradicts the status', r.lane === LANE.UNCLASSIFIED);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    topLevelInventory: { baseSha: OTHER, paths: ['docs'] },
+  }), POLICY_WITH_CATEGORY);
+  ok('an inventory not bound to the base commit is UNCLASSIFIED', r.lane === LANE.UNCLASSIFIED);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: 0 }] }),
+    POLICY_WITH_CATEGORY);
+  ok('a numeric completion time is not a timestamp', r.readiness.includes('BLOCKED_TESTS'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    declaration: { lane: LANE.AMBER, headSha: HEAD, reason: 'thought it was amber' },
+  }), POLICY_WITH_CATEGORY);
+  ok('a declaration mismatch blocks readiness, not merely the permission',
+     r.readiness.includes('BLOCKED_DECLARATION_MISMATCH'));
+}
+{
+  const snap = goodSnapshot();
+  delete snap.reviewCycles;
+  const r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY);
+  ok('an unstated review-cycle count blocks', r.readiness.includes('BLOCKED_CYCLES'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({ reviewCycles: 4 }), POLICY_WITH_CATEGORY);
+  ok('reaching the cycle cap blocks automation', r.readiness.includes('BLOCKED_CYCLE_CAP'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    reviewCycles: 5,
+    ownerCycleException: { headSha: HEAD, grantedByOwner: true },
+  }), POLICY_WITH_CATEGORY);
+  ok('an owner exception bound to this head clears the cap', r.readiness === READY);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    reviewCycles: 5,
+    ownerCycleException: { headSha: OTHER, grantedByOwner: true },
+  }), POLICY_WITH_CATEGORY);
+  ok('an exception bound to another head does not carry over',
+     r.readiness.includes('BLOCKED_CYCLE_CAP'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'AGENTS.md' }],
+  }), POLICY_WITH_CATEGORY);
+  ok('RED without the reinforced audit is not ready',
+     r.lane === LANE.RED && r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
+}
+{
+  const audit = { headSha: HEAD, mandateSource: 'default_branch',
+                  sealedBeforePublication: true, findings: 0 };
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'AGENTS.md' }],
+    declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
+    reinforcedAudit: { claude: audit, codex: audit },
+  }), POLICY_WITH_CATEGORY);
+  ok('RED with two sealed audits of this head is ready', r.readiness === READY);
+}
+{
+  const audit = { headSha: HEAD, mandateSource: 'default_branch',
+                  sealedBeforePublication: false, findings: 0 };
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'AGENTS.md' }],
+    declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
+    reinforcedAudit: { claude: audit, codex: audit },
+  }), POLICY_WITH_CATEGORY);
+  ok('an audit published before the other was collected is not separated',
+     r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
 }
 
 // ---------------------------------------------------------------- ordering and shape
