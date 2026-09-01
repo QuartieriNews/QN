@@ -76,6 +76,9 @@ const FILE_FACT_SCHEMA = Object.freeze({
   binary: 'boolean',
 });
 
+/** The statuses that carry a source path, and the only ones that may. */
+const RENAME_STATUSES = new Set(['R', 'C']);
+
 const SYMLINK_MODE = '120000';
 const SUBMODULE_MODE = '160000';
 const ABSENT_MODE = '000000';
@@ -110,7 +113,13 @@ function factProblems(facts) {
       // eslint-disable-next-line valid-typeof
       if (typeof rec[field] !== type) problems.push(`files[${i}].${field}`);
     }
-    if (rec.previousPath !== null && typeof rec.previousPath !== 'string') {
+    // An `R` or `C` record without its source path is a rename the gate cannot check
+    // both ends of: the destination alone would miss a protected source (cycle 2).
+    if (RENAME_STATUSES.has(rec.status)) {
+      if (typeof rec.previousPath !== 'string' || rec.previousPath.length === 0) {
+        problems.push(`files[${i}].previousPath`);
+      }
+    } else if (rec.previousPath !== null) {
       problems.push(`files[${i}].previousPath`);
     }
     if (!Number.isFinite(rec.additions) || !Number.isFinite(rec.deletions)) {
@@ -264,6 +273,22 @@ function result(lane, reasons, facts, newTopLevel) {
   };
 }
 
+/** A result for a diff that could not be read, keeping what the caller did state. */
+function unclassifiable(detail, provenance) {
+  const facts = {
+    files: null,
+    baseTopLevel: null,
+    isFork: Boolean(provenance && provenance.isFork),
+    escalated: Boolean(provenance && provenance.escalated),
+  };
+  const res = classify(facts);
+  const reasons = [{ rule: 'UNCLASSIFIABLE', paths: [], detail }];
+  if (facts.isFork) reasons.push({ rule: 'FORK', paths: [] });
+  if (facts.escalated) reasons.push({ rule: 'ESCALATED', paths: [] });
+  res.reasons = reasons;
+  return res;
+}
+
 /* ------------------------------------------------------------------ git layer */
 
 /** `git diff --raw -z`: :srcMode dstMode srcSha dstSha STATUS \0 path [\0 newPath]. */
@@ -348,7 +373,14 @@ function mergeFacts(raw, numstat) {
 }
 
 function git(args) {
-  return execFileSync('git', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  const out = execFileSync('git', args, { encoding: 'buffer', maxBuffer: 64 * 1024 * 1024 });
+  const text = out.toString('utf8');
+  // Bytes that are not valid UTF-8 all decode to the same replacement character, so two
+  // different pathnames become one string and their records alias. Refuse (cycle 2).
+  if (!Buffer.from(text, 'utf8').equals(out)) {
+    throw new Error(`git ${args.join(' ')} produced pathnames that are not valid UTF-8`);
+  }
+  return text;
 }
 
 function readGitFacts(base, head, options) {
@@ -357,7 +389,9 @@ function readGitFacts(base, head, options) {
   return {
     files: mergeFacts(parseRawZ(git(['diff', '--raw', '-z', range])),
                       parseNumstatZ(git(['diff', '--numstat', '-z', range]))),
-    baseTopLevel: git(['ls-tree', '--name-only', base]).split('\n').filter(Boolean),
+    // `-z`, because without it git C-quotes an unusual name and the inventory holds the
+    // quoted text rather than the name it stands for (cycle 2).
+    baseTopLevel: git(['ls-tree', '-z', '--name-only', base]).split('\0').filter(Boolean),
     isFork: Boolean(opts.isFork),
     escalated: Boolean(opts.escalated),
   };
@@ -373,8 +407,10 @@ function readGitFacts(base, head, options) {
 function displayPath(value) {
   return String(value)
     .replace(/\\/g, '\\\\')
-    .replace(/[`|]/g, (c) => `\\${c}`)
-    .replace(/[\u0000-\u001f\u007f]/g,
+    // Encoded, not backslash-escaped: a backslash is literal text inside a code span, so
+    // an escaped backtick still closes the span, and an escaped pipe still ends the cell
+    // in some renderers. Anything that could end either is replaced outright (cycle 2).
+    .replace(/[`|\u0000-\u001f\u007f]/g,
       (c) => `\\x${c.charCodeAt(0).toString(16).padStart(2, '0')}`);
 }
 
@@ -419,15 +455,15 @@ function main(argv) {
   }
   // Reading the facts can fail on a shape git produces and this file does not expect.
   // The policy says that is RED with a reason, not an exception and no result at all.
+  const provenance = {
+    isFork: args.get('fork') === 'true',
+    escalated: args.get('escalated') === 'true',
+  };
   let res;
   try {
-    res = classify(readGitFacts(base, head, {
-      isFork: args.get('fork') === 'true',
-      escalated: args.get('escalated') === 'true',
-    }));
+    res = classify(readGitFacts(base, head, provenance));
   } catch (error) {
-    res = classify({ files: null, baseTopLevel: null, isFork: false, escalated: false });
-    res.reasons = [{ rule: 'UNCLASSIFIABLE', paths: [], detail: `could not read the diff: ${error.message}` }];
+    res = unclassifiable(`could not read the diff: ${error.message}`, provenance);
   }
   process.stdout.write(`${JSON.stringify(res, null, 2)}\n`);
   if (process.env.GITHUB_STEP_SUMMARY) {
@@ -440,6 +476,7 @@ module.exports = {
   classify,
   displayPath,
   factProblems,
+  unclassifiable,
   readGitFacts,
   parseRawZ,
   parseNumstatZ,

@@ -183,9 +183,52 @@ check('the attack that reached GREEN now reaches RED',
       .reasons[0].detail.includes('files[0].binary'), true);
 }
 check('a pathname cannot close its own code span or open a row',
-  gate.displayPath('docs/a`b|c\nd.md'), 'docs/a\\`b\\|c\\x0ad.md');
+  gate.displayPath('docs/a`b|c\nd.md'), 'docs/a\\x60b\\x7cc\\x0ad.md');
 check('a backslash in a pathname is escaped before anything else',
   gate.displayPath('docs/a\\b.md'), 'docs/a\\\\b.md');
+
+console.log('');
+console.log('Cycle 2: the rendered summary, not just the string that feeds it');
+{
+  // A backslash is literal inside a code span, so an escaped backtick still closes it.
+  // The assertion is on the row a reader sees, not on the value that feeds it.
+  const nasty = 'docs/a`b|c\nd.md';
+  const res = classify(facts([file({ status: 'A', path: nasty, srcMode: '000000' })]));
+  const rendered = gate.renderMarkdown(res);
+  const rows = rendered.split('\n').filter((l) => l.startsWith('| A |'));
+  check('the file row is one row', rows.length, 1);
+  check('the row has exactly four cells', rows[0].split('|').length - 2, 4);
+  check('the path cell opens and closes exactly one code span',
+    (rows[0].split('|')[2].match(/`/g) || []).length, 2);
+  check('no path puts a raw newline into the summary', rendered.includes(nasty), false);
+}
+
+console.log('');
+console.log('Cycle 2: a rename must state the path it came from');
+check('an R record without its source is UNCLASSIFIABLE',
+  rules([file({ status: 'R', path: 'docs/b.md', previousPath: null })]), ['UNCLASSIFIABLE']);
+check('an R record with an empty source is UNCLASSIFIABLE',
+  rules([file({ status: 'R', path: 'docs/b.md', previousPath: '' })]), ['UNCLASSIFIABLE']);
+check('a rename cannot lose a protected source and fall to AMBER',
+  lane([file({ status: 'R', path: 'docs/b.md', previousPath: 'decisions/DEC-001-x.md' })]), LANE.RED);
+check('a status that carries no source must not state one',
+  rules([file({ status: 'M', previousPath: 'docs/other.md' })]), ['UNCLASSIFIABLE']);
+check('a C record is held to the same rule as an R record',
+  rules([file({ status: 'C', path: 'docs/b.md', previousPath: null })]), ['UNCLASSIFIABLE']);
+
+console.log('');
+console.log('Cycle 2: a diff that could not be read still reports what was known');
+{
+  const both = gate.unclassifiable('could not read the diff: boom', { isFork: true, escalated: true });
+  check('the lane is RED', both.lane, LANE.RED);
+  check('the rules that fired are kept alongside the failure',
+    both.reasons.map((r) => r.rule), ['UNCLASSIFIABLE', 'FORK', 'ESCALATED']);
+  check('provenance that was stated is not reported as false',
+    [both.isFork, both.escalated], [true, true]);
+  const neither = gate.unclassifiable('boom', { isFork: false, escalated: false });
+  check('and provenance that was not stated is not invented',
+    [neither.reasons.map((r) => r.rule), neither.isFork], [['UNCLASSIFIABLE'], false]);
+}
 
 console.log('');
 console.log('No lane authorises a merge, and AUTO-GREEN has no categories');
