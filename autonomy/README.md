@@ -20,8 +20,15 @@ historical pull requests, and impossible to subvert through the data it is given
 
 ```js
 const { classify } = require('./autonomy/lane_gate.js');
-const result = classify(snapshot);        // policy defaults to an empty allowlist
+const result = classify(snapshot);        // the only entry point production uses
 ```
+
+`classify` takes **no policy argument**. A caller able to supply its own allowlist could
+grant itself GREEN, which is the promotion DEC-010 forbids any agent from performing, so
+the shipped allowlist is frozen and unreachable from outside. `classifyUnderPolicy` is
+the fixture seam for tests and for replaying a candidate category against history; every
+result it produces is stamped `policySource: 'injected'`, so an outcome reached under a
+synthetic allowlist can never be mistaken for one the shipped policy allows.
 
 ## What it returns
 
@@ -32,7 +39,7 @@ const result = classify(snapshot);        // policy defaults to an empty allowli
 | `reasons` | why, in words, for the audit record |
 | `declarationMismatch` | an agent declared a lane the gate did not compute |
 | `autoMergeAllowed` | a conjunction, false by default; no single condition grants it |
-| `policyVersion`, `headSha`, `baseSha` | what was judged, and under which rules |
+| `policyVersion`, `policySource`, `headSha`, `baseSha` | what was judged, and under which rules |
 
 `autoMergeAllowed` is the only field that authorises anything, and it requires all of:
 lane GREEN, readiness READY, a readable kill switch that is off, an atomic merge mode,

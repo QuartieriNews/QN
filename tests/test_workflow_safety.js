@@ -15,6 +15,19 @@ const path = require('path');
 
 const WORKFLOWS = path.join(__dirname, '..', '.github', 'workflows');
 
+/**
+ * Contexts whose value cannot be influenced by a pull request, and which are therefore
+ * safe to interpolate into a shell. Everything else is refused rather than enumerated
+ * as dangerous: a branch name, a title, a body and a label are all attacker-chosen, and
+ * an allowlist cannot be defeated by finding a spelling the denylist forgot.
+ */
+const IMMUTABLE_CONTEXTS = [
+  'github.sha', 'github.repository', 'github.repository_owner', 'github.run_id',
+  'github.run_number', 'github.run_attempt', 'github.job', 'github.workflow',
+  'github.event_name', 'github.api_url', 'github.server_url', 'github.workspace',
+  'github.action', 'github.action_path', 'github.token',
+];
+
 let checks = 0;
 let failed = 0;
 
@@ -22,6 +35,45 @@ function ok(name, condition) {
   checks += 1;
   if (condition) console.log(`  ok   ${name}`);
   else { failed += 1; console.log(`  FAIL ${name}`); }
+}
+
+/**
+ * Every `run:` scalar in a workflow, inline or block. Splitting the file on the token
+ * would fold neighbouring steps together; indentation is what actually delimits a block
+ * scalar, so it is what this follows.
+ */
+function runBlocks(text) {
+  const lines = text.split('\n');
+  const blocks = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const m = lines[i].match(/^(\s*)(?:-\s*)?run:\s*(.*)$/);
+    if (!m) continue;
+    const indent = m[1].length;
+    const inline = m[2].trim();
+    if (inline !== '' && !/^[|>][-+]?$/.test(inline)) {
+      blocks.push(inline);
+      continue;
+    }
+    const body = [];
+    for (let j = i + 1; j < lines.length; j += 1) {
+      if (lines[j].trim() === '') { body.push(''); continue; }
+      const lead = lines[j].match(/^(\s*)/)[1].length;
+      if (lead <= indent) break;
+      body.push(lines[j]);
+    }
+    blocks.push(body.join('\n'));
+  }
+  return blocks;
+}
+
+/** Every `${{ ... }}` expression in a fragment, with its inner text. */
+function expressions(fragment) {
+  return [...fragment.matchAll(/\$\{\{([^}]*)\}\}/g)].map((m) => m[1].trim());
+}
+
+function referencesSecrets(text) {
+  // Both spellings of the same access: `secrets.NAME` and `secrets['NAME']`.
+  return /\bsecrets\s*(\.|\[)/.test(text);
 }
 
 const files = fs.existsSync(WORKFLOWS)
@@ -39,28 +91,58 @@ for (const file of files) {
   // repository.
   ok(`${file}: does not use pull_request_target`, !/pull_request_target/.test(code));
 
-  // A workflow that checks out PR code must not also hold write.
   ok(`${file}: declares permissions`, /^permissions:/m.test(code));
   ok(`${file}: grants no write permission`, !/:\s*write\b/.test(code));
-
-  ok(`${file}: does not reference secrets`, !/\bsecrets\./.test(code));
+  ok(`${file}: does not reference secrets`, !referencesSecrets(code));
 
   // Untrusted text — a title, a body, a branch name — interpolated into a shell is
-  // command injection. Values reach `run:` through `env:` instead.
-  const runBlocks = code.split(/^\s*(?:-\s*)?(?:name:.*\n\s*)?run:\s*\|?/m).slice(1);
-  const injected = runBlocks.filter((b) => /\$\{\{\s*github\.event\./.test(b.split(/^\s*-\s/m)[0]));
-  ok(`${file}: no github.event value is interpolated into a run block`, injected.length === 0);
+  // command injection. Values reach `run:` through `env:` instead, so a run block may
+  // name only contexts a pull request cannot influence.
+  const offending = [];
+  for (const block of runBlocks(code)) {
+    for (const expr of expressions(block)) {
+      const isImmutable = IMMUTABLE_CONTEXTS.some(
+        (c) => expr === c || expr.startsWith(`${c} `) || expr.startsWith(`${c}.`)
+      );
+      if (!isImmutable) offending.push(expr);
+    }
+  }
+  ok(`${file}: no mutable context is interpolated into a run block`, offending.length === 0);
 
-  // The merge-ref trap: checking out a pull request must name the head explicitly.
+  // The merge-ref trap: a checkout that names no ref takes the event's default, which
+  // for a pull request is a synthetic merge commit that attests nothing about H.
   if (/actions\/checkout/.test(code)) {
-    // The merge-ref trap: a checkout that names no ref takes the event's default, which
-    // for a pull request is a synthetic merge commit that attests nothing about H.
     ok(`${file}: checkout names a commit explicitly`,
-       /ref:\s*\$\{\{\s*github\.(sha|event\.pull_request\.head\.sha)/.test(code));
+       /ref:\s*\$\{\{[^}]*\bgithub\.[a-z_.]*sha\b/.test(code));
     ok(`${file}: checkout does not persist credentials`,
        /persist-credentials:\s*false/.test(code));
   }
+
+  // A merge queue evaluates a commit of its own. Without this trigger the queued commit
+  // never receives the required check, so the queue can never satisfy it
+  // (docs/autonomy/IDENTITY_AND_PERMISSIONS.md §3).
+  if (/^on:/m.test(code)) {
+    ok(`${file}: runs for merge-queue commits`, /^\s*merge_group:/m.test(code));
+  }
 }
+
+// The extractor itself, since every assertion above rests on it seeing whole blocks.
+{
+  const sample = [
+    'jobs:', '  a:', '    steps:', '      - run: echo one',
+    '      - name: two', '        run: |', '          echo ${{ github.head_ref }}',
+    '      - uses: actions/checkout@v4',
+  ].join('\n');
+  const blocks = runBlocks(sample);
+  ok('the run extractor finds an inline block', blocks.some((b) => b.includes('echo one')));
+  ok('the run extractor finds a literal block', blocks.some((b) => b.includes('github.head_ref')));
+  ok('the run extractor stops at the next step',
+     !blocks.some((b) => b.includes('actions/checkout')));
+  ok('a mutable context in a run block is detected',
+     expressions(blocks.join('\n')).includes('github.head_ref'));
+}
+ok('bracket-form secret access is detected', referencesSecrets("echo ${{ secrets['TOKEN'] }}"));
+ok('dot-form secret access is detected', referencesSecrets('echo ${{ secrets.TOKEN }}'));
 
 console.log('');
 if (failed > 0) {

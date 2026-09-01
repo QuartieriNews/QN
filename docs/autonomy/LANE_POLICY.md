@@ -107,8 +107,9 @@ cannot become GREEN by being renamed, and against the resolved target of any sym
 
 - `.github/**` — workflows, actions, CODEOWNERS, any configuration that runs with
   repository credentials.
-- The merge gate's source, its tests, the required-check manifest, the GREEN allowlist,
-  and this file.
+- The merge gate's source, its tests (`tests/test_lane_gate.js`,
+  `tests/test_workflow_safety.js`), the required-check manifest, the GREEN allowlist,
+  and this file. A change to the suites that attest the gate is a change to the gate.
 - `decisions/**`, `AGENTS.md`, `CLAUDE.md`, `reviews/REVIEW_MANDATE_CODE.md` — the
   governance and review machinery.
 - `prompts/**`, `docs/REVIEW_QUEUE.md`, `venue-registry/venues.json`, `gazetteer/**` —
@@ -116,7 +117,9 @@ cannot become GREEN by being renamed, and against the resolved target of any sym
   artefact.
 - `workflows/**`, `code-nodes/**` — what runs, or is certified to run, in production.
 - `council/**` — the Strategic Council tool (DEC-008).
-- `requirements.txt` and any dependency manifest or lockfile.
+- Any dependency manifest or lockfile, **matched by file name at any depth**. A manifest
+  is a supply-chain surface wherever it sits, so a path prefix would miss every one that
+  is not at the repository root.
 - `.gitignore` — it can hide a file from every rule above.
 
 Anything not classified by this list and not inside an approved GREEN category is AMBER.
@@ -144,8 +147,9 @@ Rules that hold for every category:
   cannot read.
 - The pull request originates in this repository, not a fork; it targets the default
   branch; its author is the automation identity.
-- It links one owner-authorised task, and that authorisation cannot be created or
-  altered by the pull request being evaluated.
+- It carries **positive** evidence of authorisation: a named task, an explicit owner
+  signal, and an explicit statement that the pull request cannot alter it. An object
+  that merely fails to say it is mutable is not authorisation.
 
 **Magnitude limits are policy, not fact.** File and line counts are measurable exactly;
 which count is *safe* is a judgement the owner makes when approving the category.
@@ -189,6 +193,13 @@ the merge result GitHub generates. `M` is never `H`. A requirement that the gate
   most recent review request; a finding on `H`, or an unanswered request, blocks.
   Findings on an earlier head are superseded by a clean review of `H` — the builder
   never resolves its own threads to clear a signal.
+- A symlink is resolved against the directory holding it, which is how Git stores the
+  target, and a target that does not resolve inside the repository is unresolvable
+  rather than harmless. Comparing the raw target string would read
+  `docs/notes/link -> ../../prompts/X` as a change to nothing.
+- Every fact the gate relies on must be **stated**, never inferred from the absence of
+  its opposite. An omitted field is a collector that did not run, which is not the same
+  as one that found nothing, and it goes to `UNCLASSIFIED`.
 - A check name is not unique. GitHub emits a run per triggering event and per re-run,
   so one name can carry several runs on one commit. The **latest completed** run
   decides; where that cannot be established — a missing timestamp, or a tie between runs

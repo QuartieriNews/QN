@@ -26,6 +26,10 @@ name: checks
 # name, never a condition on this one.
 on:
   push:
+  # A merge queue evaluates a commit of its own, so without this the queued commit never
+  # receives the required check and the queue can never satisfy it
+  # (docs/autonomy/IDENTITY_AND_PERMISSIONS.md §3).
+  merge_group:
 
 # Least privilege for the whole file; no job widens it.
 permissions:
@@ -39,14 +43,14 @@ jobs:
       # mutable and this job is the evidence the gate trusts.
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false
 
       # Proves property 1 rather than trusting it. The expected SHA arrives through the
       # environment, never interpolated into the shell (property 2).
       - name: verify the checked-out commit is the head under test
         env:
-          EXPECTED_SHA: ${{ github.sha }}
+          EXPECTED_SHA: ${{ github.event.merge_group.head_sha || github.sha }}
         run: |
           actual="$(git rev-parse HEAD)"
           if [ "$actual" != "$EXPECTED_SHA" ]; then
