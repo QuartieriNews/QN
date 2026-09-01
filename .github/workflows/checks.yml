@@ -41,9 +41,10 @@ jobs:
   suites:
     runs-on: ubuntu-latest
     steps:
-      # Pin to an immutable commit SHA before this becomes a required check; a tag is
-      # mutable and this job is the evidence the gate trusts.
-      - uses: actions/checkout@v4
+      # Pinned to an immutable commit, because this job is the evidence the gate trusts:
+      # a moved or compromised tag would run different code with the repository token and
+      # falsify the `suites` result without changing anything here. v4.4.0.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ github.event.merge_group.head_sha || github.sha }}
           persist-credentials: false

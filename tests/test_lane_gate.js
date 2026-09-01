@@ -60,17 +60,35 @@ function goodSnapshot(overrides = {}) {
       reviewedSha: HEAD,
       laterThanLatestRequest: true,
       blockingFindingsOnHead: 0,
+      reviewerAppId: 1144995,
+      trustedProducer: true,
     },
     mergeable: true,
     baseIsCurrent: true,
     mergeAtomicity: 'strict_base',
     killSwitch: { readable: true, autoMergeDisabled: false },
-    categoryValidation: { validator: 'docs-notes-v1', headSha: HEAD, passed: true },
+    categoryValidation: { validator: 'docs-notes-v1', headSha: HEAD, baseSha: BASE,
+                          policyVersion: POLICY_VERSION, passed: true },
     declaration: { lane: LANE.GREEN, headSha: HEAD, reason: 'inside the docs-notes category' },
     escalations: [],
   }, overrides);
   snap.files = stated(snap.files);
   return snap;
+}
+
+/** One audit record of the reinforced control, distinct per auditor (LANE_POLICY §10). */
+function auditRecord(auditor, overrides = {}) {
+  return Object.assign({
+    auditor,
+    reportId: `report-${auditor}-1`,
+    headSha: HEAD,
+    baseSha: BASE,
+    policyVersion: POLICY_VERSION,
+    mandateSource: 'default_branch',
+    sealedBeforePublication: true,
+    freshContext: true,
+    findings: 0,
+  }, overrides);
 }
 
 /**
@@ -116,20 +134,20 @@ const POLICY_WITH_CATEGORY = {
 // -------------------------------------------------------- T-2 stale / absent review
 
 {
-  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: true, reviewedSha: OTHER, laterThanLatestRequest: true, blockingFindingsOnHead: 0 } }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: true, reviewedSha: OTHER, laterThanLatestRequest: true, blockingFindingsOnHead: 0, reviewerAppId: 1144995, trustedProducer: true } }), POLICY_WITH_CATEGORY);
   ok('T-2 review of a different SHA blocks', r.readiness.includes('BLOCKED_STALE_REVIEW'));
   ok('T-2 stale review withholds auto-merge', r.autoMergeAllowed === false);
 }
 {
-  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: false, reviewedSha: HEAD, laterThanLatestRequest: true, blockingFindingsOnHead: 0 } }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: false, reviewedSha: HEAD, laterThanLatestRequest: true, blockingFindingsOnHead: 0, reviewerAppId: 1144995, trustedProducer: true } }), POLICY_WITH_CATEGORY);
   ok('T-2 absence of a clean review is never clean', r.readiness.includes('BLOCKED_REVIEW'));
 }
 {
-  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: true, reviewedSha: HEAD, laterThanLatestRequest: false, blockingFindingsOnHead: 0 } }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: true, reviewedSha: HEAD, laterThanLatestRequest: false, blockingFindingsOnHead: 0, reviewerAppId: 1144995, trustedProducer: true } }), POLICY_WITH_CATEGORY);
   ok('T-2 clean review older than the latest review request blocks', r.readiness.includes('BLOCKED_REVIEW'));
 }
 {
-  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: true, reviewedSha: HEAD, laterThanLatestRequest: true, blockingFindingsOnHead: 2 } }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ review: { cleanForHead: true, reviewedSha: HEAD, laterThanLatestRequest: true, blockingFindingsOnHead: 2, reviewerAppId: 1144995, trustedProducer: true } }), POLICY_WITH_CATEGORY);
   ok('T-2 findings on the current head block', r.readiness.includes('BLOCKED_REVIEW'));
 }
 
@@ -525,7 +543,8 @@ for (const [label, authorization] of [
 for (const [label, blockingFindingsOnHead] of [
   ['omitted', undefined], ['negative', -1], ['non-numeric', 'none'], ['fractional', 1.5],
 ]) {
-  const review = { cleanForHead: true, reviewedSha: HEAD, laterThanLatestRequest: true };
+  const review = { cleanForHead: true, reviewedSha: HEAD, laterThanLatestRequest: true,
+                   reviewerAppId: 1144995, trustedProducer: true };
   if (blockingFindingsOnHead !== undefined) review.blockingFindingsOnHead = blockingFindingsOnHead;
   const r = classifyUnderPolicy(goodSnapshot({ review }), POLICY_WITH_CATEGORY);
   ok(`a ${label} blocking-findings count blocks`, r.readiness.includes('BLOCKED_REVIEW'));
@@ -804,24 +823,21 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
      r.lane === LANE.RED && r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
 }
 {
-  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
-                  mandateSource: 'default_branch', sealedBeforePublication: true,
-                  freshContext: true, findings: 0 };
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path: 'AGENTS.md' }],
     declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
-    reinforcedAudit: { claude: audit, codex: audit },
+    reinforcedAudit: { claude: auditRecord('claude'), codex: auditRecord('codex') },
   }), POLICY_WITH_CATEGORY);
-  ok('RED with two fully bound sealed audits is ready', r.readiness === READY);
+  ok('RED with two distinct fully bound audits is ready', r.readiness === READY);
 }
 {
-  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
-                  mandateSource: 'default_branch', sealedBeforePublication: false,
-                  freshContext: true, findings: 0 };
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path: 'AGENTS.md' }],
     declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
-    reinforcedAudit: { claude: audit, codex: audit },
+    reinforcedAudit: {
+      claude: auditRecord('claude', { sealedBeforePublication: false }),
+      codex: auditRecord('codex', { sealedBeforePublication: false }),
+    },
   }), POLICY_WITH_CATEGORY);
   ok('an audit published before the other was collected is not separated',
      r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
@@ -837,13 +853,10 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
 {
   // Unready by rule rather than by the accident of having no check run: the same head
   // can acquire a trusted check through another ref, and READY is the owner-merge state.
-  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
-                  mandateSource: 'default_branch', sealedBeforePublication: true,
-                  freshContext: true, findings: 0 };
   const r = classifyUnderPolicy(goodSnapshot({
     isFork: true,
     declaration: { lane: LANE.RED, headSha: HEAD, reason: 'fork' },
-    reinforcedAudit: { claude: audit, codex: audit },
+    reinforcedAudit: { claude: auditRecord('claude'), codex: auditRecord('codex') },
   }), POLICY_WITH_CATEGORY);
   ok('a fork with otherwise complete evidence is still not ready',
      r.readiness.includes('BLOCKED_FORK_REFUSED'));
@@ -871,14 +884,12 @@ for (const [label, exception] of [
 
 for (const [label, missing] of [['the base', 'baseSha'], ['the policy version', 'policyVersion'],
                                 ['a fresh context', 'freshContext']]) {
-  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
-                  mandateSource: 'default_branch', sealedBeforePublication: true,
-                  freshContext: true, findings: 0 };
-  delete audit[missing];
+  const a = auditRecord('claude'); delete a[missing];
+  const b = auditRecord('codex'); delete b[missing];
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path: 'AGENTS.md' }],
     declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
-    reinforcedAudit: { claude: audit, codex: audit },
+    reinforcedAudit: { claude: a, codex: b },
   }), POLICY_WITH_CATEGORY);
   ok(`an audit recording no ${label} is not the reinforced control`,
      r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
@@ -896,6 +907,73 @@ for (const [label, missing] of [['the base', 'baseSha'], ['the policy version', 
     files: [{ status: 'renamed', path: 'Docs/x.md', previousPath: 'docs/notes/x.md' }],
   }), POLICY_WITH_CATEGORY);
   ok('a rename into a case-variant top level is RED too', r.lane === LANE.RED);
+}
+
+// ------------------------------ cycle 9: identity, distinctness and stale artefacts
+
+{
+  const same = auditRecord('claude');
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'AGENTS.md' }],
+    declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
+    reinforcedAudit: { claude: same, codex: same },
+  }), POLICY_WITH_CATEGORY);
+  ok('one record under both keys is one audit, not two',
+     r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'AGENTS.md' }],
+    declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
+    reinforcedAudit: {
+      claude: auditRecord('claude'),
+      codex: auditRecord('codex', { reportId: 'report-claude-1' }),
+    },
+  }), POLICY_WITH_CATEGORY);
+  ok('two records sharing one report identifier are one audit',
+     r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'AGENTS.md' }],
+    declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
+    reinforcedAudit: {
+      claude: auditRecord('codex', { reportId: 'r1' }),
+      codex: auditRecord('codex', { reportId: 'r2' }),
+    },
+  }), POLICY_WITH_CATEGORY);
+  ok('a record naming the wrong auditor does not fill that side',
+     r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
+}
+for (const [label, patch] of [
+  ['no reviewer identity', { reviewerAppId: undefined }],
+  ['another app', { reviewerAppId: 999 }],
+  ['an untrusted producer', { trustedProducer: false }],
+]) {
+  const review = Object.assign({
+    cleanForHead: true, reviewedSha: HEAD, laterThanLatestRequest: true,
+    blockingFindingsOnHead: 0, reviewerAppId: 1144995, trustedProducer: true,
+  }, patch);
+  const r = classifyUnderPolicy(goodSnapshot({ review }), POLICY_WITH_CATEGORY);
+  ok(`clean-review evidence with ${label} does not count`,
+     r.readiness.includes('BLOCKED_REVIEW'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true,
+      completedAt: '0' }] }), POLICY_WITH_CATEGORY);
+  ok('a timestamp that is a bare string is not a time', r.readiness.includes('BLOCKED_TESTS'));
+}
+for (const [label, patch] of [
+  ['a stale base', { baseSha: OTHER }],
+  ['another policy version', { policyVersion: '0' }],
+]) {
+  const r = classifyUnderPolicy(goodSnapshot({
+    categoryValidation: Object.assign({ validator: 'docs-notes-v1', headSha: HEAD,
+                                        baseSha: BASE, policyVersion: POLICY_VERSION,
+                                        passed: true }, patch),
+  }), POLICY_WITH_CATEGORY);
+  ok(`a category validation computed under ${label} is not GREEN`, r.lane === LANE.AMBER);
 }
 
 // ---------------------------------------------------------------- ordering and shape

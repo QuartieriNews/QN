@@ -104,6 +104,18 @@ function runScripts(doc) {
   return out;
 }
 
+/**
+ * The two places an expression may appear: a checkout step's `with.ref`, and an `env`
+ * value. Anywhere else — `shell`, `if`, `uses`, a step name — it is refused.
+ */
+function allowedExpressionLocation(trail) {
+  const last = trail[trail.length - 1];
+  const prev = trail[trail.length - 2];
+  if (prev === 'env') return 'env';
+  if (last === 'ref' && prev === 'with') return 'ref';
+  return null;
+}
+
 /** Every `env` value in the document, as [name, value]. */
 function envValues(doc) {
   const out = [];
@@ -185,18 +197,26 @@ for (const file of files) {
   ok(`${file}: calls no local composite action`,
      !steps(doc).some(([, , st]) => typeof st.uses === 'string' && st.uses.startsWith('./')));
 
-  // No expression of any kind reaches a shell: values arrive through `env` and the
-  // script reads the variable.
-  ok(`${file}: no expression is interpolated into a run script`,
-     !runScripts(doc).some((script) => script.includes('${{')));
+  // An expression may appear in exactly two places, and must be an approved whole form
+  // in both. Listing the places it may *not* appear was the earlier shape, and it missed
+  // `shell:` — where a commit message can choose the command that runs the script while
+  // no expression appears in the script itself. Naming the permitted locations is a
+  // closed question; naming the forbidden ones never finishes.
+  const misplaced = [];
+  for (const [trail, value] of walk(doc)) {
+    if (typeof value !== 'string' || !value.includes('${{')) continue;
+    const where = allowedExpressionLocation(trail);
+    if (!where || !isApprovedExpression(value)) misplaced.push(`${trail.join('.')} = ${value}`);
+  }
+  ok(`${file}: every expression is an approved form in a permitted location`,
+     misplaced.length === 0);
 
-  // And an `env` value carrying an expression must be one of the approved whole forms,
-  // so nothing untrusted is parked where a script could reach it. With no such value
-  // present there is nothing to trace into a shell, which is why nothing traces.
-  const unapprovedEnv = envValues(doc)
-    .filter(([, value]) => value.includes('${{') && !isApprovedExpression(value));
-  ok(`${file}: every environment expression is an approved whole form`,
-     unapprovedEnv.length === 0);
+  // External actions run with the repository token, so a mutable tag is a second author
+  // of this evidence.
+  const unpinned = steps(doc).filter(([, , st]) =>
+    typeof st.uses === 'string' && !st.uses.startsWith('./') &&
+    !/@[0-9a-f]{40}$/i.test(st.uses));
+  ok(`${file}: every external action is pinned to an immutable commit`, unpinned.length === 0);
 
   // Each checkout is judged on its own `with`, not on a `ref` some other step carries.
   const checkouts = steps(doc).filter(([, , st]) =>
@@ -320,6 +340,45 @@ for (const [label, expr] of [
   const bad = envValues(doc).filter(([, v]) => v.includes('${{') && !isApprovedExpression(v));
   ok('untrusted text in env is refused before any script can reach it', bad.length === 1);
 }
+{
+  // The shell selector: no expression in the script, nothing in env, and the commit
+  // message still chooses the command that runs it.
+  const doc = YAML.parse([
+    'jobs:', '  a:', '    steps:',
+    '      - run: echo ok',
+    '        shell: ${{ github.event.head_commit.message }} {0}',
+  ].join('\n'));
+  const misplaced = [];
+  for (const [trail, value] of walk(doc)) {
+    if (typeof value === 'string' && value.includes('${{') && !allowedExpressionLocation(trail)) {
+      misplaced.push(trail.join('.'));
+    }
+  }
+  ok('an expression in a shell selector is refused', misplaced.length === 1);
+}
+for (const [label, trail] of [
+  ['an env value', ['jobs', 'a', 'steps', 0, 'env', 'EXPECTED_SHA']],
+  ['a checkout ref', ['jobs', 'a', 'steps', 0, 'with', 'ref']],
+]) {
+  ok(`a permitted location: ${label}`, allowedExpressionLocation(trail) !== null);
+}
+for (const [label, trail] of [
+  ['a shell selector', ['jobs', 'a', 'steps', 0, 'shell']],
+  ['a condition', ['jobs', 'a', 'steps', 0, 'if']],
+  ['a step name', ['jobs', 'a', 'steps', 0, 'name']],
+  ['an action reference', ['jobs', 'a', 'steps', 0, 'uses']],
+]) {
+  ok(`a forbidden location: ${label}`, allowedExpressionLocation(trail) === null);
+}
+for (const [label, uses] of [
+  ['a tag', 'actions/checkout@v4'],
+  ['a branch', 'actions/checkout@main'],
+  ['a short SHA', 'actions/checkout@11d5960'],
+]) {
+  ok(`an unpinned action is refused: ${label}`, !/@[0-9a-f]{40}$/i.test(uses));
+}
+ok('a full-SHA pin is accepted',
+   /@[0-9a-f]{40}$/i.test('actions/checkout@11d5960a326750d5838078e36cf38b85af677262'));
 
 console.log('');
 if (failed > 0) {

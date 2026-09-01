@@ -131,6 +131,9 @@ const SHIPPED_POLICY = Object.freeze({
   // without either real one. The gate's own check is deliberately absent, because
   // requiring it of itself deadlocks (LANE_POLICY §9).
   requiredChecks: Object.freeze(['suites']),
+  // The independent reviewer's identity, so a clean review is evidence about *who*
+  // reviewed. DEC-009: Codex reviews, Claude builds, neither self-approves.
+  reviewerAppId: 1144995,
 });
 
 function fail(message) {
@@ -492,7 +495,12 @@ function satisfiesInvariants(category, snapshot) {
   const v = snapshot.categoryValidation;
   if (!isNonEmptyString(category.validator)) return false;
   if (!v || v.validator !== category.validator ||
-      !sameSha(v.headSha, snapshot.headSha) || v.passed !== true) return false;
+      !sameSha(v.headSha, snapshot.headSha) ||
+      // LANE_POLICY §9 again: bound to B and the policy version, or a validation computed
+      // under the old state is combined with the new snapshot.
+      !sameSha(v.baseSha, snapshot.baseSha) ||
+      v.policyVersion !== POLICY_VERSION ||
+      v.passed !== true) return false;
 
   const files = snapshot.files || [];
   const limits = category.limits || {};
@@ -529,9 +537,13 @@ function latestCheckVerdict(snapshot, name) {
   // the latest completed run unestablished, and one run is still a run whose completion
   // was never stated.
   // Date.parse coerces, so completedAt: 0 became a valid date and a lone run passed.
+  // `"0"` is a nonempty string that Date.parse reads as the year 2000. The collector's
+  // format is ISO 8601, and anything else is unreadable evidence rather than a time.
+  const ISO_8601 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
   const timed = runs.map((c) => ({
     run: c,
-    at: isNonEmptyString(c.completedAt) ? Date.parse(c.completedAt) : NaN,
+    at: isNonEmptyString(c.completedAt) && ISO_8601.test(c.completedAt)
+      ? Date.parse(c.completedAt) : NaN,
   }));
   if (timed.some((t) => Number.isNaN(t.at))) return null;
   if (runs.length === 1) return runs[0].conclusion;
@@ -596,6 +608,11 @@ function computeReadiness(snapshot, policy = SHIPPED_POLICY, computedLane = null
   }
 
   const review = snapshot.review || {};
+  // A review record carrying no reviewer identity is indistinguishable from one the
+  // builder produced, which is the separation DEC-009 exists to keep.
+  if (review.reviewerAppId !== policy.reviewerAppId || review.trustedProducer !== true) {
+    blockers.push('BLOCKED_REVIEW');
+  }
   const findings = review.blockingFindingsOnHead;
   if (!Number.isInteger(findings) || findings < 0) {
     // Codex evidence that is missing, ambiguous or unreadable blocks GREEN (DEC-010
@@ -655,9 +672,14 @@ function ownerExceptionBinds(snapshot) {
 function reinforcedAuditPasses(snapshot) {
   const a = snapshot.reinforcedAudit;
   if (!a || typeof a !== 'object') return false;
+  // The same record under both keys is one audit counted twice — the object keys are not
+  // proof that two reports exist. Each names its auditor and its own report.
+  const ids = ['claude', 'codex'].map((who) => a[who] && a[who].reportId);
+  if (!ids.every(isNonEmptyString) || ids[0] === ids[1]) return false;
   return ['claude', 'codex'].every((who) => {
     const r = a[who];
     return Boolean(r) && typeof r === 'object' &&
+           r.auditor === who &&
            sameSha(r.headSha, snapshot.headSha) &&
            // LANE_POLICY §9: every artefact records H, B and the policy version, or it
            // survives a base movement and a policy change that should have voided it.
@@ -770,14 +792,17 @@ function classify(snapshot) {
  */
 function classifyUnderPolicy(snapshot, policy) {
   if (!policy || !Array.isArray(policy.greenAllowlist)) fail('a policy with a greenAllowlist is required');
-  // What a fixture replays is the allowlist, and only that. Letting it carry a manifest
-  // meant a replay could name one unrelated check and call a candidate category ready —
-  // evidence used to approve that category, gathered against substitutes for the real
-  // checks. The shipped manifest is inherited unconditionally.
-  const withManifest = Object.assign({}, policy, {
-    requiredChecks: SHIPPED_POLICY.requiredChecks,
+  // What a fixture replays is the allowlist, and only that. Everything else the policy
+  // carries is trust configuration — which checks are required, which app is the
+  // independent reviewer — and a replay that could weaken those would gather the evidence
+  // that approves a category against substitutes for the real controls. So the shipped
+  // policy is taken whole and only its allowlist is replaced. Adding a field to
+  // SHIPPED_POLICY therefore protects it by default, rather than needing to be remembered
+  // here: forgetting `reviewerAppId` after adding it is what this shape prevents.
+  const replay = Object.assign({}, SHIPPED_POLICY, {
+    greenAllowlist: policy.greenAllowlist,
   });
-  return evaluate(snapshot, withManifest, 'injected');
+  return evaluate(snapshot, replay, 'injected');
 }
 
 module.exports = {

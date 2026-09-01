@@ -201,6 +201,9 @@ the merge result GitHub generates. `M` is never `H`. A requirement that the gate
   movement and a policy change that should have voided it. An abbreviated commit reference is resolved to a unique full SHA or it is
   not evidence.
 - A push invalidates everything. A base movement invalidates compatibility evidence.
+- A clean review is evidence about **who** reviewed: the record names the independent
+  reviewer's app identity and a trusted producer, or it is indistinguishable from one the
+  builder made, which is the separation DEC-009 exists to keep.
 - A clean review must be the latest completed review for `H` **and** later than the
   most recent review request; a finding on `H`, or an unanswered request, blocks.
   Findings on an earlier head are superseded by a clean review of `H` — the builder
@@ -231,6 +234,8 @@ the merge result GitHub generates. `M` is never `H`. A requirement that the gate
 
 Mandatory for RED, available for AMBER when the owner asks.
 
+0. The two audits are **two artefacts**: each names its auditor and its own report, and
+   two records sharing an identifier are one audit counted twice.
 1. Claude audits the final head in a **fresh context** — given the authorised
    requirement, the repository and the diff, and not the builder's conclusions.
 2. Codex audits the same head separately.
