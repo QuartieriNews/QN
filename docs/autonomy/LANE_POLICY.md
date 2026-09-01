@@ -197,7 +197,8 @@ the merge result GitHub generates. `M` is never `H`. A requirement that the gate
 
 - Review and head checks bind to `H`. Compatibility evidence binds to `H+B`.
 - Every artefact records `H` in full, `B`, and the policy version under which it was
-  computed. An abbreviated commit reference is resolved to a unique full SHA or it is
+  computed — the two audits of the reinforced control included, or one survives a base
+  movement and a policy change that should have voided it. An abbreviated commit reference is resolved to a unique full SHA or it is
   not evidence.
 - A push invalidates everything. A base movement invalidates compatibility evidence.
 - A clean review must be the latest completed review for `H` **and** later than the
@@ -252,7 +253,9 @@ it anywhere.
   autonomy; it is not a limit on how much review a correct result may need, and reaching
   it never means a pull request must be merged or abandoned (DEC-011).
 - An exception is granted by an **owner comment on the pull request naming the head
-  SHA**, which the gate requires to be attributable to that comment. A permission that
+  SHA**, and the gate requires the **comment's own text** to contain that SHA. A
+  separately supplied field is a referent someone attached, and attaching the current
+  head to a grant that named none is how a one-off permission becomes a standing one. A permission that
   arrived only in a chat is one no gate can read and no record keeps.
 - Under this cap most autonomous work escalates rather than merges. That is the
   intended behaviour and not a defect to be tuned away; changing the cap is a governance

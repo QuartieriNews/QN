@@ -781,7 +781,8 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
   const r = classifyUnderPolicy(goodSnapshot({
     reviewCycles: 5,
     ownerCycleException: { headSha: HEAD, grantedByOwner: true,
-                           source: 'pull_request_comment', commentId: 5497674423 },
+                           source: 'pull_request_comment', commentId: 5497674423,
+                           commentBody: `Authorising one further cycle for head ${HEAD}.` },
   }), POLICY_WITH_CATEGORY);
   ok('an owner exception bound to this head clears the cap', r.readiness === READY);
 }
@@ -789,7 +790,8 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
   const r = classifyUnderPolicy(goodSnapshot({
     reviewCycles: 5,
     ownerCycleException: { headSha: OTHER, grantedByOwner: true,
-                           source: 'pull_request_comment', commentId: 1 },
+                           source: 'pull_request_comment', commentId: 1,
+                           commentBody: `Authorising one further cycle for head ${OTHER}.` },
   }), POLICY_WITH_CATEGORY);
   ok('an exception bound to another head does not carry over',
      r.readiness.includes('BLOCKED_CYCLE_CAP'));
@@ -802,18 +804,20 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
      r.lane === LANE.RED && r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
 }
 {
-  const audit = { headSha: HEAD, mandateSource: 'default_branch',
-                  sealedBeforePublication: true, findings: 0 };
+  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
+                  mandateSource: 'default_branch', sealedBeforePublication: true,
+                  freshContext: true, findings: 0 };
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path: 'AGENTS.md' }],
     declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
     reinforcedAudit: { claude: audit, codex: audit },
   }), POLICY_WITH_CATEGORY);
-  ok('RED with two sealed audits of this head is ready', r.readiness === READY);
+  ok('RED with two fully bound sealed audits is ready', r.readiness === READY);
 }
 {
-  const audit = { headSha: HEAD, mandateSource: 'default_branch',
-                  sealedBeforePublication: false, findings: 0 };
+  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
+                  mandateSource: 'default_branch', sealedBeforePublication: false,
+                  freshContext: true, findings: 0 };
   const r = classifyUnderPolicy(goodSnapshot({
     files: [{ status: 'modified', path: 'AGENTS.md' }],
     declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
@@ -833,8 +837,9 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
 {
   // Unready by rule rather than by the accident of having no check run: the same head
   // can acquire a trusted check through another ref, and READY is the owner-merge state.
-  const audit = { headSha: HEAD, mandateSource: 'default_branch',
-                  sealedBeforePublication: true, findings: 0 };
+  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
+                  mandateSource: 'default_branch', sealedBeforePublication: true,
+                  freshContext: true, findings: 0 };
   const r = classifyUnderPolicy(goodSnapshot({
     isFork: true,
     declaration: { lane: LANE.RED, headSha: HEAD, reason: 'fork' },
@@ -846,13 +851,51 @@ for (const [label, patch] of [['omitted', {}], ['misspelled', { status: 'renmaed
 for (const [label, exception] of [
   ['granted only in chat', { headSha: HEAD, grantedByOwner: true }],
   ['from an unattributable source', { headSha: HEAD, grantedByOwner: true, source: 'label' }],
-  ['naming no comment', { headSha: HEAD, grantedByOwner: true, source: 'pull_request_comment' }],
+  ['naming no comment', { headSha: HEAD, grantedByOwner: true, source: 'pull_request_comment',
+                          commentBody: `head ${HEAD}` }],
+  ['whose comment names no SHA', { headSha: HEAD, grantedByOwner: true, commentId: 2,
+                                   source: 'pull_request_comment',
+                                   commentBody: 'please proceed with 2 more cycles' }],
+  ['whose comment names another head', { headSha: HEAD, grantedByOwner: true, commentId: 3,
+                                         source: 'pull_request_comment',
+                                         commentBody: `authorised for ${OTHER}` }],
   ['not granted by the owner', { headSha: HEAD, grantedByOwner: false,
                                  source: 'pull_request_comment', commentId: 1 }],
 ]) {
   const r = classifyUnderPolicy(goodSnapshot({ reviewCycles: 5, ownerCycleException: exception }),
                                 POLICY_WITH_CATEGORY);
   ok(`an exception ${label} does not lift the cap`, r.readiness.includes('BLOCKED_CYCLE_CAP'));
+}
+
+// ------------------------------- cycle 8: bindings a collector could have supplied
+
+for (const [label, missing] of [['the base', 'baseSha'], ['the policy version', 'policyVersion'],
+                                ['a fresh context', 'freshContext']]) {
+  const audit = { headSha: HEAD, baseSha: BASE, policyVersion: POLICY_VERSION,
+                  mandateSource: 'default_branch', sealedBeforePublication: true,
+                  freshContext: true, findings: 0 };
+  delete audit[missing];
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path: 'AGENTS.md' }],
+    declaration: { lane: LANE.RED, headSha: HEAD, reason: 'governance' },
+    reinforcedAudit: { claude: audit, codex: audit },
+  }), POLICY_WITH_CATEGORY);
+  ok(`an audit recording no ${label} is not the reinforced control`,
+     r.readiness.includes('BLOCKED_REINFORCED_AUDIT'));
+}
+{
+  // Case is folded for protected matching, where it is conservative, and preserved here,
+  // where folding would let an existing `docs/` cover a newly added `Docs/`.
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'added', path: 'Docs/notes/example.md' }],
+  }), POLICY_WITH_CATEGORY);
+  ok('a case-variant top-level path is new, and therefore RED', r.lane === LANE.RED);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'renamed', path: 'Docs/x.md', previousPath: 'docs/notes/x.md' }],
+  }), POLICY_WITH_CATEGORY);
+  ok('a rename into a case-variant top level is RED too', r.lane === LANE.RED);
 }
 
 // ---------------------------------------------------------------- ordering and shape

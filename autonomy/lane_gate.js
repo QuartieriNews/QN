@@ -392,7 +392,10 @@ function evaluateRed(snapshot) {
     // A rename introduces its destination exactly as an addition does; checking only
     // 'added' let `docs/notes/x -> newthing/x` past the unknown-surface rule.
     if (f.status === 'added' || f.status === 'renamed') {
-      const top = normalise(f.path).split('/')[0];
+      // Case is folded for protected matching, where folding is the conservative
+      // direction. Here it is the permissive one: on a case-sensitive checkout `Docs/`
+      // is a new top level, and lowercasing it made an existing `docs/` cover it.
+      const top = String(f.path).replace(/\\/g, '/').replace(/^\.\//, '').split('/')[0];
       if (top && !snapshot.topLevelInventory.paths.includes(top)) {
         reasons.push(`new top-level path: ${top}`);
       }
@@ -628,14 +631,20 @@ function declarationAgrees(snapshot, computedLane) {
  */
 function ownerExceptionBinds(snapshot) {
   const e = snapshot.ownerCycleException;
-  return Boolean(e) && typeof e === 'object' &&
-         sameSha(e.headSha, snapshot.headSha) &&
-         e.grantedByOwner === true &&
-         // DEC-011: the grant is a comment on the pull request naming the head, so it is
-         // attributable and auditable where the work is. A permission that arrived only
-         // in a chat is one no gate can read and no record keeps.
-         e.source === 'pull_request_comment' &&
-         (Number.isInteger(e.commentId) || isNonEmptyString(e.commentId));
+  if (!e || typeof e !== 'object') return false;
+  if (e.grantedByOwner !== true) return false;
+  // DEC-011: the grant is a comment on the pull request, so it is attributable and
+  // auditable where the work is. A permission that arrived only in a chat is one no gate
+  // can read and no record keeps.
+  if (e.source !== 'pull_request_comment') return false;
+  if (!Number.isInteger(e.commentId) && !isNonEmptyString(e.commentId)) return false;
+  // The comment must say the SHA itself. A separately supplied `headSha` field is a
+  // referent someone attached, and attaching the current head to a grant that named none
+  // is exactly how a one-off permission becomes a standing one.
+  if (!isNonEmptyString(e.commentBody)) return false;
+  if (!isFullSha(snapshot.headSha)) return false;
+  const named = new RegExp(`\\b${snapshot.headSha}\\b`, 'i').test(e.commentBody);
+  return named;
 }
 
 /**
@@ -650,8 +659,15 @@ function reinforcedAuditPasses(snapshot) {
     const r = a[who];
     return Boolean(r) && typeof r === 'object' &&
            sameSha(r.headSha, snapshot.headSha) &&
+           // LANE_POLICY §9: every artefact records H, B and the policy version, or it
+           // survives a base movement and a policy change that should have voided it.
+           sameSha(r.baseSha, snapshot.baseSha) &&
+           r.policyVersion === POLICY_VERSION &&
            r.mandateSource === 'default_branch' &&
            r.sealedBeforePublication === true &&
+           // §10 requires the Claude side to run without the builder's context. An audit
+           // produced inside it is a self-check whatever it is labelled.
+           r.freshContext === true &&
            Number.isInteger(r.findings) && r.findings === 0;
   });
 }
