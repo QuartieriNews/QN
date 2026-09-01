@@ -1,0 +1,87 @@
+# The repository's executable checks, and the lane advisor that reports how much
+# owner attention a pull request needs (DEC-012).
+#
+# Unprivileged by construction: a read-only token, no secrets, no `pull_request_target`,
+# and no expression interpolated into a shell script. Asserted, not assumed, by
+# tests/test_workflow_safety.js.
+#
+# The lane job deliberately runs the copy of the gate on the base branch, never the one
+# in the pull request: a change to the gate must not be classified by itself. Changes to
+# `autonomy/` and `.github/` are RED, so that copy only ever moves under owner merge.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  suites:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to an immutable commit: a moved tag would run different code in the job
+      # whose result the owner reads (DEC-012). refs/tags/v4.4.0 at the time of pinning.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          python -m pip install --quiet -r requirements.txt
+
+      - name: Guards
+        working-directory: gazetteer
+        run: python ../tests/test_guards.py
+
+      - name: Duration parser
+        run: node tests/test_parse_duration.js
+
+      - name: Council
+        run: node tests/test_council.js
+
+      - name: Lane gate
+        run: node tests/test_lane_gate.js
+
+      - name: Workflow safety
+        run: node tests/test_workflow_safety.js
+
+  lane:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Classify
+        env:
+          LANE_BASE: ${{ github.event.pull_request.base.sha }}
+          LANE_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          LANE_HEAD: ${{ github.event.pull_request.head.sha }}
+          LANE_FORK: ${{ github.event.pull_request.head.repo.fork }}
+        run: |
+          set -eu
+          git fetch --no-tags --quiet origin "$LANE_BASE_REF"
+          if git show "origin/$LANE_BASE_REF:autonomy/lane_gate.js" > "$RUNNER_TEMP/gate.js" 2>/dev/null; then
+            echo "Classifier: the copy on $LANE_BASE_REF."
+          else
+            cp autonomy/lane_gate.js "$RUNNER_TEMP/gate.js"
+            echo "Classifier: this pull request's own copy — the base branch has none yet."
+          fi
+          FORK_FLAG=""
+          if [ "$LANE_FORK" = "true" ]; then FORK_FLAG="--fork"; fi
+          node "$RUNNER_TEMP/gate.js" --base "$LANE_BASE" --head "$LANE_HEAD" $FORK_FLAG
