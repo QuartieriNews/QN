@@ -1,0 +1,65 @@
+# The repository's executable checks, as check runs the merge gate can read.
+#
+# Two properties matter more than what it runs, and both are asserted rather than
+# assumed (tests/test_workflow_safety.js):
+#
+#   1. It checks out the pull request HEAD, never the synthetic merge ref. GitHub's
+#      default for a `pull_request` event is a merge commit that exists nowhere in the
+#      history, so a job written the obvious way produces a check that does not attest
+#      `H` while appearing to (LANE_POLICY §9).
+#   2. It is unprivileged. Read-only token, no secrets, no `pull_request_target`, and
+#      no pull-request-controlled text reaching a shell (Issue #7 acceptance 10).
+#
+# The `push` trigger is the one the gate relies on: its check runs carry the real
+# commit as `head_sha`, so evidence binds to `H` without inference.
+name: checks
+
+on:
+  push:
+  pull_request:
+
+# Least privilege for the whole file; no job widens it.
+permissions:
+  contents: read
+
+jobs:
+  suites:
+    runs-on: ubuntu-latest
+    steps:
+      # Pin to an immutable commit SHA before this becomes a required check; a tag is
+      # mutable and this job is the evidence the gate trusts.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      # Proves property 1 rather than trusting it. The expected SHA arrives through the
+      # environment, never interpolated into the shell (property 2).
+      - name: verify the checked-out commit is the head under test
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          actual="$(git rev-parse HEAD)"
+          if [ "$actual" != "$EXPECTED_SHA" ]; then
+            echo "checked out $actual but the head under test is $EXPECTED_SHA" >&2
+            exit 1
+          fi
+          echo "tested commit: $actual"
+
+      - name: install python dependencies
+        run: pip install --disable-pip-version-check -r requirements.txt
+
+      - name: gazetteer guards
+        run: cd gazetteer && python ../tests/test_guards.py
+
+      - name: duration parser
+        run: node tests/test_parse_duration.js
+
+      - name: strategic council tool
+        run: node tests/test_council.js
+
+      - name: lane gate
+        run: node tests/test_lane_gate.js
+
+      - name: workflow safety
+        run: node tests/test_workflow_safety.js
