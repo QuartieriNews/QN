@@ -45,6 +45,13 @@ owner decisions / regressions.
   review taught something worth keeping, leaves that behind in writing — a note
   in `reviews/` or a decision entry. Closing a PR is what discards its threads,
   so it is the one case where the archive needs a hand.
+- Review the **autonomy classification** as well as the code, once DEC-009 and DEC-010
+  are in force. The pull request declares a lane; check that the lane the policy in
+  `docs/autonomy/LANE_POLICY.md` computes for the *exact head under review* is the one
+  declared, and raise a **blocking** finding when it is not. A classification that looks
+  wrong is a defect like any other. Your clean review is read as the absence of an
+  objection and never as agreement with a lane (DEC-010 rule 2), so a lane you did not
+  examine is one nothing examined.
 - Review the diff since the last review of the same scope; on a first pass,
   review everything.
 - The reviewer app holds write permissions on this repository. They exist

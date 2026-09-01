@@ -25,8 +25,11 @@ const IMMUTABLE_CONTEXTS = [
   'github.sha', 'github.repository', 'github.repository_owner', 'github.run_id',
   'github.run_number', 'github.run_attempt', 'github.job', 'github.workflow',
   'github.event_name', 'github.api_url', 'github.server_url', 'github.workspace',
-  'github.action', 'github.action_path', 'github.token',
+  'github.action', 'github.action_path',
 ];
+// `github.token` is a credential, not an immutable value: interpolating it into a shell
+// exposes the job's own token and defeats the workflow's stated "no secrets" property,
+// so it is classified alongside `secrets.*` rather than allowed.
 
 let checks = 0;
 let failed = 0;
@@ -72,8 +75,16 @@ function expressions(fragment) {
 }
 
 function referencesSecrets(text) {
-  // Both spellings of the same access: `secrets.NAME` and `secrets['NAME']`.
-  return /\bsecrets\s*(\.|\[)/.test(text);
+  // Both spellings of the same access — `secrets.NAME` and `secrets['NAME']` — and the
+  // job credential, which is a secret whatever its permissions currently are.
+  return /\bsecrets\s*(\.|\[)/.test(text) || /\bgithub\s*\.\s*token\b/.test(text) ||
+         /\bgithub\s*\[\s*['\"]token['\"]\s*\]/.test(text);
+}
+
+/** Every `context.path` reference inside one expression, not merely its first. */
+function contextsIn(expression) {
+  return [...String(expression).matchAll(/\b(github|secrets|env|inputs|needs|vars|steps|job|runner|matrix)((?:\s*\.\s*[A-Za-z0-9_-]+|\s*\[[^\]]*\])*)/g)]
+    .map((m) => (m[1] + m[2]).replace(/\s+/g, ''));
 }
 
 const files = fs.existsSync(WORKFLOWS)
@@ -98,13 +109,18 @@ for (const file of files) {
   // Untrusted text — a title, a body, a branch name — interpolated into a shell is
   // command injection. Values reach `run:` through `env:` instead, so a run block may
   // name only contexts a pull request cannot influence.
+  // Every context an expression names must be immutable, not merely the one it starts
+  // with: `${{ github.sha && github.head_ref }}` begins safely and ends attacker-chosen.
   const offending = [];
   for (const block of runBlocks(code)) {
     for (const expr of expressions(block)) {
-      const isImmutable = IMMUTABLE_CONTEXTS.some(
-        (c) => expr === c || expr.startsWith(`${c} `) || expr.startsWith(`${c}.`)
-      );
-      if (!isImmutable) offending.push(expr);
+      const refs = contextsIn(expr);
+      if (refs.length === 0) { offending.push(expr); continue; }
+      for (const ref of refs) {
+        if (!IMMUTABLE_CONTEXTS.some((c) => ref === c || ref.startsWith(`${c}.`))) {
+          offending.push(`${expr} (via ${ref})`);
+        }
+      }
     }
   }
   ok(`${file}: no mutable context is interpolated into a run block`, offending.length === 0);
@@ -112,8 +128,15 @@ for (const file of files) {
   // The merge-ref trap: a checkout that names no ref takes the event's default, which
   // for a pull request is a synthetic merge commit that attests nothing about H.
   if (/actions\/checkout/.test(code)) {
-    ok(`${file}: checkout names a commit explicitly`,
-       /ref:\s*\$\{\{[^}]*\bgithub\.[a-z_.]*sha\b/.test(code));
+    // Naming *a* sha is not enough: `github.event.pull_request.base.sha` would test the
+    // base while satisfying a looser assertion. Only head-bearing expressions qualify.
+    const checkoutRef = (code.match(/ref:\s*(\$\{\{[^}]*\}\})/) || [])[1] || '';
+    const expected = (code.match(/EXPECTED_SHA:\s*(\$\{\{[^}]*\}\})/) || [])[1] || '';
+    const namesHead = /github\.sha|merge_group\.head_sha|pull_request\.head\.sha/.test(checkoutRef) &&
+                      !/\bbase\.sha\b/.test(checkoutRef);
+    ok(`${file}: checkout names the head under test`, namesHead);
+    ok(`${file}: the verified SHA is the one checked out`,
+       expected !== '' && expected === checkoutRef);
     ok(`${file}: checkout does not persist credentials`,
        /persist-credentials:\s*false/.test(code));
   }
@@ -143,6 +166,12 @@ for (const file of files) {
 }
 ok('bracket-form secret access is detected', referencesSecrets("echo ${{ secrets['TOKEN'] }}"));
 ok('dot-form secret access is detected', referencesSecrets('echo ${{ secrets.TOKEN }}'));
+ok('the job credential counts as a secret', referencesSecrets('echo ${{ github.token }}'));
+ok('bracket-form job credential counts as a secret', referencesSecrets("echo ${{ github['token'] }}"));
+ok('a compound expression exposes every context it names',
+   contextsIn('github.sha && github.head_ref').includes('github.head_ref'));
+ok('a compound expression still reports the safe one too',
+   contextsIn('github.sha && github.head_ref').includes('github.sha'));
 
 console.log('');
 if (failed > 0) {

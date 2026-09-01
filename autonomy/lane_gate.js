@@ -69,7 +69,21 @@ const DEPENDENCY_MANIFESTS = [
   'package.json', 'package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock',
   'pnpm-lock.yaml', 'bun.lockb',
   'gemfile', 'gemfile.lock', 'go.mod', 'go.sum', 'cargo.toml', 'cargo.lock',
+  'composer.json', 'composer.lock', 'uv.lock', 'gradle.lockfile', 'build.gradle',
+  'build.gradle.kts', 'pom.xml', 'mix.exs', 'mix.lock', 'gemspec', 'podfile',
+  'podfile.lock', 'flake.nix', 'flake.lock', 'shard.yml', 'shard.lock',
+  'pubspec.yaml', 'pubspec.lock', 'deno.json', 'deno.lock', 'renovate.json',
 ];
+
+/**
+ * A name list is a denylist and can never be complete — the ecosystems outrun it. The
+ * suffix rule catches the shape rather than the spelling, and the narrow GREEN
+ * allowlist remains the control that does not depend on enumerating anything.
+ */
+function looksLikeLockfile(name) {
+  return name.endsWith('.lock') || name.endsWith('.lockfile') ||
+         name.endsWith('-lock.json') || name.endsWith('-lock.yaml');
+}
 
 /** Files whose modification means the pull request is rewriting its own judge. */
 const SELF_REFERENTIAL = [
@@ -92,6 +106,11 @@ const ATOMIC_MERGE_MODES = ['strict_base', 'merge_queue'];
 const SHIPPED_POLICY = Object.freeze({
   version: POLICY_VERSION,
   greenAllowlist: Object.freeze([]),
+  // The manifest the gate requires, held here rather than taken from the snapshot: a
+  // caller-supplied list could name one unrelated green check and satisfy readiness
+  // without either real one. The gate's own check is deliberately absent, because
+  // requiring it of itself deadlocks (LANE_POLICY §9).
+  requiredChecks: Object.freeze(['suites']),
 });
 
 function fail(message) {
@@ -135,9 +154,10 @@ function basename(path) {
 function resolveSymlinkTarget(linkPath, target) {
   if (!isNonEmptyString(target)) return null;
   const t = String(target).replace(/\\/g, '/');
-  const segments = t.startsWith('/')
-    ? t.slice(1).split('/')
-    : normalise(linkPath).split('/').slice(0, -1).concat(t.split('/'));
+  // An absolute target names something outside this repository's tree. Stripping the
+  // leading slash would turn `/etc/passwd` into the apparently internal `etc/passwd`.
+  if (t.startsWith('/')) return null;
+  const segments = normalise(linkPath).split('/').slice(0, -1).concat(t.split('/'));
 
   const out = [];
   for (const seg of segments) {
@@ -175,7 +195,8 @@ function underSurface(path, surface) {
 
 function isProtectedPath(path) {
   if (PROTECTED_SURFACES.some((s) => underSurface(path, s))) return true;
-  return DEPENDENCY_MANIFESTS.includes(basename(path));
+  const name = basename(path);
+  return DEPENDENCY_MANIFESTS.includes(name) || looksLikeLockfile(name);
 }
 
 function touchesAny(files, surfaces) {
@@ -245,6 +266,15 @@ function evaluateUnclassified(snapshot) {
   }
   if (typeof snapshot.isFork !== 'boolean') reasons.push('fork provenance is not stated');
 
+  // An absent escalation list is not an absence of escalations (LANE_POLICY §9).
+  if (!Array.isArray(snapshot.escalations)) {
+    reasons.push('escalations are not stated');
+  } else if (snapshot.escalations.some(
+    (e) => !e || !isNonEmptyString(e.toLane) || !isNonEmptyString(e.by) || !isNonEmptyString(e.reason)
+  )) {
+    reasons.push('an escalation record is malformed');
+  }
+
   if (!Array.isArray(snapshot.files)) {
     reasons.push('no changed-file set');
   } else if (snapshot.files.length === 0) {
@@ -255,6 +285,13 @@ function evaluateUnclassified(snapshot) {
       if (!isNonEmptyString(f.path)) reasons.push('a changed file has no repository path');
       if (f.status === 'renamed' && !isNonEmptyString(f.previousPath)) {
         reasons.push(`a rename states no previous path: ${f.path}`);
+      }
+      // A collector that reports no file kinds is not one that found none: an omitted
+      // flag is falsy and would have passed the GREEN kind check (LANE_POLICY §7).
+      for (const kind of ['isSymlink', 'isSubmodule', 'isBinary', 'modeChanged']) {
+        if (typeof f[kind] !== 'boolean') {
+          reasons.push(`file kind ${kind} is not stated: ${f.path}`);
+        }
       }
     }
     if (hasUnresolvableSymlink(snapshot.files)) {
@@ -278,7 +315,9 @@ function evaluateRed(snapshot) {
 
   // A new top-level path is an unknown surface and fails closed (LANE_POLICY §6).
   for (const f of files) {
-    if (f.status === 'added') {
+    // A rename introduces its destination exactly as an addition does; checking only
+    // 'added' let `docs/notes/x -> newthing/x` past the unknown-surface rule.
+    if (f.status === 'added' || f.status === 'renamed') {
       const top = normalise(f.path).split('/')[0];
       if (top && !(snapshot.knownTopLevelPaths || []).includes(top)) {
         reasons.push(`new top-level path: ${top}`);
@@ -403,18 +442,24 @@ function latestCheckVerdict(snapshot, name) {
  * Readiness (LANE_POLICY §1, §9). Transient evidence state. A failure here blocks and
  * is retried; it never moves the lane.
  */
-function computeReadiness(snapshot) {
+function computeReadiness(snapshot, policy = SHIPPED_POLICY) {
   const blockers = [];
 
   if (snapshot.mergeable !== true) blockers.push('BLOCKED_MERGE_CONFLICT');
   if (snapshot.baseIsCurrent !== true) blockers.push('BLOCKED_STALE_BASE');
 
-  const required = snapshot.requiredChecks || [];
-  if (required.length === 0) {
-    // An empty required set must not pass vacuously (LANE_POLICY §9).
+  // The manifest is the policy's, not the snapshot's. What the snapshot carries is the
+  // ruleset's current list, and it is checked for covering the manifest — a ruleset that
+  // quietly stopped requiring a check is a fact worth blocking on, not one to inherit.
+  const manifest = policy.requiredChecks || [];
+  const declared = snapshot.requiredChecks;
+  if (manifest.length === 0) {
     blockers.push('BLOCKED_TESTS');
   } else {
-    for (const name of required) {
+    if (!Array.isArray(declared) || manifest.some((n) => !declared.includes(n))) {
+      blockers.push('BLOCKED_TESTS:manifest');
+    }
+    for (const name of manifest) {
       if (latestCheckVerdict(snapshot, name) !== 'success') blockers.push(`BLOCKED_TESTS:${name}`);
     }
   }
@@ -449,11 +494,26 @@ function declarationAgrees(snapshot, computedLane) {
          isNonEmptyString(d.reason);
 }
 
+/**
+ * The kill switch fails closed when it cannot be read (LANE_POLICY §11) — including
+ * when the collector represents unreadable as `null`, which a `!== undefined` guard
+ * accepts before throwing on the next property access.
+ */
+function killSwitchPermits(killSwitch) {
+  return Boolean(killSwitch) && typeof killSwitch === 'object' &&
+         killSwitch.readable === true && killSwitch.autoMergeDisabled === false;
+}
+
 function result(lane, readiness, reasons, snapshot, autoMergeAllowed, policySource) {
   const mismatch = Boolean(snapshot.declaration) &&
     snapshot.declaration.lane !== lane &&
     lane !== LANE.PROHIBITED &&
     lane !== LANE.UNCLASSIFIED;
+  // A result reached under a synthetic allowlist never authorises anything. policySource
+  // alone was advisory metadata, and a consumer reading the documented authorisation
+  // field would have acted on it; the replay outcome lives under its own name instead.
+  const injected = policySource !== 'shipped';
+  const permitted = Boolean(autoMergeAllowed) && !mismatch;
   return {
     policyVersion: POLICY_VERSION,
     policySource,
@@ -463,7 +523,8 @@ function result(lane, readiness, reasons, snapshot, autoMergeAllowed, policySour
       ? reasons.concat([`declaration mismatch: declared ${snapshot.declaration.lane}, computed ${lane}`])
       : reasons,
     declarationMismatch: mismatch,
-    autoMergeAllowed: Boolean(autoMergeAllowed) && !mismatch,
+    autoMergeAllowed: injected ? false : permitted,
+    wouldAutoMergeUnderPolicy: injected ? permitted : undefined,
     headSha: snapshot.headSha,
     baseSha: snapshot.baseSha,
   };
@@ -482,7 +543,7 @@ function evaluate(snapshot, policy, policySource) {
     return result(LANE.UNCLASSIFIED, 'BLOCKED_UNCLASSIFIED', unclassified, snapshot, false, policySource);
   }
 
-  const readiness = computeReadiness(snapshot);
+  const readiness = computeReadiness(snapshot, policy);
 
   const red = evaluateRed(snapshot);
   if (red.length > 0) return result(LANE.RED, readiness, red, snapshot, false, policySource);
@@ -495,9 +556,7 @@ function evaluate(snapshot, policy, policySource) {
   // a state nothing reviewed (LANE_POLICY §9, §11).
   const autoMerge =
     readiness === READY &&
-    snapshot.killSwitch !== undefined &&
-    snapshot.killSwitch.readable === true &&
-    snapshot.killSwitch.autoMergeDisabled === false &&
+    killSwitchPermits(snapshot.killSwitch) &&
     ATOMIC_MERGE_MODES.includes(snapshot.mergeAtomicity) &&
     declarationAgrees(snapshot, LANE.GREEN);
 
@@ -529,7 +588,12 @@ function classify(snapshot) {
  */
 function classifyUnderPolicy(snapshot, policy) {
   if (!policy || !Array.isArray(policy.greenAllowlist)) fail('a policy with a greenAllowlist is required');
-  return evaluate(snapshot, policy, 'injected');
+  // What a fixture replays is the allowlist. The required-check manifest is not the
+  // seam's to weaken, so it is inherited unless the fixture states one deliberately.
+  const withManifest = policy.requiredChecks === undefined
+    ? Object.assign({}, policy, { requiredChecks: SHIPPED_POLICY.requiredChecks })
+    : policy;
+  return evaluate(snapshot, withManifest, 'injected');
 }
 
 module.exports = {

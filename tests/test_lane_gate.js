@@ -34,7 +34,7 @@ const OTHER = 'c'.repeat(40);
 
 /** A snapshot with every condition satisfied, so each test can spoil exactly one. */
 function goodSnapshot(overrides = {}) {
-  return Object.assign({
+  const snap = Object.assign({
     policyVersion: POLICY_VERSION,
     headSha: HEAD,
     baseSha: BASE,
@@ -51,8 +51,8 @@ function goodSnapshot(overrides = {}) {
     mandateSource: 'default_branch',
     ownerDecisionRequired: false,
     authorization: { taskId: 'issue-7', ownerAuthorised: true, mutableByThisPullRequest: false },
-    requiredChecks: ['tests'],
-    checkRuns: [{ name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true }],
+    requiredChecks: ['suites'],
+    checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true }],
     review: {
       cleanForHead: true,
       reviewedSha: HEAD,
@@ -66,6 +66,18 @@ function goodSnapshot(overrides = {}) {
     declaration: { lane: LANE.GREEN, headSha: HEAD, reason: 'inside the docs-notes category' },
     escalations: [],
   }, overrides);
+  snap.files = stated(snap.files);
+  return snap;
+}
+
+/**
+ * File kinds are required evidence (LANE_POLICY §7), so the baseline states them all.
+ * A test that wants an unstated kind deletes it explicitly, which is the only way the
+ * omission is ever exercised.
+ */
+function stated(files) {
+  return (files || []).map((f) => Object.assign(
+    { isSymlink: false, isSubmodule: false, isBinary: false, modeChanged: false }, f));
 }
 
 /** A policy with one approved category, used only to prove GREEN is reachable at all. */
@@ -91,7 +103,8 @@ const POLICY_WITH_CATEGORY = {
 {
   const r = classifyUnderPolicy(goodSnapshot(), POLICY_WITH_CATEGORY);
   ok('T-1 GREEN when every signal is present and bound to the same head', r.lane === LANE.GREEN);
-  ok('T-1 GREEN with all conditions met permits auto-merge', r.autoMergeAllowed === true);
+  ok('T-1 GREEN with all conditions met would permit auto-merge', r.wouldAutoMergeUnderPolicy === true);
+  ok('T-1 a fixture policy never authorises a real merge', r.autoMergeAllowed === false);
   ok('T-1 GREEN is READY', r.readiness === READY);
 }
 
@@ -118,7 +131,7 @@ const POLICY_WITH_CATEGORY = {
 // ------------------------------------------------------------------- T-3 test state
 
 {
-  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'tests', headSha: HEAD, conclusion: 'failure', trustedProducer: true }] }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'failure', trustedProducer: true }] }), POLICY_WITH_CATEGORY);
   ok('T-3 failing required check blocks', r.readiness.includes('BLOCKED_TESTS'));
 }
 {
@@ -131,11 +144,11 @@ const POLICY_WITH_CATEGORY = {
   ok('T-3 empty required-check set withholds auto-merge', r.autoMergeAllowed === false);
 }
 {
-  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'tests', headSha: OTHER, conclusion: 'success', trustedProducer: true }] }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: OTHER, conclusion: 'success', trustedProducer: true }] }), POLICY_WITH_CATEGORY);
   ok('T-3 a check that passed on another commit is not evidence for this head', r.readiness.includes('BLOCKED_TESTS'));
 }
 {
-  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: false }] }), POLICY_WITH_CATEGORY);
+  const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [{ name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: false }] }), POLICY_WITH_CATEGORY);
   ok('T-3 a check from an untrusted producer is not evidence', r.readiness.includes('BLOCKED_TESTS'));
 }
 
@@ -146,45 +159,45 @@ const POLICY_WITH_CATEGORY = {
 // nothing becomes evidence that the suite passed.
 {
   const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
-    { name: 'tests', headSha: HEAD, conclusion: 'skipped', trustedProducer: true, completedAt: '2026-09-01T15:58:39Z' },
-    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:58:40Z' },
+    { name: 'suites', headSha: HEAD, conclusion: 'skipped', trustedProducer: true, completedAt: '2026-09-01T15:58:39Z' },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:58:40Z' },
   ] }), POLICY_WITH_CATEGORY);
   ok('a skipped duplicate does not defeat a later success', r.readiness === READY);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
-    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:58:39Z' },
-    { name: 'tests', headSha: HEAD, conclusion: 'skipped', trustedProducer: true, completedAt: '2026-09-01T15:58:40Z' },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:58:39Z' },
+    { name: 'suites', headSha: HEAD, conclusion: 'skipped', trustedProducer: true, completedAt: '2026-09-01T15:58:40Z' },
   ] }), POLICY_WITH_CATEGORY);
   ok('a skipped run that is the latest is not a pass', r.readiness.includes('BLOCKED_TESTS'));
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
-    { name: 'tests', headSha: HEAD, conclusion: 'failure', trustedProducer: true, completedAt: '2026-09-01T15:00:00Z' },
-    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:30:00Z' },
+    { name: 'suites', headSha: HEAD, conclusion: 'failure', trustedProducer: true, completedAt: '2026-09-01T15:00:00Z' },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: '2026-09-01T15:30:00Z' },
   ] }), POLICY_WITH_CATEGORY);
   ok('a re-run that succeeded after failing is a pass', r.readiness === READY);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
-    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true },
-    { name: 'tests', headSha: HEAD, conclusion: 'skipped', trustedProducer: true },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true },
+    { name: 'suites', headSha: HEAD, conclusion: 'skipped', trustedProducer: true },
   ] }), POLICY_WITH_CATEGORY);
   ok('duplicate runs without timestamps are ambiguous and block', r.readiness.includes('BLOCKED_TESTS'));
 }
 {
   const at = '2026-09-01T15:58:40Z';
   const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
-    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
-    { name: 'tests', headSha: HEAD, conclusion: 'failure', trustedProducer: true, completedAt: at },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
+    { name: 'suites', headSha: HEAD, conclusion: 'failure', trustedProducer: true, completedAt: at },
   ] }), POLICY_WITH_CATEGORY);
   ok('a tie between runs that disagree blocks', r.readiness.includes('BLOCKED_TESTS'));
 }
 {
   const at = '2026-09-01T15:58:40Z';
   const r = classifyUnderPolicy(goodSnapshot({ checkRuns: [
-    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
-    { name: 'tests', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
+    { name: 'suites', headSha: HEAD, conclusion: 'success', trustedProducer: true, completedAt: at },
   ] }), POLICY_WITH_CATEGORY);
   ok('a tie between runs that agree is not ambiguous', r.readiness === READY);
 }
@@ -316,7 +329,7 @@ for (const path of ['AGENTS.md', 'decisions/DEC-001-x.md', 'prompts/EDITORIAL_FI
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ mergeAtomicity: 'merge_queue' }), POLICY_WITH_CATEGORY);
-  ok('a merge queue satisfies atomicity', r.autoMergeAllowed === true);
+  ok('a merge queue satisfies atomicity', r.wouldAutoMergeUnderPolicy === true);
 }
 {
   const r = classifyUnderPolicy(goodSnapshot({ killSwitch: { readable: false, autoMergeDisabled: false } }), POLICY_WITH_CATEGORY);
@@ -516,6 +529,99 @@ for (const [label, declaration] of [
   let threw = false;
   try { classifyUnderPolicy(goodSnapshot(), {}); } catch (e) { threw = /greenAllowlist/.test(e.message); }
   ok('the fixture seam refuses a policy with no allowlist', threw);
+}
+
+// ------------------------------- cycle 2: the remaining unstated-evidence gaps
+
+for (const kind of ['isSymlink', 'isSubmodule', 'isBinary', 'modeChanged']) {
+  const snap = goodSnapshot();
+  delete snap.files[0][kind];
+  const r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY);
+  ok(`an unstated ${kind} is UNCLASSIFIED, not falsy-and-fine`, r.lane === LANE.UNCLASSIFIED);
+}
+{
+  const snap = goodSnapshot();
+  delete snap.escalations;
+  const r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY);
+  ok('an unstated escalation list is UNCLASSIFIED', r.lane === LANE.UNCLASSIFIED);
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({ escalations: [{ toLane: 'AMBER' }] }), POLICY_WITH_CATEGORY);
+  ok('a malformed escalation record is UNCLASSIFIED', r.lane === LANE.UNCLASSIFIED);
+}
+
+// ----------------------------------------- cycle 2: an absolute symlink target is external
+
+ok('an absolute symlink target does not resolve',
+   resolveSymlinkTarget('docs/notes/link.md', '/etc/passwd') === null);
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'added', path: 'docs/notes/link.md', symlinkTarget: '/etc/passwd',
+              additions: 1, deletions: 0 }],
+  }), POLICY_WITH_CATEGORY);
+  ok('a change carrying an absolute symlink target is UNCLASSIFIED', r.lane === LANE.UNCLASSIFIED);
+}
+
+// ------------------------------------- cycle 2: manifests the name list had missed
+
+for (const path of ['docs/composer.json', 'docs/composer.lock', 'a/uv.lock',
+                    'b/gradle.lockfile', 'c/something.lock', 'd/pnpm-lock.yaml']) {
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'modified', path, additions: 1, deletions: 0 }],
+    knownTopLevelPaths: ['docs', 'a', 'b', 'c', 'd'],
+  }), POLICY_WITH_CATEGORY);
+  ok(`a dependency manifest or lockfile is RED: ${path}`, r.lane === LANE.RED);
+}
+
+// -------------------------------- cycle 2: a rename introduces its destination
+
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    files: [{ status: 'renamed', path: 'newthing/x.md', previousPath: 'docs/notes/x.md',
+              additions: 0, deletions: 0 }],
+  }), POLICY_WITH_CATEGORY);
+  ok('a rename into a new top-level path is RED', r.lane === LANE.RED);
+}
+
+// --------------------------- cycle 2: readiness binds to the policy's own manifest
+
+{
+  const r = classifyUnderPolicy(goodSnapshot({
+    requiredChecks: ['unrelated-lint'],
+    checkRuns: [{ name: 'unrelated-lint', headSha: HEAD, conclusion: 'success', trustedProducer: true }],
+  }), POLICY_WITH_CATEGORY);
+  ok('a ruleset naming only an unrelated check does not satisfy the manifest',
+     r.readiness.includes('BLOCKED_TESTS'));
+}
+{
+  const r = classifyUnderPolicy(goodSnapshot({ requiredChecks: [] }), POLICY_WITH_CATEGORY);
+  ok('a ruleset requiring nothing blocks on the manifest', r.readiness.includes('BLOCKED_TESTS:manifest'));
+}
+
+// ------------------------------------------- cycle 2: the kill switch cannot crash
+
+for (const [label, killSwitch] of [['null', null], ['a string', 'off'], ['omitted', undefined]]) {
+  const snap = goodSnapshot();
+  if (killSwitch === undefined) delete snap.killSwitch; else snap.killSwitch = killSwitch;
+  let threw = false;
+  let r = null;
+  try { r = classifyUnderPolicy(snap, POLICY_WITH_CATEGORY); } catch (e) { threw = true; }
+  ok(`a kill switch that is ${label} fails closed without throwing`,
+     !threw && r.wouldAutoMergeUnderPolicy === false);
+}
+
+// ------------------------- cycle 2: an injected policy authorises nothing, ever
+
+{
+  const r = classifyUnderPolicy(goodSnapshot(), POLICY_WITH_CATEGORY);
+  ok('an injected policy never sets the authorising field', r.autoMergeAllowed === false);
+  ok('an injected policy reports its replay outcome separately',
+     r.wouldAutoMergeUnderPolicy === true);
+}
+{
+  const r = classify(goodSnapshot());
+  ok('a shipped result carries no replay field to confuse a consumer',
+     r.wouldAutoMergeUnderPolicy === undefined);
 }
 
 // ---------------------------------------------------------------- ordering and shape
