@@ -6,3 +6,6 @@ __pycache__/
 # Council session records: they quote repository content and the owner's own
 # framing, and only an owner decision is an artefact of record (DEC-008).
 council/sessions/
+
+# Installed by `npm ci` for the workflow-safety suite only (DEC-011).
+node_modules/

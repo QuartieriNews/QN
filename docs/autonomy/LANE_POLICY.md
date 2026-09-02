@@ -1,0 +1,123 @@
+# Lane policy
+
+The rules `autonomy/lane_gate.js` applies, and the limits of what they establish.
+Normative source: DEC-012. Where this file and DEC-012 disagree, DEC-012 wins.
+
+## What a lane is
+
+A lane is **how much attention a pull request needs from the owner**, not how much
+autonomy an agent has. The owner merges every pull request. No lane authorises a merge,
+and the gate cannot perform one: it has no credentials and no write path.
+
+The lane is a **floor**. The builder states an expected lane in the pull request body;
+the gate does not read it. A builder may argue for more owner attention than the gate
+computed, never for less. Where the two disagree, the reviewer treats the discrepancy as
+a finding about the builder's judgement (`AGENTS.md`).
+
+| Lane | Meaning |
+|---|---|
+| **GREEN** | Low attention. The diff can be read quickly. |
+| **AMBER** | Read the diff and the review threads before merging. |
+| **RED** | This changes what the system is, not only what it does. Decide consciously. |
+
+## How the gate decides
+
+From `git diff --raw -z` and `git diff --numstat -z` between base and head, plus
+`git ls-tree` on the base for the top-level inventory. Nothing is supplied by a caller
+and nothing is asserted by an agent.
+
+**RED** if any of these fired, and the result names which and on which paths:
+
+| Rule | Fires when |
+|---|---|
+| `PROTECTED_SURFACE` | a path — old or new — is under a protected surface |
+| `CONTROL_FILE` | a basename at any depth is a control file |
+| `NEW_TOP_LEVEL` | a path's first segment is not in the base tree |
+| `UNUSUAL_FILE_KIND` | a symlink, a submodule, or a change of file mode |
+| `FORK` | the head and base repository identities differ (DEC-011 §2) |
+| `UNCLASSIFIABLE` | a fact is missing, or a path is not a shape git produces |
+
+**GREEN** if nothing above fired and every one of these holds: every path is under a
+GREEN prefix; every status is `A` or `M`; no file is binary; at most `maxFiles` files;
+at most `maxLines` lines added and deleted together. **AMBER** otherwise, naming which
+of those conditions failed.
+
+**A fork is not merely RED: it is refused.** DEC-011 §2 stands — while this repository
+has no external contributors, a pull request from another repository is not merged at
+all, and RED is what the gate reports rather than what the owner may then do. This is a
+policy refusal, not a limit of the tooling. **Reconsideration trigger: external
+contributors becoming real**, at which point DEC-011 §2 reopens and the unprivileged CI
+path is built then.
+
+Protected-surface and control-file matching is case-folded, so `Docs/Autonomy/` is
+protected. Top-level novelty is case-**sensitive**, so `Docs/` beside an existing `docs/`
+is a new path and therefore RED.
+
+The lists themselves — protected surfaces, control filenames, GREEN prefixes, the size
+caps — live in `autonomy/lane_gate.js`, in one place, and changing any of them is RED.
+
+## Uncertainty escalates, never relaxes
+
+An absent fact is a collector that did not run, not one that found nothing. Facts that
+are missing or of the wrong type produce RED with `UNCLASSIFIABLE`, never a lower lane.
+Any agent may escalate a lane; none may lower one.
+
+## The lane result is advice, not a control
+
+**The gate is an advisor for the owner. Its result is not a security boundary against a
+hostile builder, and no lane authorises a merge.** The owner performs every merge.
+
+GitHub runs a `pull_request` workflow from the pull request's own ref. **A pull request
+that changes `.github/workflows/checks.yml` can therefore influence the run that reports
+its own lane** — it can alter the step, its arguments or its output. Taking the
+classifier from the base commit narrows this but does not close it, because the
+invocation around the classifier still comes from the pull request.
+
+This limitation is **accepted in v1**, by owner decision, rather than closed with a
+trusted external workflow or other enforcement machinery. What makes it acceptable is
+that every change to `.github/**` is RED, so it reaches the owner's attention, is read,
+and is merged by the owner — the same person the report is for. A report that could be
+tampered with by the author is still useful to a reader who is looking at the diff
+anyway; it is not useful as a gate, and this policy does not claim it is one.
+
+There is likewise no machine-readable escalation. Any agent — builder, reviewer or the
+owner — can ask for more attention in a review or a comment, and the owner can treat any
+pull request as RED. The classifier does not try to represent that.
+
+## What this does not establish
+
+- **That a GREEN change is correct.** GREEN is a statement about *where* a change
+  landed and how large it is. It says nothing about whether the change is right.
+- **That the protected list is complete.** A document under `docs/` that becomes
+  normative is GREEN until it is added to the protected list. Adding it is the
+  mechanism, and adding it is RED.
+- **That the diff it read is the diff a reader would see.** `git` reports a diff through
+  the attributes in effect, so a `.gitattributes` can change whether a file counts as
+  binary. One is therefore a control file and RED wherever it appears, which stops a
+  pull request from adding one and being classified under it — but a `.gitattributes`
+  already on the default branch is in effect for every classification after it, and got
+  there under owner merge.
+- **Cumulative drift.** Each pull request is classified alone. Ten GREEN pull requests
+  are not a GREEN change. Under owner merge the owner is the mitigation.
+- **Anything about the review.** The gate does not read check runs, reviews, comments or
+  labels. Whether CI is green and whether the reviewer has open findings are shown by
+  GitHub on the pull request, where the owner is already looking.
+
+## AUTO-GREEN
+
+Provided for by DEC-012, with no authorised categories: nothing can auto-merge. The gate
+reports `autoGreen: {enabled: false, categories: []}` so a reader can see the capability
+exists and is off.
+
+The gate emits structured facts — per file the status, both paths where relevant, source
+and destination modes, additions, deletions and an explicit binary flag; plus new
+top-level paths, fork provenance, the rules that fired and a summary — so that a future
+AUTO-GREEN policy can be added as a separate consumer of those facts. Activating one is
+itself RED and requires a new owner decision taken on real pull-request data.
+
+## The review-cycle cap
+
+Four cycles, in `AGENTS.md`, kept by the builder and visible to the owner in the pull
+request timeline. The gate does not count them and does not read owner comments.
+Reaching four without convergence means autonomy stops and the owner decides what the
+work needs; it does not mean the pull request is ready (DEC-012).

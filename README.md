@@ -59,15 +59,19 @@ python ../tests/zone_distribution.py ../tests/samples/sample_107_direct_urls.jso
 `build_gazetteer.py` fails rather than warns on a broken invariant — a failing build means
 the workbook edit is wrong, not that the build needs patching.
 
-The Node suites run from the repository root and need no installation:
+The Node suites run from the repository root. Install once, for the YAML parser that
+`test_workflow_safety.js` needs (DEC-011); the other three need nothing:
 
 ```bash
+npm ci
 node tests/test_parse_duration.js                            # 58 checks, must print ALL PASS
 node tests/test_council.js                                   # 273 checks, must print ALL PASS
+node tests/test_lane_gate.js                                 # 119 checks, must print ALL PASS
+node tests/test_workflow_safety.js                           # 13 checks, must print ALL PASS
 ```
 
-`test_council.js` is fully offline: it never makes an OpenAI call, so it needs no
-`OPENAI_API_KEY` and costs nothing to run.
+`npm test` runs the four in order. `test_council.js` is fully offline: it never makes an
+OpenAI call, so it needs no `OPENAI_API_KEY` and costs nothing to run.
 
 ## Pull request conventions
 

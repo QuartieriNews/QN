@@ -29,10 +29,12 @@ owner decisions / regressions.
   never against a rendered page or memory. Run the executable checks where
   possible: `cd gazetteer && python ../tests/test_guards.py` (must print
   ALL PASS, 37 checks, executably asserted) and
-  `node tests/test_parse_duration.js` and `node tests/test_council.js` (both
+  `node tests/test_parse_duration.js`, `node tests/test_council.js`,
+  `node tests/test_lane_gate.js` and `node tests/test_workflow_safety.js` (all
   must exit 0, ALL PASS). The Python checks need the dependencies declared in
   `requirements.txt` (repository root): `pip install -r requirements.txt`
-  before the first run. The Node suites need no installation, and
+  before the first run. `test_workflow_safety.js` needs `npm ci` once, for the
+  YAML parser DEC-011 chose; the other Node suites need no installation, and
   `test_council.js` makes no API call, so it needs no key.
 - Codex reviews run natively on pull requests, so the PR is the archive of a
   code review: findings, builder answers and the verdict live in its threads
@@ -47,6 +49,14 @@ owner decisions / regressions.
   so it is the one case where the archive needs a hand.
 - Review the diff since the last review of the same scope; on a first pass,
   review everything.
+- Every pull request states an expected lane in its body. The lane the gate
+  computes from the diff is independent of that statement; check whether the
+  two agree, and treat a claim of *less* owner attention than the gate computed
+  as a blocking finding about judgement. The lane authorises nothing — the owner
+  merges every pull request (`decisions/DEC-012`).
+- Four review cycles without convergence is where autonomy stops: the builder
+  says so and the owner decides what the work needs. It is not a signal that the
+  pull request is ready, and nothing in the tooling enforces it (DEC-012).
 - The reviewer app holds write permissions on this repository. They exist
   technically; the role, not the capability, decides what may be done with
   them: use them only to post reviews and comments on pull requests, never to

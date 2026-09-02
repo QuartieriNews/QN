@@ -1,0 +1,114 @@
+# The repository's executable checks, and the lane advisor that reports how much
+# owner attention a pull request needs (DEC-012).
+#
+# The lane result is ADVICE, not a control. GitHub runs this file from the pull
+# request's own ref, so a pull request that edits it can influence its own lane report.
+# That is accepted in v1: every change to `.github/**` is RED, the owner reads it, and
+# the owner performs every merge. Nothing here authorises anything.
+#
+# Unprivileged by construction: a read-only token, no secrets, no `pull_request_target`,
+# and no expression interpolated into a shell script. Asserted, not assumed, by
+# tests/test_workflow_safety.js.
+#
+# The lane job runs the copy of the gate at the pull request's exact base commit, not the
+# one in the pull request and not the branch tip: a change to the gate must not be
+# classified by itself, and the same pull request must classify the same way twice.
+# Changes to `autonomy/` and `.github/` are RED, so that copy only moves under owner merge.
+#
+# One exception, and it is unavoidable: the first pull request to introduce the gate has
+# no gate at its base commit. That one falls back to its own copy and says so in the
+# output. After it merges the fallback has nothing left to do in normal operation.
+#
+# A base commit that is absent from the clone is a different thing entirely and must not
+# be read as the bootstrap: it means the check would classify with a copy that is not the
+# one this pull request will be merged against. The step establishes the commit is there
+# before asking what it contains, and fails rather than classifying with something else.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  suites:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to an immutable commit: a moved tag would run different code in the job
+      # whose result the owner reads (DEC-012). refs/tags/v4.4.0 at the time of pinning.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          python -m pip install --quiet -r requirements.txt
+
+      - name: Guards
+        working-directory: gazetteer
+        run: python ../tests/test_guards.py
+
+      - name: Duration parser
+        run: node tests/test_parse_duration.js
+
+      - name: Council
+        run: node tests/test_council.js
+
+      - name: Lane gate
+        run: node tests/test_lane_gate.js
+
+      - name: Workflow safety
+        run: node tests/test_workflow_safety.js
+
+  lane:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Classify
+        env:
+          LANE_BASE: ${{ github.event.pull_request.base.sha }}
+          LANE_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          LANE_HEAD: ${{ github.event.pull_request.head.sha }}
+          # Whether the pull request crosses repositories is a comparison of two
+          # immutable identities, not a property of one of them. Either absent is
+          # unclassifiable to the gate, never "not a fork".
+          LANE_HEAD_REPO_ID: ${{ github.event.pull_request.head.repo.id }}
+          LANE_BASE_REPO_ID: ${{ github.event.pull_request.base.repo.id }}
+        run: |
+          set -eu
+          git fetch --no-tags --quiet origin "$LANE_BASE_REF"
+          if ! git cat-file -e "$LANE_BASE^{commit}" 2>/dev/null; then
+            echo "The base commit $LANE_BASE is not in this clone, so the classifier cannot"
+            echo "be taken from it. Classifying with any other copy would not be the check"
+            echo "this reports. Failing instead."
+            exit 1
+          fi
+          if git show "$LANE_BASE:autonomy/lane_gate.js" > "$RUNNER_TEMP/gate.js" 2>/dev/null; then
+            echo "Classifier: the copy at base commit $LANE_BASE."
+          else
+            cp autonomy/lane_gate.js "$RUNNER_TEMP/gate.js"
+            echo "Classifier: this pull request's own copy. The base commit $LANE_BASE is"
+            echo "present and has no autonomy/lane_gate.js — the bootstrap case, expected"
+            echo "only until the pull request that introduces the gate has merged."
+          fi
+          node "$RUNNER_TEMP/gate.js" \
+            --base "$LANE_BASE" --head "$LANE_HEAD" \
+            --base-repo-id "$LANE_BASE_REPO_ID" --head-repo-id "$LANE_HEAD_REPO_ID"
