@@ -54,9 +54,11 @@ These name why a change is AMBER rather than GREEN; they never make it RED. As w
 RED rules, the conditions themselves are in `autonomy/lane_gate.js`, which is canonical —
 this table says what each token means, not what the thresholds are.
 
-**The v1 GREEN prefixes are `docs/` and `reviews/`**, the owner-approved baseline recorded
-in DEC-012, and they are read *after* the RED rules: a protected surface or a control file
-inside those trees is RED regardless. Widening the list is RED and needs a new decision.
+The GREEN prefixes are `GREEN_PREFIXES` in `autonomy/lane_gate.js`; the owner-approved v1
+baseline is recorded in DEC-012. Neither is repeated here. What matters where the rules are
+applied is the precedence: **the prefixes are read *after* the RED rules**, so a protected
+surface or a control file inside a GREEN prefix is RED regardless. Widening the list is RED
+and needs a new decision.
 
 **A fork is not merely RED: it is refused.** DEC-011 §2 stands — while this repository
 has no external contributors, a pull request from another repository is not merged at
