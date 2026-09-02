@@ -199,6 +199,23 @@ The claim that the builder does not have "the ability to change the workflow tha
 classifies it" is withdrawn from `docs/autonomy/IDENTITY_AND_PERMISSIONS.md`. It was not
 true, and the owner decided not to build the infrastructure that would make it true.
 
+## The v1 GREEN baseline
+
+A final audit of the merged state asked what DEC-010's "starts empty or extremely
+restrictive" amounts to in practice, since nothing recorded the answer. It does now, by
+owner decision: **v1 starts with the GREEN prefixes `docs/` and `reviews/`**, subject to
+the protected surfaces and control filenames, which are evaluated first and win. This is
+the approved baseline, not a widening of DEC-010's clause and not a step towards
+AUTO-GREEN, whose category list stays empty. **Any widening of the prefixes is RED and
+requires a new owner decision.**
+
+The same audit found that the older autonomy entries carried no sign of having been
+superseded, and that three files the repository treats as authority — the first and third
+items of the reading order in `docs/START_HERE.md`, and the review folder's own rules —
+were inside a GREEN prefix without being protected. Both are corrected without touching a
+historical clause: the superseded entries gain a pointer under `Status:`, and the three
+files join the protected list.
+
 Decided by: Owner · Date: 1-2 September 2026 · Affected: `decisions/`, `docs/autonomy/`,
 `autonomy/lane_gate.js`, `.github/`, `tests/`, `AGENTS.md`, Issue #7 (whose acceptance
 criteria are auto-merge criteria and which this entry supersedes), pull request #8

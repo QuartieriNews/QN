@@ -1,6 +1,8 @@
 # DEC-009 — GREEN / AMBER / RED autonomy gates
 
 Status: DECIDED
+Superseded in part by DEC-012 — see DEC-012 for current autonomy policy. This entry
+is the historical record of the decision taken; its clauses are unchanged.
 
 Question: may agents continue execution autonomously, and merge their own work
 automatically in a narrowly defined lane, without an AI thereby converting a new

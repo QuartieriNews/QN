@@ -164,6 +164,14 @@ check('an empty path is unclassifiable', rules([file({ path: '' })]), ['UNCLASSI
 
 console.log('');
 console.log('Cycle 1: what the head must not be able to tell the gate');
+check('an authority document under a GREEN prefix is protected, not GREEN',
+  rules([file({ path: 'docs/PROJECT_VISION.md' })]), ['PROTECTED_SURFACE']);
+check('the measurement a production prompt cites is protected',
+  rules([file({ path: 'docs/SOURCE_DATA_FINDINGS.md' })]), ['PROTECTED_SURFACE']);
+check('the review folder\'s own rules are protected',
+  rules([file({ path: 'reviews/README.md' })]), ['PROTECTED_SURFACE']);
+check('a historical changelog beside them stays GREEN',
+  lane([file({ path: 'docs/CHANGES_v1.4.md' })]), LANE.GREEN);
 check('CODEOWNERS in docs/ is a control file, not a GREEN docs change',
   rules([file({ path: 'docs/CODEOWNERS', status: 'A' })]), ['CONTROL_FILE']);
 check('CODEOWNERS at the root is a control file',

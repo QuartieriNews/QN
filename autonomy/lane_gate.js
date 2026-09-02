@@ -29,7 +29,12 @@ const PROTECTED_SURFACES = Object.freeze([
   'decisions/',
   'docs/NEXT_SESSION_BRIEF.md',
   'docs/PROJECT_HANDOVER.md',
+  // Reading order items 1 and 3 in docs/START_HERE.md; SOURCE_DATA_FINDINGS is the
+  // measurement prompts/PROMPT_GEO_BLOCK.md cites for a production rule. The changelogs
+  // beside them stay unprotected: START_HERE calls them history, not authority.
+  'docs/PROJECT_VISION.md',
   'docs/REVIEW_QUEUE.md',
+  'docs/SOURCE_DATA_FINDINGS.md',
   'docs/SPEC_V25_WORKPLAN.md',
   'docs/START_HERE.md',
   'docs/WORKFLOW_FIXES.md',
@@ -37,6 +42,8 @@ const PROTECTED_SURFACES = Object.freeze([
   'docs/strategic-council/',
   'gazetteer/',
   'prompts/',
+  // Carries its own rules on what a review report must state, not only a pointer.
+  'reviews/README.md',
   'reviews/REVIEW_MANDATE_CODE.md',
   'tests/',
   'venue-registry/',
