@@ -4,12 +4,21 @@
 object, and a git layer that produces that object. It has no credentials, performs no
 merge, and does not read what any agent claims about the change it is classifying.
 
-    node autonomy/lane_gate.js --base <sha> --head <sha> [--fork] [--escalated]
+    node autonomy/lane_gate.js --base <sha> --head <sha> \
+      --base-repo-id <id> --head-repo-id <id>
 
 Writes the facts as JSON to stdout, and a table to `$GITHUB_STEP_SUMMARY` when set.
 Exit status is 0 whenever the classification succeeded, whatever the lane: the lane is
 advice to the owner, not a verdict on the pull request. A failure to classify is RED
 with `UNCLASSIFIABLE`, not an error code.
+
+The two repository identities decide whether the pull request crosses repositories;
+either one absent is `UNCLASSIFIABLE`, never "not a fork".
+
+The result is **advice to the owner, not a control**: GitHub runs this workflow from the
+pull request's own ref, so a pull request touching `.github/**` can influence its own
+lane report. That is accepted in v1 — such a change is RED and the owner reads and
+merges it (DEC-012).
 
 The rules and their limits are in `docs/autonomy/LANE_POLICY.md`; the decision is
 DEC-012. Tests: `node tests/test_lane_gate.js`.

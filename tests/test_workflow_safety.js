@@ -70,15 +70,17 @@ check('no job widens the file-level permissions',
   jobs.filter((job) => job.permissions !== undefined).length, 0);
 
 console.log('');
-console.log('The lane job is told the two facts it cannot compute from the diff');
+console.log('The lane job is told the facts it cannot compute from the diff');
 {
   const laneJob = (doc && doc.jobs && doc.jobs.lane) || {};
   const classify = (laneJob.steps || []).find((s) => typeof s.run === 'string' && s.run.includes('gate.js'));
   const env = (classify && classify.env) || {};
-  check('fork provenance and escalation are both supplied',
-    ['LANE_FORK', 'LANE_ESCALATED'].filter((k) => !(k in env)), []);
+  check('both repository identities are supplied',
+    ['LANE_HEAD_REPO_ID', 'LANE_BASE_REPO_ID'].filter((k) => !(k in env)), []);
   check('and both are passed to the classifier',
-    ['--fork', '--escalated'].filter((f) => !classify.run.includes(f)), []);
+    ['--head-repo-id', '--base-repo-id'].filter((f) => !classify.run.includes(f)), []);
+  check('no escalation signal is wired in (DEC-012: there is no machine-readable one)',
+    Object.keys(env).filter((k) => /escalat/i.test(k)), []);
 }
 
 console.log('');

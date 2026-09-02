@@ -51,6 +51,9 @@ const CONTROL_FILENAMES = Object.freeze([
   '.gitattributes',
   '.gitignore',
   'agents.md',
+  // GitHub reads CODEOWNERS from the root, `.github/` and `docs/`. Matching the
+  // basename at any depth covers all three and anywhere it may be read next.
+  'codeowners',
   'claude.md',
   'package-lock.json',
   'package.json',
@@ -102,8 +105,12 @@ function factProblems(facts) {
   const problems = [];
   if (!Array.isArray(facts.files)) problems.push('files');
   if (!Array.isArray(facts.baseTopLevel)) problems.push('baseTopLevel');
-  for (const key of ['isFork', 'escalated']) {
-    if (typeof facts[key] !== 'boolean') problems.push(key);
+  // Whether a pull request crosses repositories is a comparison of two identities.
+  // `head.repo.fork` says only whether the head repository is itself a fork, which
+  // would call every internal branch a fork if this repository were ever forked from
+  // another. Either identity absent is unclassifiable, never "not a fork".
+  for (const key of ['headRepoId', 'baseRepoId']) {
+    if (typeof facts[key] !== 'string' || facts[key].length === 0) problems.push(key);
   }
   if (problems.length > 0) return problems;
 
@@ -154,6 +161,14 @@ function underGreenPrefix(path) {
   return GREEN_PREFIXES.some((prefix) => folded.startsWith(fold(prefix)));
 }
 
+/** True only when both identities are known and differ. */
+function crossesRepositories(facts) {
+  const head = facts && facts.headRepoId;
+  const base = facts && facts.baseRepoId;
+  if (typeof head !== 'string' || typeof base !== 'string' || !head || !base) return false;
+  return head !== base;
+}
+
 function isUnusualKind(file) {
   const modes = [file.srcMode, file.dstMode];
   if (modes.some((m) => m === SYMLINK_MODE || m === SUBMODULE_MODE)) return true;
@@ -171,7 +186,7 @@ function pathsOf(file) {
 }
 
 /**
- * @param {{files: Array, baseTopLevel: string[], isFork: boolean, escalated: boolean}} facts
+ * @param {{files: Array, baseTopLevel: string[], headRepoId: string, baseRepoId: string}} facts
  * @returns {{gateVersion, lane, reasons, files, newTopLevel, isFork, summary, autoGreen}}
  */
 function classify(facts) {
@@ -213,8 +228,7 @@ function classify(facts) {
   if (controlHits.length) reasons.push({ rule: 'CONTROL_FILE', paths: unique(controlHits) });
   if (newTopLevel.length) reasons.push({ rule: 'NEW_TOP_LEVEL', paths: newTopLevel });
   if (unusualHits.length) reasons.push({ rule: 'UNUSUAL_FILE_KIND', paths: unique(unusualHits) });
-  if (facts.isFork) reasons.push({ rule: 'FORK', paths: [] });
-  if (facts.escalated) reasons.push({ rule: 'ESCALATED', paths: [] });
+  if (crossesRepositories(facts)) reasons.push({ rule: 'FORK', paths: [] });
 
   if (reasons.length > 0) return result(LANE.RED, reasons, facts, newTopLevel);
 
@@ -261,8 +275,9 @@ function result(lane, reasons, facts, newTopLevel) {
     reasons,
     files,
     newTopLevel,
-    isFork: Boolean(facts && facts.isFork),
-    escalated: Boolean(facts && facts.escalated),
+    isFork: crossesRepositories(facts),
+    headRepoId: (facts && facts.headRepoId) || null,
+    baseRepoId: (facts && facts.baseRepoId) || null,
     summary: {
       files: files.length,
       additions: files.reduce((s, f) => s + (f.additions || 0), 0),
@@ -278,13 +293,12 @@ function unclassifiable(detail, provenance) {
   const facts = {
     files: null,
     baseTopLevel: null,
-    isFork: Boolean(provenance && provenance.isFork),
-    escalated: Boolean(provenance && provenance.escalated),
+    headRepoId: (provenance && provenance.headRepoId) || null,
+    baseRepoId: (provenance && provenance.baseRepoId) || null,
   };
   const res = classify(facts);
   const reasons = [{ rule: 'UNCLASSIFIABLE', paths: [], detail }];
-  if (facts.isFork) reasons.push({ rule: 'FORK', paths: [] });
-  if (facts.escalated) reasons.push({ rule: 'ESCALATED', paths: [] });
+  if (crossesRepositories(facts)) reasons.push({ rule: 'FORK', paths: [] });
   res.reasons = reasons;
   return res;
 }
@@ -392,8 +406,8 @@ function readGitFacts(base, head, options) {
     // `-z`, because without it git C-quotes an unusual name and the inventory holds the
     // quoted text rather than the name it stands for (cycle 2).
     baseTopLevel: git(['ls-tree', '-z', '--name-only', base]).split('\0').filter(Boolean),
-    isFork: Boolean(opts.isFork),
-    escalated: Boolean(opts.escalated),
+    headRepoId: opts.headRepoId,
+    baseRepoId: opts.baseRepoId,
   };
 }
 
@@ -450,14 +464,16 @@ function main(argv) {
   const base = args.get('base');
   const head = args.get('head');
   if (!base || !head) {
-    process.stderr.write('usage: lane_gate.js --base <sha> --head <sha> [--fork] [--escalated]\n');
+    process.stderr.write(
+      'usage: lane_gate.js --base <sha> --head <sha> '
+      + '--base-repo-id <id> --head-repo-id <id>\n');
     return 2;
   }
   // Reading the facts can fail on a shape git produces and this file does not expect.
   // The policy says that is RED with a reason, not an exception and no result at all.
   const provenance = {
-    isFork: args.get('fork') === 'true',
-    escalated: args.get('escalated') === 'true',
+    headRepoId: args.get('head-repo-id'),
+    baseRepoId: args.get('base-repo-id'),
   };
   let res;
   try {
@@ -474,6 +490,7 @@ function main(argv) {
 
 module.exports = {
   classify,
+  crossesRepositories,
   displayPath,
   factProblems,
   unclassifiable,

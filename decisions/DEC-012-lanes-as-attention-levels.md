@@ -40,13 +40,29 @@ reads the diff and the review threads before merging.
 
 **RED — conscious decision.** At least one of: a protected surface is touched; a new
 top-level path appears; a file of unusual kind (symlink, submodule, mode change);
-the pull request comes from a fork; the builder or the reviewer escalated it. RED says
+the pull request comes from another repository. RED says
 the change alters what the system is, not only what it does. The owner reads it in
 full, may request a fresh-context senior assessment before deciding, and records any
 new decision in `decisions/` before the merge or with it.
 
 **Uncertainty escalates, never relaxes.** A gate that cannot compute a lane reports RED
-with the reason. The GREEN prefix list and the protected-surface list live in
+with the reason.
+
+**The gate is an advisor, not a control.** Its result is not a security boundary against
+a hostile builder, and no lane authorises a merge. GitHub runs a `pull_request` workflow
+from the pull request's own ref, so a pull request that changes the workflow can
+influence the run that reports its own lane; taking the classifier from the base commit
+narrows this and does not close it. **That limitation is accepted for this phase rather
+than closed with a trusted external workflow or other enforcement machinery**, because
+every change to `.github/**` is RED, reaches the owner, is read, and is merged by the
+owner — who is the person the report is for. A report an author could tamper with is
+still useful to a reader looking at the diff; it is not a gate, and nothing in this
+repository may claim it is one.
+
+**There is no machine-readable escalation.** Any agent may ask for more owner attention
+in a review or a comment, and the owner may treat any pull request as RED. The
+classifier does not try to represent that, so it holds no rule it cannot compute from
+the diff. The GREEN prefix list and the protected-surface list live in
 `autonomy/lane_gate.js`; changing either is RED.
 
 ## AUTO-GREEN — provided for, and disabled
@@ -135,7 +151,19 @@ Not a defect of the review loop: 83 valid findings on 3,126 lines is the loop wo
 The defect was continuing to grow the artefact instead of stopping to ask whether it
 was the right artefact.
 
-Decided by: Owner · Date: 1 September 2026 · Affected: `decisions/`, `docs/autonomy/`,
+## Amended after the review-cycle cap
+
+The four-cycle cap was reached on the pull request implementing this entry, and the
+owner intervened, which is what the cap is for. The three clauses above about the gate
+being an advisor, the accepted workflow limitation and the absence of machine-readable
+escalation are that intervention: an owner decision taken after the cap, not a
+continuation of the builder's own loop.
+
+The claim that the builder does not have "the ability to change the workflow that
+classifies it" is withdrawn from `docs/autonomy/IDENTITY_AND_PERMISSIONS.md`. It was not
+true, and the owner decided not to build the infrastructure that would make it true.
+
+Decided by: Owner · Date: 1-2 September 2026 · Affected: `decisions/`, `docs/autonomy/`,
 `autonomy/lane_gate.js`, `.github/`, `tests/`, `AGENTS.md`, Issue #7 (whose acceptance
 criteria are auto-merge criteria and which this entry supersedes), pull request #8
 (closed unmerged, branch retained).

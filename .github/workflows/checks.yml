@@ -1,6 +1,11 @@
 # The repository's executable checks, and the lane advisor that reports how much
 # owner attention a pull request needs (DEC-012).
 #
+# The lane result is ADVICE, not a control. GitHub runs this file from the pull
+# request's own ref, so a pull request that edits it can influence its own lane report.
+# That is accepted in v1: every change to `.github/**` is RED, the owner reads it, and
+# the owner performs every merge. Nothing here authorises anything.
+#
 # Unprivileged by construction: a read-only token, no secrets, no `pull_request_target`,
 # and no expression interpolated into a shell script. Asserted, not assumed, by
 # tests/test_workflow_safety.js.
@@ -82,12 +87,11 @@ jobs:
           LANE_BASE: ${{ github.event.pull_request.base.sha }}
           LANE_BASE_REF: ${{ github.event.pull_request.base.ref }}
           LANE_HEAD: ${{ github.event.pull_request.head.sha }}
-          LANE_FORK: ${{ github.event.pull_request.head.repo.fork }}
-          # Escalation is a label on the pull request, applied by the builder or the
-          # reviewer. Only someone with write access can apply one, and escalation only
-          # ever raises a lane, so the worst a wrong label can do is ask for more owner
-          # attention than the diff needs (LANE_POLICY, "Uncertainty escalates").
-          LANE_ESCALATED: ${{ contains(github.event.pull_request.labels.*.name, 'escalated') }}
+          # Whether the pull request crosses repositories is a comparison of two
+          # immutable identities, not a property of one of them. Either absent is
+          # unclassifiable to the gate, never "not a fork".
+          LANE_HEAD_REPO_ID: ${{ github.event.pull_request.head.repo.id }}
+          LANE_BASE_REPO_ID: ${{ github.event.pull_request.base.repo.id }}
         run: |
           set -eu
           git fetch --no-tags --quiet origin "$LANE_BASE_REF"
@@ -105,7 +109,6 @@ jobs:
             echo "present and has no autonomy/lane_gate.js — the bootstrap case, expected"
             echo "only until the pull request that introduces the gate has merged."
           fi
-          FLAGS=""
-          if [ "$LANE_FORK" = "true" ]; then FLAGS="$FLAGS --fork"; fi
-          if [ "$LANE_ESCALATED" = "true" ]; then FLAGS="$FLAGS --escalated"; fi
-          node "$RUNNER_TEMP/gate.js" --base "$LANE_BASE" --head "$LANE_HEAD" $FLAGS
+          node "$RUNNER_TEMP/gate.js" \
+            --base "$LANE_BASE" --head "$LANE_HEAD" \
+            --base-repo-id "$LANE_BASE_REPO_ID" --head-repo-id "$LANE_HEAD_REPO_ID"

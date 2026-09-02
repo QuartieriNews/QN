@@ -51,8 +51,8 @@ function facts(files, overrides) {
   return Object.assign({
     files,
     baseTopLevel: ['docs', 'reviews', 'decisions', 'autonomy', 'tests', 'AGENTS.md', 'README.md'],
-    isFork: false,
-    escalated: false,
+    headRepoId: '1',
+    baseRepoId: '1',
   }, overrides);
 }
 
@@ -118,12 +118,20 @@ check('deleting an ordinary file is not an unusual kind',
   ['STATUS_NOT_ADD_OR_MODIFY']);
 
 console.log('');
-console.log('Fork and escalation');
-check('a fork is RED', rules([file({})], { isFork: true }), ['FORK']);
-check('an escalation is RED', rules([file({})], { escalated: true }), ['ESCALATED']);
-check('escalation is reported alongside the rules that fired',
-  rules([file({ path: 'decisions/DEC-013-x.md' })], { escalated: true }),
-  ['PROTECTED_SURFACE', 'ESCALATED']);
+console.log('A fork is two repository identities that differ, not one that is a fork');
+check('different repository identities are RED',
+  rules([file({})], { headRepoId: '2' }), ['FORK']);
+check('the same identity is not a fork', lane([file({})], { headRepoId: '1' }), LANE.GREEN);
+check('a missing head identity is UNCLASSIFIABLE, not "not a fork"',
+  rules([file({})], { headRepoId: undefined }), ['UNCLASSIFIABLE']);
+check('an empty base identity is UNCLASSIFIABLE',
+  rules([file({})], { baseRepoId: '' }), ['UNCLASSIFIABLE']);
+check('the reason names which identity was unstated',
+  classify(facts([file({})], { baseRepoId: undefined })).reasons[0].detail.includes('baseRepoId'),
+  true);
+check('FORK is reported alongside the other rules that fired',
+  rules([file({ path: 'decisions/DEC-013-x.md' })], { headRepoId: '2' }),
+  ['PROTECTED_SURFACE', 'FORK']);
 
 console.log('');
 console.log('GREEN is a conjunction, and every failure is named');
@@ -156,6 +164,12 @@ check('an empty path is unclassifiable', rules([file({ path: '' })]), ['UNCLASSI
 
 console.log('');
 console.log('Cycle 1: what the head must not be able to tell the gate');
+check('CODEOWNERS in docs/ is a control file, not a GREEN docs change',
+  rules([file({ path: 'docs/CODEOWNERS', status: 'A' })]), ['CONTROL_FILE']);
+check('CODEOWNERS at the root is a control file',
+  rules([file({ path: 'CODEOWNERS', status: 'A' })]), ['CONTROL_FILE', 'NEW_TOP_LEVEL']);
+check('CODEOWNERS under .github/ is caught by the surface and the filename',
+  lane([file({ path: '.github/CODEOWNERS', status: 'A' })]), LANE.RED);
 check('a .gitattributes is a control file wherever it appears',
   rules([file({ path: 'docs/.gitattributes', status: 'A' })]), ['CONTROL_FILE']);
 check('the attack that reached GREEN now reaches RED',
@@ -172,11 +186,8 @@ check('the attack that reached GREEN now reaches RED',
   }
   const mistyped = file({ additions: '3' });
   check('a count that is a string is UNCLASSIFIABLE', rules([mistyped]), ['UNCLASSIFIABLE']);
-  check('an omitted isFork is UNCLASSIFIABLE, not false',
-    classify({ files: [file({})], baseTopLevel: ['docs'], escalated: false }).reasons
-      .map((r) => r.rule), ['UNCLASSIFIABLE']);
-  check('an omitted escalated is UNCLASSIFIABLE, not false',
-    classify({ files: [file({})], baseTopLevel: ['docs'], isFork: false }).reasons
+  check('an omitted repository identity is UNCLASSIFIABLE, not false',
+    classify({ files: [file({})], baseTopLevel: ['docs'], baseRepoId: '1' }).reasons
       .map((r) => r.rule), ['UNCLASSIFIABLE']);
   check('the reason names which fact was unstated',
     classify(facts([(() => { const f = file({}); delete f.binary; return f; })()]))
@@ -219,15 +230,19 @@ check('a C record is held to the same rule as an R record',
 console.log('');
 console.log('Cycle 2: a diff that could not be read still reports what was known');
 {
-  const both = gate.unclassifiable('could not read the diff: boom', { isFork: true, escalated: true });
-  check('the lane is RED', both.lane, LANE.RED);
-  check('the rules that fired are kept alongside the failure',
-    both.reasons.map((r) => r.rule), ['UNCLASSIFIABLE', 'FORK', 'ESCALATED']);
-  check('provenance that was stated is not reported as false',
-    [both.isFork, both.escalated], [true, true]);
-  const neither = gate.unclassifiable('boom', { isFork: false, escalated: false });
-  check('and provenance that was not stated is not invented',
-    [neither.reasons.map((r) => r.rule), neither.isFork], [['UNCLASSIFIABLE'], false]);
+  const cross = gate.unclassifiable('could not read the diff: boom',
+    { headRepoId: '2', baseRepoId: '1' });
+  check('the lane is RED', cross.lane, LANE.RED);
+  check('the rule that fired is kept alongside the failure',
+    cross.reasons.map((r) => r.rule), ['UNCLASSIFIABLE', 'FORK']);
+  check('provenance that was stated is carried through',
+    [cross.isFork, cross.headRepoId, cross.baseRepoId], [true, '2', '1']);
+  const same = gate.unclassifiable('boom', { headRepoId: '1', baseRepoId: '1' });
+  check('and a same-repository failure does not claim a fork',
+    [same.reasons.map((r) => r.rule), same.isFork], [['UNCLASSIFIABLE'], false]);
+  const unknown = gate.unclassifiable('boom', {});
+  check('an unknown provenance is not reported as a fork',
+    [unknown.isFork, unknown.headRepoId], [false, null]);
 }
 
 console.log('');
@@ -255,7 +270,8 @@ console.log('The facts contract DEC-012 requires of the output');
     Object.keys(out.files[0]).sort(),
     ['additions', 'binary', 'deletions', 'dstMode', 'path', 'previousPath', 'srcMode', 'status']);
   check('output carries fork provenance and new top-level paths',
-    [out.isFork, Array.isArray(out.newTopLevel)], [false, true]);
+    [out.isFork, out.headRepoId, out.baseRepoId, Array.isArray(out.newTopLevel)],
+    [false, '1', '1', true]);
 }
 
 console.log('');

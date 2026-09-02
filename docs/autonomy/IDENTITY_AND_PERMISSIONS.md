@@ -21,12 +21,20 @@ the owner writing it.
 | Identity | Needs | Must not have |
 |---|---|---|
 | **Owner** | everything, including ruleset bypass as the emergency valve | to be reachable from an unattended session: these credentials must never be in an agent's environment |
-| **Builder** | push to non-default branches; open and update pull requests; read checks | merge to the default branch; ruleset bypass; admin; the ability to change the workflow that classifies it |
+| **Builder** | push to non-default branches; open and update pull requests; read checks | merge to the default branch; ruleset bypass; admin |
 | **Reviewer** | read the repository; post reviews and comments | `contents: write`, which the installed app holds and which reviewing does not need |
 
 GitHub offers no path-scoped write, so the builder can always *propose* a change to a
 protected file on its own branch. That is fine. The enforceable controls are that it
 cannot merge it and cannot bypass the rules.
+
+**The builder can change the workflow that classifies it, and in v1 that is accepted.**
+GitHub runs a `pull_request` workflow from the pull request's own ref, so a pull request
+touching `.github/**` influences the run that reports its own lane. This file previously
+claimed the opposite; the claim was false and is withdrawn. The owner decided not to
+build a trusted external workflow to make it true (DEC-012). What stands in its place is
+not machinery: a change to `.github/**` is RED, the owner reads it, and the owner merges
+it. **The lane result is advice to the owner, never a boundary against the builder.**
 
 ## The changes, in order
 

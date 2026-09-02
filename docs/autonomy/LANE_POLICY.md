@@ -34,20 +34,13 @@ and nothing is asserted by an agent.
 | `CONTROL_FILE` | a basename at any depth is a control file |
 | `NEW_TOP_LEVEL` | a path's first segment is not in the base tree |
 | `UNUSUAL_FILE_KIND` | a symlink, a submodule, or a change of file mode |
-| `FORK` | the pull request comes from a fork (DEC-011 §2) |
-| `ESCALATED` | the pull request carries the `escalated` label |
+| `FORK` | the head and base repository identities differ (DEC-011 §2) |
 | `UNCLASSIFIABLE` | a fact is missing, or a path is not a shape git produces |
 
 **GREEN** if nothing above fired and every one of these holds: every path is under a
 GREEN prefix; every status is `A` or `M`; no file is binary; at most `maxFiles` files;
 at most `maxLines` lines added and deleted together. **AMBER** otherwise, naming which
 of those conditions failed.
-
-Escalation is signalled by applying the **`escalated` label** to the pull request. The
-builder or the reviewer applies it; CI reads it and tells the gate, which reads nothing
-from GitHub itself. Only someone with write access can label a pull request, and
-escalation only ever raises a lane, so a wrong label costs owner attention and never
-saves any.
 
 Protected-surface and control-file matching is case-folded, so `Docs/Autonomy/` is
 protected. Top-level novelty is case-**sensitive**, so `Docs/` beside an existing `docs/`
@@ -61,6 +54,28 @@ caps — live in `autonomy/lane_gate.js`, in one place, and changing any of them
 An absent fact is a collector that did not run, not one that found nothing. Facts that
 are missing or of the wrong type produce RED with `UNCLASSIFIABLE`, never a lower lane.
 Any agent may escalate a lane; none may lower one.
+
+## The lane result is advice, not a control
+
+**The gate is an advisor for the owner. Its result is not a security boundary against a
+hostile builder, and no lane authorises a merge.** The owner performs every merge.
+
+GitHub runs a `pull_request` workflow from the pull request's own ref. **A pull request
+that changes `.github/workflows/checks.yml` can therefore influence the run that reports
+its own lane** — it can alter the step, its arguments or its output. Taking the
+classifier from the base commit narrows this but does not close it, because the
+invocation around the classifier still comes from the pull request.
+
+This limitation is **accepted in v1**, by owner decision, rather than closed with a
+trusted external workflow or other enforcement machinery. What makes it acceptable is
+that every change to `.github/**` is RED, so it reaches the owner's attention, is read,
+and is merged by the owner — the same person the report is for. A report that could be
+tampered with by the author is still useful to a reader who is looking at the diff
+anyway; it is not useful as a gate, and this policy does not claim it is one.
+
+There is likewise no machine-readable escalation. Any agent — builder, reviewer or the
+owner — can ask for more attention in a review or a comment, and the owner can treat any
+pull request as RED. The classifier does not try to represent that.
 
 ## What this does not establish
 
