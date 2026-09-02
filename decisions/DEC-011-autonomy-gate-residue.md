@@ -1,6 +1,8 @@
 # DEC-011 — Three questions the autonomy-gate review could not settle
 
 Status: DECIDED
+Superseded in part by DEC-012 — see DEC-012 for current autonomy policy. This entry
+is the historical record of the decision taken; its clauses are unchanged.
 Blocks: nothing now — the three answers below are implemented in the same change that
 records them.
 

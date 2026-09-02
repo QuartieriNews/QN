@@ -40,7 +40,25 @@ and nothing is asserted by an agent.
 **GREEN** if nothing above fired and every one of these holds: every path is under a
 GREEN prefix; every status is `A` or `M`; no file is binary; at most `maxFiles` files;
 at most `maxLines` lines added and deleted together. **AMBER** otherwise, naming which
-of those conditions failed.
+of those conditions failed with one of these:
+
+| Reason | Fires when |
+|---|---|
+| `OUTSIDE_GREEN_PREFIXES` | a path is not under a GREEN prefix |
+| `STATUS_NOT_ADD_OR_MODIFY` | a file is renamed, copied or deleted |
+| `BINARY` | git reports a file as binary |
+| `TOO_MANY_FILES` | more files changed than the cap allows |
+| `TOO_MANY_LINES` | more lines added and deleted together than the cap allows |
+
+These name why a change is AMBER rather than GREEN; they never make it RED. As with the
+RED rules, the conditions themselves are in `autonomy/lane_gate.js`, which is canonical —
+this table says what each token means, not what the thresholds are.
+
+The GREEN prefixes are `GREEN_PREFIXES` in `autonomy/lane_gate.js`; the owner-approved v1
+baseline is recorded in DEC-012. Neither is repeated here. What matters where the rules are
+applied is the precedence: **the prefixes are read *after* the RED rules**, so a protected
+surface or a control file inside a GREEN prefix is RED regardless. Widening the list is RED
+and needs a new decision.
 
 **A fork is not merely RED: it is refused.** DEC-011 §2 stands — while this repository
 has no external contributors, a pull request from another repository is not merged at
