@@ -25,16 +25,18 @@ The history holds one exception to the builder row, and it is the test recorded 
 the builder account `QN-Builder` opened pull request #12 and commented on it under its
 own identity. It no longer has write access.
 
-**"The owner merges" is a process rule, not a control.** The builder holds the owner's
-credentials and is technically able to merge; what stops it is that it is not authorised
-to, and nothing else. A separated builder identity was built and tested and then
-withdrawn, so this is the state by decision (DEC-013), not by omission.
+**"The owner merges" is a process rule, not a control.** Once all enforced repository
+requirements are satisfied, GitHub cannot distinguish the builder from the owner, because
+both act through the same GitHub account; at that point the owner-executed merge rule is a
+process rule, not an identity-based platform control. The builder is not authorised to
+merge, and that is what the rule rests on. A separated builder identity was built and
+tested and then withdrawn, so this is the state by decision (DEC-013), not by omission.
 
 **Required approving reviews are 0.** The requirement made owner *approval* a platform
-rule, which it can do only with two identities: GitHub forbids approving one's own pull
-request, and with owner and builder on the same account it blocked every pull request
-opened through that account whichever conceptual role opened it, unless a distinct
-eligible identity approved it (DEC-013).
+rule, which it can do only with two identities. In the tested workflow, pull requests
+opened through the shared account could not satisfy it: the author cannot approve its own
+pull request, and the reviewer workflow did not supply an approving review — Codex is a
+veto and a reviewer, not an authoriser (DEC-013).
 
 ## What GitHub enforces today
 
@@ -118,8 +120,8 @@ untested and is not claimed here.
 
 So restoring the separation buys back the approval gate — an approving review the builder
 cannot supply for itself — and restores the value of the approving-review requirement,
-which has no effect while one account holds both roles. Owner-*executed* merge is a
-separate question: the configuration that was tested did not enforce it, and nothing here
+which the tested workflow could not satisfy from a shared account. Owner-*executed* merge
+is a separate question: the configuration that was tested did not enforce it, and nothing here
 designs one that would.
 
 Two things remain outstanding whenever it is resumed: a builder identity with a review

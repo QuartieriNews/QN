@@ -45,12 +45,13 @@ again when the phase can absorb its cost — not a requirement the current state
 meet.
 
 **The owner performs every merge. This is a process rule and not a guarantee — it never
-was one.** One account holds owner permissions and the agent operates through it, so
-GitHub cannot tell them apart and cannot withhold a merge from the agent. What prevents
-an agent merge is that the agent is not authorised to merge, and nothing else. Under the
-configuration that was tested the platform withheld an *unapproved* merge and no more, so
-what is lost with it is the approval gate, not an owner-only merge, which that
-configuration did not enforce.
+was one.** Once all enforced repository requirements are satisfied, GitHub cannot
+distinguish the builder from the owner, because both act through the same GitHub account;
+at that point the owner-executed merge rule is a process rule, not an identity-based
+platform control. The builder is not authorised to merge, and that is what the rule rests
+on. Under the configuration that was tested the platform withheld an *unapproved* merge,
+so what is lost with the separation is the approval gate, not an owner-only merge, which
+that configuration did not enforce.
 
 That distinction is the whole content of this entry, and the repository states it in one
 form everywhere: **no file may describe owner merge as enforced while the identities are
@@ -76,11 +77,10 @@ same class of error and is not to be repeated in the other direction.
   **Restoring the identity separation is therefore a precondition of any future
   AUTO-GREEN decision**, which DEC-012 already requires to be RED and taken on evidence.
 - The requirement of one approving review, which existed to make owner *approval* a
-  platform rule. With a single account it cannot do that: GitHub forbids approving one's
-  own pull request, and with owner and builder on the same account the rule blocks every
-  pull request opened through that account whichever conceptual role opened it, unless a
-  distinct eligible identity approves it — and while one account holds both roles there
-  is none. Required approving reviews are **0** in the current ruleset.
+  platform rule. In the tested workflow, pull requests opened through the shared account
+  could not satisfy it: the author cannot approve its own pull request, and the reviewer
+  workflow did not supply an approving review — Codex is a veto and a reviewer, not an
+  authoriser. Required approving reviews are **0** in the current ruleset.
 
 ## What is unchanged
 
@@ -131,16 +131,17 @@ DEC-010 listed "merge to the default branch" among what the builder must not hav
 would make owner merge "a platform rule rather than a habit". Neither is what was
 verified. **Owner-executed merge was a process rule under the configuration that was
 tested too**, and this entry claims nothing about configurations that were not tested;
-what the separation demonstrably buys is the approval gate, which one shared account
-cannot have.
+what the separation demonstrably buys is the approval gate, which the tested workflow
+could not supply from a shared account.
 
 **Two costs made it not worth keeping in this phase.** First, the review integration
 authorises per requesting GitHub account: `@codex review` from `QN-Builder` returned a
 prompt to connect an account rather than a review, so the builder could not obtain the
 review its own pull requests require, and the verdict had to be requested from the owner
 identity — which is the separation leaking back. Second, the approval requirement that
-gave the separation its value also blocks the owner's own pull requests, so with one
-account the repository could not merge at all until the requirement was removed.
+gave the separation its value applies to pull requests opened through the shared account
+too, and in the tested workflow none of them could satisfy it until the requirement was
+removed.
 
 **Getting there also cost a pull request to nothing.** #11 carried the same head, the
 same diff and a clean review, and was closed unmerged only because the owner account
