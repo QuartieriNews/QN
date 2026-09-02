@@ -32,14 +32,16 @@ withdrawn, so this is the state by decision (DEC-013), not by omission.
 
 **Required approving reviews are 0.** The requirement made owner *approval* a platform
 rule, which it can do only with two identities: GitHub forbids approving one's own pull
-request, so with a single account it blocked the owner's pull requests instead of the
-builder's (DEC-013).
+request, and with owner and builder on the same account it blocked every pull request
+opened through that account whichever conceptual role opened it, unless a distinct
+eligible identity approved it (DEC-013).
 
 ## What GitHub enforces today
 
-The `main` ruleset is the owner's record, and DEC-013 holds it: what is enforced, and
-what is only a process rule. It is not restated here — no agent reads or writes a
-repository setting, so a second copy of that list could only go stale.
+The `main` ruleset is the owner's record, and DEC-013 holds it: what is enforced and what
+is only a process rule, verified against the live ruleset on 2 September 2026. It is not
+restated here — the configuration is owner-controlled, and a second copy of that list
+could only go stale.
 
 Two properties of it belong in front of any reader of this file:
 
@@ -76,13 +78,14 @@ approving review.
 held write access, and the rule that fired requires an approving review — not an
 owner-executed merge. Once the owner had approved, nothing tested here would have
 stopped the builder from merging. The owner merged #12 as `c15a6b8` because that is the
-process rule, not because GitHub would have refused the builder a second time.
+process rule, not because the configuration under test would have refused the builder a
+second time.
 
 The distinction matters because this file used to promise the opposite: that requiring
 one approving review "makes owner merge a platform rule rather than a habit". It makes
 owner *approval* a platform rule. **Owner-executed merge was not enforced by the
-configuration that was tested**, and no part of that configuration was ever going to
-enforce it. DEC-010 listed "merge to the default branch" among what the builder must not
+configuration that was tested**, and this file claims nothing about configurations that
+were not. DEC-010 listed "merge to the default branch" among what the builder must not
 have; what the test verified is the approval gate, not that clause.
 
 ## Why the separation was withdrawn
@@ -108,15 +111,16 @@ when it is taken up again:
 
 The builder row is an intent, and GitHub expresses only part of it. There is no
 path-scoped write, so a builder can always *propose* a change to a protected file on its
-own branch — that is fine. Nor is there a merge-only permission to withhold: a
-write-access builder that can push its branch can also merge an approved pull request.
-What the platform does enforce is that it cannot merge an **unapproved** one and cannot
-bypass the rules.
+own branch — that is fine. What the configuration under test enforced is that the builder
+could not merge an **unapproved** pull request and could not bypass the rules. It did not
+stop the builder from merging an approved one; whether another configuration would is
+untested and is not claimed here.
 
 So restoring the separation buys back the approval gate — an approving review the builder
 cannot supply for itself — and restores the value of the approving-review requirement,
-which has no effect while one account holds both roles. It does not make owner-*executed*
-merge enforceable, and nothing here proposes machinery to make it so.
+which has no effect while one account holds both roles. Owner-*executed* merge is a
+separate question: the configuration that was tested did not enforce it, and nothing here
+designs one that would.
 
 Two things remain outstanding whenever it is resumed: a builder identity with a review
 account of its own — a GitHub App is preferable to a machine account, for scoped

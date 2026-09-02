@@ -1,4 +1,4 @@
-# DEC-013 — The technical identity separation is suspended; owner merge returns to a process rule
+# DEC-013 — The technical identity separation is suspended; owner merge remains a process rule
 
 Status: DECIDED
 Supersedes in part: DEC-010 and DEC-012 (each unchanged and not reopened; the clauses
@@ -48,8 +48,9 @@ meet.
 was one.** One account holds owner permissions and the agent operates through it, so
 GitHub cannot tell them apart and cannot withhold a merge from the agent. What prevents
 an agent merge is that the agent is not authorised to merge, and nothing else. Under the
-separation the platform withheld an *unapproved* merge and no more, so what is lost with
-it is the approval gate, not an owner-only merge that was never enforced.
+configuration that was tested the platform withheld an *unapproved* merge and no more, so
+what is lost with it is the approval gate, not an owner-only merge, which that
+configuration did not enforce.
 
 That distinction is the whole content of this entry, and the repository states it in one
 form everywhere: **no file may describe owner merge as enforced while the identities are
@@ -100,8 +101,8 @@ Every guardrail that does not depend on two accounts:
 - the owner decides and merges (DEC-104, `AGENTS.md`).
 
 The ruleset state above is the owner's record of the settings as configured on the date
-of this entry. No agent reads or changes a repository setting, and the entry does not
-claim to have verified it.
+of this entry, verified independently against the live ruleset on 2 September 2026. The
+configuration is owner-controlled: no agent changes a repository setting.
 
 ## What the test established, and why it was still withdrawn
 
@@ -123,15 +124,15 @@ own *unapproved* pull request. It does not show that the owner had to perform th
 `QN-Builder` held write access, and the rule that fired requires an approving review, not
 an owner-executed merge — so after the owner approved, nothing tested here would have
 stopped the builder from merging. The owner merged #12 as `c15a6b8` under the process
-rule, not because GitHub would have refused a second attempt.
+rule, not because the configuration under test would have refused a second attempt.
 
 DEC-010 listed "merge to the default branch" among what the builder must not have, and
 `docs/autonomy/IDENTITY_AND_PERMISSIONS.md` claimed the approving-review requirement
 would make owner merge "a platform rule rather than a habit". Neither is what was
-verified, and GitHub has no merge-only permission to withhold from an identity that must
-still push its own branch. **Owner-executed merge was a process rule under the separation
-too**; what the separation buys is the approval gate, which is real and which one shared
-account cannot have.
+verified. **Owner-executed merge was a process rule under the configuration that was
+tested too**, and this entry claims nothing about configurations that were not tested;
+what the separation demonstrably buys is the approval gate, which one shared account
+cannot have.
 
 **Two costs made it not worth keeping in this phase.** First, the review integration
 authorises per requesting GitHub account: `@codex review` from `QN-Builder` returned a
