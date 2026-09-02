@@ -6,29 +6,34 @@ changes a repository setting.
 
 ## The state as it is
 
-One GitHub account, the owner's, operates this repository. The agent acts with the
-owner's credentials, so GitHub cannot tell the owner and the agent apart: every agent
-comment carries `author_association: OWNER`.
+Three identities act on this repository. Which account each one writes under is the fact
+the rest of this file depends on, so it is stated as a table rather than as prose that
+has to quantify over all of them:
 
-Two other identities appear in the history. The builder account `QN-Builder` opened pull
-request #12 and commented on it — the test recorded below — and no longer has write
-access. The reviewer app posts its reviews and comments under its own identity, which is
-why a review finding is distinguishable from an owner comment at all. Every commit and
-merge, and every other pull request and comment, was made under the owner's account.
+| Acts as | Writes under | GitHub sees |
+|---|---|---|
+| **Owner** | the owner's account | `author_association: OWNER` |
+| **Builder** | the owner's account, with the owner's credentials | `author_association: OWNER` — indistinguishable from the owner |
+| **Reviewer** | the reviewer app's own identity | `author_association: NONE` — distinguishable |
 
-**"The owner merges" is a process rule, not a control.** The agent holds the owner's
+The builder row is the one that matters here: it is why an agent cannot produce evidence
+*about* the owner — an authorisation, an approval — because anything it writes is
+recorded as the owner writing it. The reviewer row is why a review finding is
+distinguishable from an owner comment at all, which is the property the builder lacks.
+
+The history holds one exception to the builder row, and it is the test recorded below:
+the builder account `QN-Builder` opened pull request #12 and commented on it under its
+own identity. It no longer has write access.
+
+**"The owner merges" is a process rule, not a control.** The builder holds the owner's
 credentials and is technically able to merge; what stops it is that it is not authorised
 to, and nothing else. A separated builder identity was built and tested and then
 withdrawn, so this is the state by decision (DEC-013), not by omission.
 
-The same shape has a consequence worth stating plainly: an agent cannot produce evidence
-*about* the owner — an authorisation, an approval — because anything it writes is
-recorded as the owner writing it.
-
 **Required approving reviews are 0.** The requirement made owner *approval* a platform
 rule, which it can do only with two identities: GitHub forbids approving one's own pull
 request, so with a single account it blocked the owner's pull requests instead of the
-agent's (DEC-013).
+builder's (DEC-013).
 
 ## What GitHub enforces today
 
