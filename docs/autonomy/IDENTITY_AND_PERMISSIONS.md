@@ -10,10 +10,11 @@ One GitHub account, the owner's, operates this repository. The agent acts with t
 owner's credentials, so GitHub cannot tell the owner and the agent apart: every agent
 comment carries `author_association: OWNER`.
 
-The history has one exception, and it is the test recorded below: the builder account
-`QN-Builder` opened pull request #12 and commented on it, and no longer has write
-access. Every other commit, pull request, comment and merge was made under the owner's
-account.
+Two other identities appear in the history. The builder account `QN-Builder` opened pull
+request #12 and commented on it — the test recorded below — and no longer has write
+access. The reviewer app posts its reviews and comments under its own identity, which is
+why a review finding is distinguishable from an owner comment at all. Every commit and
+merge, and every other pull request and comment, was made under the owner's account.
 
 **"The owner merges" is a process rule, not a control.** The agent holds the owner's
 credentials and is technically able to merge; what stops it is that it is not authorised
