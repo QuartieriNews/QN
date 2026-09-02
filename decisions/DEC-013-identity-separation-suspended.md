@@ -76,8 +76,10 @@ same class of error and is not to be repeated in the other direction.
   AUTO-GREEN decision**, which DEC-012 already requires to be RED and taken on evidence.
 - The requirement of one approving review, which existed to make owner *approval* a
   platform rule. With a single account it cannot do that: GitHub forbids approving one's
-  own pull request, so the requirement blocked the owner's own pull requests instead of
-  the agent's. Required approving reviews are **0** in the current ruleset.
+  own pull request, and with owner and builder on the same account the rule blocks every
+  pull request opened through that account whichever conceptual role opened it, unless a
+  distinct eligible identity approves it — and while one account holds both roles there
+  is none. Required approving reviews are **0** in the current ruleset.
 
 ## What is unchanged
 
@@ -92,7 +94,8 @@ Every guardrail that does not depend on two accounts:
 - the ruleset bypass list is empty;
 - RED / AMBER / GREEN remain levels of owner attention (DEC-012);
 - four review cycles without convergence stops the work (DEC-012);
-- the reviewer is a veto and never an author (DEC-010 part 2);
+- the reviewer is a veto, not an authoriser (DEC-010 part 2);
+- the reviewer never authors a change (`AGENTS.md`, DEC-104);
 - AUTO-GREEN has no authorised categories and nothing can auto-merge (DEC-012);
 - the owner decides and merges (DEC-104, `AGENTS.md`).
 

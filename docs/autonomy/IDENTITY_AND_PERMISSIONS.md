@@ -16,9 +16,9 @@ has to quantify over all of them:
 | **Builder** | the owner's account, with the owner's credentials | `author_association: OWNER` — indistinguishable from the owner |
 | **Reviewer** | the reviewer app's own identity | `author_association: NONE` — distinguishable |
 
-The builder row is the one that matters here: it is why an agent cannot produce evidence
-*about* the owner — an authorisation, an approval — because anything it writes is
-recorded as the owner writing it. The reviewer row is why a review finding is
+The builder row is the one that matters here: it is why the builder cannot produce
+evidence *about* the owner — an authorisation, an approval — because anything the builder
+writes is recorded as the owner writing it. The reviewer row is why a review finding is
 distinguishable from an owner comment at all, which is the property the builder lacks.
 
 The history holds one exception to the builder row, and it is the test recorded below:
