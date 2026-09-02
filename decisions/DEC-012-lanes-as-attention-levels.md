@@ -3,6 +3,8 @@
 Status: DECIDED
 Supersedes in part: DEC-009, DEC-010, DEC-011 (each unchanged and not reopened; the
 clauses this entry replaces are listed below).
+Identity separation suspended in part by DEC-013 — see DEC-013 for the current
+identity state. Everything else in this entry stands.
 
 Question: DEC-009 set out to let an agent merge its own work unattended in a narrow
 GREEN lane, and DEC-010 and DEC-011 answered the questions that implementing it
