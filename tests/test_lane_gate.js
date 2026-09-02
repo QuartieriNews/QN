@@ -246,6 +246,42 @@ console.log('Cycle 2: a diff that could not be read still reports what was known
 }
 
 console.log('');
+console.log('Verification phase: a bad record must not break the result that reports it');
+check('a null file record is UNCLASSIFIABLE, not an exception', (() => {
+  try { return rules([null]); } catch (e) { return `threw: ${e.constructor.name}`; }
+})(), ['UNCLASSIFIABLE']);
+check('an undefined file record is UNCLASSIFIABLE, not an exception', (() => {
+  try { return rules([undefined]); } catch (e) { return `threw: ${e.constructor.name}`; }
+})(), ['UNCLASSIFIABLE']);
+check('a record that is not an object at all is UNCLASSIFIABLE',
+  rules(['docs/x.md']), ['UNCLASSIFIABLE']);
+{
+  const res = classify(facts([null, file({})]));
+  check('the summary counts what was supplied and dereferences only what it can',
+    res.summary, { files: 2, additions: 1, deletions: 0 });
+  check('the malformed record is reported as supplied, not hidden', res.files[0], null);
+}
+
+console.log('');
+console.log('Verification phase: a flag that takes a value has no truthy default');
+{
+  const parse = (argv) => Object.fromEntries(gate.parseArgs(argv));
+  check('an empty value stays empty, and does not become "true"',
+    parse(['--base-repo-id', '', '--head-repo-id', '']),
+    { 'base-repo-id': '', 'head-repo-id': '' });
+  check('a flag followed by another flag has no value',
+    parse(['--base-repo-id', '--head-repo-id', '7']),
+    { 'base-repo-id': null, 'head-repo-id': '7' });
+  check('a trailing flag has no value', parse(['--head-repo-id']), { 'head-repo-id': null });
+  check('an ordinary value is unchanged',
+    parse(['--base', 'abc', '--head', 'def']), { base: 'abc', head: 'def' });
+  check('an empty identity is UNCLASSIFIABLE once classified',
+    rules([file({})], { headRepoId: '', baseRepoId: '' }), ['UNCLASSIFIABLE']);
+  check('a null identity is UNCLASSIFIABLE once classified',
+    rules([file({})], { headRepoId: null }), ['UNCLASSIFIABLE']);
+}
+
+console.log('');
 console.log('No lane authorises a merge, and AUTO-GREEN has no categories');
 {
   const green = classify(facts([file({})]));

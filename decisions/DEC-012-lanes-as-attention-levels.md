@@ -15,6 +15,42 @@ without the owner, and the finding rate tracked the surface rewritten in the pre
 cycle rather than any residual defect density. The question this entry answers is
 whether unattended merge is the right goal for this phase at all.
 
+Options:
+A. Continue the implementation as designed, closing findings cycle by cycle until a
+   clean review is reached.
+B. Keep unattended merge as the goal but split the work and rebuild the gate smaller,
+   so each pull request is reviewable on its own.
+C. **CHOSEN.** Withdraw unattended merge as a goal of this phase. The owner merges every
+   pull request, and the lanes become levels of owner attention rather than of autonomy.
+
+Claude recommendation: B, formed before the assessments below and superseded by them.
+The measured evidence — the finding rate tracking the surface rewritten in the previous
+cycle rather than any residual defect density — argued against A, but the recommendation
+still assumed unattended merge was worth building towards.
+
+ChatGPT recommendation: not sought at this stage. The Strategic Council was convened on
+the original specification (recorded in DEC-010); this entry answers what the
+implementation then demonstrated, which is a technical question rather than a strategic
+one.
+
+Senior assessment: two architectural reviews in fresh context, each without sight of the
+other's conclusions or of the builder's, reached the same reading independently — that
+most of the implementation existed to make a machine safe to merge without the owner,
+and that the generative mechanism was the builder writing the specification, the code
+and the tests. Convergence between two independent readings is evidence, not authority;
+the owner decided.
+
+Impact: `autonomy/lane_gate.js` reads git rather than an asserted snapshot and emits
+facts rather than a bare lane; `docs/autonomy/LANE_POLICY.md` and
+`IDENTITY_AND_PERMISSIONS.md` state that the result is advice and not a boundary;
+`docs/autonomy/FINAL_AUDIT.md` is not created; `.github/workflows/checks.yml` is the
+repository's first CI; `AGENTS.md` gains the classification-review duty. Issue #7 is
+superseded. No pipeline, gazetteer, prompt or n8n behaviour changes, and no repository
+setting is changed by the pull request that implements this.
+
+Blocks: nothing. It unblocks the v1 implementation, which could not proceed while the
+question of whether unattended merge was the goal remained open.
+
 ## Rule
 
 **Auto-merge is not a goal of this phase. The owner performs every merge.**

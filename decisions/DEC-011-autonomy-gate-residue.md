@@ -4,6 +4,26 @@ Status: DECIDED
 Blocks: nothing now — the three answers below are implemented in the same change that
 records them.
 
+Question: five Codex review cycles on the autonomy gate left three points open that are
+choices rather than mistakes — how the workflow check should read YAML, what to do about
+fork pull requests, and how an exception to the review-cycle cap is granted and
+evidenced. Each is answered in its own numbered section below.
+
+Options: three per question, lettered A/B/C in the sections below, with the chosen one
+marked **CHOSEN** and the owner's reason recorded beside it.
+
+Claude recommendation: B, C and A respectively — the options the owner then chose. Each
+recommendation and the evidence for it is in the section that raises the question; none
+is restated here.
+
+ChatGPT recommendation: not sought. These are implementation residue rather than
+strategic questions, so the Strategic Council was not convened (DEC-008 tiers).
+
+Impact: `tests/test_workflow_safety.js` gains a YAML parser dependency; `package.json`
+and `package-lock.json` are created and are protected surfaces; the lane policy states
+the fork refusal; the review-cycle cap keeps its number and gains a stated mechanism for
+exceptions. No pipeline, gazetteer, prompt or n8n behaviour changes.
+
 Raised after five Codex review cycles on pull request #8 — one more than `AGENTS.md`
 allows, granted by the owner for this change specifically. Fifty-nine findings across
 the five cycles, every one verified against the repository and accepted; none rebutted.

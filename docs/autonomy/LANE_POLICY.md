@@ -42,6 +42,13 @@ GREEN prefix; every status is `A` or `M`; no file is binary; at most `maxFiles` 
 at most `maxLines` lines added and deleted together. **AMBER** otherwise, naming which
 of those conditions failed.
 
+**A fork is not merely RED: it is refused.** DEC-011 §2 stands — while this repository
+has no external contributors, a pull request from another repository is not merged at
+all, and RED is what the gate reports rather than what the owner may then do. This is a
+policy refusal, not a limit of the tooling. **Reconsideration trigger: external
+contributors becoming real**, at which point DEC-011 §2 reopens and the unprivileged CI
+path is built then.
+
 Protected-surface and control-file matching is case-folded, so `Docs/Autonomy/` is
 protected. Top-level novelty is case-**sensitive**, so `Docs/` beside an existing `docs/`
 is a new path and therefore RED.

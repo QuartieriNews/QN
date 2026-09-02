@@ -269,6 +269,9 @@ function unique(list) {
 
 function result(lane, reasons, facts, newTopLevel) {
   const files = Array.isArray(facts && facts.files) ? facts.files : [];
+  // The record that failed validation is reported as it was supplied, but it must not
+  // be dereferenced to build the very result that reports it unusable (cycle 1).
+  const counted = files.filter((f) => f && typeof f === 'object');
   return {
     gateVersion: GATE_VERSION,
     lane,
@@ -280,8 +283,8 @@ function result(lane, reasons, facts, newTopLevel) {
     baseRepoId: (facts && facts.baseRepoId) || null,
     summary: {
       files: files.length,
-      additions: files.reduce((s, f) => s + (f.additions || 0), 0),
-      deletions: files.reduce((s, f) => s + (f.deletions || 0), 0),
+      additions: counted.reduce((s, f) => s + (Number(f.additions) || 0), 0),
+      deletions: counted.reduce((s, f) => s + (Number(f.deletions) || 0), 0),
     },
     // DEC-012: declared so consumers see the capability exists and is off.
     autoGreen: { enabled: AUTO_GREEN_CATEGORIES.length > 0, categories: AUTO_GREEN_CATEGORIES },
@@ -452,15 +455,29 @@ function renderMarkdown(res) {
   return lines.join('\n');
 }
 
-function main(argv) {
+/**
+ * Every flag here takes a value. An empty value is a value — reading it as the string
+ * "true" turned two absent repository identities into two equal ones, and one absent
+ * into a fork. A flag with no value is null, never a truthy string (cycle 1).
+ */
+function parseArgs(argv) {
   const args = new Map();
   for (let i = 0; i < argv.length; i += 1) {
-    if (argv[i].startsWith('--')) {
-      const key = argv[i].slice(2);
-      const next = argv[i + 1];
-      if (next && !next.startsWith('--')) { args.set(key, next); i += 1; } else { args.set(key, 'true'); }
+    if (!argv[i].startsWith('--')) continue;
+    const key = argv[i].slice(2);
+    const next = argv[i + 1];
+    if (next !== undefined && !next.startsWith('--')) {
+      args.set(key, next);
+      i += 1;
+    } else {
+      args.set(key, null);
     }
   }
+  return args;
+}
+
+function main(argv) {
+  const args = parseArgs(argv);
   const base = args.get('base');
   const head = args.get('head');
   if (!base || !head) {
@@ -493,6 +510,7 @@ module.exports = {
   crossesRepositories,
   displayPath,
   factProblems,
+  parseArgs,
   unclassifiable,
   readGitFacts,
   parseRawZ,
