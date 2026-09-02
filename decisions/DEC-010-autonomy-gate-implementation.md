@@ -3,6 +3,8 @@
 Status: DECIDED
 Superseded in part by DEC-012 — see DEC-012 for current autonomy policy. This entry
 is the historical record of the decision taken; its clauses are unchanged.
+Identity separation suspended in part by DEC-013 — see DEC-013 for the current
+identity state.
 Supplements: DEC-009 (unchanged, not reopened). DEC-009 defines the three lanes and
 the merge-gate principle; this entry fixes the questions its implementation raised
 and that the files could not settle between agents.
