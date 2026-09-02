@@ -445,11 +445,19 @@ function renderMarkdown(res) {
   lines.push('', `${res.summary.files} files, +${res.summary.additions} −${res.summary.deletions}`, '');
   lines.push('| Status | Path | Modes | +/− |', '| --- | --- | --- | --- |');
   for (const f of res.files) {
+    // A record the classifier already refused must still render. The JSON keeps it as
+    // supplied; the table says it could not be read rather than throwing (cycle 2).
+    if (!f || typeof f !== 'object') {
+      lines.push('| — | _unreadable record_ | — | — |');
+      continue;
+    }
+    const cell = (value) => (typeof value === 'string' && value ? displayPath(value) : '—');
     const name = f.previousPath
-      ? `${displayPath(f.previousPath)} → ${displayPath(f.path)}`
-      : displayPath(f.path);
-    const counts = f.binary ? 'binary' : `+${f.additions} −${f.deletions}`;
-    lines.push(`| ${f.status} | \`${name}\` | ${f.srcMode}→${f.dstMode} | ${counts} |`);
+      ? `${cell(f.previousPath)} → ${cell(f.path)}`
+      : cell(f.path);
+    const counts = f.binary ? 'binary'
+      : `+${Number(f.additions) || 0} −${Number(f.deletions) || 0}`;
+    lines.push(`| ${cell(f.status)} | \`${name}\` | ${cell(f.srcMode)}→${cell(f.dstMode)} | ${counts} |`);
   }
   lines.push('', 'The owner merges every pull request; the lane is advice, not authority (DEC-012).');
   return lines.join('\n');

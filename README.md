@@ -66,7 +66,7 @@ The Node suites run from the repository root. Install once, for the YAML parser 
 npm ci
 node tests/test_parse_duration.js                            # 58 checks, must print ALL PASS
 node tests/test_council.js                                   # 273 checks, must print ALL PASS
-node tests/test_lane_gate.js                                 # 113 checks, must print ALL PASS
+node tests/test_lane_gate.js                                 # 119 checks, must print ALL PASS
 node tests/test_workflow_safety.js                           # 13 checks, must print ALL PASS
 ```
 

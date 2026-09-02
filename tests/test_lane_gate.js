@@ -282,6 +282,34 @@ console.log('Verification phase: a flag that takes a value has no truthy default
 }
 
 console.log('');
+console.log('Verification cycle 2: the error path must render, not only classify');
+{
+  // classify already refuses these; the summary they produce must also survive being
+  // rendered, because the rendered table is what the owner actually reads.
+  const render = (record) => {
+    const res = classify(facts([record]));
+    try {
+      return [res.lane, gate.renderMarkdown(res).split('\n').filter((l) => l.startsWith('| ')).pop()];
+    } catch (e) {
+      return [res.lane, `threw: ${e.constructor.name}`];
+    }
+  };
+  check('a null record renders as unreadable',
+    render(null), [LANE.RED, '| — | _unreadable record_ | — | — |']);
+  check('an undefined record renders as unreadable',
+    render(undefined), [LANE.RED, '| — | _unreadable record_ | — | — |']);
+  check('a record that is a string renders as unreadable',
+    render('docs/x.md'), [LANE.RED, '| — | _unreadable record_ | — | — |']);
+  check('a record missing its fields renders them as absent, not as "undefined"',
+    render({ status: 'A' }), [LANE.RED, '| A | `—` | —→— | +0 −0 |']);
+  check('a valid record is unchanged by the guard',
+    render(file({ path: 'docs/a.md', additions: 2, deletions: 1 })),
+    [LANE.GREEN, '| M | `docs/a.md` | 100644→100644 | +2 −1 |']);
+  check('the malformed record is still in the JSON as supplied',
+    classify(facts([null])).files[0], null);
+}
+
+console.log('');
 console.log('No lane authorises a merge, and AUTO-GREEN has no categories');
 {
   const green = classify(facts([file({})]));
