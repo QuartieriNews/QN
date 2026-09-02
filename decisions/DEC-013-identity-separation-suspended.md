@@ -7,8 +7,8 @@ this entry suspends are listed below).
 Question: DEC-010 decided that the agents' operating identity is separated from the
 owner's account, and DEC-012 restated that the separation stands. It was then built and
 tested: a builder account `QN-Builder` was created, given write access, and used to open
-a pull request the owner merged. The separation worked. It also turned out to cost more
-per cycle than the phase can spend — the review integration is authorised per requesting
+a pull request the owner merged. It bought a real approval gate — see below for its exact
+bound. It also turned out to cost more per cycle than the phase can spend — the review integration is authorised per requesting
 GitHub account, so the builder could not obtain the code review its own pull requests
 need. The question this entry answers is whether a separate builder account is worth its
 operating cost in this phase.
@@ -18,7 +18,7 @@ A. Keep the separation and pay the cost — connect a review account for `QN-Bui
    the builder can request its own reviews.
 B. **CHOSEN.** Suspend the technical separation for this phase. One account operates the
    repository; the conceptual division of builder, reviewer and owner stands, and the
-   owner still performs every merge — as a process rule, not as a platform control.
+   owner still performs every merge, as the process rule it has always been.
 C. Abandon identity separation as a principle.
 
 Claude recommendation: none sought. The owner took this decision on the operating
@@ -44,10 +44,12 @@ phase, and is not withdrawn as a principle.** It is future hardening, to be take
 again when the phase can absorb its cost — not a requirement the current state fails to
 meet.
 
-**The owner performs every merge. This is now a process rule, not a guarantee.** One
-account holds owner permissions and the agent operates through it, so GitHub cannot tell
-them apart and cannot withhold a merge from the agent. What prevents an agent merge is
-that the agent is not authorised to merge, and nothing else.
+**The owner performs every merge. This is a process rule and not a guarantee — it never
+was one.** One account holds owner permissions and the agent operates through it, so
+GitHub cannot tell them apart and cannot withhold a merge from the agent. What prevents
+an agent merge is that the agent is not authorised to merge, and nothing else. Under the
+separation the platform withheld an *unapproved* merge and no more, so what is lost with
+it is the approval gate, not an owner-only merge that was never enforced.
 
 That distinction is the whole content of this entry, and the repository states it in one
 form everywhere: **no file may describe owner merge as enforced while the identities are
@@ -64,7 +66,15 @@ same class of error and is not to be repeated in the other direction.
   that stand. Everything else DEC-012 decided is untouched — lanes as levels of owner
   attention, the gate as an advisor, the four-cycle cap, the v1 GREEN baseline, and
   AUTO-GREEN provided for and disabled.
-- The requirement of one approving review, which existed only to make owner merge a
+
+  One consequence of that entry needs saying rather than leaving implied. DEC-012
+  promises that an AUTO-GREEN category can be activated later by changing **only the
+  corresponding policy**, without redesigning the identity model. The design is not
+  redesigned here, only its implementation suspended — but a policy alone cannot
+  activate anything while the account that would merge under it is the owner's.
+  **Restoring the identity separation is therefore a precondition of any future
+  AUTO-GREEN decision**, which DEC-012 already requires to be RED and taken on evidence.
+- The requirement of one approving review, which existed to make owner *approval* a
   platform rule. With a single account it cannot do that: GitHub forbids approving one's
   own pull request, so the requirement blocked the owner's own pull requests instead of
   the agent's. Required approving reviews are **0** in the current ruleset.
@@ -95,9 +105,9 @@ claim to have verified it.
 Recorded because the evidence cost two pull requests to obtain and would otherwise be
 lost with their threads.
 
-**The separation works.** `QN-Builder` was created, given write access, and opened
-pull request #12 from the branch of the closed #11. Before any owner approval it
-attempted one merge and GitHub refused it:
+**The approval gate holds against the builder.** `QN-Builder` was created, given write
+access, and opened pull request #12 from the branch of the closed #11. Before any owner
+approval it attempted one merge and GitHub refused it:
 
 ```
 PUT /repos/QuartieriNews/QN/pulls/12/merge → 405
@@ -105,9 +115,20 @@ Repository rule violations found
 At least 1 approving review is required by reviewers with write access.
 ```
 
-That is the verification DEC-010 asked for and
-`docs/autonomy/IDENTITY_AND_PERMISSIONS.md` required — a builder identity attempting one
-merge to the default branch, and failing. The owner then merged #12 as `c15a6b8`.
+**What that shows is bounded, and the bound matters.** The builder could not merge its
+own *unapproved* pull request. It does not show that the owner had to perform the merge:
+`QN-Builder` held write access, and the rule that fired requires an approving review, not
+an owner-executed merge — so after the owner approved, nothing tested here would have
+stopped the builder from merging. The owner merged #12 as `c15a6b8` under the process
+rule, not because GitHub would have refused a second attempt.
+
+DEC-010 listed "merge to the default branch" among what the builder must not have, and
+`docs/autonomy/IDENTITY_AND_PERMISSIONS.md` claimed the approving-review requirement
+would make owner merge "a platform rule rather than a habit". Neither is what was
+verified, and GitHub has no merge-only permission to withhold from an identity that must
+still push its own branch. **Owner-executed merge was a process rule under the separation
+too**; what the separation buys is the approval gate, which is real and which one shared
+account cannot have.
 
 **Two costs made it not worth keeping in this phase.** First, the review integration
 authorises per requesting GitHub account: `@codex review` from `QN-Builder` returned a
