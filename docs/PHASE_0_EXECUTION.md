@@ -2,7 +2,7 @@
 
 | Campo | Valore |
 |---|---|
-| Stato | **Candidato** — versione B-0.4. **Verdetto del Technical Council** (Claude Operator ↔ Codex reviewer, review 3 di 3, l'ultima autorizzata): **AGREEMENT WITH NON-BLOCKING RESIDUALS** sulla versione **B-0.3** (sha256 `73d52cb8…`, commit `6820681`). Questa B-0.4 applica i tre finding della review 3 (P0-S7-01, S5-06/gate 6, colonne del registro §10) e una passata editoriale sulle citazioni DEC: **modifiche non riverificate da Codex** (budget di tre review esaurito), elencate in §10. Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
+| Stato | **Candidato** — versione B-0.5 (B-0.4 più la correzione della sequenza S0-03/S1-02 e la raccomandazione su S4 chieste dall'owner il 14 settembre, non riverificate). **Verdetto del Technical Council** (Claude Operator ↔ Codex reviewer, review 3 di 3, l'ultima autorizzata): **AGREEMENT WITH NON-BLOCKING RESIDUALS** sulla versione **B-0.3** (sha256 `73d52cb8…`, commit `6820681`). Questa B-0.4 applica i tre finding della review 3 (P0-S7-01, S5-06/gate 6, colonne del registro §10) e una passata editoriale sulle citazioni DEC: **modifiche non riverificate da Codex** (budget di tre review esaurito), elencate in §10. Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
 | Baseline di riferimento | `docs/PROJECT_BASELINE.md` — Impianto di progetto v0.6, "Owner-approved baseline (11 settembre 2026)", commit `7873b11` sulla branch `claude/quartieri-news-strategic-review-tzkl78` (non ancora su `main`, §1) |
 | Perimetro | Riga "0 · Misurare e decidere" della baseline §4 e Appendice A; mandato dell'owner del 14 settembre 2026 |
 | Registro delle review | `reviews/2026-09-14—cycle1—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md`, `reviews/2026-09-14—cycle2—phase-0-execution—NO_AGREEMENT.md`, `reviews/2026-09-14—cycle3—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md` (§10) |
@@ -99,9 +99,12 @@ responsabile (esecutore / verificatore) · criterio di completamento · owner.
   parte lo stesso giorno.
 - **Responsabile**: owner (esecuzione); Operator (verifica di evidenze senza segreti).
 - **Criterio di completamento** (gate minimo, review 1 finding 2): voce D1 DECIDED su
-  `main`; le vecchie credenziali non funzionano più; documento Drive rimosso; un run di
-  staging e una chiamata del Council riusciti con le nuove credenziali. Il secret scanning
-  del repository (P0-S0-05) è una verifica raccomandata, fuori dal gate.
+  `main`; le vecchie credenziali non funzionano più; documento Drive rimosso; verifica
+  funzionale **in sola lettura** sull'istanza n8n già disponibile e una chiamata del Council
+  riuscite con le nuove credenziali (P0-S0-03). Il primo run in staging non è qui: è
+  P0-S1-04.1, dopo la predisposizione dello staging (P0-S1-02), che dipende da S0-03 —
+  così la catena S0-03 → S1-02 → S1-04.1 non è circolare e nessun controllo è indebolito.
+  Il secret scanning del repository (P0-S0-05) è una verifica raccomandata, fuori dal gate.
 - **Owner**: azione (rotazione) e decisione D1 (sede di custodia).
 
 ### S1 — M1: misura degli eventi per pagina su quattro settimane non agostane (A1)
@@ -185,6 +188,16 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
   spec consolidata (repository come sorgente e Drive come copia pubblicata, oppure solo
   Drive come README oggi prevede per i documenti normativi): la baseline prevede una PR,
   che presuppone un sorgente nel repository.
+- **Raccomandazione dell'Operator** (nota di chiusura del 14 settembre, non riverificata da
+  Codex): lettura A, con il sorgente della spec nel repository come Markdown in `docs/spec/`
+  (versione 2.6) e la docx esportata su Drive `10 Specifications` come copia pubblicata mai
+  editata a mano; sede del sorgente registrata con una DEC breve e riga "source of truth"
+  di README aggiornata nella stessa PR. Motivi: Codex recensisce nativamente solo le PR
+  (DEC-007 (dove si archivia una code review)), quindi un consolidamento con review esiste
+  solo se il testo è nel repository; il registro delle decisioni (DEC-104 (loop di sviluppo
+  AI: repository pubblico, campioni fuori, decisioni dentro)) e la baseline stessa sono già
+  nel repository per la stessa ragione; il delta delle DEC-014…021 (le otto decisioni
+  dell'11 settembre 2026) diventa un diff leggibile. La decisione resta dell'owner.
 - **Lettura B — solo su indicazione esplicita e tracciata dell'owner**: sign-off della v2.5
   così com'è (DEC-005 (modalità di migrazione allo schema 2.0) decisa) più un delta documentato "DEC → sezione → modifica richiesta →
   prima di quale PR del refactor", applicato dalla prima PR del refactor in Fase 1.
@@ -299,7 +312,7 @@ repository pubblico.
 |---|---|---|---|---|---|---|---|---|---|
 | P0-S0-01 | Inventario delle credenziali esposte: nome, servizio, sedi d'uso (n8n, ambiente dell'Operator, PC, altro); mai i valori | owner | Operator (sulla lista) | baseline §1 R0 | nessuna | lista nella bozza DEC | quattro credenziali con tutte le sedi d'uso | bozza DEC in branch | nessuna |
 | P0-S0-02 | Rotazione: revoca delle vecchie ed emissione delle nuove; custodia in gestore di segreti, credenziali n8n o secret GitHub | owner | Operator (verifica funzionale in S0-03) | S0-01 | S0-01 | credenziali nuove custodite | le vecchie non funzionano più; le nuove sì | data e sede per credenziale nella DEC | azione dell'owner (D1) |
-| P0-S0-03 | Aggiornamento delle sedi d'uso (credenziali n8n; ambiente di esecuzione dell'Operator: chiave OpenAI del Council, token GitHub) e verifica funzionale | owner | Operator | S0-02 | S0-02 | un run di staging e una chiamata del Council riusciti | entrambi riusciti con le nuove credenziali | log del run (Drive staging); registro del Council | nessuna |
+| P0-S0-03 | Aggiornamento delle sedi d'uso (credenziali n8n; ambiente di esecuzione dell'Operator: chiave OpenAI del Council e token GitHub, impostati dall'owner nella configurazione dell'ambiente Claude Code, letti alla partenza di una nuova sessione) e verifica funzionale **in sola lettura** sull'istanza n8n già disponibile (quella che oggi ospita il workflow, fatto di P0-S6-01): test della credenziale o esecuzione di un solo nodo di lettura (es. `Check Existing Event` su un id noto, o l'elenco di una cartella Drive), nessuna scrittura e nessun run del workflow; per il Council `council/cli.js --dry-run` (senza chiave) più una chiamata minima con la chiave nuova | owner | Operator | S0-02 | S0-02 | credenziali nuove operative in lettura; Council raggiungibile | lettura riuscita con le credenziali nuove e rifiutata con le vecchie (revocate); nessuna scrittura in produzione; chiamata del Council riuscita | esito del test su Drive (senza segreti); registro del Council | nessuna |
 | P0-S0-04 | Bonifica documentale: documento Drive svuotato o cestinato e cestino svuotato; copia locale eliminata o cifrata dopo la migrazione; ricerca su Drive di altri documenti con credenziali (esito, senza valori) | owner | Operator (ricerca per titolo) | S0-01 | S0-01 | esito nella DEC | nessun documento Drive con credenziali in chiaro; esito della ricerca registrato | DEC | nessuna |
 | P0-S0-05 | Verifica raccomandata (fuori gate): secret scanning GitHub del repository e ricerca nella cronologia git per pattern, senza stampare valori | Operator | owner | repository | nessuna | esito nella DEC | nessun alert aperto, o alert tracciati con esito | DEC | nessuna |
 | P0-S0-06 | Voce DEC D1: sede di custodia dei segreti, regola "mai in documenti condivisibili", chi detiene cosa; PR e merge | Operator (bozza) | Codex (PR) | S0-01…05 | S0-02, S0-03, S0-04 | DEC DECIDED su `main` | formato di `decisions/README.md`; `Blocks:` valorizzato | `decisions/` | decisione D1 |
@@ -308,7 +321,7 @@ repository pubblico.
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | P0-S1-01 | Nota di metodo M1: evento futuro distinto, finestra 30 giorni, livelli deterministici, pavimento/soffitto, fallback al Municipio, campione manuale, vita media, formato della tabella, limiti | Operator | Codex (PR) | baseline §2.A(1), §6; `zone_distribution.py`; DEC-006 (regola non agostana) | nessuna | `docs/measures/M1_METHOD.md` | ogni voce definita; nessun dato personale; PR unita | `main` | nessuna |
-| P0-S1-02 | Staging: cartelle Drive e collezioni Firestore `staging_`, copia del workflow con le credenziali nuove, prova su 5 URL; export del workflow di staging in PR se la struttura cambia (`workflows/README.md`) | owner | Operator | S0-03 | S0-03 | staging pronto | la prova su 5 URL scrive solo in `staging_`; nessuna scrittura in produzione | export + log del run di prova (Drive) | nessuna |
+| P0-S1-02 | Staging: cartelle Drive e collezioni Firestore `staging_`, copia del workflow con le credenziali nuove, prova su 5 URL (prima scrittura della catena, solo in `staging_`); export del workflow di staging in PR se la struttura cambia (`workflows/README.md`) | owner | Operator | S0-03 | S0-03 | staging pronto | la prova su 5 URL scrive solo in `staging_`; nessuna scrittura in produzione | export + log del run di prova (Drive) | autorizzazione al run di prova (Apify, servizio esistente) |
 | P0-S1-03 (istanze .1 … .4, una per settimana) | Raccolta URL della settimana n: Facebook Events con login personale, area Roma, finestra 30 giorni, snippet → Sheet; riga nel diario (data, numero URL). Nessuna credenziale di sistema coinvolta | owner | Operator (conteggio degli URL nel foglio) | DEC-102 (raccolta manuale) | nessuna (S1-03.1 parte il giorno dell'approvazione) | foglio degli URL della settimana n | numero di URL e data registrati nel foglio e nel diario | Drive (foglio URL) + diario | autorizzazione di principio con l'approvazione del piano |
 | P0-S1-04 (istanze .1 … .4, una per settimana) | Run in staging della settimana n sugli URL di S1-03.n; export grezzo del run su Drive (mai nel repository: DEC-102 (posizione sulle fonti e sulla raccolta), DEC-104 (loop di sviluppo AI: repository pubblico, campioni fuori, decisioni dentro)); riga nel diario (data, numero eventi restituiti, note) | owner | Operator (esistenza e leggibilità dell'export) | S1-03.n; staging pronto | S1-02 e S1-03.n | export datato della settimana n | export leggibile con data, numero URL inviati e numero eventi restituiti | Drive (cartella M1 o staging) | autorizzazione ai quattro run Apify (servizio esistente) |
 | P0-S1-05 | Campione manuale: ~15 eventi/settimana non localizzati dal deterministico, zona assegnata a mano o "non localizzabile" | owner | Operator (conteggio delle righe e coerenza con le 89 pagine) | export S1-04.n | S1-04.1 (poi ogni settimana) | foglio del campione | ~60 righe con esito valorizzato | Drive | nessuna |
@@ -421,7 +434,7 @@ produce.
 ## 7. Gate di chiusura della Fase 0
 
 1. D1 DECIDED su `main`; vecchie credenziali revocate; documento esposto rimosso;
-   operatività con le nuove credenziali verificata (S0).
+   operatività con le nuove credenziali verificata in sola lettura (S0-03).
 2. Tabella M1 su `main` (89 pagine, 15 Municipi, quattro settimane osservate) con nota di
    metodo e scenario letto (S1).
 3. Registro fonti unico su `main` con licenza/termini per fonte; tabelle Cronaca e gruppi
@@ -509,6 +522,7 @@ controverifica, per finding. Il testo integrale di ogni review è nel report del
 | 3 | idem | idem | 2 IMPORTANT: S5-06 "in attesa" in §5 vs gate 6 che lo richiede chiuso | accettato | S5-06 attività della settimana 4 subito dopo S5-05; clausola esplicita per slittamento esterno nel gate 6 | **non riverificata** |
 | 3 | idem | idem | 3 MINOR: registro senza colonne risposta/correzione | accettato | questa tabella, per finding | **non riverificata** |
 | post-3 (editoriale) | B-0.4 | — | regola editoriale del mandato: ogni citazione DEC con descrizione | applicata | descrizione del registro aggiunta alle citazioni che ne erano prive (nessun cambio di sostanza) | **non riverificata** |
+| post-3 (chiarimenti dell'owner, 14 settembre) | B-0.5 | — | dipendenza circolare S0-03 ↔ S1-02 (S0-03 chiedeva un run in staging che S1-02 prepara); raccomandazione richiesta su S4 | applicata | S0-03 = verifica in sola lettura sull'istanza n8n esistente più chiamata del Council; S1-02 = prima scrittura, solo in `staging_`; primo run = S1-04.1; gate 1 e §3 allineati; raccomandazione dell'Operator aggiunta a S4 | **non riverificata** |
 
 Residui per l'owner confermati da Codex in tutte e tre le review (invariati): corrispondenza
 fra `QN_Impianto_di_Progetto_v0.6.md` e il commit `7873b11`; sede di record della Round 2
