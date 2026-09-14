@@ -1,0 +1,217 @@
+# Studio delle fonti — metodo (Fase 0, step S2)
+
+| Campo | Valore |
+|---|---|
+| Stato | **Bozza di metodo, versione M-0.1**, sottoposta al controllo circoscritto di Codex autorizzato dall'owner il 14 settembre 2026 ("controllo del metodo all'inizio e della consegna prima delle decisioni"). Non è lo studio: è il modo in cui lo studio verrà condotto |
+| Mandato | Risposta dell'owner del 14 settembre 2026 (§1–§5): ricerca, lettura, analisi e classificazione delle fonti pubbliche accessibili affidate all'Operator; studio che permetta di scegliere le fonti e stimare il prodotto alimentabile; budget di 50 € per prove rappresentative; nessun lavoro sproporzionato sulle fonti marginali |
+| Cornice | `docs/PHASE_0_EXECUTION.md` step S2 e S6-D3; baseline v0.6 §2.A (flusso A); DEC-102 (posizione sulle fonti e sulla raccolta: nessuna automazione autenticata); DEC-104 (loop di sviluppo AI: repository pubblico, campioni fuori, decisioni dentro); DEC-014 (perimetro pubblico dell'MVP: 89 pagine, tre blocchi, stock minimi con fallback) |
+| Stato dei dati | Ogni numero dello studio è marcato **misurato** (contato su materiale reale, con link), **stimato** (derivato con ipotesi dichiarate) o **mancante** |
+
+## 1. Scopo e domande a cui lo studio risponde
+
+Lo studio serve a decidere quali fonti alimentano i tre blocchi obbligatori del lancio
+(Amministrazione, Cronaca, Eventi) e a stimare quanto prodotto ne deriva per pagina e per
+mese. Risponde a cinque domande: quanto produce ogni fonte in un mese completo; quanto di
+quel prodotto è localizzabile a Municipio e a quartiere; quanto è duplicato fra fonti;
+cosa costa estrarlo (formato, affidabilità, intervento umano); quale copertura risulta per
+le 89 pagine e dove restano i gap. Le 89 pagine e i minimi di DEC-014 restano il riferimento:
+lo studio mostra le evidenze, non li modifica.
+
+Fuori dallo studio: i gruppi e le pagine Facebook (accesso personale dell'owner, DEC-102:
+la classificazione del censimento resta a S2-04, owner); le testate terze (RomaToday, ANSA,
+Il Messaggero, Abitare a Roma e simili, elencate in *Next Step*): escluse dal riuso per
+diritti (baseline §2.A, R), citate solo come confronto di copertura se serve.
+
+## 2. Perimetro delle fonti e primo insieme da esaminare
+
+Ordine: prima le fonti più accessibili e produttive; le difficili con prove limitate (§5).
+Le fonti sono quelle di *Next Step* (Drive) e della baseline §2.A, integrate con gli
+indirizzi ufficiali trovati il 14 settembre.
+
+| # | Blocco | Fonte | Sezione di partenza | Formato atteso | Priorità |
+|---|---|---|---|---|---|
+| A1 | Amministrazione | Roma Capitale, portale istituzionale: pagine dei 15 Municipi, convocazioni di Consiglio e Commissioni, notizie | `comune.roma.it/web/it/municipio-N.page`, `…/informazione-di-servizio.page`, `…/notizie.page` | HTML, PDF | 1 |
+| A2 | Amministrazione | Atti e verbali (Delibere e Atti Web) per i Municipi IV, VI, VII, XIII (e gli altri, per confronto) | `comune.roma.it/servizi2/deliberazioniAttiWeb/` | PDF testuale o scansione | 1 |
+| A3 | Amministrazione | RomaTV streaming: commissioni dei Municipi II, III, VIII, X, XI, XII, XV e Commissioni Capitoline | `streaming.comune.roma.it/portal/…` (cataloghi in *Next Step*) | video | 2 (prova limitata) |
+| A4 | Amministrazione | Canali YouTube dei Municipi I, V, IX, XIV | link in *Next Step* | video | 2 (prova limitata) |
+| C1 | Cronaca | Questura di Roma, archivio comunicati | `questure.poliziadistato.it/it/Roma/archivio/…` | HTML | 1 |
+| C2 | Cronaca | Carabinieri, comunicati stampa (filtro Roma e provincia) | `carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa` | HTML | 1 |
+| C3 | Cronaca | Procura di Roma, news e comunicati | `procura-roma.giustizia.it/it/news_e_comunicati.page` | HTML, PDF | 1 (volume da verificare: la sezione sembra contenere soprattutto circolari) |
+| C4 | Cronaca | Vigili del Fuoco, Comando di Roma, interventi e notizie dal territorio | `vigilfuoco.it/comando-vvf-roma/interventi-roma` | HTML | 1 |
+| C5 | Cronaca | Polizia Locale di Roma Capitale, notizie | `comune.roma.it/web/it/corpo-di-polizia-locale-di-roma-capitale.page`, notizie con filtro | HTML | 1 |
+| C6 | Cronaca | Guardia di Finanza, comunicati del Comando regionale Lazio / Roma | `gdf.gov.it/it/gdf-comunica/notizie-ed-eventi/comunicati-stampa/territorio/comando-regionale-lazio/…` | HTML, PDF | 1 |
+| E1 | Eventi (extra-Facebook) | 060608, manifestazioni ed eventi, con feed RSS | `060608.comune.roma.it/eventi`, `…/rss` | HTML, RSS | 1 |
+| E2 | Eventi | culture.roma.it (Roma Culture, Sovrintendenza) | `culture.roma.it` | HTML | 1 |
+| E3 | Eventi | Eventi dei Municipi sul portale istituzionale e agenda Roma Capitale | `comune.roma.it/web/it/eventi.page` | HTML | 2 |
+| R1 | Regionale (riserva) | Consiglio regionale del Lazio, comunicati; BUR | `consiglio.regione.lazio.it`, `regione.lazio.it` | HTML, PDF | 3 |
+
+Il primo insieme è tutto il livello 1 (A1, A2, C1–C6, E1, E2): dodici sezioni, tutte
+pubbliche e senza login. Il livello 2 entra dopo il primo rapporto intermedio; il livello 3
+solo se il livello 1 lascia gap dichiarati.
+
+## 3. Cosa si misura per ogni fonte (scheda)
+
+Una scheda per fonte, nel registro `docs/sources/SOURCE_REGISTRY.md` (template di S2-01),
+con questi campi obbligatori:
+
+1. **Utilità editoriale**: territorio coperto (città, Municipio, quartiere), argomenti,
+   blocco alimentato.
+2. **Produzione nel mese di osservazione** (§4): numero di item, frequenza osservata
+   (per giorno/settimana), ritardo mediano fra fatto e pubblicazione dove la data del
+   fatto è nel testo; per gli Eventi anche anticipo dell'annuncio e numero di eventi futuri
+   nella finestra di 30 giorni.
+3. **Localizzabilità**: quota di item con toponimo (via, piazza, quartiere, Municipio) e
+   quota assegnabile deterministicamente a Municipio e a una delle 89 zone con gli alias del
+   gazetteer (`gazetteer/gazetteer.json`, lookup deterministico come in
+   `tests/zone_distribution.py`); il resto è "livello Municipio" o "non localizzato".
+4. **Contenuto aggiuntivo e sovrapposizioni**: quota di item che riguardano lo stesso fatto
+   di un'altra fonte del blocco (stesso giorno ±1, stesso toponimo, stesso oggetto),
+   misurata sul campione; contributo unico della fonte.
+5. **Formati e accesso**: HTML, PDF testuale, PDF scansione, audio, video; feed RSS; login;
+   condizioni di riuso documentate (pagina licenza/termini trovata: sì/no, cosa dice, link)
+   e verifiche ancora necessarie (per il legale, L11 dell'elenco dell'owner).
+6. **Estrazione**: esito della prova sul materiale reale (§5): testo ottenuto sì/no, qualità
+   (leggibile / con errori / inutilizzabile), tempo e costo per item, intervento umano
+   prevedibile per item.
+7. **Raccomandazione motivata**: usare / integrare / tenere in riserva / escludere, con la
+   ragione e con la condizione che la cambierebbe.
+8. **Stato del dato** per ogni numero: misurato / stimato / mancante.
+
+## 4. Mese di osservazione e campionamento
+
+- **Mese comune: giugno 2026** (l'ultimo mese completo prima della pausa estiva delle
+  istituzioni; agosto è escluso per regola, DEC-006 (fallback al Municipio per pagine
+  sottili, residuo aperto)). Dove giugno è anomalo per una fonte (archivio incompleto,
+  interruzione), si conta anche maggio 2026 e si dichiara quale mese vale.
+- **Eventi**: oltre a giugno (volume e anticipo), la finestra corrente di 30 giorni in avanti
+  dalla data della lettura (eventi futuri disponibili), perché è la grandezza che DEC-014
+  usa per il pavimento di dieci eventi.
+- **Conteggio**: enumerazione degli item del mese dalle pagine di elenco o dal feed, salvata
+  come CSV in `docs/sources/samples/<fonte>_2026-06.csv` con colonne: url, data di
+  pubblicazione, data del fatto (se nel testo), Municipio, zona (se deterministica),
+  tema, flag toponimo, flag nomi di persona, formato. **Nessun nome di persona e nessun
+  testo integrale nel repository** (DEC-104): solo URL, date, tag e flag. Gli originali
+  restano alla fonte, raggiungibili dal link.
+- **Campione per la verifica di Codex e dell'owner**: per ogni fonte 5 item (di cui almeno
+  uno per ogni formato incontrato), con link e passaggio pertinente citato nel rapporto (non
+  nel CSV); più i casi che lo studio considera "sicuri" e quelli dubbi, indicati come tali.
+- **Stagionalità e limiti**: ogni conteggio riporta il mese, l'ora di lettura e la
+  completezza dell'archivio (paginazione raggiunta fino a fine mese: sì/no). Un mese non è
+  trasformato in previsione annuale: la stima annua, se serve, è dichiarata come stima con
+  il fattore usato e i mesi di confronto disponibili in *Next Step* (gennaio–marzo 2026).
+
+## 5. Prove sui formati e limiti sulle fonti difficili
+
+| Formato | Prova | Strumento | Limite di sforzo | Dipendenza |
+|---|---|---|---|---|
+| HTML, RSS | lettura di 20 item per fonte, estrazione testo e date | fetch + parser locale | nessuno oltre il tempo | accesso di rete ai domini (§6) |
+| PDF testuale | 5 verbali/delibere per fonte | estrazione locale con `pypdf`/`pdfplumber` (installabili da PyPI, raggiungibile: verificato il 14 settembre; `pdftotext` assente) | 1 h per fonte | accesso di rete |
+| PDF scansione | 3 documenti | `tesseract` assente nell'ambiente (verificato): rendering delle pagine con PyMuPDF (installabile) e OCR via modello visivo API su 3 pagine per documento | 1 h; se la qualità è inutilizzabile, la fonte va in "riserva" con motivazione | accesso di rete; chiave OpenAI (nota in §7) |
+| Video (RomaTV, YouTube) | 3 video di commissione, 20–60 min ciascuno, formati diversi | trascrizione API (due modelli: `gpt-4o-mini-transcribe` e `whisper-1`) e, come terza modalità a costo zero, `faster-whisper` su CPU se installabile da PyPI (`ffmpeg` è assente: la decodifica passa da PyAV); misura di costo, tempo e qualità per ora di video | 3 video in tutto (≈ 2–3 h di audio); nessun altro video prima della decisione D3 | audio da procurare: il download da `streaming.comune.roma.it`/YouTube richiede accesso di rete (probabilmente insufficiente per lo stream); in alternativa l'owner deposita i 3 file audio su Drive (`QN Hub / 20 Packages / prove`), che l'Operator legge già oggi |
+| Audio senza video | come sopra | come sopra | idem | idem |
+
+Regole per le fonti difficili (risposta dell'owner §2): **tetto di 2 ore di Operator e una
+sola prova per fonte**; oltre, la fonte è classificata "riserva" o "da decidere" con esempi,
+il contributo aggiuntivo stimato e le alternative (ricerca aggiuntiva, ampliamento del
+bacino geografico, riduzione dei minimi, rinvio di alcune pagine) con costi, benefici e
+perdita di copertura, e la decisione va all'owner. Una quota sotto il 5% non esclude da sola
+una fonte che copra un quartiere altrimenti scoperto: si dichiara il quartiere.
+
+## 6. Accesso alle fonti: domini da consentire e verifica
+
+Verificato il 14 settembre: l'egress dell'ambiente Claude Code blocca `comune.roma.it`,
+`questure.poliziadistato.it`, `facebook.com` e `quartierinews.app.n8n.cloud`; la ricerca
+web e Drive funzionano. I risultati del motore di ricerca non valgono come accesso.
+
+**Domini da consentire nell'ambiente** (politica di rete personalizzata; documentazione:
+https://code.claude.com/docs/en/claude-code-on-the-web; la modifica vale per le sessioni
+avviate dopo):
+
+| Dominio | Serve per |
+|---|---|
+| `www.comune.roma.it`, `comune.roma.it` | A1, A2, C5, E3 |
+| `streaming.comune.roma.it` | A3 (cataloghi e, se fattibile, stream) |
+| `060608.comune.roma.it` | E1 (pagine e RSS) |
+| `culture.roma.it` | E2 |
+| `questure.poliziadistato.it` | C1 |
+| `www.carabinieri.it` | C2 |
+| `procura-roma.giustizia.it` | C3 |
+| `www.vigilfuoco.it`, `vigilfuoco.it` | C4 |
+| `www.gdf.gov.it` | C6 |
+| `www.youtube.com` (solo elenchi e metadati) | A4 |
+| `consiglio.regione.lazio.it`, `www.regione.lazio.it` | R1 (riserva) |
+| `pypi.org`, `files.pythonhosted.org` (se non già consentiti) | installazione di `pypdf`/OCR locale, se necessari |
+
+Non richiesti: `facebook.com` (accesso personale, DEC-102), testate terze.
+
+**Verifica dopo la modifica** (prima di considerare l'accesso risolto): lettura di una
+pagina HTML per ciascun dominio, download di un PDF da `deliberazioniAttiWeb`, lettura del
+feed RSS di 060608, esito riportato nel registro con data e URL. Se un dominio resta
+bloccato, la fonte è "accesso mancante" e passa all'owner con la stessa scheda.
+
+## 7. Programma di misure entro 50 €
+
+Il budget copre tutte le prove preliminari, incluse ripetizioni, conversioni e imposte;
+nessun abbonamento, nessuna ricarica automatica. Spesa e quantità sono registrate in
+`docs/sources/TRIAL_LEDGER.md` (data, prova, quantità, costo, residuo) e lo studio si ferma
+prima di superare il tetto.
+
+| Prova | Quantità | Costo stimato | Cosa misura | Dipendenza |
+|---|---|---|---|---|
+| T1 Trascrizione video | 3 video × 2 modelli API (≈ 2–3 h di audio) | 1–3 € | costo, tempo e qualità per ora di video (input di D3) | audio disponibile (§5); chiave OpenAI: vedi nota |
+| T2 OCR su scansioni | 3 documenti (≈ 15 pagine) | 0–1 € (0 se OCR locale) | leggibilità e costo per pagina | accesso di rete |
+| T3 Estrazione e classificazione AI | 60 item (20 per blocco) con un modello economico | 1–3 € | precisione di localizzazione e tema, costo per item, quota `uncertain` | accesso di rete per gli item; chiave OpenAI |
+| T4 Verifica con seconda AI | 30 item già classificati (modello diverso da T3) | 2–5 € | costo per item della verifica, quota inviata in coda (input per DEC-015 e D9) | come T3 |
+| T5 Prova Apify su 5 URL | 1 run | < 0,1 € | funzionamento dello staging (P0-S1-02) | credenziali ruotate (S0) e staging pronto |
+| T6 Quattro raccolte settimanali (lotto operativo) | 4 run, ~100–200 URL ciascuno | 5–12 € | M1 | **non in questo budget senza autorizzazione successiva** (risposta dell'owner §5) e subordinate a S0 |
+| Riserva per ripetizioni e conversioni | — | 5–10 € | — | — |
+
+Totale pianificato delle prove T1–T5: circa 5–12 €, ben sotto il tetto; T6 è preventivato,
+non autorizzato. **Nota sulla chiave OpenAI**: se la chiave presente nell'ambiente
+dell'Operator è la stessa esposta in R0, le prove T1, T3 e T4 sono subordinate alla
+rotazione (risposta dell'owner §7); se è una chiave distinta, possono partire subito. Da
+confermare dall'owner.
+
+**Previsione dei costi del progetto** (consegna dello studio): distingue costi iniziali e
+mensili a regime; raccolta, OCR, trascrizione, AI di produzione e di verifica, errori e
+ripetizioni, ore umane; tre scenari (basso, centrale, alto) con quantità e ipotesi
+esplicite prese dai conteggi di giugno e dai prezzi misurati nelle prove; l'incertezza
+residua è dichiarata, non nascosta in una cifra. Include la verifica della sufficienza del
+piano n8n Cloud Starter (2.500 esecuzioni/mese, dato dell'owner del 14 settembre) contando
+le esecuzioni previste per workflow e cadenza, non il numero di notizie.
+
+## 8. Consegne, verifica e passaggi all'owner
+
+1. **Registro fonti** (S2-05) con una scheda per fonte e i CSV di conteggio.
+2. **Rapporto dello studio** (`docs/sources/SOURCE_STUDY_2026-09.md`): copertura per
+   Municipio e per zona e per argomento; resa dopo la deduplicazione; gap e complessità
+   attese; raccomandazione per fonte; costi misurati; i tre scenari; le proposte, i problemi
+   residui e le domande circoscritte per l'owner, ciascuna con prove, esempi, alternative,
+   conseguenze e raccomandazione.
+3. **Campione per il controllo** (§4) con link e passaggi pertinenti.
+4. **Controlli di Codex**, come concordato dall'owner: (a) questo metodo, prima di estendere
+   lo studio; (b) la consegna, prima delle decisioni dell'owner — evidenze, conteggi,
+   duplicazioni, campione di originali, complessità proposta, alternative trascurate. Nessun
+   ciclo intermedio salvo problemi sostanziali. Se un errore sistematico emerge dal campione,
+   la parte interessata dello studio è ricontrollata prima della consegna.
+5. **Rapporto intermedio** dopo il livello 1 (§2): decide se il livello 2 serve.
+
+Cosa resta all'owner in questo step: l'accesso di rete (§6); gli eventuali file audio su
+Drive (§5); i gruppi Facebook (S2-04); la conferma sulla chiave OpenAI (§7); le decisioni
+che lo studio rende visibili (fonti di record: D3; minimi e pagine: solo su evidenze).
+
+## 9. Attività immediatamente eseguibili e attività dipendenti
+
+**Subito, con gli strumenti attuali**: schede e priorità delle fonti da *Next Step* e dalle
+ricerche (senza conteggi); template del registro e dei CSV; script di conteggio e di
+localizzazione deterministica pronti sul gazetteer; ledger delle prove; lettura dei
+documenti Drive già accessibili; preparazione delle richieste all'owner (domini, audio,
+chiave).
+
+**Dopo l'apertura dei domini** (§6): conteggi di giugno per A1, A2, C1–C6, E1, E2; prove
+HTML/PDF/OCR (T2); campione.
+
+**Dopo la conferma sulla chiave OpenAI o la rotazione**: T1, T3, T4.
+
+**Dopo la rotazione delle credenziali e lo staging** (S0, S1-02): T5; T6 solo con
+autorizzazione sulla previsione.

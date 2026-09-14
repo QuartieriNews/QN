@@ -2,7 +2,7 @@
 
 | Campo | Valore |
 |---|---|
-| Stato | **Candidato** — versione B-0.5 (B-0.4 più la correzione della sequenza S0-03/S1-02 e la raccomandazione su S4 chieste dall'owner il 14 settembre, non riverificate). **Verdetto del Technical Council** (Claude Operator ↔ Codex reviewer, review 3 di 3, l'ultima autorizzata): **AGREEMENT WITH NON-BLOCKING RESIDUALS** sulla versione **B-0.3** (sha256 `73d52cb8…`, commit `6820681`). Questa B-0.4 applica i tre finding della review 3 (P0-S7-01, S5-06/gate 6, colonne del registro §10) e una passata editoriale sulle citazioni DEC: **modifiche non riverificate da Codex** (budget di tre review esaurito), elencate in §10. Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
+| Stato | **Candidato** — versione B-0.6 (B-0.5 più la §11: decisioni e variazioni di responsabilità comunicate dall'owner il 14 settembre dopo la review 3, non riverificate dal Council). **Verdetto del Technical Council** (Claude Operator ↔ Codex reviewer, review 3 di 3, l'ultima autorizzata): **AGREEMENT WITH NON-BLOCKING RESIDUALS** sulla versione **B-0.3** (sha256 `73d52cb8…`, commit `6820681`). Questa B-0.4 applica i tre finding della review 3 (P0-S7-01, S5-06/gate 6, colonne del registro §10) e una passata editoriale sulle citazioni DEC: **modifiche non riverificate da Codex** (budget di tre review esaurito), elencate in §10. Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
 | Baseline di riferimento | `docs/PROJECT_BASELINE.md` — Impianto di progetto v0.6, "Owner-approved baseline (11 settembre 2026)", commit `7873b11` sulla branch `claude/quartieri-news-strategic-review-tzkl78` (non ancora su `main`, §1) |
 | Perimetro | Riga "0 · Misurare e decidere" della baseline §4 e Appendice A; mandato dell'owner del 14 settembre 2026 |
 | Registro delle review | `reviews/2026-09-14—cycle1—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md`, `reviews/2026-09-14—cycle2—phase-0-execution—NO_AGREEMENT.md`, `reviews/2026-09-14—cycle3—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md` (§10) |
@@ -332,10 +332,12 @@ repository pubblico.
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | P0-S2-01 | Template del registro fonti: colonne (fonte, blocco, Municipio, tipo, URL, formato, cadenza, anticipo, ritardo, licenza/termini, resa attesa, note), valori ammessi per licenza, regola "nessun dato personale" | Operator | Codex (PR) | baseline §2.A(2)(5) | nessuna | `docs/sources/SOURCE_REGISTRY.md` con istruzioni | colonne e valori definiti; PR unita | `main` | nessuna |
-| P0-S2-02 | Inventario Amministrazione: 15 Municipi + Roma Capitale, in tre lotti (3 → 8 → 16): canali, URL, formato, cadenza, anticipo/ritardo, licenza, resa attesa/mese | owner | Operator (completezza) | *Next Step*; S2-01 | S2-01 | righe nel registro | 16 enti presenti; i quattro a bassa resa nominati con alternative | `main` (PR per lotto o a fine) | nessuna |
-| P0-S2-03 | Cronaca: sei fonti (Questura/Polizia di Stato, Carabinieri, Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza), un mese di comunicati contato: volume, quota con toponimo, quota con nomi | owner | Operator | S2-01 | S2-01 | tabella nel registro | sei fonti × tre numeri, con il mese contato indicato | `main` | nessuna |
+| P0-S2-02 | Inventario Amministrazione: 15 Municipi + Roma Capitale, in tre lotti (3 → 8 → 16): canali, URL, formato, cadenza, anticipo/ritardo, licenza, resa attesa/mese — secondo `docs/sources/SOURCE_STUDY_METHOD.md` | **Operator** (variazione all'Appendice A approvata dall'owner il 14 settembre, §11) | owner (verifica a campione) e Codex (metodo e consegna, §11) | *Next Step*; S2-01 | S2-01 | righe nel registro | 16 enti presenti; i quattro a bassa resa nominati con alternative | `main` (PR per lotto o a fine) | nessuna |
+| P0-S2-03 | Cronaca: sei fonti (Questura/Polizia di Stato, Carabinieri, Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza), un mese di comunicati contato: volume, quota con toponimo, quota con nomi — secondo `docs/sources/SOURCE_STUDY_METHOD.md` | **Operator** (variazione approvata, §11) | owner (campione) e Codex (consegna) | S2-01 | S2-01 | tabella nel registro | sei fonti × tre numeri, con il mese contato indicato | `main` | nessuna |
 | P0-S2-04 | Gruppi Facebook: dal foglio *Gruppi Facebook*: conteggio verificato, pubblico/privato, regole, leggibilità senza login; nessun dato personale | owner | Operator | S2-01 | S2-01 | tabella nel registro | ogni gruppo censito classificato sui tre attributi; conteggio totale dichiarato | `main` | nessuna |
-| P0-S2-05 | Registro unico consolidato con licenza/termini per fonte | Operator | Codex (PR) | S2-02…04 | S2-02…04 | registro su `main` | una riga per fonte prevista al lancio; licenza valorizzata o "da verificare" motivata; PR unita | `main` | nessuna |
+| P0-S2-05 | Registro unico consolidato con licenza/termini per fonte, più il rapporto dello studio delle fonti (`docs/sources/SOURCE_STUDY_2026-09.md`) con copertura, resa dopo deduplicazione, gap, costi misurati e scenari | Operator | Codex (controllo della consegna, §11) e owner (decisioni) | S2-02…04, S2-06 | S2-02…04, S2-06 | registro e rapporto su `main` | una riga per fonte prevista al lancio; licenza valorizzata o "da verificare" motivata; ogni numero marcato misurato/stimato/mancante; campione di originali allegato; PR unita | `main` | decisioni rese visibili dallo studio (D3; minimi e pagine solo su evidenze) |
+| P0-S2-06 | Prove sui formati e programma di misure entro 50 € (T1–T5 del metodo §7), ledger delle prove | Operator | owner (ledger) | `docs/sources/SOURCE_STUDY_METHOD.md` §5, §7 | accesso di rete ai domini (§11); chiave OpenAI confermata o ruotata; T5 ← S0, S1-02 | `docs/sources/TRIAL_LEDGER.md` e risultati nel rapporto | spesa registrata per prova, residuo mai negativo; nessun abbonamento | `main` | budget di 50 € (dato); T6 solo su autorizzazione successiva |
+| P0-S2-07 | Controllo circoscritto di Codex sul metodo (prima di estendere lo studio) e sulla consegna (prima delle decisioni dell'owner) | Operator (chiamata) | Codex | metodo M-0.x; rapporto | — | report in `reviews/` | verdetto registrato; finding risposti | `reviews/` | estensione del ruolo di Codex concordata dall'owner il 14 settembre |
 
 ### S3 — Residui Eventi
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
@@ -350,13 +352,13 @@ repository pubblico.
 | P0-S4-01 | DEC-005 (migrazione allo schema 2.0): decisione sull'entry esistente | owner | Operator (formato del registro; coerenza con la spec Part III) | DEC-005; spec v2.5 Part III | nessuna | DEC-005 DECIDED | stato DECIDED con opzione scelta, data e `Affected:` valorizzati; PR unita | `decisions/` | decisione DEC-005 |
 | P0-S4-02 | Delta DEC-014…021 (le otto decisioni dell'11 settembre 2026) → spec: tabella DEC → sezione → modifica richiesta → prima di quale PR del refactor (serve a entrambe le letture) | Operator | Codex (PR) | docx v2.5; DEC-014 (perimetro pubblico dell'MVP: 89 pagine, tre blocchi, stock minimi con fallback), 015, 018, 020 | nessuna | `docs/SPEC_V25_DELTA_DEC_014_021.md` | ogni voce cita DEC e sezione; nessuna DEC dell'11 settembre con impatto sulla spec omessa; PR unita | `main` | conferma della lettura di S4 |
 | P0-S4-03 | Lettura A (default): consolidamento della spec — sorgente della versione successiva nella sede scelta, delta integrato, PR aperta dal builder, review Codex, risposte, approvazione e merge dell'owner; copia su Drive `10 Specifications` | Operator | Codex (PR); owner (approvazione) | S4-01, S4-02; docx v2.5 | S4-02; scelta della sede | spec consolidata approvata | nessun restatement di regole che vivono in `gazetteer.json` (regola della spec); tutte le voci del delta integrate; PR unita e copia su Drive | `main` + Drive | approvazione della spec |
-| P0-S4-04 | Lettura B (solo se indicata dall'owner): sign-off della v2.5 così com'è registrato in `decisions/` con DEC-005 (modalità di migrazione allo schema 2.0); il delta S4-02 resta l'input della prima PR del refactor | owner | Operator (traccia dell'indicazione e del sign-off) | S4-01, S4-02 | S4-02 | sign-off registrato | l'indicazione dell'owner per la lettura B e il sign-off della v2.5 (versione, data) sono scritti in `decisions/` o nel documento del delta; PR unita | `decisions/` | indicazione esplicita e sign-off |
+| P0-S4-04 | *Ritirata*: la lettura B non si applica. L'owner ha approvato la lettura A il 14 settembre (§11): sorgente Markdown della spec nel repository, DOCX su Drive come copia esportata | — | — | — | — | — | — | — | decisione presa (§11) |
 
 ### S5 — Legale
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | P0-S5-01 | Localizzazione della Round 2 Reconciliation (13 questioni, 8 requisiti) e deposito in una sede di record (QN Hub/00 Governance; o `docs/strategic-council/` se senza dati personali) | owner | Operator (lettura del documento depositato) | nessuno | nessuna | documento reperibile | le 13 questioni e gli 8 requisiti leggibili nella sede scelta, con link registrato nel pacchetto legale | sede scelta | azione dell'owner |
-| P0-S5-02 | Pacchetto legale: 13 questioni con priorità; decisioni assunte come ipotesi di rischio (DEC-016 (Cronaca: nomi presenti nelle fonti ufficiali), 019, 020, 021); pagine previste; tabella capacità → gate (baseline §4.1) | Operator | owner | S5-01; DEC | S5-01 | `docs/legal/LEGAL_PACK_2026-09.md` (Drive se riservato) | tutte le 13 questioni presenti con priorità e capacità bloccata; letto e accettato dall'owner | `main` o Drive | nessuna |
+| P0-S5-02 | Pacchetto legale: le questioni L01–L13 dell'elenco dell'owner del 14 settembre (`QN_Chiarimenti_legali_per_Claude.md`, bozza aggiornata; numerazione non attribuibile alla Reconciliation) con priorità; decisioni assunte come ipotesi di rischio (DEC-016 (Cronaca: nomi presenti nelle fonti ufficiali), 019, 020, 021); pagine previste; tabella capacità → gate (baseline §4.1) allineata per argomento | Operator | owner | elenco L01–L13; DEC; S5-01 se recuperata | nessuna (S5-01 resta aperta in parallelo) | `docs/legal/LEGAL_PACK_2026-09.md` (Drive se riservato) | tutte le 13 questioni presenti con priorità e capacità bloccata; letto e accettato dall'owner | `main` o Drive | nessuna |
 | P0-S5-03 | Richiesta di preventivi a 2–3 studi | owner | Operator (conteggio e data dei preventivi, senza importi nel repository) | S5-02 | S5-02 | preventivi | almeno due preventivi ricevuti e datati | Drive (riservato) | nessuna |
 | P0-S5-04 | Pacchetto D12: forma societaria/editoriale, responsabile, studio; cosa blocca il go-live | owner (fatti) + Operator (tabella) | owner | S5-03 | S5-03 | `docs/decision-packs/D12.md` | opzioni con costi e tempi; ciò che blocca il go-live indicato per opzione | `main` | nessuna |
 | P0-S5-05 | D12: decisione e autorizzazione di spesa | owner | Operator (formato del registro) | S5-04 | S5-04 | DEC D12 DECIDED | forma societaria/editoriale, responsabile e studio indicati; autorizzazione di spesa registrata (importo su Drive, non nel repository); PR unita | `decisions/` | decisione D12 + autorizzazione |
@@ -365,8 +367,8 @@ repository pubblico.
 ### S6 — Pacchetti decisionali
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S6-01 | Fotografia n8n: istanze esistenti (VPS Aruba, progetto Cloud), dove gira il workflow definitivo, versione, aggiornamenti, backup, costi correnti | owner | Operator | §9.2 | S0 (accessi con le nuove credenziali) | fatti nel pacchetto D14 | le tre fonti contraddittorie riconciliate in una sola fotografia datata | `docs/decision-packs/D14.md` | nessuna |
-| P0-S6-02 | Pacchetto D14: i due rami di baseline §2.H con i fatti; impatto sul refactor | Operator | Codex (PR) | S6-01 | S6-01 | pacchetto | criteri e costi per ramo; PR unita | `main` | nessuna |
+| P0-S6-01 | Fotografia n8n: **fornita dall'owner il 14 settembre** (§11): istanza operativa `quartierinews.app.n8n.cloud`, piano Starter mensile (29,28 €/mese, 2.500 esecuzioni, versione 2.37.7); VPS Aruba "RomaPipeline" mantenuto per alcune settimane, 14 workflow inattivi, backup completo non verificato. Resta da fare: elenco delle dipendenze del VPS e stato del backup | owner | Operator (tabella) | §11 | nessuna | fatti nel pacchetto D14 | dipendenze e backup del VPS verificati e datati | `docs/decision-packs/D14.md` | nessuna |
+| P0-S6-02 | Pacchetto D14 **riformulato** (§11): la migrazione a n8n Cloud è già avvenuta, quindi il pacchetto copre le condizioni di dismissione del VPS (conservazione dei dati, dipendenze, backup verificato) e la sufficienza del piano Starter sulle esecuzioni previste; nessuno spegnimento è autorizzato | Operator | Codex (PR) | S6-01; metodo §7 | S6-01 | pacchetto | condizioni di dismissione e conteggio delle esecuzioni per workflow; PR unita | `main` | decisione sulla dismissione, a tempo debito |
 | P0-S6-03 | Pacchetto D2: criteri §2.E con fatti di costo e manutenzione; effort del "contorno"; DEC-018 (architettura URL e migrazione futura ai domini di quartiere) e DEC-020 (correzioni con modifica diretta e tracciabilità interna) come verifiche; competenze | Operator | Codex (PR) | baseline §2.E | nessuna | `docs/decision-packs/D2.md` | ogni opzione valutata su ogni criterio; PR unita | `main` | nessuna |
 | P0-S6-04 | Prova di trascrizione: 3 video di commissione × 2 modalità; costo e qualità per ora di video | owner | Operator (tabella) | S2-02 (video scelti) | autorizzazione dell'owner | risultati | costo, tempo e qualità per ora di video per ciascuna modalità | `docs/decision-packs/D3.md` | autorizzazione di spesa |
 | P0-S6-05 | Pacchetto D3: registro A2, prova, i quattro Municipi a bassa resa | Operator | Codex (PR) | S2-05, S6-04 | S2-05, S6-04 | `docs/decision-packs/D3.md` | resa per Municipio, risultati della prova (costo e qualità per ora) e alternative per i quattro Municipi presenti; PR unita | `main` | nessuna |
@@ -532,3 +534,64 @@ consolidata; stato reale di n8n per D14.
 I report per ciclo sono in `reviews/` con il nome `2026-09-14—cycleN—phase-0-execution—<verdetto>.md`
 (DEC-007 (dove si archivia una code review): la PR è l'archivio; `reviews/` resta la sede
 dei report non legati a una PR — questo Council non è una PR).
+
+## 11. Decisioni e variazioni comunicate dall'owner il 14 settembre 2026 (dopo la review 3)
+
+Registrate qui perché successive alla baseline e al verdetto del Council: non sono
+modifiche editoriali e non sono state controverificate da Codex. Fonti: `QN_Risposta_a_Claude_avvio_Fase_0.md`,
+`Confronto_v06_baseline.md`, `QN_Chiarimenti_legali_per_Claude.md`, `QN_Impianto_di_Progetto_v0.6_originale.md`
+(allegati dell'owner, non nel repository).
+
+**Baseline.** Il confronto dell'owner fra l'Impianto v0.6 originale (241 righe) e
+`docs/PROJECT_BASELINE.md` al commit `7873b11` stabilisce che i due file non sono identici:
+titolo corretto, stato "Owner-approved" e sede di record aggiunti, descrizioni delle DEC
+aggiunte, sovrapposizione delle fasi 0/1 esplicitata (7,5 h/settimana dalla prima
+settimana, 30 h comprese nelle 240 della fase 1), durata condizionale da 58 a circa 59
+settimane, **Appendice A aggiunta** (ruoli, calendario, pacchetti, esclusioni). L'Appendice A
+non era nell'allegato originale e le sue assegnazioni non sono approvate insieme a esso: le
+variazioni sotto le sostituiscono dove indicato. Il residuo "conferma della corrispondenza"
+è chiuso.
+
+**Variazioni alle responsabilità dell'Appendice A.1 (approvate dall'owner):**
+
+| Attività | Appendice A | Ora | Perché |
+|---|---|---|---|
+| Ricerca, lettura, analisi e classificazione delle fonti pubbliche (S2-02, S2-03, studio delle fonti) | owner | **Operator**, con verifica a campione dell'owner e controllo di Codex su metodo e consegna | risposta dell'owner §1–§3; limite degli strumenti: richiede l'apertura dei domini (§6 del metodo) |
+| Gruppi e pagine Facebook (S2-04) | owner | owner | accesso personale, DEC-102 (posizione sulle fonti e sulla raccolta) |
+| Pacchetti decisionali | builder "senza raccomandazione oltre §2" | Operator **con raccomandazione motivata** | mandato del Council (proposte motivate) |
+| Prove sui formati e misure di costo (S2-06) | non previste | Operator entro 50 € | risposta dell'owner §5 |
+| Controllo di Codex sullo studio delle fonti (S2-07) | non previsto | Codex, metodo e consegna | estensione concordata dall'owner §3 |
+
+**n8n.** Istanza operativa confermata: `quartierinews.app.n8n.cloud`, piano Starter
+mensile (pagamenti di 29,28 € il 7 agosto e il 7 settembre; 2.500 esecuzioni; versione
+2.37.7; rinnovo presunto il 7 ottobre, non verificato). La migrazione dal self-hosted è
+già avvenuta: D14 non è più "self-hosted vs Cloud" ma condizioni di dismissione del VPS
+Aruba "RomaPipeline" (14 workflow inattivi; backup completo non verificato; dipendenze da
+verificare) e sufficienza del piano; nessuno spegnimento autorizzato. I workflow esistenti
+sono materiale di riferimento: **i nuovi workflow si costruiscono separatamente in
+staging**, senza modificare né riattivare gli esistenti (vale per S1-02 e per il refactor in
+Fase 1–2). La contraddizione §9.2 è chiusa.
+
+**Sicurezza.** La rotazione delle credenziali esposte non è stata eseguita e l'owner intende
+rinviarla. S0 resta il gate 1 e resta aperto: nulla di S0 è registrato come completato. Le
+attività documentali e lo studio delle fonti pubbliche procedono; le prove che usano quelle
+credenziali (staging, run Apify, e le prove AI se la chiave dell'ambiente dell'Operator è
+quella esposta: da confermare) attendono la sostituzione e la verifica.
+
+**Specifica.** Lettura A approvata: spec Eventi consolidata con sorgente Markdown nel
+repository e DOCX su Drive come copia esportata; integrazione delle decisioni successive
+senza ampliare il perimetro (S4-03). S4-04 ritirata.
+
+**Legale.** Round 2 e risposta dell'owner dell'11 settembre recuperati; elenco aggiornato
+L01–L13 preparato dall'owner (bozza, numerazione propria). La Reconciliation §8 non è
+stata recuperata: **l'Operator non dispone del documento né del suo percorso** — non è nel
+repository, non è su Drive per titolo o testo, e non è stato prodotto in questa sessione; la
+baseline lo cita dalla sessione dell'11 settembre. Nessuna ricostruzione. Allineamento per
+argomento fra L01–L13 e la tabella §4.1 della baseline (proposta dell'Operator, da
+verificare con il documento): 1 → L01, L02; 2 → L04, L08; 3 → L03; 4, 5, 6 → L04, L05, L06;
+7 → L11; 8 → L08; 9 → L07; 10 → L10; 12 → L12; 13 → L13; la 11 della baseline non è
+identificabile. Nessun incarico conferito, nessun parere acquisito.
+
+**Budget.** 50 € complessivi per prove preliminari rappresentative (tutto incluso, nessun
+abbonamento), da registrare in un ledger; il lotto operativo (prova su 5 URL e quattro
+raccolte) è da preventivare e richiede un'autorizzazione successiva sulla previsione.
