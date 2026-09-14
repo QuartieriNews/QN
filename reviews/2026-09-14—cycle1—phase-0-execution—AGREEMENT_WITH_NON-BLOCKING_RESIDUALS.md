@@ -69,9 +69,9 @@ AGREEMENT WITH NON-BLOCKING RESIDUALS
 
 | # | Severità | Risposta | Correzione (in `docs/PHASE_0_EXECUTION.md` B-0.2) | Controverifica |
 |---|---|---|---|---|
-| 1 | IMPORTANT | Accettato | S4 biforcato: lettura A default = consolidamento come da baseline (PR, review, approvazione, merge; versione successiva con il delta delle DEC-014…021; sede del sorgente da confermare); lettura B = sign-off + delta, solo su indicazione esplicita e tracciata dell'owner. Gate 5 cita la lettura scelta; la scelta è in §6 al momento dell'approvazione | attesa nella review 2 |
-| 2 | IMPORTANT | Accettato | Gate di S0 ridotto al minimo di R0: rotazione, custodia, documento rimosso, operatività con le nuove credenziali. Secret scanning = verifica raccomandata (P0-S0-05), fuori dal gate | attesa nella review 2 |
-| 3 | MINOR | Accettato | S7(a) riclassificata come vincolo di ordine di merge su `main`; stesura in branch parallela dalla settimana 1 (§5) | attesa nella review 2 |
+| 1 | IMPORTANT | Accettato | S4 biforcato: lettura A default = consolidamento come da baseline (PR, review, approvazione, merge; versione successiva con il delta delle DEC-014…021; sede del sorgente da confermare); lettura B = sign-off + delta, solo su indicazione esplicita e tracciata dell'owner. Gate 5 cita la lettura scelta; la scelta è in §6 al momento dell'approvazione | review 2: verificata, conforme |
+| 2 | IMPORTANT | Accettato | Gate di S0 ridotto al minimo di R0: rotazione, custodia, documento rimosso, operatività con le nuove credenziali. Secret scanning = verifica raccomandata (P0-S0-05), fuori dal gate | review 2: verificata, conforme |
+| 3 | MINOR | Accettato | S7(a) riclassificata come vincolo di ordine di merge su `main`; stesura in branch parallela dalla settimana 1 (§5) | review 2: verificata, conforme |
 
 Residui per l'owner riportati in `docs/PHASE_0_EXECUTION.md` §6 e §9: corrispondenza fra `QN_Impianto_di_Progetto_v0.6.md` e il commit `7873b11`; localizzazione della Round 2 Reconciliation; lettura di S4; stato reale di n8n per D14.
 

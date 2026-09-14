@@ -2,10 +2,10 @@
 
 | Campo | Valore |
 |---|---|
-| Stato | **Candidato** — versione B-0.2, sottoposta alla review 2 di 3 del Technical Council (Claude Operator ↔ Codex reviewer). Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
+| Stato | **Candidato** — versione B-0.3 (versione candidata finale), sottoposta alla review 3 di 3 del Technical Council (Claude Operator ↔ Codex reviewer). Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
 | Baseline di riferimento | `docs/PROJECT_BASELINE.md` — Impianto di progetto v0.6, "Owner-approved baseline (11 settembre 2026)", commit `7873b11` sulla branch `claude/quartieri-news-strategic-review-tzkl78` (non ancora su `main`, §1) |
 | Perimetro | Riga "0 · Misurare e decidere" della baseline §4 e Appendice A; mandato dell'owner del 14 settembre 2026 |
-| Registro delle review | `reviews/2026-09-14—cycle1—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md` e i file successivi della stessa serie (§10) |
+| Registro delle review | `reviews/2026-09-14—cycle1—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md`, `reviews/2026-09-14—cycle2—phase-0-execution—NO_AGREEMENT.md` e il report della review 3 (§10) |
 | Convenzioni di stato | **FATTO VERIFICATO** (letto nel repository o su Drive) · **DICHIARAZIONE DELL'OWNER** · **IPOTESI** · **DA VERIFICARE** |
 | Ore | Le stime della baseline, indicative. Il tempo di attesa (le quattro settimane osservate di A1) è distinto dal lavoro attivo |
 
@@ -276,8 +276,11 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
   della coda unica (bozza; DEC-103, modello di revisione coda + campione settimanale, e
   DEC-015); prompt di record della seconda AI e controlli deterministici (bozza, nessun
   provider: D7 è di Fase 1); design della thin slice C.
-- **Output**: tre bozze in `docs/`, marcate come tali; fuori dal gate.
-- **Dipendenze effettive**: S8-01 → D9; design della thin slice ← S2 e D3.
+- **Output**: tre bozze in `docs/` (la terza in due passate: pre-D3 e post-D3), marcate come
+  tali; fuori dal gate.
+- **Dipendenze effettive**: S8-01 → D9; la bozza del design della thin slice (S8-03) dipende
+  solo da S2 (quali Municipi e formati esistono) ed è pre-D3; la rifinitura (S8-04) segue
+  la decisione D3 in settimana 4 e resta una bozza.
 - **Responsabile**: Operator; Codex sulle PR; nessuna decisione dell'owner.
 - **Criterio di completamento**: bozze su `main`, citate da D9. Confine: nessun prompt
   cablato, nessun workflow, nessun provider.
@@ -294,94 +297,97 @@ repository pubblico.
 ### S0 — Sicurezza
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S0-01 | Inventario delle credenziali esposte: nome, servizio, sedi d'uso (n8n, ambiente dell'Operator, PC, altro); mai i valori | owner | Operator (sulla lista) | baseline §1 R0 | — | lista nella bozza DEC | quattro credenziali con tutte le sedi d'uso | bozza DEC in branch | — |
-| P0-S0-02 | Rotazione: revoca delle vecchie ed emissione delle nuove; custodia in gestore di segreti, credenziali n8n o secret GitHub | owner | Operator (funzionale, S0-03) | S0-01 | S0-01 | credenziali nuove custodite | le vecchie non funzionano più; le nuove sì | data e sede per credenziale nella DEC | azione D1 |
-| P0-S0-03 | Aggiornamento delle sedi d'uso (credenziali n8n; ambiente di esecuzione dell'Operator: chiave OpenAI del Council, token GitHub) e verifica funzionale | owner | Operator | S0-02 | S0-02 | un run di staging e una chiamata del Council riusciti | entrambi riusciti con le nuove credenziali | log del run (Drive staging); registro del Council | — |
-| P0-S0-04 | Bonifica documentale: documento Drive svuotato o cestinato e cestino svuotato; copia locale eliminata o cifrata dopo la migrazione; ricerca su Drive di altri documenti con credenziali (esito, senza valori) | owner | Operator (ricerca per titolo) | S0-01 | — | esito nella DEC | nessun documento Drive con credenziali in chiaro | DEC | — |
-| P0-S0-05 | Verifica raccomandata (fuori gate): secret scanning GitHub del repository e ricerca nella cronologia git per pattern, senza stampare valori | Operator | owner | repository | — | esito nella DEC | nessun alert aperto, o alert tracciati | DEC | — |
+| P0-S0-01 | Inventario delle credenziali esposte: nome, servizio, sedi d'uso (n8n, ambiente dell'Operator, PC, altro); mai i valori | owner | Operator (sulla lista) | baseline §1 R0 | nessuna | lista nella bozza DEC | quattro credenziali con tutte le sedi d'uso | bozza DEC in branch | nessuna |
+| P0-S0-02 | Rotazione: revoca delle vecchie ed emissione delle nuove; custodia in gestore di segreti, credenziali n8n o secret GitHub | owner | Operator (verifica funzionale in S0-03) | S0-01 | S0-01 | credenziali nuove custodite | le vecchie non funzionano più; le nuove sì | data e sede per credenziale nella DEC | azione dell'owner (D1) |
+| P0-S0-03 | Aggiornamento delle sedi d'uso (credenziali n8n; ambiente di esecuzione dell'Operator: chiave OpenAI del Council, token GitHub) e verifica funzionale | owner | Operator | S0-02 | S0-02 | un run di staging e una chiamata del Council riusciti | entrambi riusciti con le nuove credenziali | log del run (Drive staging); registro del Council | nessuna |
+| P0-S0-04 | Bonifica documentale: documento Drive svuotato o cestinato e cestino svuotato; copia locale eliminata o cifrata dopo la migrazione; ricerca su Drive di altri documenti con credenziali (esito, senza valori) | owner | Operator (ricerca per titolo) | S0-01 | S0-01 | esito nella DEC | nessun documento Drive con credenziali in chiaro; esito della ricerca registrato | DEC | nessuna |
+| P0-S0-05 | Verifica raccomandata (fuori gate): secret scanning GitHub del repository e ricerca nella cronologia git per pattern, senza stampare valori | Operator | owner | repository | nessuna | esito nella DEC | nessun alert aperto, o alert tracciati con esito | DEC | nessuna |
 | P0-S0-06 | Voce DEC D1: sede di custodia dei segreti, regola "mai in documenti condivisibili", chi detiene cosa; PR e merge | Operator (bozza) | Codex (PR) | S0-01…05 | S0-02, S0-03, S0-04 | DEC DECIDED su `main` | formato di `decisions/README.md`; `Blocks:` valorizzato | `decisions/` | decisione D1 |
 
 ### S1 — M1
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S1-01 | Nota di metodo M1: evento futuro distinto, finestra 30 giorni, livelli deterministici, pavimento/soffitto, fallback al Municipio, campione manuale, vita media, formato della tabella, limiti | Operator | Codex (PR) | baseline §2.A(1), §6; `zone_distribution.py`; DEC-006 (regola non agostana) | — | `docs/measures/M1_METHOD.md` | ogni voce definita; nessun dato personale | `main` | — |
-| P0-S1-02 | Staging: cartelle Drive e collezioni Firestore `staging_`, copia del workflow con le credenziali nuove, prova su 5 URL; export del workflow di staging in PR se la struttura cambia (`workflows/README.md`) | owner | Operator | S0-03 | S0-03 | staging pronto | la prova scrive solo in `staging_` | export + log | — |
-| P0-S1-03…06 | Settimane 1–4: raccolta URL (Facebook Events, area Roma, finestra 30 giorni, snippet → Sheet), run in staging, export grezzo su Drive, riga nel diario | owner | Operator (conteggio) | S1-02 per il run | S1-02 | quattro export datati | ogni export con data, numero URL, numero eventi | Drive (cartella M1 o staging) | autorizzazione ai run Apify |
-| P0-S1-07 | Campione manuale: ~15 eventi/settimana non localizzati dal deterministico, zona assegnata a mano o "non localizzabile" | owner | Operator | S1-03… | — | foglio del campione | ~60 righe con esito | Drive | — |
-| P0-S1-08 | Conteggi: `zone_distribution.py` sui quattro export (scaricati localmente, mai committati); tabella per pagina (89) e Municipio (15): pavimento, soffitto, fallback, quota localizzabile stimata, vita media | Operator | Codex (PR) | S1-06, S1-07 | S1-06 | `docs/measures/M1_EVENTS_PER_PAGE.md` | 89 + 15 righe; metodo citato; soli conteggi | `main` | — |
-| P0-S1-09 | Lettura dello scenario M1 (tabella di ristima della baseline §6) e input per D4/D5 di Fase 1 | Operator | owner | S1-08 | S1-08 | sezione nella stessa PR | scenario dichiarato con i numeri; nessuna decisione presa | `main` | — |
+| P0-S1-01 | Nota di metodo M1: evento futuro distinto, finestra 30 giorni, livelli deterministici, pavimento/soffitto, fallback al Municipio, campione manuale, vita media, formato della tabella, limiti | Operator | Codex (PR) | baseline §2.A(1), §6; `zone_distribution.py`; DEC-006 (regola non agostana) | nessuna | `docs/measures/M1_METHOD.md` | ogni voce definita; nessun dato personale; PR unita | `main` | nessuna |
+| P0-S1-02 | Staging: cartelle Drive e collezioni Firestore `staging_`, copia del workflow con le credenziali nuove, prova su 5 URL; export del workflow di staging in PR se la struttura cambia (`workflows/README.md`) | owner | Operator | S0-03 | S0-03 | staging pronto | la prova su 5 URL scrive solo in `staging_`; nessuna scrittura in produzione | export + log del run di prova (Drive) | nessuna |
+| P0-S1-03 (istanze .1 … .4, una per settimana) | Raccolta URL della settimana n: Facebook Events con login personale, area Roma, finestra 30 giorni, snippet → Sheet; riga nel diario (data, numero URL). Nessuna credenziale di sistema coinvolta | owner | Operator (conteggio degli URL nel foglio) | DEC-102 (raccolta manuale) | nessuna (S1-03.1 parte il giorno dell'approvazione) | foglio degli URL della settimana n | numero di URL e data registrati nel foglio e nel diario | Drive (foglio URL) + diario | autorizzazione di principio con l'approvazione del piano |
+| P0-S1-04 (istanze .1 … .4, una per settimana) | Run in staging della settimana n sugli URL di S1-03.n; export grezzo del run su Drive (mai nel repository: DEC-102, DEC-104); riga nel diario (data, numero eventi restituiti, note) | owner | Operator (esistenza e leggibilità dell'export) | S1-03.n; staging pronto | S1-02 e S1-03.n | export datato della settimana n | export leggibile con data, numero URL inviati e numero eventi restituiti | Drive (cartella M1 o staging) | autorizzazione ai quattro run Apify (servizio esistente) |
+| P0-S1-05 | Campione manuale: ~15 eventi/settimana non localizzati dal deterministico, zona assegnata a mano o "non localizzabile" | owner | Operator (conteggio delle righe e coerenza con le 89 pagine) | export S1-04.n | S1-04.1 (poi ogni settimana) | foglio del campione | ~60 righe con esito valorizzato | Drive | nessuna |
+| P0-S1-06 | Conteggi: `zone_distribution.py` sui quattro export (scaricati localmente, mai committati); tabella per pagina (89) e Municipio (15): pavimento, soffitto, fallback, quota localizzabile stimata, vita media | Operator | Codex (PR) | S1-04.4, S1-05 | S1-04.4, S1-05 | `docs/measures/M1_EVENTS_PER_PAGE.md` | 89 + 15 righe; metodo citato; soli conteggi; PR unita | `main` | nessuna |
+| P0-S1-07 | Lettura dello scenario M1 (tabella di ristima della baseline §6) e input per D4/D5 di Fase 1 | Operator | owner | S1-06 | S1-06 | sezione nella stessa PR | scenario dichiarato con i numeri; nessuna decisione presa | `main` | nessuna |
 
 ### S2 — Fonti
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S2-01 | Template del registro fonti: colonne (fonte, blocco, Municipio, tipo, URL, formato, cadenza, anticipo, ritardo, licenza/termini, resa attesa, note), valori ammessi per licenza, regola "nessun dato personale" | Operator | Codex (PR) | baseline §2.A(2)(5) | — | `docs/sources/SOURCE_REGISTRY.md` con istruzioni | colonne e valori definiti | `main` | — |
-| P0-S2-02 | Inventario Amministrazione: 15 Municipi + Roma Capitale, in tre lotti (3 → 8 → 16): canali, URL, formato, cadenza, anticipo/ritardo, licenza, resa attesa/mese | owner | Operator (completezza) | *Next Step*; S2-01 | S2-01 | righe nel registro | 16 enti; i quattro a bassa resa con alternative | `main` (PR per lotto o a fine) | — |
-| P0-S2-03 | Cronaca: sei fonti (Questura/Polizia di Stato, Carabinieri, Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza), un mese di comunicati contato: volume, quota con toponimo, quota con nomi | owner | Operator | S2-01 | — | tabella nel registro | sei fonti × tre numeri | `main` | — |
-| P0-S2-04 | Gruppi Facebook: dal foglio *Gruppi Facebook*: conteggio verificato, pubblico/privato, regole, leggibilità senza login; nessun dato personale | owner | Operator | S2-01 | — | tabella nel registro | ogni gruppo censito classificato | `main` | — |
-| P0-S2-05 | Registro unico consolidato con licenza/termini per fonte | Operator | Codex (PR) | S2-02…04 | S2-02…04 | registro su `main` | una riga per fonte prevista al lancio; licenza valorizzata o "da verificare" motivata | `main` | — |
+| P0-S2-01 | Template del registro fonti: colonne (fonte, blocco, Municipio, tipo, URL, formato, cadenza, anticipo, ritardo, licenza/termini, resa attesa, note), valori ammessi per licenza, regola "nessun dato personale" | Operator | Codex (PR) | baseline §2.A(2)(5) | nessuna | `docs/sources/SOURCE_REGISTRY.md` con istruzioni | colonne e valori definiti; PR unita | `main` | nessuna |
+| P0-S2-02 | Inventario Amministrazione: 15 Municipi + Roma Capitale, in tre lotti (3 → 8 → 16): canali, URL, formato, cadenza, anticipo/ritardo, licenza, resa attesa/mese | owner | Operator (completezza) | *Next Step*; S2-01 | S2-01 | righe nel registro | 16 enti presenti; i quattro a bassa resa nominati con alternative | `main` (PR per lotto o a fine) | nessuna |
+| P0-S2-03 | Cronaca: sei fonti (Questura/Polizia di Stato, Carabinieri, Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza), un mese di comunicati contato: volume, quota con toponimo, quota con nomi | owner | Operator | S2-01 | S2-01 | tabella nel registro | sei fonti × tre numeri, con il mese contato indicato | `main` | nessuna |
+| P0-S2-04 | Gruppi Facebook: dal foglio *Gruppi Facebook*: conteggio verificato, pubblico/privato, regole, leggibilità senza login; nessun dato personale | owner | Operator | S2-01 | S2-01 | tabella nel registro | ogni gruppo censito classificato sui tre attributi; conteggio totale dichiarato | `main` | nessuna |
+| P0-S2-05 | Registro unico consolidato con licenza/termini per fonte | Operator | Codex (PR) | S2-02…04 | S2-02…04 | registro su `main` | una riga per fonte prevista al lancio; licenza valorizzata o "da verificare" motivata; PR unita | `main` | nessuna |
 
 ### S3 — Residui Eventi
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S3-01 | DEC-003: verifica dei cinque indirizzi (mappa o campo) e valori attesi | owner | Operator | golden set | — | cinque valori | confermati o corretti | DEC-003 aggiornata | azione |
-| P0-S3-02 | DEC-002: decisione A/B/C sull'evidenza (eventi ai due luoghi negli export di S1, se presenti; altrimenti C) | owner | Operator | DEC-002; export S1 | — | DEC-002 DECIDED | opzione motivata | `decisions/` | decisione |
-| P0-S3-03 | PR: golden set aggiornato; per A/B edit del workbook master e rebuild; `test_guards.py` verde | Operator | Codex | S3-01, S3-02 | S3-01, S3-02 | PR mergiata | nessun `confidence: verify`; build e 37 controlli verdi | `main` | merge |
+| P0-S3-01 | DEC-003: verifica dei cinque indirizzi (mappa o campo) e valori attesi | owner | Operator | golden set | nessuna | cinque valori | ciascuno dei cinque confermato o corretto con la motivazione | DEC-003 aggiornata | azione dell'owner |
+| P0-S3-02 | DEC-002: decisione A/B/C sull'evidenza (eventi ai due luoghi negli export di S1, se presenti; altrimenti C) | owner | Operator (formato del registro) | DEC-002; export S1-04.n | nessuna | DEC-002 DECIDED | opzione scelta e motivata; campi del registro completi | `decisions/` | decisione DEC-002 |
+| P0-S3-03 | PR: golden set aggiornato; per A/B edit del workbook master e rebuild; `test_guards.py` verde | Operator | Codex (PR) | S3-01, S3-02 | S3-01, S3-02 | PR unita | nessun `confidence: verify`; build e 37 controlli verdi | `main` | merge |
 
 ### S4 — Specifica Eventi
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S4-01 | DEC-005 (migrazione allo schema 2.0): decisione sull'entry esistente | owner | — | DEC-005 | — | DEC-005 DECIDED | — | `decisions/` | decisione |
-| P0-S4-02 | Delta DEC-014…021 → spec: tabella DEC → sezione → modifica richiesta → prima di quale PR del refactor (serve a entrambe le letture) | Operator | Codex (PR) | docx v2.5; DEC-014, 015, 018, 020 | — | `docs/SPEC_V25_DELTA_DEC_014_021.md` | ogni voce cita DEC e sezione | `main` | conferma della lettura |
-| P0-S4-03 | Lettura A (default): consolidamento della spec — sorgente della versione successiva nella sede scelta, delta integrato, PR aperta dal builder, review Codex, risposte, approvazione e merge dell'owner; copia su Drive `10 Specifications` | Operator | Codex (PR); owner (approvazione) | S4-01, S4-02; docx v2.5 | S4-02; scelta della sede | spec consolidata approvata | nessun restatement di regole che vivono in `gazetteer.json` (regola della spec); tutte le voci del delta integrate | `main` + Drive | approvazione |
-| P0-S4-04 | Lettura B (solo se indicata dall'owner): sign-off della v2.5 così com'è registrato in `decisions/` con DEC-005; il delta S4-02 resta l'input della prima PR del refactor | owner | Operator | S4-01, S4-02 | S4-02 | sign-off registrato | — | `decisions/` | indicazione esplicita |
+| P0-S4-01 | DEC-005 (migrazione allo schema 2.0): decisione sull'entry esistente | owner | Operator (formato del registro; coerenza con la spec Part III) | DEC-005; spec v2.5 Part III | nessuna | DEC-005 DECIDED | stato DECIDED con opzione scelta, data e `Affected:` valorizzati; PR unita | `decisions/` | decisione DEC-005 |
+| P0-S4-02 | Delta DEC-014…021 → spec: tabella DEC → sezione → modifica richiesta → prima di quale PR del refactor (serve a entrambe le letture) | Operator | Codex (PR) | docx v2.5; DEC-014, 015, 018, 020 | nessuna | `docs/SPEC_V25_DELTA_DEC_014_021.md` | ogni voce cita DEC e sezione; nessuna DEC dell'11 settembre con impatto sulla spec omessa; PR unita | `main` | conferma della lettura di S4 |
+| P0-S4-03 | Lettura A (default): consolidamento della spec — sorgente della versione successiva nella sede scelta, delta integrato, PR aperta dal builder, review Codex, risposte, approvazione e merge dell'owner; copia su Drive `10 Specifications` | Operator | Codex (PR); owner (approvazione) | S4-01, S4-02; docx v2.5 | S4-02; scelta della sede | spec consolidata approvata | nessun restatement di regole che vivono in `gazetteer.json` (regola della spec); tutte le voci del delta integrate; PR unita e copia su Drive | `main` + Drive | approvazione della spec |
+| P0-S4-04 | Lettura B (solo se indicata dall'owner): sign-off della v2.5 così com'è registrato in `decisions/` con DEC-005; il delta S4-02 resta l'input della prima PR del refactor | owner | Operator (traccia dell'indicazione e del sign-off) | S4-01, S4-02 | S4-02 | sign-off registrato | l'indicazione dell'owner per la lettura B e il sign-off della v2.5 (versione, data) sono scritti in `decisions/` o nel documento del delta; PR unita | `decisions/` | indicazione esplicita e sign-off |
 
 ### S5 — Legale
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S5-01 | Localizzazione della Round 2 Reconciliation (13 questioni, 8 requisiti) e deposito in una sede di record (QN Hub/00 Governance; o `docs/strategic-council/` se senza dati personali) | owner | Operator | — | — | documento reperibile | le 13 questioni e gli 8 requisiti leggibili | sede scelta | azione |
-| P0-S5-02 | Pacchetto legale: 13 questioni con priorità; decisioni assunte come ipotesi di rischio (DEC-016, 019, 020, 021); pagine previste; tabella capacità → gate (baseline §4.1) | Operator | owner | S5-01; DEC | S5-01 | `docs/legal/LEGAL_PACK_2026-09.md` (Drive se riservato) | completo e letto dall'owner | `main` o Drive | — |
-| P0-S5-03 | Richiesta di preventivi a 2–3 studi | owner | — | S5-02 | S5-02 | preventivi | almeno due ricevuti | Drive (riservato) | — |
-| P0-S5-04 | Pacchetto D12: forma societaria/editoriale, responsabile, studio; cosa blocca il go-live | owner (fatti) + Operator (tabella) | owner | S5-03 | S5-03 | `docs/decision-packs/D12.md` | opzioni con costi e tempi | `main` | — |
-| P0-S5-05 | D12: decisione e autorizzazione di spesa | owner | — | S5-04 | S5-04 | DEC DECIDED | — | `decisions/` | decisione + autorizzazione |
-| P0-S5-06 | Incarico conferito; data attesa del parere; tabella di tracciamento questione → capacità → gate | owner (incarico) + Operator (tabella) | owner | S5-05 | S5-05 | lettera d'incarico (Drive riservato); tabella | data attesa registrata | Drive + `main` | — |
+| P0-S5-01 | Localizzazione della Round 2 Reconciliation (13 questioni, 8 requisiti) e deposito in una sede di record (QN Hub/00 Governance; o `docs/strategic-council/` se senza dati personali) | owner | Operator (lettura del documento depositato) | nessuno | nessuna | documento reperibile | le 13 questioni e gli 8 requisiti leggibili nella sede scelta, con link registrato nel pacchetto legale | sede scelta | azione dell'owner |
+| P0-S5-02 | Pacchetto legale: 13 questioni con priorità; decisioni assunte come ipotesi di rischio (DEC-016, 019, 020, 021); pagine previste; tabella capacità → gate (baseline §4.1) | Operator | owner | S5-01; DEC | S5-01 | `docs/legal/LEGAL_PACK_2026-09.md` (Drive se riservato) | tutte le 13 questioni presenti con priorità e capacità bloccata; letto e accettato dall'owner | `main` o Drive | nessuna |
+| P0-S5-03 | Richiesta di preventivi a 2–3 studi | owner | Operator (conteggio e data dei preventivi, senza importi nel repository) | S5-02 | S5-02 | preventivi | almeno due preventivi ricevuti e datati | Drive (riservato) | nessuna |
+| P0-S5-04 | Pacchetto D12: forma societaria/editoriale, responsabile, studio; cosa blocca il go-live | owner (fatti) + Operator (tabella) | owner | S5-03 | S5-03 | `docs/decision-packs/D12.md` | opzioni con costi e tempi; ciò che blocca il go-live indicato per opzione | `main` | nessuna |
+| P0-S5-05 | D12: decisione e autorizzazione di spesa | owner | Operator (formato del registro) | S5-04 | S5-04 | DEC D12 DECIDED | forma societaria/editoriale, responsabile e studio indicati; autorizzazione di spesa registrata (importo su Drive, non nel repository); PR unita | `decisions/` | decisione D12 + autorizzazione |
+| P0-S5-06 | Incarico conferito; data attesa del parere; tabella di tracciamento questione → capacità → gate | owner (incarico) + Operator (tabella) | Operator (tabella e data attesa) | S5-05 | S5-05 | lettera d'incarico (Drive riservato); tabella in `docs/legal/` | data attesa registrata nella tabella; le 13 questioni tracciate con la capacità e il gate di ciascuna | Drive + `main` | nessuna |
 
 ### S6 — Pacchetti decisionali
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S6-01 | Fotografia n8n: istanze esistenti (VPS Aruba, progetto Cloud), dove gira il workflow definitivo, versione, aggiornamenti, backup, costi correnti | owner | Operator | §9.2 | — | fatti nel pacchetto D14 | le tre fonti contraddittorie riconciliate | `docs/decision-packs/D14.md` | — |
-| P0-S6-02 | Pacchetto D14: i due rami di baseline §2.H con i fatti; impatto sul refactor | Operator | Codex (PR) | S6-01 | S6-01 | pacchetto | criteri e costi per ramo | `main` | — |
-| P0-S6-03 | Pacchetto D2: criteri §2.E con fatti di costo e manutenzione; effort del "contorno"; DEC-018 e DEC-020 come verifiche; competenze | Operator | Codex (PR) | baseline §2.E | — | `docs/decision-packs/D2.md` | ogni opzione valutata su ogni criterio | `main` | — |
-| P0-S6-04 | Prova di trascrizione: 3 video di commissione × 2 modalità; costo e qualità per ora di video | owner | Operator (tabella) | S2-02 (video scelti) | autorizzazione | risultati | numeri per modalità | `docs/decision-packs/D3.md` | autorizzazione di spesa |
-| P0-S6-05 | Pacchetto D3: registro A2, prova, i quattro Municipi a bassa resa | Operator | Codex (PR) | S2-05, S6-04 | S2-05, S6-04 | pacchetto | — | `main` | — |
-| P0-S6-06 | Pacchetto D8: le tre opzioni §2.F con costo, attesa, cosa serve prima della Fase 2 | Operator | Codex (PR) | baseline §2.F | — | `docs/decision-packs/D8.md` | — | `main` | — |
-| P0-S6-07 | Pacchetto D9: Sheet esteso vs app minima; campi DEC-015; volume stimato; costo; campione stratificato | Operator | Codex (PR) | S8-01 | S8-01 | `docs/decision-packs/D9.md` | — | `main` | — |
-| P0-S6-08 | Sessione decisionale (settimana 4): D2, D3, D8, D9, D14 — bozze DEC dell'Operator, decisione dell'owner, PR, merge | owner | Codex (PR) | S6-02…07 | tutti i pacchetti | cinque DEC DECIDED | formato del registro; `Blocks:` valorizzato | `main` | decisioni |
+| P0-S6-01 | Fotografia n8n: istanze esistenti (VPS Aruba, progetto Cloud), dove gira il workflow definitivo, versione, aggiornamenti, backup, costi correnti | owner | Operator | §9.2 | S0 (accessi con le nuove credenziali) | fatti nel pacchetto D14 | le tre fonti contraddittorie riconciliate in una sola fotografia datata | `docs/decision-packs/D14.md` | nessuna |
+| P0-S6-02 | Pacchetto D14: i due rami di baseline §2.H con i fatti; impatto sul refactor | Operator | Codex (PR) | S6-01 | S6-01 | pacchetto | criteri e costi per ramo; PR unita | `main` | nessuna |
+| P0-S6-03 | Pacchetto D2: criteri §2.E con fatti di costo e manutenzione; effort del "contorno"; DEC-018 e DEC-020 come verifiche; competenze | Operator | Codex (PR) | baseline §2.E | nessuna | `docs/decision-packs/D2.md` | ogni opzione valutata su ogni criterio; PR unita | `main` | nessuna |
+| P0-S6-04 | Prova di trascrizione: 3 video di commissione × 2 modalità; costo e qualità per ora di video | owner | Operator (tabella) | S2-02 (video scelti) | autorizzazione dell'owner | risultati | costo, tempo e qualità per ora di video per ciascuna modalità | `docs/decision-packs/D3.md` | autorizzazione di spesa |
+| P0-S6-05 | Pacchetto D3: registro A2, prova, i quattro Municipi a bassa resa | Operator | Codex (PR) | S2-05, S6-04 | S2-05, S6-04 | `docs/decision-packs/D3.md` | resa per Municipio, risultati della prova (costo e qualità per ora) e alternative per i quattro Municipi presenti; PR unita | `main` | nessuna |
+| P0-S6-06 | Pacchetto D8: le tre opzioni §2.F con costo, attesa, cosa serve prima della Fase 2 | Operator | Codex (PR) | baseline §2.F | nessuna | `docs/decision-packs/D8.md` | le tre opzioni con costo, tempo di attesa e prerequisiti per la Fase 2; PR unita | `main` | nessuna |
+| P0-S6-07 | Pacchetto D9: Sheet esteso vs app minima; campi DEC-015; volume stimato; costo; campione stratificato | Operator | Codex (PR) | S8-01 | S8-01 | `docs/decision-packs/D9.md` | le due opzioni valutate sui campi di DEC-015, sul volume stimato, sul costo e sulla misurabilità del campione stratificato; PR unita | `main` | nessuna |
+| P0-S6-08 | Sessione decisionale (settimana 4): D2, D3, D8, D9, D14 — bozze DEC dell'Operator, decisione dell'owner, PR, merge | owner | Codex (PR) | S6-02…07 | tutti i pacchetti | cinque DEC DECIDED | formato del registro; `Blocks:` valorizzato; PR unita | `main` | cinque decisioni |
 
 ### S7 — Governance
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S7-01 | PR della branch dell'11 settembre (baseline + DEC-014…021) verso `main` | Operator (apre) | Codex; owner (merge) | branch esistente | — | merge | su `main` | `main` | merge |
-| P0-S7-02 | PR di questo piano e del registro delle review, dopo l'approvazione dell'owner | Operator | Codex; owner | questo documento | approvazione; S7-01 (ordine di merge) | merge | su `main` | `main` | approvazione + merge |
-| P0-S7-03 | Allineamento documenti: `docs/START_HERE.md` §6, `docs/NEXT_SESSION_BRIEF.md`, README (37/38), `PROJECT_BRIEF.md` — pointer, non copie | Operator | Codex (PR) | S7-01 | S7-01 (ordine di merge) | PR | nessun documento dichiara la spec mancante; il brief cita DEC-014…021 | `main` | — |
-| P0-S7-04 | Diario del tempo: foglio in QN Hub/00 Governance (data, flusso, attività/PR, ore, cicli, note); snapshot mensile in `docs/measures/` | owner (compila) + Operator (template) | owner | — | — | foglio attivo | quattro settimane compilate a fine fase | Drive + `main` | — |
-| P0-S7-05 | Note di metodo M2 (ore e cicli per PR sui primi tre PR del refactor) e M3 (tasso di eccezione e minuti per caso della thin slice) con le soglie della baseline §6 | Operator | Codex (PR) | baseline §6 | — | `docs/measures/M2_M3_METHOD.md` | misure, sede, soglie definite | `main` | — |
-| P0-S7-06 | Proposta di ristima di §4 della baseline (candidato; la baseline non si modifica senza approvazione) | Operator | owner | S1-09, S6-08 | S1-09, S6-08 | documento candidato | consegnato | branch/PR | decisione |
-| P0-S7-07 | Cadenza mensile di revisione del piano; prima revisione a fine Fase 0 | owner | — | — | — | data fissata | — | diario | — |
+| P0-S7-01 | PR della branch dell'11 settembre (baseline + DEC-014…021) verso `main` | Operator (apre) | Codex; owner (merge) | branch esistente | nessuna | merge | baseline e DEC-014…021 su `main`, contenuto identico ai commit `9fcb896` e `7873b11` salvo correzioni dell'owner | `main` | merge |
+| P0-S7-02 | PR di questo piano e del registro delle review, dopo l'approvazione dell'owner | Operator | Codex; owner (merge) | questo documento | approvazione; S7-01 (ordine di merge) | merge | piano e registro su `main` nella versione approvata | `main` | approvazione + merge |
+| P0-S7-03 | Allineamento documenti: `docs/START_HERE.md` §6, `docs/NEXT_SESSION_BRIEF.md`, README (37/38), `PROJECT_BRIEF.md` — pointer, non copie | Operator | Codex (PR) | S7-01 | S7-01 (ordine di merge) | PR | nessun documento dichiara la spec mancante; il brief cita DEC-014…021; PR unita | `main` | nessuna |
+| P0-S7-04 | Diario del tempo: foglio in QN Hub/00 Governance (data, flusso, attività/PR, ore, cicli, note); snapshot mensile in `docs/measures/` | owner (compila) + Operator (template) | Operator (snapshot mensile) | nessuno | nessuna | foglio attivo | quattro settimane compilate a fine fase; primo snapshot in `docs/measures/` | Drive + `main` | nessuna |
+| P0-S7-05 | Note di metodo M2 (ore e cicli per PR sui primi tre PR del refactor) e M3 (tasso di eccezione e minuti per caso della thin slice) con le soglie della baseline §6 | Operator | Codex (PR) | baseline §6 | nessuna | `docs/measures/M2_M3_METHOD.md` | misure, sede e soglie definite; PR unita | `main` | nessuna |
+| P0-S7-06 | Proposta di ristima di §4 della baseline (candidato; la baseline non si modifica senza approvazione) | Operator | owner | S1-07, S6-08 | S1-07, S6-08 | documento candidato | ristima che cita i conteggi M1 e le decisioni prese, con lo scenario risultante secondo la baseline §6; consegnato all'owner | branch/PR | decisione dell'owner sulla ristima |
+| P0-S7-07 | Cadenza mensile di revisione del piano; prima revisione a fine Fase 0 | owner | Operator (data presente nel diario) | nessuno | nessuna | data fissata | data della prima revisione registrata nel diario entro la settimana 1 | diario | nessuna |
 
 ### S8 — Preparazione Fase 1
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S8-01 | Bozza dello schema della coda unica per tutti i blocchi (motivi strutturati, campi minimi) | Operator | Codex (PR) | `docs/REVIEW_QUEUE.md`, DEC-103, DEC-015 | — | `docs/drafts/QUEUE_SCHEMA_DRAFT.md` | marcata bozza; input di D9 | `main` | — |
-| P0-S8-02 | Bozza del prompt di record della seconda AI di verifica e dei controlli deterministici (nessun provider) | Operator | Codex (PR) | DEC-015 | — | `docs/drafts/VERIFIER_PROMPT_DRAFT.md` | marcata bozza; nessun cablaggio | `main` | — |
-| P0-S8-03 | Design della thin slice C: 2–3 Municipi eterogenei, golden set da 30 item, misure | Operator | Codex (PR) | S2-05; D3 | S2-05 | `docs/drafts/THIN_SLICE_DESIGN.md` | marcata bozza | `main` | — |
+| P0-S8-01 | Bozza dello schema della coda unica per tutti i blocchi (motivi strutturati, campi minimi) | Operator | Codex (PR) | `docs/REVIEW_QUEUE.md`, DEC-103, DEC-015 | nessuna | `docs/drafts/QUEUE_SCHEMA_DRAFT.md` | marcata bozza; citata dal pacchetto D9; PR unita | `main` | nessuna |
+| P0-S8-02 | Bozza del prompt di record della seconda AI di verifica e dei controlli deterministici (nessun provider) | Operator | Codex (PR) | DEC-015 | nessuna | `docs/drafts/VERIFIER_PROMPT_DRAFT.md` | marcata bozza; nessun cablaggio e nessun provider nominato; PR unita | `main` | nessuna |
+| P0-S8-03 | Bozza pre-D3 del design della thin slice C: 2–3 Municipi eterogenei per formato, golden set da 30 item, misure da raccogliere; le scelte che dipendono da D3 sono marcate come aperte | Operator | Codex (PR) | S2-05 | S2-05 | `docs/drafts/THIN_SLICE_DESIGN.md` | marcata bozza; i punti dipendenti da D3 elencati come aperti; PR unita | `main` | nessuna |
+| P0-S8-04 | Rifinitura post-D3 del design della thin slice (formato di trascrizione, fonti di record); resta una bozza di Fase 1 | Operator | Codex (PR) | S8-03; DEC D3 | S6-08 | stessa bozza aggiornata | i punti aperti di S8-03 chiusi secondo D3; ancora marcata bozza; PR unita | `main` | nessuna |
 
 ## 5. Dipendenze effettive, ordine di merge e parallelismo
 
-Vincoli reali: S0 → primo run in staging (S1-02) e credenziali dell'Operator (S0-03);
-quarto run → tabella M1 (S1-08); S2-02 → D3; Reconciliation (S5-01) → pacchetto legale →
-preventivi → D12 → incarico; S8-01 → D9; fotografia n8n (S6-01) → D14; tutti i pacchetti →
-sessione decisionale (S6-08); S1-09 e S6-08 → ristima (S7-06); S4 (lettura scelta) → prime
-PR del refactor (Fase 1, fuori).
+Vincoli reali: S0 → staging (S1-02) e primo run (S1-04.1), e credenziali dell'Operator
+(S0-03); ogni run S1-04.n ← raccolta S1-03.n; quarto run (S1-04.4) → tabella M1 (S1-06);
+S2-02 → D3; Reconciliation (S5-01) → pacchetto legale → preventivi → D12 → incarico;
+S8-01 → D9; fotografia n8n (S6-01) → D14; tutti i pacchetti → sessione decisionale
+(S6-08); S6-08 (D3) → rifinitura della thin slice (S8-04); S1-07 e S6-08 → ristima (S7-06);
+S4 (lettura scelta) → prime PR del refactor (Fase 1, fuori).
 
 Vincolo di ordine di merge (non di stesura): la PR della baseline (S7-01) va unita a `main`
 prima di ogni documento che cita DEC-014…021; la stesura di tutto procede in branch dalla
@@ -392,10 +398,10 @@ settimana 3.
 
 | Banda | Owner (22,5 h/sett. di Fase 0) | Operator | In attesa |
 |---|---|---|---|
-| Settimana 1 | S0 (1–2 h); S1-03 raccolta URL; S1-02 staging dopo S0; S2-02 lotto 1; S5-01 Reconciliation; S7-04 diario | S0-06 bozza D1; S1-01 metodo; S2-01 template; S4-02 delta; S5-02 pacchetto legale; S7-01 PR baseline; S7-05 M2/M3; S8-01 | — |
-| Settimana 2 | S1-04; S2-02 lotto 2; S6-01 fotografia n8n; S6-04 prova trascrizione (se autorizzata); S5-03 preventivi; revisione della spec (S4) | S4-03 (A) o S4-04 (B); S6-02 D14; S6-03 D2; S6-06 D8; S8-02 | parere: non ancora |
-| Settimana 3 | S1-05; S2-02 lotto 3; S2-03 Cronaca; S2-04 gruppi; S3-01/02; S1-07 campione | S3-03 PR; S6-05 D3; S6-07 D9; S7-03 allineamento; S8-03 | — |
-| Settimana 4 | S1-06; S6-08 decisioni; S5-05 D12; S4-01 DEC-005; S7-07 | S1-08/09 conteggi; S2-05 registro; S6-08 bozze DEC; S7-06 ristima | incarico legale conferito (S5-06) |
+| Settimana 1 | S0 (1–2 h); S1-03.1 raccolta URL (senza credenziali); S1-02 staging e S1-04.1 primo run dopo S0; S2-02 lotto 1; S5-01 Reconciliation; S7-04 diario; S7-07 data della revisione | S0-06 bozza D1; S1-01 metodo; S2-01 template; S4-02 delta; S5-02 pacchetto legale; S7-01 PR baseline; S7-05 M2/M3; S8-01 | nessuna attesa |
+| Settimana 2 | S1-03.2, S1-04.2; S1-05 campione (prima parte); S2-02 lotto 2; S6-01 fotografia n8n; S6-04 prova trascrizione (se autorizzata); S5-03 preventivi; revisione della spec (S4) | S4-03 (A) o S4-04 (B); S6-02 D14; S6-03 D2; S6-06 D8; S8-02 | parere legale: non ancora |
+| Settimana 3 | S1-03.3, S1-04.3; S1-05 campione; S2-02 lotto 3; S2-03 Cronaca; S2-04 gruppi; S3-01/02 | S3-03 PR; S6-05 D3; S6-07 D9; S7-03 allineamento; S8-03 bozza pre-D3 | nessuna attesa |
+| Settimana 4 | S1-03.4, S1-04.4; S6-08 decisioni; S5-05 D12; S4-01 DEC-005 | S1-06/07 conteggi e scenario; S2-05 registro; S6-08 bozze DEC; S7-06 ristima; S8-04 rifinitura post-D3 | incarico legale conferito (S5-06); parere in Fase 1–2 |
 
 ## 6. Decisioni e autorizzazioni dell'owner, con il momento
 
@@ -439,13 +445,14 @@ scanning (raccomandato).
 lavorare con le credenziali attuali): P0-S0-01…04 (owner, 1–2 h), P0-S0-03 aggiornamento
 delle credenziali negli ambienti degli agenti, P0-S0-06 bozza e decisione D1.
 
-**In parallelo, lo stesso giorno, senza credenziali**: P0-S1-03 raccolta URL settimana 1
-(owner); P0-S2-01 template e P0-S2-02 lotto 1 (Operator, owner); P0-S1-01 metodo M1
-(Operator); P0-S4-02 delta (Operator); P0-S5-01 localizzazione della Reconciliation (owner)
-e P0-S5-02 pacchetto legale (Operator); P0-S7-01 PR della baseline (Operator apre, owner
-unisce); P0-S7-04 diario (owner); P0-S7-05 metodo M2/M3 e P0-S8-01 (Operator).
+**In parallelo, lo stesso giorno, senza credenziali**: P0-S1-03.1 raccolta URL della
+settimana 1 (owner, login personale su Facebook, nessuna credenziale di sistema); P0-S2-01
+template e P0-S2-02 lotto 1 (Operator, owner); P0-S1-01 metodo M1 (Operator); P0-S4-02
+delta (Operator); P0-S5-01 localizzazione della Reconciliation (owner) e P0-S5-02 pacchetto
+legale (Operator); P0-S7-01 PR della baseline (Operator apre, owner unisce); P0-S7-04 diario
+e P0-S7-07 data della revisione (owner); P0-S7-05 metodo M2/M3 e P0-S8-01 (Operator).
 
-**Dopo S0**: P0-S1-02 staging e primo run.
+**Dopo S0**: P0-S1-02 staging e P0-S1-04.1 primo run sugli URL di S1-03.1.
 
 **Autorizzazioni da dare con l'approvazione**: quattro run Apify (servizio esistente);
 prova di trascrizione a pagamento (D3, settimana 2); incarico legale al momento di D12.
@@ -486,8 +493,8 @@ trattati da P0-S7-03; la baseline non è modificata.
 | Review | Versione esaminata | Verdetto di Codex | Finding | Esito |
 |---|---|---|---|---|
 | 1 (Livello A, step) | proposal A-0.1, sha256 `fc8b953d…` | AGREEMENT WITH NON-BLOCKING RESIDUALS | 2 IMPORTANT (S4 biforcazione; gate S0), 1 MINOR (S7a) | tutti accettati e applicati in B-0.2; controverifica nella review 2 |
-| 2 (Livello B, sottotask) | questo documento, B-0.2 | — | — | — |
-| 3 (versione candidata finale) | — | — | — | — |
+| 2 (Livello B, sottotask) | B-0.2, sha256 `b653536a…` | NO AGREEMENT | 1 BLOCKING (campi verificatore/accettazione vuoti in otto sottotask), 2 IMPORTANT (ID aggregato S1-03…06; dipendenza di S8-03 da D3 incoerente); le tre correzioni della review 1 controverificate e conformi | tutti accettati e applicati in B-0.3; controverifica nella review 3 |
+| 3 (versione candidata finale) | questo documento, B-0.3 | — | — | — |
 
 I report per ciclo sono in `reviews/` con il nome `2026-09-14—cycleN—phase-0-execution—<verdetto>.md`
 (DEC-007, dove si archivia una code review: la PR è l'archivio; `reviews/` resta la sede
