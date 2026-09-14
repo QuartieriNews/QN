@@ -2,7 +2,7 @@
 
 | Campo | Valore |
 |---|---|
-| Stato | **Metodo, versione M-0.2**: applica i cinque finding del controllo di Codex su M-0.1 (NO AGREEMENT, 2 BLOCKING, 2 IMPORTANT, 1 MINOR; report in `reviews/2026-09-14—sources-study-method—NO_AGREEMENT.md`) ed è sottoposta al secondo controllo circoscritto. Non è lo studio: è il modo in cui lo studio verrà condotto |
+| Stato | **Metodo concordato, versione M-0.3.** Secondo controllo di Codex su M-0.2 (commit `8f2e2da`): **AGREEMENT WITH NON-BLOCKING RESIDUALS**, metodo eseguibile (`reviews/2026-09-14—sources-study-method-v2—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md`). M-0.3 applica i due residui (frame di campionamento con seed e tie-break deterministico; quote del campione "fino a N, se disponibili"): correzioni **non riverificate** da Codex. Il primo controllo (M-0.1) era NO AGREEMENT (`reviews/2026-09-14—sources-study-method—NO_AGREEMENT.md`). Non è lo studio: è il modo in cui lo studio verrà condotto |
 | Mandato | Risposta dell'owner del 14 settembre 2026 (§1–§5): ricerca, lettura, analisi e classificazione delle fonti pubbliche accessibili affidate all'Operator; studio che permetta di scegliere le fonti e stimare il prodotto alimentabile; budget di 50 € per prove rappresentative; nessun lavoro sproporzionato sulle fonti marginali |
 | Cornice | `docs/PHASE_0_EXECUTION.md` step S2 e S6-D3; baseline v0.6 §2.A (flusso A); DEC-102 (posizione sulle fonti e sulla raccolta: nessuna automazione autenticata); DEC-104 (loop di sviluppo AI: repository pubblico, campioni fuori, decisioni dentro); DEC-014 (perimetro pubblico dell'MVP: 89 pagine, tre blocchi, stock minimi con fallback) |
 | Stato dei dati | Ogni numero dello studio è marcato **misurato** (contato su materiale reale, con link), **stimato** (derivato con ipotesi dichiarate) o **mancante** |
@@ -110,6 +110,16 @@ con questi campi obbligatori:
   300 item complessivi nelle fonti di livello 1 (atteso per Cronaca ed Eventi); oltre, su
   un campione casuale di almeno 60 item per coppia di fonti, e la resa è marcata
   **stimata** con la dimensione del campione. Sull'intero mese la resa è **misurata**.
+- **Campionamento riproducibile** (quando si campiona): il frame è l'elenco completo degli
+  item del mese della fonte, ordinato per data di pubblicazione, poi per ordine
+  predefinito delle fonti (A1, A2, …, C1, …, E1, …), poi per URL; l'estrazione usa un
+  generatore pseudo-casuale con **seed fisso registrato** nel rapporto (uno per fonte, ad
+  esempio `2026-06-<codice fonte>`); la lista campionata è salvata su Drive accanto ai
+  dati per item, così che una ripetizione dia lo stesso campione.
+- **Tie-break per "prima fonte che ha pubblicato"**: timestamp completo di pubblicazione
+  se disponibile; a parità o in assenza dell'ora, l'ordine predefinito delle fonti; a
+  parità residua, l'URL in ordine alfabetico. La regola applicata a ogni duplicato è
+  registrata con il gemello.
 - **Formula**: resa lorda del blocco = somma degli item delle fonti; resa netta = resa lorda
   − item già contati in un'altra fonte (un fatto è attribuito alla prima fonte che lo ha
   pubblicato); contributo unico di una fonte = suoi item non presenti altrove. Il rapporto
@@ -129,10 +139,13 @@ cartella Drive. Residuo per l'owner: confermare questa collocazione o indicarne 
 ### 4.3 Campione per il controllo di Codex e dell'owner
 
 - **Minimo di audit**: 5 item per fonte, con almeno uno per formato incontrato.
-- **Quote mirate per le affermazioni critiche**, per blocco: 20 item per la
-  deduplicazione (10 giudicati duplicati e 10 distinti, con i gemelli) e 20 per la
-  localizzazione (10 localizzati a zona e 10 solo a Municipio o non localizzati); per una
-  fonte con più di 100 item nel mese le quote che la riguardano raddoppiano.
+- **Quote mirate per le affermazioni critiche**, per blocco: fino a 20 item per la
+  deduplicazione (fino a 10 giudicati duplicati e fino a 10 distinti, con i gemelli) e fino
+  a 20 per la localizzazione (fino a 10 localizzati a zona e fino a 10 solo a Municipio o
+  non localizzati), **se disponibili**: quando una categoria ha meno casi della quota, si
+  prendono tutti i casi esistenti e il rapporto dichiara la numerosità effettiva, senza
+  selezione opportunistica; per una fonte con più di 100 item nel mese le quote che la
+  riguardano raddoppiano.
 - I casi giudicati "sicuri" e quelli "dubbi" sono indicati come tali; se il controllo trova
   un errore sistematico, la parte di studio interessata è ricontrollata per intero prima
   della consegna.
