@@ -59,9 +59,9 @@ NO AGREEMENT
 
 | # | Severità | Risposta | Correzione (in `docs/PHASE_0_EXECUTION.md` B-0.3, sha256 `73d52cb827e128db978564b68759855cb0a1efc70d74489dc7bccfdab5bb2f7f`) | Controverifica |
 |---|---|---|---|---|
-| 1 | BLOCKING | Accettato | Verificatore e criterio di accettazione oggettivo in ogni sottotask; nessuna cella "—" residua nelle tabelle di §4 (le assenze reali sono scritte "nessuna"/"nessuno") | attesa nella review 3 |
-| 2 | IMPORTANT | Accettato | Raccolta URL (P0-S1-03, istanze .1….4, senza credenziali di sistema) separata dal run in staging con export (P0-S1-04, istanze .1….4, dipendenti da S1-02 e S1-03.n); campione, conteggi e scenario rinumerati S1-05…07; §5 e §8 riallineati | attesa nella review 3 |
-| 3 | IMPORTANT | Accettato | P0-S8-03 bozza pre-D3 (dipende solo da S2-05, settimana 3, punti dipendenti da D3 marcati aperti); P0-S8-04 rifinitura post-D3 (dipende da S6-08, settimana 4, resta bozza); §3 S8 e §5 allineati | attesa nella review 3 |
+| 1 | BLOCKING | Accettato | Verificatore e criterio di accettazione oggettivo in ogni sottotask; nessuna cella "—" residua nelle tabelle di §4 (le assenze reali sono scritte "nessuna"/"nessuno") | review 3: verificata, conforme |
+| 2 | IMPORTANT | Accettato | Raccolta URL (P0-S1-03, istanze .1….4, senza credenziali di sistema) separata dal run in staging con export (P0-S1-04, istanze .1….4, dipendenti da S1-02 e S1-03.n); campione, conteggi e scenario rinumerati S1-05…07; §5 e §8 riallineati | review 3: verificata, conforme |
+| 3 | IMPORTANT | Accettato | P0-S8-03 bozza pre-D3 (dipende solo da S2-05, settimana 3, punti dipendenti da D3 marcati aperti); P0-S8-04 rifinitura post-D3 (dipende da S6-08, settimana 4, resta bozza); §3 S8 e §5 allineati | review 3: verificata, conforme |
 
 Le tre correzioni della review 1 (S4 biforcato; gate S0 minimo; S7a come vincolo di ordine di merge) sono state controverificate da Codex in questa review e trovate conformi: chiuse.
 

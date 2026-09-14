@@ -2,10 +2,10 @@
 
 | Campo | Valore |
 |---|---|
-| Stato | **Candidato** — versione B-0.3 (versione candidata finale), sottoposta alla review 3 di 3 del Technical Council (Claude Operator ↔ Codex reviewer). Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
+| Stato | **Candidato** — versione B-0.4. **Verdetto del Technical Council** (Claude Operator ↔ Codex reviewer, review 3 di 3, l'ultima autorizzata): **AGREEMENT WITH NON-BLOCKING RESIDUALS** sulla versione **B-0.3** (sha256 `73d52cb8…`, commit `6820681`). Questa B-0.4 applica i tre finding della review 3 (P0-S7-01, S5-06/gate 6, colonne del registro §10) e una passata editoriale sulle citazioni DEC: **modifiche non riverificate da Codex** (budget di tre review esaurito), elencate in §10. Non è approvato dall'owner; non sostituisce la baseline; non è il piano definitivo dell'intero progetto |
 | Baseline di riferimento | `docs/PROJECT_BASELINE.md` — Impianto di progetto v0.6, "Owner-approved baseline (11 settembre 2026)", commit `7873b11` sulla branch `claude/quartieri-news-strategic-review-tzkl78` (non ancora su `main`, §1) |
 | Perimetro | Riga "0 · Misurare e decidere" della baseline §4 e Appendice A; mandato dell'owner del 14 settembre 2026 |
-| Registro delle review | `reviews/2026-09-14—cycle1—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md`, `reviews/2026-09-14—cycle2—phase-0-execution—NO_AGREEMENT.md` e il report della review 3 (§10) |
+| Registro delle review | `reviews/2026-09-14—cycle1—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md`, `reviews/2026-09-14—cycle2—phase-0-execution—NO_AGREEMENT.md`, `reviews/2026-09-14—cycle3—phase-0-execution—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md` (§10) |
 | Convenzioni di stato | **FATTO VERIFICATO** (letto nel repository o su Drive) · **DICHIARAZIONE DELL'OWNER** · **IPOTESI** · **DA VERIFICARE** |
 | Ore | Le stime della baseline, indicative. Il tempo di attesa (le quattro settimane osservate di A1) è distinto dal lavoro attivo |
 
@@ -23,8 +23,8 @@ canonico `decisions/`; il testo delle decisioni non è ripetuto qui.
 
 - **Baseline.** FATTO VERIFICATO: `docs/PROJECT_BASELINE.md` v0.6 esiste al commit `7873b11`
   (autore Riccardo Benvenuti, 11 settembre 2026) sulla branch
-  `claude/quartieri-news-strategic-review-tzkl78`, insieme alle decisioni DEC-014…DEC-021 e
-  alle modifiche a DEC-006 e DEC-103 (commit `9fcb896`). Nessuna delle due è su `main` e non
+  `claude/quartieri-news-strategic-review-tzkl78`, insieme alle decisioni DEC-014…DEC-021 (le otto decisioni dell'11 settembre 2026) e
+  alle modifiche a DEC-006 (fallback al Municipio per pagine sottili, residuo aperto) e DEC-103 (commit `9fcb896`). Nessuna delle due è su `main` e non
   esiste una pull request. Il file `QN_Impianto_di_Progetto_v0.6.md` citato dal mandato non è
   stato trovato su Drive per titolo: la corrispondenza con il commit `7873b11`, incluse le
   "correzioni finali autorizzate", è DA VERIFICARE dall'owner. Questo piano usa il testo del
@@ -41,7 +41,7 @@ canonico `decisions/`; il testo delle decisioni non è ripetuto qui.
   `Quartieri_News_FB_Events_Workflow_Specification_v2_5.docx`, "Version 2.5 — consolidation
   of version 2.4 with release 1.4.4", "Prepared 28 August 2026", stato "Ready for direct
   implementation", con T01–T45 e la migrazione di schema "flagged for owner sign-off"
-  (DEC-005, modalità di migrazione allo schema 2.0, OPEN). README, AGENTS.md e
+  (DEC-005 (modalità di migrazione allo schema 2.0), OPEN). README, AGENTS.md e
   PROJECT_BRIEF la trattano come contratto. Vedi §9.1.
 - **Sicurezza.** DICHIARAZIONE DELL'OWNER: il file con le credenziali è stato cancellato da
   Drive e scaricato sul PC. FATTO VERIFICATO: una ricerca per titolo su Drive non trova
@@ -53,20 +53,19 @@ canonico `decisions/`; il testo delle decisioni non è ripetuto qui.
   settembre 2026), QN Hub (Operating Model v1.1, Specification Review Mandate, template dei
   report, pacchetto Events 1.4.5).
 - **Non trovati** nel repository né su Drive per titolo: la "Round 2 Reconciliation" (13
-  questioni legali e 8 requisiti di lancio citati da DEC-014, DEC-016, DEC-017 e dalla
+  questioni legali e 8 requisiti di lancio citati da DEC-014 (perimetro pubblico dell'MVP: 89 pagine, tre blocchi, stock minimi con fallback), DEC-016 (Cronaca: nomi presenti nelle fonti ufficiali), DEC-017 (KPI e guardrail dell'MVP) e dalla
   baseline §4.1, che ne nomina 12: manca la questione 11); l'evidence pack del Council
   precedente. DA VERIFICARE (§9.3).
 - **Strumento del Technical Council.** FATTO VERIFICATO: le sei iterazioni sulla baseline
   hanno usato `gpt-5.3-codex` via Responses API (baseline §7); lo stesso collegamento è
   usato per questo incarico. Il tool `council/` resta riservato allo Strategic Council
-  (DEC-008, modello AI a tre livelli: il critico strategico è `gpt-5.6-sol`, mai Codex).
+  (DEC-008 (modello AI a tre livelli): il critico strategico è `gpt-5.6-sol`, mai Codex).
 
 ## 2. Perimetro della Fase 0
 
 **Dentro**: sicurezza (R0/D1); M1 (eventi per pagina su quattro settimane non agostane);
 inventario e verifica delle fonti Amministrazione, Cronaca e gruppi; registro fonti unico;
-residui del pacchetto Eventi (DEC-002 Colle del Sole; DEC-003 cinque indirizzi da
-verificare); specifica Eventi v2.5 (§3, S4, due letture); avvio del percorso legale e D12;
+residui del pacchetto Eventi (DEC-002 (Colle del Sole, chiave di lookup ambigua); DEC-003 (cinque indirizzi del golden set da verificare)); specifica Eventi v2.5 (§3, S4, due letture); avvio del percorso legale e D12;
 pacchetti e decisioni D2, D3, D8, D9, D14; documentazione e governance della fase;
 preparazione — non costruzione — della Fase 1 in sovrapposizione (7,5 h/settimana,
 baseline A.2).
@@ -74,7 +73,7 @@ baseline A.2).
 **Fuori** (baseline A.4 e mandato §3): costruzione di sito, publisher o pipeline nuove;
 refactor Eventi (Fase 1–2; M2 si misura sui primi tre PR del refactor); provider AI (D7);
 forma del fallback (D4) e dipendenza Posts (D5), da decidere dopo M1 e l'eventuale
-allargamento delle fonti; DEC-001 (tour guidati commerciali a pagamento) e DEC-004
+allargamento delle fonti; DEC-001 (tour guidati commerciali a pagamento) e DEC-004 (valore di produzione di max_events_per_run)
 (valore di produzione di `max_events_per_run`), da chiudere prima di attivare filtro e
 schedule (D6); test di usabilità; qualunque modifica in n8n senza export in PR
 (`workflows/README.md`).
@@ -112,10 +111,10 @@ responsabile (esecutore / verificatore) · criterio di completamento · owner.
   stock minimi con fallback) mette per prima e che DEC-006 (fallback al Municipio per pagine
   sottili, residuo aperto) vincola alle settimane non agostane.
 - **Input**: workflow pre-refactor in `staging_`; raccolta manuale settimanale degli URL
-  (DEC-102, posizione sulle fonti e sulla raccolta: manuale, nessuna automazione
+  (DEC-102 (posizione sulle fonti e sulla raccolta): manuale, nessuna automazione
   autenticata); `tests/zone_distribution.py`; credenziali ruotate (S0).
 - **Output**: nota di metodo M1; quattro export settimanali su Drive (dati grezzi mai nel
-  repository: DEC-102 e DEC-104, loop di sviluppo AI con i campioni fuori dal repository);
+  repository: DEC-102 (posizione sulle fonti e sulla raccolta) e DEC-104 (loop di sviluppo AI: repository pubblico, campioni fuori, decisioni dentro));
   tabella per pagina e Municipio in `docs/` (soli conteggi); lettura dello scenario M1
   secondo la tabella di ristima della baseline §6, senza prendere D4 né D5.
 - **Metodo** (concordato come metodo, non come progetto: review 1): i conteggi usano i
@@ -143,7 +142,7 @@ responsabile (esecutore / verificatore) · criterio di completamento · owner.
 - **Output**: template del registro; inventario Amministrazione (16 enti) con resa attesa;
   tabella Cronaca (sei fonti × volume, quota con toponimo, quota con nomi); tabella gruppi
   (pubblico/privato, regole, leggibilità senza login); registro consolidato in `docs/`
-  senza dati personali (repository pubblico, DEC-104).
+  senza dati personali (repository pubblico, DEC-104 (loop di sviluppo AI: repository pubblico, campioni fuori, decisioni dentro)).
 - **Dipendenze effettive**: template (settimana 1) → letture; inventario Amministrazione
   → D3. La tabella gruppi serve alla questione legale 9 ma non blocca S5.
 - **Parallelismo**: letture distribuite sulle settimane 1–3 (owner), in parallelo a S1;
@@ -159,17 +158,17 @@ responsabile (esecutore / verificatore) · criterio di completamento · owner.
 - **Obiettivo**: chiudere DEC-002 (Colle del Sole: chiave di lookup ambigua fra Municipio VI
   e XI) e DEC-003 (cinque indirizzi del golden set geografico marcati `confidence: verify`).
   La baseline §2.A(6) le elenca come tre voci; sono due (residuo MINOR, §9.5).
-- **Input**: `tests/golden_set_geographic.json`; DEC-002; DEC-003; workbook master
+- **Input**: `tests/golden_set_geographic.json`; DEC-002 (Colle del Sole, chiave di lookup ambigua); DEC-003 (cinque indirizzi del golden set da verificare); workbook master
   `gazetteer/Rome_Neighbourhood_Gazetteer_EN.xlsx`; evidenza dagli export di S1 se presente.
-- **Output**: DEC-002 DECIDED; DEC-003 chiusa; PR con golden set aggiornato e, per DEC-002
+- **Output**: DEC-002 (Colle del Sole, chiave di lookup ambigua) DECIDED; DEC-003 (cinque indirizzi del golden set da verificare) chiusa; PR con golden set aggiornato e, per DEC-002
   A o B, edit del workbook e rebuild (mai a mano sui generati) con `test_guards.py` verde.
 - **Dipendenze effettive**: decisione e verifiche dell'owner → PR. L'evidenza di S1 è utile,
-  non necessaria (DEC-002 prevede C).
+  non necessaria (DEC-002 (Colle del Sole, chiave di lookup ambigua) prevede C).
 - **Parallelismo**: indipendente; la baseline la colloca in settimana 3.
 - **Responsabile**: owner (verifiche, decisione); Operator (PR); Codex (review).
 - **Criterio di completamento**: le due voci aggiornate su `main`; golden set senza
   `confidence: verify`; build e 37 controlli verdi.
-- **Owner**: decisione DEC-002; azione DEC-003.
+- **Owner**: decisione DEC-002 (Colle del Sole, chiave di lookup ambigua); azione DEC-003 (cinque indirizzi del golden set da verificare).
 
 ### S4 — Specifica Eventi v2.5: consolidamento (default) o sign-off più delta (B)
 Biforcato esplicitamente (review 1, finding 1). La scelta è dell'owner all'approvazione del
@@ -180,24 +179,24 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
   questa lettura è la versione successiva della spec che integra il delta delle decisioni
   dell'11 settembre — DEC-014 (perimetro pubblico: fallback al render come requisito di
   lancio), DEC-015 (pubblicazione automatica con doppio controllo AI e coda di eccezione:
-  Part I §9), DEC-018 (architettura URL e identità dei contenuti: Part III), DEC-020
+  Part I §9), DEC-018 (architettura URL e identità dei contenuti: Part III), DEC-020 (correzioni con modifica diretta e tracciabilità interna)
   (correzioni: modifica diretta con tracciabilità interna: versioning per item) — più
-  DEC-005 decisa. Sotto-questione da confermare con la scelta: la sede del sorgente della
+  DEC-005 (modalità di migrazione allo schema 2.0) decisa. Sotto-questione da confermare con la scelta: la sede del sorgente della
   spec consolidata (repository come sorgente e Drive come copia pubblicata, oppure solo
   Drive come README oggi prevede per i documenti normativi): la baseline prevede una PR,
   che presuppone un sorgente nel repository.
 - **Lettura B — solo su indicazione esplicita e tracciata dell'owner**: sign-off della v2.5
-  così com'è (DEC-005 decisa) più un delta documentato "DEC → sezione → modifica richiesta →
+  così com'è (DEC-005 (modalità di migrazione allo schema 2.0) decisa) più un delta documentato "DEC → sezione → modifica richiesta →
   prima di quale PR del refactor", applicato dalla prima PR del refactor in Fase 1.
-- **Input**: la docx v2.5; `docs/SPEC_V25_WORKPLAN.md`; DEC-005; DEC-014…021.
-- **Output**: A: spec consolidata approvata e mergiata + DEC-005; B: DEC-005 + delta su `main`.
+- **Input**: la docx v2.5; `docs/SPEC_V25_WORKPLAN.md`; DEC-005 (modalità di migrazione allo schema 2.0); DEC-014…021 (le otto decisioni dell'11 settembre 2026).
+- **Output**: A: spec consolidata approvata e mergiata + DEC-005 (modalità di migrazione allo schema 2.0); B: DEC-005 + delta su `main`.
 - **Dipendenze effettive**: nessuna a monte. A valle: le prime PR del refactor (Fase 1).
 - **Parallelismo**: Operator nelle settimane 1–3; revisione owner ~3 h (A.2 settimana 2);
   Codex sulla PR.
-- **Responsabile**: Operator; owner (scelta della lettura, DEC-005, approvazione); Codex.
-- **Criterio di completamento**: DEC-005 su `main`; per A: spec consolidata mergiata e
+- **Responsabile**: Operator; owner (scelta della lettura, DEC-005 (modalità di migrazione allo schema 2.0), approvazione); Codex.
+- **Criterio di completamento**: DEC-005 (modalità di migrazione allo schema 2.0) su `main`; per A: spec consolidata mergiata e
   copia su Drive; per B: delta su `main` con ogni voce che cita DEC e sezione.
-- **Owner**: scelta della lettura; DEC-005; approvazione della spec (A).
+- **Owner**: scelta della lettura; DEC-005 (modalità di migrazione allo schema 2.0); approvazione della spec (A).
 
 ### S5 — Avvio del percorso legale (I, D12)
 - **Obiettivo**: incarico per il parere scritto sulle 13 questioni della Reconciliation §8
@@ -216,7 +215,8 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
 - **Responsabile**: Operator (bozza del pacchetto, tabella); owner (contatti, preventivi,
   D12, incarico).
 - **Criterio di completamento**: D12 DECIDED su `main`; pacchetto inviato; incarico
-  conferito con data attesa; tabella su `main`.
+  conferito con data attesa (settimana 4, subito dopo D12; clausola per slittamento
+  esterno in §7, gate 6); tabella su `main`.
 - **Owner**: decisione D12; autorizzazione di spesa (onorario stimato 1.500–5.000 €).
 
 ### S6 — Pacchetti decisionali e decisioni di Fase 0: D2, D3, D8, D9, D14
@@ -224,7 +224,7 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
   opzioni, costo di ciascuna), consegnato in tempo per la sessione decisionale di
   settimana 4; ogni decisione scritta in `decisions/`.
 - **D2** (architettura sito/publisher e hosting): criteri §2.E con fatti di costo e
-  manutenzione; effort del "contorno"; DEC-018 e DEC-020 tradotte in verifiche per opzione;
+  manutenzione; effort del "contorno"; DEC-018 (architettura URL e migrazione futura ai domini di quartiere) e DEC-020 (correzioni con modifica diretta e tracciabilità interna) tradotte in verifiche per opzione;
   competenze. La valutazione tecnica convergente del Council (baseline §2.E) si riporta,
   non si riapre. Prepara l'Operator. Decisione: settimana 4.
 - **D3** (fonti di record Amministrazione e trascrizione): registro A2 con resa per
@@ -235,7 +235,7 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
   §2.F con costo, tempi di attesa e cosa serve prima della Fase 2. Prepara l'Operator.
   Decisione: fine Fase 0; esecuzione in Fase 1.
 - **D9** (strumento della coda manuale): Sheet esteso vs app minima; campi richiesti da
-  DEC-015; volume stimato; costo; misura del campione stratificato. Prepara l'Operator con
+  DEC-015 (pubblicazione automatica con doppio controllo AI e coda di eccezione); volume stimato; costo; misura del campione stratificato. Prepara l'Operator con
   la bozza di schema di S8. Decisione: settimana 4 (condiziona la thin slice).
 - **D14** (n8n self-hosted vs Cloud): fotografia reale dell'infrastruttura (§9.2), fatti di
   settimana 2, i due rami stimati §2.H, impatto sul refactor. Fatti dell'owner, pacchetto
@@ -253,12 +253,12 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
 - **Obiettivo**: baseline e decisioni dell'11 settembre su `main`; documenti allineati;
   diario del tempo attivo; metodo di M2 e M3 pronto; disciplina `staging_`; revisione
   mensile; piano esecutivo approvato. Regola operativa per il tetto di quattro cicli
-  (DEC-012, corsie come livelli di attenzione dell'owner; baseline §2.K): ogni PR
+  (DEC-012 (corsie come livelli di attenzione dell'owner, auto-merge ritirato); baseline §2.K): ogni PR
   dimensionata per chiudere in tre cicli.
 - **Input**: branch dell'11 settembre; `docs/strategic-council/PROJECT_BRIEF.md` (fermo al
   31 agosto); `docs/START_HERE.md` §6 e `docs/NEXT_SESSION_BRIEF.md` (dicono che la spec
   v2.5 manca); README (37 vs 38 controlli).
-- **Output**: PR della baseline e delle DEC-014…021; PR di questo piano e del registro; PR
+- **Output**: PR della baseline e delle DEC-014…021 (le otto decisioni dell'11 settembre 2026); PR di questo piano e del registro; PR
   di allineamento (pointer, non copie); diario del tempo (foglio in QN Hub/00 Governance,
   snapshot mensile in `docs/`); note di metodo M2 e M3; proposta di ristima di §4 della
   baseline a fine fase, come candidato.
@@ -267,14 +267,14 @@ piano (§6); finché non è tracciata vale la **lettura A**, cioè la baseline.
   stesura in branch è parallela dalla settimana 1); la ristima ← S1 e S6.
 - **Parallelismo**: settimana 1 per PR, diario, template; continuo per il resto.
 - **Responsabile**: Operator (PR); owner (merge, diario); Codex (review).
-- **Criterio di completamento**: baseline, DEC-014…021 e piano su `main`; diario con
+- **Criterio di completamento**: baseline, DEC-014…021 (le otto decisioni dell'11 settembre 2026) e piano su `main`; diario con
   quattro settimane; M2/M3 su `main`; documenti allineati.
 - **Owner**: merge; approvazione del piano.
 
 ### S8 — Preparazione della Fase 1 in sovrapposizione (7,5 h/settimana) — non costruzione
 - **Obiettivo**: quanto la baseline A.2 assegna alla Fase 1 in sovrapposizione: schema
-  della coda unica (bozza; DEC-103, modello di revisione coda + campione settimanale, e
-  DEC-015); prompt di record della seconda AI e controlli deterministici (bozza, nessun
+  della coda unica (bozza; DEC-103 (modello di revisione: coda più campione settimanale) e
+  DEC-015 (pubblicazione automatica con doppio controllo AI e coda di eccezione)); prompt di record della seconda AI e controlli deterministici (bozza, nessun
   provider: D7 è di Fase 1); design della thin slice C.
 - **Output**: tre bozze in `docs/` (la terza in due passate: pre-D3 e post-D3), marcate come
   tali; fuori dal gate.
@@ -310,7 +310,7 @@ repository pubblico.
 | P0-S1-01 | Nota di metodo M1: evento futuro distinto, finestra 30 giorni, livelli deterministici, pavimento/soffitto, fallback al Municipio, campione manuale, vita media, formato della tabella, limiti | Operator | Codex (PR) | baseline §2.A(1), §6; `zone_distribution.py`; DEC-006 (regola non agostana) | nessuna | `docs/measures/M1_METHOD.md` | ogni voce definita; nessun dato personale; PR unita | `main` | nessuna |
 | P0-S1-02 | Staging: cartelle Drive e collezioni Firestore `staging_`, copia del workflow con le credenziali nuove, prova su 5 URL; export del workflow di staging in PR se la struttura cambia (`workflows/README.md`) | owner | Operator | S0-03 | S0-03 | staging pronto | la prova su 5 URL scrive solo in `staging_`; nessuna scrittura in produzione | export + log del run di prova (Drive) | nessuna |
 | P0-S1-03 (istanze .1 … .4, una per settimana) | Raccolta URL della settimana n: Facebook Events con login personale, area Roma, finestra 30 giorni, snippet → Sheet; riga nel diario (data, numero URL). Nessuna credenziale di sistema coinvolta | owner | Operator (conteggio degli URL nel foglio) | DEC-102 (raccolta manuale) | nessuna (S1-03.1 parte il giorno dell'approvazione) | foglio degli URL della settimana n | numero di URL e data registrati nel foglio e nel diario | Drive (foglio URL) + diario | autorizzazione di principio con l'approvazione del piano |
-| P0-S1-04 (istanze .1 … .4, una per settimana) | Run in staging della settimana n sugli URL di S1-03.n; export grezzo del run su Drive (mai nel repository: DEC-102, DEC-104); riga nel diario (data, numero eventi restituiti, note) | owner | Operator (esistenza e leggibilità dell'export) | S1-03.n; staging pronto | S1-02 e S1-03.n | export datato della settimana n | export leggibile con data, numero URL inviati e numero eventi restituiti | Drive (cartella M1 o staging) | autorizzazione ai quattro run Apify (servizio esistente) |
+| P0-S1-04 (istanze .1 … .4, una per settimana) | Run in staging della settimana n sugli URL di S1-03.n; export grezzo del run su Drive (mai nel repository: DEC-102 (posizione sulle fonti e sulla raccolta), DEC-104 (loop di sviluppo AI: repository pubblico, campioni fuori, decisioni dentro)); riga nel diario (data, numero eventi restituiti, note) | owner | Operator (esistenza e leggibilità dell'export) | S1-03.n; staging pronto | S1-02 e S1-03.n | export datato della settimana n | export leggibile con data, numero URL inviati e numero eventi restituiti | Drive (cartella M1 o staging) | autorizzazione ai quattro run Apify (servizio esistente) |
 | P0-S1-05 | Campione manuale: ~15 eventi/settimana non localizzati dal deterministico, zona assegnata a mano o "non localizzabile" | owner | Operator (conteggio delle righe e coerenza con le 89 pagine) | export S1-04.n | S1-04.1 (poi ogni settimana) | foglio del campione | ~60 righe con esito valorizzato | Drive | nessuna |
 | P0-S1-06 | Conteggi: `zone_distribution.py` sui quattro export (scaricati localmente, mai committati); tabella per pagina (89) e Municipio (15): pavimento, soffitto, fallback, quota localizzabile stimata, vita media | Operator | Codex (PR) | S1-04.4, S1-05 | S1-04.4, S1-05 | `docs/measures/M1_EVENTS_PER_PAGE.md` | 89 + 15 righe; metodo citato; soli conteggi; PR unita | `main` | nessuna |
 | P0-S1-07 | Lettura dello scenario M1 (tabella di ristima della baseline §6) e input per D4/D5 di Fase 1 | Operator | owner | S1-06 | S1-06 | sezione nella stessa PR | scenario dichiarato con i numeri; nessuna decisione presa | `main` | nessuna |
@@ -327,23 +327,23 @@ repository pubblico.
 ### S3 — Residui Eventi
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S3-01 | DEC-003: verifica dei cinque indirizzi (mappa o campo) e valori attesi | owner | Operator | golden set | nessuna | cinque valori | ciascuno dei cinque confermato o corretto con la motivazione | DEC-003 aggiornata | azione dell'owner |
-| P0-S3-02 | DEC-002: decisione A/B/C sull'evidenza (eventi ai due luoghi negli export di S1, se presenti; altrimenti C) | owner | Operator (formato del registro) | DEC-002; export S1-04.n | nessuna | DEC-002 DECIDED | opzione scelta e motivata; campi del registro completi | `decisions/` | decisione DEC-002 |
+| P0-S3-01 | DEC-003 (cinque indirizzi del golden set da verificare): verifica dei cinque indirizzi (mappa o campo) e valori attesi | owner | Operator | golden set | nessuna | cinque valori | ciascuno dei cinque confermato o corretto con la motivazione | DEC-003 aggiornata | azione dell'owner |
+| P0-S3-02 | DEC-002 (Colle del Sole, chiave di lookup ambigua): decisione A/B/C sull'evidenza (eventi ai due luoghi negli export di S1, se presenti; altrimenti C) | owner | Operator (formato del registro) | DEC-002; export S1-04.n | nessuna | DEC-002 DECIDED | opzione scelta e motivata; campi del registro completi | `decisions/` | decisione DEC-002 |
 | P0-S3-03 | PR: golden set aggiornato; per A/B edit del workbook master e rebuild; `test_guards.py` verde | Operator | Codex (PR) | S3-01, S3-02 | S3-01, S3-02 | PR unita | nessun `confidence: verify`; build e 37 controlli verdi | `main` | merge |
 
 ### S4 — Specifica Eventi
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | P0-S4-01 | DEC-005 (migrazione allo schema 2.0): decisione sull'entry esistente | owner | Operator (formato del registro; coerenza con la spec Part III) | DEC-005; spec v2.5 Part III | nessuna | DEC-005 DECIDED | stato DECIDED con opzione scelta, data e `Affected:` valorizzati; PR unita | `decisions/` | decisione DEC-005 |
-| P0-S4-02 | Delta DEC-014…021 → spec: tabella DEC → sezione → modifica richiesta → prima di quale PR del refactor (serve a entrambe le letture) | Operator | Codex (PR) | docx v2.5; DEC-014, 015, 018, 020 | nessuna | `docs/SPEC_V25_DELTA_DEC_014_021.md` | ogni voce cita DEC e sezione; nessuna DEC dell'11 settembre con impatto sulla spec omessa; PR unita | `main` | conferma della lettura di S4 |
+| P0-S4-02 | Delta DEC-014…021 (le otto decisioni dell'11 settembre 2026) → spec: tabella DEC → sezione → modifica richiesta → prima di quale PR del refactor (serve a entrambe le letture) | Operator | Codex (PR) | docx v2.5; DEC-014 (perimetro pubblico dell'MVP: 89 pagine, tre blocchi, stock minimi con fallback), 015, 018, 020 | nessuna | `docs/SPEC_V25_DELTA_DEC_014_021.md` | ogni voce cita DEC e sezione; nessuna DEC dell'11 settembre con impatto sulla spec omessa; PR unita | `main` | conferma della lettura di S4 |
 | P0-S4-03 | Lettura A (default): consolidamento della spec — sorgente della versione successiva nella sede scelta, delta integrato, PR aperta dal builder, review Codex, risposte, approvazione e merge dell'owner; copia su Drive `10 Specifications` | Operator | Codex (PR); owner (approvazione) | S4-01, S4-02; docx v2.5 | S4-02; scelta della sede | spec consolidata approvata | nessun restatement di regole che vivono in `gazetteer.json` (regola della spec); tutte le voci del delta integrate; PR unita e copia su Drive | `main` + Drive | approvazione della spec |
-| P0-S4-04 | Lettura B (solo se indicata dall'owner): sign-off della v2.5 così com'è registrato in `decisions/` con DEC-005; il delta S4-02 resta l'input della prima PR del refactor | owner | Operator (traccia dell'indicazione e del sign-off) | S4-01, S4-02 | S4-02 | sign-off registrato | l'indicazione dell'owner per la lettura B e il sign-off della v2.5 (versione, data) sono scritti in `decisions/` o nel documento del delta; PR unita | `decisions/` | indicazione esplicita e sign-off |
+| P0-S4-04 | Lettura B (solo se indicata dall'owner): sign-off della v2.5 così com'è registrato in `decisions/` con DEC-005 (modalità di migrazione allo schema 2.0); il delta S4-02 resta l'input della prima PR del refactor | owner | Operator (traccia dell'indicazione e del sign-off) | S4-01, S4-02 | S4-02 | sign-off registrato | l'indicazione dell'owner per la lettura B e il sign-off della v2.5 (versione, data) sono scritti in `decisions/` o nel documento del delta; PR unita | `decisions/` | indicazione esplicita e sign-off |
 
 ### S5 — Legale
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | P0-S5-01 | Localizzazione della Round 2 Reconciliation (13 questioni, 8 requisiti) e deposito in una sede di record (QN Hub/00 Governance; o `docs/strategic-council/` se senza dati personali) | owner | Operator (lettura del documento depositato) | nessuno | nessuna | documento reperibile | le 13 questioni e gli 8 requisiti leggibili nella sede scelta, con link registrato nel pacchetto legale | sede scelta | azione dell'owner |
-| P0-S5-02 | Pacchetto legale: 13 questioni con priorità; decisioni assunte come ipotesi di rischio (DEC-016, 019, 020, 021); pagine previste; tabella capacità → gate (baseline §4.1) | Operator | owner | S5-01; DEC | S5-01 | `docs/legal/LEGAL_PACK_2026-09.md` (Drive se riservato) | tutte le 13 questioni presenti con priorità e capacità bloccata; letto e accettato dall'owner | `main` o Drive | nessuna |
+| P0-S5-02 | Pacchetto legale: 13 questioni con priorità; decisioni assunte come ipotesi di rischio (DEC-016 (Cronaca: nomi presenti nelle fonti ufficiali), 019, 020, 021); pagine previste; tabella capacità → gate (baseline §4.1) | Operator | owner | S5-01; DEC | S5-01 | `docs/legal/LEGAL_PACK_2026-09.md` (Drive se riservato) | tutte le 13 questioni presenti con priorità e capacità bloccata; letto e accettato dall'owner | `main` o Drive | nessuna |
 | P0-S5-03 | Richiesta di preventivi a 2–3 studi | owner | Operator (conteggio e data dei preventivi, senza importi nel repository) | S5-02 | S5-02 | preventivi | almeno due preventivi ricevuti e datati | Drive (riservato) | nessuna |
 | P0-S5-04 | Pacchetto D12: forma societaria/editoriale, responsabile, studio; cosa blocca il go-live | owner (fatti) + Operator (tabella) | owner | S5-03 | S5-03 | `docs/decision-packs/D12.md` | opzioni con costi e tempi; ciò che blocca il go-live indicato per opzione | `main` | nessuna |
 | P0-S5-05 | D12: decisione e autorizzazione di spesa | owner | Operator (formato del registro) | S5-04 | S5-04 | DEC D12 DECIDED | forma societaria/editoriale, responsabile e studio indicati; autorizzazione di spesa registrata (importo su Drive, non nel repository); PR unita | `decisions/` | decisione D12 + autorizzazione |
@@ -354,19 +354,19 @@ repository pubblico.
 |---|---|---|---|---|---|---|---|---|---|
 | P0-S6-01 | Fotografia n8n: istanze esistenti (VPS Aruba, progetto Cloud), dove gira il workflow definitivo, versione, aggiornamenti, backup, costi correnti | owner | Operator | §9.2 | S0 (accessi con le nuove credenziali) | fatti nel pacchetto D14 | le tre fonti contraddittorie riconciliate in una sola fotografia datata | `docs/decision-packs/D14.md` | nessuna |
 | P0-S6-02 | Pacchetto D14: i due rami di baseline §2.H con i fatti; impatto sul refactor | Operator | Codex (PR) | S6-01 | S6-01 | pacchetto | criteri e costi per ramo; PR unita | `main` | nessuna |
-| P0-S6-03 | Pacchetto D2: criteri §2.E con fatti di costo e manutenzione; effort del "contorno"; DEC-018 e DEC-020 come verifiche; competenze | Operator | Codex (PR) | baseline §2.E | nessuna | `docs/decision-packs/D2.md` | ogni opzione valutata su ogni criterio; PR unita | `main` | nessuna |
+| P0-S6-03 | Pacchetto D2: criteri §2.E con fatti di costo e manutenzione; effort del "contorno"; DEC-018 (architettura URL e migrazione futura ai domini di quartiere) e DEC-020 (correzioni con modifica diretta e tracciabilità interna) come verifiche; competenze | Operator | Codex (PR) | baseline §2.E | nessuna | `docs/decision-packs/D2.md` | ogni opzione valutata su ogni criterio; PR unita | `main` | nessuna |
 | P0-S6-04 | Prova di trascrizione: 3 video di commissione × 2 modalità; costo e qualità per ora di video | owner | Operator (tabella) | S2-02 (video scelti) | autorizzazione dell'owner | risultati | costo, tempo e qualità per ora di video per ciascuna modalità | `docs/decision-packs/D3.md` | autorizzazione di spesa |
 | P0-S6-05 | Pacchetto D3: registro A2, prova, i quattro Municipi a bassa resa | Operator | Codex (PR) | S2-05, S6-04 | S2-05, S6-04 | `docs/decision-packs/D3.md` | resa per Municipio, risultati della prova (costo e qualità per ora) e alternative per i quattro Municipi presenti; PR unita | `main` | nessuna |
 | P0-S6-06 | Pacchetto D8: le tre opzioni §2.F con costo, attesa, cosa serve prima della Fase 2 | Operator | Codex (PR) | baseline §2.F | nessuna | `docs/decision-packs/D8.md` | le tre opzioni con costo, tempo di attesa e prerequisiti per la Fase 2; PR unita | `main` | nessuna |
-| P0-S6-07 | Pacchetto D9: Sheet esteso vs app minima; campi DEC-015; volume stimato; costo; campione stratificato | Operator | Codex (PR) | S8-01 | S8-01 | `docs/decision-packs/D9.md` | le due opzioni valutate sui campi di DEC-015, sul volume stimato, sul costo e sulla misurabilità del campione stratificato; PR unita | `main` | nessuna |
+| P0-S6-07 | Pacchetto D9: Sheet esteso vs app minima; campi DEC-015 (pubblicazione automatica con doppio controllo AI e coda di eccezione); volume stimato; costo; campione stratificato | Operator | Codex (PR) | S8-01 | S8-01 | `docs/decision-packs/D9.md` | le due opzioni valutate sui campi di DEC-015, sul volume stimato, sul costo e sulla misurabilità del campione stratificato; PR unita | `main` | nessuna |
 | P0-S6-08 | Sessione decisionale (settimana 4): D2, D3, D8, D9, D14 — bozze DEC dell'Operator, decisione dell'owner, PR, merge | owner | Codex (PR) | S6-02…07 | tutti i pacchetti | cinque DEC DECIDED | formato del registro; `Blocks:` valorizzato; PR unita | `main` | cinque decisioni |
 
 ### S7 — Governance
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S7-01 | PR della branch dell'11 settembre (baseline + DEC-014…021) verso `main` | Operator (apre) | Codex; owner (merge) | branch esistente | nessuna | merge | baseline e DEC-014…021 su `main`, contenuto identico ai commit `9fcb896` e `7873b11` salvo correzioni dell'owner | `main` | merge |
+| P0-S7-01 | PR della branch dell'11 settembre (baseline + DEC-014…021 (le otto decisioni dell'11 settembre 2026)) verso `main` | Operator (apre) | Codex; owner (merge) | branch esistente | nessuna | merge | baseline e DEC-014…021 su `main`, byte-identiche ai commit `9fcb896` e `7873b11` (nessuna modifica nel merge); una variazione voluta dall'owner è una richiesta esplicita separata, tracciata fuori dalla baseline v0.6 come nuova voce o nuova versione | `main` | merge |
 | P0-S7-02 | PR di questo piano e del registro delle review, dopo l'approvazione dell'owner | Operator | Codex; owner (merge) | questo documento | approvazione; S7-01 (ordine di merge) | merge | piano e registro su `main` nella versione approvata | `main` | approvazione + merge |
-| P0-S7-03 | Allineamento documenti: `docs/START_HERE.md` §6, `docs/NEXT_SESSION_BRIEF.md`, README (37/38), `PROJECT_BRIEF.md` — pointer, non copie | Operator | Codex (PR) | S7-01 | S7-01 (ordine di merge) | PR | nessun documento dichiara la spec mancante; il brief cita DEC-014…021; PR unita | `main` | nessuna |
+| P0-S7-03 | Allineamento documenti: `docs/START_HERE.md` §6, `docs/NEXT_SESSION_BRIEF.md`, README (37/38), `PROJECT_BRIEF.md` — pointer, non copie | Operator | Codex (PR) | S7-01 | S7-01 (ordine di merge) | PR | nessun documento dichiara la spec mancante; il brief cita DEC-014…021 (le otto decisioni dell'11 settembre 2026); PR unita | `main` | nessuna |
 | P0-S7-04 | Diario del tempo: foglio in QN Hub/00 Governance (data, flusso, attività/PR, ore, cicli, note); snapshot mensile in `docs/measures/` | owner (compila) + Operator (template) | Operator (snapshot mensile) | nessuno | nessuna | foglio attivo | quattro settimane compilate a fine fase; primo snapshot in `docs/measures/` | Drive + `main` | nessuna |
 | P0-S7-05 | Note di metodo M2 (ore e cicli per PR sui primi tre PR del refactor) e M3 (tasso di eccezione e minuti per caso della thin slice) con le soglie della baseline §6 | Operator | Codex (PR) | baseline §6 | nessuna | `docs/measures/M2_M3_METHOD.md` | misure, sede e soglie definite; PR unita | `main` | nessuna |
 | P0-S7-06 | Proposta di ristima di §4 della baseline (candidato; la baseline non si modifica senza approvazione) | Operator | owner | S1-07, S6-08 | S1-07, S6-08 | documento candidato | ristima che cita i conteggi M1 e le decisioni prese, con lo scenario risultante secondo la baseline §6; consegnato all'owner | branch/PR | decisione dell'owner sulla ristima |
@@ -375,8 +375,8 @@ repository pubblico.
 ### S8 — Preparazione Fase 1
 | ID | Azione | Esecutore | Verificatore | Input | Dipendenze | Output | Accettazione | Evidenza | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| P0-S8-01 | Bozza dello schema della coda unica per tutti i blocchi (motivi strutturati, campi minimi) | Operator | Codex (PR) | `docs/REVIEW_QUEUE.md`, DEC-103, DEC-015 | nessuna | `docs/drafts/QUEUE_SCHEMA_DRAFT.md` | marcata bozza; citata dal pacchetto D9; PR unita | `main` | nessuna |
-| P0-S8-02 | Bozza del prompt di record della seconda AI di verifica e dei controlli deterministici (nessun provider) | Operator | Codex (PR) | DEC-015 | nessuna | `docs/drafts/VERIFIER_PROMPT_DRAFT.md` | marcata bozza; nessun cablaggio e nessun provider nominato; PR unita | `main` | nessuna |
+| P0-S8-01 | Bozza dello schema della coda unica per tutti i blocchi (motivi strutturati, campi minimi) | Operator | Codex (PR) | `docs/REVIEW_QUEUE.md`, DEC-103 (modello di revisione: coda più campione settimanale), DEC-015 (pubblicazione automatica con doppio controllo AI e coda di eccezione) | nessuna | `docs/drafts/QUEUE_SCHEMA_DRAFT.md` | marcata bozza; citata dal pacchetto D9; PR unita | `main` | nessuna |
+| P0-S8-02 | Bozza del prompt di record della seconda AI di verifica e dei controlli deterministici (nessun provider) | Operator | Codex (PR) | DEC-015 (pubblicazione automatica con doppio controllo AI e coda di eccezione) | nessuna | `docs/drafts/VERIFIER_PROMPT_DRAFT.md` | marcata bozza; nessun cablaggio e nessun provider nominato; PR unita | `main` | nessuna |
 | P0-S8-03 | Bozza pre-D3 del design della thin slice C: 2–3 Municipi eterogenei per formato, golden set da 30 item, misure da raccogliere; le scelte che dipendono da D3 sono marcate come aperte | Operator | Codex (PR) | S2-05 | S2-05 | `docs/drafts/THIN_SLICE_DESIGN.md` | marcata bozza; i punti dipendenti da D3 elencati come aperti; PR unita | `main` | nessuna |
 | P0-S8-04 | Rifinitura post-D3 del design della thin slice (formato di trascrizione, fonti di record); resta una bozza di Fase 1 | Operator | Codex (PR) | S8-03; DEC D3 | S6-08 | stessa bozza aggiornata | i punti aperti di S8-03 chiusi secondo D3; ancora marcata bozza; PR unita | `main` | nessuna |
 
@@ -390,7 +390,7 @@ S8-01 → D9; fotografia n8n (S6-01) → D14; tutti i pacchetti → sessione dec
 S4 (lettura scelta) → prime PR del refactor (Fase 1, fuori).
 
 Vincolo di ordine di merge (non di stesura): la PR della baseline (S7-01) va unita a `main`
-prima di ogni documento che cita DEC-014…021; la stesura di tutto procede in branch dalla
+prima di ogni documento che cita DEC-014…021 (le otto decisioni dell'11 settembre 2026); la stesura di tutto procede in branch dalla
 settimana 1.
 
 Preferenze di sequenza (non vincoli): l'ordine settimanale dell'Appendice A.2 per S2; S3 in
@@ -401,7 +401,7 @@ settimana 3.
 | Settimana 1 | S0 (1–2 h); S1-03.1 raccolta URL (senza credenziali); S1-02 staging e S1-04.1 primo run dopo S0; S2-02 lotto 1; S5-01 Reconciliation; S7-04 diario; S7-07 data della revisione | S0-06 bozza D1; S1-01 metodo; S2-01 template; S4-02 delta; S5-02 pacchetto legale; S7-01 PR baseline; S7-05 M2/M3; S8-01 | nessuna attesa |
 | Settimana 2 | S1-03.2, S1-04.2; S1-05 campione (prima parte); S2-02 lotto 2; S6-01 fotografia n8n; S6-04 prova trascrizione (se autorizzata); S5-03 preventivi; revisione della spec (S4) | S4-03 (A) o S4-04 (B); S6-02 D14; S6-03 D2; S6-06 D8; S8-02 | parere legale: non ancora |
 | Settimana 3 | S1-03.3, S1-04.3; S1-05 campione; S2-02 lotto 3; S2-03 Cronaca; S2-04 gruppi; S3-01/02 | S3-03 PR; S6-05 D3; S6-07 D9; S7-03 allineamento; S8-03 bozza pre-D3 | nessuna attesa |
-| Settimana 4 | S1-03.4, S1-04.4; S6-08 decisioni; S5-05 D12; S4-01 DEC-005 | S1-06/07 conteggi e scenario; S2-05 registro; S6-08 bozze DEC; S7-06 ristima; S8-04 rifinitura post-D3 | incarico legale conferito (S5-06); parere in Fase 1–2 |
+| Settimana 4 | S1-03.4, S1-04.4; S6-08 decisioni; S5-05 D12 e **S5-06 incarico conferito** (attività della settimana, subito dopo S5-05); S4-01 DEC-005 (modalità di migrazione allo schema 2.0) | S1-06/07 conteggi e scenario; S2-05 registro; S6-08 bozze DEC; S5-06 tabella di tracciamento; S7-06 ristima; S8-04 rifinitura post-D3 | parere legale: in Fase 1–2 (lead time 2–6 settimane, baseline §4.2) |
 
 ## 6. Decisioni e autorizzazioni dell'owner, con il momento
 
@@ -410,10 +410,10 @@ settimana 3.
 | All'approvazione di questo piano | Approvazione del piano; conferma della corrispondenza baseline ↔ commit `7873b11`; **scelta della lettura di S4** (A default / B) e della sede del sorgente della spec; localizzazione della Reconciliation; autorizzazione ai quattro run Apify; conferma dello stato reale di n8n (per il pacchetto D14) | Operator (questo documento) |
 | Settimana 1 | **D1** (esecuzione della rotazione; decisione sulla sede di custodia) — blocco di sicurezza | owner; bozza DEC dell'Operator |
 | Settimana 2 | Autorizzazione alla prova di trascrizione se a pagamento (D3); scelta dello studio da interpellare (D12, prima parte) | Operator (pacchetto legale); owner (preventivi) |
-| Settimana 2–4 | **DEC-005** (migrazione allo schema 2.0); approvazione della spec consolidata se lettura A | Operator |
-| Settimana 3 | **DEC-002** (Colle del Sole); **DEC-003** (cinque indirizzi) | owner (verifiche) |
+| Settimana 2–4 | **DEC-005 (modalità di migrazione allo schema 2.0)** (migrazione allo schema 2.0); approvazione della spec consolidata se lettura A | Operator |
+| Settimana 3 | **DEC-002 (Colle del Sole, chiave di lookup ambigua)** (Colle del Sole); **DEC-003 (cinque indirizzi del golden set da verificare)** (cinque indirizzi) | owner (verifiche) |
 | Settimana 4 | **D2, D3, D8, D9, D14** in una sessione; **D12** con autorizzazione di spesa per l'incarico; lettura della proposta di ristima | Operator (pacchetti e bozze DEC) |
-| Merge | Ogni PR della fase (l'owner unisce; DEC-012, DEC-013) | — |
+| Merge | Ogni PR della fase (l'owner unisce; DEC-012 (corsie come livelli di attenzione dell'owner, auto-merge ritirato), DEC-013 (separazione delle identità sospesa)) | — |
 
 Nessuna scelta è chiesta senza pacchetto: ogni riga sopra rimanda a una sottotask che lo
 produce.
@@ -426,17 +426,21 @@ produce.
    metodo e scenario letto (S1).
 3. Registro fonti unico su `main` con licenza/termini per fonte; tabelle Cronaca e gruppi
    (S2).
-4. DEC-002 e DEC-003 chiuse; golden set corretto; build e controlli verdi (S3).
-5. DEC-005 decisa; secondo la lettura scelta: spec consolidata approvata e mergiata (A) o
+4. DEC-002 (Colle del Sole, chiave di lookup ambigua) e DEC-003 (cinque indirizzi del golden set da verificare) chiuse; golden set corretto; build e controlli verdi (S3).
+5. DEC-005 (modalità di migrazione allo schema 2.0) decisa; secondo la lettura scelta: spec consolidata approvata e mergiata (A) o
    sign-off registrato più delta su `main` (B) (S4).
 6. D12 decisa; incarico legale conferito con data attesa del parere; tabella di
-   tracciamento su `main` (S5).
+   tracciamento su `main` (S5). Clausola per slittamento esterno: se lo studio scelto non
+   ha ancora accettato l'incarico alla fine della settimana 4 per cause esterne, il gate si
+   considera soddisfatto con D12 decisa, lettera d'incarico inviata e tabella su `main`; la
+   conferma dell'accettazione è tracciata nel diario come residuo aperto della Fase 0 e
+   chiusa come prima attività di Fase 1 (dichiarato nella ristima S7-06).
 7. D2, D3, D8, D9, D14 DECIDED su `main` (S6).
-8. Baseline, DEC-014…021 e piano esecutivo su `main`; diario con quattro settimane; metodo
+8. Baseline, DEC-014…021 (le otto decisioni dell'11 settembre 2026) e piano esecutivo su `main`; diario con quattro settimane; metodo
    M2/M3 su `main`; documenti allineati (S7).
 9. Proposta di ristima di §4 consegnata all'owner come candidato (S7-06).
 
-Fuori dal gate: S8 (bozze), D4, D5, D7, DEC-001, DEC-004, il parere legale, il secret
+Fuori dal gate: S8 (bozze), D4, D5, D7, DEC-001 (tour guidati commerciali a pagamento), DEC-004 (valore di produzione di max_events_per_run), il parere legale, il secret
 scanning (raccomandato).
 
 ## 8. Primo gruppo di task dopo l'approvazione
@@ -481,21 +485,36 @@ lancio; la baseline §4.1 ne nomina 12, manca la 11). Impatto: S5 non completa i
 legale senza; gate 6 dipende dalla localizzazione (P0-S5-01). Nessuna lettura alternativa:
 serve l'owner.
 
-9.4 **Baseline e DEC-014…021 non su `main`**: la loro PR (P0-S7-01) precede nell'ordine di
+9.4 **Baseline e DEC-014…021 (le otto decisioni dell'11 settembre 2026) non su `main`**: la loro PR (P0-S7-01) precede nell'ordine di
 merge ogni documento che le cita, questo incluso.
 
-9.5 **Minori**: DEC-003 citata due volte come voci distinte nella baseline §2.A(6); 37 vs
+9.5 **Minori**: DEC-003 (cinque indirizzi del golden set da verificare) citata due volte come voci distinte nella baseline §2.A(6); 37 vs
 38 controlli (README vs START_HERE); PROJECT_BRIEF fermo al 31 agosto. Segnalati e
 trattati da P0-S7-03; la baseline non è modificata.
 
 ## 10. Registro delle review del Council
 
-| Review | Versione esaminata | Verdetto di Codex | Finding | Esito |
-|---|---|---|---|---|
-| 1 (Livello A, step) | proposal A-0.1, sha256 `fc8b953d…` | AGREEMENT WITH NON-BLOCKING RESIDUALS | 2 IMPORTANT (S4 biforcazione; gate S0), 1 MINOR (S7a) | tutti accettati e applicati in B-0.2; controverifica nella review 2 |
-| 2 (Livello B, sottotask) | B-0.2, sha256 `b653536a…` | NO AGREEMENT | 1 BLOCKING (campi verificatore/accettazione vuoti in otto sottotask), 2 IMPORTANT (ID aggregato S1-03…06; dipendenza di S8-03 da D3 incoerente); le tre correzioni della review 1 controverificate e conformi | tutti accettati e applicati in B-0.3; controverifica nella review 3 |
-| 3 (versione candidata finale) | questo documento, B-0.3 | — | — | — |
+Versione esaminata, finding, risposta dell'Operator, correzione applicata ed esito della
+controverifica, per finding. Il testo integrale di ogni review è nel report del ciclo.
+
+| Review | Versione esaminata | Verdetto | Finding | Risposta dell'Operator | Correzione applicata | Controverifica |
+|---|---|---|---|---|---|---|
+| 1 (Livello A) | proposta A-0.1, sha256 `fc8b953d…` | AGREEMENT WITH NON-BLOCKING RESIDUALS | 1 IMPORTANT: S4 ambiguo rispetto al "consolidamento" della baseline | accettato | S4 biforcato (A default = baseline; B su indicazione tracciata dell'owner); gate 5 cita la lettura scelta; scelta in §6 | review 2: conforme |
+| 1 | idem | idem | 2 IMPORTANT: gate S0 esteso allo scanning | accettato | gate minimo di R0; scanning = verifica raccomandata (P0-S0-05) fuori gate | review 2: conforme |
+| 1 | idem | idem | 3 MINOR: S7(a) come dipendenza reale | accettato | riclassificata come vincolo di ordine di merge (§5) | review 2: conforme |
+| 2 (Livello B) | B-0.2, sha256 `b653536a…`, commit `80def2c` | NO AGREEMENT | 1 BLOCKING: verificatore/accettazione vuoti in otto sottotask | accettato | tutti i campi compilati con criterio oggettivo; nessuna cella "—" in §4 | review 3: conforme |
+| 2 | idem | idem | 2 IMPORTANT: ID aggregato S1-03…06 e §8 incoerente | accettato | S1-03.n raccolta / S1-04.n run+export; S1-05…07 rinumerate; §5 e §8 riallineati | review 3: conforme |
+| 2 | idem | idem | 3 IMPORTANT: S8-03 dipendente da D3 in modo incoerente | accettato | S8-03 bozza pre-D3 (← S2-05) + S8-04 rifinitura post-D3 (← S6-08); §3 e §5 allineati | review 3: conforme |
+| 3 (candidata finale) | B-0.3, sha256 `73d52cb8…`, commit `6820681` | **AGREEMENT WITH NON-BLOCKING RESIDUALS** | 1 IMPORTANT: P0-S7-01 "salvo correzioni dell'owner" apre a modifiche della baseline nel merge | accettato | accettazione resa byte-identica ai commit di riferimento; variazioni solo come richiesta esplicita separata | **non riverificata** (budget esaurito) |
+| 3 | idem | idem | 2 IMPORTANT: S5-06 "in attesa" in §5 vs gate 6 che lo richiede chiuso | accettato | S5-06 attività della settimana 4 subito dopo S5-05; clausola esplicita per slittamento esterno nel gate 6 | **non riverificata** |
+| 3 | idem | idem | 3 MINOR: registro senza colonne risposta/correzione | accettato | questa tabella, per finding | **non riverificata** |
+| post-3 (editoriale) | B-0.4 | — | regola editoriale del mandato: ogni citazione DEC con descrizione | applicata | descrizione del registro aggiunta alle citazioni che ne erano prive (nessun cambio di sostanza) | **non riverificata** |
+
+Residui per l'owner confermati da Codex in tutte e tre le review (invariati): corrispondenza
+fra `QN_Impianto_di_Progetto_v0.6.md` e il commit `7873b11`; sede di record della Round 2
+Reconciliation (inclusa la questione 11); lettura di S4 (A/B) e sede del sorgente della spec
+consolidata; stato reale di n8n per D14.
 
 I report per ciclo sono in `reviews/` con il nome `2026-09-14—cycleN—phase-0-execution—<verdetto>.md`
-(DEC-007, dove si archivia una code review: la PR è l'archivio; `reviews/` resta la sede
+(DEC-007 (dove si archivia una code review): la PR è l'archivio; `reviews/` resta la sede
 dei report non legati a una PR — questo Council non è una PR).
