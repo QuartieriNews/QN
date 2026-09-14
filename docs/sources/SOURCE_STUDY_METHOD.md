@@ -2,7 +2,7 @@
 
 | Campo | Valore |
 |---|---|
-| Stato | **Bozza di metodo, versione M-0.1**, sottoposta al controllo circoscritto di Codex autorizzato dall'owner il 14 settembre 2026 ("controllo del metodo all'inizio e della consegna prima delle decisioni"). Non è lo studio: è il modo in cui lo studio verrà condotto |
+| Stato | **Metodo, versione M-0.2**: applica i cinque finding del controllo di Codex su M-0.1 (NO AGREEMENT, 2 BLOCKING, 2 IMPORTANT, 1 MINOR; report in `reviews/2026-09-14—sources-study-method—NO_AGREEMENT.md`) ed è sottoposta al secondo controllo circoscritto. Non è lo studio: è il modo in cui lo studio verrà condotto |
 | Mandato | Risposta dell'owner del 14 settembre 2026 (§1–§5): ricerca, lettura, analisi e classificazione delle fonti pubbliche accessibili affidate all'Operator; studio che permetta di scegliere le fonti e stimare il prodotto alimentabile; budget di 50 € per prove rappresentative; nessun lavoro sproporzionato sulle fonti marginali |
 | Cornice | `docs/PHASE_0_EXECUTION.md` step S2 e S6-D3; baseline v0.6 §2.A (flusso A); DEC-102 (posizione sulle fonti e sulla raccolta: nessuna automazione autenticata); DEC-104 (loop di sviluppo AI: repository pubblico, campioni fuori, decisioni dentro); DEC-014 (perimetro pubblico dell'MVP: 89 pagine, tre blocchi, stock minimi con fallback) |
 | Stato dei dati | Ogni numero dello studio è marcato **misurato** (contato su materiale reale, con link), **stimato** (derivato con ipotesi dichiarate) o **mancante** |
@@ -45,7 +45,7 @@ indirizzi ufficiali trovati il 14 settembre.
 | E3 | Eventi | Eventi dei Municipi sul portale istituzionale e agenda Roma Capitale | `comune.roma.it/web/it/eventi.page` | HTML | 2 |
 | R1 | Regionale (riserva) | Consiglio regionale del Lazio, comunicati; BUR | `consiglio.regione.lazio.it`, `regione.lazio.it` | HTML, PDF | 3 |
 
-Il primo insieme è tutto il livello 1 (A1, A2, C1–C6, E1, E2): dodici sezioni, tutte
+Il primo insieme è tutto il livello 1 (A1, A2, C1–C6, E1, E2): dieci sezioni, tutte
 pubbliche e senza login. Il livello 2 entra dopo il primo rapporto intermedio; il livello 3
 solo se il livello 1 lascia gap dichiarati.
 
@@ -65,8 +65,8 @@ con questi campi obbligatori:
    gazetteer (`gazetteer/gazetteer.json`, lookup deterministico come in
    `tests/zone_distribution.py`); il resto è "livello Municipio" o "non localizzato".
 4. **Contenuto aggiuntivo e sovrapposizioni**: quota di item che riguardano lo stesso fatto
-   di un'altra fonte del blocco (stesso giorno ±1, stesso toponimo, stesso oggetto),
-   misurata sul campione; contributo unico della fonte.
+   di un'altra fonte del blocco, con la procedura di deduplicazione di §4.1; contributo
+   unico della fonte (item non presenti in nessun'altra fonte del blocco).
 5. **Formati e accesso**: HTML, PDF testuale, PDF scansione, audio, video; feed RSS; login;
    condizioni di riuso documentate (pagina licenza/termini trovata: sì/no, cosa dice, link)
    e verifiche ancora necessarie (per il legale, L11 dell'elenco dell'owner).
@@ -77,7 +77,9 @@ con questi campi obbligatori:
    ragione e con la condizione che la cambierebbe.
 8. **Stato del dato** per ogni numero: misurato / stimato / mancante.
 
-## 4. Mese di osservazione e campionamento
+## 4. Mese di osservazione, conteggio, deduplicazione e campione
+
+### 4.1 Regole di conteggio e di deduplicazione
 
 - **Mese comune: giugno 2026** (l'ultimo mese completo prima della pausa estiva delle
   istituzioni; agosto è escluso per regola, DEC-006 (fallback al Municipio per pagine
@@ -86,19 +88,60 @@ con questi campi obbligatori:
 - **Eventi**: oltre a giugno (volume e anticipo), la finestra corrente di 30 giorni in avanti
   dalla data della lettura (eventi futuri disponibili), perché è la grandezza che DEC-014
   usa per il pavimento di dieci eventi.
-- **Conteggio**: enumerazione degli item del mese dalle pagine di elenco o dal feed, salvata
-  come CSV in `docs/sources/samples/<fonte>_2026-06.csv` con colonne: url, data di
-  pubblicazione, data del fatto (se nel testo), Municipio, zona (se deterministica),
-  tema, flag toponimo, flag nomi di persona, formato. **Nessun nome di persona e nessun
-  testo integrale nel repository** (DEC-104): solo URL, date, tag e flag. Gli originali
-  restano alla fonte, raggiungibili dal link.
-- **Campione per la verifica di Codex e dell'owner**: per ogni fonte 5 item (di cui almeno
-  uno per ogni formato incontrato), con link e passaggio pertinente citato nel rapporto (non
-  nel CSV); più i casi che lo studio considera "sicuri" e quelli dubbi, indicati come tali.
-- **Stagionalità e limiti**: ogni conteggio riporta il mese, l'ora di lettura e la
-  completezza dell'archivio (paginazione raggiunta fino a fine mese: sì/no). Un mese non è
-  trasformato in previsione annuale: la stima annua, se serve, è dichiarata come stima con
-  il fattore usato e i mesi di confronto disponibili in *Next Step* (gennaio–marzo 2026).
+- **Cutoff**: un item appartiene al mese se la sua **data di pubblicazione** sulla fonte,
+  letta nel fuso Europe/Rome, cade fra il 1° e il 30 giugno 2026 inclusi; item senza data di
+  pubblicazione vanno nel gruppo "senza data" e non entrano nel conteggio del mese. Ogni
+  conteggio registra la data e l'ora della lettura (Europe/Rome), l'URL di elenco usato e
+  se la paginazione è stata percorsa fino a coprire tutto il mese (sì/no); un nuovo conteggio
+  con le stesse regole deve dare lo stesso numero salvo modifiche della fonte, che vanno
+  annotate.
+- **Deduplicazione fra fonti dello stesso blocco** (stesso fatto pubblicato da due fonti):
+  due item sono lo *stesso fatto* quando valgono tutte e tre le condizioni: (a) la data del
+  fatto (o, se assente, di pubblicazione) coincide a ±1 giorno; (b) il luogo coincide —
+  stesso toponimo normalizzato con le regole del gazetteer (alias, via/piazza) oppure stesso
+  Municipio quando nessuna delle due fonti ha un toponimo più fine; (c) l'oggetto coincide —
+  stesso tipo di fatto (per la Cronaca: arresto, sequestro, incendio, incidente, controllo;
+  per l'Amministrazione: stesso atto o stessa seduta; per gli Eventi: stesso titolo
+  normalizzato o stesso organizzatore con stessa data e luogo). Se (a) e (b) valgono ma (c)
+  è incerto, l'item è marcato **dubbio** e la resa è riportata come intervallo
+  (dedup minima = dubbi contati come distinti; dedup massima = dubbi contati come
+  duplicati). Ogni duplicato o dubbio registra l'URL dell'item gemello e la ragione.
+- **Estensione della deduplicazione**: sull'intero mese quando il blocco ha al massimo
+  300 item complessivi nelle fonti di livello 1 (atteso per Cronaca ed Eventi); oltre, su
+  un campione casuale di almeno 60 item per coppia di fonti, e la resa è marcata
+  **stimata** con la dimensione del campione. Sull'intero mese la resa è **misurata**.
+- **Formula**: resa lorda del blocco = somma degli item delle fonti; resa netta = resa lorda
+  − item già contati in un'altra fonte (un fatto è attribuito alla prima fonte che lo ha
+  pubblicato); contributo unico di una fonte = suoi item non presenti altrove. Il rapporto
+  riporta lorda, duplicati, dubbi, netta (minima e massima) per blocco e per fonte.
+
+### 4.2 Dove stanno i dati per item (DEC-104, DEC-102)
+
+I dati per item (una riga per item con URL, date, tag, flag, formato, esito della
+deduplicazione) sono un dataset di fonte e **non entrano nel repository pubblico** (DEC-104,
+regola 2; DEC-102: i dati di fonte non sono ridistribuiti come dataset). Stanno su Drive in
+`QN Hub / 20 Packages / Fonti 2026-06/` (un CSV per fonte, senza nomi di persona né testi
+integrali: URL, date, Municipio, zona, tema, flag toponimo, flag nomi presenti, formato,
+gemello e ragione). Nel repository entrano solo gli aggregati e le metriche (conteggi per
+fonte, Municipio, zona, tema e formato; quote; intervalli di dedup) e il riferimento alla
+cartella Drive. Residuo per l'owner: confermare questa collocazione o indicarne un'altra.
+
+### 4.3 Campione per il controllo di Codex e dell'owner
+
+- **Minimo di audit**: 5 item per fonte, con almeno uno per formato incontrato.
+- **Quote mirate per le affermazioni critiche**, per blocco: 20 item per la
+  deduplicazione (10 giudicati duplicati e 10 distinti, con i gemelli) e 20 per la
+  localizzazione (10 localizzati a zona e 10 solo a Municipio o non localizzati); per una
+  fonte con più di 100 item nel mese le quote che la riguardano raddoppiano.
+- I casi giudicati "sicuri" e quelli "dubbi" sono indicati come tali; se il controllo trova
+  un errore sistematico, la parte di studio interessata è ricontrollata per intero prima
+  della consegna.
+- Il campione (link e passaggi pertinenti) vive con i dati per item su Drive; il rapporto
+  nel repository rimanda alla cartella e riporta solo gli URL delle fonti ufficiali usate
+  come esempio, senza passaggi.
+- **Stagionalità e limiti**: un mese non è trasformato in previsione annuale; la stima annua,
+  se serve, è dichiarata come stima con il fattore usato e i mesi di confronto disponibili in
+  *Next Step* (gennaio–marzo 2026).
 
 ## 5. Prove sui formati e limiti sulle fonti difficili
 
@@ -167,10 +210,12 @@ prima di superare il tetto.
 | Riserva per ripetizioni e conversioni | — | 5–10 € | — | — |
 
 Totale pianificato delle prove T1–T5: circa 5–12 €, ben sotto il tetto; T6 è preventivato,
-non autorizzato. **Nota sulla chiave OpenAI**: se la chiave presente nell'ambiente
-dell'Operator è la stessa esposta in R0, le prove T1, T3 e T4 sono subordinate alla
-rotazione (risposta dell'owner §7); se è una chiave distinta, possono partire subito. Da
-confermare dall'owner.
+non autorizzato. **Regola sulla chiave OpenAI (fail-closed)**: T1, T3 e T4 sono **bloccate**
+finché l'owner non conferma per iscritto che la chiave presente nell'ambiente dell'Operator
+è distinta da quella esposta in R0, oppure la rotazione è completata e verificata (S0-03).
+In assenza di conferma la chiave si considera esposta. I controlli di Codex proseguono solo
+perché l'owner li ha esplicitamente disposti (risposta del 14 settembre §3), e restano
+l'unico uso della chiave fino alla conferma.
 
 **Previsione dei costi del progetto** (consegna dello studio): distingue costi iniziali e
 mensili a regime; raccolta, OCR, trascrizione, AI di produzione e di verifica, errori e
@@ -182,13 +227,15 @@ le esecuzioni previste per workflow e cadenza, non il numero di notizie.
 
 ## 8. Consegne, verifica e passaggi all'owner
 
-1. **Registro fonti** (S2-05) con una scheda per fonte e i CSV di conteggio.
+1. **Registro fonti** (S2-05) con una scheda per fonte e gli aggregati di conteggio; i CSV
+   per item su Drive (§4.2).
 2. **Rapporto dello studio** (`docs/sources/SOURCE_STUDY_2026-09.md`): copertura per
    Municipio e per zona e per argomento; resa dopo la deduplicazione; gap e complessità
    attese; raccomandazione per fonte; costi misurati; i tre scenari; le proposte, i problemi
    residui e le domande circoscritte per l'owner, ciascuna con prove, esempi, alternative,
    conseguenze e raccomandazione.
-3. **Campione per il controllo** (§4) con link e passaggi pertinenti.
+3. **Campione per il controllo** (§4.3) con link e passaggi pertinenti, su Drive con i dati
+   per item; il rapporto rimanda alla cartella.
 4. **Controlli di Codex**, come concordato dall'owner: (a) questo metodo, prima di estendere
    lo studio; (b) la consegna, prima delle decisioni dell'owner — evidenze, conteggi,
    duplicazioni, campione di originali, complessità proposta, alternative trascurate. Nessun
@@ -197,8 +244,9 @@ le esecuzioni previste per workflow e cadenza, non il numero di notizie.
 5. **Rapporto intermedio** dopo il livello 1 (§2): decide se il livello 2 serve.
 
 Cosa resta all'owner in questo step: l'accesso di rete (§6); gli eventuali file audio su
-Drive (§5); i gruppi Facebook (S2-04); la conferma sulla chiave OpenAI (§7); le decisioni
-che lo studio rende visibili (fonti di record: D3; minimi e pagine: solo su evidenze).
+Drive (§5); i gruppi Facebook (S2-04); la conferma scritta sulla chiave OpenAI (§7); la
+conferma della collocazione dei dati per item (§4.2); le decisioni che lo studio rende
+visibili (fonti di record: D3; minimi e pagine: solo su evidenze).
 
 ## 9. Attività immediatamente eseguibili e attività dipendenti
 
@@ -211,7 +259,8 @@ chiave).
 **Dopo l'apertura dei domini** (§6): conteggi di giugno per A1, A2, C1–C6, E1, E2; prove
 HTML/PDF/OCR (T2); campione.
 
-**Dopo la conferma sulla chiave OpenAI o la rotazione**: T1, T3, T4.
+**Solo dopo la conferma scritta sulla chiave OpenAI o la rotazione verificata**: T1, T3, T4
+(bloccate fino ad allora, §7).
 
 **Dopo la rotazione delle credenziali e lo staging** (S0, S1-02): T5; T6 solo con
 autorizzazione sulla previsione.
