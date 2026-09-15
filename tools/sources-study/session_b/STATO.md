@@ -411,3 +411,27 @@ rimando esplicito dentro la pagina E3 a culture.roma.it, non su impressione.
 che espongono resi con il ruolo, ma sarti storici degli abiti in mostra lasciati alla lettera
 perché non partecipano al fatto; denominazioni di formazione mantenute. Sono distinzioni sottili
 e vanno verificate contro D1–D3 sul campione del controllo C2.
+
+## 17. A1 completa; controllo dell'Operator su tutti i lotti (16 settembre, 00:05)
+
+A1 chiusa: 365 item, 150 notizie negli ultimi tre lotti. Il lettore ha dichiarato di aver
+corretto a fine lavoro 111 righe che superavano i limiti della specifica. **Controllo mio su
+tutti i 23 lotti, 1.161 righe**: titoli ≤ 12 parole, sintesi ≤ 60 parole, `tipo` e `qualita`
+dentro gli elenchi, evidenza sempre presente. **Zero violazioni.** Il controllo è cheap e va
+rifatto dopo L21, L22 e L26.
+
+**Uniformità DEC-102 su E3, verificata invece che richiesta.** Il lettore di E3 chiedeva conferma
+su tre distinzioni sottili. Confrontate con D1–D3: sono già coerenti. Artisti che espongono →
+ruolo, perché partecipano al fatto (D1). Sarti storici degli abiti in mostra → alla lettera,
+perché sono autori delle opere e non partecipano (D2.c). Denominazioni di formazione → alla
+lettera, perché sono organizzazioni (D2.b). Nessuna rilettura necessaria per E3.
+
+**Materiale per la deduplicazione che i lettori hanno già trovato in A1**: presidio di Saxa Rubra
+su due item, sciopero del 30 giugno su tre, rinvio Acea su tre più uno che lo annulla, open day
+delle carte d'identità su quattro, e soprattutto **lo stesso avviso 0–3 anni ripubblicato da sei
+Municipi diversi**. Quest'ultimo è il caso che mette alla prova la regola del luogo: stesso
+oggetto, stessa data, sei Municipi. La condizione (b) del metodo lo tratta correttamente come sei
+fatti distinti, perché il luogo è diverso — ed è la risposta giusta per un giornale di quartiere,
+dove l'avviso del Municipio VII non è la notizia del Municipio II.
+
+Stato lettura: **restano solo L21, L22 (57 item E2) e L26 (78 riletture)**, entrambi in corso.
