@@ -1,5 +1,5 @@
 import csv, time, subprocess, fitz, os, sys
-S='/tmp/claude-0/-home-user-QN/184e4ccb-e05f-5438-a420-c2c30e08a5ad/scratchpad/net'; L=S+'/lotto_opus5'
+S=__import__('os').environ['QN_NET']; L=S+'/lotto_opus5'
 rows=[r for r in csv.DictReader(open(L+'/manifest_B.csv')) if r['formato']=='scansione' and r['pdf']]
 for r in rows:
     t=time.time(); doc=fitz.open(r['pdf']); out=[]
