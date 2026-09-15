@@ -208,3 +208,32 @@ correzione urgente va nel prompt dei lotti in corso e nel documento solo dopo il
 raccontano lo stesso fatto (A1_280/A1_281, A1_061/A1_209, A1_106/A1_107). I lettori non li
 uniscono e non ne saltano nessuno: li schedano entrambi annotando il gemello, perché la
 deduplicazione è un passo successivo che ha bisogno di vedere tutte e due le righe.
+
+## 10. Database: costruttore scritto e provato sui lotti già letti (15 settembre, 22:45)
+
+`report1/build_db.py` costruisce le cinque tabelle dello schema dai file dei lettori, senza
+rete e senza chiamate a modelli: è rieseguibile e deterministico, quindi si rilancia a ogni
+lotto che rientra. Prova sui 9 lotti disponibili (447 documenti letti, 591 notizie):
+
+| Tabella | Righe |
+|---|---|
+| `fonti` | 7 |
+| `documenti` | 985 (tutti, anche quelli non ancora letti) |
+| `notizie_candidate` | 591 |
+| `vicende` | 108 |
+| `territori` | 114 |
+
+Deduplicazione provvisoria: 431 uniche, 117 duplicati, 43 dubbi → resa netta fra **431 e 474**.
+Localizzazione: 220 a `text_contains`, 29 ambigue, 342 senza toponimo risolto; 581 notizie su 591
+hanno un Municipio, quasi sempre da quello dichiarato dalla fonte.
+
+**Difetto mio, trovato e corretto sui numeri.** La prima versione dava 37 duplicati e 106 dubbi:
+un rapporto invertito e implausibile. La causa era la condizione (b) del metodo: ripiegavo sul
+Municipio ogni volta che la zona era vuota, e così due eventi diversi nello stesso Municipio lo
+stesso giorno diventavano un dubbio. Il metodo §4.1 ammette il Municipio **solo quando nessuna
+delle due notizie ha un toponimo più fine**. Corretto: ora si confrontano prima le zone, poi i
+toponimi normalizzati, e il Municipio solo se nessuna delle due ne ha. Esito 117 duplicati e 43
+dubbi. Corretto anche il campionamento, che usava una frazione inventata invece dei 60 item per
+coppia di fonti con seed registrato che il metodo prescrive.
+
+I numeri restano provvisori: mancano 16 lotti su 25, fra cui tutta la Cronaca e E3.
