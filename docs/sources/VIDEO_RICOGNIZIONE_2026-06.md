@@ -57,7 +57,20 @@ Canali trovati con la ricerca e scartati: `Municipio Terzo Roma` (50 video, ulti
 | Roma Capitale | Assemblea Capitolina (dirette) | 8 | 37,1 |
 | **Totale** | | **131** | **135,5** |
 
-Commissioni municipali: 107 registrazioni per 82,1 ore; durata mediana 40 minuti, da 1 minuto (appelli andati deserti) a 6 ore 21 minuti. Nel Municipio I 21 giorni di seduta con video, nel IX 18, nel V 7. Nessuna registrazione porta sottotitoli redatti; i sottotitoli automatici italiani ci sono in 12 video su 12 letti (§5).
+Commissioni municipali: 107 registrazioni per 82,1 ore; durata mediana 40 minuti, da 1 minuto (appelli andati deserti) a 6 ore 21 minuti; 13 fino a 15 minuti, 46 fra 15 e 45, 39 fra 45 e 90, 9 oltre 90. Nel Municipio I 21 giorni di seduta con video, nel IX 18, nel V 7. Temi dai titoli (M, classificazione per parole chiave):
+
+| Tema (dal nome della commissione) | Registrazioni | Ore |
+|---|---|---|
+| trasparenza, bilancio, regolamenti | 23 | 17,9 |
+| scuola, cultura, sport | 23 | 12,9 |
+| sociale e pari opportunità | 16 | 15,3 |
+| mobilità e lavori pubblici | 14 | 11,9 |
+| urbanistica, ambiente, territorio | 11 | 9,8 |
+| commercio | 9 | 3,5 |
+| congiunte indicate solo per numero | 6 | 6,4 |
+| decentramento e progetti speciali | 4 | 3,9 |
+| giubileo e PNRR | 1 | 0,4 |
+ Nessuna registrazione porta sottotitoli redatti; i sottotitoli automatici italiani ci sono in 12 video su 12 letti (§5).
 
 ### 3.3 Cosa si ricava per ogni registrazione (M/—)
 
