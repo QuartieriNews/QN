@@ -15,6 +15,7 @@
 - **Quanto costa**: il mese completo, con AI, costa in denaro poco: scenario centrale **≈ 80 €** una tantum (trascrizione delle commissioni RomaTV 46 €, estrazione e verifica AI 30 €, controlli Codex 1–2 €, OCR 0 €), basso ≈ 10 € (senza trascrizione a pagamento, perimetro ridotto), alto ≈ 200 € (modelli più cari e Assemblee incluse). Il costo vero è il tempo: 30–45 ore mie e 10 ore sue nello scenario centrale (dettaglio in §3.4.1: 1 ora di configurazione, 7,5 di verifica del campione, 1,5 di decisioni). A regime, 30–80 €/mese oltre l'abbonamento n8n esistente (29,28 €/mese), 10–15 ore mie e circa 4 ore sue al mese, Facebook a parte.
 - **In quanto tempo**: senza chiave, entro una settimana una prima ricostruzione "a costo zero" (database, collegamenti, disponibilità online, notizie candidate dal materiale già letto e da ciò che leggo a mano nel perimetro ridotto). Con la chiave confermata e l'autorizzazione di spesa, il mese completo verificato in **3–4 settimane** di calendario (dipendenze in §4.4).
 - **Raccomandazione**: **esecuzione per fasi** (§6): fase 0 subito a costo zero; fase 1 le prove T1/T3/T4 entro il residuo di 49,14 € appena la chiave è confermata; fase 2 il mese completo su un perimetro che esclude le Assemblee Capitoline, C3/C5/C6/R1 e Facebook (non ricostruibile per giugno), con le commissioni RomaTV trascritte a pagamento o sul suo PC.
+- **Aggiornamento del 15 settembre, sera (§8)**: ricostruzione una tantum con esecuzione e verifiche a carico di Operator e Codex; owner solo per accessi, autorizzazioni, decisioni non risolvibili e valutazione finale (≈ 2,5–3 ore); ≈ 12 giorni lavorativi dai prerequisiti a 5 ore di sessione al giorno; costo centrale ≈ 91 € (≈ 33 € entro il residuo rinviando la trascrizione delle commissioni RomaTV); strumenti di verifica accertati e limiti dichiarati in §8.1.
 
 ## 1. Perimetro e capacità effettiva
 
@@ -143,6 +144,8 @@ I prezzi vanno **misurati** con T1, T3 e T4 prima dell'autorizzazione del mese c
 
 ### 3.4.1 Le ore dell'owner nel dettaglio
 
+> Superata dall'indicazione dell'owner della sera del 15 settembre: le verifiche del campione passano all'Operator e ai controlli di Codex (§8). La sezione resta come riferimento delle quantità e dei minuti per unità.
+
 Modello concordato: l'Operator esegue lo studio e prepara le evidenze; l'owner controlla un campione e decide sui punti residui. Ogni riga dice perché serve l'owner, cosa faccio da solo prima e cosa trova già pronto. Minuti per unità: stimati (S) dai tempi misurati oggi sui materiali reali (un passaggio di trascrizione con link al secondo: 3–4 minuti; una pagina di PDF: 2; un avviso o un comunicato: 1). Le quantità seguono il metodo §4.3 (minimo di audit, quote mirate su deduplicazione e localizzazione, raddoppiate per le fonti con più di 100 item) applicate al nuovo oggetto, le notizie candidate.
 
 **A. Ricostruzione di giugno, scenario centrale: 600 minuti = 10 ore**
@@ -243,3 +246,92 @@ Un risultato verificato è quindi possibile in circa **4–5 settimane** dalla c
 3. Perimetro: esclusioni proposte in §6; DDS come categoria "viabilità" con estrazione a regole; commissioni RomaTV trascritte via API o sul suo PC.
 4. Collocazione del database: foglio Google in `Fonti 2026-06/` (proposta) o altra sede.
 5. Verifica a campione: quote del metodo §4.3 (5 per fonte più le quote mirate) e disponibilità all'ascolto di alcuni passaggi audio.
+
+## 8. Preventivo aggiornato (15 settembre, sera): ricostruzione una tantum con esecuzione a carico di Operator e Codex
+
+Indicazione dell'owner: la ricostruzione di giugno è **una tantum** e serve a validare fonti, copertura, qualità, complessità e costi; le proiezioni a regime (§3.6) restano un risultato dello studio, non un processo da avviare. Recupero, lettura, classificazione, collegamenti, deduplicazione, localizzazione e verifiche documentali sono a carico dell'Operator, con controlli indipendenti di Codex; all'owner restano accessi e autorizzazioni indispensabili, decisioni editoriali non risolvibili e valutazione finale. Nessuna ora di controllo è assegnata all'owner; ciò che non è verificabile è dichiarato come limite. Questa sezione sostituisce §3.4 (riga dell'owner), §3.4.1 e §3.5 per la ripartizione e i tempi; i costi in denaro di §3.3 non cambiano, perché il lavoro passa da una persona a un'altra, non da un servizio a un altro.
+
+### 8.1 Strumenti di verifica accertati (M, 15 settembre)
+
+| Materiale | Strumento utilizzabile qui | Cosa verifica | Limite dichiarato |
+|---|---|---|---|
+| Scansioni A2 (≈ 1.400 pagine) | **Tesseract 5.3.4 con lingua italiana** (installato oggi dai repository di sistema): 2,9 s a pagina a 300 dpi, spaziatura conservata, testo leggibile; **RapidOCR** (PyPI) come secondo motore indipendente: 5,3 s a pagina, perde spazi e righe nelle pagine dense | accordo fra i due motori (su 5 pagine di prova: dal 63% al 97% delle parole di Tesseract ritrovate nel testo di RapidOCR, in media 80%; `ocr_confronto_tesseract_rapidocr.json` su Drive); coerenza con i metadati dell'API (oggetto, data, numero di verbale); lettura di Codex su un campione di pagine con il testo OCR a fronte | nessuna lettura umana della scansione; le pagine in disaccordo fra i motori sono marcate "OCR incerto" e non contano come verificate |
+| Trascrizioni RomaTV dei Consigli (82) | confidenza per parola del riconoscimento della piattaforma (letta per tutte); controlli acustici sull'audio scaricato (durata, silenzi, livello); coerenza documentale con verbali e convocazioni (ordini del giorno, esiti dei voti); con la chiave confermata: **seconda trascrizione indipendente via API su un campione di passaggi** (2 ore di audio ≈ 1 €) e tasso di accordo parola per parola | qualità media e per registrazione; passaggi con accordo basso marcati "trascrizione incerta" | nessun ascolto umano: nessuna trascrizione è "verificata all'ascolto"; senza chiave manca il confronto indipendente |
+| Commissioni RomaTV (305 + 75 + 23) | audio scaricabile (provato su 3 registrazioni); trascrizione solo via API con la chiave (oppure alternativa sul PC dell'owner, da valutare a parte) | come sopra sulla trascrizione ottenuta | senza chiave: solo metadati e ordini del giorno (MMC, CPC); contenuto non ricostruibile |
+| Sottotitoli YouTube (131) | nessun accesso all'audio (`googlevideo.com` bloccato): niente controlli acustici né seconda trascrizione; coerenza documentale con i verbali (nel Municipio I ogni verbale cita il video: presenze, orari, voti) e con le convocazioni | coerenza di date, organi, esiti | **limite**: i sottotitoli YouTube non sono verificabili sull'audio in questo ambiente; restano "testo indicativo" con coerenza documentale |
+| Estrazione AI (schede e notizie candidate) | seconda AI su tutte le candidate (schema T4); controllo documentale dell'Operator sul campione del metodo §4.3 (100 candidate, 30 coppie, 40 localizzazioni, 20 disponibilità); controllo indipendente di Codex sullo stesso campione con le evidenze | fatto presente nell'evidenza, luogo, date, classi | i casi di disaccordo restano "candidata non confermata" |
+
+### 8.2 Perimetro di giugno completabile
+
+| Livello | Fonti e materiali | Condizione |
+|---|---|---|
+| **Completo, a 0 €, con gli strumenti attuali** | A1 365; A2 municipali 1.426 (testo per 8 Municipi, OCR Tesseract per 7); DDS 921 con estrazione a regole (vie, date di validità); atti centrali 46; Cronaca 109; E2 407 e stock futuro; E3 104; RomaTV: metadati di tutte le 496 voci e trascrizioni degli 82 Consigli con confidenza; YouTube: metadati e sottotitoli automatici di tutti i 131 (ciclo lento, ≈ 4 ore macchina); sedute collegate (convocazione, verbale, registrazione, avviso); database e misure di disponibilità online | nessuna |
+| **Completo solo con chiave e autorizzazione** | testo delle commissioni RomaTV (280 ore: 10 Municipi senza YouTube più le Commissioni Capitoline) via API, ≈ 46 €; estrazione AI di tutto il perimetro e seconda AI sulle candidate, ≈ 24 € più ripetizioni | chiave OpenAI confermata; spesa oltre il residuo autorizzata |
+| **Senza chiave: lettura umana parziale** | con circa 50 ore dell'Operator si leggono per intero A1, Cronaca, atti centrali, DDS a regole, delibere, mozioni, risoluzioni e determinazioni municipali (≈ 400 atti) e i 22 Consigli e commissioni già letti; i verbali di commissione (407), gli 82 Consigli RomaTV e i 131 video YouTube si leggono a campione (≈ 1 su 4); il resto è "non letto" e dichiarato | perimetro dichiarato come parziale |
+| **Probabile, da confermare** | E1: API raggiungibile, formato dei filtri da individuare (1–2 ore); "altro" di RomaTV (23 registrazioni senza titolo, da classificare) | — |
+| **Escluso, con motivazione** | Assemblee Capitoline (78 ore, livello cittadino coperto da ACD/AY); C3, C5, C6, R1 (0–2 item); Facebook (non ricostruibile a posteriori: DEC-102) | decisione dell'owner |
+
+### 8.3 Ore di lavoro e di elaborazione (S; scenario centrale con chiave)
+
+| Voce | Ore | Note |
+|---|---|---|
+| Operator: raccolta residua e conversioni (PDF, OCR, sottotitoli, audio, cicli di trascrizione) | 6 | script già scritti in gran parte; supervisione dei cicli |
+| Operator: database (schema, chiavi, caricamento, collegamento sedute e parti, vicende) | 8 | struttura in §2.3 |
+| Operator: estrazione AI (schema delle schede, prompt, cicli, controllo del 10% degli esiti) | 12 | ≈ 400 schede controllate a 1–2 minuti |
+| Operator: deduplicazione, localizzazione, consolidamento delle candidate | 6 | regole del metodo §4.1; gazetteer |
+| Operator: verifiche documentali del campione (100 candidate, 30 coppie, 40 localizzazioni, 20 disponibilità; OCR e trascrizioni con gli strumenti di §8.1) | 8 | le quantità di §3.4.1 passano all'Operator |
+| Operator: rapporto finale, risposte ai controlli di Codex, correzioni | 8 | — |
+| Operator: riserva per errori e ripetizioni (15%) | 7 | — |
+| **Operator, totale** | **≈ 55** (intervallo 45–65) | senza chiave ≈ 50 ore su un perimetro più piccolo (§8.2) |
+| Elaborazione macchina, in parallelo | 45–70 | download audio 25–30 h (ripresumibile a segmenti), OCR 1–2 h, sottotitoli 4 h, trascrizione API 10–30 h di attesa, cicli AI 3–6 h; deve avvenire durante sessioni aperte, perché l'ambiente si spegne a fine sessione |
+| Codex: controlli indipendenti | 5 controlli | (1) schema del database e regole di collegamento prima dell'estrazione; (2) campione di 100 candidate con evidenze; (3) campione di deduplicazione e localizzazione; (4) consegna finale (rapporto, aggregati, lacune); (5) revisione della PR del rapporto |
+| Owner | ≈ 2,5–3 | solo §8.6 |
+
+### 8.4 Calendario dal momento in cui i prerequisiti sono disponibili
+
+Prerequisiti (t0): chiave confermata o ruotata; scenario di spesa autorizzato; le sei decisioni di perimetro di §7. Ipotesi sulla cadenza: una sessione dell'Operator di circa 5 ore per giorno lavorativo; con 2–3 ore al giorno la durata raddoppia.
+
+| Fase | Giorni lavorativi | Cosa procede in parallelo | Cosa determina la durata |
+|---|---|---|---|
+| 1. Database, caricamento di ciò che esiste, avvio di download audio, OCR, sottotitoli, trascrizioni API | giorni 1–3 | tutto il tempo macchina parte il giorno 1 | ore dell'Operator per schema e caricamento |
+| 2. Controllo Codex n. 1 (schema e regole) | giorno 3 | correzioni nello stesso giorno | turno di Codex (meno di un giorno) |
+| 3. Estrazione AI sulle fonti testuali, poi sulle trascrizioni man mano che arrivano; collegamenti, dedup, localizzazione | giorni 3–7 | trascrizione API in coda; cicli AI in background | arrivo delle trascrizioni (download 25–30 h più API), ore dell'Operator |
+| 4. Controlli Codex n. 2 e 3 (campioni); verifiche documentali dell'Operator | giorni 7–9 | i controlli sui campioni e le verifiche corrono insieme | ore dell'Operator per le verifiche (8) e le correzioni |
+| 5. Rapporto finale, controllo Codex n. 4, PR e revisione n. 5, consegna | giorni 9–12 | — | ore dell'Operator (8) e due turni di Codex |
+| **Totale** | **≈ 12 giorni lavorativi (2,5 settimane)** a 5 ore al giorno; ≈ 4 settimane a 2–3 ore al giorno | | il percorso critico è la somma delle ore dell'Operator più tre turni di Codex; il tempo macchina non lo allunga se le sessioni restano aperte |
+
+### 8.5 Da cosa derivavano le 3–4 settimane e cosa resta
+
+La stima precedente (§3.5, §6) sommava: (a) la separazione in fasi con il gate della chiave fra le prove T1/T3/T4 e il mese completo; (b) la verifica a campione dell'owner distribuita nella terza e quarta settimana (§3.4.1, 7,5 ore); (c) due turni di Codex con un giorno di attesa ciascuno; (d) le ore dell'Operator diluite a 2–3 al giorno. Con la nuova ripartizione cadono (b) e la parte di (a) che aspettava l'owner fra le fasi: le prove T1/T3/T4 si eseguono nei primi due giorni dentro lo stesso calendario e servono a misurare i prezzi prima di spendere il resto. Restano le ore dell'Operator (che aumentano di circa 15 per assorbire le verifiche) e i turni di Codex (che passano da 2 a 5, ma in giornata). Risultato: **2,5 settimane** a 5 ore al giorno, 4 settimane a 2–3 ore; le 3–4 settimane non sono più necessarie in sé, ma tornano se la cadenza delle sessioni è bassa.
+
+### 8.6 Costo, controlli Codex compresi (S)
+
+| Voce | Senza chiave | Centrale entro il residuo | Centrale | Alto |
+|---|---|---|---|---|
+| Trascrizione commissioni RomaTV | 0 (escluse) | 0 (escluse, rinviate) | 46 | 106 |
+| Estrazione AI | 0 | 10 | 10 | 57 |
+| Seconda AI sulle candidate | 0 | 14 | 14 | 20 |
+| Seconda trascrizione di verifica (campione, 2 h) | 0 | 1 | 1 | 2 |
+| OCR (Tesseract e RapidOCR locali) | 0 | 0 | 0 | 0 |
+| Ripetizioni ed errori (+25% sulle voci AI) | 0 | 6 | 18 | 46 |
+| Controlli Codex (5, da 0,2 a 0,7 € l'uno secondo i token) | 2 | 2 | 2 | 4 |
+| **Totale una tantum** | **≈ 2 €** | **≈ 33 €** (dentro i 49,14 € residui) | **≈ 91 €** | **≈ 235 €** |
+
+Lo scenario "centrale entro il residuo" fa tutto tranne il testo delle commissioni RomaTV, che resta la lacuna dichiarata più grande (10 Municipi senza YouTube); la trascrizione può essere autorizzata dopo, con i prezzi misurati dalla prova T1.
+
+### 8.7 Interventi che restano indispensabili da parte dell'owner
+
+| Intervento | Quando | Tempo (S) |
+|---|---|---|
+| Conferma scritta o rotazione della chiave OpenAI (S0-03); io eseguo la prova funzionale | t0 | 30 min |
+| Scelta dello scenario di spesa (§8.6) e autorizzazione oltre il residuo, se serve | t0 | 10 min |
+| Sei decisioni di perimetro (§7, punti 3–5) con i pacchetti di una pagina già pronti | t0 | 30 min |
+| Decisioni editoriali non risolvibili dal metodo né dal confronto con Codex, emerse durante il lavoro (stima 3–5, con bozza di voce `decisions/`) | giorni 5–10 | 30–50 min |
+| Valutazione finale: rapporto (riepilogo di due pagine più tabelle), esito dei controlli di Codex, lacune, decisione sui passi successivi | giorno 12 | 60 min |
+| **Totale** | | **≈ 2,5–3 ore**, nessuna ora di verifica a campione |
+
+Non richiesti e non conteggiati: ascolto di passaggi audio, lettura di scansioni, trascrizione sul PC dell'owner (alternativa da valutare a parte, §3.4.1).
+
+### 8.8 Consegna
+
+Un database consultabile (foglio Google e CSV in `QN Hub / 20 Packages / Fonti 2026-06/`, schema di §2.3, senza nomi di persona né testi integrali) e un rapporto finale nel repository (`docs/sources/RICOSTRUZIONE_2026-06_RAPPORTO.md`) con: copertura per quartiere e settimana, contributo per fonte, duplicazioni, tempestività con la distinzione fra "disponibile a giugno" e "documentato dopo", affidabilità misurata (confidenze, accordo OCR, accordo fra trascrizioni, esito delle verifiche), ore e costi registrati nel ledger, raccomandazioni per fonte e le lacune dichiarate (almeno: commissioni RomaTV senza testo se non trascritte; sottotitoli YouTube non verificati sull'audio; nessun ascolto umano; Facebook assente; E1 se non conteggiata). I controlli di Codex sono archiviati in `reviews/`. Questa sezione aggiorna il preventivo e non autorizza la spesa per il mese.
