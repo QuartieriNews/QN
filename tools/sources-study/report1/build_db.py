@@ -12,6 +12,23 @@ ORDINE_FONTI = ['A1', 'A2', 'C1', 'C2', 'C4', 'C5', 'E2', 'E3']
 BLOCCO = {'A1': 'Amministrazione', 'A2': 'Amministrazione', 'C1': 'Cronaca', 'C2': 'Cronaca',
           'C4': 'Cronaca', 'C5': 'Cronaca', 'E2': 'Eventi', 'E3': 'Eventi'}
 
+ANNUNCIATI = {'avviso', 'ordine del giorno', 'convegno', 'interrogazione'}
+def qualita(r):
+    """An announced fact never reaches 'alta', and neither does one whose date the text did not
+    give: the readers applied the scale by hand and drifted on exactly these two cases."""
+    q = r['qualita']
+    if q == 'alta' and (r['tipo'] in ANNUNCIATI or not r.get('data_fatto')): return 'media'
+    return q
+
+ROMANI = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV']
+def norm_mun(valore):
+    """Roman numerals only, as the schema requires: 'Municipio IX' and 'Roma IX' both give 'IX'."""
+    out = []
+    for pezzo in re.split(r'[;,]', valore or ''):
+        t = re.sub(r'(?i)\b(municipio|roma)\b', ' ', pezzo).strip().upper()
+        if t in ROMANI and t not in out: out.append(t)
+    return out
+
 def settimana(iso):
     """Week of June 2026 by publication date, Europe/Rome (schema §1.2). W2-W4 = 8-28 June."""
     if not iso or not re.match(r'\d{4}-\d{2}-\d{2}', iso[:10]): return ''
@@ -67,21 +84,38 @@ for doc_id in sorted(letti):
         # Localisation (schema §2 rule 4): the source's Municipio prevails; a disagreement with the
         # text is recorded as a toponym to verify, never silently resolved.
         loc = geo.localise(' '.join([r.get('luoghi', ''), r.get('sintesi', ''), r.get('titolo_anonimizzato', '')]))
-        mun_testo = [m for m in re.split(r'[;,]', r.get('municipio_testo', '')) if m.strip()]
-        mun_meta = [m for m in re.split(r'[;,]', doc['municipi_meta']) if m.strip()]
-        mun_fonte = [m.strip() for m in (mun_meta or mun_testo)]
-        discorde = bool(mun_testo and mun_meta and {m.strip() for m in mun_testo} != {m.strip() for m in mun_meta})
-        topo_v = r.get('toponimo_da_verificare', '').strip().lower() in ('sì', 'si') or discorde
+        mun_testo = norm_mun(r.get('municipio_testo', ''))
+        mun_meta = norm_mun(doc['municipi_meta'])
+        # The text's Municipio is about this news; the source's tag is about the page, and on A1 it
+        # is often the portal's whole category list (up to all fifteen). So: the text wins when it
+        # says something, and a tag naming more than three Municipi is a category, not a location.
+        if mun_testo: mun_fonte = mun_testo
+        elif len(mun_meta) <= 3: mun_fonte = mun_meta
+        else: mun_fonte = []
+        discorde = bool(mun_testo and mun_meta and set(mun_testo) != set(mun_meta))
+        # geo_lookup returns 'zona' and 'municipio'. Reading a key that does not exist ('zone')
+        # left the zone empty for the whole database and quietly denied the deduplication its
+        # finest place key, and the gazetteer's own Municipio was never used at all.
+        zona = loc.get('zona') or ''
+        tier = loc.get('tier') or ''
+        mun_gaz = loc.get('municipio') or ''
+        if not mun_fonte and mun_gaz and not mun_gaz.startswith('multi'):
+            mun_fonte = [mun_gaz]                      # the gazetteer localises where the source said nothing
+            if not tier: tier = 'text_contains'
+        if not tier: tier = 'assente'
+        if tier == 'text_contains' and not zona and not mun_fonte: tier = 'ambiguous'
+        irrisolto = bool(r.get('luoghi', '').strip()) and not zona and not mun_fonte
+        topo_v = (r.get('toponimo_da_verificare', '').strip().lower() in ('sì', 'si')
+                  or discorde or irrisolto)
         notizie.append({
             'id': '', 'documento_id': doc_id, 'fonte': r['fonte'],
             'titolo_anonimizzato': r['titolo_anonimizzato'], 'sintesi': r['sintesi'], 'tipo': r['tipo'],
             'luoghi': r.get('luoghi', ''), 'municipio': ';'.join(mun_fonte),
-            'zona': loc.get('zone') or '' if isinstance(loc, dict) else '',
-            'tier_localizzazione': (loc.get('tier') or 'assente') if isinstance(loc, dict) else 'assente',
+            'zona': zona, 'tier_localizzazione': tier,
             'toponimo_da_verificare': 'sì' if topo_v else 'no',
             'evidenza_url': r['evidenza_url'], 'evidenza_locale': r.get('evidenza_locale', ''),
             'data_fatto': r.get('data_fatto', ''), 'data_pubblicazione': r.get('data_pubblicazione', '') or doc['data_pubblicazione'],
-            'disponibilita': r.get('disponibilita', ''), 'qualita': r['qualita'],
+            'disponibilita': r.get('disponibilita', ''), 'qualita': qualita(r),
             'dedup_stato': 'unica', 'gemello_id': '', 'ragione_dedup': '', 'prima_fonte': 'sì',
             'vicenda_id': '', 'integra_gemello_id': '', 'campi_integrati': '',
             'settimana': settimana(r.get('data_fatto', '') or doc['data_pubblicazione']),
@@ -157,12 +191,14 @@ for blocco in sorted(per_blocco):
             gb = giorno(b)
             if not ga or not gb or abs((ga - gb).days) > 1: continue
             if not stesso_luogo(a, b): continue
-            if stesso_oggetto(a, b):
+            if stesso_oggetto(a, b) and not (blocco == 'Eventi' and ga != gb):
                 b['dedup_stato'] = 'duplicato'; coppie += 1
-                b['ragione_dedup'] = 'data ±1 giorno, stesso luogo, stesso oggetto'
+                b['ragione_dedup'] = 'stessa data, stesso luogo, stesso oggetto'
             else:
                 b['dedup_stato'] = 'dubbio'; dubbi += 1
-                b['ragione_dedup'] = 'data ±1 giorno e stesso luogo; oggetto incerto'
+                b['ragione_dedup'] = ('stesso luogo e stesso oggetto a un giorno di distanza: per gli Eventi'
+                                      ' il metodo chiede la stessa data' if stesso_oggetto(a, b)
+                                      else 'data ±1 giorno e stesso luogo; oggetto incerto')
                 b['prima_fonte'] = 'non applicabile'
             b['gemello_id'] = a['id']
             if b['dedup_stato'] == 'duplicato': b['prima_fonte'] = 'no'

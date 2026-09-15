@@ -457,3 +457,36 @@ regola meccanica non può dare.
 per fonte (almeno 5 ciascuna) e per esito di deduplicazione (almeno 5 per `unica`, `duplicato`,
 `dubbio`). Il seed e le quote servono a impedire che il campione sia scelto per fare bella figura.
 Vanno rigenerati dopo L26, perché le righe cambiano.
+
+## 19. Lettura chiusa, database costruito, controllo C2 concluso (16 settembre, 00:30)
+
+**Tutte e 985 le schede lette**, rilettura compresa. La rilettura si è ripagata: 17 item hanno
+recuperato nomi che la regola vecchia cancellava, e 6 degli 8 testi troncati hanno rivelato fatti
+che prima non si vedevano — circa 12 notizie nate dal tratto finale mancante.
+
+| Misura | Valore |
+|---|---|
+| Documenti letti | 985 (891 con notizie, 94 senza) |
+| Notizie candidate | 1.227 |
+| Resa netta | **882–1.158** distinte |
+| Con Municipio | 1.131 |
+| Con zona del gazetteer | 448, su 63 zone distinte |
+| Senza data del fatto | 151 |
+| Qualità | 14 alta, 1.180 media, 33 bassa |
+
+**Controllo C2**: CHANGES_REQUESTED, 3 bloccanti e 6 non bloccanti, tutti accettati e applicati
+tranne tre residui dichiarati. Rapporto in `reviews/2026-09-16—report1-campione—CHANGES_REQUESTED.md`.
+
+**Il difetto più grave l'ha fatto emergere il controllo per via indiretta.** Un rilievo su
+un'incoerenza di superficie (`tier = text_contains` senza zona) ha mostrato che *tutte* le righe
+erano così. La causa non era quella segnalata: `build_db.py` leggeva dal localizzatore la chiave
+`zone`, che non esiste — la chiave giusta è `zona`. **La zona è stata vuota per l'intero
+database fin dalla prima costruzione**: la deduplicazione non ha mai usato la chiave di luogo più
+fine e il Municipio dedotto dal gazetteer non è mai stato usato. Corretto, e la localizzazione
+ora esiste davvero.
+
+Il revisore non poteva vedere questo difetto, perché non vede il codice. È la terza volta in
+questa sessione che un difetto grave emerge da chi guarda i dati e non da chi li ha prodotti.
+
+Restano da fare per la consegna: rapporto `docs/sources/RICOSTRUZIONE_2026-06_REPORT1.md`,
+caricamento dei CSV su Drive, aggiornamento del ledger (fatto).
