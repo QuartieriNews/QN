@@ -39,3 +39,52 @@ automatica sui CSV, non un nuovo giro di lettura.
 
 **Verifica fatta.** Controllo sui campi scritti dal modello nel lotto E2: nessun nome di persona
 in quanto persona. Le occorrenze trovate sono tutte toponimi o titoli.
+
+---
+
+## D2 — I confini di DEC-102: URL, organizzazioni, autori delle opere
+
+Stato: **aperta**, default già applicato. Nasce da quattro casi isolati dal lettore dei lotti
+L17–L18, che li ha dichiarati invece di deciderli in silenzio.
+
+### D2.a — L'URL dell'evidenza contiene a volte un nome di persona nello slug
+
+**Default: l'URL resta intero.** È l'indirizzo pubblico della pagina ufficiale ed è il solo modo
+di verificare la notizia; mutilarlo renderebbe l'evidenza inservibile e con essa tutto il
+metodo, che poggia sulla verificabilità. DEC-102 tiene fuori i *dati di fonte redistribuiti*,
+non gli indirizzi delle pagine pubbliche a cui la decisione stessa impone di rimandare
+("every item credits its organiser and links back").
+
+### D2.b — Nomi di gruppi musicali e di collettivi
+
+**Default: restano alla lettera.** Il lettore li aveva resi con il ruolo, come i solisti: è la
+scelta più prudente ma è sbagliata, e la correggo. Un gruppo o un collettivo è
+un'**organizzazione**, non una persona, e DEC-102 prescrive di accreditare l'organizzatore.
+Renderlo generico cancellerebbe l'unica informazione che identifica l'evento. Tre righe da
+rivedere (E2_096, E2_074, E2_334).
+
+### D2.c — Autori delle opere messe in scena o proiettate
+
+**Default: restano alla lettera.** Il nome dell'autore di un'opera è attribuzione
+bibliografica, non un dato personale di qualcuno coinvolto nel fatto. Un cartellone che
+annuncia un classico teatrale reso come "un dramma di un drammaturgo" non informa nessuno.
+Restano con il ruolo, invece, le persone *presenti al fatto*: chi dirige, recita, cura,
+modera, presenta.
+
+### D2.d — Il blocco di rassegna ripetuto in coda a decine di pagine
+
+**Default confermato: contesto in `note`, non una riga per pagina.** Il lettore lo ha trovato
+in coda a 47 pagine di un lotto e 46 dell'altro. Generarne una riga per pagina avrebbe prodotto
+novanta notizie identiche e falsato ogni conteggio di copertura. È la scelta giusta.
+
+### Regola generale che le tiene insieme
+
+DEC-102 protegge **le persone in quanto persone coinvolte nel fatto**. Non copre i luoghi, le
+organizzazioni, i titoli delle opere, i loro autori, né gli indirizzi delle pagine pubbliche.
+Dove il confine resta incerto il lettore riporta alla lettera e lo dichiara in `note`: una
+dichiarazione si corregge con una passata sui CSV, un'informazione cancellata si recupera solo
+rileggendo.
+
+**Se l'owner decide diversamente**: nessuna rilettura. Tutte e quattro le scelte sono
+reversibili con una passata automatica, perché i valori interessati stanno in colonne dedicate
+o sono annotati riga per riga.

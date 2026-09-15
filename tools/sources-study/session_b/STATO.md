@@ -142,8 +142,10 @@ tipi di materiale diversi, per misurare tempi e qualità su entrambi prima di sc
 | L01 | A1 municipi | 50 | 74 (2 alta, 67 media, 5 bassa) | 11 min | 144.204 |
 | L15+L16 | E2 eventi | 100 | 137 (tutte media) | 14,7 min | 226.649 |
 
-Totale a 22:10: **200 item letti su 985, 264 notizie candidate, zero senza evidenza**, 23 con
-toponimo da verificare. Tipi: 222 evento, 17 avviso, 8 ordine del giorno, 6 risoluzione, 3
+| L17+L18 | E2 eventi | 100 | 106 (105 media, 1 bassa) | 11,5 min | 230.335 |
+
+Totale a 22:30: **300 item letti su 985, 370 notizie candidate, zero senza evidenza**, 23 con
+toponimo da verificare al conteggio precedente. Tipi: 222 evento, 17 avviso, 8 ordine del giorno, 6 risoluzione, 3
 delibera, 2 audizione (da normalizzare), 6 altro.
 
 Controlli fatti dall'Operator su entrambi: schema rispettato, **zero notizie senza evidenza**,
@@ -174,6 +176,9 @@ questo. Da verificare se il fenomeno riguarda anche E2 ed E3.
 1. DEC-102: riallineare L01 (sale e aule rese generiche) alla regola D1, che le vuole verbatim.
 2. `tipo`: due righe E2 hanno `audizione` per convegni, forzatura dichiarata dal lettore quando la
    voce `convegno` non esisteva. Vanno portate a `convegno`.
+3. D2.b: tre righe con nomi di gruppi musicali resi con il ruolo (E2_096, E2_074, E2_334) vanno
+   riportate alla lettera: un gruppo è un'organizzazione, non una persona.
+4. D2.c: verificare nei lotti L17–L18 gli autori delle opere resi con il ruolo e riportarli.
 
 **Errore di processo dell'Operator, da non ripetere.** Ho modificato la specifica mentre due lotti
 erano in lettura; il lettore L15/L16 se n'è accorto dal timestamp e l'ha segnalato invece di

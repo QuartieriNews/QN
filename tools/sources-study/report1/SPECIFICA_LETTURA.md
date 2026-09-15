@@ -25,9 +25,16 @@ dopo che sono rientrati. Ogni modifica è datata nel registro in fondo.
   ville, teatri, sale, aule, scuole, biblioteche, centri (`Largo Marcello Mastroianni`,
   `Teatro all'aperto Ettore Scola`, `Aula Giulio Cesare`). Sono luoghi, e la localizzazione è lo
   scopo dello studio: renderli generici la distrugge. Lo stesso vale per il **titolo ufficiale di
-  un'opera** (un film, una mostra, un premio). La regola sui nomi riguarda le persone in quanto
-  persone: chi decide, chi parla, chi viene arrestato, chi presenta. Non lasciarla all'intuito del
-  lotto: due lotti che la interpretano diversamente producono un database disomogeneo.
+  un'opera** (un film, una mostra, un premio), per gli **autori** delle opere messe in scena o
+  proiettate (attribuzione bibliografica, non dati di una persona coinvolta nel fatto), per i nomi
+  di **gruppi, collettivi e organizzazioni** (che DEC-102 impone anzi di accreditare) e per
+  l'**URL** dell'evidenza, che resta intero anche se lo slug contiene un nome: è l'indirizzo
+  pubblico che rende verificabile la notizia, e mutilarlo svuoterebbe il metodo.
+  La regola sui nomi riguarda le persone in quanto persone **coinvolte nel fatto**: chi decide,
+  chi parla, chi viene arrestato, chi dirige, recita, cura, modera, presenta. Non lasciarla
+  all'intuito del lotto: due lotti che la interpretano diversamente producono un database
+  disomogeneo. Nel dubbio riporta alla lettera e dichiaralo in `note`: una dichiarazione si
+  corregge con una passata sui CSV, un'informazione cancellata si recupera solo rileggendo.
 - **Ogni notizia candidata cita l'evidenza**: l'URL dell'item (colonna `url` del manifesto) e,
   quando il testo lo consente, la frase o il dato che la sostiene. Una notizia senza evidenza
   non si scrive: si annota in `log/<lotto>_problemi.md`.
@@ -106,3 +113,5 @@ sono lo stesso fatto raccontato in più paragrafi.
 | 15/09 21:50 | `municipio_testo` ammette più Municipi separati da `;` | un item A1 che ne riguardava due |
 | 15/09 21:50 | DEC-102: eccezione esplicita per toponimi, sedi e titoli di opere (D1) | due lotti che avevano interpretato la regola diversamente |
 | 15/09 22:10 | `tipo`: aggiunto `convegno`; istruzione di preferire `altro` dichiarato a una forzatura | un lotto E2 che aveva forzato due convegni su `audizione` |
+| 15/09 22:30 | DEC-102: confini estesi a autori delle opere, organizzazioni e URL (D2); regola del dubbio | quattro casi di confine isolati dal lettore di L17–L18 |
+| 15/09 22:30 | Un blocco di rassegna ripetuto in coda a molte pagine va in `note`, non genera una riga per pagina | lo stesso lettore, che l'ha trovato in coda a 93 pagine |
