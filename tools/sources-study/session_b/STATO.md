@@ -515,15 +515,36 @@ Correzioni all'ultimo giro: anagrafe delle fonti compilata (nome, ente, URL di e
 sul blocco per C1 e C2); `territori.csv` ora emette **anche le celle vuote**, perché una lacuna è
 una cella senza notizie e una tabella che elenca solo ciò che esiste non può mostrarla.
 
-## 21. Da fare al prossimo risveglio
+## 21. Caricamento su Drive: fatto a metà, e quello che resta
 
-1. **Caricare su Drive** `notizie_compatte.csv` (214 KB) e `documenti_compatti.csv` (164 KB) nella
-   cartella `Fonti 2026-06`, più `territori.csv` e `vicende.csv`. `fonti.csv` è già caricato
-   (`Report1_fonti_2026-06.csv`). Il connettore fa passare il contenuto dalla conversazione, quindi
-   vanno caricati a contesto fresco: rimandati per non rischiare una compattazione a metà.
-   Le versioni compatte seguono §4.2 del metodo: niente sintesi né testi integrali.
-   **Da cancellare**: `Report1_notizie_candidate_2026-06.csv` (id `10ZsIkYImMLfAEQHLjsSyblAupQX8HKTe`),
-   segnaposto da 10 byte creato per provare il connettore.
+Cartella `QN Hub / 20 Packages / Fonti 2026-06/`. Il connettore fa passare il contenuto dalla
+conversazione, quindi ogni file costa contesto: i grandi vanno caricati a contesto fresco, uno o
+due per risveglio, mai tutti insieme — una compattazione a metà lascerebbe un caricamento parziale
+senza che nulla lo segnali.
+
+| File | Stato |
+|---|---|
+| `Report1_fonti_2026-06.csv` | **caricato** |
+| `Report1_notizie_C1_2026-06.csv` (14 righe) | **caricato** |
+| `Report1_notizie_C4_2026-06.csv` (8 righe) | **caricato** |
+| `Report1_notizie_C5_2026-06.csv` (11 righe) | **caricato** |
+| `Report1_territori_2026-06.csv` (96 celle, con le 2 lacune) | **caricato** |
+| `notizie_compatte_E3.csv` (44 KB) | da caricare |
+| `vicende.csv` (30 KB) | da caricare |
+| `notizie_compatte_A1.csv` (161 KB) | da caricare |
+| `notizie_compatte_E2.csv` (161 KB) | da caricare |
+| `documenti_compatti.csv` (164 KB) | da caricare |
+
+Il segnaposto da 10 byte creato per provare il connettore è stato **cestinato**.
+
+**Correzione alla versione compatta.** La prima versione ometteva il titolo, e due notizie diverse
+tratte dallo stesso comunicato diventavano righe indistinguibili (successo davvero su `C1_079`:
+il piano di sicurezza e le navette per lo stesso concerto). Un titolo non è né un nome di persona
+né un testo integrale, quindi rientra in §4.2: ora c'è, insieme ai `luoghi`.
+
+## 22. Da fare al prossimo risveglio
+
+1. Completare il caricamento su Drive (§21), uno o due file per volta.
 2. Rileggere `N0812` per il titolo d'opera anonimizzato per errore (residuo C2 n. 7).
 3. Report 2: gli atti sono pronti (2.669 PDF con testo e OCR); mancano trascrizioni RomaTV e
    sottotitoli YouTube.
