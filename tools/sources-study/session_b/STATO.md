@@ -320,3 +320,25 @@ Tutte le coppie di duplicati trovate finora sono interne alla stessa fonte.
 
 Atti Web è completo con un giorno e mezzo di anticipo sulla consegna del Report 2: era la voce
 più a rischio del piano dopo le trascrizioni.
+
+## 14. Rilettura finale invece di rattoppi (15 settembre, 23:25)
+
+Le regole D1–D3 e la voce `convegno` sono nate mentre i lotti leggevano: i primi lotti hanno
+quindi applicato criteri che sono cambiati dopo. Le normalizzazioni elencate in §9 si potevano
+fare con sostituzioni automatiche sui CSV, ma una regola applicata da chi legge il testo non è la
+stessa cosa di una regex applicata a un riassunto di 60 parole: il testo dice se un nome è un
+toponimo, una dedica o una persona presente, il riassunto no.
+
+Lotto **L26**, 78 item (`report1/batches/L26.txt`, motivi in `_riletture_motivi.csv`):
+
+| Motivo | Item |
+|---|---|
+| Caso DEC-102 letto prima che D1–D3 esistessero | 49 |
+| Intitolazione o commemorazione letta prima di D3 | 19 |
+| Testo troncato e rigenerato | 8 |
+| `tipo` forzato su `audizione` prima che esistesse `convegno` | 2 |
+
+75 sono A1, 3 sono E2. Le righe vecchie di questi item vanno scartate e sostituite da quelle
+nuove: `build_db.py` prende l'ultima lettura di ogni documento, quindi basta che L26 arrivi dopo.
+Il criterio di selezione è volutamente largo — meglio rileggere un item che non ne aveva bisogno
+che lasciarne fuori uno che sì.
