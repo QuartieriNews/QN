@@ -371,3 +371,43 @@ Numeri ancora provvisori: mancano L21, L22 e la rilettura L26.
 **Altro difetto mio, da ricordare**: `python3 build_db.py | head -4` uccideva il processo prima
 che scrivesse le tabelle, e la verifica successiva leggeva i file vecchi credendoli nuovi. Mai
 incanalare in `head` un programma che scrive file.
+
+## 16. E3 letta: due difetti attribuiti alla fonte, e un'ipotesi che vale il rapporto
+
+E3 completata: 104 item, 152 notizie, 19 minuti. Nessun item senza notizie.
+
+**Due segnalazioni di codifica, verificate: sono della fonte, non dell'estrazione.** Il lettore
+aveva ipotizzato un difetto dell'estrattore. Controllati i byte dell'HTML di partenza:
+
+- `E3_090`: la sequenza `\xc2\xbf` (`¿`) è **già nel file scaricato**, dentro l'elenco degli
+  artisti. Difetto del gestore di contenuti della fonte.
+- `E3_093`: l'HTML contiene **zero caratteri ebraici**; la parola è già sostituita da otto `¿`.
+  Il portale non rappresenta gli alfabeti non latini.
+
+Il lettore aveva ragione a segnalarli e torto sulla causa: l'estrattore non tocca nulla. Va nel
+rapporto fra i difetti della fonte, non fra i nostri.
+
+**La data di pubblicazione instabile è ora confermata su due fonti.** Dopo A1, anche E3: pagine
+con "Ultimo aggiornamento: 17 agosto" su una pubblicazione dell'8 giugno, una "Segnalazione del
+17 luglio" su una pagina del 24 giugno, una rassegna annunciata il 16 giugno e inaugurata il 14.
+Non è un caso isolato di una fonte: è il modo in cui il portale funziona, e tocca in pieno la
+domanda sulla tempestività.
+
+**Ipotesi da verificare con la deduplicazione, e potenzialmente il risultato più utile del
+Report 1.** Il lettore di E3 segnala che 128 righe su 152 (84%) sono probabilmente sovrapposte a
+E2, perché promosse o ospitate dallo stesso circuito (Sovrintendenza, Zètema, Musei Civici,
+Teatro di Roma, Auditorium). Le 24 righe senza sovrapposizione apparente sono quelle in cui **E3
+smette di essere un'agenda di spettacoli e diventa comunicazione amministrativa**: conclusione di
+lavori PNRR su un museo, restauro della Loggia dei Vini, riconsegna di un auditorium,
+prolungamento d'orario del Bioparco, chiusura di uno spazio per il caldo, calendario
+istituzionale della banda della Polizia Locale.
+
+Se il passo automatico la conferma, la conclusione per QN è netta: **fra le due agende eventi il
+contributo unico non sta negli spettacoli ma nella comunicazione amministrativa**, che è anche
+ciò che un lettore di quartiere usa davvero. Otto di quei riconoscimenti sono fondati su un
+rimando esplicito dentro la pagina E3 a culture.roma.it, non su impressione.
+
+**Da uniformare prima di chiudere il database** (il lettore lo chiede esplicitamente): artisti
+che espongono resi con il ruolo, ma sarti storici degli abiti in mostra lasciati alla lettera
+perché non partecipano al fatto; denominazioni di formazione mantenute. Sono distinzioni sottili
+e vanno verificate contro D1–D3 sul campione del controllo C2.
