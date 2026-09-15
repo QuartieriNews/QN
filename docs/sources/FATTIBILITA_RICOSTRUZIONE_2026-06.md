@@ -15,6 +15,7 @@
 - **Quanto costa**: il mese completo, con AI, costa in denaro poco: scenario centrale **≈ 80 €** una tantum (trascrizione delle commissioni RomaTV 46 €, estrazione e verifica AI 30 €, controlli Codex 1–2 €, OCR 0 €), basso ≈ 10 € (senza trascrizione a pagamento, perimetro ridotto), alto ≈ 200 € (modelli più cari e Assemblee incluse). Il costo vero è il tempo: 30–45 ore mie e 10 ore sue nello scenario centrale (dettaglio in §3.4.1: 1 ora di configurazione, 7,5 di verifica del campione, 1,5 di decisioni). A regime, 30–80 €/mese oltre l'abbonamento n8n esistente (29,28 €/mese), 10–15 ore mie e circa 4 ore sue al mese, Facebook a parte.
 - **In quanto tempo**: senza chiave, entro una settimana una prima ricostruzione "a costo zero" (database, collegamenti, disponibilità online, notizie candidate dal materiale già letto e da ciò che leggo a mano nel perimetro ridotto). Con la chiave confermata e l'autorizzazione di spesa, il mese completo verificato in **3–4 settimane** di calendario (dipendenze in §4.4).
 - **Raccomandazione**: **esecuzione per fasi** (§6): fase 0 subito a costo zero; fase 1 le prove T1/T3/T4 entro il residuo di 49,14 € appena la chiave è confermata; fase 2 il mese completo su un perimetro che esclude le Assemblee Capitoline, C3/C5/C6/R1 e Facebook (non ricostruibile per giugno), con le commissioni RomaTV trascritte a pagamento o sul suo PC.
+- **Aggiornamento delle 19:15 (§9)**: configurazione richiesta dall'owner, Opus 5 al posto di Fable con Codex verificatore, valutata in via preliminare; lotto di misura preparato (10 Consigli RomaTV, 30 atti di Atti Web) e in attesa dei valori della pagina Utilizzo prima e dopo; costi esterni invariati, nessun "extra usage"; calendario definitivo dopo il lotto.
 - **Aggiornamento del 15 settembre, sera (§8)**: ricostruzione una tantum con esecuzione e verifiche a carico di Operator e Codex; owner solo per accessi, autorizzazioni, decisioni non risolvibili e valutazione finale (≈ 2,5–3 ore); calendario minimo di 2,5–3,5 giorni di orologio dai prerequisiti in esercizio continuo, allungabile fino a 2–3 settimane solo dalla quota del piano, che da qui non è visibile (§8.4; le "5 ore al giorno" erano un'ipotesi organizzativa, non un vincolo); costo centrale ≈ 91 € (≈ 33 € entro il residuo rinviando la trascrizione delle commissioni RomaTV); strumenti di verifica accertati e limiti dichiarati in §8.1.
 
 ## 1. Perimetro e capacità effettiva
@@ -412,3 +413,52 @@ Non richiesti e non conteggiati: ascolto di passaggi audio, lettura di scansioni
 ### 8.8 Consegna
 
 Un database consultabile (foglio Google e CSV in `QN Hub / 20 Packages / Fonti 2026-06/`, schema di §2.3, senza nomi di persona né testi integrali) e un rapporto finale nel repository (`docs/sources/RICOSTRUZIONE_2026-06_RAPPORTO.md`) con: copertura per quartiere e settimana, contributo per fonte, duplicazioni, tempestività con la distinzione fra "disponibile a giugno" e "documentato dopo", affidabilità misurata (confidenze, accordo OCR, accordo fra trascrizioni, esito delle verifiche), ore e costi registrati nel ledger, raccomandazioni per fonte e le lacune dichiarate (almeno: commissioni RomaTV senza testo se non trascritte; sottotitoli YouTube non verificati sull'audio; nessun ascolto umano; Facebook assente; E1 se non conteggiata). I controlli di Codex sono archiviati in `reviews/`. Questa sezione aggiorna il preventivo e non autorizza la spesa per il mese.
+
+## 9. Configurazione Opus 5 con Codex verificatore (richiesta dell'owner del 15 settembre, sera): valutazione e lotto di misura
+
+Stato: **preliminare**, in attesa delle misure del lotto (§9.3). Perimetro, criteri di qualità, budget esterno e prerequisiti restano quelli di §8; questa sezione non autorizza spese né "extra usage".
+
+### 9.1 Cosa cambia con Opus 5 e cosa no
+
+| Aspetto | Fable 5.1 (oggi) | Opus 5 (proposta) | Base |
+|---|---|---|---|
+| Modello che esegue | `claude-fable-5-1` | `claude-opus-5` (contesto 1 M, thinking adattivo) | M: tabella dei modelli di riferimento (24 giugno 2026) |
+| Prezzo API di listino per milione di token, ingresso / uscita | 10 $ / 50 $ | 5 $ / 25 $ | M: stesso riferimento. **Non è il peso sulla quota Max**: il rapporto fra i due modelli sulla quota lo misura solo il lotto, con le letture della pagina Utilizzo |
+| Quota di utilizzo | condivisa a livello di account: finestra di 5 ore e limite settimanale, valori non visibili da qui | uguale: stessa quota, che conta anche ciò che Fable e le altre sessioni hanno già consumato | M: documentazione ("shares rate limits with all other Claude and Claude Code usage within your account") |
+| Velocità per item | ≈ 3 min per registrazione letta e schedata; 39 min per una nota di 9.000 parole (M, oggi) | non assunta: misurata dal lotto, anche sui 2 item di taratura già letti da Fable | lotto |
+| Qualità | nel campione video: 2 errori su 4 nomi, 12 date su 12 corrette (M) | misurata dal lotto: differenze sui 2 item di taratura, controlli documentali sui nuovi | lotto |
+| Verificatore | Codex, 5 controlli, 0,10–0,21 € l'uno | invariato | — |
+| Vincoli d'ambiente (§8.4) | ritiro della VM, compattazioni, promemoria, permessi, quota | identici | — |
+| Modalità operativa consigliata | sessione attuale (contesto usato al 78%) | **nuova sessione su Opus 5** avviata dai file del repository, non un cambio di modello in corsa: contesto pulito e misura netta della quota | S |
+
+### 9.2 Protocollo del lotto rappresentativo (attività già autorizzate, 0 € di costi esterni)
+
+- **Lotto A**: 10 trascrizioni di Consigli municipali RomaTV (8 nuove, sedute diverse di 8 Municipi; 2 di taratura già lette da Fable: Municipio II del 18 giugno e Municipio VIII del 4 giugno), 44.860 parole; schede nel formato di §6 della nota video più un JSON per registrazione con evidenze `[mm:ss]`.
+- **Lotto B**: 30 atti di Atti Web dal campione di 120 (17 di testo, 13 scansioni con OCR Tesseract), stratificati: 12 verbali di commissione, 10 fra delibere, mozioni e risoluzioni, 4 convocazioni, 4 determinazioni e atti di Giunta; classificazione con le colonne dell'approfondimento di stamattina più notizia candidata ed evidenza di pagina.
+- **Esecuzione**: due subagenti Opus 5 in parallelo dentro questa sessione, che registrano il modello dichiarato dal proprio system prompt, i tempi per item e i problemi; specifica e manifesti in `tools/sources-study/lotto_opus5/`.
+- **Misure**: item completati e tempo di orologio per lotto; errori e correzioni trovati dall'Operator con controlli documentali (differenze sui 2 item di taratura; 10 evidenze temporali e 10 pagine verificate a campione); tempi macchina (conversione JSON→testo 3,2 s per 83 trascrizioni, estrazione del testo 1,1 s per 17 atti, OCR misurato per file); attese; **quota: valori della pagina Utilizzo forniti dall'owner prima e dopo il lotto, non dedotti dal controvalore dei token**.
+- **Ripresa senza presidio**: promemoria programmato alla chiusura del turno che precede il lotto; ora di programmazione, ora di arrivo e prima azione eseguita registrate in §9.3.
+
+### 9.3 Risultati del lotto
+
+In attesa: il lotto parte dopo la lettura "prima" della pagina Utilizzo.
+
+### 9.4 Preventivo con Opus 5: incluso in Max e costi esterni
+
+| Voce | Incluso nell'abbonamento Max 20× | Costo esterno (€, S, invariato da §8.6) |
+|---|---|---|
+| Attività dell'Operator su Opus 5 (35–55 ore di sessione), subagenti compresi | sì, dentro la quota | 0 |
+| Verifiche documentali, rapporto, database | sì | 0 |
+| Trascrizione API delle commissioni RomaTV (280 h) | no | 46 nello scenario centrale; 0 se rinviata |
+| Estrazione AI e seconda AI sulle candidate | no | 24 |
+| Ripetizioni ed errori | no | 18 |
+| Controlli Codex (5) | no | 2 |
+| **Totale esterno** | | **≈ 91** centrale; ≈ 33 entro il residuo; ≈ 2 senza chiave |
+
+Nessun "extra usage": il limite di lavoro è la quota inclusa; quando è esaurita si aspetta il reset.
+
+### 9.5 Calendario: le ipotesi dell'owner a confronto con i vincoli (preliminare)
+
+L'owner ipotizza 5–7 giorni di calendario dai prerequisiti (centrale) e 2–4 giorni (favorevole). Dai vincoli di §8.4: in esercizio continuo il lavoro vale 2,5–3,5 giorni di orologio; ogni blocco della quota sposta la consegna al reset successivo. La grandezza mancante è la frazione f della quota settimanale che un'ora di sessione consuma su Opus 5: la danno le due letture della pagina Utilizzo intorno al lotto. Con la tabella di §8.4: 5–7 giorni sono compatibili se una giornata di sessione come oggi consuma non più di un quinto della quota settimanale; 2–4 giorni richiedono un consumo inferiore a un decimo; a un terzo la previsione prudente diventa 2 settimane. Le due previsioni, centrale e prudente, vengono chiuse in §9.3 con i numeri del lotto.
+
+Cosa può far slittare la consegna, in ordine di probabilità: (1) esaurimento della quota settimanale (pausa fino al reset, nessun "extra usage"); (2) chiave OpenAI non confermata a t0 (tutta la parte AI e le trascrizioni restano ferme); (3) tasso lento di scaricamento dell'audio (M1 a 45 ore); (4) API di trascrizione che accetta una richiesta alla volta; (5) decisioni editoriali dell'owner aperte alla consegna; (6) qualità di Opus 5 inferiore sui punti misurati (più correzioni per item); (7) ritiro della VM con lavoro macchina non ancora salvato; (8) richieste di permesso in modalità auto senza risposta.
