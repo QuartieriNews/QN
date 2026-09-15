@@ -31,6 +31,7 @@ precedente) e contate anch'esse a carico del tetto finché l'owner non indica al
 | 2026-09-15 | T2 (parziale): estrazione testo da 18 PDF di Atti Web con PyMuPDF/pypdf locali | 18 PDF, 10 con testo, 8 scansioni; nessun OCR eseguito | 0,00 | 49,14 | `docs/sources/SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md` §6; OCR (T2 parte scansioni) non eseguito: richiede chiave AI (bloccata) o `tesseract` (assente) |
 | 2026-09-15 | Letture HTML/RSS/API del livello 1 (fetch e parser locali) | ≈ 2.100 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento |
 | 2026-09-15 | Verifica A2: sweep delle 48 tipologie di Atti Web, DDS di giugno e maggio, controlli; letture E3 (livello 2) | ≈ 330 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento; `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` |
+| 2026-09-15 | Approfondimento A2 autorizzato dall'owner: 31 PDF (10 DDS, 5 centrali, 5 CPC, 5 CPV, 3 SO, CID, MCD, OCD) letti in locale, 14 controlli API | ≈ 60 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento; nota A2 §7 |
 
 Totale speso: **0,86 € (stimato)**; residuo **49,14 €**. Nessuna prova a pagamento eseguita
 dall'Operator; nessun abbonamento.

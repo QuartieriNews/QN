@@ -7,7 +7,7 @@
 | Sessione | 15 settembre 2026, Operator: 10:24–12:00 circa (Europe/Rome), letture delle fonti 10:24–11:06; pomeriggio 12:05–13:00 circa: verifica A2 e lettura di E3 (livello 2) |
 | Dati per item e campione | Drive `QN Hub / 20 Packages / Fonti 2026-06/` (https://drive.google.com/drive/folders/1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa), un CSV per fonte, senza nomi di persona né testi integrali (metodo §4.2); indice nel `README_Fonti_2026-06.md` della cartella |
 | Schede | `docs/sources/SOURCE_REGISTRY.md`, una scheda per fonte del livello 1 |
-| Verifica A2 | `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` (15 settembre, pomeriggio, su richiesta dell'owner): tabella delle 48 tipologie, filtri, percorso ai 1.426 atti, esempi delle categorie centrali. **Le conclusioni sulla copertura di A2 sono provvisorie** (§3, §5, §10) |
+| Verifica A2 | `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` (15 settembre, pomeriggio, su richiesta dell'owner): tabella delle 48 tipologie, filtri, percorso ai 1.426 atti, esempi delle categorie centrali; §7 approfondimento circoscritto (31 PDF letti, 46 candidati classificati). **Le conclusioni sulla copertura di A2 sono provvisorie** (§3, §5, §10) |
 | Spesa | 0,00 € in questa sessione; nessuna chiamata AI; `docs/sources/TRIAL_LEDGER.md` |
 | Stato del dato | ogni numero è marcato **M** (misurato, con URL e ora della lettura), **S** (stimato, con l'ipotesi) o **—** (mancante) |
 

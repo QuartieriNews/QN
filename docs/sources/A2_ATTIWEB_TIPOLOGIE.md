@@ -3,6 +3,7 @@
 | Campo | Valore |
 |---|---|
 | Stato | Nota di verifica richiesta dall'owner il 15 settembre 2026, dopo il rapporto intermedio. **Le conclusioni sulla copertura di A2 restano provvisorie** finché l'approfondimento di §6 non è deciso ed eseguito |
+| Approfondimento | §7: eseguito il 15 settembre pomeriggio su autorizzazione dell'owner (31 PDF, 0 €), conclusioni provvisorie |
 | Cosa corregge | Il rapporto intermedio dichiara "17 tipologie" per A2: le tipologie interrogate il 15 settembre (mattina) sono **16**, 15 con risultati e 1 con errore del portale (§2). Il numero 1.426 è la somma dei 15 codici con risultati e non cambia |
 | Letture | 15 settembre 2026: interrogazioni originali 10:42–10:47; sweep di tutte le tipologie 12:05–12:20; esempi e controlli 12:20–12:40 (Europe/Rome) |
 | Dati per item | Drive `QN Hub / 20 Packages / Fonti 2026-06/`: `A2_DDS_2026-06_items_compact_part1..4.csv`, `A2_centrali_2026-06_items_compact_part1..2.csv` (URL, date, struttura, esiti del lookup; nessun oggetto integrale, nessun nome) |
@@ -179,3 +180,145 @@ Nessuna lettura integrale dell'archivio. Costo stimato 0 € (nessuna chiamata A
 
 Fino alla decisione, il registro e il rapporto contano A2 con i 15 codici municipali e dichiarano
 il resto come "da decidere".
+
+## 7. Approfondimento circoscritto (15 settembre 2026, pomeriggio)
+
+Autorizzato dall'owner come verifica preparatoria, entro circa due ore e senza servizi a
+pagamento; nessuna nuova sezione editoriale o integrazione è approvata da questa nota. Orari
+Europe/Rome: inizio 13:41, letture dei PDF 13:42–13:50, analisi e scrittura fino alla chiusura
+indicata in §7.8. Strumenti: API del portale, download dei PDF, estrazione locale del testo
+(PyMuPDF), lookup deterministico del gazetteer, lettura dell'Operator. **31 PDF letti**: 10
+DDS, 5 atti centrali, 5 convocazioni (CPC) e 5 verbali (CPV) delle commissioni capitoline, 3
+ordinanze del Sindaco, 1 CID, 1 MCD, 1 OCD; **tutti con testo estraibile** (nessuna scansione).
+Campioni con seed: `2026-06-DDS`, `2026-06-centrali`, `2026-06-CPC`, `2026-06-CPV`,
+`2026-06-DDSxA1`. Dati per item su Drive: `A2_approfondimento_pdf_campione.csv` (31 PDF con
+luoghi verificati), `A2_centrali_candidati_giugno.csv` (46 candidati classificati),
+`DDSxA1_campione30.csv` (confronto con A1). I PDF contengono nomi di dirigenti e consiglieri:
+non sono riportati né qui né nei CSV.
+
+### 7.1 Errore del portale: quando è un risultato vuoto e quando resta un dato mancante
+
+L'errore Struts "Index: 0, Size: 0" è **confermato come risultato vuoto** in due modi: (a) la
+stessa interrogazione su un giorno senza atti (CMD, 7 giugno 2026) lo produce; (b) per 19 delle
+20 tipologie in errore a giugno la stessa interrogazione sull'intervallo 1990–2026 restituisce
+atti, quindi la tipologia esiste ed è vuota nel mese. Tipologie confermate vuote a giugno con
+il totale storico (M, letto alle 13:41): KD 226, KCD 162, WCD 162, WD 214, MD 9, OD 4, PD 32,
+KID 136, CD 2.642, GD 38.186, CZ 610, XO 243, CY 1.449, WMD 23, KMD 52, DMK 28, DDK 19, CPL 1,
+PS 107, TO 7. **XMO** dà errore anche su 1990–2026: resta **dato mancante** (tipologia non
+verificabile dall'API). La tabella di §3 va letta con questa distinzione.
+
+### 7.2 DDS: 10 PDF, organo e territorio, date, confronto con A1
+
+| Esito | Valore |
+|---|---|
+| Testo | 10 su 10 con testo (4–5 pagine, 4.300–8.200 caratteri); estrazione locale in meno di 2 s per file |
+| Organo emittente | sempre un Gruppo territoriale della Polizia Locale (I Centro Storico ×5, I Prati, II Parioli ×2, III Nomentano, XIV Monte Mario) |
+| Chi chiede la misura | Direzione Tecnica o Ufficio OSP del Municipio (5), Questura (2), Gabinetto del Sindaco (1), Dipartimento Attività Culturali per riprese (1), organizzatore di evento tramite il Municipio (1) |
+| Territorio nel documento | vie e piazze sempre indicate; **10 su 10 coerenti con il Municipio del gruppo emittente** (un caso al confine I/VII: corteo fino a piazza di Porta San Giovanni); un refuso nell'oggetto ("Municipio Roma X") smentito dal testo (XIV, via di Selva Nera) |
+| Zona del gazetteer | riconosciuta in 4 su 10 (parioli-flaminio ×2, centro-storico ×2): le vie non sono nel gazetteer, la localizzazione a quartiere richiede un dizionario di vie |
+| Date di validità | presenti in 10 su 10; anticipo fra data dell'atto e inizio della misura 0–18 giorni, mediana 3 (M); una misura dura fino al 2028 (ponteggio) |
+| Contenuto | lavori e occupazioni con ponteggio 5, eventi e manifestazioni 4, riprese 1 |
+
+Esempi (senza nomi): disciplina di traffico in via Cimone, piazza Tofana e piazza Brioni per
+lavori sui marciapiedi dal 15/06 al 15/07 (III Gruppo Nomentano, su richiesta della Direzione
+Tecnica del Municipio III); divieti in via di Santa Maria Goretti per la festa patronale dal
+3 al 6 luglio (II Gruppo Parioli); provvedimenti in via Vittorio Veneto e limitrofe per la
+tappa romana della 1000 Miglia dal 9 al 12 giugno (I Gruppo, su richiesta del Gabinetto del
+Sindaco); corteo da piazza della Repubblica a piazza di Porta San Giovanni il 13 giugno
+(Questura).
+
+**Confronto con A1** (campione di 30 DDS, seed `2026-06-DDSxA1`, contro notizie e informazioni
+di servizio di A1 dello stesso Municipio a ±10 giorni, per via citata): 2 su 30 riguardano un
+evento annunciato anche da A1 (uno spettacolo itinerante in via Leonida Repaci, Municipio III;
+una festa a Cesano, Municipio XV); in entrambi i casi A1 annuncia l'evento e la DDS dispone la
+viabilità: **stessa vicenda, fatto diverso**, nessun duplicato secondo la regola (c) del metodo.
+0 su 30 doppioni; 28 su 30 senza alcuna corrispondenza in A1 (S per parole chiave; le chiusure
+per lavori non compaiono negli avvisi dei Municipi letti a giugno).
+
+### 7.3 I 46 candidati degli organi centrali: documenti, vicende, possibili notizie
+
+Insieme: atti di giugno di GCD, ACD, AY, AZ e GCM con un Municipio o una zona nell'oggetto o
+proposti da una struttura municipale (46; la nota diceva 45 perché contava l'ACD della
+Montagnola fra le zone e non fra i proposti). Organo emittente e territorio sono distinti: per
+i quattro ACD proposti dai Municipi l'organo è l'Assemblea Capitolina, il proponente è il
+Municipio, e il territorio è nel documento solo per uno (il mercato di Monteverde Vecchio); i
+tre riconoscimenti di debito fuori bilancio non hanno territorio.
+
+| Livello | Conteggio (M sull'oggetto, S per il giudizio dell'Operator) |
+|---|---|
+| Documenti | 46 (GCD 12, ACD 5, AY 21, AZ 5, GCM 3) |
+| Vicende distinte | 24: la rigenerazione AMA-Montagnola da sola vale 17 documenti (1 delibera dell'Assemblea + 16 ordini del giorno), Pietralata 4, i debiti fuori bilancio 3, Ostia 2, le altre 1 ciascuna |
+| Possibili notizie per un lettore di quartiere | 20 (una per vicenda utile): fra queste i tetti ERP di Torrenova e di San Basilio, l'impianto sportivo di via di Casal Boccone, l'ex asilo nido I Girasoli, le tre biblioteche PNRR (Flaiano, Basaglia, Rodari), le urbanizzazioni di Vermicino, il mercato di Monteverde Vecchio, le condizioni poste dall'Assemblea al progetto Montagnola, il bus notturno estivo per Ostia, l'incrocio viale Marconi/via del Valco San Paolo come black point, la sede temporanea dei Vigili del Fuoco di Ostia, la struttura ex Stardust al Torrino, gli impianti sportivi all'Esquilino, i parcheggi di scambio a Pietralata, il parcheggio all'Eur, l'intitolazione a Settebagni |
+| Già coperte da altre fonti | 2 (evento Vespa 2026, rassegna alla Basilica di Massenzio: presenti in E2/E3) |
+| Deboli o senza notizia | 8 (3 debiti fuori bilancio, 2 impegni generici su Ostia, 1 strategia FESR, 1 concessione di servizi con oggetto troncato da verificare, 1 sotto soglia) |
+| Tempestività (S) | alta 22 (decisione o effetto entro un mese: Montagnola, mercato, bus notturno, Vigili del Fuoco di Ostia), media 16 (lavori o piani a mesi), bassa 4, non applicabile 4 |
+| Utilità per il lettore (S) | alta 29, media 11, bassa 5, non valutabile 1 |
+| Territorio | VIII 18 (Montagnola), IV 6, X 5, III 3, I/II/VI/VII/IX 2 ciascuno, V/XII/XIV/XV 1 ciascuno |
+
+Cinque PDF letti (seed `2026-06-centrali`): 2 ordini del giorno sulla Montagnola (1 pagina,
+quadrante indicato, nessuna via), 1 ordine del giorno sul parcheggio all'Eur (viale Europa e via
+delle Tre Fontane nel testo), la delibera sull'impianto sportivo di via di Casal Boccone 195
+(16 pagine, indirizzo confermato, Talenti) e quella sulla biblioteca di via Monte Ruggero 39
+(14 pagine, indirizzo confermato): **luoghi verificati in 5 su 5**, testo estraibile in 5 su 5
+(intestazioni con caratteri corrotti in un caso, corpo leggibile).
+
+Limite del lookup: la rassegna "Santa Cecilia a Massenzio" è stata assegnata alla zona
+Massimina perché "Santa Cecilia" è un alias di quella zona nel gazetteer (falso positivo
+riprodotto: "Basilica di Massenzio" da sola non dà nulla; presente anche in un item di E3):
+alias da rivedere prima dell'uso in produzione.
+
+### 7.4 Commissioni capitoline (CPC 5, CPV 5)
+
+Convocazioni: 5 su 5 con testo; ordine del giorno di una riga o due; 2 su 5 citano i Municipi
+come uffici (sportelli LGBTQIA+ dei Municipi V, VIII, XIV e I, III, VI), 0 su 5 con vie o
+quartieri, 3 su 5 senza territorio (curricula per una società, audizioni di direzioni). Verbali:
+5 su 5 con testo (3–4 pagine, 7.800–15.600 caratteri); **2 su 5 con contenuto di quartiere**:
+le aree verdi di via Torricella Sicura e via Rocca di Cambio al Villaggio Prenestino
+(Municipio VI, con l'associazione locale e il Municipio in audizione) e un piano agricolo con
+strutture in via Ardeatina 1655 (Municipio IX); 1 su 5 su un evento cittadino in piazza del
+Popolo; 2 su 5 senza territorio (contributi culturali, affrancazioni ERP). Le convocazioni
+anticipano l'argomento, il verbale arriva dopo la seduta (ritardo non misurato).
+
+### 7.5 SO, CID, MCD, OCD
+
+- **SO** (3 PDF su 17): uno è un'ordinanza sull'interdizione al transito di via dell'Isola
+  Farnese dopo una frana (Municipio XV): luogo nel testo, utile e tempestiva; gli altri due sono
+  incarichi (uno riguarda la direzione tecnica del Municipio I: organizzativo). La tipologia
+  può contenere ordinanze di quartiere: **non sufficientemente valutata** (3 su 17 letti).
+- **CID** (1 PDF su 12): atto interno dell'Istituzione Biblioteche (fondo risorse decentrate);
+  gli oggetti degli altri 11 sono anch'essi interni: **non sufficientemente valutata**.
+- **MCD** (1 su 2) e **OCD** (1 su 1): debito fuori bilancio e prelevamento da fondo in
+  esecuzione di una sentenza; i Municipi e le vie che il lookup trova sono sedi di uffici, non
+  territori: **nessuna rilevanza di quartiere negli esempi letti**, giudizio limitato al campione.
+
+### 7.6 Cosa resta da verificare
+
+- DDS: i 6 Municipi senza gruppo sul portale (IV, VIII, IX, X, XII, XIII) e dove pubblicano le
+  loro discipline di traffico; il ritardo fra data dell'atto e comparsa sul portale (non
+  misurabile: manca la data di pubblicazione); un dizionario di vie per la zona.
+- Atti centrali: il PDF della concessione di servizi (candidato 3) e il ritardo di pubblicazione;
+  la verifica umana dei 20 titoli proposti.
+- CPC/CPV: solo 5+5 letti su 99+19; nessuna misura del ritardo dei verbali.
+- SO e CID: 3 e 1 PDF letti; giudizio non definitivo.
+
+### 7.7 Esempi, risultati e raccomandazioni (provvisorie)
+
+Risultati: le DDS sono avvisi di viabilità a livello di strada, localizzabili al Municipio dal
+gruppo emittente (verificato 10 su 10) e con date utili al lettore (anticipo mediano 3 giorni),
+ma coprono 9 Municipi su 15 e la zona richiede un dizionario di vie; gli atti centrali con
+territorio producono circa 20 possibili notizie al mese, concentrate in pochi Municipi e in
+poche vicende; le commissioni capitoline hanno contenuto di quartiere in 2 verbali su 5 e in
+nessuna convocazione; SO può contenere ordinanze di quartiere. Raccomandazioni per la
+consegna finale, senza decidere: (1) valutare DDS come genere "viabilità" separato dal blocco
+Amministrazione, con copertura dichiarata di 9 Municipi; (2) tenere GCD, ACD, AY, AZ e GCM come
+fonte di "decisioni del Campidoglio sul quartiere" filtrata per territorio (circa 20 notizie al
+mese); (3) CPV come fonte occasionale, CPC no; (4) SO da rivalutare con un campione più ampio;
+CID, MCD, OCD fuori salvo nuovi elementi; (5) correggere l'alias "Massenzio" nel gazetteer.
+Nessuna di queste è un'integrazione approvata: la scelta delle fonti segue le evidenze e la
+decisione dell'owner.
+
+### 7.8 Tempo e costo
+
+Operator 13:41–13:55 (Europe/Rome), entro le due ore concordate; ≈ 60 richieste HTTP
+(14 interrogazioni di controllo, 31 PDF, letture A1 già in cache); spesa 0,00 €; nessuna
+chiamata AI.

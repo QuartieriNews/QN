@@ -100,7 +100,7 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `estrazione` | prova T2 parziale: 18 PDF, testo ottenuto in 10, leggibile; 8 scansioni inutilizzabili senza OCR (rapporto §6) |
 | `costo_item` | 0,00 €; meno di 2 s per PDF (M) |
 | `intervento_umano` | 3–5 min per atto testuale, oltre 10 min per scansione senza OCR (S) |
-| `raccomandazione` | **provvisoria**: usare come fonte di record degli atti municipali; perimetro sulle categorie centrali da decidere (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md` §6); cambierebbe se l'OCR delle scansioni risultasse inutilizzabile (T2 da completare) |
+| `raccomandazione` | **provvisoria**: usare come fonte di record degli atti municipali; perimetro sulle categorie centrali da decidere (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md` §6, approfondimento §7: DDS coerenti con il Municipio del gruppo 10 su 10, circa 20 possibili notizie al mese dagli atti centrali); cambierebbe se l'OCR delle scansioni risultasse inutilizzabile (T2 da completare) |
 | `drive` | `A2_2026-06_items_compact_part1..3.csv`; categorie centrali: `A2_DDS_2026-06_items_compact_part1..4.csv`, `A2_centrali_2026-06_items_compact_part1..2.csv` |
 
 ### C1 — Questura di Roma, archivio comunicati
