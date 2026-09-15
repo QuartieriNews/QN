@@ -44,11 +44,17 @@ for fn, fonte in (('C2_2026-06_items.csv', 'C2'),):
             if d['fonte'] == fonte and d['url'] == r['url']: d['timestamp_pubblicazione'] = iso
 
 # ---- notizie_candidate -----------------------------------------------------
+# An item read twice keeps only its latest reading. The re-read batch (L26) applies rules that
+# were decided after the first batches ran, so its rows supersede theirs; without this, every
+# re-read item would contribute its news twice and inflate the whole database.
 letti = {}
 for f in sorted(glob.glob(R + '/out/L*_notizie.csv')):
     if '_senza_' in f: continue
     lotto = os.path.basename(f)[:3]
     for r in csv.DictReader(open(f, encoding='utf-8')):
+        prec = letti.get(r['documento_id'])
+        if prec and prec[0][0] > lotto: continue      # an earlier file cannot override a later batch
+        if prec and prec[0][0] < lotto: letti[r['documento_id']] = []   # later batch wins: drop the old rows
         letti.setdefault(r['documento_id'], []).append((lotto, r))
 
 notizie = []
@@ -128,18 +134,21 @@ def stesso_oggetto(a, b):
 # yield is measured; above it, a sample of at least 60 per pair and the yield is estimated.
 per_blocco = collections.Counter(BLOCCO[n['fonte']] for n in notizie)
 coppie, dubbi = 0, 0
+campioni = {}
 for blocco in sorted(per_blocco):
     gruppo = [n for n in notizie if BLOCCO[n['fonte']] == blocco]
     fonti_blocco = sorted({n['fonte'] for n in gruppo})
     item_blocco = len({n['documento_id'] for n in gruppo})
-    campionato = item_blocco > 300 and len(fonti_blocco) > 1
-    if campionato:
-        # At least 60 items per pair of sources, seed recorded in the report (method §4.1).
+    # Method §4.1 samples above 300 items because it assumes the comparison is made by hand. Ours
+    # is deterministic and costs nothing, so the whole month is compared and the yield is measured.
+    # The prescribed sample is computed as well, on the same rows, so the report can show both and
+    # the deviation stays visible instead of being a silent upgrade of someone else's method.
+    if item_blocco > 300 and len(fonti_blocco) > 1:
         seed = '2026-06-' + 'x'.join(fonti_blocco)
         quota = max(60, 60 * (len(fonti_blocco) * (len(fonti_blocco) - 1) // 2))
-        random.Random(seed).shuffle(gruppo)
-        gruppo = gruppo[:max(quota, 0)]
-        print(f'  campione seed={seed}, {len(gruppo)} notizie')
+        campione = list(gruppo); random.Random(seed).shuffle(campione)
+        campioni[blocco] = {'seed': seed, 'quota': quota, 'ids': {n['id'] for n in campione[:quota]}}
+        print(f'  campione prescritto dal metodo: seed={seed}, {quota} notizie; confronto eseguito su tutte e {len(gruppo)}')
     for i, a in enumerate(gruppo):
         if a['dedup_stato'] != 'unica': continue
         ga = giorno(a)
@@ -157,7 +166,7 @@ for blocco in sorted(per_blocco):
                 b['prima_fonte'] = 'non applicabile'
             b['gemello_id'] = a['id']
             if b['dedup_stato'] == 'duplicato': b['prima_fonte'] = 'no'
-    print(f'{blocco}: {len(gruppo)} notizie, {"campione" if campionato else "intero mese"}')
+    print(f'{blocco}: {len(gruppo)} notizie confrontate sull\'intero mese')
 
 # ---- vicende (schema §2 regola 3) -----------------------------------------
 vicende = []
@@ -224,5 +233,9 @@ scrivi('documenti', list(documenti.values()), ['id','fonte','tipo','url','data_p
 scrivi('notizie_candidate', notizie, ['id','documento_id','fonte','titolo_anonimizzato','sintesi','tipo','luoghi','municipio','municipio_testo','zona','tier_localizzazione','toponimo_da_verificare','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','disponibilita','qualita','dedup_stato','gemello_id','ragione_dedup','prima_fonte','vicenda_id','integra_gemello_id','campi_integrati','settimana','report_origine','verifica_seconda_ai','note'])
 scrivi('vicende', vicende, ['id','titolo_anonimizzato','tipo','municipio','zona','prima_pubblicazione','ultima_pubblicazione','n_notizie','fonti','confidenza','solo_report2','stato'])
 scrivi('territori', terr_righe, ['municipio','settimana','n_documenti','n_notizie','n_notizie_alta','n_notizie_media','n_notizie_bassa','fonti_presenti','mediana_giorni_pubblicazione','lacuna'])
+for blocco, c in campioni.items():
+    righe = [n for n in notizie if n['id'] in c['ids']]
+    dd = collections.Counter(n['dedup_stato'] for n in righe)
+    print(f"{blocco}: sul campione prescritto ({c['quota']} notizie, seed {c['seed']}) la resa sarebbe {dict(dd)}")
 d = collections.Counter(n['dedup_stato'] for n in notizie)
 print('dedup:', dict(d), '| netta minima:', sum(1 for n in notizie if n['dedup_stato']=='unica'), '| netta massima:', sum(1 for n in notizie if n['dedup_stato'] in ('unica','dubbio')))

@@ -338,7 +338,36 @@ Lotto **L26**, 78 item (`report1/batches/L26.txt`, motivi in `_riletture_motivi.
 | Testo troncato e rigenerato | 8 |
 | `tipo` forzato su `audizione` prima che esistesse `convegno` | 2 |
 
-75 sono A1, 3 sono E2. Le righe vecchie di questi item vanno scartate e sostituite da quelle
-nuove: `build_db.py` prende l'ultima lettura di ogni documento, quindi basta che L26 arrivi dopo.
+75 sono A1, 3 sono E2. Le righe vecchie di questi item vanno scartate e sostituite dalle nuove. Avevo scritto che
+`build_db.py` prendeva già l'ultima lettura di ogni documento: **non era vero**, accumulava tutte
+le letture, e i 78 item riletti avrebbero prodotto righe doppie gonfiando l'intero database.
+Corretto: a parità di documento vince il lotto con il numero più alto, quindi L26 sostituisce le
+letture precedenti.
 Il criterio di selezione è volutamente largo — meglio rileggere un item che non ne aveva bisogno
 che lasciarne fuori uno che sì.
+
+## 15. Deduplicazione sull'intero mese, con il campione del metodo accanto (15 settembre, 23:35)
+
+Il metodo §4.1 campiona sopra i 300 item perché **assume che il confronto lo faccia una persona**.
+Il nostro è deterministico e costa nulla, quindi il confronto gira sull'intero mese e la resa è
+*misurata*. Il campione prescritto viene però calcolato lo stesso, sulle stesse righe, così la
+deviazione resta visibile: non volevo migliorare in silenzio il metodo di qualcun altro.
+
+Ed è servito, perché i due numeri non coincidono:
+
+| | Duplicati | Dubbi | Uniche |
+|---|---|---|---|
+| Campione prescritto (60 notizie, seed `2026-06-E2xE3`) | 18 (30%) | 5 | 37 |
+| Confronto sull'intero blocco Eventi (613 notizie) | — | — | — |
+| Totale su tutti i blocchi (1.138 notizie) | 179 (16%) | 110 | 849 |
+
+Il campione avrebbe stimato una duplicazione **circa doppia** di quella reale. È un dato che vale
+per il rapporto e forse per il metodo: su questo corpus, 60 notizie non bastano a stimare la resa
+netta di un blocco.
+
+Resa netta attuale: fra **849 e 959** notizie distinte su 1.138 candidate, da 820 documenti letti.
+Numeri ancora provvisori: mancano L21, L22 e la rilettura L26.
+
+**Altro difetto mio, da ricordare**: `python3 build_db.py | head -4` uccideva il processo prima
+che scrivesse le tabelle, e la verifica successiva leggeva i file vecchi credendoli nuovi. Mai
+incanalare in `head` un programma che scrive file.
