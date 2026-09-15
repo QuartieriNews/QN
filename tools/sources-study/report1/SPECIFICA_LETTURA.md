@@ -6,6 +6,13 @@ controllo Codex C1, e dallo stile del lotto già collaudato
 (`tools/sources-study/lotto_opus5/SPECIFICA.md`): quella specifica vale per registrazioni e
 atti, questa per le pagine HTML.
 
+## Regola sulle modifiche a questo documento
+
+Questa specifica **non si modifica mentre un lotto è in lettura**: due lotti letti con regole
+diverse producono un database non confrontabile, ed è un difetto che si scopre tardi e si paga
+rileggendo. Una correzione urgente va messa nel prompt dei lotti in corso e scritta qui solo
+dopo che sono rientrati. Ogni modifica è datata nel registro in fondo.
+
 ## Vincoli assoluti
 
 - **Nessuna richiesta di rete.** Tutto il materiale è locale, in `report1/texts/`. Nessuna API,
@@ -47,7 +54,11 @@ item) e queste colonne, nell'ordine:
 - `titolo_anonimizzato`: ≤ 12 parole, scritto da te, senza nomi di persona.
 - `sintesi`: ≤ 60 parole, densa, senza nomi di persona.
 - `tipo`: delibera, mozione, risoluzione, ordine del giorno, interrogazione, sopralluogo,
-  audizione, arresto, sequestro, incendio, incidente, controllo, evento, avviso, altro.
+  audizione, convegno, arresto, sequestro, incendio, incidente, controllo, evento, avviso, altro.
+  `convegno` copre convegni, conferenze, incontri pubblici e presentazioni: prima non c'era e un
+  lotto ha dovuto forzarli su `audizione`, che è un atto d'aula e significa un'altra cosa. Se
+  nemmeno questo elenco basta, usa `altro` e dillo in `note`: una forzatura silenziosa su una
+  voce vicina è peggio di un `altro` dichiarato.
 - `luoghi`: toponimi **come compaiono nel testo**, separati da `;`. Vuoto se il testo non ne dà.
   Non dedurre un toponimo da quello che sai di Roma: la localizzazione la fa dopo il gazetteer.
 - `municipio_testo`: il Municipio **se il testo lo dice** (numero romano I–XV). Vuoto altrimenti:
@@ -87,3 +98,11 @@ sono lo stesso fatto raccontato in più paragrafi.
 - `log/<lotto>_tempi.csv`: `documento_id,inizio_epoch,fine_epoch,secondi`.
 - `log/<lotto>_problemi.md`: errori, dubbi, item saltati e perché, correzioni in corso d'opera.
 - Messaggio finale: item completati, notizie prodotte, tempo totale, problemi. Nient'altro.
+
+## Registro delle modifiche
+
+| Quando | Che cosa | Nato da |
+|---|---|---|
+| 15/09 21:50 | `municipio_testo` ammette più Municipi separati da `;` | un item A1 che ne riguardava due |
+| 15/09 21:50 | DEC-102: eccezione esplicita per toponimi, sedi e titoli di opere (D1) | due lotti che avevano interpretato la regola diversamente |
+| 15/09 22:10 | `tipo`: aggiunto `convegno`; istruzione di preferire `altro` dichiarato a una forzatura | un lotto E2 che aveva forzato due convegni su `audizione` |

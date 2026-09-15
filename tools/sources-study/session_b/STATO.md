@@ -140,6 +140,11 @@ tipi di materiale diversi, per misurare tempi e qualità su entrambi prima di sc
 |---|---|---|---|---|---|
 | L14 | E2 eventi | 50 | 53 (53 media) | 9 min | 149.330 |
 | L01 | A1 municipi | 50 | 74 (2 alta, 67 media, 5 bassa) | 11 min | 144.204 |
+| L15+L16 | E2 eventi | 100 | 137 (tutte media) | 14,7 min | 226.649 |
+
+Totale a 22:10: **200 item letti su 985, 264 notizie candidate, zero senza evidenza**, 23 con
+toponimo da verificare. Tipi: 222 evento, 17 avviso, 8 ordine del giorno, 6 risoluzione, 3
+delibera, 2 audizione (da normalizzare), 6 altro.
 
 Controlli fatti dall'Operator su entrambi: schema rispettato, **zero notizie senza evidenza**,
 zero sintesi oltre le 60 parole, nessun nome di persona in quanto persona. Il tasso misurato è
@@ -164,6 +169,17 @@ fonte, e tocca direttamente la domanda sulla tempestività. Quattro altri item A
 testo una data di pubblicazione diversa da quella dell'elenco. Il Report 1 deve dire che la data
 di pubblicazione di questa fonte **non è stabile** e che la colonna `disponibilita` esiste per
 questo. Da verificare se il fenomeno riguarda anche E2 ed E3.
+
+**Normalizzazioni da fare prima del database** (registrate qui perché si dimenticano):
+1. DEC-102: riallineare L01 (sale e aule rese generiche) alla regola D1, che le vuole verbatim.
+2. `tipo`: due righe E2 hanno `audizione` per convegni, forzatura dichiarata dal lettore quando la
+   voce `convegno` non esisteva. Vanno portate a `convegno`.
+
+**Errore di processo dell'Operator, da non ripetere.** Ho modificato la specifica mentre due lotti
+erano in lettura; il lettore L15/L16 se n'è accorto dal timestamp e l'ha segnalato invece di
+tacere. Le sue letture sono coerenti perché la regola nuova era anche nel suo prompt, ma la
+sequenza era sbagliata. La specifica ora vieta esplicitamente di modificarla a lotti aperti: una
+correzione urgente va nel prompt dei lotti in corso e nel documento solo dopo il rientro.
 
 **Materiale per la deduplicazione**: il lotto A1 ha già trovato tre coppie di item che
 raccontano lo stesso fatto (A1_280/A1_281, A1_061/A1_209, A1_106/A1_107). I lettori non li
