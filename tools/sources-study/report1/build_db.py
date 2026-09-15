@@ -245,23 +245,55 @@ def scrivi(nome, righe, campi):
         w = csv.DictWriter(f, fieldnames=campi, extrasaction='ignore'); w.writeheader(); w.writerows(righe)
     print(f'  {nome}.csv: {len(righe)} righe')
 
+ANAGRAFE = {
+    'A1': ('Avvisi e notizie dei Municipi', 'Roma Capitale — Municipi I–XV', 'https://www.comune.roma.it/web/it/municipio-<n>.page'),
+    'C1': ('Comunicati della Questura di Roma', 'Polizia di Stato — Questura di Roma', 'https://questure.poliziadistato.it/it/Roma'),
+    'C2': ('Comunicati stampa dei Carabinieri', 'Arma dei Carabinieri', 'https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa'),
+    'C4': ('Notizie del Comando dei Vigili del fuoco di Roma', 'Corpo nazionale dei Vigili del fuoco', 'https://www.vigilfuoco.it/comando-vvf-roma/notizie'),
+    'C5': ('Notizie di Roma Capitale', 'Roma Capitale', 'https://www.comune.roma.it/web/it/notizie.page'),
+    'E2': ('Agenda eventi culturali', 'Roma Capitale — Sovrintendenza Capitolina / Zètema', 'https://culture.roma.it/appuntamenti/'),
+    'E3': ('Agenda eventi del portale istituzionale', 'Roma Capitale', 'https://www.comune.roma.it/web/it/eventi.page'),
+}
 fonti = []
 for cod in ORDINE_FONTI:
     docs = [d for d in documenti.values() if d['fonte'] == cod]
     if not docs: continue
-    fonti.append({'codice': cod, 'nome': cod, 'blocco': BLOCCO[cod], 'ente': '', 'url_elenco': '',
+    nome, ente, elenco = ANAGRAFE[cod]
+    fonti.append({'codice': cod, 'nome': nome, 'blocco': BLOCCO[cod], 'ente': ente, 'url_elenco': elenco,
                   'base_url': 'https://www.comune.roma.it/web/it/' if cod == 'E3' else '',
                   'formato': 'HTML', 'item_giugno': len(docs), 'paginazione_completa': 'sì',
-                  'data_lettura': '2026-09-15', 'report': '1', 'note': ''})
+                  'data_lettura': '2026-09-15', 'report': '1',
+                  'note': ('67 item su 79 rispondono con la pagina di blocco "Accesso negato" (HTTP 200): testo non disponibile' if cod == 'C1'
+                           else 'l\'URL del singolo comunicato rimanda alla pagina-vetrina: nessun testo disponibile' if cod == 'C2'
+                           else '')})
 
+# Every (Municipio, week) cell is emitted, including the empty ones: a gap is a cell with no
+# news, and a table that only lists what exists cannot show one. This is what the report's
+# "lacune" question asks for.
 terr_righe = []
-for k in sorted(territori):
-    t = territori[k]; r = dict(t)
-    r['n_documenti'] = len(t['n_documenti']); r['fonti_presenti'] = ';'.join(sorted(t['fonti_presenti']))
+for mun in ROMANI + ['non localizzato']:
+    for sett in ['1', '2', '3', '4', '5']:
+        t = territori.get((mun, sett))
+        if t is None:
+            terr_righe.append({'municipio': mun, 'settimana': sett, 'n_documenti': 0, 'n_notizie': 0,
+                               'n_notizie_alta': 0, 'n_notizie_media': 0, 'n_notizie_bassa': 0,
+                               'fonti_presenti': '', 'mediana_giorni_pubblicazione': '', 'lacuna': 'sì'})
+            continue
+        r = dict(t)
+        r['n_documenti'] = len(t['n_documenti']); r['fonti_presenti'] = ';'.join(sorted(t['fonti_presenti']))
+        rit = sorted(t['ritardi'])
+        r['mediana_giorni_pubblicazione'] = rit[len(rit) // 2] if len(rit) >= 3 else ''
+        r['lacuna'] = 'no'
+        terr_righe.append(r)
+# Facts dated outside June keep their own row per Municipio, with the week left empty.
+for (mun, sett), t in sorted(territori.items()):
+    if sett: continue
+    r = dict(t); r['n_documenti'] = len(t['n_documenti'])
+    r['fonti_presenti'] = ';'.join(sorted(t['fonti_presenti']))
     rit = sorted(t['ritardi'])
     r['mediana_giorni_pubblicazione'] = rit[len(rit) // 2] if len(rit) >= 3 else ''
-    r['lacuna'] = 'no'
-    terr_righe.append(r)
+    r['lacuna'] = 'no'; terr_righe.append(r)
+print('celle Municipio×settimana senza notizie:', sum(1 for r in terr_righe if r['lacuna'] == 'sì'))
 
 print('tabelle scritte in report1/db/:')
 scrivi('fonti', fonti, ['codice','nome','blocco','ente','url_elenco','base_url','formato','item_giugno','paginazione_completa','data_lettura','report','note'])

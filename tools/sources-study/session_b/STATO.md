@@ -490,3 +490,40 @@ questa sessione che un difetto grave emerge da chi guarda i dati e non da chi li
 
 Restano da fare per la consegna: rapporto `docs/sources/RICOSTRUZIONE_2026-06_REPORT1.md`,
 caricamento dei CSV su Drive, aggiornamento del ledger (fatto).
+
+## 20. Report 1 scritto (16 settembre, 00:35)
+
+`docs/sources/RICOSTRUZIONE_2026-06_REPORT1.md`. Risultati principali:
+
+- **Resa netta 882–1.158** notizie distinte su 1.227 candidate, da 985 item.
+- **Sono annunci, non cronaca**: 896 notizie su 1.075 pubblicate *prima* del fatto, mediana
+  **sette giorni di anticipo**. Le fonti testuali dicono cosa succederà, non cosa è successo.
+- **Tre quarti sono eventi culturali**; l'attività deliberativa è quasi assente e sta negli atti.
+- **Tutti e 15 i Municipi coperti**, ma il I ha quasi quattro volte le notizie del III. Solo **2
+  celle Municipio×settimana vuote**, entrambe nella settimana parziale del 29–30 giugno.
+- **La sovrapposizione fra le due agende eventi è minima**: 8 duplicati certi e 23 dubbi su 640
+  notizie, al massimo il 5%. **Contraddice l'impressione del lettore di E3** (84% di
+  sovrapposizione percepita), che nasceva dal circuito culturale comune e non dai fatti. Dichiarato
+  come **limite inferiore**: due lettori scrivono titoli diversi per lo stesso evento, quindi un
+  confronto più permissivo troverebbe altre coppie. La direzione regge, la cifra esatta no.
+- **Cronaca**: 22 item leggibili su 109; la sovrapposizione Questura–Carabinieri non è misurabile.
+- **Difetti della fonte** documentati: data di pubblicazione instabile su due fonti, contraddizioni
+  interne, caratteri corrotti e alfabeti non latini persi, pagine di prova in produzione, e il
+  Municipio dichiarato dal portale che non è il luogo della notizia.
+
+Correzioni all'ultimo giro: anagrafe delle fonti compilata (nome, ente, URL di elenco, e la nota
+sul blocco per C1 e C2); `territori.csv` ora emette **anche le celle vuote**, perché una lacuna è
+una cella senza notizie e una tabella che elenca solo ciò che esiste non può mostrarla.
+
+## 21. Da fare al prossimo risveglio
+
+1. **Caricare su Drive** `notizie_compatte.csv` (214 KB) e `documenti_compatti.csv` (164 KB) nella
+   cartella `Fonti 2026-06`, più `territori.csv` e `vicende.csv`. `fonti.csv` è già caricato
+   (`Report1_fonti_2026-06.csv`). Il connettore fa passare il contenuto dalla conversazione, quindi
+   vanno caricati a contesto fresco: rimandati per non rischiare una compattazione a metà.
+   Le versioni compatte seguono §4.2 del metodo: niente sintesi né testi integrali.
+   **Da cancellare**: `Report1_notizie_candidate_2026-06.csv` (id `10ZsIkYImMLfAEQHLjsSyblAupQX8HKTe`),
+   segnaposto da 10 byte creato per provare il connettore.
+2. Rileggere `N0812` per il titolo d'opera anonimizzato per errore (residuo C2 n. 7).
+3. Report 2: gli atti sono pronti (2.669 PDF con testo e OCR); mancano trascrizioni RomaTV e
+   sottotitoli YouTube.
