@@ -8,7 +8,7 @@
 | Dati per item e campione | Drive `QN Hub / 20 Packages / Fonti 2026-06/` (https://drive.google.com/drive/folders/1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa), un CSV per fonte, senza nomi di persona né testi integrali (metodo §4.2); indice nel `README_Fonti_2026-06.md` della cartella |
 | Schede | `docs/sources/SOURCE_REGISTRY.md`, una scheda per fonte del livello 1 |
 | Verifica A2 | `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` (15 settembre, pomeriggio, su richiesta dell'owner): tabella delle 48 tipologie, filtri, percorso ai 1.426 atti, esempi delle categorie centrali; §7 approfondimento circoscritto (31 PDF letti, 46 candidati classificati). **Le conclusioni sulla copertura di A2 sono provvisorie** (§3, §5, §10) |
-| Video (A3, A4) | `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md` (15 settembre, dalle 14:55, su richiesta dell'owner): RomaTV accesso bloccato, YouTube censito (131 registrazioni di giugno), campione di 15, 10 registrazioni analizzate; rapporto intermedio, recupero in corso |
+| Video (A3, A4) | `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md` (15 settembre, dalle 14:55, su richiesta dell'owner): YouTube censito (131 registrazioni di giugno), RomaTV censito dopo l'apertura degli host (496), campione di 15 più 7, 12 registrazioni analizzate; rapporto intermedio, recupero in corso |
 | Spesa | 0,00 € in questa sessione; nessuna chiamata AI; `docs/sources/TRIAL_LEDGER.md` |
 | Stato del dato | ogni numero è marcato **M** (misurato, con URL e ora della lettura), **S** (stimato, con l'ipotesi) o **—** (mancante) |
 
@@ -96,7 +96,7 @@ A2 per gruppo (M): delibere e atti politici 208 (CMD 42, GMD 32, GMT 32, GMM 15,
 
 Zone più frequenti (M, lookup deterministico): E2 tor-bella-monaca 39, tor-cervara 29, ostia 16, pigneto-torpignattara 10, san-lorenzo 7; C1 tor-vergata 2, tor-bella-monaca 2, ostia 2, centro-storico 2 e 13 zone con 1 item; A1 notizie: 55 item con zona, disperse su 30 zone.
 
-**A3 e A4 (livello 2, 15 settembre pomeriggio, M)**: RomaTV non è leggibile (host `*.streamcloud.it` bloccati: accesso bloccato per i Municipi II, III, VIII, X, XI, XII, XV e per le Commissioni Capitoline). YouTube: 131 registrazioni con data di giugno nel titolo (Municipio I 77, IX 37, V 9, Assemblea Capitolina 8), di cui 107 commissioni municipali per 82,1 ore; sottotitoli automatici in 12 video su 12 letti; data di pubblicazione letta solo per 2. Dettagli, campione e analisi in `VIDEO_RICOGNIZIONE_2026-06.md`.
+**A3 e A4 (livello 2, 15 settembre pomeriggio, M)**: RomaTV, letta dopo che l'owner ha consentito gli host `*.streamcloud.it` (16:02): 496 registrazioni di giugno per 404,8 ore (14 Municipi, Commissioni Capitoline 75, Assemblee 7), date di seduta e pubblicazione per tutte (ritardo mediano 0), 82 trascrizioni automatiche della piattaforma (solo Consigli). YouTube: 131 registrazioni con data di giugno nel titolo (Municipio I 77, IX 37, V 9, Assemblea Capitolina 8), di cui 107 commissioni municipali per 82,1 ore; sottotitoli automatici in 12 video su 12 letti; data di pubblicazione letta per 11. Dettagli, campione e analisi in `VIDEO_RICOGNIZIONE_2026-06.md`.
 
 ## 4. Localizzabilità (M)
 
@@ -159,7 +159,7 @@ Ritardo mediano fra fatto e pubblicazione, dove la data del fatto è nel testo (
 8. **PDF**: `pypdf` non importava per una dipendenza mancante (`cffi`), installata da PyPI; nessun OCR disponibile.
 9. **Ambiente**: i CSV per item sono stati caricati su Drive a blocchi (limiti di lettura dello strumento); un nome di persona in una motivazione di deduplicazione è stato rimosso prima del caricamento.
 10. **Metodo, regola (c) per la Cronaca**: "stesso tipo di fatto" aggrega operazioni diverse di forze diverse nello stesso giorno e nello stesso luogo (il caso dubbio di §5). Non modificato: proposta in §10.
-11. **A3 RomaTV**: applicazione che carica cataloghi e media da host esterni (`*.streamcloud.it`) non consentiti; l'involucro non contiene dati.
+11. **A3 RomaTV**: applicazione che carica cataloghi e media da host esterni (`*.streamcloud.it`), consentiti dall'owner nel pomeriggio; il bundle indica un tenant di prova, quello di Roma (`ac104`) è stato trovato per tentativi; i media restano su host non consentiti.
 12. **A4 YouTube**: la pagina `watch` reindirizza al controllo anti-bot; i metadati per video passano solo da alcuni client di `yt-dlp` e, dopo una ventina di letture in pochi minuti, ogni richiesta (player e sottotitoli) riceve il controllo anti-bot o 429: il recupero delle trascrizioni procede a ritmo forzato; i media sono bloccati (nessuna verifica sull'audio).
 
 ## 9. Tempo impiegato e costi
@@ -188,7 +188,7 @@ Raccomandazioni per fonte (provvisorie: la consegna finale le conferma dopo il l
 | E1 | accesso mancante | host non consentito | apertura di `ws.comune.roma.it` |
 | E2 | usare | 407/mese, 97,5% a Municipio, 30% a zona | gap per Municipio (XV 0, XII 2, IX 7 a giugno) |
 | E3 (livello 2) | integrare | 104/mese sullo stesso portale di A1, 66% con Municipio, 7% già in E2 | copre poco i Municipi deboli di E2 (XV 3, XII 3, IX 2 a giugno); la finestra futura richiede il parsing del periodo in testo libero |
-| A3 (livello 2) | da decidere dopo l'apertura degli host | copre 7 Municipi e le Commissioni Capitoline senza altra registrazione pubblica | accesso bloccato: nessuna misura possibile |
+| A3 (livello 2) | fonte candidata (provvisorio) | 496 registrazioni/mese con date strutturate e ritardo zero; 82 trascrizioni della piattaforma (Consigli); unica registrazione per 7 Municipi e per le Commissioni Capitoline | commissioni senza testo finché audio e T1 restano fermi; riuso da verificare |
 | A4 (livello 2) | fonte candidata per I e IX (provvisorio) | 107 commissioni/mese, trascrizioni automatiche a costo zero, contenuti assenti dagli atti | data di pubblicazione non misurata; nomi e toponimi inaffidabili nell'ASR; V parziale; nessuna integrazione automatica |
 
 **Livello 2**: sì, limitato. E3 (`comune.roma.it/web/it/eventi.page`) è stato letto il 15 settembre pomeriggio (scheda nel registro): stesso portale e stesso accesso di A1, costo zero, seconda fonte Eventi finché E1 è bloccato; A3 e A4 solo per i cataloghi (numero e durata delle commissioni per Municipio), perché le prove video T1 restano ferme; R1 non serve per i tre blocchi.
@@ -201,7 +201,7 @@ Raccomandazioni per fonte (provvisorie: la consegna finale le conferma dopo il l
 
 1. **`ws.comune.roma.it`** non è fra i domini consentiti: senza, E1 resta "accesso mancante" e la deduplicazione Eventi non è eseguibile (owner: aggiunta alla politica di rete; le sessioni avviate dopo la modifica lo vedono).
 2. Già noto (metodo §7): senza la conferma scritta sulla chiave OpenAI o la rotazione verificata restano ferme T1, T3, T4 e l'OCR delle scansioni di A2; T5 attende S0 e S1-02.
-3. **Host di RomaTV** (`api-ovp.streamcloud.it`, `identity-ovp.streamcloud.it`, `ac103mp.streamcloud.it`) non consentiti: A3 resta "accesso bloccato" (7 Municipi e Commissioni Capitoline).
+3. **Media di RomaTV** (`ac104mp.streamcloud.it`, `ovp2-live.akamaized.net`) non consentiti: le commissioni di A3 hanno metadati ma non testo (l'API è stata consentita alle 16:02).
 4. **Controllo anti-bot di YouTube sull'IP di uscita**: rallenta a ore metadati e trascrizioni di A4; la verifica sull'audio richiede file depositati dall'owner (metodo §5).
 
 Nient'altro blocca il livello 1; la collocazione dei dati per item su Drive (metodo §4.2, residuo) è usata come proposta e non blocca.

@@ -32,7 +32,7 @@ precedente) e contate anch'esse a carico del tetto finché l'owner non indica al
 | 2026-09-15 | Letture HTML/RSS/API del livello 1 (fetch e parser locali) | ≈ 2.100 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento |
 | 2026-09-15 | Verifica A2: sweep delle 48 tipologie di Atti Web, DDS di giugno e maggio, controlli; letture E3 (livello 2) | ≈ 330 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento; `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` |
 | 2026-09-15 | Approfondimento A2 autorizzato dall'owner: 31 PDF (10 DDS, 5 centrali, 5 CPC, 5 CPV, 3 SO, CID, MCD, OCD) letti in locale, 14 controlli API | ≈ 60 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento; nota A2 §7 |
-| 2026-09-15 | Ricognizione video A3/A4: elenchi di 13 canali YouTube (5.273 voci), letture per video e sottotitoli automatici (11 validi), 3 liste e 77 PDF di Atti Web; RomaTV bloccato | ≈ 60 letture di elenchi, ≈ 100 letture per video, 15 sottotitoli, ≈ 100 richieste Atti Web | 0,00 | 49,14 | nessun servizio a pagamento; `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md` |
+| 2026-09-15 | Ricognizione video A3/A4: elenchi di 13 canali YouTube (5.273 voci), letture per video e sottotitoli automatici (12 validi), 3 liste e 77 PDF di Atti Web; RomaTV censita via API dopo l'apertura degli host (496 voci, 7 trascrizioni WebVTT) | ≈ 60 letture di elenchi, ≈ 100 letture per video, 15 sottotitoli, ≈ 100 richieste Atti Web, ≈ 70 richieste RomaTV | 0,00 | 49,14 | nessun servizio a pagamento; `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md` |
 
 Totale speso: **0,86 € (stimato)**; residuo **49,14 €**. Nessuna prova a pagamento eseguita
 dall'Operator; nessun abbonamento.

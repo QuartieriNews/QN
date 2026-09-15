@@ -9,7 +9,7 @@ integrale. Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (m
 Stato: **livello 1 compilato** (A1, A2, C1–C6, E1, E2) con le letture del 15 settembre 2026,
 10:24–11:06 Europe/Rome; evidenze e URL nel rapporto intermedio
 `docs/sources/SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md`. Le raccomandazioni sono provvisorie
-fino alla consegna finale (S2-05). Livello 2: E3, A3 e A4 compilate il 15 settembre (pomeriggio; A3 con accesso bloccato, A4 con campione in corso: `VIDEO_RICOGNIZIONE_2026-06.md`); R1: scheda da compilare.
+fino alla consegna finale (S2-05). Livello 2: E3, A3 e A4 compilate il 15 settembre (pomeriggio; A3 censita dopo l'apertura degli host, A4 con campione in corso: `VIDEO_RICOGNIZIONE_2026-06.md`); R1: scheda da compilare.
 
 | Campo | Valori ammessi / note |
 |---|---|
@@ -364,34 +364,34 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `raccomandazione` | integrare: seconda fonte Eventi a costo zero; cambierebbe se E1 diventasse leggibile con dati strutturati |
 | `drive` | `E3_2026-06_items.csv`, `eventi_E3xE2_candidati.csv` |
 
-### A3 — RomaTV, streaming delle commissioni (livello 2)
+### A3 — RomaTV, streaming delle commissioni e dei Consigli (livello 2)
 
 | Campo | Valore |
 |---|---|
 | `blocco` | amministrazione |
-| `ente` | Roma Capitale, Web TV "RomaTV" (`streaming.comune.roma.it`, applicazione "Mediaportal" su piattaforma esterna) |
-| `sezione` | cataloghi per Municipio (II, III, VIII, X, XI, XII, XV) e catalogo delle Commissioni Capitoline: URL in `A3_romatv_accesso_2026-06.csv` (Drive); dirette `portal/watch/live/<id>` per i Municipi II e V |
-| `territorio` | Municipio (catalogo); quartiere solo dal parlato |
-| `argomenti` | sedute delle commissioni municipali e capitoline |
-| `accesso` | **bloccato**: l'involucro HTML è raggiungibile, ma cataloghi, ricerche, identità e media sono su `api-ovp.streamcloud.it`, `identity-ovp.streamcloud.it`, `ac103mp.streamcloud.it` (CONNECT rifiutato dal proxy, 15 settembre 2026 15:00) |
-| `formati` | video (stream), metadati JSON via API; il bundle espone un endpoint `timedmetadata/last_speechtotext` (trascrizioni automatiche possibili, non verificate) |
-| `riuso` | — (condizioni non leggibili) |
-| `mese` | 2026-06 |
-| `item_mese` | **—** (accesso bloccato); *Next Step* dichiara 75–184 video per Municipio e 246 per le Commissioni Capitoline nel primo trimestre 2026 (dato dell'owner, non verificato) |
-| `frequenza` | — |
-| `ritardo_mediano_giorni` | — |
+| `ente` | Roma Capitale, Web TV "RomaTV" (`streaming.comune.roma.it`, applicazione "Mediaportal" su piattaforma esterna; API `api-ovp.streamcloud.it/garavot/ac104`) |
+| `sezione` | cataloghi per Municipio (14: tutti tranne il I, che usa YouTube) più "Commissioni Capitoline" e "Assemblee Capitoline"; ricerca `contents/search_frontend` con filtro per catalogo e ordinamento per data di seduta |
+| `territorio` | Municipio (catalogo, 100%); quartiere solo dal parlato |
+| `argomenti` | commissioni municipali (305 a giugno), Consigli municipali (86), Commissioni Capitoline (75, 16 organi), Assemblee (7) |
+| `accesso` | web aperto, API senza login; **fino alle 16:00 del 15 settembre bloccato dal proxy** (host `*.streamcloud.it`), consentito dall'owner alle 16:02; media (`ac104mp.streamcloud.it`, `ovp2-live.akamaized.net`) non consentiti |
+| `formati` | video (stream), metadati JSON (titolo, descrizione, data di seduta, data di pubblicazione, durata, organo per le commissioni capitoline), trascrizione automatica WebVTT per i Consigli municipali |
+| `riuso` | condizioni del portale non lette (involucro non renderizzabile qui): da verificare (L11) |
+| `mese` | 2026-06 (data di seduta `referenceDate`; la data di pubblicazione `insertDate` è disponibile per tutte) |
+| `item_mese` | **496** (M): Municipi 414 (II 67, III 65, VIII 58, XII 58, XV 45, XI 40, V 39, X 16, IX 12, VII 6, VI 5, IV 2, XIII 1, XIV 0), Commissioni Capitoline 75, Assemblee 7; 404,8 ore; lettura 15 settembre 2026 16:10 (30 richieste); 38 voci pubblicate a giugno su sedute di altri mesi non contate |
+| `frequenza` | 115 registrazioni per settimana (M); sedute spesso spezzate in più video |
+| `ritardo_mediano_giorni` | **0** (M, 496 voci): 302 entro 1 giorno, 387 entro 7, massimo 94 |
 | `anticipo_eventi_giorni` | n/a |
 | `eventi_futuri_30gg` | n/a |
-| `quota_toponimo` | — |
+| `quota_toponimo` | — (dal parlato: presente nelle 2 trascrizioni lette) |
 | `quota_zona` | — |
-| `quota_municipio` | — (100% atteso dal catalogo) |
-| `duplicati` | — |
-| `contributo_unico` | — |
-| `estrazione` | non eseguibile |
-| `costo_item` | — |
-| `intervento_umano` | — |
-| `raccomandazione` | da decidere dopo l'apertura degli host: senza cataloghi né media la fonte non è valutabile; copre 7 Municipi e le Commissioni Capitoline che non hanno altra registrazione pubblica |
-| `drive` | `A3_romatv_accesso_2026-06.csv` |
+| `quota_municipio` | 100% (M, catalogo) |
+| `duplicati` | con A4: i Municipi V e IX pubblicano su entrambe le piattaforme (V 39 su RomaTV e 9 su YouTube; IX 12 e 37): stesse sedute, non misurate voce per voce; con A2: stessa seduta del verbale, non duplicato |
+| `contributo_unico` | alto (S) per i 7 Municipi senza YouTube e per le Commissioni Capitoline: unica registrazione pubblica; 3 possibili notizie dalle 2 sedute lette |
+| `estrazione` | metadati per tutte le voci; testo solo dalle 82 trascrizioni della piattaforma (Consigli): blocchi WebVTT di ~10 parole, 68–121 parole al minuto, nomi deformati; commissioni senza testo |
+| `costo_item` | 0,00 € per metadati e trascrizioni esistenti; tempo macchina 1–3 s per pagina di 100 voci |
+| `intervento_umano` | 10–20 minuti per seduta con trascrizione (S); per le commissioni non stimabile senza audio |
+| `raccomandazione` | fonte candidata per i Municipi senza YouTube e per le Commissioni Capitoline (metadati completi, ritardo zero); il testo delle commissioni dipende dall'audio (host) e da T1; nessuna integrazione approvata automaticamente |
+| `drive` | `A3_romatv_giugno2026_censimento_part1..4.csv`, `A3_campione_selezione.csv`, `summary_A3_romatv.json`, `A3_romatv_accesso_2026-06.csv` (stato precedente) |
 
 ### A4 — Canali YouTube dei Municipi (livello 2)
 
