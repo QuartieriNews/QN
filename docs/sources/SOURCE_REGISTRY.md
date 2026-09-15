@@ -405,10 +405,10 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `accesso` | web aperto per elenchi e metadati; media bloccati (`googlevideo.com`); controllo anti-bot di YouTube sull'IP di uscita dopo circa 20 letture per video in 5 minuti (§2 e §7 della nota) |
 | `formati` | video; sottotitoli automatici italiani (json3) per 12 video su 12 letti; nessun sottotitolo redatto; descrizione con ordine del giorno in parte dei video |
 | `riuso` | termini di YouTube; contenuti istituzionali: da verificare (L11) |
-| `mese` | 2026-06 (data della seduta nel titolo; data di pubblicazione misurata solo per 2 video) |
+| `mese` | 2026-06 (data della seduta nel titolo; data di pubblicazione misurata per 11 video su 131) |
 | `item_mese` | **131** (M): 107 commissioni municipali (I 64, IX 34, V 9), 16 Consigli municipali (I 13, IX 3), 8 dirette dell'Assemblea Capitolina; 135,5 ore, di cui 82,1 di commissioni; lettura 15 settembre 2026 15:06–15:12 (elenchi) |
 | `frequenza` | 25 commissioni per settimana sui tre canali (M); Municipio V muto dopo il 12 giugno |
-| `ritardo_mediano_giorni` | — (pubblicazione letta per 2 video: 0 e 62 giorni) |
+| `ritardo_mediano_giorni` | 0 per il Municipio I e 1 per il IX sugli ultimi 15 video di ciascun canale (feed RSS, settembre, M); a giugno letto per 11 video (9 del V entro 1 giorno dal feed RSS, uno del I lo stesso giorno, uno del IX dopo 62 giorni): stima S per il mese |
 | `anticipo_eventi_giorni` | n/a |
 | `eventi_futuri_30gg` | n/a |
 | `quota_toponimo` | — (dal parlato: toponimi presenti in 4 trascrizioni su 4 lette, deformati dall'ASR) |

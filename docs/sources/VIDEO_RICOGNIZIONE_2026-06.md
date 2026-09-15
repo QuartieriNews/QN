@@ -65,7 +65,7 @@ Commissioni municipali: 107 registrazioni per 82,1 ore; durata mediana 40 minuti
 |---|---|---|
 | fonte, URL, canale | 131/131 | elenco del canale |
 | data della seduta | 131/131 dal titolo (M, con le riserve di §3.5) | titolo |
-| data di pubblicazione | 2/131 (**—** per il resto): l'API `next` che la espone è sotto controllo anti-bot dalle 15:15; una lettura con il client `web_embedded` alle 15:09 ha dato "30 giugno" per una commissione del 30 giugno (stesso giorno) e una del 20 agosto per una commissione del IX di giugno (62 giorni) | metadati per video |
+| data di pubblicazione | 10/131 nel CSV (9 video del Municipio V dal feed RSS, 8 lo stesso giorno e 1 il giorno dopo; 1 del IX dai metadati, pubblicato il 20 agosto: 62 giorni), più una lettura di prova non salvata (una commissione del I del 30 giugno pubblicata il 30 giugno); **—** per gli altri 121: l'API `next` è sotto controllo anti-bot dalle 15:15; stima dal ritardo misurato sui feed RSS di settembre (§3.5) | metadati per video; RSS |
 | argomento | titolo per tutti; ordine del giorno nella descrizione per i video con metadati (12) e, per i Municipi I, V e IX, nella convocazione MMC di Atti Web (90 commissioni su 107 con convocazione dello stesso giorno e della stessa commissione) | titolo, descrizione, MMC |
 | durata | 131/131 (elenco; confermata dai metadati in 12 casi) | elenco |
 | territorio | 131/131 (Municipio del canale); quartieri solo dal parlato | canale |
@@ -87,7 +87,8 @@ Lette le liste complete di giugno delle convocazioni (MMC, 516) e dei verbali (M
 
 - Titolo contro verbale (Municipio I, 30 verbali con link): 28 coerenti, 2 titoli sbagliano la data di 1–2 giorni ("del 01-06-2026" per una seduta del 3 giugno; "del 08-06-2026" per una del 9 giugno).
 - Titolo contro parlato: una registrazione "Comm.ne TRASPARENZA del 13-06-2026" (16 minuti) si apre con "commissione trasparenza del 13 luglio 2026" e programma sedute di luglio e agosto; il 13 giugno 2026 è un sabato, il 13 luglio un lunedì. È di luglio ed esce dal mese: sostituita nel campione (§4).
-- Pubblicazione: 2 misure (0 e 62 giorni); la distribuzione resta **—** finché il controllo anti-bot non si allenta. Per il flusso operativo è la misura che decide la tempestività: da rifare.
+- Pubblicazione, dai metadati per video e dal feed RSS del Municipio V: 11 misure di giugno (9 entro un giorno, 1 lo stesso giorno, 1 dopo 62 giorni); la distribuzione per I e IX resta **—** finché il controllo anti-bot non si allenta.
+- Pubblicazione, dai feed RSS dei canali (ultimi 15 video per canale, letti il 15 settembre alle 16:10, M): Municipio I 15 su 15 pubblicati il giorno stesso della seduta (sedute dall'8 al 15 settembre); Municipio IX ritardo mediano 1 giorno, da 0 a 4 (sedute dal 1° al 10 settembre); Municipio V, i cui ultimi 15 video vanno da giugno a luglio, 13 entro 1 giorno più due arretrati (una seduta del 27 maggio pubblicata il 15 giugno, una del 19 marzo pubblicata l'8 luglio: l'ultima pubblicazione del canale). Per giugno vale quindi come stima (S): pubblicazione entro pochi giorni per I e IX, con casi di arretrati (uno del IX pubblicato il 20 agosto). Conseguenza per il censimento per data della seduta: include video pubblicati dopo il mese e non conta i video pubblicati a giugno su sedute di maggio (almeno uno nel V).
 
 ### 3.6 Classificazione richiesta
 
