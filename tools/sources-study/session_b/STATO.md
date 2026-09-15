@@ -435,3 +435,25 @@ fatti distinti, perché il luogo è diverso — ed è la risposta giusta per un 
 dove l'avviso del Municipio VII non è la notizia del Municipio II.
 
 Stato lettura: **restano solo L21, L22 (57 item E2) e L26 (78 riletture)**, entrambi in corso.
+
+## 18. E2 completa; campione e mandato per il controllo C2 pronti (16 settembre, 00:25)
+
+E2 chiusa: 407 item. **Tutte e 985 le schede del Report 1 sono state lette almeno una volta**;
+resta in corso la sola rilettura L26.
+
+Rilievo dell'ultimo lotto che vale la pena isolare: `E2_354` è una **pagina di prova** pubblicata
+in produzione dalla fonte («test rox 1»). Va nel rapporto fra i difetti della fonte, accanto ai
+caratteri corrotti e ai refusi: un'agenda che pubblica pagine di test è un'agenda su cui una
+pipeline automatica inciampa.
+
+Buona decisione del lettore su `E2_297`, che merita di restare a verbale: una pagina del Planetario
+annuncia insieme la **sospensione** e il programma completo di quattro giornate. Scomporla per
+data avrebbe prodotto quattro notizie che annunciano spettacoli che la fonte stessa dichiara
+annullati. Una riga sola, `avviso`, scelta motivata: è esattamente il tipo di giudizio che una
+regola meccanica non può dare.
+
+**Pronti per il controllo C2** (`tools/sources-study/report1/campione_c2.py`, mandato in
+`$QN_NET/mandate_C2.md`): campione stratificato di 45 notizie con seed fisso `2026-06-C2`, quote
+per fonte (almeno 5 ciascuna) e per esito di deduplicazione (almeno 5 per `unica`, `duplicato`,
+`dubbio`). Il seed e le quote servono a impedire che il campione sia scelto per fare bella figura.
+Vanno rigenerati dopo L26, perché le righe cambiano.
