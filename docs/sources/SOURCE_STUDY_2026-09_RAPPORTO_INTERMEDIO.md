@@ -4,21 +4,22 @@
 |---|---|
 | Stato | **Rapporto intermedio** previsto dal metodo M-0.3 (§8.5) dopo la lettura del livello 1 (A1, A2, C1–C6, E1, E2). Non è la consegna finale (P0-S2-05): mancano il livello 2, la previsione dei costi con i tre scenari e le raccomandazioni definitive. Nessun controllo di Codex su questo rapporto (metodo §8.4: nessun ciclo intermedio salvo problemi sostanziali) |
 | Metodo | `docs/sources/SOURCE_STUDY_METHOD.md` M-0.3, applicato senza modifiche; le osservazioni sul metodo emerse dai dati sono in §10 come proposte, non applicate |
-| Sessione | 15 settembre 2026, Operator: 10:24–12:00 circa (Europe/Rome), letture delle fonti 10:24–11:06 |
+| Sessione | 15 settembre 2026, Operator: 10:24–12:00 circa (Europe/Rome), letture delle fonti 10:24–11:06; pomeriggio 12:05–13:00 circa: verifica A2 e lettura di E3 (livello 2) |
 | Dati per item e campione | Drive `QN Hub / 20 Packages / Fonti 2026-06/` (https://drive.google.com/drive/folders/1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa), un CSV per fonte, senza nomi di persona né testi integrali (metodo §4.2); indice nel `README_Fonti_2026-06.md` della cartella |
 | Schede | `docs/sources/SOURCE_REGISTRY.md`, una scheda per fonte del livello 1 |
+| Verifica A2 | `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` (15 settembre, pomeriggio, su richiesta dell'owner): tabella delle 48 tipologie, filtri, percorso ai 1.426 atti, esempi delle categorie centrali. **Le conclusioni sulla copertura di A2 sono provvisorie** (§3, §5, §10) |
 | Spesa | 0,00 € in questa sessione; nessuna chiamata AI; `docs/sources/TRIAL_LEDGER.md` |
 | Stato del dato | ogni numero è marcato **M** (misurato, con URL e ora della lettura), **S** (stimato, con l'ipotesi) o **—** (mancante) |
 
 ## 1. Esito in breve
 
 - **Accesso**: tutti i domini del metodo §6 sono raggiungibili; un PDF di Atti Web è stato scaricato e letto; il feed di 060608 **non** è leggibile perché la pagina è un'applicazione Next.js che carica elenco e RSS da `ws.comune.roma.it`, host non consentito dall'ambiente. E1 è "accesso mancante" (§2).
-- **Conteggi di giugno 2026 (M)**: A1 365 item (135 notizie + 230 informazioni di servizio); A2 1.426 atti; C1 79; C2 20 (su 151 nazionali); C3 0; C4 8; C5 2; C6 0 (Comando Provinciale di Roma; 3 nel Lazio); E2 407 appuntamenti pubblicati, 189 con data nei 30 giorni dalla lettura (limite inferiore). Dettaglio in §3.
+- **Conteggi di giugno 2026 (M)**: A1 365 item (135 notizie + 230 informazioni di servizio); A2 1.426 atti delle 15 tipologie degli organi municipali (copertura provvisoria: le 33 tipologie restanti, fra cui 921 determinazioni di traffico della Polizia Locale, sono in `docs/sources/A2_ATTIWEB_TIPOLOGIE.md`); C1 79; C2 20 (su 151 nazionali); C3 0; C4 8; C5 2; C6 0 (Comando Provinciale di Roma; 3 nel Lazio); E2 407 appuntamenti pubblicati, 189 con data nei 30 giorni dalla lettura (limite inferiore). Dettaglio in §3.
 - **Localizzazione (M)**: Municipio noto per il 100% di A1 e A2 (dal portale), per il 97,5% di E2 (tassonomia del portale), per il 25–30% della Cronaca (dal testo); zona deterministica per il 26–41% degli item con testo (§4).
 - **Sovrapposizioni (M/S)**: Cronaca 0 duplicati certi e 1 dubbio su 109 item; Amministrazione 35 coppie certe e 12 dubbie fra avvisi di convocazione (A1) e atti di convocazione (A2), 0 su 60 nel campione del resto; Eventi non valutabile con una sola fonte leggibile (§5).
 - **Formati**: HTML leggibile con parser locali per tutte le fonti lette; Atti Web è PDF, e 8 dei 18 PDF provati sono scansioni senza testo (§6). OCR non eseguito (nessuno strumento locale, AI ferma).
 - **Blocchi**: `ws.comune.roma.it` (E1); `www.poliziadistato.it` (pagina della licenza della Questura); `developers.openai.com` (listino per il ledger). T1, T3, T4 e T5 restano ferme (§9, §11).
-- **Livello 2**: serve, ma solo in parte: E3 subito a costo zero (stesso portale di A1), A3 e A4 limitati ai cataloghi finché le prove video sono ferme, R1 non necessario (§10).
+- **Livello 2**: serve, ma solo in parte: E3 letto il 15 settembre pomeriggio (104 appuntamenti a giugno, 66% con Municipio, 7 duplicati certi con E2), A3 e A4 limitati ai cataloghi finché le prove video sono ferme, R1 non necessario (§10).
 
 ## 2. Verifica dell'accesso (metodo §6)
 
@@ -56,7 +57,7 @@ Regole del metodo §4.1: item con data di pubblicazione fra il 1° e il 30 giugn
 | Fonte | Item giugno | Per settimana | Elenco usato | Paginazione completa | Lettura | Formato |
 |---|---|---|---|---|---|---|
 | A1 Roma Capitale, Municipi | **365** (135 notizie + 230 informazioni di servizio) | 85,2 | `https://www.comune.roma.it/web/it/notizie.page?mun=municipio_<n>&pagina=N` e `…/informazioni-di-servizio.page?mun=municipio_<n>&pagina=N`, 15 filtri più `intermunicipale` | sì: ogni filtro percorso fino alla prima pagina con data anteriore al 1° giugno | 10:54 | HTML |
-| A2 Atti Web, Municipi | **1.426** | 332,7 | `POST https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/data/filtro-dati!cerca.action?tipologia=<T>&dtRprDa=2026-06-01&dtRprA=2026-06-30&itemsPerPage=500`, 17 tipologie | sì: totale dichiarato dall'API = letti (MMC 516 in due pagine) | 10:42 | PDF (testo o scansione) |
+| A2 Atti Web, Municipi | **1.426** | 332,7 | `POST https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/data/filtro-dati!cerca.action?tipologia=<T>&dtRprDa=2026-06-01&dtRprA=2026-06-30&itemsPerPage=500`, 16 tipologie interrogate (15 con risultati, DMK senza; selezione per organo municipale: `docs/sources/A2_ATTIWEB_TIPOLOGIE.md`) | sì: totale dichiarato dall'API = letti (MMC 516 in due pagine); alle 12:10 DMS era 193 (+2 pubblicazioni tardive con data di giugno) | 10:42 | PDF (testo o scansione) |
 | C1 Questura di Roma | **79** | 18,4 | `https://questure.poliziadistato.it/it/Roma/archivio/category/5730dc9d86cad683338531/<p>/`, giugno = pagine 17–25 | sì (pagine 15–27 lette) | 10:34 | HTML |
 | C2 Carabinieri | **20** (su 151 nazionali) | 4,7 | `https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa?d=202606` e `!page/page/2..8`; Roma = fonte "Comando Provinciale di Roma" o luogo "(RM)" | sì (8 pagine) | 10:36 | HTML |
 | C3 Procura di Roma | **0** (22 item in archivio dal 2017, 4 nel 2026: 21 avvisi e 1 comunicato) | 0 | `https://procura-roma.giustizia.it/it/news_e_comunicati.page?frame5_item=1..5` | sì (intero archivio) | 10:32 | HTML, PDF allegati |
@@ -65,6 +66,7 @@ Regole del metodo §4.1: item con data di pubblicazione fra il 1° e il 30 giugn
 | C6 Guardia di Finanza | **0** Comando Provinciale Roma (3 Lazio; Roma: 38 nel 2026, 84 in archivio) | 0 | `https://www.gdf.gov.it/++api++/@search?portal_type=News Item&reparti_correlati=<uid Comando Provinciale Roma>&effective 2026-06` | sì (API, `items_total`) | 10:50 | HTML (Plone) |
 | E1 060608 | **—** accesso mancante | — | `https://060608.comune.roma.it/eventi` (elenco e RSS da `ws.comune.roma.it`) | — | 10:24 | — |
 | E2 culture.roma.it | **407** pubblicati a giugno; **189** con data fra il 15 settembre e il 15 ottobre (limite inferiore: fra i 917 pubblicati dal 1° luglio) | 95,0 | `https://culture.roma.it/wp-json/wp/v2/event_calendar?per_page=100&page=1..5&after=2026-06-01T00:00:00&before=2026-07-01T00:00:00` | sì (`X-WP-Total` 407 = letti) | 10:37 (futuri 11:05) | HTML + JSON |
+| E3 Roma Capitale, agenda eventi (livello 2) | **104** pubblicati a giugno (data `search:data` della pagina); **36** con periodo nei 30 giorni dal 15 settembre (S: periodo in testo libero, fra i 190 pubblicati dal 26 maggio; limite inferiore) | 24,3 | `https://www.comune.roma.it/web/it/eventi.page?pagina=N` (10 per pagina, ordinata per data di pubblicazione; faccette `mun=`, `temat=`, `struttura=`) | sì (pagine 1–19 fino alla prima data anteriore al 1° giugno) | 12:25 (pagine), 12:40 (schede) | HTML |
 
 Copertura per Municipio (M). A1 notizie: una notizia con più tag di Municipio è contata in ciascuno (22 su 135); A1 informazioni di servizio: filtro dell'elenco; A2: struttura dell'atto; Cronaca: solo gli item localizzati a Municipio dal testo (C1+C2+C4); E2: tassonomia del portale.
 
@@ -87,6 +89,8 @@ Copertura per Municipio (M). A1 notizie: una notizia con più tag di Municipio �
 | XV | 26 | 14 | 174 | 1 | 0 | 16 |
 | non attribuiti | 1 intermunicipale | 0 | 0 | 79 (C1 57, C2 14, C4 6, C5 2) | 10 | 23 |
 
+E3 (livello 2, tag `search:municipio` del portale, 69 su 104): I 20, II 9, III 2, IV 1, V 7, VI 4, VII 5, VIII 5, IX 2, X 4, XI 1, XII 3, XIII 2, XIV 4, XV 3; 2 appuntamenti con più Municipi; 35 senza tag (per lo più mostre e spettacoli in sedi centrali). Tematiche: 66 dei 104 sono appuntamenti di "Roma in musica 2026".
+
 A2 per gruppo (M): delibere e atti politici 208 (CMD 42, GMD 32, GMT 32, GMM 15, CMZ 32, CMY 8, CMR 44, PMO 2, PMT 1), convocazioni 571 (CMC 55, MMC 516), verbali 456 (CMV 24, GMV 25, MMV 407), determinazioni 191 (DMS). I quattro Municipi con meno atti a giugno: III 19, IV 19, II 37, X 72.
 
 Zone più frequenti (M, lookup deterministico): E2 tor-bella-monaca 39, tor-cervara 29, ostia 16, pigneto-torpignattara 10, san-lorenzo 7; C1 tor-vergata 2, tor-bella-monaca 2, ostia 2, centro-storico 2 e 13 zone con 1 item; A1 notizie: 55 item con zona, disperse su 30 zone.
@@ -104,6 +108,7 @@ Lookup deterministico sul testo con le regole di `tests/zone_distribution.py` (n
 | C4 | 37,5% | 25,0% | 25,0% | 0 | 8 item |
 | C5 | 0% | 0% | 0% | 0 | 2 item cittadini |
 | E2 | 37,8% | 30,0% | 97,5% dalla tassonomia del portale (10 senza) | 14 | luogo presente nel 99,8%, indirizzo nel 95,8% |
+| E3 | 52,9% | 35,6% | 66,3% dal tag del portale | 9 | il periodo dell'evento è testo libero ("3 e 4 luglio", "fino al 10 settembre") |
 
 Ritardo mediano fra fatto e pubblicazione, dove la data del fatto è nel testo (M): C1 1 giorno (n=10 su 79; 69 senza data del fatto), C2 1 giorno (n=11 su 20), C4 0 giorni (n=5 su 8); A1, A2 —. Eventi (E2): anticipo mediano fra pubblicazione e data dell'evento 17 giorni (quartili 9–30; 6 pubblicati dopo l'evento); 73 eventi su più giorni.
 
@@ -111,12 +116,12 @@ Ritardo mediano fra fatto e pubblicazione, dove la data del fatto è nel testo (
 
 **Cronaca** (C1+C2+C4+C5 = 109 item, intero mese, M). Duplicati certi 0; dubbi 1: Carabinieri e Questura del 6 giugno, Ostia, arresti per spaccio, forze diverse, persone e numeri diversi, fatto verosimilmente distinto ma con le tre condizioni soddisfatte alla lettera (URL nel file `cronaca_dedup_campione.csv` su Drive, con 10 coppie giudicate distinte). Resa lorda 109; netta 108–109; contributo unico C1 78–79, C2 19–20, C4 8, C5 2.
 
-**Amministrazione** (A1+A2 = 1.791 item, oltre la soglia di 300: la regola prevede campioni di almeno 60 item per coppia, resa stimata).
+**Amministrazione** (A1+A2 = 1.791 item, oltre la soglia di 300: la regola prevede campioni di almeno 60 item per coppia, resa stimata). Perimetro A2 provvisorio: solo le 15 tipologie municipali; le categorie centrali con riferimento territoriale (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md` §4–§6) non sono ancora nel conteggio.
 - Classe delle convocazioni, intero mese (M): 58 avvisi di convocazione fra le informazioni di servizio A1 (53 di Consiglio, 5 di Giunta); 35 hanno un gemello certo in A2 (atto CMC della stessa seduta, stesso Municipio); 12 sono dubbi (la data della seduta non è nel titolo dell'avviso: Municipi IV, IX, XII, XIV); 11 senza gemello (5 di Giunta, tipologia assente in Atti Web; 6 di Consiglio dei Municipi II e VI senza atto con quella seduta). Coppie in `A1_A2_convocazioni_pairs_compact.csv`.
 - Resto di A1 contro A2 (S): campione di 60 item A1 non di convocazione, seed `2026-06-A1xA2`, frame ordinato per data, tipo (notizie prima delle informazioni di servizio) e URL; per ciascuno il miglior atto A2 dello stesso Municipio per parole chiave (Jaccard fra titolo e oggetto), giudicato dall'Operator: **0 stesso fatto** (miglior candidato 0,33, una convocazione di Giunta contro un verbale di Giunta di data diversa). Limite: un atto il cui oggetto è formulato in modo diverso dalla notizia sfugge al criterio; una verifica umana sul campione resta possibile con il file `A1xA2_campione60_compact.csv`.
 - Resa lorda 1.791; duplicati certi 35; dubbi 12; netta 1.744–1.756. L'attribuzione al primo che pubblica (avviso o atto) non è stata calcolata coppia per coppia: cambia la ripartizione del contributo unico fra A1 (318–330) e A2, non la resa netta.
 
-**Eventi**: una sola fonte letta (E2); con E1 non accessibile la deduplicazione del blocco non è eseguibile. Da fare con E1 o E3 (§10).
+**Eventi** (E2+E3 = 511 item, oltre la soglia di 300; confronto sull'intero mese per titolo normalizzato, M come limite inferiore). Duplicati certi 7 (1 titolo identico, 6 titoli simili giudicati stesso evento dall'Operator: mostre e rassegne pubblicate da entrambi i portali), dubbi 1 (un concerto di "Roma in musica" contro una pagina di culture.roma.it con titolo simile). Resa lorda 511; netta 503–504; contributo unico E3 96–97 su 104 (92–93%). Coppie in `eventi_E3xE2_candidati.csv`. Limite: un evento pubblicato con titoli diversi dai due portali sfugge al confronto. E1 resta fuori (accesso mancante).
 
 ## 6. Formati, estrazione e prova T2 (metodo §5)
 
@@ -156,7 +161,7 @@ Ritardo mediano fra fatto e pubblicazione, dove la data del fatto è nel testo (
 
 | Voce | Valore | Stato |
 |---|---|---|
-| Operator, sessione del 15 settembre | 10:24–12:00 circa (Europe/Rome), 1 h 35 min, di cui letture e parser 10:24–11:06, poi controlli, Drive e questo rapporto | M (orari), S (ripartizione) |
+| Operator, sessione del 15 settembre | 10:24–12:00 circa (Europe/Rome), 1 h 35 min, di cui letture e parser 10:24–11:06, poi controlli, Drive e questo rapporto; pomeriggio 12:05–13:00 circa (≈ 1 h): verifica A2 richiesta dall'owner e lettura di E3 | M (orari), S (ripartizione) |
 | Richieste HTTP | ≈ 2.100 (elenchi, item, PDF, API) | S |
 | Spesa | 0,00 € nella sessione; totale ledger 0,86 € (S), residuo 49,14 € sui 50 € | M/S (`docs/sources/TRIAL_LEDGER.md`) |
 | Chiamate AI | nessuna; T1, T3, T4 ferme (chiave non confermata); T5 ferma (S0, S1-02); T2 eseguita solo per la parte locale | M |
@@ -168,7 +173,7 @@ Raccomandazioni per fonte (provvisorie: la consegna finale le conferma dopo il l
 | Fonte | Raccomandazione | Ragione | Condizione che la cambierebbe |
 |---|---|---|---|
 | A1 | usare | 365 item/mese, Municipio certo, HTML leggibile, 40% delle notizie a zona | licenza (L11) |
-| A2 | usare come fonte di record degli atti | 1.426 atti/mese, Municipio certo | 44% di scansioni: senza OCR (T2 da completare) verbali e delibere restano oggetto e PDF |
+| A2 | usare come fonte di record degli atti (provvisorio) | 1.426 atti/mese delle tipologie municipali, Municipio certo | 44% di scansioni: senza OCR (T2 da completare) verbali e delibere restano oggetto e PDF; perimetro da decidere sulle categorie centrali (DDS 921/mese, ≈ 45 atti centrali con territorio): `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` §6 |
 | C1 | usare | 79 item/mese, toponimo nell'81% | licenza BY-NC-ND se confermata (L11) |
 | C2 | integrare | 20 item/mese, localizzazione 30% | — |
 | C3 | escludere dalla Cronaca | 0 item a giugno, 22 in nove anni, quasi solo circolari | comparsa di comunicati regolari |
@@ -177,8 +182,9 @@ Raccomandazioni per fonte (provvisorie: la consegna finale le conferma dopo il l
 | C6 | riserva | 0 a giugno; 38 nel 2026 (≈ 3/mese) | frequenza stabile e localizzabile |
 | E1 | accesso mancante | host non consentito | apertura di `ws.comune.roma.it` |
 | E2 | usare | 407/mese, 97,5% a Municipio, 30% a zona | gap per Municipio (XV 0, XII 2, IX 7 a giugno) |
+| E3 (livello 2) | integrare | 104/mese sullo stesso portale di A1, 66% con Municipio, 7% già in E2 | copre poco i Municipi deboli di E2 (XV 3, XII 3, IX 2 a giugno); la finestra futura richiede il parsing del periodo in testo libero |
 
-**Livello 2**: sì, limitato. E3 (`comune.roma.it/web/it/eventi.page`) va letto subito: stesso portale e stesso accesso di A1, costo zero, ed è l'unica seconda fonte Eventi finché E1 è bloccato; A3 e A4 solo per i cataloghi (numero e durata delle commissioni per Municipio), perché le prove video T1 restano ferme; R1 non serve per i tre blocchi.
+**Livello 2**: sì, limitato. E3 (`comune.roma.it/web/it/eventi.page`) è stato letto il 15 settembre pomeriggio (scheda nel registro): stesso portale e stesso accesso di A1, costo zero, seconda fonte Eventi finché E1 è bloccato; A3 e A4 solo per i cataloghi (numero e durata delle commissioni per Municipio), perché le prove video T1 restano ferme; R1 non serve per i tre blocchi.
 
 **Gap dichiarati (M)**: la Cronaca istituzionale localizzabile a Municipio è di 30 item al mese in tutto (0 per III e XIII): non regge da sola pagine di quartiere e la consegna finale deve presentare all'owner le alternative del metodo §5 (bacino, minimi, fallback al Municipio: DEC-006, fallback al Municipio per pagine sottili). Eventi: XV senza appuntamenti a giugno (16 nei 30 giorni), XII e IX molto sotto gli altri.
 

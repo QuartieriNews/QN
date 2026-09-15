@@ -9,7 +9,7 @@ integrale. Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (m
 Stato: **livello 1 compilato** (A1, A2, C1–C6, E1, E2) con le letture del 15 settembre 2026,
 10:24–11:06 Europe/Rome; evidenze e URL nel rapporto intermedio
 `docs/sources/SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md`. Le raccomandazioni sono provvisorie
-fino alla consegna finale (S2-05). Livello 2 (A3, A4, E3) e R1: schede da compilare.
+fino alla consegna finale (S2-05). Livello 2: E3 compilata il 15 settembre (pomeriggio); A3, A4 e R1: schede da compilare.
 
 | Campo | Valori ammessi / note |
 |---|---|
@@ -80,14 +80,14 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 |---|---|
 | `blocco` | amministrazione |
 | `ente` | Roma Capitale, Delibere e Atti Web |
-| `sezione` | `https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/` (API `data/filtro-dati!cerca.action`, filtro per tipologia e data di repertorio) |
+| `sezione` | `https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/` (API `data/filtro-dati!cerca.action`, filtro per tipologia e data di repertorio); 15 tipologie degli organi municipali su 48: tabella completa e categorie centrali in `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` |
 | `territorio` | Municipio (struttura dell'atto), tutti i 15 |
 | `argomenti` | delibere e atti politici (208), convocazioni di Consiglio e Commissioni (571), verbali (456), determinazioni dirigenziali (191) |
 | `accesso` | web aperto, API JSON non documentata |
 | `formati` | PDF testo (10 su 18 provati), PDF scansione (8 su 18) |
 | `riuso` | come A1 (stesso portale): da verificare (L11) |
 | `mese` | 2026-06 (data di repertorio: il portale non espone la data di pubblicazione) |
-| `item_mese` | **1.426** (M); lettura 15 settembre 2026 10:42; paginazione completa sì (totale API = letti) |
+| `item_mese` | **1.426** (M, 15 tipologie municipali); lettura 15 settembre 2026 10:42; paginazione completa sì (totale API = letti); alle 12:10 DMS 193 invece di 191 (pubblicazioni tardive). Fuori conteggio, da decidere: DDS 921 (discipline di traffico della Polizia Locale, 9 Municipi) e ≈ 45 atti centrali con riferimento territoriale |
 | `frequenza` | 332,7 per settimana (M) |
 | `ritardo_mediano_giorni` | — |
 | `anticipo_eventi_giorni` | n/a |
@@ -100,8 +100,8 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `estrazione` | prova T2 parziale: 18 PDF, testo ottenuto in 10, leggibile; 8 scansioni inutilizzabili senza OCR (rapporto §6) |
 | `costo_item` | 0,00 €; meno di 2 s per PDF (M) |
 | `intervento_umano` | 3–5 min per atto testuale, oltre 10 min per scansione senza OCR (S) |
-| `raccomandazione` | usare come fonte di record degli atti; cambierebbe se l'OCR delle scansioni risultasse inutilizzabile (T2 da completare) |
-| `drive` | `A2_2026-06_items_compact_part1..3.csv` |
+| `raccomandazione` | **provvisoria**: usare come fonte di record degli atti municipali; perimetro sulle categorie centrali da decidere (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md` §6); cambierebbe se l'OCR delle scansioni risultasse inutilizzabile (T2 da completare) |
+| `drive` | `A2_2026-06_items_compact_part1..3.csv`; categorie centrali: `A2_DDS_2026-06_items_compact_part1..4.csv`, `A2_centrali_2026-06_items_compact_part1..2.csv` |
 
 ### C1 — Questura di Roma, archivio comunicati
 
@@ -334,3 +334,32 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `intervento_umano` | meno di 1 min per item (S) |
 | `raccomandazione` | usare; gap per Municipio (XV 0, XII 2, IX 7 a giugno) da coprire con E1/E3 |
 | `drive` | `E2_2026-06_items.csv`, `E2_futuri_30gg.csv` |
+
+### E3 — Roma Capitale, portale istituzionale: agenda eventi (livello 2)
+
+| Campo | Valore |
+|---|---|
+| `blocco` | eventi |
+| `ente` | Roma Capitale, portale istituzionale (`www.comune.roma.it`), sezione "Tutti gli eventi" |
+| `sezione` | `https://www.comune.roma.it/web/it/eventi.page?pagina=N` (10 per pagina, ordinata per data di pubblicazione; faccette `mun=municipio_<n>`, `temat=`, `struttura=`); scheda evento con `search:municipio`, `search:periodo`, `search:data`, `search:tematica` |
+| `territorio` | Municipio (tag del portale, 66% degli item); quartiere quando il testo lo cita |
+| `argomenti` | cultura, musica ("Roma in musica 2026": 66 su 104), mostre, cinema, teatro |
+| `accesso` | web aperto |
+| `formati` | HTML |
+| `riuso` | come A1 (stesso portale): da verificare (L11) |
+| `mese` | 2026-06 (data di pubblicazione `search:data`) |
+| `item_mese` | **104** (M); lettura 15 settembre 2026 12:25 (elenco) e 12:40 (schede); paginazione completa sì (pagine 1–19) |
+| `frequenza` | 24,3 per settimana (M) |
+| `ritardo_mediano_giorni` | n/a |
+| `anticipo_eventi_giorni` | — (periodo dell'evento in testo libero: non calcolato) |
+| `eventi_futuri_30gg` | 36 con periodo fra il 15 settembre e il 15 ottobre 2026 (S: parsing del testo libero, fra i 190 appuntamenti pubblicati dal 26 maggio; 32 senza tag di Municipio; limite inferiore) |
+| `quota_toponimo` | 52,9% (M) |
+| `quota_zona` | 35,6% (M) |
+| `quota_municipio` | 66,3% (M, tag del portale; 35 senza) |
+| `duplicati` | 7 certi e 1 dubbio con E2 su 104 (6,7–7,7%; M per titolo normalizzato sull'intero mese, limite inferiore) |
+| `contributo_unico` | 92–93% (M, limite superiore) |
+| `estrazione` | testo e metadati ottenuti sì (104/104), leggibili |
+| `costo_item` | 0,00 €; 1–3 s per pagina (M) |
+| `intervento_umano` | meno di 1 min per item; il periodo va normalizzato a mano o con regole (S) |
+| `raccomandazione` | integrare: seconda fonte Eventi a costo zero; cambierebbe se E1 diventasse leggibile con dati strutturati |
+| `drive` | `E3_2026-06_items.csv`, `eventi_E3xE2_candidati.csv` |

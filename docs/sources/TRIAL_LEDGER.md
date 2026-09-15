@@ -30,6 +30,7 @@ precedente) e contate anch'esse a carico del tetto finché l'owner non indica al
 | 2026-09-14 | Codex, controllo metodo fonti 2 (M-0.2) | 12.680 in / 6.020 out | 0,10 (S) | 49,14 | `reviews/2026-09-14—sources-study-method-v2—AGREEMENT_WITH_NON-BLOCKING_RESIDUALS.md` |
 | 2026-09-15 | T2 (parziale): estrazione testo da 18 PDF di Atti Web con PyMuPDF/pypdf locali | 18 PDF, 10 con testo, 8 scansioni; nessun OCR eseguito | 0,00 | 49,14 | `docs/sources/SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md` §6; OCR (T2 parte scansioni) non eseguito: richiede chiave AI (bloccata) o `tesseract` (assente) |
 | 2026-09-15 | Letture HTML/RSS/API del livello 1 (fetch e parser locali) | ≈ 2.100 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento |
+| 2026-09-15 | Verifica A2: sweep delle 48 tipologie di Atti Web, DDS di giugno e maggio, controlli; letture E3 (livello 2) | ≈ 330 richieste HTTP | 0,00 | 49,14 | nessun servizio a pagamento; `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` |
 
 Totale speso: **0,86 € (stimato)**; residuo **49,14 €**. Nessuna prova a pagamento eseguita
 dall'Operator; nessun abbonamento.
