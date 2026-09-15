@@ -97,11 +97,11 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `quota_municipio` | 100% (M, dalla struttura) |
 | `duplicati` | 35 atti di convocazione con gemello certo in A1 e 12 dubbi su 1.426 (2,5–3,3%, M per la classe); 0 nel campione del resto (S) |
 | `contributo_unico` | 96,7–97,5% (M/S) |
-| `estrazione` | prova T2 parziale: 18 PDF, testo ottenuto in 10, leggibile; 8 scansioni inutilizzabili senza OCR (rapporto §6) |
+| `estrazione` | prova T2 parziale: 18 PDF, testo ottenuto in 10, leggibile; 8 scansioni inutilizzabili senza OCR (rapporto §6). Campione di 120 PDF (15 settembre, 8 per Municipio, seed `2026-06-A2-pdf`): 69 testuali e 51 scansioni (M), 332 pagine di cui 114 scansionate; le scansioni dipendono dal Municipio (III, IV, VI, VIII, IX, XI, XIII: 50 su 57), non dalla tipologia. OCR locale RapidOCR (PyPI, 0 €) provato su 3 pagine: 3–9 s a pagina, confidenza 0,96–0,98, spazi fra le parole in parte persi |
 | `costo_item` | 0,00 €; meno di 2 s per PDF (M) |
 | `intervento_umano` | 3–5 min per atto testuale, oltre 10 min per scansione senza OCR (S) |
 | `raccomandazione` | **provvisoria**: usare come fonte di record degli atti municipali; perimetro sulle categorie centrali da decidere (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md` §6, approfondimento §7: DDS coerenti con il Municipio del gruppo 10 su 10, circa 20 possibili notizie al mese dagli atti centrali); cambierebbe se l'OCR delle scansioni risultasse inutilizzabile (T2 da completare) |
-| `drive` | `A2_2026-06_items_compact_part1..3.csv`; categorie centrali: `A2_DDS_2026-06_items_compact_part1..4.csv`, `A2_centrali_2026-06_items_compact_part1..2.csv` |
+| `drive` | `A2_2026-06_items_compact_part1..3.csv`; categorie centrali: `A2_DDS_2026-06_items_compact_part1..4.csv`, `A2_centrali_2026-06_items_compact_part1..2.csv`; campione di 120 PDF (testo/scansione, pagine): `A2_pdf_campione120.csv`, `summary_A2_pdf_campione120.json` |
 
 ### C1 — Questura di Roma, archivio comunicati
 
@@ -286,7 +286,7 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `sezione` | `https://060608.comune.roma.it/eventi` e `…/rss`: applicazione Next.js che carica elenco e feed da `https://ws.comune.roma.it/060608/api/` |
 | `territorio` | città e Municipi (da verificare) |
 | `argomenti` | eventi, mostre, spettacoli |
-| `accesso` | web aperto, ma l'host dei dati non è consentito dall'ambiente: **accesso mancante** (rapporto §2, §11) |
+| `accesso` | web aperto; l'host dei dati `ws.comune.roma.it` non era consentito la mattina del 15 settembre (**accesso mancante** nel rapporto §2, §11); alle 17:26 risponde: API `POST /060608/api/public/entita/ricerca?page=N` (JSON con categoria, date, indirizzo, coordinate e zona toponomastica; 57.132 entità di tutte le categorie), filtri per categoria e calendario da individuare (quattro formati provati senza risultati) |
 | `formati` | HTML, RSS (non letti) |
 | `riuso` | link "Disclaimer" nel piè di pagina, non letto; da verificare (L11) |
 | `mese` | 2026-06 |
@@ -303,7 +303,7 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `estrazione` | non eseguibile |
 | `costo_item` | — |
 | `intervento_umano` | — |
-| `raccomandazione` | decisione dell'owner: consentire `ws.comune.roma.it` e ripetere la lettura; altrimenti escludere e coprire con E2 ed E3 |
+| `raccomandazione` | host ora raggiungibile: ripetere la lettura con i filtri di categoria e data (1–2 ore, 0 €) prima di decidere; fino ad allora coprire con E2 ed E3 |
 | `drive` | — |
 
 ### E2 — culture.roma.it (Roma Culture)
@@ -373,7 +373,7 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `sezione` | cataloghi per Municipio (14: tutti tranne il I, che usa YouTube) più "Commissioni Capitoline" e "Assemblee Capitoline"; ricerca `contents/search_frontend` con filtro per catalogo e ordinamento per data di seduta |
 | `territorio` | Municipio (catalogo, 100%); quartiere solo dal parlato |
 | `argomenti` | commissioni municipali (305 a giugno), Consigli municipali (86), Commissioni Capitoline (75, 16 organi), Assemblee (7) |
-| `accesso` | web aperto, API senza login; **fino alle 16:00 del 15 settembre bloccato dal proxy** (host `*.streamcloud.it`), consentito dall'owner alle 16:02; media (`ac104mp.streamcloud.it`, `ovp2-live.akamaized.net`) non consentiti |
+| `accesso` | web aperto, API senza login; **fino alle 16:00 del 15 settembre bloccato dal proxy** (host `*.streamcloud.it`), consentito dall'owner alle 16:02; media (`ac104mp.streamcloud.it`, `ovp2-live.akamaized.net`) consentiti dalle 17:09: stream HLS audio-only (48 kbps dichiarati) cifrato AES-128 con chiave sull'host API, scaricabile a segmenti (≈ 45–50 MB e ≈ 5–6 minuti di rete per ora di audio, M su 2 registrazioni; durata dell'audio uguale a quella del catalogo) |
 | `formati` | video (stream), metadati JSON (titolo, descrizione, data di seduta, data di pubblicazione, durata, organo per le commissioni capitoline), trascrizione automatica WebVTT per i Consigli municipali |
 | `riuso` | condizioni del portale non lette (involucro non renderizzabile qui): da verificare (L11) |
 | `mese` | 2026-06 (data di seduta `referenceDate`; la data di pubblicazione `insertDate` è disponibile per tutte) |
@@ -387,7 +387,7 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `quota_municipio` | 100% (M, catalogo) |
 | `duplicati` | con A4: i Municipi V e IX pubblicano su entrambe le piattaforme (V 39 su RomaTV e 9 su YouTube; IX 12 e 37): stesse sedute, non misurate voce per voce; con A2: stessa seduta del verbale, non duplicato |
 | `contributo_unico` | alto (S) per i 7 Municipi senza YouTube e per le Commissioni Capitoline: unica registrazione pubblica; 18 possibili notizie dai 7 Consigli letti (5 senza verbale in Atti Web), nessuna in A1 oltre agli ordini del giorno delle convocazioni (1 sovrapposizione parziale) |
-| `estrazione` | metadati per tutte le voci; testo solo dalle 82 trascrizioni della piattaforma (Consigli): blocchi WebVTT di ~10 parole, 68–122 parole al minuto, nomi e toponimi deformati, appelli nominali fino a un quarto del testo; commissioni senza testo |
+| `estrazione` | metadati per tutte le voci; testo solo dalle 82 trascrizioni della piattaforma (Consigli): blocchi WebVTT di ~10 parole, 68–122 parole al minuto, nomi e toponimi deformati, appelli nominali fino a un quarto del testo; il JSON del riconoscimento (parola, tempi, confidenza) è leggibile dall'host media: confidenza media per parola 0,897 (mediana 0,918, quota sotto 0,7 in media 5,1%, 82 Consigli, 418.151 parole, M; `A3_speech_confidenza_giugno.csv`); commissioni senza testo, audio scaricabile |
 | `costo_item` | 0,00 € per metadati e trascrizioni esistenti; tempo macchina 1–3 s per pagina di 100 voci |
 | `intervento_umano` | 10–25 minuti per seduta con trascrizione (S; di più per i Consigli lunghi con libera discussione); per le commissioni non stimabile senza audio |
 | `raccomandazione` | fonte candidata per i Municipi senza YouTube e per le Commissioni Capitoline (metadati completi, ritardo zero); il testo delle commissioni dipende dall'audio (host) e da T1; nessuna integrazione approvata automaticamente |
