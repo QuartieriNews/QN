@@ -8,7 +8,7 @@
 | Dati per item e campione | Drive `QN Hub / 20 Packages / Fonti 2026-06/` (https://drive.google.com/drive/folders/1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa), un CSV per fonte, senza nomi di persona né testi integrali (metodo §4.2); indice nel `README_Fonti_2026-06.md` della cartella |
 | Schede | `docs/sources/SOURCE_REGISTRY.md`, una scheda per fonte del livello 1 |
 | Verifica A2 | `docs/sources/A2_ATTIWEB_TIPOLOGIE.md` (15 settembre, pomeriggio, su richiesta dell'owner): tabella delle 48 tipologie, filtri, percorso ai 1.426 atti, esempi delle categorie centrali; §7 approfondimento circoscritto (31 PDF letti, 46 candidati classificati). **Le conclusioni sulla copertura di A2 sono provvisorie** (§3, §5, §10) |
-| Video (A3, A4) | `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md` (15 settembre, dalle 14:55, su richiesta dell'owner): RomaTV accesso bloccato, YouTube censito (131 registrazioni di giugno), campione di 15, 8 registrazioni analizzate; rapporto intermedio, recupero in corso |
+| Video (A3, A4) | `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md` (15 settembre, dalle 14:55, su richiesta dell'owner): RomaTV accesso bloccato, YouTube censito (131 registrazioni di giugno), campione di 15, 10 registrazioni analizzate; rapporto intermedio, recupero in corso |
 | Spesa | 0,00 € in questa sessione; nessuna chiamata AI; `docs/sources/TRIAL_LEDGER.md` |
 | Stato del dato | ogni numero è marcato **M** (misurato, con URL e ora della lettura), **S** (stimato, con l'ipotesi) o **—** (mancante) |
 
