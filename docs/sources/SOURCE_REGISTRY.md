@@ -415,8 +415,8 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `quota_zona` | — |
 | `quota_municipio` | 100% (M, canale) |
 | `duplicati` | con A2: 101 commissioni su 107 hanno un verbale dello stesso giorno nello stesso Municipio (M), 51 della stessa commissione; il video è il contenuto, il verbale l'atto: non sono duplicati ma la stessa seduta |
-| `contributo_unico` | alto (S): nelle 5 sedute di giugno analizzate 10 possibili notizie, 9 assenti da A1 e dalla Cronaca; sovrapposizione con A1 in 1 caso su 10 |
-| `estrazione` | testo dalle trascrizioni automatiche (5 del campione più 1 di luglio scaricate e lette), 112–138 parole al minuto; nomi propri e toponimi inaffidabili |
+| `contributo_unico` | alto (S): nelle 7 sedute di giugno analizzate 14 possibili notizie, 13 assenti da A1 e dalla Cronaca; sovrapposizione con A1 in 1 caso su 14 |
+| `estrazione` | testo dalle trascrizioni automatiche (7 del campione più 1 di luglio scaricate e lette), 112–138 parole al minuto; nomi propri e toponimi inaffidabili |
 | `costo_item` | 0,00 € per il testo; tempo macchina 10–40 s per video con esito intermittente |
 | `intervento_umano` | 10–15 minuti per seduta per lettura, confronto con gli atti e verifica dei nomi (S) |
 | `raccomandazione` | fonte candidata per i Municipi I e IX, subordinata alla misura della data di pubblicazione e alla verifica dei nomi; V parziale; nessuna integrazione approvata automaticamente |
