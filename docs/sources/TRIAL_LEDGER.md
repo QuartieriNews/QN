@@ -38,5 +38,23 @@ precedente) e contate anch'esse a carico del tetto finché l'owner non indica al
 | 2026-09-15 | Misure sui vincoli dell'ambiente per il calendario minimo (§8.4 della nota di fattibilità): log della sessione (turni, attese, compattazioni), metadati di sessione (quota, consumo), tempi di scaricamento ricavati dai segmenti audio già presenti, pagina della documentazione di Claude Code | 1 lettura web, nessuna richiesta alle fonti | 0,00 | 49,14 | nessun servizio a pagamento, nessuna chiamata AI; `FATTIBILITA_RICOSTRUZIONE_2026-06.md` §8.3.1, §8.4, §8.5 |
 | 2026-09-15 | Lotto di misura su Opus 5 (richiesta dell'owner): due subagenti in parallelo, 10 trascrizioni di Consigli RomaTV e 30 atti di Atti Web (13 con OCR Tesseract locale), 18 minuti di orologio, 56 notizie candidate; quota Max: finestra di 5 ore da 40% a 43%, settimana da 2% a 3% (letture dell'owner) | 40 item, 0 richieste alle fonti | 0,00 | 49,14 | nessun servizio a pagamento, nessuna chiamata AI esterna; utilizzo incluso nell'abbonamento; `FATTIBILITA_RICOSTRUZIONE_2026-06.md` §9.3 |
 
-Totale speso: **0,86 € (stimato)**; residuo **49,14 €**. Nessuna prova a pagamento eseguita
+Totale speso: **0,86 € (stimato)**; residuo **78,00 €** sul tetto complessivo di **78,86 €**
+(50 € iniziali più l'aumento di 28,86 € autorizzato dall'owner la sera del 15 settembre per
+l'esecuzione una tantum di giugno 2026: trascrizioni, seconda AI, verifiche, ripetizioni e
+controlli Codex compresi; nessun "extra usage"; nessun automatismo mensile). Nessuna prova a pagamento eseguita
 dall'Operator; nessun abbonamento.
+
+## Controlli Codex: conclusi e previsti (aggiornato il 15 settembre, sera)
+
+| Controllo | Stato | Costo (€) | Evidenza |
+|---|---|---|---|
+| Review del piano di Fase 0, cicli 1–3 (14 settembre) | concluso | 0,61 | `reviews/2026-09-14—cycle1..3—phase-0-execution—…` |
+| Controllo del metodo fonti M-0.1 e M-0.2 (14 settembre) | concluso | 0,25 | `reviews/2026-09-14—sources-study-method…` |
+| C1: schema del database e regole di collegamento e deduplicazione, prima dell'estrazione | previsto, giorno 1 (dopo la verifica della nuova chiave) | ≈ 0,2–0,4 | `reviews/` |
+| C2: campione del Report 1 (notizie candidate con evidenze, copertura, tempestività) | previsto, giorno 2 | ≈ 0,3–0,5 | `reviews/` |
+| C3: campione del Report 2 (atti e video: nuove informazioni, deduplicazione, localizzazione) | previsto, giorno 4–5 | ≈ 0,3–0,5 | `reviews/` |
+| C4: consegna finale (rapporto, aggregati, lacune, costi effettivi) | previsto, giorno 5 | ≈ 0,3–0,5 | `reviews/` |
+| C5: revisione della PR dei rapporti | previsto, giorno 5 | ≈ 0,2 | PR |
+
+I cinque controlli previsti valgono ≈ 2 € dentro il tetto di 78 €. Usano la nuova chiave OpenAI
+dopo la verifica di funzionamento; fino ad allora nessuna chiamata a pagamento.
