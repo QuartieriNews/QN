@@ -289,6 +289,14 @@ secondi** e si ferma dopo cinque rifiuti consecutivi: serve a capire se il blocc
 ritmo, non a forzare una fonte che sta dicendo di no. Nessun cambio di IP, nessun trucco sugli
 header. Il primo tentativo è stato rifiutato.
 
+**Esito del ritentativo (23:02): fallito, e la risposta è netta.** Cinque richieste a 90 secondi
+di distanza, cinque "Accesso negato". Il processo si è fermato da solo come previsto. **Non era
+il nostro ritmo**: la fonte nega l'accesso automatico. Nessun ulteriore tentativo, perché il
+passo successivo sarebbe aggirare un controllo, e l'HANDOFF §2 lo vieta.
+
+Bilancio del blocco Cronaca: **22 item leggibili su 109** (12 Questura su 79, 0 Carabinieri su
+20, 8 Vigili del fuoco, 2 Roma Capitale), 33 notizie candidate. L'80% del blocco non ha testo.
+
 **Se il ritentativo fallisce, è un risultato, non una sconfitta.** Il Report 1 dovrà dire che la
 Questura nega l'accesso automatico e che i Carabinieri servono pagine costruite dal browser: per
 lo studio è la risposta alla domanda se quelle fonti siano utilizzabili da QN. Gli inventari
@@ -298,3 +306,17 @@ questo va detto in chiaro e non nascosto in una nota.
 **Conseguenza da dichiarare nel rapporto**: con C2 vuota e l'85% di C1 mancante, **la
 sovrapposizione fra Questura e Carabinieri su giugno 2026 non è misurabile** con questo corpus.
 Tutte le coppie di duplicati trovate finora sono interne alla stessa fonte.
+
+## 13. Avanzamento alle 23:05
+
+| Flusso | Stato |
+|---|---|
+| Lettura Report 1 | **709 item letti su 985**, 859 notizie candidate, zero senza evidenza |
+| In lettura | L06–L08 (A1, 115 item) e L23–L25 (E3, 104 item) |
+| Mancano dopo questi | L21, L22 (E2, 57 item) e le 9 riletture |
+| Atti Web (Report 2) | **2.669 PDF su 2.669 scaricati**; estrazione del testo e OCR a 1.903 |
+| YouTube | 63 sottotitoli su 131 |
+| RomaTV | 51 registrazioni su 318 |
+
+Atti Web è completo con un giorno e mezzo di anticipo sulla consegna del Report 2: era la voce
+più a rischio del piano dopo le trascrizioni.
