@@ -53,6 +53,7 @@ sessione A in `quota_sessione_A.md`.
 - 15/09 20:40 — canale di notifica push verificato non disponibile (§6).
 - 15/09 21:22 — VM ritirata e riavviata; scratchpad intatto, job riavviati (§7).
 - 15/09 21:30 — estrazione del Report 1 completata (985 item), lettura avviata su 2 lotti (§8).
+- 15/09 21:55 — primi due lotti letti e verificati; specifica corretta su due punti (§9); D1 aperta.
 
 ## 6. Avvisi all'owner: canale push non disponibile (15 settembre, 20:30–20:40)
 
@@ -132,3 +133,39 @@ Due difetti dello script trovati e corretti prima della lettura:
 Lettura: 25 lotti (`report1/batches/`), al massimo 2 subagenti Opus in parallelo come prescrive
 la regola di quota. Primo giro avviato alle 21:30 su L01 (A1, 50 item) e L14 (E2, 50 item): due
 tipi di materiale diversi, per misurare tempi e qualità su entrambi prima di scalare.
+
+## 9. Primi due lotti letti: rese, tempi e rilievi (15 settembre, 21:30–21:55)
+
+| Lotto | Fonte | Item | Notizie | Tempo | Token |
+|---|---|---|---|---|---|
+| L14 | E2 eventi | 50 | 53 (53 media) | 9 min | 149.330 |
+| L01 | A1 municipi | 50 | 74 (2 alta, 67 media, 5 bassa) | 11 min | 144.204 |
+
+Controlli fatti dall'Operator su entrambi: schema rispettato, **zero notizie senza evidenza**,
+zero sintesi oltre le 60 parole, nessun nome di persona in quanto persona. Il tasso misurato è
+di 11–13 s per item contro gli 81 s stimati in §9.5: quella stima veniva da trascrizioni di
+Consigli, non da pagine HTML, e non va estesa ai lotti testuali.
+
+**Due difetti della specifica, corretti prima dei lotti successivi** (una regola cambiata a metà
+produce un database non confrontabile):
+
+1. `municipio_testo` ammetteva un solo Municipio. Un item del lotto A1 ne riguardava due
+   (`V;XI`): imporne uno avrebbe inventato una precisione che il testo non ha. Ora il campo
+   ammette più valori separati da `;`.
+2. **I due lotti hanno interpretato DEC-102 diversamente fra loro**: il lettore E2 ha riportato i
+   nomi delle sedi alla lettera, quello A1 ha reso in forma generica sale, aule e scuole
+   intitolate a persone. Nessuna delle due letture è sbagliata — la specifica non decideva. Ora
+   decide, nella forma del default D1, e le due letture vanno riallineate prima del database.
+
+**Rilievo per il rapporto, non per il metodo: le fonti cambiano sotto i piedi.** L'item A1_018
+risulta pubblicato il 4 giugno ma è stato letto in una versione aggiornata il 25 giugno, e
+contiene rinvii che al 4 giugno non esistevano. Non è un errore di lettura: è una proprietà della
+fonte, e tocca direttamente la domanda sulla tempestività. Quattro altri item A1 dichiarano nel
+testo una data di pubblicazione diversa da quella dell'elenco. Il Report 1 deve dire che la data
+di pubblicazione di questa fonte **non è stabile** e che la colonna `disponibilita` esiste per
+questo. Da verificare se il fenomeno riguarda anche E2 ed E3.
+
+**Materiale per la deduplicazione**: il lotto A1 ha già trovato tre coppie di item che
+raccontano lo stesso fatto (A1_280/A1_281, A1_061/A1_209, A1_106/A1_107). I lettori non li
+uniscono e non ne saltano nessuno: li schedano entrambi annotando il gemello, perché la
+deduplicazione è un passo successivo che ha bisogno di vedere tutte e due le righe.

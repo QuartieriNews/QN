@@ -13,6 +13,14 @@ atti, questa per le pagine HTML.
 - **Nessun nome di persona in nessun campo** (DEC-102): al loro posto il ruolo ("la presidente
   del Municipio", "un consigliere di opposizione", "il comandante provinciale"). Vale anche per
   il titolo copiato dalla pagina, che va riscritto anonimizzato.
+  **Eccezione, decisa e uniforme** (`session_b/DECISIONI_OWNER.md`, D1): un nome dentro un
+  **toponimo** o dentro il **nome ufficiale di una sede** si riporta alla lettera — vie, piazze,
+  ville, teatri, sale, aule, scuole, biblioteche, centri (`Largo Marcello Mastroianni`,
+  `Teatro all'aperto Ettore Scola`, `Aula Giulio Cesare`). Sono luoghi, e la localizzazione è lo
+  scopo dello studio: renderli generici la distrugge. Lo stesso vale per il **titolo ufficiale di
+  un'opera** (un film, una mostra, un premio). La regola sui nomi riguarda le persone in quanto
+  persone: chi decide, chi parla, chi viene arrestato, chi presenta. Non lasciarla all'intuito del
+  lotto: due lotti che la interpretano diversamente producono un database disomogeneo.
 - **Ogni notizia candidata cita l'evidenza**: l'URL dell'item (colonna `url` del manifesto) e,
   quando il testo lo consente, la frase o il dato che la sostiene. Una notizia senza evidenza
   non si scrive: si annota in `log/<lotto>_problemi.md`.
@@ -44,7 +52,8 @@ item) e queste colonne, nell'ordine:
   Non dedurre un toponimo da quello che sai di Roma: la localizzazione la fa dopo il gazetteer.
 - `municipio_testo`: il Municipio **se il testo lo dice** (numero romano I–XV). Vuoto altrimenti:
   il manifesto ha già quello dichiarato dalla fonte e il confronto fra i due è un dato, non un
-  dettaglio da appianare.
+  dettaglio da appianare. Un fatto che riguarda davvero più Municipi ne porta più d'uno, separati
+  da `;` (`V;XI`): sceglierne uno solo inventerebbe una precisione che il testo non ha.
 - `evidenza_locale`: la frase breve del testo che sostiene la notizia, o vuoto.
 - `data_fatto`: ISO, **solo se il testo la dà**; vuoto se il fatto non è datato.
 - `disponibilita`: ISO, solo se il testo dice che il documento è diventato leggibile in una data
