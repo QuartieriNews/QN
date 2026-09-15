@@ -2,7 +2,7 @@
 
 > **Governance:** every item in this file is a **candidate for independent review by Claude + OpenAI**. Nothing here authorizes implementation in production. Council outcome should be one of: `APPROVE`, `PILOT`, `DEFER`, `REJECT`.
 
-Last updated: 2026-09-14
+Last updated: 2026-09-15
 
 ## QN-TC-001 — GPT-6 Astra as OpenAI reviewer / automation agent
 
@@ -137,7 +137,7 @@ Adopt plugin evals for any QN-specific Claude skill/plugin before production use
 
 ## QN-TC-006 — Claude Code weekly capacity changes effective 2026-09-14
 
-**Status:** NEW TODAY — CANDIDATE FOR COST/CAPACITY REVIEW  
+**Status:** CANDIDATE FOR COST/CAPACITY REVIEW  
 **Area:** cost, speed, capacity planning
 
 ### What changed
@@ -183,6 +183,31 @@ No architecture change. Confirm the n8n Cloud version before any MCP pilot; requ
 
 ### Evidence
 - https://github.com/n8n-io/n8n/releases/tag/n8n%402.38.7
+
+---
+
+## QN-TC-008 — Claude Code 2.1.271 materially strengthens autonomous-agent boundaries
+
+**Status:** NEW — CANDIDATE FOR SECURITY HARDENING / COUNCIL REVIEW  
+**Area:** security, permissions, MCP, agent reliability, speed
+
+### What changed
+Anthropic released Claude Code 2.1.271 on 2026-09-14. It adds **per-command `allowed_domains`** for Bash, PowerShell and Monitor when auto mode is sandboxed, so a command can be granted only the hosts it needs while other hosts remain blocked. It also fixes several permission and policy edge cases directly relevant to autonomous agents: reads outside the working directory that could skip prompts in certain `cd`/subshell/git chains; wildcard-expanded files missed by permission checks; shell-variable flags that could misrepresent commands; stale organization policy after switching accounts/API keys; and unreadable `managed-mcp.json` files that previously could be ignored instead of preserving exclusive MCP control. It also fixes cloud subagent tool calls after worker restarts and improves dynamic workflows so they pause at a usage limit and resume automatically after reset instead of dropping affected agents.
+
+### Why it matters for QN
+QN is considering giving Claude controlled access to GitHub/n8n/MCP and eventually letting agents diagnose, test and repair workflows. These changes make the boundary around that autonomy materially more enforceable. The per-command domain allowlist is especially relevant because QN can let a repair step reach only the exact service it needs rather than granting broad network access. The permission-check fixes also reduce the risk that an agent reaches files or resources outside its intended workspace through shell-command edge cases.
+
+### Expected benefit
+Stronger least-privilege controls before an n8n MCP pilot; lower blast radius for autonomous repairs; more reliable long-running multi-agent work; fewer lost workflow runs when Claude hits a usage limit.
+
+### Risks / unknowns
+These controls reduce risk but do not make an autonomous production agent safe by themselves. They depend on correct sandbox/policy configuration, and the new network controls still need QN-specific tests. A model can also make a bad decision while remaining fully inside the allowed boundary.
+
+### Proposed action
+Before any Claude→n8n write-capable pilot, require Claude Code **>=2.1.271** and add a small staging security test: verify (1) allowed-domain scoping permits only the intended n8n/GitHub endpoints, (2) reads outside the QN workspace are blocked across `cd`/subshell/git/wildcard cases, and (3) a broken managed MCP policy fails closed rather than silently loading user/project MCP servers. Do not change production autonomy until Claude + OpenAI independently confirm the policy model.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.271
 
 ---
 
