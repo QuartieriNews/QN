@@ -143,6 +143,15 @@ tipi di materiale diversi, per misurare tempi e qualità su entrambi prima di sc
 | L15+L16 | E2 eventi | 100 | 137 (tutte media) | 14,7 min | 226.649 |
 
 | L17+L18 | E2 eventi | 100 | 106 (105 media, 1 bassa) | 11,5 min | 230.335 |
+| L02+L03 | A1 municipi | 100 | 151 | 35,5 min | 317.127 |
+
+**Difetto trovato e corretto nell'estrazione di A1.** `a1_items.py` tagliava il testo a 6.000
+caratteri, a metà parola: scelta sensata per il censimento, dove contava solo l'inizio, dannosa
+per la lettura. Otto item su 365 toccavano il tetto (mediana del corpus: 1.170 caratteri), e uno
+perdeva metà del contenuto (A1_003: 6.110 → 11.938 caratteri). Il tetto è ora 15.000 come per le
+altre fonti. Gli otto testi sono stati rigenerati **in posto**, senza rinumerare: i lotti già
+letti puntano a quegli identificativi, e spostarli avrebbe silenziosamente disallineato tutto il
+lavoro fatto. Vanno riletti solo quegli otto.
 
 Totale a 22:30: **300 item letti su 985, 370 notizie candidate, zero senza evidenza**, 23 con
 toponimo da verificare al conteggio precedente. Tipi: 222 evento, 17 avviso, 8 ordine del giorno, 6 risoluzione, 3
@@ -179,6 +188,15 @@ questo. Da verificare se il fenomeno riguarda anche E2 ed E3.
 3. D2.b: tre righe con nomi di gruppi musicali resi con il ruolo (E2_096, E2_074, E2_334) vanno
    riportate alla lettera: un gruppo è un'organizzazione, non una persona.
 4. D2.c: verificare nei lotti L17–L18 gli autori delle opere resi con il ruolo e riportarli.
+5. D3: riportare i nomi nelle intitolazioni e commemorazioni (A1_056, A1_011, A1_128) e
+   ricomporre le evidenze troncate prima dei nomi (A1_012, A1_008).
+6. **Rilettura di 8 item A1** (`report1/batches/_da_rileggere.txt`): A1_002, A1_003, A1_017,
+   A1_031, A1_046, A1_093, A1_114, A1_115.
+
+**Regole aggiuntive da scrivere nella specifica appena i lotti in corso rientrano** (il divieto
+di modificarla a lotti aperti vale anche per me): il discrimine dell'indirizzo per gli avvisi con
+più sedi; i punti all'ordine del giorno con esito; la data del fatto degli avvisi con termine;
+D3 e il corollario sull'evidenza non troncata. Intanto viaggiano nei prompt dei lotti.
 
 **Errore di processo dell'Operator, da non ripetere.** Ho modificato la specifica mentre due lotti
 erano in lettura; il lettore L15/L16 se n'è accorto dal timestamp e l'ha segnalato invece di

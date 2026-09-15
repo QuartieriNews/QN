@@ -88,3 +88,36 @@ rileggendo.
 **Se l'owner decide diversamente**: nessuna rilettura. Tutte e quattro le scelte sono
 reversibili con una passata automatica, perché i valori interessati stanno in colonne dedicate
 o sono annotati riga per riga.
+
+---
+
+## D3 — Quando la persona *è* la notizia: intitolazioni e commemorazioni
+
+Stato: **aperta**, default già applicato. Nasce dal lettore dei lotti L02–L03, che ha segnalato
+i casi in cui applicare DEC-102 alla lettera **costa la notizia**.
+
+**Il caso.** Un avviso municipale annuncia una statua dedicata a un attore. La persona non è
+qualcuno *coinvolto* nel fatto: è **l'oggetto pubblico della commemorazione**. Resa con
+perifrasi, la notizia diventa "una statua dedicata a un attore" e non informa più nessuno: non
+si sa a chi, non si sa perché, non è verificabile. Stessa cosa per una fondazione che porta il
+nome dell'artista, per una targa, per un'intitolazione di una sala o di un premio.
+
+**Esempi dal lotto**: `A1_056` (statua e fondazione intitolate a un attore), `A1_011` (nome
+della fondazione omesso), `A1_128` (titolo di film che coincide con il nome di una persona).
+
+**Default applicato.** Quando il fatto *è* la dedica — statue, targhe, intitolazioni, premi,
+fondazioni — il nome **resta alla lettera**. Restano con il ruolo le persone coinvolte nel
+fatto: chi delibera l'intitolazione, chi la presenta, chi parla alla cerimonia.
+
+**Corollario sull'evidenza.** Lo stesso lettore aveva iniziato a **troncare la frase di
+evidenza** prima dei nomi (`A1_012`, `A1_008`). Un'evidenza tagliata non sostiene più la
+notizia, e l'evidenza è la garanzia su cui poggia l'intero metodo. Regola: dentro
+`evidenza_locale` il nome si sostituisce con il ruolo **dentro la frase**, senza accorciarla.
+
+**Perché in generale.** DEC-102 nasce per non ridistribuire dati personali raccolti dalle
+fonti. Non nasce per rendere incomprensibili le notizie pubbliche su commemorazioni pubbliche.
+Una regola di tutela che cancella l'oggetto della notizia non tutela nessuno: produce solo un
+database che non si può leggere.
+
+**Se l'owner decide diversamente**: nessuna rilettura. I nomi interessati stanno in righe
+annotate una per una nei file dei problemi, e la sostituzione è una passata sui CSV.

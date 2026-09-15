@@ -33,7 +33,7 @@ for kind,coll in (('news',news),('ids',ids)):
             seg=d[mh.start():] if mh else d
             ends=[p for p in (seg.find(mk) for mk in ('Progetti in evidenza','class="Share','Condividi','<footer')) if p>0]
             seg=seg[:min(ends)] if ends else seg
-        t=clean(re.sub(r'<script.*?</script>|<style.*?</style>','',seg,flags=re.S))[:6000]
+        t=clean(re.sub(r'<script.*?</script>|<style.*?</style>','',seg,flags=re.S))[:15000]
         tem=r.get('tematica','')
         if not tem:
             mt=re.search(r'<meta name="search:tematica" content="([^"]*)"',d); tem=html.unescape(mt.group(1)).replace('§',';') if mt else ''
