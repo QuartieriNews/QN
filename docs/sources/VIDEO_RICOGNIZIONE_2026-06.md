@@ -1,0 +1,174 @@
+# Materiale video delle commissioni — ricognizione di giugno 2026 (A3 RomaTV, A4 YouTube): rapporto intermedio
+
+| Campo | Valore |
+|---|---|
+| Stato | **Rapporto intermedio** dopo il censimento completo di A4, il censimento bloccato di A3 e l'analisi di 6 registrazioni (5 di giugno più 1 rivelatasi di luglio). Il campione di 15 è selezionato; il recupero delle trascrizioni prosegue a ritmo forzato (§5, §7). Non è la consegna finale: le evidenze confluiranno nel documento finale di tutte le fonti (P0-S2-05) |
+| Metodo | `docs/sources/SOURCE_STUDY_METHOD.md` M-0.3 (fonti A3 e A4, livello 2 "prova limitata"), applicato senza modifiche; la prova T1 (trascrizione API) resta ferma (chiave OpenAI non confermata) e non è stata sostituita da servizi a pagamento |
+| Sessione | 15 settembre 2026, Operator, dalle 14:55 (Europe/Rome); stato dei dati alle 15:55; tempi in §8 |
+| Dati per item | Drive `QN Hub / 20 Packages / Fonti 2026-06/` (https://drive.google.com/drive/folders/1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa): `A4_youtube_giugno2026_censimento.csv`, `A4_canali_youtube_stato.csv`, `A4_campione_selezione.csv`, `A3_romatv_accesso_2026-06.csv`, `summary_A4_youtube.json`; senza nomi di persona né testi integrali (metodo §4.2). Le trascrizioni automatiche restano nell'ambiente di lavoro: non sono caricate perché contengono nomi di persona |
+| Spesa | 0,00 € (nessun servizio a pagamento, nessuna chiamata AI); `docs/sources/TRIAL_LEDGER.md` |
+| Stato del dato | **M** misurato (con URL e ora), **S** stimato (con l'ipotesi), **—** mancante |
+
+## 1. Esito in breve
+
+- **A3 RomaTV è "accesso bloccato"**: l'involucro del portale è raggiungibile, ma cataloghi, ricerche e media vivono su host `*.streamcloud.it` che il proxy rifiuta. Senza quegli host non esiste censimento per i Municipi II, III, VIII, X, XI, XII, XV né per le Commissioni Capitoline (§2, §3).
+- **A4 YouTube è censito per intero** (M): 131 registrazioni con data di giugno 2026 nel titolo su tre canali municipali attivi (I, V, IX) più le 8 dirette dell'Assemblea Capitolina; 107 sono commissioni municipali, per 82 ore. I canali dei Municipi IV, VI, VII, X, XIV, XV e della Commissione Capitolina Mobilità sono fermi da anni; nessun canale per II, VIII, XI, XII, XIII (§3).
+- **Le trascrizioni esistono e sono leggibili senza audio**: ogni video verificato ha i sottotitoli automatici italiani di YouTube (12 su 12 con metadati letti); nessun video ha sottotitoli redatti. Il recupero però è strozzato: dopo una ventina di richieste per singolo video l'IP di uscita è stato messo sotto controllo anti-bot da YouTube e da allora ogni richiesta riesce solo a tratti (§5, §7). Nessuna verifica sull'audio è possibile in questo ambiente (media bloccati).
+- **Il video aggiunge sostanza rispetto agli atti** (§6): nel Municipio I il verbale registra presenze, orari, voti e il link al video, non la discussione; nel IX i verbali di giugno sono scansioni senza testo. Le 5 registrazioni di giugno analizzate danno 10 possibili notizie di quartiere, 9 assenti da A1 e dalla Cronaca, con tempestività alta in 5 casi su 10 (fatti a pochi giorni dalla seduta o dalla lettura).
+- **La data nel titolo non basta**: su 30 verbali del Municipio I che citano il video, 28 titoli hanno la data della seduta, 2 la sbagliano di 1–2 giorni; una registrazione "del 13-06-2026" è, all'ascolto, del 13 luglio (§3.5, §6).
+
+## 2. Accesso alle piattaforme (M, 15 settembre 2026, 14:55–15:30)
+
+| Piattaforma | Cosa è raggiungibile | Cosa è bloccato | Effetto sullo studio |
+|---|---|---|---|
+| **A3 RomaTV** (`streaming.comune.roma.it`) | solo l'involucro HTML dell'applicazione ("Mediaportal", Angular, 3 KB) e il bundle JavaScript (4,1 MB) | l'API dei cataloghi e delle ricerche (`api-ovp.streamcloud.it/garavot/ac103/api/v1/...`), il servizio di identità (`identity-ovp.streamcloud.it`) e i media (`ac103mp.streamcloud.it`): CONNECT rifiutato dal proxy (esito 000) | **accesso bloccato**: nessun catalogo, nessuna registrazione, nessun metadato. Il bundle espone un endpoint `timedmetadata/last_speechtotext/{sourceId}/{time}`: la piattaforma potrebbe fornire trascrizioni automatiche, non verificabile |
+| **A4 YouTube** (`www.youtube.com`, `youtubei.googleapis.com`) | elenchi dei canali (API `browse`), ricerca, feed RSS (ultimi 15 video), oEmbed; metadati per video e **sottotitoli automatici** (`api/timedtext`, formato json3) tramite i client "android", "tv_simply", "ios", "mweb", "web_embedded" di `yt-dlp` (5 client su 10 provati) | i media (`*.googlevideo.com`) e le anteprime (`i.ytimg.com`); la pagina `watch` reindirizza al controllo anti-bot (`google.com/sorry`, host bloccato); i client "web", "tv", "mediaconnect", "web_creator" rispondono "Sign in to confirm you're not a bot"; dopo circa 20 estrazioni per video in 5 minuti (15:10–15:15) **tutti** i client e lo stesso `timedtext` rispondono con il controllo anti-bot o con 429 | censimento completo dagli elenchi; per video (data di pubblicazione, durata, sottotitoli) solo a ritmo lento e con esito intermittente; **nessun audio**: né la verifica dei sottotitoli sull'audio né la trascrizione locale sono possibili qui |
+
+Prove eseguite (M): `curl` sull'involucro RomaTV e su tre percorsi API sullo stesso host (restituiscono sempre l'involucro); `curl` verso `api-ovp.streamcloud.it` (000); `yt-dlp --flat-playlist` su 13 canali (elenchi `videos` e `streams`, due letture: 5.273 voci); `yt-dlp --list-subs` con 10 client sullo stesso video; `youtube-transcript-api` (bloccata: "YouTube is blocking requests from your IP"); endpoint InnerTube `get_transcript` (400, parametri non documentati); RSS del canale del Municipio I (200, 15 voci); `oembed` (200).
+
+## 3. Censimento delle registrazioni di giugno 2026
+
+### 3.1 Dove sono le registrazioni, per territorio (M)
+
+Fonte della mappa: il documento *Next Step* (Drive), verificato canale per canale il 15 settembre 2026. Le date sono quelle scritte nei titoli (non quelle di pubblicazione: §3.5).
+
+| Territorio | Piattaforma prevista (*Next Step*) | Esito del censimento | Classificazione |
+|---|---|---|---|
+| Municipio I | YouTube `MUNICIPIO ROMA I CENTRO` | 600 voci lette (16 gennaio–15 settembre 2026); **77 registrazioni con data di giugno**: 64 commissioni, 13 appelli di Consiglio | registrazioni presenti |
+| Municipio V | YouTube `Municipio Roma V` | 146 voci; **9 commissioni di giugno**, tutte fra il 3 e il 12 giugno; nessun video dopo il 12 giugno, contro 16 giorni di seduta con verbale in Atti Web nel mese | registrazioni presenti, parziali |
+| Municipio IX | YouTube `Municipio Roma Nove` | 600 voci (gennaio 2025–settembre 2026); **37 registrazioni di giugno**: 34 commissioni, 3 Consigli | registrazioni presenti |
+| Municipio XIV | YouTube `Municipio Roma XIV Monte Mario` | 59 voci, nessuna seduta (video di nidi e scuole, ultimo datato 2021) | assenza di registrazioni (YouTube); RomaTV non verificabile: ricerca incompleta |
+| Municipi II, III, VIII, X, XI, XII, XV | RomaTV (un catalogo per Municipio) | involucro raggiungibile, dati su host bloccati | **accesso bloccato** |
+| Commissioni Capitoline | RomaTV (catalogo commissioni) | idem; il canale YouTube `Commissione Capitolina Mobilità` è fermo all'agosto 2021 | **accesso bloccato** |
+| Assemblea Capitolina | YouTube `Roma Capitale` (dirette) | 8 sedute di giugno (4, 9, 11 ×2, 16, 18, 23, 25 giugno), da 3,2 a 6,4 ore ciascuna: non sono commissioni, censite per completezza | registrazioni presenti (fuori perimetro) |
+| Municipi IV, VI, VII, XIII | solo Atti e verbali (*Next Step*) | canali YouTube storici fermi (IV maggio 2020, VI novembre 2021, VII novembre 2021; XIII nessun canale); nessun catalogo RomaTV noto | assenza di registrazioni pubbliche note su YouTube; **ricerca incompleta** su RomaTV |
+
+Canali trovati con la ricerca e scartati: `Municipio Terzo Roma` (50 video, ultimo datato 2012, non istituzionale), `Municipio Roma` (402 clip di cronaca, non un Municipio). Ricerche mirate (14 interrogazioni) per i Municipi II, VIII, XI, XII, XIII: nessun canale ufficiale. Il canale del Municipio X porta in cima un avviso: "Registrazioni delle Commissioni Consiliari disponibili nella Web TV di Roma Capitale" (migrazione a RomaTV). Dettaglio per canale in `A4_canali_youtube_stato.csv`.
+
+### 3.2 Conteggi di giugno 2026 su YouTube (M)
+
+| Territorio | Organo | Registrazioni | Ore (dalle durate degli elenchi) |
+|---|---|---|---|
+| Municipio I | commissioni | 64 | 34,3 |
+| Municipio I | Consiglio (appelli e sedute) | 13 | 10,7 |
+| Municipio V | commissioni | 9 | 4,9 |
+| Municipio IX | commissioni | 34 | 42,9 |
+| Municipio IX | Consiglio | 3 | 5,6 |
+| Roma Capitale | Assemblea Capitolina (dirette) | 8 | 37,1 |
+| **Totale** | | **131** | **135,5** |
+
+Commissioni municipali: 107 registrazioni per 82,1 ore; durata mediana 40 minuti, da 1 minuto (appelli andati deserti) a 6 ore 21 minuti. Nel Municipio I 21 giorni di seduta con video, nel IX 18, nel V 7. Nessuna registrazione porta sottotitoli redatti; i sottotitoli automatici italiani ci sono in 12 video su 12 letti (§5).
+
+### 3.3 Cosa si ricava per ogni registrazione (M/—)
+
+| Campo richiesto | Disponibilità | Fonte |
+|---|---|---|
+| fonte, URL, canale | 131/131 | elenco del canale |
+| data della seduta | 131/131 dal titolo (M, con le riserve di §3.5) | titolo |
+| data di pubblicazione | 2/131 (**—** per il resto): l'API `next` che la espone è sotto controllo anti-bot dalle 15:15; una lettura con il client `web_embedded` alle 15:09 ha dato "30 giugno" per una commissione del 30 giugno (stesso giorno) e una del 20 agosto per una commissione del IX di giugno (62 giorni) | metadati per video |
+| argomento | titolo per tutti; ordine del giorno nella descrizione per i video con metadati (12) e, per i Municipi I, V e IX, nella convocazione MMC di Atti Web (90 commissioni su 107 con convocazione dello stesso giorno e della stessa commissione) | titolo, descrizione, MMC |
+| durata | 131/131 (elenco; confermata dai metadati in 12 casi) | elenco |
+| territorio | 131/131 (Municipio del canale); quartieri solo dal parlato | canale |
+| audio | 131/131 presente (registrazioni Teams/telefono); qualità misurabile solo dalla trascrizione (§5) | — |
+| sottotitoli redatti | 0/12 | metadati |
+| trascrizione automatica | 12/12 disponibile; scaricata per 5 | `timedtext` |
+| collegamenti ad atti | §3.4 | Atti Web |
+
+### 3.4 Collegamenti con Atti Web (M)
+
+Lette le liste complete di giugno delle convocazioni (MMC, 516) e dei verbali (MMV, 407) delle commissioni municipali e i 58 PDF dei verbali dei Municipi I e V (tutti testuali; i verbali del IX sono scansioni).
+
+- **Municipio I**: ogni verbale di giugno (30 su 30) contiene il link al video YouTube della seduta. I link puntano a 29 video distinti: 28 fra le registrazioni censite e 1 di febbraio (verbale approvato a giugno). Dei 64 video di commissione di giugno, 28 hanno quindi il verbale con data di repertorio in giugno; per gli altri 36 il verbale non era ancora repertoriato nel mese (ritardo di verbalizzazione, non misurato oltre il mese).
+- **Municipio V**: 28 verbali di giugno, nessuno con link; 9 video su 16 giorni di seduta con verbale; il verbale del V è un resoconto (mediana 867 parole), quello del I un atto di presenze (mediana 227 parole).
+- **Municipio IX**: 32 verbali di giugno, tutti scansioni (Xerox) senza testo: il confronto video–verbale richiede OCR (non disponibile qui).
+- Sulle 107 registrazioni di commissione: 101 hanno almeno un verbale dello stesso giorno e dello stesso Municipio, 51 anche con la stessa commissione (28 per link, 23 per nome); 101 hanno una convocazione dello stesso giorno, 90 della stessa commissione. Le sedute senza verbale di giugno sono 6 (nessun verbale dello stesso giorno) più le 50 con verbali dello stesso giorno di altre commissioni.
+
+### 3.5 Data della seduta e data di pubblicazione (M)
+
+- Titolo contro verbale (Municipio I, 30 verbali con link): 28 coerenti, 2 titoli sbagliano la data di 1–2 giorni ("del 01-06-2026" per una seduta del 3 giugno; "del 08-06-2026" per una del 9 giugno).
+- Titolo contro parlato: una registrazione "Comm.ne TRASPARENZA del 13-06-2026" (16 minuti) si apre con "commissione trasparenza del 13 luglio 2026" e programma sedute di luglio e agosto; il 13 giugno 2026 è un sabato, il 13 luglio un lunedì. È di luglio ed esce dal mese: sostituita nel campione (§4).
+- Pubblicazione: 2 misure (0 e 62 giorni); la distribuzione resta **—** finché il controllo anti-bot non si allenta. Per il flusso operativo è la misura che decide la tempestività: da rifare.
+
+### 3.6 Classificazione richiesta
+
+- **Registrazioni presenti**: Municipi I, V (parziale), IX; Assemblea Capitolina (fuori perimetro).
+- **Assenza di registrazioni** (sulle piattaforme leggibili): Municipio XIV su YouTube; Municipi IV, VI, VII, XIII su YouTube.
+- **Accesso bloccato**: tutto RomaTV (Municipi II, III, VIII, X, XI, XII, XV; Commissioni Capitoline; dirette di V e II).
+- **Ricerca incompleta**: presenza dei Municipi IV, VI, VII, XIII e XIV su RomaTV (non verificabile); data di pubblicazione e sottotitoli per 119 video su 131 (metadati non letti); Municipio V dopo il 12 giugno (canale muto o seduta non registrata: non distinguibile).
+
+## 4. Campione di 15 registrazioni (12,8 ore)
+
+Selezione deterministica (`random.seed('2026-06-A4')`, regole nell'ordine): solo commissioni municipali; quote per territorio 6 IX, 4 V, 5 I (il IX è il Municipio con meno copertura dalle altre fonti: 7 eventi E2 e 13 notizie A1 a giugno; il V è coperto solo fino al 12 giugno; il I è il più coperto); dentro ogni territorio prima una seduta senza verbale, poi una lunga (≥ 75 min), poi una breve (10–25 min), poi temi diversi (mobilità/LLPP, urbanistica/ambiente, sociale, scuola/cultura, commercio, trasparenza/bilancio). La qualità audio non è nota prima dell'ascolto: è stata misurata dopo, sulle trascrizioni (§5). Sostituzione: la registrazione del "13-06-2026" del Municipio I (di luglio, §3.5) è sostituita dalla successiva senza verbale nell'ordine di data (Trasparenza del 1° giugno, 49 min).
+
+| # | Territorio | Seduta | Registrazione | Tema | Durata | Verbale di giugno | Trascrizione |
+|---|---|---|---|---|---|---|---|
+| 1 | Municipio I | 1 giugno | Commissione Trasparenza | trasparenza | 0:49 | no | in coda |
+| 2 | Municipio I | 23 giugno | Congiunta Commercio–Cultura | commercio/cultura | 1:24 | sì (link) | in coda |
+| 3 | Municipio I | 23 giugno | Commissione Tutela della biodiversità | ambiente | 1:06 | sì (link) | in coda |
+| 4 | Municipio I | 25 giugno | Commissione Lavori Pubblici | LLPP | 0:29 | sì (link) | in coda |
+| 5 | Municipio I | 30 giugno | Congiunta Commercio–Trasparenza, I parte | commercio | 0:14 | no | **letta** |
+| 6 | Municipio IX | 5 giugno | Commissione V Bilancio, Patrimonio, Personale | bilancio | 1:18 | sì (scansione) | in coda |
+| 7 | Municipio IX | 10 giugno | Commissione II Urbanistica, Ambiente e Rifiuti | urbanistica | 0:51 | no | **letta** |
+| 8 | Municipio IX | 16 giugno | Congiunta II e VI | urbanistica/scuola | 1:05 | stesso giorno, altra commissione | **letta** |
+| 9 | Municipio IX | 18 giugno | Congiunta I e Pari Opportunità | sociale | 1:50 | stesso giorno, altra commissione | in coda |
+| 10 | Municipio IX | 18 giugno | Commissione IV Commercio, Sport, Turismo | commercio/sport | 0:38 | sì (scansione) | **letta** |
+| 11 | Municipio IX | 30 giugno | Commissione III Mobilità, LLPP e Periferie (straordinaria) | mobilità | 0:29 | sì (scansione) | **letta** |
+| 12 | Municipio V | 10 giugno | Congiunta LLPP e Speciale Accorpamento | LLPP/PNRR | 0:34 | sì (testo) | in coda |
+| 13 | Municipio V | 11 giugno | Commissione Trasparenza | trasparenza | 0:51 | stesso giorno, altra commissione | in coda (429) |
+| 14 | Municipio V | 12 giugno | Commissione III Scuola, Cultura e Sport | scuola | 0:33 | stesso giorno, altra commissione | in coda |
+| 15 | Municipio V | 12 giugno | Commissione Commercio | commercio | 0:32 | stesso giorno, altra commissione | in coda |
+
+Distribuzione: 5 brevi (≤ 35 min), 7 medie, 3 lunghe (≥ 75 min); 7 con verbale della stessa commissione, 8 senza (di cui 4 senza alcun verbale nel giorno). Ore complessive 12,8. URL nel CSV `A4_campione_selezione.csv`.
+
+## 5. Trascrizioni e sottotitoli
+
+- **Provenienza**: sottotitoli automatici di YouTube (riconoscimento vocale della piattaforma, lingua "it", formato json3 con marcatura temporale per parola), scaricati dall'endpoint `api/timedtext` con la firma restituita dal player. Nessun video ha sottotitoli caricati dall'autore (0 su 12).
+- **Recuperate**: 6 trascrizioni (5 di giugno: sedute 5, 7, 8, 10 e 11 del campione; più la registrazione di luglio scartata), da 1.768 a 8.060 parole, 112–138 parole al minuto (M). Le altre 10 del campione sono "in coda": il ciclo di recupero procede a una richiesta al minuto con pausa di 15 minuti dopo 2 fallimenti; dalle 15:15 la maggior parte delle richieste riceve il controllo anti-bot (player) o 429 (`timedtext`); una pagina di controllo anti-bot salvata come sottotitolo è stata riconosciuta e scartata (controllo del formato json).
+- **Verifica sull'audio**: **non eseguibile** in questo ambiente (`googlevideo.com` bloccato). La verifica va fatta dall'owner, o su file audio depositati su Drive (`QN Hub / 20 Packages / prove`, metodo §5), o da una sessione con accesso ai media. Le trascrizioni sono quindi usate come testo indicativo, non come fonte verificata.
+- **Qualità osservata sul testo** (S, lettura integrale delle 6 trascrizioni): comprensibile per l'argomento e le decisioni; inaffidabile sui nomi propri e sui toponimi (Trigoria→"Trivoria", Falcognana→"Francognana", Ardeatina→"Atina", Bainsizza→"Benza", Massimina→"Massimilian"); segnali di audio scadente nel testo stesso ("non sento nulla", "si sente molto male", "è andato fuori campo il telefono") in 4 registrazioni su 6 (ospiti mutati, riconnessioni, telefono fuori campo, "sento malissimo"); sospensioni della registrazione dichiarate in seduta (video spezzati o minuti che proseguono dopo la pausa). Il lookup deterministico del gazetteer sulle trascrizioni trova le zone citate correttamente (Trigoria, Castel di Leva, Massimina) ma produce falsi positivi (centro-storico, agro-romano, laurentino) e non conosce Falcognana, Santa Palomba, Divino Amore.
+
+## 6. Analisi delle prime registrazioni
+
+Schede senza nomi di persona (i ruoli sostituiscono i nomi). Confronto con: verbale e convocazione di Atti Web della stessa seduta, notizie e avvisi A1 del Municipio nel mese, comunicati di Cronaca (C1–C6).
+
+**A. Municipio IX, Commissione III Mobilità, LLPP e Periferie, seduta straordinaria del 30 giugno (29 min).** Parere sull'estensione del trasporto pubblico a chiamata a tre ambiti del Municipio (Trigoria; Pagliancasale–Falcognana–Santa Palomba; Castel di Leva–Cecchignola–Fonte Meravigliosa–Mille Voi), avvio 6 luglio (alcuni ambiti 13 luglio), fase sperimentale in affiancamento alle linee 795, 048 e 721 fino al 23 novembre 2026; ospiti l'agenzia della mobilità e il Dipartimento; parere favorevole all'unanimità con appello nominale. *Aggiunte rispetto agli atti* (convocazione e verbale del IX: scansioni): possibile soppressione delle linee 795 e 048 dopo la sperimentazione; riduzione serale del 721 da 3 a 2 vetture; via di Casal di Zola servita in doppio senso dalla navetta; vetture da 8 posti, app rifatta e call center; prenotazione fino a 6 giorni prima e fino a 60 minuti prima; zone mai servite raggiunte; secondo parere atteso con la rimodulazione della rete nel contratto di servizio; delibera consiliare prevista per fine luglio. *Sovrapposizione*: notizia A1 del 29 giugno "Dal 6 luglio ClicBus arriva in altre zone della città" (stessa vicenda, senza parere, linee e modifiche). *Possibile notizia*: "Bus a chiamata dal 6 luglio a Trigoria, Santa Palomba e Cecchignola: parere favorevole del Municipio IX; in autunno possibili tagli a 795 e 048". Tempestività alta (servizio in partenza sei giorni dopo), utilità alta.
+
+**B. Municipio IX, Commissione II Urbanistica, Ambiente e Ciclo dei Rifiuti, 10 giugno (51 min).** Parere sulla proposta di deliberazione capitolina che approva un piano di miglioramento agricolo (PAMA) in deroga al lotto minimo (art. 52 PTPR: 10 ari richiesti, azienda di 4,6 ari) per un'azienda agricola su via Ardeatina oltre Falcognana verso Santa Palomba: quattro annessi, uno destinato a centro di accoglienza e addestramento cani gestito da un'associazione con contratto di connessione (L.R. 38/1999); conferenza di servizi già favorevole; parere favorevole all'unanimità (7 su 7). Inoltre: approvazione di due verbali; lettura di una nota del comitato del comprensorio Prato Smeraldo (piano di zona 40 bis Vigna Murata) che chiede un ruolo nell'iter di presa in carico delle aree verdi da parte di Roma Capitale; programmazione di congiunte sul "pedibus" e sul Regolamento per la tutela e il benessere degli animali. *Aggiunte rispetto agli atti*: la discussione sui PAMA in deroga (due approvati nel 2025, cinque in coda), la posizione regionale sull'art. 52, la richiesta del comitato, la programmazione. Verbale: scansione. *Sovrapposizioni*: nessuna in A1; il Regolamento animali è esaminato anche nel Municipio I (23 e 30 giugno): stessa proposta capitolina in più Municipi (vicenda trasversale). *Possibili notizie*: la deroga per il centro cani su via Ardeatina (tempestività media, utilità media); Prato Smeraldo e il passaggio del verde a Roma Capitale (utilità alta per il quartiere, tempestività media); i pareri in arrivo su pedibus e Regolamento animali (tempestività alta, utilità media).
+
+**C. Municipio I, Congiunta Commercio–Trasparenza, 30 giugno, prima parte (14 min).** Seduta convocata sul posto, in una galleria commerciale del centro, la mattina dell'accesso dell'ufficiale giudiziario con i carabinieri per lo sfratto di un caffè storico (fine locazione, non morosità; circa 15 dipendenti; accessi già nel 2025; proprietà passata a un fondo); consiglieri allontanati perché non parte in causa; rinvio temporaneo di uno o due mesi; la commissione intende convocare la proprietà e valutare un atto in Consiglio; presente un'associazione di tutela. Seconda parte in un altro video (24 min). *Aggiunte rispetto agli atti*: tutte le circostanze (nessun verbale di giugno; la convocazione dà data e ora). *Sovrapposizioni*: nessuna in A1 né nella Cronaca del mese. *Possibile notizia*: "Sfratto al caffè storico della galleria: il Municipio I in commissione sul posto, quindici posti di lavoro, rinvio di un mese". Tempestività alta (fatto in corso), utilità alta; nomi dell'esercizio e delle parti da verificare (l'ASR li deforma).
+
+**E. Municipio IX, Commissione II Ambiente congiunta con VI Scuola, 16 giugno (65 min).** Proposta di risoluzione sul "pedibus" con percorsi naturalistici (protocollo del 10 giugno); ospiti tre tecnici dell'agenzia della mobilità e l'assessora a scuola e mobilità. Dal parlato: il presupposto è la nomina del referente della mobilità scolastica; l'agenzia offre mappatura anonima delle residenze e un applicativo; 13 istituti del Municipio hanno già la figura (un istituto comprensivo con pedibus consolidato dal 2017 e festa annuale, altri sulla Laurentina, a Spinaceto e all'EUR); esperienze a Fonte Laurentina e Mezzocammino; ciclabili dell'EUR in completamento entro agosto e giornata "a scuola in bici" alla Settimana europea della mobilità di settembre per i licei dell'EUR; due licei nel progetto di sicurezza stradale; tavolo con le scuole a settembre. Voto: Commissione II 6 favorevoli e 1 astenuto su 7; Commissione VI 4 favorevoli e 2 astenuti su 6; emendamenti rinviati al Consiglio; atto assegnato anche alla Commissione III. *Aggiunte rispetto agli atti*: nessun verbale di giugno per la congiunta; la convocazione dà l'ordine del giorno; scuole, tempi delle ciclabili, eventi e voto divisi vengono solo dal parlato. *Sovrapposizioni*: nessuna in A1. *Possibili notizie*: "Pedibus, le commissioni del IX approvano la risoluzione: 13 scuole hanno già il mobility manager, tavolo a settembre" (tempestività media, utilità media-alta per le famiglie); "Ciclabili dell'EUR completate entro agosto: a settembre la giornata 'a scuola in bici'" (tempestività alta per settembre, utilità media).
+
+**F. Municipio IX, Commissione IV Commercio, Sport, Turismo e Grandi Eventi, 18 giugno (38 min, con tre sospensioni della registrazione).** Lettura e prima revisione di una proposta di risoluzione su censimento, manutenzione e nuove installazioni di palestre all'aperto ("aree fitness") nei parchi del Municipio, da chiudere in congiunta con la Commissione II entro fine giugno o inizio luglio; audizione del funzionario che segue le aree verdi in consegna al Municipio. Dal parlato: nuove aree calisthenics in un parco fra Torrino e Mezzocammino e nel parco Giacomo Dina a Trigoria; a Spinaceto, nel parco di via Ettore Arena, campi da basket e pallavolo in ristrutturazione con apertura prevista entro fine mese; richiesta di 500.000 € per nuove aree (via Bilbao, via Ferruzzi) senza copertura in bilancio; percorsi vita di oltre vent'anni su aree del Dipartimento (via della Grande Muraglia, viale Città d'Europa) da rimuovere o rifare con una nota al Dipartimento; due aree inaugurate un mese prima con fondi di consiglieri capitolini; a Mezzocammino lavori nel parco centrale e ripristino di una vecchia teleferica; prossima seduta con il Dipartimento Sport il 6 luglio; proposte dei comitati di Torrino Nord e Sud (ciclopedalata e corsa di 4–5 km intorno a un impianto sportivo); elenco dei voucher sportivi regionali da pubblicare; Municipio senza assessore allo sport (deleghe alla presidenza). *Aggiunte rispetto agli atti*: il verbale del IX è una scansione; la convocazione dà solo i punti; tutti i luoghi, i tempi e gli importi vengono dal parlato. *Sovrapposizioni*: nessuna in A1 né nella Cronaca. *Possibili notizie*: "Spinaceto, riaprono entro fine giugno i campi da basket e pallavolo del parco di via Ettore Arena" (tempestività alta, utilità alta); "Aree fitness nei parchi del IX: nuove a Trigoria e Mezzocammino, censimento in arrivo, via Bilbao e via Ferruzzi in attesa di fondi" (tempestività media, utilità alta); "Torrino–Mostacciano, i percorsi vita di vent'anni fa da rimuovere o rifare" (tempestività media, utilità media).
+
+**D. Municipio I, Commissione Trasparenza, titolo "13-06-2026" ma seduta del 13 luglio (16 min).** Programmazione dei lavori: congiunta sul caso del caffè (sopra), commissione sul progetto di piazza Bainsizza con i progettisti, verifica su un esercizio aperto senza titolo in via Foscolo/via Principe Umberto, ascolto delle associazioni del Casale di via Gomenizza, punto sui fondi per il verde di competenza municipale, giardino dell'emiciclo di piazzale Nettuno ancora chiuso e punto acqua mai attivato (tubature su ponte Margherita), parcheggio di lungotevere Arnaldo da Brescia riaperto dopo 18 anni, illuminazione pubblica a Monti (2 segnalazioni risolte su 20 in tre mesi). Fuori dal mese, ma è l'esempio più netto di ciò che il video dà e gli atti no: otto spunti di cronaca di quartiere, nessuno negli atti né in A1; tempestività alta come segnalazioni, non come fatti conclusi.
+
+**Sintesi (S, su 5 registrazioni di giugno e 1 di luglio)**: 10 possibili notizie dalle 5 sedute di giugno (più 8 spunti dalla seduta di luglio); sovrapposizione con A1 in 1 caso su 10 (ClicBus) e 0 con la Cronaca; tempestività alta in 5, media in 5; utilità alta in 6, media in 4. Tempo di analisi: 10–20 minuti per registrazione (lettura integrale della trascrizione, confronto con verbale, convocazione e A1) per sedute da 14 a 65 minuti; il confronto è manuale perché il gazetteer e il confronto lessicale automatico non isolano le informazioni nuove.
+
+## 7. Difficoltà incontrate
+
+1. **RomaTV**: applicazione Angular che carica tutto da `*.streamcloud.it`; i percorsi API sullo stesso host non esistono. Senza `api-ovp.streamcloud.it` (cataloghi) e `ac103mp.streamcloud.it` (media) la fonte è illeggibile; anche con i cataloghi, i media resterebbero da verificare.
+2. **YouTube, controllo anti-bot**: l'IP di uscita del proxy è già segnalato (la pagina `watch` reindirizza a `google.com/sorry`); i client alternativi funzionano finché il ritmo resta basso; il ciclo di lettura per video (131) è stato interrotto dopo 20 minuti e ripreso a 25 secondi per richiesta con pause di 10 minuti. Il completamento del campione dipende da questo ritmo (stima: ore, non minuti) o da un accesso di rete diverso.
+3. **Titoli auto-tradotti**: la prima lettura degli elenchi con la lingua predefinita restituiva titoli tradotti in inglese per parte dei video del IX ("Commission II Mobility..."), e 27 date di giugno sfuggivano al parsing; risolto rileggendo con `lang=it`. Le date approssimate degli elenchi ("3 mesi fa") non sono utilizzabili con la lingua italiana.
+4. **Dedup fra video e atti**: la corrispondenza per data e nome della commissione è ambigua (più commissioni nello stesso giorno, nomi abbreviati); nel Municipio I la risolve il link YouTube dentro il verbale, negli altri no.
+5. **Nomi di persona**: trascrizioni e verbali sono pieni di nomi (appelli, votazioni); i materiali di dettaglio non possono andare su Drive così come sono (DEC-102); i CSV caricati contengono solo titoli, date, durate, URL.
+6. **Verbali del IX**: scansioni; senza OCR il confronto video–verbale è impossibile per quel Municipio.
+7. **Errori di rete e di parsing**: il ciclo iniziale di lettura per video è stato interrotto dopo il primo minuto perché ogni video richiedeva il player (bloccato); una pagina di controllo anti-bot è stata salvata come sottotitolo (scartata con il controllo del formato); il killer di processi ha terminato la shell dell'Operator due volte (pattern che coincideva con il proprio comando).
+
+## 8. Tempo impiegato e costi (M)
+
+- Operator: 14:55–15:55 per accesso, censimento, incrocio con Atti Web, campione, 6 analisi, nota e aggiornamento dei documenti (60 minuti, in parallelo con i cicli di rete in background). Il recupero delle trascrizioni continua in background.
+- Richieste di rete: circa 60 letture di elenchi YouTube (5.273 voci), circa 90 tentativi di lettura per video, 11 scaricamenti di sottotitoli (7 validi), 15 prove di accesso; Atti Web: 3 liste, 77 PDF (19 del campione, 58 verbali dei Municipi I e V). Nessun servizio a pagamento, nessuna chiamata AI: **0,00 €**; tetto residuo invariato (49,14 €).
+
+## 9. Cosa impedisce concretamente di procedere
+
+1. **Host `api-ovp.streamcloud.it`, `identity-ovp.streamcloud.it`, `ac103mp.streamcloud.it`** non consentiti: senza, A3 resta "accesso bloccato" per 7 Municipi e per le Commissioni Capitoline (decisione dell'owner sulla politica di rete).
+2. **Controllo anti-bot di YouTube sull'IP di uscita**: rallenta a ore il recupero di metadati e trascrizioni; alternative: sessione con un altro IP, oppure pazienza (il ciclo lento è in corso). Nessun media è scaricabile in ogni caso: per la verifica sull'audio servono file depositati dall'owner (metodo §5).
+3. Già noto: T1 (trascrizione API) e l'OCR restano fermi senza la conferma sulla chiave OpenAI.
+
+## 10. Raccomandazioni provvisorie (nessuna integrazione approvata automaticamente)
+
+- A4 per i Municipi I e IX: fonte ricca, a costo zero per il testo (sottotitoli automatici), con 5 possibili notizie da 3 sedute; da trattare come **fonte candidata** per l'Amministrazione, subordinata a: verifica dei nomi e dei toponimi (ASR inaffidabile), misura della data di pubblicazione (tempestività), regola per le sedute spezzate in più video.
+- A4 per il Municipio V: parziale (fino al 12 giugno): verificare se il Municipio è passato a RomaTV.
+- A3: decisione sugli host prima di qualunque giudizio; l'endpoint speech-to-text del portale, se attivo, cambierebbe il costo della trascrizione.
+- Il video non sostituisce gli atti: convocazioni e verbali danno date, ordini del giorno e voti in forma strutturata; il video dà il merito. La fonte di record resta A2; il video è la fonte del contenuto, da leggere con trascrizione e conferma umana.
