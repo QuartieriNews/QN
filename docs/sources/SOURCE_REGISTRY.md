@@ -9,7 +9,7 @@ integrale. Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (m
 Stato: **livello 1 compilato** (A1, A2, C1–C6, E1, E2) con le letture del 15 settembre 2026,
 10:24–11:06 Europe/Rome; evidenze e URL nel rapporto intermedio
 `docs/sources/SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md`. Le raccomandazioni sono provvisorie
-fino alla consegna finale (S2-05). Livello 2: E3, A3 e A4 compilate il 15 settembre (pomeriggio; A3 censita dopo l'apertura degli host, A4 con campione in corso: `VIDEO_RICOGNIZIONE_2026-06.md`); R1: scheda da compilare.
+fino alla consegna finale (S2-05). Livello 2: E3, A3 e A4 compilate il 15 settembre (pomeriggio; A3 censita dopo l'apertura degli host, A4 con campione completato: `VIDEO_RICOGNIZIONE_2026-06.md`); R1: scheda da compilare.
 
 | Campo | Valori ammessi / note |
 |---|---|
@@ -382,16 +382,16 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `ritardo_mediano_giorni` | **0** (M, 496 voci): 302 entro 1 giorno, 387 entro 7, massimo 94 |
 | `anticipo_eventi_giorni` | n/a |
 | `eventi_futuri_30gg` | n/a |
-| `quota_toponimo` | — (dal parlato: presente nelle 2 trascrizioni lette) |
+| `quota_toponimo` | — (dal parlato: toponimi presenti in 7 trascrizioni su 7 lette, deformati dall'ASR) |
 | `quota_zona` | — |
 | `quota_municipio` | 100% (M, catalogo) |
 | `duplicati` | con A4: i Municipi V e IX pubblicano su entrambe le piattaforme (V 39 su RomaTV e 9 su YouTube; IX 12 e 37): stesse sedute, non misurate voce per voce; con A2: stessa seduta del verbale, non duplicato |
-| `contributo_unico` | alto (S) per i 7 Municipi senza YouTube e per le Commissioni Capitoline: unica registrazione pubblica; 3 possibili notizie dalle 2 sedute lette |
-| `estrazione` | metadati per tutte le voci; testo solo dalle 82 trascrizioni della piattaforma (Consigli): blocchi WebVTT di ~10 parole, 68–121 parole al minuto, nomi deformati; commissioni senza testo |
+| `contributo_unico` | alto (S) per i 7 Municipi senza YouTube e per le Commissioni Capitoline: unica registrazione pubblica; 18 possibili notizie dai 7 Consigli letti (5 senza verbale in Atti Web), nessuna in A1 oltre agli ordini del giorno delle convocazioni (1 sovrapposizione parziale) |
+| `estrazione` | metadati per tutte le voci; testo solo dalle 82 trascrizioni della piattaforma (Consigli): blocchi WebVTT di ~10 parole, 68–122 parole al minuto, nomi e toponimi deformati, appelli nominali fino a un quarto del testo; commissioni senza testo |
 | `costo_item` | 0,00 € per metadati e trascrizioni esistenti; tempo macchina 1–3 s per pagina di 100 voci |
-| `intervento_umano` | 10–20 minuti per seduta con trascrizione (S); per le commissioni non stimabile senza audio |
+| `intervento_umano` | 10–25 minuti per seduta con trascrizione (S; di più per i Consigli lunghi con libera discussione); per le commissioni non stimabile senza audio |
 | `raccomandazione` | fonte candidata per i Municipi senza YouTube e per le Commissioni Capitoline (metadati completi, ritardo zero); il testo delle commissioni dipende dall'audio (host) e da T1; nessuna integrazione approvata automaticamente |
-| `drive` | `A3_romatv_giugno2026_censimento_part1..4.csv`, `A3_campione_selezione.csv`, `summary_A3_romatv.json`, `A3_romatv_accesso_2026-06.csv` (stato precedente) |
+| `drive` | `A3_romatv_giugno2026_censimento_part1..6.csv`, `A3_campione_selezione.csv`, `summary_A3_romatv.json`, `A3_romatv_accesso_2026-06.csv` (stato precedente) |
 
 ### A4 — Canali YouTube dei Municipi (livello 2)
 
@@ -403,21 +403,21 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `territorio` | Municipio (canale, 100%); quartiere solo dal parlato (trascrizione) |
 | `argomenti` | commissioni municipali (mobilità e lavori pubblici, urbanistica e ambiente, sociale, scuola e cultura, commercio, trasparenza e bilancio), Consigli |
 | `accesso` | web aperto per elenchi e metadati; media bloccati (`googlevideo.com`); controllo anti-bot di YouTube sull'IP di uscita dopo circa 20 letture per video in 5 minuti (§2 e §7 della nota) |
-| `formati` | video; sottotitoli automatici italiani (json3) per 12 video su 12 letti; nessun sottotitolo redatto; descrizione con ordine del giorno in parte dei video |
+| `formati` | video; sottotitoli automatici italiani (json3) per 22 video su 22 letti; nessun sottotitolo redatto; descrizione con ordine del giorno in parte dei video |
 | `riuso` | termini di YouTube; contenuti istituzionali: da verificare (L11) |
-| `mese` | 2026-06 (data della seduta nel titolo; data di pubblicazione misurata per 11 video su 131) |
+| `mese` | 2026-06 (data della seduta nel titolo; data di pubblicazione misurata per 12 video su 131) |
 | `item_mese` | **131** (M): 107 commissioni municipali (I 64, IX 34, V 9), 16 Consigli municipali (I 13, IX 3), 8 dirette dell'Assemblea Capitolina; 135,5 ore, di cui 82,1 di commissioni; lettura 15 settembre 2026 15:06–15:12 (elenchi) |
 | `frequenza` | 25 commissioni per settimana sui tre canali (M); Municipio V muto dopo il 12 giugno |
-| `ritardo_mediano_giorni` | 0 per il Municipio I e 1 per il IX sugli ultimi 15 video di ciascun canale (feed RSS, settembre, M); a giugno letto per 11 video (9 del V entro 1 giorno dal feed RSS, uno del I lo stesso giorno, uno del IX dopo 62 giorni): stima S per il mese |
+| `ritardo_mediano_giorni` | 0 per il Municipio I e 1 per il IX sugli ultimi 15 video di ciascun canale (feed RSS, settembre, M); a giugno letto per 12 video (9 del V entro 1 giorno dal feed RSS, uno del I lo stesso giorno, uno del IX dopo 5 giorni, uno del IX dopo 62 giorni): stima S per il mese |
 | `anticipo_eventi_giorni` | n/a |
 | `eventi_futuri_30gg` | n/a |
-| `quota_toponimo` | — (dal parlato: toponimi presenti in 4 trascrizioni su 4 lette, deformati dall'ASR) |
+| `quota_toponimo` | — (dal parlato: toponimi presenti in 15 trascrizioni su 16 lette, deformati dall'ASR; assenti nella seduta di analisi delle determine) |
 | `quota_zona` | — |
 | `quota_municipio` | 100% (M, canale) |
-| `duplicati` | con A2: 101 commissioni su 107 hanno un verbale dello stesso giorno nello stesso Municipio (M), 51 della stessa commissione (28 certi per link, 23 per nome: stima, 1 errore su 3 verificati); il video è il contenuto, il verbale l'atto: non sono duplicati ma la stessa seduta |
-| `contributo_unico` | alto (S): nelle 9 sedute di giugno analizzate 17 possibili notizie, 16 assenti da A1 e dalla Cronaca; sovrapposizione con A1 in 1 caso su 17 |
-| `estrazione` | testo dalle trascrizioni automatiche (9 del campione più 1 di luglio scaricate e lette), 112–138 parole al minuto; nomi propri e toponimi inaffidabili |
+| `duplicati` | con A2: 101 commissioni su 107 hanno un verbale dello stesso giorno nello stesso Municipio (M), 51 della stessa commissione (28 certi per link, 23 per nome: stima, 2 errori su 4 verificati); il video è il contenuto, il verbale l'atto: non sono duplicati ma la stessa seduta |
+| `contributo_unico` | alto (S): nelle 15 sedute di giugno analizzate 26 possibili notizie, 25 assenti da A1 e dalla Cronaca; sovrapposizione con A1 in 1 caso su 26; tre pareri capitolini (norme tecniche, librerie, animali) attraversano più Municipi nelle stesse settimane |
+| `estrazione` | testo dalle trascrizioni automatiche (15 del campione più 1 di luglio scaricate e lette), 112–140 parole al minuto (13 in una seduta con 33 minuti di sospensione); nomi propri e toponimi inaffidabili |
 | `costo_item` | 0,00 € per il testo; tempo macchina 10–40 s per video con esito intermittente |
 | `intervento_umano` | 10–15 minuti per seduta per lettura, confronto con gli atti e verifica dei nomi (S) |
 | `raccomandazione` | fonte candidata per i Municipi I e IX, subordinata alla misura della data di pubblicazione e alla verifica dei nomi; V parziale; nessuna integrazione approvata automaticamente |
-| `drive` | `A4_youtube_giugno2026_censimento.csv`, `A4_canali_youtube_stato.csv`, `A4_campione_selezione.csv`, `summary_A4_youtube.json` |
+| `drive` | `A4_youtube_giugno2026_censimento.csv` (in due parti), `A4_canali_youtube_stato.csv`, `A4_campione_selezione.csv`, `summary_A4_youtube.json`, `A4_rss_ritardo_pubblicazione_2026-09-15.csv` |
