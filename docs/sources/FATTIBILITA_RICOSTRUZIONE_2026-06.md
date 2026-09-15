@@ -15,7 +15,7 @@
 - **Quanto costa**: il mese completo, con AI, costa in denaro poco: scenario centrale **≈ 80 €** una tantum (trascrizione delle commissioni RomaTV 46 €, estrazione e verifica AI 30 €, controlli Codex 1–2 €, OCR 0 €), basso ≈ 10 € (senza trascrizione a pagamento, perimetro ridotto), alto ≈ 200 € (modelli più cari e Assemblee incluse). Il costo vero è il tempo: 30–45 ore mie e 10 ore sue nello scenario centrale (dettaglio in §3.4.1: 1 ora di configurazione, 7,5 di verifica del campione, 1,5 di decisioni). A regime, 30–80 €/mese oltre l'abbonamento n8n esistente (29,28 €/mese), 10–15 ore mie e circa 4 ore sue al mese, Facebook a parte.
 - **In quanto tempo**: senza chiave, entro una settimana una prima ricostruzione "a costo zero" (database, collegamenti, disponibilità online, notizie candidate dal materiale già letto e da ciò che leggo a mano nel perimetro ridotto). Con la chiave confermata e l'autorizzazione di spesa, il mese completo verificato in **3–4 settimane** di calendario (dipendenze in §4.4).
 - **Raccomandazione**: **esecuzione per fasi** (§6): fase 0 subito a costo zero; fase 1 le prove T1/T3/T4 entro il residuo di 49,14 € appena la chiave è confermata; fase 2 il mese completo su un perimetro che esclude le Assemblee Capitoline, C3/C5/C6/R1 e Facebook (non ricostruibile per giugno), con le commissioni RomaTV trascritte a pagamento o sul suo PC.
-- **Aggiornamento del 15 settembre, sera (§8)**: ricostruzione una tantum con esecuzione e verifiche a carico di Operator e Codex; owner solo per accessi, autorizzazioni, decisioni non risolvibili e valutazione finale (≈ 2,5–3 ore); ≈ 12 giorni lavorativi dai prerequisiti a 5 ore di sessione al giorno; costo centrale ≈ 91 € (≈ 33 € entro il residuo rinviando la trascrizione delle commissioni RomaTV); strumenti di verifica accertati e limiti dichiarati in §8.1.
+- **Aggiornamento del 15 settembre, sera (§8)**: ricostruzione una tantum con esecuzione e verifiche a carico di Operator e Codex; owner solo per accessi, autorizzazioni, decisioni non risolvibili e valutazione finale (≈ 2,5–3 ore); calendario minimo di 2,5–3,5 giorni di orologio dai prerequisiti in esercizio continuo, allungabile fino a 2–3 settimane solo dalla quota del piano, che da qui non è visibile (§8.4; le "5 ore al giorno" erano un'ipotesi organizzativa, non un vincolo); costo centrale ≈ 91 € (≈ 33 € entro il residuo rinviando la trascrizione delle commissioni RomaTV); strumenti di verifica accertati e limiti dichiarati in §8.1.
 
 ## 1. Perimetro e capacità effettiva
 
@@ -282,27 +282,104 @@ Indicazione dell'owner: la ricostruzione di giugno è **una tantum** e serve a v
 | Operator: verifiche documentali del campione (100 candidate, 30 coppie, 40 localizzazioni, 20 disponibilità; OCR e trascrizioni con gli strumenti di §8.1) | 8 | le quantità di §3.4.1 passano all'Operator |
 | Operator: rapporto finale, risposte ai controlli di Codex, correzioni | 8 | — |
 | Operator: riserva per errori e ripetizioni (15%) | 7 | — |
-| **Operator, totale** | **≈ 55** (intervallo 45–65) | senza chiave ≈ 50 ore su un perimetro più piccolo (§8.2) |
-| Elaborazione macchina, in parallelo | 45–70 | download audio 25–30 h (ripresumibile a segmenti), OCR 1–2 h, sottotitoli 4 h, trascrizione API 10–30 h di attesa, cicli AI 3–6 h; deve avvenire durante sessioni aperte, perché l'ambiente si spegne a fine sessione |
+| **Operator, totale** | **≈ 55** (tetto prudente; 35–40 alla velocità di sessione misurata, §8.3.1) | ore di attività della sessione, non ore di una persona; senza chiave ≈ 50 ore su un perimetro più piccolo (§8.2) |
+| Elaborazione macchina, in parallelo con l'Operator | 20–60 h di orologio (S da tassi M) | scaricamento audio delle commissioni (280 h): 4–24 min per ora di audio misurati su 3 registrazioni (la misura lenta è avvenuta durante prove in parallelo e con errori di rete ripetuti), cioè 26–110 h in sequenza e ≈ 10–45 h con 4 scaricamenti in parallelo (×2,6, M), ripresumibile a segmenti; trascrizione API in coda allo scaricamento: 4–9 h con richieste concorrenti, fino a 35 h in sequenza (S: il tasso reale lo misura T1); OCR di 1.400 pagine ≈ 1 h su 4 CPU (M: 2,9 + 5,3 s a pagina); sottotitoli dei 116 video YouTube residui ≈ 10 h in un solo flusso (M: 78 min per 15, controllo anti-bot); cicli AI sincroni 3–6 h (S); con il Batch (costo −50%) ogni ciclo può richiedere fino a 24 h (S, dichiarato dal fornitore). I processi in background continuano fra un turno e l'altro finché la VM è attiva (M, oggi: ciclo dei sottotitoli 15:41–16:38 attraverso due turni) e si perdono solo con il ritiro della VM per inattività (§8.4) |
 | Codex: controlli indipendenti | 5 controlli | (1) schema del database e regole di collegamento prima dell'estrazione; (2) campione di 100 candidate con evidenze; (3) campione di deduplicazione e localizzazione; (4) consegna finale (rapporto, aggregati, lacune); (5) revisione della PR del rapporto |
 | Owner | ≈ 2,5–3 | solo §8.6 |
 
-### 8.4 Calendario dal momento in cui i prerequisiti sono disponibili
+### 8.3.1 Su quali misure poggiano le 55 ore
 
-Prerequisiti (t0): chiave confermata o ruotata; scenario di spesa autorizzato; le sei decisioni di perimetro di §7. Ipotesi sulla cadenza: una sessione dell'Operator di circa 5 ore per giorno lavorativo; con 2–3 ore al giorno la durata raddoppia.
+Le 55 ore sono ore di attività della sessione dell'Operator (chiamate agli strumenti, lettura, scrittura), non ore di una persona e non ore di orologio. La base, voce per voce (orari in ora italiana):
 
-| Fase | Giorni lavorativi | Cosa procede in parallelo | Cosa determina la durata |
+| Voce di §8.3 | Ore | Base | Misura (M) o ipotesi (S) |
 |---|---|---|---|
-| 1. Database, caricamento di ciò che esiste, avvio di download audio, OCR, sottotitoli, trascrizioni API | giorni 1–3 | tutto il tempo macchina parte il giorno 1 | ore dell'Operator per schema e caricamento |
-| 2. Controllo Codex n. 1 (schema e regole) | giorno 3 | correzioni nello stesso giorno | turno di Codex (meno di un giorno) |
-| 3. Estrazione AI sulle fonti testuali, poi sulle trascrizioni man mano che arrivano; collegamenti, dedup, localizzazione | giorni 3–7 | trascrizione API in coda; cicli AI in background | arrivo delle trascrizioni (download 25–30 h più API), ore dell'Operator |
-| 4. Controlli Codex n. 2 e 3 (campioni); verifiche documentali dell'Operator | giorni 7–9 | i controlli sui campioni e le verifiche corrono insieme | ore dell'Operator per le verifiche (8) e le correzioni |
-| 5. Rapporto finale, controllo Codex n. 4, PR e revisione n. 5, consegna | giorni 9–12 | — | ore dell'Operator (8) e due turni di Codex |
-| **Totale** | **≈ 12 giorni lavorativi (2,5 settimane)** a 5 ore al giorno; ≈ 4 settimane a 2–3 ore al giorno | | il percorso critico è la somma delle ore dell'Operator più tre turni di Codex; il tempo macchina non lo allunga se le sessioni restano aperte |
+| Raccolta residua e conversioni | 6 | S su tassi M | M: gli script di scaricamento, misura acustica e statistiche delle confidenze sono stati scritti e provati oggi in 41 minuti di sessione (17:09–17:50, tre registrazioni); il ciclo dei sottotitoli e il batch audio sono corsi in background. S: l'estensione a 280 ore di audio e 1.400 pagine con gli errori di rete visti oggi (curl 35 e 56, ffmpeg) |
+| Database | 8 | S | nessuna misura diretta. Analogia M: censimento di due piattaforme video, incrocio con Atti Web e selezione del campione in circa 40 minuti. Il database ha 7 tabelle e circa 3.500 righe da caricare e collegare |
+| Estrazione AI e controllo del 10% degli esiti | 12 | S | S: schema e prompt 2 h, cicli 2 h, ≈ 400 esiti controllati a 1–2 min l'uno. M, più veloce: oggi 11 registrazioni lette e schedate in 30 minuti di sessione, aggiornamento della nota compreso (≈ 3 min l'una) |
+| Deduplicazione, localizzazione, consolidamento | 6 | S | regole del metodo §4.1 e gazetteer; nessuna misura di sessione |
+| Verifiche documentali del campione | 8 | S | 190 unità (100 candidate, 30 coppie, 40 localizzazioni, 20 disponibilità) a ≈ 2,5 min l'una. M parziale: 4 verifiche di nomi e 12 di date fatte oggi dentro le analisi, senza tempo separato |
+| Rapporto finale, risposte a Codex, correzioni | 8 | S | M: questa nota (≈ 9.000 parole) è stata scritta in 39 minuti di sessione (17:08–17:47) e aggiornata tre volte in 6–16 minuti; il 14 settembre i cicli 2 e 3 della revisione Codex del piano (revisione e correzioni) si sono chiusi 5 e 4 minuti dopo il precedente (commit delle 17:56, 18:01 e 18:05) |
+| Riserva 15% | 7 | S | convenzione |
 
-### 8.5 Da cosa derivavano le 3–4 settimane e cosa resta
+Lettura: dove esiste una misura, la velocità di sessione è più alta di quella ipotizzata (≈ 3 minuti per registrazione contro i 6–13 impliciti nella voce dell'estrazione; una nota in 40 minuti contro 8 ore per il rapporto). Le 55 ore sono quindi un tetto prudente: alla velocità misurata oggi il lavoro vale **35–40 ore** di attività di sessione, e l'intervallo dichiarato diventa **35–55**. Il calendario di §8.4 usa il tetto; la differenza si registra a consuntivo nel ledger, non si promette.
 
-La stima precedente (§3.5, §6) sommava: (a) la separazione in fasi con il gate della chiave fra le prove T1/T3/T4 e il mese completo; (b) la verifica a campione dell'owner distribuita nella terza e quarta settimana (§3.4.1, 7,5 ore); (c) due turni di Codex con un giorno di attesa ciascuno; (d) le ore dell'Operator diluite a 2–3 al giorno. Con la nuova ripartizione cadono (b) e la parte di (a) che aspettava l'owner fra le fasi: le prove T1/T3/T4 si eseguono nei primi due giorni dentro lo stesso calendario e servono a misurare i prezzi prima di spendere il resto. Restano le ore dell'Operator (che aumentano di circa 15 per assorbire le verifiche) e i turni di Codex (che passano da 2 a 5, ma in giornata). Risultato: **2,5 settimane** a 5 ore al giorno, 4 settimane a 2–3 ore; le 3–4 settimane non sono più necessarie in sé, ma tornano se la cadenza delle sessioni è bassa.
+### 8.4 Calendario minimo realistico, fondato sui vincoli dell'ambiente (aggiornamento delle 18:30)
+
+**Da dove veniva "5 ore di sessione al giorno".** Era un'ipotesi organizzativa mia, modellata su una giornata di lavoro umana (una sessione per giorno lavorativo), non un vincolo tecnico né un limite del piano. La coincidenza con la finestra di cinque ore del piano (tabella sotto) è casuale: quella finestra limita il volume di utilizzo in cinque ore mobili, non la durata delle sessioni. Il calendario che segue non assume una giornata lavorativa.
+
+**Vincoli verificati oggi (M).**
+
+| Vincolo | Natura | Evidenza |
+|---|---|---|
+| Durata massima di un turno o di una sessione | nessun limite documentato | pagina "Claude Code on the web" (letta oggi): nessuna durata massima dichiarata. Oggi: sessione attiva per 8 h 03 min su 8 h 03 min di orologio (10:22–18:25), 9 turni, turno più lungo 1 h 54 min, nessuna attesa dell'owner (i messaggi sono arrivati mentre lavoravo) |
+| Ritiro della VM per inattività | tecnico, documentato | "Cloud sessions stop after a period of inactivity and the session's VM is reclaimed": la durata dell'inattività non è dichiarata; alla riapertura tornano la conversazione e il repository (riclonato dal branch), non i processi in background né lo scratchpad (script e file temporanei, 583 MB oggi) |
+| Processi in background fra un turno e l'altro | tecnico, misurato | continuano finché la VM è attiva: ciclo dei sottotitoli 15:41–16:38 attraverso due turni; batch audio in background durante la scrittura di questa nota |
+| Quota di utilizzo del piano | limite del piano, dimensione non visibile da qui | metadati di sessione: `rateLimitType: five_hour`, stato `allowed`, "extra usage" non in uso; nessun blocco nel log di oggi; consumo di oggi 1,40 M token in uscita e 94,8 M in lettura di cache, controvalore API 168 $ per 8 ore di attività. Quale frazione della quota (finestra di 5 ore e settimana) sia stata consumata oggi la vede solo l'owner nella pagina Utilizzo di claude.ai |
+| Esecuzione in parallelo | tecnico, documentato e misurato | subagenti e sessioni parallele disponibili; "Running multiple tasks in parallel consumes more rate limits proportionately"; 4 scaricamenti in parallelo ×2,6 (M); 4 CPU, 15 GB di RAM, ≈ 30 GB di disco |
+| Contesto della conversazione | tecnico, misurato | 1 M di token; oggi 4 compattazioni automatiche, ognuna perde dettaglio: lo stato del lavoro deve stare nei file (repository, Drive, ledger), non nella memoria della conversazione |
+| Riavvio senza presidio | tecnico, disponibile | promemoria programmati verso questa stessa sessione (`send_later`, "delivery survives container restarts") e Routine a orario (intervallo minimo un'ora); il promemoria riapre la sessione anche dopo il ritiro della VM |
+| Permessi | tecnico | modalità `auto`; oggi nessuna chiamata rifiutata o sospesa (log della sessione); una richiesta di conferma, se emergesse, ferma quel turno fino alla risposta dell'owner |
+| Turno di Codex | misurato | chiamate API, non giornate: il 14 settembre i cicli di revisione del piano si sono chiusi a 4–5 minuti l'uno dall'altro, correzioni comprese; 0,10–0,21 € l'uno |
+
+**Flussi in parallelo e percorso critico** (ore di orologio da t0; scenario centrale con chiave; chiamate AI sincrone; t0 = chiave confermata, scenario di spesa scelto, sei decisioni di perimetro prese).
+
+| Flusso | Da → a (ore da t0) | Dipende da |
+|---|---|---|
+| M1 scaricamento audio delle commissioni (4 in parallelo), poi trascrizione API in coda | 0 → 10–45 → 14–50 | host consentiti (fatto), chiave; il tasso di scaricamento misurato varia da 4 a 24 min per ora di audio (n = 3) |
+| M2 OCR delle scansioni; sottotitoli dei 116 video YouTube residui | 0 → 1; 0 → 10 | nessuna |
+| O1 prove T1/T3/T4/T5 con prezzi misurati; schema del database e caricamento di ciò che esiste | 0 → 2 → 10 | chiave, scenario di spesa |
+| C1 controllo Codex 1 (schema e regole) e correzioni | 10 → 11 | O1 |
+| O2 estrazione AI sulle fonti testuali (macchina 2–4 h dentro le ore dell'Operator) | 11 → 17 | C1, M2 |
+| O3 estrazione sulle trascrizioni; collegamenti, deduplicazione, localizzazione | 17 → 29, oppure dall'arrivo delle trascrizioni | M1 |
+| M3 seconda AI sulle candidate | 29 → 30 | O3 |
+| O4 verifiche documentali del campione; controlli Codex 2 e 3 in parallelo | 30 → 39 | M3 |
+| O5 rapporto; controllo Codex 4; PR e revisione 5; correzioni | 39 → 48 | O4 |
+| riserva (7 h) | → 55 | |
+
+Il percorso critico è la sequenza O1–O5 (le ore di attività dell'Operator) finché M1 consegna le trascrizioni entro l'ora 17; se lo scaricamento va al tasso lento misurato, M1 diventa il percorso critico e O3 parte all'ora 45–50. Risultato in esercizio continuo, senza blocchi di quota:
+
+| Caso | Ore di orologio da t0 | Giorni di calendario |
+|---|---|---|
+| tasso di scaricamento buono, tetto delle 55 ore | ≈ 55 | 2,5 |
+| tasso buono, velocità di sessione misurata (35–40 h) | ≈ 40 | meno di 2 |
+| tasso lento (M1 = 45 h di scaricamento) | ≈ 80 | 3,5 |
+| trascrizione API una richiesta alla volta | + 20–30 | + 1 |
+| Batch API (costo AI −50%, ≈ 12 € in meno) | + 24 per ciclo, 2 cicli | + 1–2 |
+
+I subagenti possono accorciare O2–O4 dividendo letture e verifiche, senza ridurre l'utilizzo complessivo; li userei solo se la quota lo consente.
+
+**Cosa allunga davvero il calendario.**
+
+1. **La quota del piano**: è l'unico vincolo che può trasformare 2,5–3,5 giorni in settimane, e la sua dimensione non è visibile da qui. Regola di calcolo: se una giornata come oggi (8 ore di sessione, 168 $ di controvalore) consuma una frazione f della quota settimanale, le ore di sessione disponibili in una settimana sono 8/f.
+
+| f (frazione della quota settimanale consumata da una giornata come oggi) | Ore di sessione a settimana | Calendario per 55 ore |
+|---|---|---|
+| 1/20 o meno | 160 o più | 2,5–3,5 giorni (esercizio continuo) |
+| 1/7 | 56 | ≈ 1 settimana |
+| 1/5 | 40 | ≈ 1,5 settimane |
+| 1/3 | 24 | ≈ 2,5 settimane |
+
+   Il valore di f si legge nella pagina Utilizzo di claude.ai dopo la giornata di oggi; senza quel dato non prometto meno di 2,5 giorni né più di 3 settimane. L'"extra usage" a pagamento resta fuori dai vincoli concordati (nessun servizio a pagamento senza decisione dell'owner).
+2. **Le attese dell'owner**: t0 (chiave, scenario, sei decisioni: ≈ 70 minuti del suo tempo, ma il calendario parte quando arrivano); le 3–5 decisioni editoriali durante il lavoro non fermano gli altri flussi (l'item resta "in attesa" con un segnaposto) ma fermano la consegna se restano aperte; la valutazione finale.
+3. **Il ritiro della VM**: ripartenza di M1 e M2 dai segmenti già scaricati (script ripresumibili), perdita al più di un'ora di lavoro macchina se lo stato è nei file. Prerequisito: gli script oggi vivono nello scratchpad (35 file) e vanno versionati nel repository prima di t0 (1 ora dell'Operator, dentro le 55).
+4. **Errori di rete e di API**: visti oggi (curl 35 e 56, ffmpeg, timeout di PyPI); tentativi automatici e ripresa, nessuna ripartenza umana.
+
+**Posso proseguire senza presidio?** Sì, a due condizioni verificate: (a) prima di chiudere ogni turno programmo il promemoria che riapre il successivo (strumento disponibile in questa sessione; oggi non è servito perché l'owner era presente); (b) lo stato del lavoro è nei file, così ogni ripresa parte dai file e non dalla memoria della conversazione.
+
+| Interruzione | Effetto | Chi riavvia |
+|---|---|---|
+| fine del turno senza promemoria | fermo fino al messaggio successivo | Operator (promemoria programmato prima di chiudere) o owner |
+| ritiro della VM per inattività | processi in background e scratchpad persi; conversazione conservata | Operator, al primo promemoria: riclona, riprende gli script dai file su Drive e nel repository |
+| quota del piano esaurita (finestra di 5 ore o settimana) | il turno si ferma fino al reset; un promemoria che scatta durante il blocco non produce lavoro | reset automatico; una Routine oraria riprova da sola; se il blocco è settimanale decide l'owner (attendere, oppure l'"extra usage" a pagamento, oggi disattivato) |
+| richiesta di permesso in modalità auto | quel turno attende la risposta | owner |
+| decisione editoriale o autorizzazione | l'item resta in attesa; gli altri flussi continuano | owner |
+| errore di rete, di API o di script | il ciclo si ferma o salta l'item | Operator (tentativi automatici, ripresa dai segmenti) |
+| compattazione del contesto | nessun fermo; perdita di dettaglio della conversazione | nessuno: si riparte dai file |
+| sessione archiviata, ambiente modificato, rete negata | fermo completo | owner |
+
+### 8.5 Da cosa derivavano le 3–4 settimane e le "5 ore al giorno", e cosa resta
+
+Erano tutte ipotesi organizzative, nessuna tecnica: (a) una sessione dell'Operator per giorno lavorativo (le "5 ore"); (b) un giorno di attesa per ogni turno di Codex, che invece dura minuti; (c) la verifica a campione dell'owner distribuita sulla terza e quarta settimana (§3.4.1, oggi caduta); (d) il gate della chiave fra le prove e il mese, che ora sta dentro le prime due ore del calendario. Tolte le ipotesi, restano tre cose reali: le ore di attività dell'Operator (35–55, §8.3.1) come percorso critico; la quota del piano come unico vincolo che può allungarlo a settimane; gli interventi dell'owner a t0 e alla consegna (§8.7). Risultato: **2,5–3,5 giorni di orologio in esercizio continuo**, fino a 2–3 settimane se la quota consente una giornata come oggi ogni due o tre giorni. Il tempo macchina allunga il calendario solo nel caso del tasso di scaricamento lento (§8.4).
 
 ### 8.6 Costo, controlli Codex compresi (S)
 
@@ -326,8 +403,8 @@ Lo scenario "centrale entro il residuo" fa tutto tranne il testo delle commissio
 | Conferma scritta o rotazione della chiave OpenAI (S0-03); io eseguo la prova funzionale | t0 | 30 min |
 | Scelta dello scenario di spesa (§8.6) e autorizzazione oltre il residuo, se serve | t0 | 10 min |
 | Sei decisioni di perimetro (§7, punti 3–5) con i pacchetti di una pagina già pronti | t0 | 30 min |
-| Decisioni editoriali non risolvibili dal metodo né dal confronto con Codex, emerse durante il lavoro (stima 3–5, con bozza di voce `decisions/`) | giorni 5–10 | 30–50 min |
-| Valutazione finale: rapporto (riepilogo di due pagine più tabelle), esito dei controlli di Codex, lacune, decisione sui passi successivi | giorno 12 | 60 min |
+| Decisioni editoriali non risolvibili dal metodo né dal confronto con Codex, emerse durante il lavoro (stima 3–5, con bozza di voce `decisions/`) | durante il lavoro (ore 10–40 del calendario di §8.4); non fermano gli altri flussi | 30–50 min |
+| Valutazione finale: rapporto (riepilogo di due pagine più tabelle), esito dei controlli di Codex, lacune, decisione sui passi successivi | alla consegna (ora ≈ 50–80 da t0 in esercizio continuo) | 60 min |
 | **Totale** | | **≈ 2,5–3 ore**, nessuna ora di verifica a campione |
 
 Non richiesti e non conteggiati: ascolto di passaggi audio, lettura di scansioni, trascrizione sul PC dell'owner (alternativa da valutare a parte, §3.4.1).
