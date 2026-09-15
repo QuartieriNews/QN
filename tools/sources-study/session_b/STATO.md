@@ -190,7 +190,7 @@ questo. Da verificare se il fenomeno riguarda anche E2 ed E3.
 4. D2.c: verificare nei lotti L17–L18 gli autori delle opere resi con il ruolo e riportarli.
 5. D3: riportare i nomi nelle intitolazioni e commemorazioni (A1_056, A1_011, A1_128) e
    ricomporre le evidenze troncate prima dei nomi (A1_012, A1_008).
-6. **Rilettura di 8 item A1** (`report1/batches/_da_rileggere.txt`): A1_002, A1_003, A1_017,
+6. **Rilettura di 9 item** (8 A1 più E2_231) (`report1/batches/_da_rileggere.txt`): A1_002, A1_003, A1_017,
    A1_031, A1_046, A1_093, A1_114, A1_115.
 
 **Regole aggiuntive da scrivere nella specifica appena i lotti in corso rientrano** (il divieto
@@ -237,3 +237,24 @@ dubbi. Corretto anche il campionamento, che usava una frazione inventata invece 
 coppia di fonti con seed registrato che il metodo prescrive.
 
 I numeri restano provvisori: mancano 16 lotti su 25, fra cui tutta la Cronaca e E3.
+
+## 11. Secondo difetto di troncamento, e un controllo mio sbagliato
+
+Un lettore ha segnalato `E2_231` tagliato a 15.000 caratteri, cioè al tetto dell'estrazione del
+Report 1. Avevo escluso questo caso poche ore prima, ma il mio controllo era sbagliato: contavo
+**byte**, non caratteri, e con gli accenti i due non coincidono — un testo di 15.000 caratteri
+può pesare 15.265 byte e passare inosservato. Rifatta la misura sui caratteri: **un solo testo su
+985** tocca il tetto. Rigenerato (21.289 caratteri reali, quasi un terzo perso) e aggiunto alla
+rilettura.
+
+Il caso è piccolo, la lezione no: due volte su due il troncamento è stato trovato da un lettore
+che leggeva il testo, non dai miei controlli aggregati. I lettori vanno ascoltati quando
+segnalano un'anomalia sul materiale, anche quando un mio conteggio dice il contrario.
+
+| Lotto | Fonte | Item | Notizie | Tempo |
+|---|---|---|---|---|
+| L19+L20 | E2 eventi | 100 | 165 | 21 min |
+
+Avanzamento: **547 item letti su 985**, 756 notizie candidate. In lettura: L04+L05 (A1) e tutta
+la Cronaca (L09–L13, 109 item), che è il blocco dove DEC-102 conta davvero e dove si misura la
+sovrapposizione fra Questura, Carabinieri, Vigili del fuoco e Comune.
