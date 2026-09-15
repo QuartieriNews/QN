@@ -258,3 +258,43 @@ segnalano un'anomalia sul materiale, anche quando un mio conteggio dice il contr
 Avanzamento: **547 item letti su 985**, 756 notizie candidate. In lettura: L04+L05 (A1) e tutta
 la Cronaca (L09–L13, 109 item), che è il blocco dove DEC-102 conta davvero e dove si misura la
 sovrapposizione fra Questura, Carabinieri, Vigili del fuoco e Comune.
+
+## 12. Il blocco Cronaca è in gran parte inaccessibile (15 settembre, 22:45–23:00)
+
+Il rilievo più grave della giornata, e nasce da un mio errore di acquisizione.
+
+**Che cosa è successo.** Su 109 item di Cronaca, la lettura ha prodotto 33 notizie invece delle
+~100 attese, perché il corpus era vuoto:
+
+| Fonte | Item | Stato reale del materiale |
+|---|---|---|
+| C1 Questura | 79 | **67 identici**, byte per byte: la pagina "Accesso negato | Polizia di Stato", servita con codice **200**. 12 buoni |
+| C2 Carabinieri | 20 | **tutti e 20** sono la stessa pagina-vetrina "Comunicati Stampa" (ASP.NET, `__VIEWSTATE`): l'URL del singolo comunicato rimanda all'elenco. Zero comunicati leggibili |
+| C4 Vigili del fuoco | 8 | integri |
+| C5 Roma Capitale | 2 | integri |
+
+**La causa del mio errore, in una riga**: ho validato sul codice HTTP e sulla dimensione, non sul
+contenuto. Novantanove risposte "200 OK" lunghe decine di migliaia di byte, e nessuna conteneva
+l'articolo richiesto. Il mio log diceva "79 ok, 0 falliti". Se ne è accorto un lettore.
+
+**Correzione strutturale.** `report1/page_checks.py` decide se una risposta è la pagina chiesta:
+marcatori di blocco, titoli generici, corpo troppo corto. Lo usano sia `fetch_items.py` sia
+`retry_c1.py`, perché una regola di validazione in due copie diverge. Provato sui tre casi:
+riconosce il blocco della Questura, riconosce la vetrina dei Carabinieri, lascia passare A1.
+
+**Ritentativo in corso, senza aggiramenti.** La sessione A quelle 79 pagine le aveva lette —
+l'inventario ha Municipio, zona e toponimo per ciascuna — quindi il blocco è probabilmente una
+conseguenza del mio ritmo (79 richieste in due minuti). `retry_c1.py` ritenta **una ogni 90
+secondi** e si ferma dopo cinque rifiuti consecutivi: serve a capire se il blocco era il nostro
+ritmo, non a forzare una fonte che sta dicendo di no. Nessun cambio di IP, nessun trucco sugli
+header. Il primo tentativo è stato rifiutato.
+
+**Se il ritentativo fallisce, è un risultato, non una sconfitta.** Il Report 1 dovrà dire che la
+Questura nega l'accesso automatico e che i Carabinieri servono pagine costruite dal browser: per
+lo studio è la risposta alla domanda se quelle fonti siano utilizzabili da QN. Gli inventari
+restano (URL, titolo, data, Municipio), quindi i conteggi del mese reggono; manca il testo, e
+questo va detto in chiaro e non nascosto in una nota.
+
+**Conseguenza da dichiarare nel rapporto**: con C2 vuota e l'85% di C1 mancante, **la
+sovrapposizione fra Questura e Carabinieri su giugno 2026 non è misurabile** con questo corpus.
+Tutte le coppie di duplicati trovate finora sono interne alla stessa fonte.
