@@ -5010,3 +5010,67 @@ Un lettore ha rieseguito `code_perdute.py` e **conferma esattamente 11** item co
 Ha anche trovato il verso cieco: **gli scarti negativi** — un item con `durata_hm` = `0:00` e
 marcatori fino a `[00:41]` — cioè errori di manifest che un filtro sui soli scarti positivi non vede.
 Da aggiungere al programma.
+
+## 125. Gli ultimi due lotti prima della coda: la variabile più pesante del rapporto (2026-09-16 17:26Z)
+
+33 candidate in uno, 41 nell'altro. Restano otto registrazioni, già assegnate: **la lettura si chiude
+con il prossimo hand-back**.
+
+### La domanda che ho fatto ai lettori era la domanda giusta
+
+Avevo chiesto a tre lettori di applicare la lettera della regola sull'ordine dei lavori e poi di
+**contare quante candidate cambierebbero segno con la lettura opposta**. I tre conteggi:
+
+| lotto | con la lettura stretta | con quella larga |
+|---|---|---|
+| primo | 22 novità su 27 | 16 |
+| secondo | 30 su 33 | 23 |
+| terzo | 34 su 41 | **15** |
+
+Un quinto, un quarto, **quasi la metà**. È la variabile più pesante del rapporto — più della soglia di
+notiziabilità e più del requisito della data — e oscilla molto fra i lotti, il che vuol dire che va
+**fissata prima di aggregare, non dopo**. Nel §7 punto 1, con i tre numeri.
+
+E l'argomento per la lettura stretta, scritto da un lettore meglio di come l'avevo scritto io: **un
+ordine dei lavori è una domanda, non una risposta**; dire «anche negli atti» perché un modulo di tre
+righe cita due vie significa dichiarare che il corpus contiene un fatto di cui non riporta una parola.
+Con un secondo argomento che riguarda proprio il territorio: la lettura larga misurerebbe la
+**burocrazia**, perché i quattro Municipi che convocano per e-mail non perderebbero niente e gli
+altri undici perderebbero molto.
+
+### Una mia qualificazione, sbagliata dopo mezz'ora e corretta da un lettore
+
+Avevo scritto (§124) che un verbale protocollato tardi «resta fuori dal corpus di giugno comunque».
+Un lettore ha controllato **come è definita la finestra**: per i verbali il perimetro è la **data
+della seduta**, non quella del protocollo, e il corpus contiene verbali protocollati fino a fine
+luglio. Quindi il ritardo **non spiega le assenze**, se non per i verbali pubblicati dopo la metà di
+settembre. Corretto nel §7 punto 15. Avevo accettato una spiegazione comoda senza controllare la
+definizione che avevo scritto io.
+
+### Il conteggio delle parole include i marcatori — verificato, 103 casi su 103
+
+Un lettore ha notato che sul manifest il numero di parole delle trascrizioni a pagamento è più alto di
+uno per ogni marcatore `[mm:ss]`. **Controllato: su 103 item a pagamento il valore dichiarato è
+esattamente «parole senza marcatori + numero di marcatori», in 103 casi su 103**; su quelli della
+piattaforma i marcatori (212 di mediana) non sono contati. In valore assoluto è una decina di parole
+per registrazione, quindi trascurabile — ma i due gruppi non sono confrontabili al margine, e va nel
+§7 punto 6 accanto all'altra ambiguità sui volumi.
+
+### Il «121 su 233, l'84%» non era un errore del rapporto, era del mio mandato
+
+Un lettore ha scritto che il dato è internamente incoerente («121 su 233 vale il 52%, non l'84%»).
+Controllato: **il rapporto è giusto** e dice due proporzioni diverse — 121 su 233 è il 52% delle
+non-`alta`, e l'84% è la quota di nuove *dentro quelle 121*. A essere ambiguo era il mio mandato, che
+le aveva compresse in una riga. Corretto nel mandato dell'ultimo lotto; il rapporto non si tocca.
+
+### Due casi che entrano nel rapporto
+
+- **L'osservatorio che non esiste**: in aula si accerta che l'osservatorio capitolino
+  sull'elettromagnetismo non è mai stato istituito e che l'articolo del regolamento resta inapplicato;
+  il verbale della seduta **precedente** della stessa commissione annuncia che «sarà verificata
+  l'operatività» dell'osservatorio, cioè lo dà per funzionante. Chi legge solo gli atti capisce
+  l'opposto.
+- **Sei sedute su dieci con un difetto istituzionale e zero candidate**: uffici convocati che non si
+  presentano, commissioni che scoprono da terzi un cantiere, tre dipartimenti che non sanno l'esito
+  di un proprio bando, verbali approvati senza che nessuno li abbia uditi. Nel §4, perché è la misura
+  di quanto la colonna della novità **non** vede.

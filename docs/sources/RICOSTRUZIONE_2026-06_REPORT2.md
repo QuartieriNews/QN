@@ -504,7 +504,11 @@ vista che scarta i duplicati.
 ## 4. Che cosa si vede solo ascoltando
 
 Questa parte resta fuori dal conteggio delle candidate **di proposito**, perché la soglia chiede un
-luogo nominato. È materiale del rapporto, non della tabella.
+luogo nominato. È materiale del rapporto, non della tabella — e quanto pesi lo ha contato un lettore
+sul proprio lotto: **sei sedute su dieci hanno un difetto istituzionale** (uffici convocati che non si
+presentano, commissioni che scoprono da terzi un cantiere, tre dipartimenti che non sanno l'esito di
+un proprio bando, verbali approvati senza che nessuno li abbia uditi) e **nessuna delle sei produce
+una candidata**.
 
 - Un'Assemblea Capitolina con due appelli falliti — 7 presenti su 48, poi 18 — e il numero
   legale raggiunto al terzo, con 26, dopo due ore e ventitré; la discussione sul piano degli arenili chiusa
@@ -750,8 +754,18 @@ fattura.
    risposta non c'è da nessuna parte**, quel fatto è «anche negli atti» o «solo dal parlato»? I
    lettori applicano la lettera della regola — l'atto deve dire *la stessa cosa* — e scrivono «solo
    dal parlato». Un lettore ha contato che cosa costa: **con l'interpretazione opposta le novità del
-   suo lotto scenderebbero da 22 a 16 su 27**. Il numero principale non ne dipende, perché è
-   meccanico; il campo dei lettori sì, ed è la ragione più forte per non usarlo come risposta.
+   suo lotto scenderebbero da 22 a 16 su 27**. Altri due lotti hanno ripetuto il conteggio: **da 30
+   a 23 su 33**, e **da 34 a 15 su 41**. L'oscillazione fra i lotti — un quinto, un quarto, quasi la
+   metà — dice due cose: che la variabile è la più pesante del rapporto, più della soglia di
+   notiziabilità e più del requisito della data, e che **va fissata prima di aggregare, non dopo**.
+   Il numero principale non ne dipende, perché è meccanico; il campo dei lettori sì, ed è la ragione
+   più forte per non usarlo come risposta.
+   L'argomento per la lettura stretta, che è quella applicata, lo ha scritto un lettore meglio di
+   come l'avevo scritto io: **un ordine dei lavori è una domanda, non una risposta**, e dire «anche
+   negli atti» perché un modulo di tre righe cita due vie significa dichiarare che il corpus contiene
+   un fatto di cui non riporta una parola. C'è un secondo argomento, che riguarda il territorio: con
+   la lettura larga il campo misurerebbe la **burocrazia** invece della novità, perché i quattro
+   Municipi che convocano per e-mail non perderebbero nulla e gli altri undici perderebbero molto.
 2. Il campo `novita_rispetto_agli_atti` è stato definito tre volte: i lotti non sono confrontabili
    su quel campo e vanno pubblicati con la formulazione accanto. Il numero principale è quello
    meccanico, che non ne dipende. Quanto costi si può stimare, con una cautela. `report2/varianza_lettori.py` divide i lotti in
@@ -782,6 +796,12 @@ fattura.
    nessuno dei due. In pratica **il 10,9% delle parole del corpus viene da registrazioni sopra la
    soglia e conserva un conteggio numerico**: chi sommasse quel campo sommerebbe anche testo
    duplicato. È un difetto nostro, di una regola scritta in modo ambiguo e non di chi l'ha applicata.
+   E un secondo, più piccolo, trovato da un lettore e verificato sul corpus: **il conteggio delle
+   parole include i marcatori di tempo**. Sulle trascrizioni a pagamento il valore dichiarato è
+   esattamente «parole senza marcatori + numero di marcatori» in **103 casi su 103** controllati — una
+   decina di parole in più per registrazione —, mentre su quelle della piattaforma i marcatori non
+   sono contati. In valore assoluto è trascurabile; rende però i due gruppi non confrontabili al
+   margine, ed è il tipo di difetto che si trova solo controllando.
    La soglia però **non vede il difetto opposto**: una registrazione di 5h07 in cui il primo parlato
    arriva a `[85:57]`, con due sospensioni di 17 e 43 minuti e circa due ore e mezza di aula parlante,
    ha duplicazione 0,0% e trentaquattro parole al minuto — un dato di volume altrettanto privo di
@@ -851,11 +871,14 @@ fattura.
    quando lo approva: prendendo tutti i riferimenti «verbale n. X del …» presenti nei testi e
    tenendo quelli che puntano a sedute **dentro la finestra**, ne risultano 41 — e **40 sono nel
    corpus**. Ne manca uno. Quindi l'assenza di un verbale, dove la si osserva, è quasi sempre una
-   proprietà di come quell'organo verbalizza, non della nostra raccolta. Con una qualificazione che
-   viene da un lettore e va detta: **qualche verbale esiste ma è protocollato tardi** — di una seduta
-   del 4 giugno il verbale porta il protocollo del 10 agosto —, e quello dal nostro corpus di giugno
-   resta fuori comunque. «Assente» significa allora «non ancora pubblicato», ed è una terza cosa
-   rispetto a «non scritto» e a «scritto e vuoto». Vale per i verbali; per le
+   proprietà di come quell'organo verbalizza, non della nostra raccolta. Due lettori hanno sollevato una
+   qualificazione — **qualche verbale esiste ma è protocollato tardi**, di una seduta del 4 giugno con
+   protocollo di agosto — e un terzo l'ha risolta controllando come è definita la finestra: per i
+   verbali il perimetro è la **data della seduta**, non quella del protocollo, e il corpus contiene
+   verbali protocollati fino a fine luglio. Un verbale di una seduta di giugno protocollato ad agosto
+   è quindi dentro il perimetro, ed è nella raccolta se era pubblicato quando abbiamo raccolto. Il
+   ritardo di protocollazione **non spiega le assenze**; le spiega solo per i verbali pubblicati dopo
+   la metà di settembre, che sono l'ultima coda. Vale per i verbali; per le
    convocazioni il punto 14 dice il contrario, ed è per questo che i due casi vanno tenuti separati.
 16. **Una deviazione dallo schema, voluta e mai dichiarata finora.** Lo schema dice che il Municipio
    dichiarato dalla fonte prevale sul toponimo dedotto dal testo; il programma fa il contrario —
