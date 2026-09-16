@@ -854,3 +854,35 @@ pubblicazione. Audit su 1.100 righe: nessuna iniziale di persona residua.
 **Il resto delle sigle puntate negli output — U.I.T.S.S., D.P.R., S.R.L., A.M.A., G.I.P., P.N.R.R.
 — sono amministrative**, e il filtro le segnalava tutte: un altro caso in cui il filtro va letto e
 non creduto.
+
+## 33. 1.250 atti; il livello deliberativo è un'altra fonte (16 settembre, 05:40)
+
+**B22–B24: 150 atti, 46 notizie, 31%** — ma le tre quote sono **10%, 32% e 50%**, e il lettore ha
+isolato la ragione strutturale che il Report 2 dovrà spiegare: **una delibera di Giunta che approva
+un progetto nomina quasi sempre un luogo, una determinazione di liquidazione quasi mai.** La prova
+interna è la più solida vista finora: i 5 atti di liquidazione *dentro* il lotto al 50% si
+comportano come il lotto al 10% — 1 su 5. Non è la soglia che si muove, è il materiale.
+
+Totale: **1.250 atti su 1.983, 300 notizie, 24,0%.**
+
+**Un quinto di un lotto è inutilizzabile oltre il titolo.** Le memorie di Giunta hanno 3–4 pagine
+di cui **solo il frontespizio contiene testo**; una non ha nemmeno la riga dell'oggetto, ed è
+l'unico atto di cui non si può dire di che cosa parli. Tutte e 27 le delibere di Giunta del lotto
+hanno lo strato di testo corrotto all'origine, senza marcatore Tesseract; sette hanno leggibile
+solo il frontespizio, in un caso su 158 pagine.
+
+**Verificato di persona il caso più notevole**: in una delibera il testo è **cifrato per
+scorrimento di tre lettere** — `Sala GHOO$UD]]R` diventa `Sala dell'Arazzo`. Il lettore **non l'ha
+ricostruito**, nemmeno dove l'atto gemello della stessa seduta lo rendeva banale. È la disciplina
+giusta: ricostruire un testo cifrato è indovinare, e uno studio sulle fonti deve dire che quel
+testo è illeggibile, non fingere di averlo letto.
+
+**L'incoerenza dell'anonimizzazione della fonte, con prova interna.** Nello stesso lotto: un atto
+anonimizza i bambini con codici numerici **motivando la scelta**, altri pubblicano cognomi e
+persino **codici fiscali** di legali rappresentanti, due indicano minori con le sole iniziali.
+Audit sui nostri 27 lotti: **nessun codice fiscale, nessuna partita IVA**, tutto reso con il ruolo.
+
+**Due tensioni dichiarate e non risolte** dal lettore, che restano tali: nominare il datore di
+lavoro accanto alla carica di consigliere restringe comunque il campo anche senza il cognome; e il
+cognome di un collezionista, che resta perché identifica la collezione, compare anche nel nome
+della donante, resa con il ruolo.
