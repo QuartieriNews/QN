@@ -4670,3 +4670,22 @@ accanto ai tre verbali con lo stesso link.
 Aggiunte **sedici righe** per i casi entrati oggi nei §3, §5 e §6: senza, la promessa del §7-bis
 («ogni caso porta l'identificativo dell'atto o della registrazione») non era più vera. Ora l'indice
 è a 62 casi.
+
+## 117. Chiusura di due rilievi C5 rimasti aperti nel rapporto (2026-09-16 15:28Z)
+
+Mentre i lotti girano, ho ripreso i rilievi del controllo C5 che chiedevano una **dichiarazione nel
+rapporto** e non una correzione di codice, per non arrivare alla consegna con un «da dichiarare» non
+dichiarato.
+
+- **`vicende.confidenza`** (C5 §1.8): già corretto nel builder — `alta` vince e non viene mai
+  declassata, quindi non dipende più dall'ultima riga processata. Verificato nel codice, niente da
+  fare.
+- **Drift schema↔codice sul nome della colonna** (C5 §2.3): lo schema dice `titolo_anonimizzato` in
+  tutte le tabelle. Chiuso.
+- **Regola di localizzazione** (C5 §2.4): **era ancora da dichiarare, e l'ho dichiarata misurandola.**
+  Lo schema dice che il Municipio della fonte prevale sul toponimo del testo; il programma fa il
+  contrario, perché l'etichetta della fonte descrive la pagina e sul portale municipale è spesso
+  l'elenco delle categorie (fino a quindici Municipi). Quanto pesa: **886 righe** hanno il Municipio
+  dal testo e in **336 (37,9%)** quel Municipio non è fra quelli dichiarati dalla fonte. Nuovo §7
+  punto 13. È una deviazione grossa e l'abbiamo scelta noi: chi seguisse lo schema alla lettera
+  otterrebbe una distribuzione territoriale diversa.

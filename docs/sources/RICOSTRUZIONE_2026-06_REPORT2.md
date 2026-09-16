@@ -60,7 +60,7 @@ non risponde. E fino all'audit davamo per buono che il valore vero stesse in bas
 hanno giudicato a mano quaranta candidate ciascuno della classe incerta, aprendo il testo integrale
 di ogni documento accostato: **6 su 40 (15,0%)** il primo, **9 su 40 (22,5%)** il secondo. Gli
 intervalli si sovrappongono largamente e la differenza non è significativa. Poi un difetto nostro
-(§7 punto 13) ci ha costretti a rifare il campione e a far **rigiudicare da un terzo lettore le 28
+(§7 punto 14) ci ha costretti a rifare il campione e a far **rigiudicare da un terzo lettore le 28
 candidate incerte** che la prima volta erano state mostrate senza i loro accostamenti: ne ha trovate
 gemelle vere 3 invece di 4. Sulla base congiunta, con il rigiudizio che sostituisce il giudizio dato
 sul campione difettoso, **14 su 80 = 17,5%** delle candidate incerte ha davvero un gemello scritto.
@@ -712,7 +712,7 @@ fattura.
    giorno in cui un lotto è stato letto.
 8. **La qualità della deduplicazione, misurata su campioni giudicati da tre lettori.** La
    precisione degli accostamenti forti è **58,1%** (54 su 93, con il rigiudizio che sostituisce i
-   giudizi dati sul campione difettoso del punto 13): l'errore dominante è sempre lo stesso — una
+   giudizi dati sul campione difettoso del punto 14): l'errore dominante è sempre lo stesso — una
    *convocazione* accostata all'*esito* della seduta che convoca, che condivide protocollo, oggetto e
    quasi tutto il testo. Nel rigiudizio sono **21 accostamenti su 79**, e 19 di quei 21 sono fatti
    diversi. Il richiamo, su 40 candidate date per nuove, perde **2 gemelli veri** (5%, IC
@@ -761,7 +761,15 @@ fattura.
    pubblica i propri atti**. Con un'ironia utile: le convocazioni sono anche il tipo di documento che
    produce **quasi tutti gli accostamenti sbagliati** (21 su 79 nel rigiudizio, 19 dei quali fatti
    diversi), perché condividono protocollo e oggetto con il verbale della seduta che convocano.
-13. **Un difetto nostro, trovato tre giorni prima della consegna, e quanto pesa.** Gli
+13. **Una deviazione dallo schema, voluta e mai dichiarata finora.** Lo schema dice che il Municipio
+   dichiarato dalla fonte prevale sul toponimo dedotto dal testo; il programma fa il contrario —
+   **quando il testo nomina un Municipio, vince il testo**. La ragione sta nei dati: l'etichetta della
+   fonte descrive la *pagina*, e sul portale municipale è spesso l'elenco delle categorie, fino a
+   tutti e quindici i Municipi insieme. Quanto pesa: **886 righe** hanno un Municipio ricavato dal
+   testo, e in **336 casi (37,9%)** quel Municipio non è fra quelli dichiarati dalla fonte. È una
+   deviazione grossa, e va detto che l'abbiamo scelta noi: chi rifacesse i conti seguendo lo schema
+   alla lettera otterrebbe una distribuzione territoriale diversa.
+14. **Un difetto nostro, trovato tre giorni prima della consegna, e quanto pesa.** Gli
    identificativi delle righe sono stabili — legati a documento e titolo, non alla posizione — ma
    fino a oggi venivano assegnati **dopo** i confronti. Il file su cui si audita, che elenca le
    coppie parlato-scritto, era quindi scritto con i numeri vecchi: **612 righe su 1.429** puntavano
