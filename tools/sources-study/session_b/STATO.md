@@ -3436,7 +3436,7 @@ di applicarla in silenzio.
 
 Stato: 154 registrazioni V3 lette, 310 trascritte su 318, driver vivo, nessun item messo da parte.
 
-## 88. Drive: ho guardato e ho deciso di non caricare adesso (2026-09-16 11:20Z)
+## 88. Drive: ho guardato e ho deciso di non caricare adesso (2026-09-16 11:17Z)
 
 Controllata la cartella Drive `Fonti 2026-06`: le tre parti di A1 sono lì con gli identificativi che
 avevo annotato, caricate stamattina alle 03:15–03:25. Rigenerato il file compatto: **162.926 byte
@@ -3452,7 +3452,7 @@ Il rischio che resta e che va detto all'owner alla consegna: **su Drive ci sono 
 sembrano correnti e non lo sono**. Non li tolgo prima di avere il sostituto pronto — una cartella con
 un buco è peggio di una con un file vecchio — ma non devono arrivare al 20 settembre così.
 
-## 89. L'indice delle evidenze: il compito è pronto, non l'ho fatto a mano (2026-09-16 11:20Z)
+## 89. L'indice delle evidenze: il compito è pronto, non l'ho fatto a mano (2026-09-16 11:17Z)
 
 Il rilievo **bloccante** del C4 §6.2: i casi raccontati nei §3 e §4 non portano un identificativo, e
 senza riferimento valgono come aneddoti.
