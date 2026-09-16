@@ -59,7 +59,7 @@ non risponde. E fino all'audit davamo per buono che il valore vero stesse in bas
 hanno giudicato a mano quaranta candidate ciascuno della classe incerta, aprendo il testo integrale
 di ogni documento accostato: **6 su 40 (15,0%)** il primo, **9 su 40 (22,5%)** il secondo. Gli
 intervalli si sovrappongono largamente e la differenza non è significativa. Poi un difetto nostro
-(§7 punto 12) ci ha costretti a rifare il campione e a far **rigiudicare da un terzo lettore le 28
+(§7 punto 13) ci ha costretti a rifare il campione e a far **rigiudicare da un terzo lettore le 28
 candidate incerte** che la prima volta erano state mostrate senza i loro accostamenti: ne ha trovate
 gemelle vere 3 invece di 4. Sulla base congiunta, con il rigiudizio che sostituisce il giudizio dato
 sul campione difettoso, **14 su 80 = 17,5%** delle candidate incerte ha davvero un gemello scritto.
@@ -173,11 +173,18 @@ Il motivo è che a datare un fatto, in aula, è quasi sempre **l'atto che qualcu
 lettore dichiara di aver preso le date dal verbale, non dall'audio. Il requisito «datato» funziona
 quindi come **un test sull'esistenza dell'atto travestito da test sul fatto**.
 
-Un lettore l'ha messo alla prova nel modo che serviva, cioè guardando le eccezioni. Nel suo lotto le
-candidate bloccate dalla sola data sono venti, e quindici sono nuove: le cinque che **non** lo sono
-vengono tutte e cinque **dalle due sole sedute il cui verbale riporta davvero la discussione**. Dove
-un verbale racconta, il fatto ha una data e ha un atto; dove non racconta, non ha né l'una né
-l'altro. È la stessa cosa detta due volte, e questo è il modo più diretto in cui l'abbiamo vista.
+Un lettore l'ha messo alla prova nel modo che serviva, cioè guardando le eccezioni: nel suo lotto le
+cinque candidate bloccate dalla data che **non** erano nuove venivano tutte dalle due sole sedute il
+cui verbale riporta davvero la discussione. Altri due lotti hanno ripetuto il controllo e l'hanno
+**corretto**: non conta che esista un verbale, conta che esista **un documento che porti il merito** —
+può essere l'atto letto ad alta voce in aula, o il verbale di un'altra seduta. Con quella
+formulazione le eccezioni si riducono a una su tredici, e il controllo speculare non ne ha nessuna:
+le candidate nuove bloccate dalla data vengono sempre da verbali assenti o vuoti di merito.
+
+Resta un controesempio che va detto, perché è il caso in cui la regola dovrebbe funzionare meglio:
+una seduta il cui verbale esiste ed è fedele — riporta perfino gli orari al minuto — e le cui tre
+candidate sono tutte «solo dal parlato». Un verbale può essere accurato su tutto tranne che sul
+merito.
 
 Resta un divario vero sotto quello artificiale, e va detto: delle altre candidate che non arrivano
 ad alta, la maggior parte manca perché il fatto è **annunciato e non compiuto**, o perché il toponimo
@@ -260,6 +267,11 @@ traccia **unicamente nella registrazione**.
 ragione l'aula. Un verbale, per un errore di riconoscimento ottico, cita una deliberazione «n. 3»
 dove l'aula dice correttamente «n. 35 del 16 marzo 2010».
 
+**E non servono due documenti perché un'ammissione sparisca: basta il verbale della stessa seduta.**
+In aula l'assessorato dichiara che la soprintendenza aveva chiesto di **bloccare l'iter** di una
+variante e che il parere prescrittivo nelle aree tutelate era stato **negato**; il verbale di quella
+seduta scrive che l'incontro «ha consentito di chiarire i rispettivi ambiti di competenza».
+
 **E qualche volta le due fonti non si completano: si smentiscono.** In dodici registrazioni lette di
 seguito ce ne sono quattro casi. Il verbale di una commissione scuola scrive che il trasferimento
 temporaneo di alcune sezioni di una materna è stato revocato per «criticità organizzative, in
@@ -273,6 +285,14 @@ registrazione ad avere ragione. E il verbale di una commissione delle 10.35 racc
 «in commissione commercio si è votato il documento»: quella commissione si riunisce **un'ora più
 tardi** e il parere non lo esprime — né quel giorno né dopo.
 
+Il caso inverso più netto è di un altro lotto, e ribalta la gerarchia: un verbale scrive che a
+un'ora precisa **la registrazione audio fu sospesa** per mancato consenso della funzionaria tecnica
+che stava per rispondere. Tutte le risposte di quel passaggio — le interlocuzioni con il gestore
+idrico, l'assenza di cedimenti, la verifica di allacci non autorizzati, il passaggio della
+manutenzione a una società in house — **esistono solo sulla carta**. È il quarto meccanismo che
+produce lo stesso buco, dopo la prassi, il consenso mancante e la norma: qui la registrazione si
+ferma su richiesta di chi parla, e il verbale è l'unica fonte.
+
 Nel senso opposto, in quelle stesse dodici, un caso solo: un verbale contiene un fatto che l'audio
 non ha («i terreni vanno ancora acquisiti»), e insieme **anonimizza** — dove la registrazione nomina
 l'agenzia capitolina che ha redatto il progetto, il verbale scrive «professionisti».
@@ -284,6 +304,12 @@ stesso sopralluogo — **già approvato** — scrive «si constata» dove il fat
 omette entrambe le ammissioni. La commissione se ne accorge leggendolo in diretta, e un commissario
 dichiara di averlo votato senza averlo letto. Quel verbale era destinato agli enti esterni:
 **quello che esce dal Municipio è la versione senza le ammissioni**.
+
+Succede, non è una legge: in un altro sopralluogo i due documenti **conservano entrambi
+l'ammissione**, e la versione approvata aggiunge dettagli — e aggiunge anche un divieto di riprese e
+fotografie concordato con la società, che nella bozza letta in aula non c'era. Il rischio non è che
+la versione ufficiale ometta sempre: è che ometta **senza che si possa saperlo**, se non
+confrontandola con la registrazione.
 
 **E nelle dodici successive il rapporto si rovescia: due volte ha ragione il parlato, quattro la
 carta.** Non è una smentita del capoverso precedente, è la sua condizione: in quel secondo gruppo
@@ -346,6 +372,17 @@ La discriminante, allora, **non è probatoria: è redazionale**. Sopravvive quel
 dentro un atto che il verbale trascrive; muore quello che sta nella discussione, qualunque ne sia lo
 statuto. Una cifra probatoria pronunciata in dibattito muore come le altre — ed è una formulazione
 più utile, perché dice dove cercare quello che manca: non fra le cifre deboli, ma **nel dibattito**.
+
+Due lotti successivi l'hanno stretta ancora, e nella stessa direzione. Sopravvive **ciò che il
+verbale considera il proprio oggetto**: in una commissione che dà un parere l'oggetto è l'atto, e le
+cifre del merito muoiono anche quando sono scritte dentro altri atti; in un **sopralluogo** l'oggetto
+è quello che si è visto, e allora le cifre dette sul posto sopravvivono tutte, nessuna delle quali
+sta in un documento precedente. Da lì anche i due controesempi che la formulazione precedente non
+spiegava: muoiono cifre che negli atti ci sono — i documenti pervenuti, le osservazioni accolte, le
+soglie di un tessuto urbanistico — e sopravvive una cifra **nata nella discussione**, una premialità
+ipotizzata lì per lì, perché era diventata il punto su cui si decideva. E quando l'aula, invece di
+riassumere, **legge l'atto ad alta voce**, le cifre passano tutte intere. La perdita non è nella
+prova: è nella redazione del riassunto.
 
 L'obiezione ovvia è che decida il redattore, cioè che sia una questione di persone e di uffici. È
 stata controllata e non regge: **lo stesso ufficio, nello stesso mese**, conserva importo, numero di
@@ -474,6 +511,19 @@ anche dove la fonte scrive l'identificativo, il testo può consegnarlo rotto. Qu
 quattro Municipi su quindici: è una buona prassi da nominare, non un meccanismo su cui una pipeline
 possa contare.
 
+**E il verbale sbaglia anche le cose che dovrebbe saper fare.** Su sei verbali confrontati con la
+registrazione, **due sbagliano l'orario di chiusura** — 13:47 contro le 10.07 reali, 14:14 contro le
+11.05 — cioè attribuiscono ore di lavori a sedute di mezz'ora. Chi misurasse la durata delle sedute
+sui verbali otterrebbe numeri privi di senso.
+
+**Tre difetti diversi, e la nostra colonna ne vede uno solo.** La quota di testo duplicato intercetta
+la ripetizione; non vede il **silenzio** (trentacinque minuti muti a quota 0,0, e una commissione che
+fa 87 parole al minuto contro 120-133 perché scorre allegati in silenzio) e non vede la **linea che
+cade** — passaggi di un assessore che semplicemente non arrivano, sei volte nella stessa seduta,
+senza ripetizione, senza silenzio e senza lacuna dichiarata. Un lettore ha anche misurato **quanto
+costa** un ciclo: dove il modello entra in loop il blocco raddoppia, e il parlato reale che sparisce
+è pari al duplicato — 1.315 parole scritte dove ne erano state dette circa 600.
+
 **E la percentuale di testo duplicato non dice dove si perde.** Misurato su due registrazioni dello
 stesso lotto: a **8,5%** di testo duplicato mancano cinque commi di un regolamento — la lettura
 riprende dal quattordicesimo dopo essersi interrotta all'ottavo; a **44,8%** non manca niente,
@@ -565,7 +615,7 @@ fattura.
    giorno in cui un lotto è stato letto.
 8. **La qualità della deduplicazione, misurata su campioni giudicati da tre lettori.** La
    precisione degli accostamenti forti è **58,1%** (54 su 93, con il rigiudizio che sostituisce i
-   giudizi dati sul campione difettoso del punto 12): l'errore dominante è sempre lo stesso — una
+   giudizi dati sul campione difettoso del punto 13): l'errore dominante è sempre lo stesso — una
    *convocazione* accostata all'*esito* della seduta che convoca, che condivide protocollo, oggetto e
    quasi tutto il testo. Nel rigiudizio sono **21 accostamenti su 79**, e 19 di quei 21 sono fatti
    diversi. Il richiamo, su 40 candidate date per nuove, perde **2 gemelli veri** (5%, IC
@@ -604,7 +654,17 @@ fattura.
    dello stesso perimetro. Nessuno dei tre è stato testato: vanno fatti prima di trattare il
    meccanismo come acquisito.
 
-12. **Un difetto nostro, trovato tre giorni prima della consegna, e quanto pesa.** Gli
+12. **L'insieme di confronto non è omogeneo fra i Municipi, e dove manca un tipo di atto la novità
+   sale.** Le convocazioni di commissione sono nel corpus per undici Municipi e **per quattro no** —
+   II, III, IV e XV: zero atti di quel tipo. Non è una scelta, è come li pubblicano. L'effetto si
+   misura: nei quattro Municipi senza convocazioni la quota di candidate con un duplicato certo è
+   **4,0%**, negli altri **9,6%** — meno della metà —, e la novità certa è 46,3% contro 42,2%. La
+   direzione è quella che ci si aspetta e la causa non è separabile dalle differenze reali fra
+   Municipi, ma va detta: **una parte della novità che misuriamo è la forma in cui un'amministrazione
+   pubblica i propri atti**. Con un'ironia utile: le convocazioni sono anche il tipo di documento che
+   produce **quasi tutti gli accostamenti sbagliati** (21 su 79 nel rigiudizio, 19 dei quali fatti
+   diversi), perché condividono protocollo e oggetto con il verbale della seduta che convocano.
+13. **Un difetto nostro, trovato tre giorni prima della consegna, e quanto pesa.** Gli
    identificativi delle righe sono stabili — legati a documento e titolo, non alla posizione — ma
    fino a oggi venivano assegnati **dopo** i confronti. Il file su cui si audita, che elenca le
    coppie parlato-scritto, era quindi scritto con i numeri vecchi: **612 righe su 1.429** puntavano

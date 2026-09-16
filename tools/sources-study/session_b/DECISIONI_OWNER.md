@@ -236,7 +236,14 @@ trovato in un'altra registrazione **venti minuti di microfono aperto durante una
 conversazioni private di consiglieri e di pubblico, in parte mascherate dalla pipeline della
 piattaforma e in parte no. Anche qui il lettore ha rimosso tutto e non ha riprodotto nulla nel log.
 
-Due casi su 305 registrazioni lette non fanno una frequenza, ma cambiano la natura della decisione:
+**Terzo caso, ore 13:58Z**: ventidue parole di conversazione privata dopo la chiusura dichiarata,
+in coda a un'altra registrazione ancora. Il lettore le ha rimosse senza riprodurle. E un dato che
+serve a non gonfiare il conto: un altro lettore ha **cercato esplicitamente** microfoni aperti e
+parlato oltre la chiusura in tutti e dieci i propri item — compresi trentacinque minuti muti — e non
+ne ha trovati. Da qui in avanti i mandati chiedono di cercarlo e di **dichiarare anche quando non
+c'è**: tre casi valgono solo se si sa in quanti item si è guardato.
+
+Tre casi su 305 registrazioni lette non fanno una frequenza, ma cambiano la natura della decisione:
 il primo poteva essere un incidente, due sono un **modo in cui la fonte pubblica sistematicamente
 più di quello che intende pubblicare** — e nel secondo caso non è nemmeno «dopo la fine»: è dentro
 la seduta, in una pausa che tutti in aula considerano privata. La raccomandazione non cambia (la

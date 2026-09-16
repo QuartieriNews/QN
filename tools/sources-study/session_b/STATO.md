@@ -4347,3 +4347,77 @@ Quello che **è** stabilito sul difetto documento-contro-fatto non viene da ques
 nel rapporto: cinque dei diciannove gemelli veri trovati dal rigiudizio sono invisibili sulle sintesi
 e si vedono solo aprendo il testo dell'atto, e lo stesso verbale viene accostato a due candidate
 diverse della stessa seduta. Quelli sono casi, non una curva, e reggono.
+
+## 111. Due lotti insieme, e tre cose che ho dovuto correggere in quello che avevo appena scritto (2026-09-16 13:58Z)
+
+V3_249–V3_261 (42 candidate, 35 nuove) e V3_262–V3_230 (32 candidate, 12 nuove). Due lotti molto
+diversi fra loro, ed è questo che li rende utili: il primo è quasi tutto senza verbali, il secondo ne
+ha parecchi.
+
+### Correzione 1 — la regola delle eccezioni che avevo messo nel §2 un'ora fa
+
+Avevo scritto, sulla scorta di un lotto solo, che le candidate bloccate dalla data che **non** sono
+nuove vengono dalle sedute il cui verbale riporta la discussione. Due lettori l'hanno ripetuta e
+corretta: **non conta che esista un verbale, conta che esista un documento che porti il merito** —
+l'atto letto ad alta voce in aula, o il verbale di un'altra seduta. Così le eccezioni si riducono a
+una su tredici. E c'è un controesempio da tenere: una seduta con verbale fedele, che riporta perfino
+gli orari al minuto, le cui tre candidate sono tutte «solo dal parlato». **Un verbale può essere
+accurato su tutto tranne che sul merito.** §2 riscritto.
+
+### Correzione 2 — «il documento che viaggia è quello sbagliato» non è una legge
+
+Avevo messo nel §3 il sopralluogo in cui il verbale approvato omette le ammissioni che la risoluzione
+riporta. Un altro lettore ha trovato il caso opposto: due documenti dello stesso sopralluogo che
+**conservano entrambi l'ammissione**, e la versione approvata aggiunge dettagli — più un divieto di
+riprese concordato con la società che nella bozza non c'era. Riformulato: il rischio non è che la
+versione ufficiale ometta sempre, è che ometta **senza che si possa saperlo** se non confrontandola
+con la registrazione.
+
+### Correzione 3 — la regola sulle cifre si stringe ancora, e i controesempi la spiegano
+
+Due lotti, la stessa direzione: **sopravvive ciò che il verbale considera il proprio oggetto**. In
+una commissione di parere l'oggetto è l'atto, e le cifre del merito muoiono *anche quando sono
+scritte in altri atti* (documenti pervenuti, osservazioni accolte, soglie di tessuto urbanistico); in
+un **sopralluogo** l'oggetto è quello che si è visto, e allora sopravvivono tutte le cifre dette sul
+posto, nessuna delle quali sta in un documento precedente. Questo spiega i due controesempi che la
+formulazione «redazionale» non spiegava, compresa una cifra **nata nella discussione** che
+sopravvive perché era diventata il punto su cui si decideva. E la doppia conferma: quando l'aula
+**legge** l'atto invece di riassumerlo, le cifre passano tutte intere. La perdita è nella redazione
+del riassunto, non nella prova.
+
+### Cose nuove che entrano nel rapporto
+
+- **Non servono due documenti perché un'ammissione sparisca**: basta il verbale della stessa seduta.
+  In aula l'assessorato dice che la soprintendenza aveva chiesto di bloccare l'iter e che il parere
+  era stato negato; il verbale scrive che l'incontro «ha consentito di chiarire i rispettivi ambiti
+  di competenza».
+- **Il quarto meccanismo che produce un buco**: un verbale scrive che a un'ora precisa la
+  registrazione **fu sospesa per mancato consenso** della funzionaria che stava per rispondere. Tutte
+  le risposte di quel passaggio esistono solo sulla carta. Dopo la prassi, il consenso mancante e la
+  norma, questo è il caso in cui è chi parla a fermare la registrazione — e la gerarchia si ribalta.
+- **Due verbali su sei sbagliano l'orario di chiusura** (13:47 contro 10.07; 14:14 contro 11.05):
+  attribuiscono ore di lavori a sedute di mezz'ora.
+- **Quanto costa un ciclo, misurato**: dove il modello va in loop il blocco raddoppia e il parlato
+  reale che sparisce è pari al duplicato — 1.315 parole dove ne erano state dette circa 600.
+- **Un terzo difetto che nessuna colonna vede**: la linea che cade, sei volte nella stessa seduta,
+  senza ripetizione, senza silenzio e senza `lacuna`. Il lettore chiede che venga contato come gli
+  altri due; non tocco la specifica, va nel rapporto e nella nota per chi rifarà lo studio.
+
+### Un buco dell'insieme di confronto che ho verificato io
+
+Un lettore ha segnalato che il Municipio II non ha **nessuna convocazione di commissione** nel
+corpus. Controllato: i Municipi senza sono **quattro** — II, III, IV e XV — contro undici che le
+hanno. E l'effetto si misura: in quei quattro la quota di candidate con un duplicato certo è **4,0%**
+contro **9,6%**, meno della metà, e la novità certa 46,3% contro 42,2%. Non è separabile dalle
+differenze reali fra Municipi, ma va detto: **una parte della novità che misuriamo è la forma in cui
+un'amministrazione pubblica i propri atti**. Nuovo §7 punto 12 (gli altri scalano di uno).
+
+Con un'ironia utile: le convocazioni sono anche il tipo di documento che produce quasi tutti gli
+accostamenti sbagliati — 21 su 79 nel rigiudizio, 19 dei quali fatti diversi.
+
+### DEC-102
+
+**Terzo caso** di parlato oltre la chiusura (ventidue parole), rimosso. E la cosa che rende il conto
+leggibile: un altro lettore ha **cercato e dichiarato di non aver trovato nulla** in tutti e dieci i
+suoi item. Da qui in avanti i mandati chiedono di cercarlo e di dichiararlo anche quando non c'è:
+tre casi valgono solo se si sa in quanti item si è guardato. `DECISIONI_OWNER.md` aggiornato.
