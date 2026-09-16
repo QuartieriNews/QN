@@ -3826,7 +3826,7 @@ La cosa da notare è la forma, per la terza volta oggi: **il risolutore funziona
 l'avevo provato e falliva sull'intera classe che non avevo provato.** L'ho scoperto solo perché l'ho
 eseguito su tutto invece che sui dodici casi da cui ero partito.
 
-## 99. Lo stato che accompagna il numero (2026-09-16 11:54Z)
+## 99. Lo stato che accompagna il numero (2026-09-16 11:51Z)
 
 Il C5 chiedeva che il numero pubblicato fosse accompagnato dallo snapshot che lo ha generato.
 `report2/congela_consegna.py` lo fa: copia in una cartella datata i quindici file di dati che

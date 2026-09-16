@@ -500,6 +500,11 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | 25 concordi e 5 discordi della seconda AI | `report2/seconda_ai.js` |
 | 36,8% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
 
+Alla consegna, `report2/congela_consegna.py` mette accanto al rapporto lo **stato che ha prodotto
+questi numeri**: i dati, i programmi che li calcolano, il commit del repository e un file di numeri
+generato eseguendo i programmi, non ricopiato a mano. Senza, «83,9%» è un'affermazione che nessuno
+può rifare, perché il database cambia a ogni lotto che rientra.
+
 E un programma, `report2/verifica_numeri_rapporto.py`, ricalcola tutti questi valori dal database e
 dice quali il testo non contiene più: serve perché a ogni lotto che rientra i numeri invecchiano, e
 cercarli a occhio in quattrocento righe non funziona — quattro erano vecchi anche dopo due giri di
