@@ -3407,7 +3407,7 @@ si comportano bene finché non succede la cosa che dovrebbero intercettare. **La
 meccanismo di sicurezza non è che il programma funzioni: è che fallisca come previsto quando lo si
 rompe apposta.** Nessuno di questi quattro era mai stato messo alla prova con un guasto vero.
 
-## 87. Il secondo giro di audit è pronto, e c'è un pezzo nuovo da controllare (2026-09-16 11:18Z)
+## 87. Il secondo giro di audit è pronto, e c'è un pezzo nuovo da controllare (2026-09-16 11:15Z)
 
 Il numero principale del rapporto — **85,6%** — poggia su **quaranta casi giudicati da un solo
 revisore**. È poco per la cosa su cui si regge tutto, e il revisore stesso l'ha scritto. Ho preparato
