@@ -1738,3 +1738,50 @@ persona, e ha dichiarato che con la lettura stretta quella riga uscirebbe.
 
 Avviata la lettura del corpus RomaTV: **248 item** (185 trascritti da noi, 63 dalla piattaforma),
 1.150.875 parole, primo lotto in corso.
+
+## 54. La parte di seduta che sta fuori dal record, per regola (16 settembre, 09:30)
+
+Rientrato V4_073–V4_084: 12 sedute, 15 ore e 23 minuti, 84.283 parole, **65 candidate, 45 `solo dal
+parlato`**. Il lettore ha ricevuto in corsa la correzione della regola e ha **riallineato cinque
+righe** già scritte, dichiarando quali.
+
+**La divisione che avevo chiesto, e che sarà la colonna portante del rapporto.** Delle 45
+`solo dal parlato`: **33 vengono da sedute il cui verbale è assente, vuoto o di sola presenza; 12 da
+sedute con verbale pieno.** Queste dodici sono le più solide che lo studio abbia prodotto finora: il
+verbale c'è, ha una sintesi, elenca i suoi oggetti — e il fatto non c'è lo stesso.
+
+**Tre reperti che riguardano il record pubblico in quanto tale.**
+
+1. **Una parte dell'audizione è fuori dal record per regola.** In una commissione una libraia
+   collegata dichiara di essere stata invitata e non ottiene la parola; la presidenza spiega che chi
+   non è formalmente convocato parla **solo a registrazione interrotta**, e che quegli interventi
+   «per motivi di privacy non vengono inseriti». La seduta si chiude interrompendo la registrazione
+   per ascoltarla. Non è un guasto tecnico: è una procedura, e produce un buco sistematico.
+2. **Il verbale si scrive in diretta, decidendo a voce che cosa lasciarci.** In un'altra commissione
+   due interventi vengono saltati esplicitamente e un capoverso rinegoziato per due minuti. Alla
+   domanda se gli assessori correggano mai i verbali che ricevono: **«no, non lo fanno mai».**
+3. **I buchi della trascrizione cadono sulle votazioni.** In una seduta i due tratti muti maggiori —
+   49 e 24 secondi — coincidono con le votazioni elettroniche. Il momento in cui si vota è quello
+   che la trascrizione non copre.
+
+**Il censimento sbaglia in modo sistematico, non casuale.** Una convocazione del Municipio IX del 24
+giugno è attribuita a **due sedute sbagliate** e tolta a quella giusta: tre item coinvolti. Si
+aggiunge ai 6 abbinamenti a un altro Municipio e agli 8 a un atto fuori giugno già misurati in §50.
+
+**Un dato che l'atto contraddice.** In aula si legge un verbale che stima il Ponte dei Congressi
+«circa 300 milioni»; l'atto della stessa seduta parla di un appalto da 211 milioni. Il lettore ha
+lasciato la cifra detta e segnalato lo scarto — che è la regola giusta, e che secondo la definizione
+corretta rende quella riga `solo dal parlato`, perché la notizia è la discordanza.
+
+**Una registrazione che non è una registrazione.** Cinque ore e quarantasei, di cui **quattro ore e
+sei minuti di silenzio**, e i primi tredici minuti senza alcun sottotitolo; la seduta diventa valida
+solo al **quarto appello, dopo due ore e un quarto** (10, 11, 18 e infine 33 presenti su 48). Le 28
+parole al minuto che il manifest lascia calcolare sono un artefatto, e il lettore lo ha scritto nel
+file invece di lasciarlo dedurre.
+
+**E la trascrizione, ancora.** Nove grafie per il toponimo che è l'oggetto della seduta; quattro per
+la libreria che è il caso centrale della discussione, nessuna corretta; importi che saltano di tre
+ordini di grandezza («€3.280.000 000», «€200.000 000 a box»); un articolo di legge che da «35 comma
+2» diventa «35,1».
+
+Avviato il secondo lotto RomaTV. Corpus parlato: 97 sedute YouTube lette, 248 RomaTV in coda.
