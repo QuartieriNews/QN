@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 32,73 € |
-| **Disponibile** | **45,27 €** |
+| Speso nella sessione B | 32,87 € |
+| **Disponibile** | **45,13 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -41,6 +41,7 @@ listino in dollari):
 | 16/09 11:49 | controllo Codex C4 sul rapporto scritto (12.831 token in, 12.283 out) | 0,22 € |
 | 16/09 12:30 | trascrizione, 303 registrazioni su 318, 216,2 ore ($ 34,07, in corso) | 31,34 € |
 | 16/09 12:35 | controllo Codex C5 sul database e sul programma (16.508 token in, 19.378 out) | 0,29 € |
+| 16/09 12:42 | prova T4, seconda AI su 30 candidate, due passate | 0,14 € |
 
 Gli orari di questa tabella sono ora di Roma; le intestazioni delle sezioni sono in UTC. Andava
 detto: due fusi nello stesso file si leggono male.
@@ -3107,3 +3108,49 @@ prodotti (`titolo` contro `titolo_anonimizzato`), per cui un programma conforme 
 leggerebbe i nostri file.
 
 Registro: C5 16.508 token in, 19.378 out, 0,29 €.
+
+## 81. Prova T4: la prima misura misurava la mia finestra, non le candidate (2026-09-16 10:44Z)
+
+La seconda AI indipendente sulle candidate — prova T4 del metodo, mai fatta, prescritta dall'HANDOFF
+§4. Prima ho verificato che fosse lecita: il metodo la blocca finché la chiave OpenAI non è ruotata
+(regola *fail-closed*), e l'HANDOFF dice che **l'owner ha inserito la nuova chiave la sera del 15
+settembre**. Rotazione fatta, blocco caduto, T4 autorizzata.
+
+**Che cosa le ho mandato, e perché proprio quello.** Alle candidate dalle registrazioni ho allegato
+il tratto di trascrizione attorno al marcatore citato: quell'audio **è già stato mandato alla stessa
+API per essere trascritto**, quindi non esce da dove non fosse già uscito. Alle candidate dagli atti
+ho mandato la sola riga anonimizzata: i testi degli atti alla API non sono mai stati mandati, e
+alcuni contengono dati personali che questo studio ha già documentato. L'asimmetria è voluta e va
+dichiarata: sulle dieci righe da atti la seconda AI ha potuto giudicare solo la coerenza interna.
+
+**Primo risultato: 12 discordi su 20.** Un sessanta per cento di disaccordo avrebbe cambiato la
+lettura di tutto il lavoro dei lettori. Ma i motivi erano quasi tutti della stessa forma: *«X non
+compare nell'evidenza allegata»*. L'evidenza allegata era la mia: **duemila caratteri attorno al
+primo marcatore**. Una candidata con più marcatori, o il cui dettaglio arriva più avanti dentro un
+blocco da cinque minuti, risultava non sostenuta **per costruzione**.
+
+Rifatta con l'estratto attorno a **tutti** i marcatori citati, con margini larghi (7.400 caratteri in
+media invece di 2.000):
+
+| | estratto stretto | estratto ampio |
+|---|---|---|
+| discordi sulle 12 ricontrollate | 12 | **4** |
+
+**Otto discordanze su dodici erano mie.** Esito finale su 30 casi: **25 concordi, 5 discordi**, cioè
+un disaccordo del **21%** sulle candidate dove una verifica vera era possibile — e le cinque che
+restano sono sostanziali: «l'estratto sostiene solo una parte della sintesi», «il tipo è sbagliato:
+è una discussione, non un ordine del giorno trattato».
+
+**La lezione vale più del numero, e va nel rapporto**: se si dà al verificatore **meno contesto di
+quanto ne avesse il lettore originale**, non si misura la qualità della lettura, si misura la
+propria troncatura. Vale per qualunque pipeline che usi una seconda AI come controllo: la finestra
+di evidenza è un parametro del risultato, non un dettaglio implementativo.
+
+Un caso (`N2530`) non è stato restituito dalla seconda passata: resta contato come discorde, che è
+la lettura prudente.
+
+L'esito è ora nel database: `build_db.py` legge `t4_esito.csv` e riempie `verifica_seconda_ai`, che
+era uno dei campi mai popolati segnalati dal C5. Le righe non verificate restano `non eseguita` —
+un campo vuoto sarebbe indistinguibile da una verifica riuscita.
+
+Registro: T4 16.212 + 25.687 token in, 2.904 + 1.991 out, **0,14 €** in tutto.

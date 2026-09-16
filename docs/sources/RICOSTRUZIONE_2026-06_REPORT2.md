@@ -387,6 +387,30 @@ fattura.
    dello stesso perimetro. Nessuno dei tre è stato testato: vanno fatti prima di trattare il
    meccanismo come acquisito.
 
+## 6-bis. Una seconda AI sulle candidate, e che cosa ha insegnato il primo tentativo
+
+Il metodo prescrive che un modello di un'altra famiglia rilegga un campione di candidate già
+classificate e dica se è d'accordo. Su 30 candidate — 20 dalle registrazioni, con il tratto di
+trascrizione allegato, 10 dagli atti, con la sola riga — l'esito è **25 concordi e 5 discordi**: un
+disaccordo del 21% dove una verifica vera era possibile. Le cinque discordanze che restano sono
+sostanziali: l'estratto sostiene solo una parte della sintesi, oppure il tipo dichiarato è sbagliato.
+
+**Il primo tentativo però ne aveva trovate dodici su venti**, e quel 60% sarebbe stato un risultato
+falso. I motivi erano quasi tutti della stessa forma — «X non compare nell'evidenza allegata» — e
+l'evidenza allegata era duemila caratteri attorno al **primo** marcatore: una candidata con più
+marcatori, o il cui dettaglio arriva più avanti dentro un blocco da cinque minuti, risultava non
+sostenuta **per costruzione**. Allargando l'estratto a tutti i marcatori citati, otto discordanze su
+dodici sono sparite.
+
+Vale la pena scriverlo perché riguarda chiunque usi una seconda AI come controllo: **se il
+verificatore riceve meno contesto di quanto ne avesse il lettore originale, non si misura la qualità
+della lettura, si misura la propria troncatura.** La finestra di evidenza è un parametro del
+risultato, non un dettaglio di implementazione.
+
+Un limite dichiarato: alle candidate che vengono dagli atti non è stato allegato il testo dell'atto,
+perché i testi degli atti non sono mai stati trasmessi a un servizio esterno e alcuni contengono dati
+personali. Su quelle dieci righe la seconda AI ha potuto giudicare **solo la coerenza interna**.
+
 ## 7-bis. Da dove viene ogni numero
 
 Perché chiunque possa rifarli invece di crederci. Tutti girano su `report2/snapshot/`, che è
@@ -401,6 +425,8 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | 17 identificativi di seduta negli atti, 7 risolti | `report2/link_verbali_video.py` |
 | collegamento registrazione-atto | `report2/collega_video_atti.py` |
 | tutte le tabelle del database | `report1/build_db.py` |
+| 25 concordi e 5 discordi della seconda AI | `report2/seconda_ai.js` |
+| 35,5% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
 
 Quello che **non** è riproducibile da un programma sta nei §3 e §4: sono letture, non misure, e ogni
 caso porta l'identificativo dell'atto o della registrazione con il marcatore, così che chiunque

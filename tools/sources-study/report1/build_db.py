@@ -505,6 +505,24 @@ print('coppie parlato-scritto scritte in report2/coppie_parlato_scritto.csv: %d'
 print('confronto esaustivo parlato-scritto, su tutto il corpus: %s' % dict(cc))
 print('  dentro il blocco, come prescrive il metodo:            %s' % dict(cb))
 
+# ---- esito della seconda AI (prova T4) ------------------------------------
+# Lo schema prevede il campo `verifica_seconda_ai` e finora nessuno lo riempiva (rilievo C5). Qui si
+# legge l'esito della prova, se c'e'. Le righe non verificate restano `non eseguita`: un campo vuoto
+# sarebbe indistinguibile da una verifica riuscita e senza rilievi.
+t4 = {}
+p_t4 = R2 + '/t4_esito.csv'
+if os.path.exists(p_t4):
+    for r in csv.DictReader(open(p_t4, encoding='utf-8')):
+        t4[r['id']] = r
+for n in notizie:
+    e = t4.get(n['id'])
+    if e:
+        n['verifica_seconda_ai'] = e['verifica_seconda_ai']
+        n['note'] = ((n['note'] + ' | ') if n['note'] else '') + 'T4 %s: %s' % (e['verifica_seconda_ai'], e['motivo'])
+if t4:
+    print('prova T4: %d righe verificate da una seconda AI, %d discordi'
+          % (len(t4), sum(1 for e in t4.values() if e['verifica_seconda_ai'] == 'discorde')))
+
 # ---- vicende (schema §2 regola 3) -----------------------------------------
 vicende = []
 for n in notizie:
