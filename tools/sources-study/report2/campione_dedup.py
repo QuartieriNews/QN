@@ -132,8 +132,23 @@ for i, r in enumerate(campU, 1):
 # Il campione si scrive con il proprio seme nel nome: sovrascrivere il file precedente cancellava
 # l'unica copia di quello che un revisore aveva davanti, e il seme da solo non lo ricostruisce
 # perche' il database intanto e' cambiato.
-nome = NET + '/report2/campione_dedup_%s.md' % re.sub(r'[^a-z0-9]+', '-', SEME.lower()).strip('-')
+etichetta = re.sub(r'[^a-z0-9]+', '-', SEME.lower()).strip('-')
+nome = NET + '/report2/campione_dedup_%s.md' % etichetta
 open(nome, 'w', encoding='utf-8').write('\n'.join(out))
+
+# Il campione porta con se' **i file da cui e' stato costruito**. Senza, chi lo giudica risolve gli
+# identificativi su un database che nel frattempo e' cambiato, e finisce per leggere la riga
+# sbagliata accanto a quella giusta: e' successo al secondo revisore, che ha trovato sette coppie
+# appaiate a una gemella che non era la loro e ha dovuto ricostruirle da solo.
+# Un campione senza il proprio stato non e' ripetibile, e un audit non ripetibile non e' un audit.
+import shutil
+cart = NET + '/report2/snapshot_campione_' + etichetta
+os.makedirs(cart, exist_ok=True)
+for f in ('report1/db/notizie_candidate.csv', 'report1/db/documenti.csv',
+          'report1/db/registro_id.csv', 'report2/coppie_parlato_scritto.csv'):
+    if os.path.exists(NET + '/' + f):
+        shutil.copy(NET + '/' + f, cart + '/' + os.path.basename(f))
+print('stato congelato accanto al campione in', os.path.basename(cart))
 print('A. coppie gemelle (precisione): %d' % len(forti))
 print('B. candidate S con almeno un vicino largo: %d su %d S (campionate %d)'
       % (len(vicini), len(esse), len(camp)))

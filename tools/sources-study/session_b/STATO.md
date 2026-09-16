@@ -3694,3 +3694,78 @@ affermazione sono stati aperti uno per uno e reggono.
 **Una nota che vale per il rapporto**: tre affermazioni su dieci non hanno una fonte sola — la
 registrazione porta metà del fatto e l'atto l'altra metà. L'indice ha una riga per lato. Non è un
 difetto dell'indice: è esattamente la cosa che il §3 racconta.
+
+## 95. Il secondo audit: il numero regge, e il campione era rotto (2026-09-16 11:50Z)
+
+### Il timore che avevo era infondato, ed è misurato
+
+I 46 accostamenti forti nati dalla correzione sul filtro del tipo — quelli che «nessuno aveva mai
+verificato» e che temevo gonfiassero la classe dei duplicati:
+
+| | precisione | Wilson 95% |
+|---|---|---|
+| i «nuovi» | **60,0%** (36/60 coppie) | [47,4% ; 71,4%] |
+| quelli che il criterio ammetteva già | 51,5% (17/33) | [35,2% ; 67,5%] |
+
+**Non sono peggiori: sono leggermente migliori.** Delle 77 candidate di classe D, 45 devono quella
+classe solo alla correzione, e 32 di quelle 45 (71%) hanno un gemello vero.
+
+### La classe incerta: confermata
+
+**9 su 40 = 22,5%** [10,6% ; 36,9%], contro il 15,0% [7,1% ; 29,1%] del primo giro. Intervalli
+largamente sovrapposti, z = 0,86, p = 0,39: **differenza non significativa**. Base congiunta
+**15 su 80 = 18,75%** [10,8% ; 28,2%].
+
+### La risposta
+
+| | |
+|---|---|
+| con p = 22,5% (secondo giro) | **82,1%** [75,4% ; 87,6%] |
+| aggiungendo la correzione sulla classe D, che il primo giro non poteva fare | **84,7%** [78,0% ; 90,3%] |
+| i due giri insieme | **83,9%** [79,5% ; 87,5%] |
+
+L'85,6% pubblicato **sta dentro entrambi gli intervalli**. La risposta resta vicino al limite
+superiore. Aggiorno il rapporto a **83,9%**, che è la stima sui due campioni.
+
+### Una misura che nessuno aveva chiesto e che vale quanto le altre
+
+Il generatore escludeva le candidate già giudicate solo per le sezioni B e C, non per la A. Doveva
+essere un difetto e ha prodotto la misura che mancava: **24 candidate e 20 coppie identiche
+giudicate da due revisori diversi, accordo 19 su 20 — il 95%**. L'unica divergenza è il caso per cui
+il criterio era stato corretto (parere di commissione contro delibera di Giunta), e con la regola
+simmetrica sono fatti diversi.
+
+### Il campione era rotto, e la causa è mia
+
+**26 delle 77 candidate della sezione A non mostravano nessuna coppia forte; cinque ne mostravano una
+sbagliata** — la gemella di una candidata stampata accanto a un'altra. Il revisore ha dovuto
+ricostruire 38 coppie da solo, con una copia della regola validata su 55 casi.
+
+La causa: `campione_dedup.py` risolveva gli identificativi delle coppie su un `notizie_candidate.csv`
+di **un'altra esecuzione**. E il database è stato riscritto **durante l'audit** — alle 11:23, con il
+campione delle 11:11: 254 righe con contatori incoerenti, nove identificativi del file delle coppie
+inesistenti nel database, il corpus da 1.021 a 1.081.
+
+Corretto: il campione ora **porta con sé i file da cui è stato costruito**, congelati in una cartella
+accanto. Un campione senza il proprio stato non è ripetibile, e **un audit non ripetibile non è un
+audit**. È la seconda volta oggi che un revisore inciampa in questo: al primo giro erano gli
+identificativi posizionali, e li ho messi in un registro; stavolta è il campione che guardava un
+database in movimento. Lo stesso errore, spostato di un livello.
+
+### E un fatto che cambia come si legge la classe incerta
+
+Dei 40 accostamenti giudicati «fatti diversi» nella sezione A, **17 nascono da verbali della stessa
+seduta che registrano solo le presenze e rimandano alla registrazione**; 14 da convocazioni; 9 da
+fatti realmente distinti. Quindi:
+
+> **il verbale della stessa seduta non è di per sé una fonte scritta del fatto.**
+
+Il «verbale reticente» è il meccanismo dominante, più della convocazione contro esito che avevo
+identificato al primo giro.
+
+### Altro da tenere
+
+**Tre doppioni del parlato in più** (`N1944/N1953`, `N1946/N1955`, `N1948/N1957`): quattro su 77
+candidate, il denominatore della novità è **sovrastimato di circa il 5%**. E i dodici testi che
+risultavano irrecuperabili **sono recuperabili**: sono item già scaricati salvati con un nome diverso
+dall'url, e con la regola giusta la copertura passa da 86 a **98 su 98**.
