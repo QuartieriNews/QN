@@ -4062,3 +4062,52 @@ davano ancora per da fare. Ho controllato prima di riscriverla.
 **Promemoria.** Erano rimasti armati **quattro** promemoria scaduti che hanno svegliato la sessione
 con quattro stati diversi, tutti vecchi. Cancellati; ne resta uno solo. Regola: prima di armarne uno
 nuovo, cancellare il precedente.
+
+## 105. Gli identificativi erano stabili nel database e posizionali nel file delle coppie (2026-09-16 12:33Z)
+
+Cercando dell'altro ho trovato che **36 righe su 84 della classe D non avevano nessuna coppia forte**
+in `coppie_parlato_scritto.csv`, e che **nove identificativi del file delle coppie non esistevano nel
+database**. Da lì il difetto vero.
+
+**Che cosa succedeva.** Il registro degli identificativi stabili (§ della collisione silenziosa) era
+applicato **in fondo** a `build_db.py`, dopo la deduplicazione, dopo il confronto esaustivo e dopo le
+integrazioni. Quei passaggi scrivono riferimenti da riga a riga e li scrivevano con gli
+identificativi **posizionali**; subito dopo le righe cambiavano numero. Il fix che doveva impedire
+le collisioni ne creava un'altra, un piano più sotto.
+
+**Non è una deduzione: è misurato.** Prendendo le coppie del file e controllando il criterio «data a
+±1 giorno», risolvendo gli identificativi **per posizione** l'accordo è 1.341 su 1.341; risolvendoli
+**per identificativo** è 842 su 1.327. Il file parlava la lingua delle posizioni.
+
+**Estensione del danno, sui file di prima:**
+- `coppie_parlato_scritto.csv`: **612 righe su 1.429 (43%)** avevano una `parlata` che puntava a
+  un'altra riga;
+- `gemello_id`: **51 riferimenti su 1.168** cadevano nella zona divergente — collisioni silenziose,
+  non vuoti;
+- `integra_gemello_id`: **0**, perché punta alle righe del Report 1, che stanno in testa e non si
+  spostano;
+- **i numeri non sono toccati**: `gemelli_scritti`, S/U/D e `dedup_stato` si calcolano sugli oggetti,
+  non sugli identificativi. Ricostruito il database col fix, i conteggi per riga e il file delle
+  coppie coincidono esattamente (0 discordanze) e nessun riferimento è rotto.
+
+**Dove invece si sente: negli audit.** Il campione mostra la riga parlata (giusta) e poi i suoi
+accostamenti, presi dal file delle coppie (sbagliati per le righe della zona divergente). Toccate
+**39 candidate su 86** della sezione A e **37 su 80** della sezione C. Un lettore l'aveva scritto
+senza saperne la causa: «*accostamento NON mostrato dal campione: ricostruito*».
+
+**Quanto pesa sul numero principale.** Sulla sola parte non toccata la quota di gemelli veri fra le
+incerte è **20,9% (9 su 43)** contro il **18,8% (15 su 80)** pubblicato: circa **un punto** di
+risposta finale. Ma le due parti **non differiscono solo per il difetto**: la zona divergente è fatta
+delle righe lette più di recente, quindi è anche un corpus diverso — la stessa confusione del §7
+punto 10. Quindi il 20,9% **non è una correzione da applicare**: è la misura di quanto il problema
+può pesare. Il modo giusto di chiudere la questione è rifare il campione sul database corretto e far
+rigiudicare i casi toccati: un lotto di lettore, e c'è margine.
+
+**Il fix.** Il blocco del registro è stato spostato **prima** della deduplicazione, con la nota del
+perché. Da adesso ogni confronto scrive riferimenti già stabili.
+
+**La misura sui «magneti» resta sospesa.** Avevo appena misurato che gli accostamenti verso le righe
+scritte che ne attirano molti sono giusti molto meno spesso (80% / 75% / 50% / 21% per fasce di
+1-2, 3-4, 5-9, 10 o più accostamenti): è il difetto documento-contro-fatto del controllo C5 con un
+effetto misurato. Ma poggia sugli stessi giudizi contaminati. `report2/magneti_dedup.py` resta, con
+l'avvertenza in testa; il numero non entra nel rapporto finché il campione non è rifatto.

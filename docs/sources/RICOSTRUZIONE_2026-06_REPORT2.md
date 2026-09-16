@@ -537,6 +537,20 @@ fattura.
    dello stesso perimetro. Nessuno dei tre è stato testato: vanno fatti prima di trattare il
    meccanismo come acquisito.
 
+12. **Un difetto nostro, trovato tre giorni prima della consegna, e quanto pesa.** Gli
+   identificativi delle righe sono stabili — legati a documento e titolo, non alla posizione — ma
+   fino a oggi venivano assegnati **dopo** i confronti. Il file su cui si audita, che elenca le
+   coppie parlato-scritto, era quindi scritto con i numeri vecchi: **612 righe su 1.429** puntavano
+   a un'altra riga. Non tocca i conteggi — le classi S, U e D si calcolano sugli oggetti, e
+   ricostruito il database col programma corretto i conteggi per riga e il file delle coppie
+   coincidono esattamente — ma tocca **gli audit**, perché il campione mostrava, per una parte delle
+   candidate, gli accostamenti di un'altra riga. Riguarda 37 delle 80 candidate incerte giudicate.
+   Sulla sola parte non toccata i gemelli veri sono il **20,9%** invece del 18,8%, cioè circa un
+   punto di risposta finale; ma quella parte è anche un corpus diverso (sono le registrazioni lette
+   per ultime), quindi è **una misura di quanto il problema può pesare, non una correzione da
+   applicare**. Il modo di chiuderla è rifare il campione sul database corretto e far rigiudicare i
+   casi toccati.
+
 ## 6-bis. Una seconda AI sulle candidate, e che cosa ha insegnato il primo tentativo
 
 Il metodo prescrive che un modello di un'altra famiglia rilegga un campione di candidate già

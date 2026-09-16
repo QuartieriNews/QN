@@ -367,6 +367,45 @@ if os.path.isdir(R2 + '/out_video'):
     print('registrazioni lette: %d; candidate dal parlato: %d' % (letti_v, len(notizie) - n_prima))
     print('  ', {k.replace('novita: ', ''): v for k, v in nov.most_common()})
 
+# Gli identificativi si assegnano **qui**, prima di qualunque confronto: la deduplicazione,
+# il confronto esaustivo e le integrazioni scrivono riferimenti da riga a riga, e se il
+# registro arrivasse dopo quei riferimenti resterebbero posizionali mentre le righe hanno
+# gia' cambiato numero. E' successo: 549 righe su 2.936 avevano un numero diverso dalla
+# propria posizione, e `coppie_parlato_scritto.csv` — il file su cui si audita — era scritto
+# con i numeri vecchi.
+# ---- identificativi stabili -----------------------------------------------
+# Fino a oggi l'identificativo di una notizia era la sua **posizione** nella lista: `N{k:04d}` da
+# `enumerate`. Le righe del Report 1 restavano ferme perche' stanno in testa, ma bastava aggiungere
+# un lotto di atti — che si inserisce in mezzo — per far scorrere di dodici posizioni tutte le righe
+# delle registrazioni. Un revisore se n'e' accorto nel modo peggiore: il database e' stato riscritto
+# mentre lavorava, e l'identificativo che stava giudicando indicava un'altra riga. Non un vuoto:
+# **un'altra riga esistente**, cioe' una collisione silenziosa.
+# Da qui in avanti l'identificativo sta in un registro, legato all'identita' della riga (documento e
+# titolo) e non alla sua posizione. Le righe gia' viste tengono il proprio; le nuove prendono il
+# primo numero libero. Il registro si versiona insieme ai dati.
+REGISTRO = R + '/db/registro_id.csv'
+chiave_id = lambda n: (n['documento_id'], (n['titolo_anonimizzato'] or '').strip())
+registro = {}
+if os.path.exists(REGISTRO):
+    for r in csv.DictReader(open(REGISTRO, encoding='utf-8')):
+        registro[(r['documento_id'], r['titolo'])] = r['id']
+liberi = max([int(v[1:]) for v in registro.values()] or [0])
+nuovi_id = 0
+for n in notizie:
+    k = chiave_id(n)
+    if k in registro:
+        n['id'] = registro[k]
+    else:
+        liberi += 1; n['id'] = f'N{liberi:04d}'; registro[k] = n['id']; nuovi_id += 1
+doppi = len(notizie) - len({n['id'] for n in notizie})
+if doppi:
+    print('ATTENZIONE: %d righe condividono un identificativo (documento e titolo uguali)' % doppi)
+os.makedirs(R + '/db', exist_ok=True)
+with open(REGISTRO, 'w', newline='', encoding='utf-8') as fh:
+    w = csv.writer(fh); w.writerow(['id', 'documento_id', 'titolo'])
+    for (d, ti), i in sorted(registro.items(), key=lambda x: x[1]): w.writerow([i, d, ti])
+print('identificativi: %d dal registro, %d nuovi' % (len(notizie) - nuovi_id, nuovi_id))
+
 # ---- deduplicazione (metodo §4.1, schema §2 regola 2) ----------------------
 # Three conditions, in order: (a) date within +/-1 day, (b) place, (c) object. (a)+(b) without (c)
 # is a doubt, never a merge: the yield is then reported as a range.
@@ -553,39 +592,6 @@ for n in notizie:
         n['campi_integrati'] = ';'.join(campi)
         integrate += 1
 print('righe del Report 2 che integrano una gemella del Report 1: %d' % integrate)
-
-# ---- identificativi stabili -----------------------------------------------
-# Fino a oggi l'identificativo di una notizia era la sua **posizione** nella lista: `N{k:04d}` da
-# `enumerate`. Le righe del Report 1 restavano ferme perche' stanno in testa, ma bastava aggiungere
-# un lotto di atti — che si inserisce in mezzo — per far scorrere di dodici posizioni tutte le righe
-# delle registrazioni. Un revisore se n'e' accorto nel modo peggiore: il database e' stato riscritto
-# mentre lavorava, e l'identificativo che stava giudicando indicava un'altra riga. Non un vuoto:
-# **un'altra riga esistente**, cioe' una collisione silenziosa.
-# Da qui in avanti l'identificativo sta in un registro, legato all'identita' della riga (documento e
-# titolo) e non alla sua posizione. Le righe gia' viste tengono il proprio; le nuove prendono il
-# primo numero libero. Il registro si versiona insieme ai dati.
-REGISTRO = R + '/db/registro_id.csv'
-chiave_id = lambda n: (n['documento_id'], (n['titolo_anonimizzato'] or '').strip())
-registro = {}
-if os.path.exists(REGISTRO):
-    for r in csv.DictReader(open(REGISTRO, encoding='utf-8')):
-        registro[(r['documento_id'], r['titolo'])] = r['id']
-liberi = max([int(v[1:]) for v in registro.values()] or [0])
-nuovi_id = 0
-for n in notizie:
-    k = chiave_id(n)
-    if k in registro:
-        n['id'] = registro[k]
-    else:
-        liberi += 1; n['id'] = f'N{liberi:04d}'; registro[k] = n['id']; nuovi_id += 1
-doppi = len(notizie) - len({n['id'] for n in notizie})
-if doppi:
-    print('ATTENZIONE: %d righe condividono un identificativo (documento e titolo uguali)' % doppi)
-os.makedirs(R + '/db', exist_ok=True)
-with open(REGISTRO, 'w', newline='', encoding='utf-8') as fh:
-    w = csv.writer(fh); w.writerow(['id', 'documento_id', 'titolo'])
-    for (d, ti), i in sorted(registro.items(), key=lambda x: x[1]): w.writerow([i, d, ti])
-print('identificativi: %d dal registro, %d nuovi' % (len(notizie) - nuovi_id, nuovi_id))
 
 # ---- esito della seconda AI (prova T4) ------------------------------------
 # Lo schema prevede il campo `verifica_seconda_ai` e finora nessuno lo riempiva (rilievo C5). Qui si
