@@ -5165,3 +5165,33 @@ saranno caricate le quattro nuove. Le tabelle C sostituite sono già state cesti
 Lo stato vivo sta in due file dello scratchpad: `drive_caricati.txt` (nome, byte, id) e
 `DRIVE_RIPRESA.md`, che descrive la procedura per intero — servono se la sessione si interrompe,
 perché la cartella Drive da sola non dice quali parti mancano.
+
+## 128. La cartella Drive chiusa: 49 parti, nessun ricaricamento (2026-09-16 20:17Z)
+
+Il caricamento è finito: **49 parti per 1.864.166 byte** nella cartella `Fonti 2026-06`. L'elenco
+della cartella, riconciliato nome per nome con i file locali, dà 49 su 49 e **nessuno scarto di
+byte**. Nessun file è stato ricaricato: il conteggio dei byte non ha mai bocciato una copia. Le tre
+vecchie parti A1 in tre pezzi non sono più nella cartella, cestinate dopo il caricamento delle
+quattro nuove — l'ordine che §127 si era dato ha retto.
+
+Il lavoro è andato su tre processi in parallelo — questa sessione e due sottoagenti — che
+scrivevano in append sullo stesso `drive_caricati.txt`. È il registro ad aver reso possibile
+dividere il lavoro: dice quali parti mancano, cosa che la cartella Drive da sola non dice, perché i
+nomi ci sono anche quando il contenuto è sbagliato.
+
+**Tre file sono stati riscaricati e confrontati byte per byte**, uno per ciascuno dei tre che hanno
+caricato: `Report1_documenti_C5` (625 B), `Report1_notizie_A1_parte4di4` (1.921 B) e
+`Report2_documenti_A3_parte3di3` (2.036 B). Tutti e tre identici all'originale, accenti, virgolette
+caporali e base64 compresi. Il quarto controllo è andato sulla parte più a rischio — la `9di9` dei
+documenti A2, l'unica dove il sottoagente ha dovuto correggere una trascrizione — e lì al conteggio
+dei byte si è aggiunta la struttura: 147 righe, primo identificativo `A2_1999`, ultimo `A2_2144`,
+gli stessi che il file su Drive mostra una volta decodificato.
+
+**Il limite di lettura era più stretto di quanto §127 dicesse.** Il taglio in due pezzi
+(`1,88p` e `89,$p`) regge solo per le parti con poche righe lunghe: su una parte da 198 righe il
+secondo pezzo ha superato il limite ed è stato troncato. Il limite vero sta intorno ai 20-30 KB, non
+ai 50 KB. La regola corretta è **misurare il pezzo prima di leggerlo** (`sed -n '...' | wc -c`) e
+cercare il marcatore di troncamento prima di usare il testo. Un pezzo troncato di nascosto resta
+comunque l'unico modo in cui la procedura può sbagliare, e resta comunque intercettato: il file
+caricato sarebbe più corto, e il conteggio dei byte lo boccerebbe. È il motivo per cui quel
+controllo sta lì.
