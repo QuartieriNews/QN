@@ -522,7 +522,12 @@ fattura.
    è ciò che il confronto poteva vedere e non ha visto, questo è ciò che **per costruzione non
    poteva vedere**.
 9. **Il denominatore contiene cinque righe di troppo** — lo 0,5% —, perché una seduta è stata
-   pubblicata due volte e le sue notizie sono state estratte due volte. È l'unico caso nel corpus.
+   pubblicata due volte e le sue notizie sono state estratte due volte. È l'unico caso nel corpus, e
+   toglierle sposta l'intervallo grezzo di due o tre decimi: da [45,1% , 92,2%] a [45,3% , 92,5%].
+   Vale la pena dire **come** si trova, perché la regola ovvia è sbagliata: cercare i doppioni per
+   titolo e data ne produce 34, quasi tutti falsi, dato che più commissioni dello stesso giorno sono
+   pubblicate con lo stesso titolo generico. Il doppione vero si riconosce dal contenuto — due
+   documenti le cui candidate hanno lo stesso insieme di titoli — e così contati sono uno.
 10. **L'unità di misura della dispersione fra lotti** (§7.1) confronta due gruppi che differiscono
    per la regola di lettura *e* per il corpus: il segnale c'è, la separazione delle due cause no.
 11. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota
@@ -573,6 +578,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | tutte le tabelle del database | `report1/build_db.py` |
 | 25 concordi e 5 discordi della seconda AI | `report2/seconda_ai.js` |
 | 36,8% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
+| i doppioni di pubblicazione e quanto spostano l'intervallo | `report2/doppioni_documenti.py` |
 
 Alla consegna, `report2/congela_consegna.py` mette accanto al rapporto lo **stato che ha prodotto
 questi numeri**: i dati, i programmi che li calcolano, il commit del repository e un file di numeri

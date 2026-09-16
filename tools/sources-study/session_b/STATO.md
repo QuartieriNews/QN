@@ -4036,3 +4036,29 @@ rapporto come limite dichiarato, non in un emendamento.
 Quattro riscontri decisivi del lotto vengono dai **testi integrali**, non dalle righe del confronto;
 e i grep a zero occorrenze su 2.668 testi sono serviti quanto quelli positivi — senza, quattro
 candidate sarebbero uscite `non verificabile` invece che `solo dal parlato`. Il foglio non basta.
+
+## 104. I doppioni di pubblicazione, e la regola ovvia che era sbagliata (2026-09-16 12:23Z)
+
+Il secondo audit aveva segnalato tre coppie di righe parlate identiche (N1944/N1953, N1946/N1955,
+N1948/N1957). Sono cinque righe in tutto e vengono da **A3_028 e A3_030**, due pubblicazioni della
+stessa seduta del Municipio VIII (`210802` e `210809`), lette due volte.
+
+**Il tranello.** La regola che veniva naturale — stesso titolo, stessa data, stesso municipio — ne
+trova **34 gruppi**, e quasi tutti sono falsi: le registrazioni YouTube di più commissioni dello
+stesso giorno portano tutte il titolo generico «Commissione municipale del <data>». Se l'avessi
+scritta e guardata solo il totale, avrei tolto dal denominatore decine di sedute vere. Il doppione
+si riconosce **dal contenuto**: due documenti le cui candidate hanno lo stesso insieme di titoli.
+Contati così sono **uno**, e non esistono nemmeno sovrapposizioni parziali sopra il 50%.
+
+**Quanto pesa.** Togliendo le cinque righe l'intervallo grezzo va da [45,1% , 92,2%] a
+[45,3% , 92,5%]: due o tre decimi. Il §7 punto 9 diceva «cinque righe di troppo» senza dire quanto
+spostassero; adesso lo dice, e dice anche come si trovano. Programma: `report2/doppioni_documenti.py`,
+in tabella al §7-bis.
+
+**Non era da fare due volte.** La regola sullo slug per i dodici testi «irrecuperabili» era già
+dentro `report2/testo_documento.py` (commento in testa, copertura 98 su 98): i promemoria scaduti la
+davano ancora per da fare. Ho controllato prima di riscriverla.
+
+**Promemoria.** Erano rimasti armati **quattro** promemoria scaduti che hanno svegliato la sessione
+con quattro stati diversi, tutti vecchi. Cancellati; ne resta uno solo. Regola: prima di armarne uno
+nuovo, cancellare il precedente.
