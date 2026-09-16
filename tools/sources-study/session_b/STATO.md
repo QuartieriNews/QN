@@ -4130,3 +4130,63 @@ scritte che ne attirano molti sono giusti molto meno spesso (80% / 75% / 50% / 2
 1-2, 3-4, 5-9, 10 o più accostamenti): è il difetto documento-contro-fatto del controllo C5 con un
 effetto misurato. Ma poggia sugli stessi giudizi contaminati. `report2/magneti_dedup.py` resta, con
 l'avvertenza in testa; il numero non entra nel rapporto finché il campione non è rifatto.
+
+## 106. V3_205–V3_216: la regola sulle cifre supera la controprova, e il rapporto con la carta si rovescia (2026-09-16 12:46Z)
+
+Dodici item, 10h32 di registrazione, 55.601 parole, **46 candidate** (12 `alta`, 34 `media`).
+
+### La controprova che mancava
+
+Il dubbio legittimo sulla regola redazionale era che decidesse **il redattore**, cioè che fosse una
+questione di uffici e di persone. Il lettore l'ha controllata su due sedute dello **stesso ufficio,
+stesso mese**: in una sopravvivono importo, partecipanti e fascia d'età perché sono parametri di un
+progetto già finanziato; nell'altra non sopravvive **nessuna** cifra — né i firmatari né le due date —
+perché è un'iniziativa civica senza atto. **Non cambia chi scrive: cambia se la cifra esista già
+scritta altrove.** Nel rapporto, §3.
+
+Trovati entrambi i controesempi richiesti, in tre esemplari: cifre di puro contesto che sopravvivono
+nelle premesse di una risoluzione, e tre atti amministrativi datati che muoiono perché solo
+pronunciati (una richiesta formale del 2025, 60.000 € spostati per decisione di giunta con zero
+riscontri su 2.668 testi, un sopralluogo protocollato e mai riscontrato).
+
+### Il rapporto con la carta si rovescia, e il motivo è misurabile
+
+Il lotto precedente: quattro volte ha ragione il parlato, una la carta. Questo: **due volte il
+parlato, quattro la carta**. La differenza non è di giudizio, è di materiale — qui **nove item su
+dodici hanno un verbale**. Dove il verbale c'è, corregge: toponimi storpiati dalla trascrizione,
+«la scorsa settimana» che erano due, conteggi di voto.
+
+Il caso più netto va nella stessa direzione e va nel rapporto: su un parco il Consiglio dichiara in
+aula di non avere il progetto e di volerlo chiedere «da domani»; una determina di **sei giorni prima**
+ha già aperto il cantiere, con inizio il giorno stesso della seduta. **La carta era in anticipo
+sull'organo che avrebbe dovuto saperlo.**
+
+### Un difetto della fonte che nessuna misura automatica vedrebbe
+
+Due item dati come sedute distinte sono **la stessa seduta**, spezzata perché a metà è migrata su
+un'altra piattaforma (stessi presenti, stesso guasto, apertura 10.11 nel primo e chiusura 11.02 nel
+secondo), e la data del censimento è sbagliata di un giorno — la convocazione, protocollata il 18,
+convoca per il 19. Il lettore ha corretto `data_seduta` nei due file e l'ha dichiarato: unico
+scostamento dal manifest, e va bene così, perché il titolo del documento nel database viene dal file
+del lettore e non dal manifest.
+
+Da qui una precisazione su `doppioni_documenti.py` (§104): quel programma trova le **ripubblicazioni**
+— stesso insieme di titoli — e per costruzione non vede una seduta **spezzata** fra due piattaforme,
+che non condivide nemmeno una candidata. Sono due difetti diversi e il rapporto li tiene separati
+già dal §5.
+
+### Le misure
+
+- **Settimo emendamento**: 16 su 34 non-`alta` mancano l'`alta` solo per la data (47%, corpus 48%), e
+  **sedici su sedici sono `solo dal parlato`**. È il terzo lotto di fila in cui quella quota è il
+  100% contro l'81% del corpus: i lotti recenti, letti a definizione ferma, lo dicono più netto.
+- **Ripetizione**: 9,1% perde una battuta di servizio, 7% perde un terzo dell'illustrazione di un
+  atto. Il danno non è proporzionale alla quota — quarta conferma, e la soglia resta com'è (§101).
+- **Tre item con zero candidate** per l'esclusione dei regolamenti cittadini senza luogo. Stessa
+  osservazione dei due lotti precedenti; è già dichiarata nel §2.
+
+### DEC-102
+
+Il lettore ha trovato e corretto **un proprio leak**: un cognome dentro una virgolettatura di verbale.
+È il primo caso in cui un lettore dichiara di aver corretto se stesso su questo, e va detto: la
+regola regge perché qualcuno la ricontrolla, non perché è scritta.

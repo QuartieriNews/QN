@@ -259,6 +259,15 @@ Nel senso opposto, in quelle stesse dodici, un caso solo: un verbale contiene un
 non ha («i terreni vanno ancora acquisiti»), e insieme **anonimizza** — dove la registrazione nomina
 l'agenzia capitolina che ha redatto il progetto, il verbale scrive «professionisti».
 
+**E nelle dodici successive il rapporto si rovescia: due volte ha ragione il parlato, quattro la
+carta.** Non è una smentita del capoverso precedente, è la sua condizione: in quel secondo gruppo
+**nove item su dodici hanno un verbale**, e dove il verbale c'è è lui a correggere — il toponimo
+storpiato dalla trascrizione, la risoluzione che in aula diventa «la scorsa settimana» e ha due
+settimane, i conteggi di voto. Il caso più netto va nella stessa direzione: su un parco un Consiglio
+dichiara in aula di non avere il progetto e di volerlo chiedere «da domani», mentre una determina di
+sei giorni prima **ha già aperto il cantiere** con inizio il giorno stesso della seduta. La carta era
+in anticipo sull'organo che avrebbe dovuto saperlo.
+
 **Come il residuo viene prodotto.** Non è che i verbali manchino: è che, nei casi letti, quando
 ci sono **riassumono via le cifre e i dispositivi**. Non è una misura sistematica — nessuno ha
 confrontato verbale e registrazione riga per riga su un campione — ma il modo in cui accade è
@@ -312,6 +321,12 @@ dentro un atto che il verbale trascrive; muore quello che sta nella discussione,
 statuto. Una cifra probatoria pronunciata in dibattito muore come le altre — ed è una formulazione
 più utile, perché dice dove cercare quello che manca: non fra le cifre deboli, ma **nel dibattito**.
 
+L'obiezione ovvia è che decida il redattore, cioè che sia una questione di persone e di uffici. È
+stata controllata e non regge: **lo stesso ufficio, nello stesso mese**, conserva importo, numero di
+partecipanti e fascia d'età di un progetto già finanziato, e di un'iniziativa civica senza atto non
+registra **nessuna** cifra — né i firmatari, né le due date. Non cambia chi scrive: cambia se la
+cifra esista già scritta da qualche altra parte.
+
 **E il verbale non si limita a perdere: a volte aggiunge, e a volte ha ragione lui.** Ha una fonte
 propria — i documenti d'ufficio — e la usa contro il parlato. Porta l'importo esatto di un debito,
 `17.182,05`, dove in aula si sentono 21.000, 17.000, 2.182 e 1.224,30. Corregge l'oratore contro la
@@ -353,6 +368,10 @@ luogo nominato. È materiale del rapporto, non della tabella.
 - La verbalizzante che dichiara in diretta di non riuscire a verbalizzare un'audizione di un'ora e
   un quarto perché non sente; una commissione che si chiude constatando che alla domanda su una
   scuola nessuno ha risposto, perché il dipartimento invitato non si è presentato.
+- Un Consiglio in cui il numero legale salta sul quarto punto — dieci votanti, poi quattordici
+  presenti — e gli atti che ne escono, mozione e ordine del giorno, portano **la data del giorno
+  dopo**. Chi ha solo le carte vede due sedute; la registrazione mostra che è una sola, decaduta e
+  ripresa.
 
 ## 5. Difetti delle fonti che una pipeline deve aspettarsi
 
@@ -368,6 +387,13 @@ momento della misura, quattro sono **due sedute pubblicate due volte**; altri ci
 consecutivi della stessa seduta** pubblicati come registrazioni distinte. Sono due difetti diversi e
 si contano separatamente, perché le ripubblicazioni condividono il testo e gli spezzoni no: una
 misura che cerca testo condiviso vede i primi e **per costruzione** non vede i secondi.
+
+Un terzo caso, trovato leggendo, non è nessuno dei due e nessuna misura automatica lo vedrebbe: due
+item che il censimento dà come sedute distinte dello stesso giorno sono **la stessa seduta**, spezzata
+perché a metà è migrata su un'altra piattaforma — stessi presenti, stesso guasto, apertura alle 10.11
+nel primo e chiusura alle 11.02 nel secondo — e la data del censimento è sbagliata di un giorno: la
+convocazione, protocollata il 18, convoca per il 19. Il primo item porta dodici minuti, il secondo i
+quaranta dell'audizione. Una lacuna reale, in una colonna che per quegli item è vuota.
 
 **Nella trascrizione, e qui la distinzione conta.** Una parte delle registrazioni porta la
 trascrizione automatica *della piattaforma*, che è un difetto della fonte; per le altre la
