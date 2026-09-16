@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 27,68 € |
-| **Disponibile** | **50,32 €** |
+| Speso nella sessione B | 32,44 € |
+| **Disponibile** | **45,56 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -39,6 +39,7 @@ listino in dollari):
 | 16/09 08:50 | controllo Codex C3 sulla specifica delle registrazioni (3.835 token in, 8.737 out) | 0,22 € |
 | 16/09 10:19 | trascrizione, 260 registrazioni su 275, 184,7 ore ($ 29,13, ancora in corso) | 26,80 € |
 | 16/09 11:49 | controllo Codex C4 sul rapporto scritto (12.831 token in, 12.283 out) | 0,22 € |
+| 16/09 12:30 | trascrizione, 303 registrazioni su 318, 216,2 ore ($ 34,07, in corso) | 31,34 € |
 
 Gli orari di questa tabella sono ora di Roma; le intestazioni delle sezioni sono in UTC. Andava
 detto: due fusi nello stesso file si leggono male.
@@ -2957,3 +2958,26 @@ regolarità: è una domanda aperta.
   firmare ai genitori, poi ritirata, esiste solo nella registrazione.
 - E `assente` **significa assente dal corpus, non mai scritto**: un verbale di questo lotto risulta
   approvato altrove come «n. 52 del 15.06.2026».
+
+## 78. Ho quasi lanciato un secondo driver ASR sopra il primo (2026-09-16 10:30Z)
+
+Controllo di routine del driver di trascrizione. Ho scritto `pgrep -c '[r]tv_asr_driver.py'` e ho
+letto **0**: driver morto, 303 item su 318, si riavvia. L'ho riavviato.
+
+`pgrep` **senza `-f` confronta solo il nome del processo**, che qui è `python3`: il nome dello script
+non lo guarda nemmeno. Lo zero non diceva «il driver è morto», diceva «nessun processo si chiama
+`rtv_asr_driver.py`», che è sempre vero. Il driver era vivo da sei ore.
+
+Per qualche secondo ne sono girati **due**, sugli stessi item e sulla stessa API a pagamento. Me ne
+sono accorto perché la riga dopo, con `ps -eo pid,etimes,args`, ne mostrava due — uno di 22.622
+secondi e uno di 17. Ucciso il nuovo per PID (non per pattern: uccidere per pattern in questa
+sessione mi è già costato la shell). Nessun doppione scritto, nessuna spesa doppia.
+
+**Terza volta oggi che un conteggio di processi mi inganna**, e sempre nello stesso modo: `pgrep -c`
+sui download mostrava 9 processi dove ce n'erano 4 (contava i wrapper `bash -c`), e qui ne mostrava
+0 dove ce n'era 1. La regola che mi do: **per contare processi si usa `ps -eo args` e si guarda la
+riga**, non un contatore che non so esattamente che cosa confronti. Un numero che non so come è
+calcolato non è una misura, e oggi ne ho già sbagliate abbastanza.
+
+Stato vero: driver vivo, **303 item su 318**, $ 34,07 (31,34 €), quattro scaricamenti in parallelo
+come da limite.
