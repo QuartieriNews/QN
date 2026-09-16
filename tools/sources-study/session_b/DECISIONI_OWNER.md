@@ -265,7 +265,14 @@ passaggio e' proprio quella che lui riteneva informale. Piu': una telefonata a m
 dieci minuti di conversazione prima dell'appello, una sospensione muta, un «buona registrazione»
 dopo la chiusura.
 
-Quattordici casi su 313 registrazioni lette non fanno una frequenza — ma cambiano la natura della
+**Alle 16:05Z sono ventuno.** Un lettore li ha cercati in dieci item e ne ha trovati **sette**, fra
+cui **nove minuti interi di microfono aperto prima dell'apertura della seduta**, con la gestione dei
+consensi privacy di ospiti chiamati per nome, telefonate e messaggistica. I sei lettori che hanno
+guardato apposta danno 3/10, 3/10, 0/10, 4/10, 5/10, 7/10: su sessanta item cercati, **ventidue
+trovati**. Non e' piu' un elenco di casi, e' una **quota**: circa un terzo delle registrazioni che
+qualcuno ha guardato apposta contiene parlato che nessuno intendeva pubblicare.
+
+Ventuno casi su 332 registrazioni lette, ma soprattutto **22 su 60 cercati**, cambiano la natura della
 decisione:
 il primo poteva essere un incidente, due sono un **modo in cui la fonte pubblica sistematicamente
 più di quello che intende pubblicare** — e nel secondo caso non è nemmeno «dopo la fine»: è dentro

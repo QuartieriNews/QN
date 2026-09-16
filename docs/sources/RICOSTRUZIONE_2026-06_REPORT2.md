@@ -60,7 +60,7 @@ non risponde. E fino all'audit davamo per buono che il valore vero stesse in bas
 hanno giudicato a mano quaranta candidate ciascuno della classe incerta, aprendo il testo integrale
 di ogni documento accostato: **6 su 40 (15,0%)** il primo, **9 su 40 (22,5%)** il secondo. Gli
 intervalli si sovrappongono largamente e la differenza non è significativa. Poi un difetto nostro
-(§7 punto 15) ci ha costretti a rifare il campione e a far **rigiudicare da un terzo lettore le 28
+(§7 punto 16) ci ha costretti a rifare il campione e a far **rigiudicare da un terzo lettore le 28
 candidate incerte** che la prima volta erano state mostrate senza i loro accostamenti: ne ha trovate
 gemelle vere 3 invece di 4. Sulla base congiunta, con il rigiudizio che sostituisce il giudizio dato
 sul campione difettoso, **14 su 80 = 17,5%** delle candidate incerte ha davvero un gemello scritto.
@@ -449,7 +449,14 @@ l'assessore, a «uno scambio d'informazioni sui luoghi ove è necessario provved
 I cinque toponimi spariscono tutti. Nello stesso lotto, i cittadini ai quali viene negata la parola e
 la sospensione che ne segue diventano «chiarimenti inerenti lo svolgimento della seduta». **Il
 verbale che ha scelto di non scrivere si è presentato in tutte e quattro le sedute del lotto che un
-verbale ce l'avevano**: non è il caso raro, è il caso normale.
+verbale ce l'avevano**: non è il caso raro, è il caso normale. In un altro lotto, di nuovo, in tutti e
+tre.
+
+La sua forma peggiore non è quella che si vede: un verbale che trascrive quasi tutto parola per parola
+**omette la risposta alla domanda per cui la commissione era stata convocata** — quanti sono i
+cassonetti della città, e perché rotarli «sarebbe un altro lavoro». Pieno dell'illustrazione, vuoto
+della replica. E in un caso non è nemmeno il verbale a tacere: il dato — due beneficiari su sedici
+posti — sta nel verbale che viene **letto ad alta voce** in aula, e chi legge lo salta.
 
 L'obiezione ovvia è che decida il redattore, cioè che sia una questione di persone e di uffici. È
 stata controllata e non regge: **lo stesso ufficio, nello stesso mese**, conserva importo, numero di
@@ -524,6 +531,16 @@ perché a metà è migrata su un'altra piattaforma — stessi presenti, stesso g
 nel primo e chiusura alle 11.02 nel secondo — e la data del censimento è sbagliata di un giorno: la
 convocazione, protocollata il 18, convoca per il 19. Il primo item porta dodici minuti, il secondo i
 quaranta dell'audizione. Una lacuna reale, in una colonna che per quegli item è vuota.
+
+**E una cosa che la fonte pubblica senza volerlo.** Sei lettori hanno cercato apposta, item per item,
+microfoni rimasti aperti, conversazioni durante le sospensioni e parlato oltre la chiusura dichiarata,
+riportando anche gli zeri: **22 casi su 60 registrazioni esaminate** — 3, 3, 0, 4, 5 e 7 su dieci.
+Non è un elenco di incidenti, è una quota: **circa un terzo delle registrazioni guardate con questa
+domanda in mente contiene parlato che nessuno intendeva pubblicare**. Va dai trentacinque minuti di
+linea aperta dopo i saluti ai nove minuti, prima dell'apertura, in cui si raccolgono i consensi
+privacy degli ospiti chiamandoli per nome. Nei nostri file non ne è entrato nulla, nemmeno
+anonimizzato, e i log non ne riproducono il contenuto; ma il materiale è online, ed è una decisione
+che spetta a chi pubblica.
 
 **Nella trascrizione, e qui la distinzione conta.** Una parte delle registrazioni porta la
 trascrizione automatica *della piattaforma*, che è un difetto della fonte; per le altre la
@@ -704,7 +721,15 @@ fattura.
 3. L'unità di conteggio è la candidata, non il fatto: due lettori possono spezzare lo stesso fatto
    in modo diverso.
 4. Un accostamento `dubbio` non prova una sovrapposizione: per questo il numero è un intervallo.
-5. I dati di volume (parole, parole al minuto) sono inaffidabili dove la duplicazione supera il 10%
+5. **Due regole della nostra specifica si contraddicono, e la contraddizione è nei dati.** Il campo
+   che descrive la qualità della trascrizione ha un limite di trenta parole, e un emendamento
+   successivo gli chiede quattro informazioni fra cui il punto d'innesco della duplicazione: un
+   lettore ha superato il limite in **dieci item su dieci** (45–110 parole) e l'ha dichiarato, un
+   altro ha tenuto il limite sacrificando un'informazione. Chi userà quel campo lo troverà quindi
+   compilato con due criteri diversi. La regola giusta sarebbe stata alzare il limite; non l'ho
+   fatto per non cambiare la specifica mentre sei lettori la stavano applicando, ed è una scelta
+   discutibile che va dichiarata invece che nascosta.
+6. I dati di volume (parole, parole al minuto) sono inaffidabili dove la duplicazione supera il 10%
    — **e la regola che li invalida è stata applicata in tre modi diversi**, perché dice «i campi di
    volume» al plurale e i lettori hanno letto il plurale in modi diversi. Sui 45 item sopra la
    soglia: 21 hanno entrambi i campi dichiarati inattendibili, 16 solo le parole al minuto, 8
@@ -716,13 +741,13 @@ fattura.
    ha duplicazione 0,0% e trentaquattro parole al minuto — un dato di volume altrettanto privo di
    senso, che nessun controllo intercetta. Il difetto peggiore della fonte non è la ripetizione: è il
    silenzio.
-6. Le misure sui silenzi valgono solo per le registrazioni con marcatore a 10 secondi: sulle altre
+7. Le misure sui silenzi valgono solo per le registrazioni con marcatore a 10 secondi: sulle altre
    un silenzio più corto di cinque minuti è invisibile.
-7. Il materiale di riscontro è **congelato** in `report2/snapshot/`, così la novità non dipende dal
+8. Il materiale di riscontro è **congelato** in `report2/snapshot/`, così la novità non dipende dal
    giorno in cui un lotto è stato letto.
-8. **La qualità della deduplicazione, misurata su campioni giudicati da tre lettori.** La
+9. **La qualità della deduplicazione, misurata su campioni giudicati da tre lettori.** La
    precisione degli accostamenti forti è **58,1%** (54 su 93, con il rigiudizio che sostituisce i
-   giudizi dati sul campione difettoso del punto 15): l'errore dominante è sempre lo stesso — una
+   giudizi dati sul campione difettoso del punto 16): l'errore dominante è sempre lo stesso — una
    *convocazione* accostata all'*esito* della seduta che convoca, che condivide protocollo, oggetto e
    quasi tutto il testo. Nel rigiudizio sono **21 accostamenti su 79**, e 19 di quei 21 sono fatti
    diversi. Il richiamo, su 40 candidate date per nuove, perde **2 gemelli veri** (5%, IC
@@ -745,23 +770,23 @@ fattura.
    non una stima. Ma dice che il 5% misurato sul confronto fra righe è solo la parte visibile: quello
    è ciò che il confronto poteva vedere e non ha visto, questo è ciò che **per costruzione non
    poteva vedere**.
-9. **Il denominatore contiene cinque righe di troppo** — lo 0,5% —, perché una seduta è stata
+10. **Il denominatore contiene cinque righe di troppo** — lo 0,5% —, perché una seduta è stata
    pubblicata due volte e le sue notizie sono state estratte due volte. È l'unico caso nel corpus, e
    toglierle sposta l'intervallo grezzo di uno o due decimi: da [44,6% , 92,2%] a [44,7% , 92,4%].
    Vale la pena dire **come** si trova, perché la regola ovvia è sbagliata: cercare i doppioni per
    titolo e data ne produce 34, quasi tutti falsi, dato che più commissioni dello stesso giorno sono
    pubblicate con lo stesso titolo generico. Il doppione vero si riconosce dal contenuto — due
    documenti le cui candidate hanno lo stesso insieme di titoli — e così contati sono uno.
-10. **L'unità di misura della dispersione fra lotti** (§7.1) confronta due gruppi che differiscono
+11. **L'unità di misura della dispersione fra lotti** (§7 punto 1) confronta due gruppi che differiscono
    per la regola di lettura *e* per il corpus: il segnale c'è, la separazione delle due cause no.
-11. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota
+12. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota
    alta di candidate «compiute, datate e localizzate» che restano senza gemello anche estendendo il
    corpus ai mesi vicini; nessuna differenza di qualità fra candidate nuove e confermate, o una
    differenza di segno opposto; molti casi «residuali» che si scoprono già formalizzati in atti
    dello stesso perimetro. Nessuno dei tre è stato testato: vanno fatti prima di trattare il
    meccanismo come acquisito.
 
-12. **L'insieme di confronto non è omogeneo fra i Municipi, e dove manca un tipo di atto la novità
+13. **L'insieme di confronto non è omogeneo fra i Municipi, e dove manca un tipo di atto la novità
    sale.** Le convocazioni di commissione sono nel corpus per undici Municipi e **per quattro no** —
    II, III, IV e XV: zero atti di quel tipo. Non è una scelta, è come li pubblicano. L'effetto si
    misura: nei quattro Municipi senza convocazioni la quota di candidate con un duplicato certo è
@@ -774,15 +799,15 @@ fattura.
    pubblica i propri atti**. Con un'ironia utile: le convocazioni sono anche il tipo di documento che
    produce **quasi tutti gli accostamenti sbagliati** (21 su 79 nel rigiudizio, 19 dei quali fatti
    diversi), perché condividono protocollo e oggetto con il verbale della seduta che convocano.
-13. **Un'obiezione che ci siamo fatti da soli, e che non regge: «i verbali mancano perché non li
+14. **Un'obiezione che ci siamo fatti da soli, e che non regge: «i verbali mancano perché non li
    avete raccolti».** Un lettore l'ha sollevata trovando una commissione di cui il corpus ha il
    verbale 53 e il 56 ma non il 54 e il 55. È verificabile, perché ogni verbale ne cita un altro
    quando lo approva: prendendo tutti i riferimenti «verbale n. X del …» presenti nei testi e
    tenendo quelli che puntano a sedute **dentro la finestra**, ne risultano 41 — e **40 sono nel
    corpus**. Ne manca uno. Quindi l'assenza di un verbale, dove la si osserva, è quasi sempre una
    proprietà di come quell'organo verbalizza, non della nostra raccolta. Vale per i verbali; per le
-   convocazioni il punto 12 dice il contrario, ed è per questo che i due casi vanno tenuti separati.
-14. **Una deviazione dallo schema, voluta e mai dichiarata finora.** Lo schema dice che il Municipio
+   convocazioni il punto 13 dice il contrario, ed è per questo che i due casi vanno tenuti separati.
+15. **Una deviazione dallo schema, voluta e mai dichiarata finora.** Lo schema dice che il Municipio
    dichiarato dalla fonte prevale sul toponimo dedotto dal testo; il programma fa il contrario —
    **quando il testo nomina un Municipio, vince il testo**. La ragione sta nei dati: l'etichetta della
    fonte descrive la *pagina*, e sul portale municipale è spesso l'elenco delle categorie, fino a
@@ -790,7 +815,7 @@ fattura.
    testo, e in **336 casi (37,9%)** quel Municipio non è fra quelli dichiarati dalla fonte. È una
    deviazione grossa, e va detto che l'abbiamo scelta noi: chi rifacesse i conti seguendo lo schema
    alla lettera otterrebbe una distribuzione territoriale diversa.
-15. **Un difetto nostro, trovato tre giorni prima della consegna, e quanto pesa.** Gli
+16. **Un difetto nostro, trovato tre giorni prima della consegna, e quanto pesa.** Gli
    identificativi delle righe sono stabili — legati a documento e titolo, non alla posizione — ma
    fino a oggi venivano assegnati **dopo** i confronti. Il file su cui si audita, che elenca le
    coppie parlato-scritto, era quindi scritto con i numeri vecchi: **612 righe su 1.429** puntavano

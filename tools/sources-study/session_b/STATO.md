@@ -4799,3 +4799,63 @@ avevano buchi: un risultato pulito e falso.
   non ne fa parola.
 - **Gli atti sono meno prudenti di DEC-102**: un verbale scrive apertamente una condizione di salute
   e nomina una professionista. Il lettore ha applicato la regola più stretta e l'ha dichiarato.
+
+## 120. V3_313–V3_363: i toponimi diventano contabili, e D7 diventa una quota (2026-09-16 16:05Z)
+
+51 candidate, 44 nuove — il lotto più ricco finora. Tutto del 24 giugno.
+
+### La misura che mancava al §3
+
+Il lettore ha contato quello che finora raccontavamo: **quanti toponimi sono nominati in aula e
+quanti sopravvivono nel verbale della stessa seduta**. Tre casi: **7→1, 20→0, 9→6**. I venti sono
+gli indirizzi di altrettante antenne, letti uno per uno: il verbale nomina i cinque gestori e nessuna
+via. E il 9→6 è la prima eccezione del corpus — ventitré chilobyte di discorso indiretto quasi parola
+per parola — che però seleziona su altro. Nel rapporto §3, con i numeri e non con l'impressione.
+
+### La forma peggiore di «pieno ma selettivo»
+
+Un verbale trascrive quasi tutto parola per parola e **omette la risposta alla domanda per cui la
+commissione era stata convocata**. Pieno dell'illustrazione, vuoto della replica. E un caso in cui
+non è il verbale a tacere: il dato sta nel verbale **letto ad alta voce** in aula, e chi legge lo
+salta.
+
+### La causa dell'assenza delle convocazioni, finalmente
+
+Il §7 diceva che in quattro Municipi non esiste alcuna convocazione e che «non è una scelta, è come
+li pubblicano». Ora c'è la ragione, scritta da loro: un verbale dichiara che la commissione è
+«formalmente convocata dal Presidente per le ore 10,45 **tramite e-mail**». **Non c'è atto
+protocollato perché non viene prodotto.**
+
+### D7 non è più un elenco di casi: è una quota
+
+Sette casi su dieci item, fra cui **nove minuti di microfono aperto prima dell'apertura**, con la
+gestione dei consensi privacy di ospiti chiamati per nome, telefonate e messaggistica. Sei lettori
+hanno cercato apposta riportando anche gli zeri: 3, 3, 0, 4, 5, 7 su dieci — **22 casi su 60
+registrazioni esaminate**. Circa **un terzo** delle registrazioni guardate con questa domanda in
+mente contiene parlato che nessuno intendeva pubblicare.
+
+Questo cambia il rapporto, non solo la decisione dell'owner: nel §5 ora c'è la quota, senza
+identificare nulla. E cambia l'urgenza della D7, che aggiorno ancora.
+
+### Una contraddizione dentro la nostra specifica, misurata
+
+Il limite di trenta parole del campo sulla qualità della trascrizione **non sta in piedi** con il
+sesto emendamento, che chiede quattro informazioni: questo lettore l'ha superato in **dieci item su
+dieci** (45–110 parole) dichiarandolo, un altro ha tenuto il limite sacrificando un'informazione.
+Quel campo è quindi compilato con due criteri diversi. La correzione giusta era alzare il limite;
+non l'ho fatta per non cambiare la specifica con sei lettori al lavoro (§101), ed è una scelta
+discutibile che ora sta nel §7 punto 5 invece di restare nascosta.
+
+### Altre misure del lotto
+
+- **Orari**: apertura e chiusura esistono **solo nella registrazione in sette item su dieci**, solo
+  nel verbale per gli orari individuali dei partecipanti, e coincidono al minuto in due. Nessuna
+  delle due fonti domina.
+- **La formula predice al contrario**: «la videoregistrazione sostituisce la trascrizione» sta nei
+  verbali *densi* di un Municipio e **manca** dal verbale più integrale del lotto.
+- **L'elenco conserva, la prosa sceglie**: nel verbale capitolino l'entrata e l'uscita al minuto di
+  ogni consigliere stanno in una **tabella**; il verbale in prosa dell'altro Municipio perde tutti e
+  venti gli indirizzi.
+- **Voti**: tre riscontrati, uno pieno e due parziali dichiarati — in uno l'elenco dei componenti è
+  stato preso dal verbale di un'altra seduta della stessa commissione.
+- **Ripetizione**: a [49:55] **una sola frase ripetuta per l'intero intervallo di cinque minuti**.
