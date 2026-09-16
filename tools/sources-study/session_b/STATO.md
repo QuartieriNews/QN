@@ -822,3 +822,35 @@ alcun atto di traffico; **nove mesi fra la scadenza del titolo e la revoca** di 
 riservato; e **otto anni di cantiere del mercato Alberone**, dal 2020 al 2028 previsto. Due
 proroghe della stessa concessione lasciano scoperti il 27 e 28 giugno e citano date di concessione
 diverse; un cantiere ai Parioli resta scoperto quasi due mesi.
+
+## 32. 1.100 atti; la contraddizione che si vede solo incrociando due lotti (16 settembre, 05:20)
+
+**B19–B21: 150 atti, 34 notizie, 22,7%.** Totale: **1.100 su 1.983, 245 notizie, 22,3%.**
+
+Il lettore ha formulato il criterio che tiene insieme tutti i lotti meglio di come l'avevo scritto
+io: quando un atto cade insieme in un `sì` e in un `no`, **si guarda se il fatto nasce con
+quell'atto**. Da qui le proroghe restano `no` anche quando prorogano assetti pesantissimi, perché
+la notizia stava nella determinazione originaria. L'ho messo nella regola 5 dei lotti successivi.
+
+**La contraddizione più grave della fonte trovata finora si vede solo incrociando due lotti**: due
+determinazioni prorogano la **stessa** disciplina per l'ex Mattatoio, con dispositivo identico, una
+fino al 31 luglio e l'altra fino al 31 agosto, **a un giorno di distanza e senza citarsi**. Una
+delle due dichiara per giunta che un atto è stato prorogato da se stesso. Nessun lettore di un solo
+lotto avrebbe potuto vederla: è un argomento per l'aggregazione, non solo per la lettura.
+
+**Una revoca in autotutela emessa per correggere un errore di data ne conserva un secondo e ne
+introduce un terzo**, datando l'atto revocato al 26 giugno **2028**.
+
+**Un identificativo che la mia regola non copriva**: in un atto la fonte identifica la richiedente
+**nel nome di un allegato** citato nel testo. Il lettore l'ha segnalato senza riprodurlo — la scelta
+giusta. Verificato: negli output non compare.
+
+**E un errore mio, trovato dal mio stesso controllo**: in una nota di un lotto precedente le
+iniziali di una persona erano riprodotte *mentre si spiegava di averle tolte*. Stesso schema del
+cognome «Corbucci» di qualche ora fa. Corretto; la regola è ora esplicita nel prompt: non
+riprodurre l'identificativo mentre dichiari di averlo rimosso, perché sembra documentazione ed è
+pubblicazione. Audit su 1.100 righe: nessuna iniziale di persona residua.
+
+**Il resto delle sigle puntate negli output — U.I.T.S.S., D.P.R., S.R.L., A.M.A., G.I.P., P.N.R.R.
+— sono amministrative**, e il filtro le segnalava tutte: un altro caso in cui il filtro va letto e
+non creduto.
