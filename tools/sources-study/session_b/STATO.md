@@ -4190,3 +4190,110 @@ già dal §5.
 Il lettore ha trovato e corretto **un proprio leak**: un cognome dentro una virgolettatura di verbale.
 È il primo caso in cui un lettore dichiara di aver corretto se stesso su questo, e va detto: la
 regola regge perché qualcuno la ricontrolla, non perché è scritta.
+
+## 107. V3_316/V3_319/V3_217–V3_226: il meccanismo del §2 messo alla prova dalle eccezioni (2026-09-16 13:10Z)
+
+38 candidate, 9 `alta`, 21 `solo dal parlato`. Tutti i 92 marcatori delle 38 candidate verificati a
+macchina contro il testo.
+
+### Il controllo che vale più di tutti gli altri del lotto
+
+Le bloccate dalla sola data sono venti, e quindici sono nuove (75%, contro l'84% del corpus). Il
+lettore non si è fermato alla proporzione: ha guardato **le cinque eccezioni**, e vengono tutte e
+cinque **dalle due sole sedute del lotto il cui verbale riporta davvero la discussione**. È il
+meccanismo del §2 visto dal lato giusto: dove un verbale racconta, il fatto ha una data *e* ha un
+atto; dove non racconta, non ha né l'una né l'altro. Portato nel rapporto §2.
+
+Stessa cosa dall'altro capo: delle 21 nuove, **19 vengono da sedute senza verbale e 2 da una seduta
+con verbale pieno** — e quelle due sono esattamente le due che il verbale riduce ad aggettivi.
+
+### Tre controesempi, e il terzo è nuovo
+
+Oltre ai due tipi già noti (cifre di contesto che sopravvivono nelle premesse; un intero iter
+amministrativo — atto votato il 26 febbraio, acquisito il 15 marzo, gara da 6,4 milioni — che vive
+**solo nella registrazione**), il terzo: una cifra che **è** il dispositivo e muore lo stesso perché
+è ambigua alla fonte — un digestore «per circa 7-8 ML», metri lineari o millilitri non si sa, unica
+misura del manufatto, destinata a Città metropolitana e ARPA, lasciata in sospeso dopo quattro minuti
+di discussione.
+
+### Il caso più forte del lotto
+
+**Due documenti dello stesso sopralluogo, e quello che viaggia è quello sbagliato.** La risoluzione
+riporta le ammissioni della società (versamento prima della chiusura, assenza di dispositivi
+antiodore, «per non mancare le scadenze del PNRR»); il verbale già approvato scrive «si constata»
+dove il fatto era solo dichiarato e le omette entrambe. Un commissario dichiara di averlo votato
+senza leggerlo. Nel rapporto §3.
+
+Accanto: un punto del dispositivo accantonato durante il sopralluogo resta nell'atto e passa 21 a 0,
+e nessun atto registra l'obiezione detta prima del voto.
+
+### Due difetti che vanno in sezioni diverse
+
+- **Nostro**: la mascheratura automatica dei nomi ha colpito **un toponimo** — `spostamento mercato
+  *********`, che l'atto rivela essere il nome di un quartiere. Senza riscontro documentale quella
+  candidata sarebbe stata scartata per «luogo mancante». La tutela applicata a macchina cancella
+  anche ciò che riservato non è. Nel rapporto §5, dove sta il resto della pipeline.
+- **Della fonte**: un verbale sottoscritto data la propria seduta «martedì 09 di maggio», che nel
+  2026 è un sabato.
+
+### Perché un intero Consiglio non ha verbali, detto in aula
+
+Il presidente dichiara che i verbali del Consiglio **non si approvano dal 2021**: ne porta venti per
+seduta, quel giorno i numeri 1-20 del 2022, approvati in venti secondi senza osservazioni. Spiega da
+solo un buco del corpus che avremmo attribuito alla raccolta. Nel rapporto §3.
+
+### D7 non è più un caso isolato
+
+Venti minuti di **microfono aperto durante una sospensione**, con conversazioni private di consiglieri
+e pubblico, in parte mascherate dalla pipeline della piattaforma e in parte no. Il lettore ha rimosso
+tutto. È il secondo caso dopo quello dei tredici minuti dopo la chiusura: aggiornata `DECISIONI_OWNER.md`
+— due casi su 305 registrazioni non fanno una frequenza, ma cambiano la natura della decisione,
+perché il secondo non è «dopo la fine», è **dentro** la seduta, in una pausa che in aula tutti
+considerano privata.
+
+### Nono emendamento, applicato e dichiarato
+
+V3_316 è l'unica riga con `lacuna` piena (ultimo segmento non servito dal CDN, ~10 s in coda). Il
+lettore **non è andato a cercare quello che manca**, l'ha dichiarato, e ha aggiunto la cosa giusta:
+qui non comporta niente perché la registrazione si chiude con i saluti, ma dieci secondi in coda a un
+altro item — quello che finisce con la caduta del numero legale — avrebbero cancellato l'unico fatto.
+
+## 108. Il rigiudizio chiude il rischio del §105, e tutti i numeri sono stati rifatti (2026-09-16 13:10Z)
+
+**Esito.** Sulle 28 candidate incerte rigiudicate i gemelli veri sono **3** (erano 4). E le nove che
+restano senza accostamenti sono state cercate una per una nei 2.668 testi integrali: **in nessuno dei
+casi esiste una riga scritta con lo stesso fatto**. Lo zero su dieci del §105 non era un effetto del
+campione difettoso: era il dato.
+
+Quindi la quota di gemelli veri fra le incerte passa da 18,8% a **17,5%** (14 su 80) e la risposta da
+83,9% a **83,8%**. Il rischio dichiarato era di un punto e mezzo **in meno**; il movimento vero è di
+un decimo, e nella direzione opposta. Va detto così: il difetto era reale, la sua conseguenza sul
+numero principale no.
+
+**Quello che il rigiudizio ha confermato invece è l'ipotesi sui verbali a molti punti**, e in
+entrambe le direzioni: cinque dei diciannove gemelli veri sono **invisibili sulle sintesi** e si
+vedono solo aprendo il testo dell'atto (uno sta in «varie ed eventuali»); e lo stesso verbale viene
+accostato a due candidate diverse della stessa seduta, che lo stesso fatto non sono. È il difetto
+documento-contro-fatto di C5, con i casi in mano. La misura sui «magneti» resta sospesa perché
+poggiava sui giudizi vecchi, ma l'ipotesi non è più solo mia.
+
+Altri numeri dal rigiudizio: **21 accostamenti su 79 puntano a una convocazione e 19 sono fatti
+diversi** — l'errore dominante, confermato su un terzo campione; resa dei marcatori `forte` 61%
+contro `debole` 9%.
+
+**Un numero che ora si calcola invece di ricopiarsi.** `report2/risposta.py`: legge i file
+dell'audit, conta **per candidata**, lascia vincere il rigiudizio dove c'è, e stampa la risposta con
+la banda di Wilson e la novità certa corretta con precisione e richiamo (formula scritta per esteso,
+non ereditata). La versione precedente di quella correzione dava «da 48,0% a ≈46,5%» e non sono
+riuscito a riprodurne il calcolo: l'ho rifatta dichiarando la formula, e ora dice 44,6% → **45,6%**,
+cioè **sale**, perché gli accostamenti forti sbagliati restituiscono più righe di quante il richiamo
+ne tolga. Se qualcuno trova il conto vecchio, è quello da buttare.
+
+**Rifatti tutti i numeri del rapporto** con il database ricostruito (305 registrazioni lette):
+S/U/D **528/564/93** su 1.185, grezzo [44,6% , 92,2%], 30,6% scartando i toponimi incerti, tetto
+37,1%, qualità alta 54,5% contro 18,2%, 316 integrazioni, 121 su 233 bloccate dalla sola data con
+l'84% nuove. `verifica_numeri_rapporto.py` non segnala più nulla.
+
+**Attenzione per la consegna**: questi numeri invecchiano a ogni lotto. L'ultimo giro va fatto
+**dopo** l'ultimo lotto, con `build_db.py`, poi `risposta.py`, `verifica_numeri_rapporto.py`,
+`audit_toponimi.py`, `copertura_testi_atti.py`, `motivo_non_alta.py`, e infine `congela_consegna.py`.

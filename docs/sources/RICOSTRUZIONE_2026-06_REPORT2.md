@@ -14,10 +14,10 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
   che è il perimetro dello studio — e censite **478 registrazioni di sedute** nella stessa finestra,
   97 dai canali YouTube dei Municipi e 381 da RomaTV. Di queste, 318 le abbiamo trascritte noi e 82
   portavano già la trascrizione della piattaforma. Alla data di questa bozza le registrazioni lette
-  sono **265**.
+  sono **305**.
 - Gli atti letti sono in realtà **2.144**: i 1.983 della finestra più 161 fuori, letti per chiudere
   un buco che il perimetro lasciava aperto. I 1.983 danno **544 notizie candidate**, il **27,4%**;
-  le registrazioni ne danno **1.081** finora.
+  le registrazioni ne danno **1.185** finora.
 - **Quel 27,4% non è però una proprietà degli atti.** Gli stessi documenti — le convocazioni — sono
   giudicati notiziabili nel **21,0%** dei casi da un gruppo di lettori e nel **44,2%** da un altro.
   Stessa regola scritta, il doppio di notizie. La differenza sta nel mandato: al secondo gruppo era
@@ -48,20 +48,24 @@ Tre esiti:
 
 | | |
 |---|---|
-| **S** — nessun gemello fra le righe scritte | 487 |
-| **U** — nessun duplicato, ma almeno un accostamento dubbio | 510 |
-| **D** — almeno un duplicato certo | 84 |
+| **S** — nessun gemello fra le righe scritte | 528 |
+| **U** — nessun duplicato, ma almeno un accostamento dubbio | 564 |
+| **D** — almeno un duplicato certo | 93 |
 
-Da cui l'intervallo grezzo **[45,1% , 92,2%]**: largo quarantasette punti, cioè una risposta che
+Da cui l'intervallo grezzo **[44,6% , 92,2%]**: largo quarantotto punti, cioè una risposta che
 non risponde. E fino all'audit davamo per buono che il valore vero stesse in basso.
 
-**Sta in alto, e lo si sa solo dopo averlo misurato — due volte.** Due lettori, indipendentemente,
+**Sta in alto, e lo si sa solo dopo averlo misurato — tre volte.** Due lettori, indipendentemente,
 hanno giudicato a mano quaranta candidate ciascuno della classe incerta, aprendo il testo integrale
 di ogni documento accostato: **6 su 40 (15,0%)** il primo, **9 su 40 (22,5%)** il secondo. Gli
-intervalli si sovrappongono largamente e la differenza non è significativa; sulla base congiunta,
-**15 su 80 = 18,8%** delle candidate incerte ha davvero un gemello scritto.
+intervalli si sovrappongono largamente e la differenza non è significativa. Poi un difetto nostro
+(§7 punto 12) ci ha costretti a rifare il campione e a far **rigiudicare da un terzo lettore le 28
+candidate incerte** che la prima volta erano state mostrate senza i loro accostamenti: ne ha trovate
+gemelle vere 3 invece di 4. Sulla base congiunta, con il rigiudizio che sostituisce il giudizio dato
+sul campione difettoso, **14 su 80 = 17,5%** delle candidate incerte ha davvero un gemello scritto.
 
-Riportando quella proporzione, la novità reale è **83,9%**, banda 95% **[79,5% ; 87,5%]**.
+Riportando quella proporzione, la novità reale è **83,8%**, banda 95% **[79,2% ; 87,0%]**. La
+calcola `report2/risposta.py`, che legge i file dell'audit invece di ricevere il numero a mano.
 
 I due giri hanno anche prodotto, per un difetto del generatore, venti coppie giudicate da entrambi:
 **accordo 19 su 20**. L'unica divergenza è il caso limite per cui il criterio di giudizio era stato
@@ -74,12 +78,12 @@ su cinque o sei, il verbale della riunione stessa.
 
 Da cui la scala:
 
-- **31%** circa — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
+- **30,6%** circa — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
   conservativo che sappiamo calcolare, e **non viene dallo stesso programma degli altri due**: lo
   calcola `report2/audit_toponimi.py` scartando le righe che poggiano su un toponimo dichiarato
   dubbio. Regge all'obiezione sulla trascrizione, non a tutte: se la deduplicazione sbaglia a non
   accostare, anche questo numero è alto.
-- **45,1%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
+- **44,6%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
 - **92,2%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
@@ -115,10 +119,10 @@ cose fanno risultare nuovo ciò che non è stato guardato. Con il confronto esau
 scende di **sette punti e mezzo**, che erano un difetto nostro.
 
 Una scelta va dichiarata: il metodo confronta dentro i blocchi tematici, noi confrontiamo su tutto
-il corpus. È una deviazione, e **abbassa** la novità di due punti (47,1% dentro i blocchi contro
-45,1% su tutto). Diciamo entrambe le cifre invece di scegliere quella che ci comoda.
+il corpus. È una deviazione, e **abbassa** la novità di due punti (46,4% dentro i blocchi contro
+44,6% su tutto). Diciamo entrambe le cifre invece di scegliere quella che ci comoda.
 
-**Perché l'intervallo grezzo è così largo.** Perché **510 candidate su 1.081 — quasi metà del
+**Perché l'intervallo grezzo è così largo.** Perché **564 candidate su 1.185 — quasi metà del
 corpus parlato — sono «dubbie»**: accostate a una riga scritta per data e luogo ma non per oggetto, e
 quindi contate come nuove nel limite alto e come già scritte in quello basso. Da che parte stessero
 davvero decideva se la risposta fosse vicina al 45% o al 92%, e la larghezza non era un'incertezza da
@@ -131,13 +135,13 @@ non è di per sé una fonte scritta del fatto**, e contarlo come tale era il mod
 il confronto meccanico dichiarava «già scritto» qualcosa che scritto non era.
 
 **Delle due incertezze che tenevano largo l'intervallo, una è stata chiusa e l'altra no, e tirano in
-direzioni opposte.** Chiusa: le candidate «dubbie» sono in larga parte falsi accostamenti — l'81% —,
+direzioni opposte.** Chiusa: le candidate «dubbie» sono in larga parte falsi accostamenti — l'82,5% —,
 e questo porta la risposta vicino al limite alto. Aperta: il confronto fra righe **non vede** i fatti
-sepolti dentro atti che ne raccontano altri, e questo tira in basso, fino a un tetto del 36,8% di
-candidate date per nuove che nel testo di un atto vicino compaiono comunque. L'83,9% va quindi letto
+sepolti dentro atti che ne raccontano altri, e questo tira in basso, fino a un tetto del 37,1% di
+candidate date per nuove che nel testo di un atto vicino compaiono comunque. L'83,8% va quindi letto
 come la risposta migliore che sappiamo dare **con la seconda incertezza ancora aperta e dichiarata**.
 
-E resta vero che **il 31% delle notizie «certamente nuove» poggia su un toponimo che il lettore
+E resta vero che **il 31,2% delle notizie «certamente nuove» poggia su un toponimo che il lettore
 stesso ha segnalato come dubbio**: la risposta dipende anche da quanto ci si fida di una trascrizione
 automatica.
 
@@ -155,13 +159,13 @@ escono con zero candidate per questo motivo, non perché in aula non sia success
 
 **E una notizia nuova è meno verificabile di una confermata.** Il confronto va fatto **dentro il
 parlato**, con gli stessi lettori e le stesse trascrizioni: fra le candidate che gli atti confermano
-il **53,5%** è di qualità alta, fra quelle nuove il **18,8%**. Quasi trentacinque punti.
+il **54,5%** è di qualità alta, fra quelle nuove il **18,2%**. Trentasei punti.
 
 **Ma gran parte di quel divario la produciamo noi, ed è stato misurato.** La nostra scala assegna
 `alta` solo a un fatto *datato*; il parlato d'aula dice «l'anno scorso», «da vent'anni», «tre
-settimane fa». Contato riga per riga su tutte le candidate che dichiarano il motivo — 153 —, **74 mancano l'alta
-esclusivamente per la data**: sono compiute e localizzate, il 48% di quelle che non ci arrivano. E
-**sessanta di quelle settantaquattro, l'81%, sono notizie nuove**. Su uno dei lotti, se la data non
+settimane fa». Contato riga per riga su tutte le candidate che dichiarano il motivo — 233 —, **121 mancano l'alta
+esclusivamente per la data**: sono compiute e localizzate, il 52% di quelle che non ci arrivano. E
+**centodue di quelle centoventuno, l'84%, sono notizie nuove**. Su uno dei lotti, se la data non
 fosse richiesta, le nuove passerebbero dal 16,7% al 76,7% di qualità alta, **superando le
 confermate**.
 
@@ -169,10 +173,16 @@ Il motivo è che a datare un fatto, in aula, è quasi sempre **l'atto che qualcu
 lettore dichiara di aver preso le date dal verbale, non dall'audio. Il requisito «datato» funziona
 quindi come **un test sull'esistenza dell'atto travestito da test sul fatto**.
 
+Un lettore l'ha messo alla prova nel modo che serviva, cioè guardando le eccezioni. Nel suo lotto le
+candidate bloccate dalla sola data sono venti, e quindici sono nuove: le cinque che **non** lo sono
+vengono tutte e cinque **dalle due sole sedute il cui verbale riporta davvero la discussione**. Dove
+un verbale racconta, il fatto ha una data e ha un atto; dove non racconta, non ha né l'una né
+l'altro. È la stessa cosa detta due volte, e questo è il modo più diretto in cui l'abbiamo vista.
+
 Resta un divario vero sotto quello artificiale, e va detto: delle altre candidate che non arrivano
 ad alta, la maggior parte manca perché il fatto è **annunciato e non compiuto**, o perché il toponimo
 è storpiato. **Il parlato d'aula annuncia più di quanto certifichi** — ma molto meno di quanto il
-18,8% lasciasse credere.
+18,2% lasciasse credere.
 
 Il perché è un effetto di selezione, e non riguarda la qualità del parlato. Un fatto compiuto,
 datato e localizzato **tende per costruzione a generare un atto**; e appena lo genera esce dalla
@@ -192,7 +202,7 @@ Palmiro Togliatti è «anche negli atti», perché l'atto è di giugno; gli stal
 Tempesta sono «non verificabile», perché il verbale che li contiene è di maggio. **Cambia solo il
 confine del corpus.**
 
-Se il meccanismo è giusto, quel 18,8% non misura la debolezza del parlato ma **dove passa il confine
+Se il meccanismo è giusto, quel 18,2% non misura la debolezza del parlato ma **dove passa il confine
 di ciò che abbiamo raccolto**. È un'ipotesi coerente con i casi letti, non una conclusione
 dimostrata: per dimostrarla servirebbe scomporre il divario nelle sue cause, e ne abbiamo scomposta
 una sola — la data, che ne spiega quasi metà.
@@ -206,6 +216,14 @@ documentale. In
 un'altra, le mozioni approvate diventano tutte atti e le due respinte — piazza Addis Abeba e Tor
 Tre Teste — non esistono da nessuna parte. Chi ricostruisse il mese dai soli atti vedrebbe un
 consiglio che approva e mai uno che respinge.
+
+**A volte il verbale non c'è perché l'organo non lo approva da anni.** Un presidente di Consiglio
+municipale dice in aula che i verbali del proprio Consiglio **non vengono approvati dal 2021**: ne
+porta venti per seduta e quel giorno approva senza osservazioni, in venti secondi, i numeri da 1 a 20
+del **2022**. Spiega da solo perché nel corpus di giugno non esista un verbale di Consiglio di quel
+Municipio: non è un buco della nostra raccolta, è un arretrato di quattro anni. Tre Consigli
+municipali su tre, in un lotto, non hanno verbale nel corpus, e la sola traccia sono gli atti
+approvati, che al posto della discussione portano `(omissis)`.
 
 **Il verbale c'è ma è vuoto.** Per il Municipio I, **17 dei 23** verbali di commissione di giugno sono
 «di sola presenza» o senza alcun contenuto verbalizzato, e di Commissione Trasparenza non esiste
@@ -258,6 +276,14 @@ tardi** e il parere non lo esprime — né quel giorno né dopo.
 Nel senso opposto, in quelle stesse dodici, un caso solo: un verbale contiene un fatto che l'audio
 non ha («i terreni vanno ancora acquisiti»), e insieme **anonimizza** — dove la registrazione nomina
 l'agenzia capitolina che ha redatto il progetto, il verbale scrive «professionisti».
+
+**E il documento che viaggia può essere quello sbagliato.** Di uno stesso sopralluogo esistono due
+documenti: una risoluzione scrive che la società ha versato il materiale prima della chiusura del
+cantiere e senza dispositivi antiodore, «per non mancare le scadenze del PNRR»; il verbale dello
+stesso sopralluogo — **già approvato** — scrive «si constata» dove il fatto era solo dichiarato, e
+omette entrambe le ammissioni. La commissione se ne accorge leggendolo in diretta, e un commissario
+dichiara di averlo votato senza averlo letto. Quel verbale era destinato agli enti esterni:
+**quello che esce dal Municipio è la versione senza le ammissioni**.
 
 **E nelle dodici successive il rapporto si rovescia: due volte ha ragione il parlato, quattro la
 carta.** Non è una smentita del capoverso precedente, è la sua condizione: in quel secondo gruppo
@@ -344,7 +370,7 @@ poco, dove è di sole presenze aggiunge quasi tutto** — notizie solo dal parla
 pieno, 50% con verbale di sola presenza, 71% con verbale assente.
 
 **E che cosa il Report 2 aggiunge a quello che il Report 1 aveva già.** Non solo notizie nuove:
-anche pezzi mancanti di notizie vecchie. **284 righe di questo rapporto completano o correggono una
+anche pezzi mancanti di notizie vecchie. **316 righe di questo rapporto completano o correggono una
 riga del precedente** — e il campo che aggiungono più spesso non è il luogo, è **il tipo dell'atto e la data del fatto**. Un avviso municipale dice che una cosa succederà; l'atto o la
 seduta dicono *quando* e *con quale strumento*. È il contributo che si perderebbe del tutto in una
 vista che scarta i duplicati.
@@ -415,6 +441,14 @@ quelle registrazioni rende inutilizzabile il conteggio delle parole. Lo storpiam
 propri invece è di entrambe: lo stesso toponimo compare fino a **dodici grafie nella stessa
 seduta**, anche quando è l'oggetto della discussione; le sigle saltano quasi sempre; gli importi
 slittano di tre ordini di grandezza.
+
+**E un difetto che è nostro, non della fonte.** La mascheratura automatica dei nomi di persona ha
+colpito **un toponimo**: l'oggetto di una mozione votata all'unanimità esce come `spostamento
+mercato *********`, e solo l'atto di Consiglio dice che quegli asterischi sono il nome di un
+quartiere. Senza il riscontro documentale quella candidata sarebbe stata scartata per «luogo
+mancante»: la tutela della riservatezza, applicata a macchina, cancella anche ciò che riservato non
+è. Dalla parte della fonte, il caso simmetrico: un verbale sottoscritto data la propria seduta a
+«martedì 09 di maggio», e il 9 maggio 2026 è un sabato.
 
 **Nel collegamento fra i due.** Il censimento abbina la registrazione al suo atto in modo
 inaffidabile: su 78 abbinamenti dichiarati, 6 puntano a un atto di un altro Municipio e 8 a un atto
@@ -529,27 +563,34 @@ fattura.
    un silenzio più corto di cinque minuti è invisibile.
 7. Il materiale di riscontro è **congelato** in `report2/snapshot/`, così la novità non dipende dal
    giorno in cui un lotto è stato letto.
-8. **La qualità della deduplicazione, ora misurata su un campione giudicato da un lettore.** La
-   precisione degli accostamenti forti è **52%** (15 su 29): nove errori su dodici sono lo stesso —
-   una *convocazione* accostata all'*esito* della seduta che convoca, che condivide quasi tutte le
-   parole e non è lo stesso fatto. Il richiamo, su 40 candidate date per nuove, perde **2 gemelli
-   veri** (5%, IC [1,4% , 16,5%]). Correggendo entrambi, la novità certa scende da 48,0% a
-   **≈46,5%**, banda [42,7% , 47,7%].
+8. **La qualità della deduplicazione, misurata su campioni giudicati da tre lettori.** La
+   precisione degli accostamenti forti è **58,1%** (54 su 93, con il rigiudizio che sostituisce i
+   giudizi dati sul campione difettoso del punto 12): l'errore dominante è sempre lo stesso — una
+   *convocazione* accostata all'*esito* della seduta che convoca, che condivide protocollo, oggetto e
+   quasi tutto il testo. Nel rigiudizio sono **21 accostamenti su 79**, e 19 di quei 21 sono fatti
+   diversi. Il richiamo, su 40 candidate date per nuove, perde **2 gemelli veri** (5%, IC
+   [1,4% , 16,5%]). Applicando le due correzioni — `S × (1 − perso) + D × (1 − precisione)`, che è
+   la formula che `report2/risposta.py` scrive per esteso — la novità certa passa da 44,6% a
+   **45,6%**: sale, perché gli accostamenti forti sbagliati restituiscono più righe di quante il
+   richiamo ne tolga.
    Il difetto più profondo non è una soglia: **l'unità di confronto non è la stessa dalle due
    parti**. Dal lato parlato l'unità è il fatto, dal lato scritto è il documento — ogni verbale
    produce una riga sola, la cui sintesi racconta un punto solo dell'ordine del giorno. Un fatto che
    nel verbale è il terzo punto **non ha modo di essere riconosciuto**, e il richiamo è compromesso
-   prima del confronto.
+   prima del confronto. Il rigiudizio lo conferma nei due versi: **cinque dei diciannove gemelli veri
+   che ha trovato sono invisibili sulle sintesi** e si vedono solo aprendo il testo dell'atto — uno
+   sta in «varie ed eventuali» —, e lo stesso verbale viene accostato a due candidate diverse della
+   stessa seduta, che lo stesso fatto non sono.
    Quanto pesi si può misurare, perché il testo integrale degli atti ce l'abbiamo: cercando ogni
    candidata data per nuova **dentro il testo** di un atto plausibile — stesso Municipio, tre giorni
-   di distanza, con il suo toponimo e una parola del titolo — se ne ritrovano **144 su 391, il
-   36,8%**. Una parola che compare in un atto non prova che sia lo stesso fatto: 36,8% è un **tetto**,
+   di distanza, con il suo toponimo e una parola del titolo — se ne ritrovano **164 su 442, il
+   37,1%**. Una parola che compare in un atto non prova che sia lo stesso fatto: 37,1% è un **tetto**,
    non una stima. Ma dice che il 5% misurato sul confronto fra righe è solo la parte visibile: quello
    è ciò che il confronto poteva vedere e non ha visto, questo è ciò che **per costruzione non
    poteva vedere**.
 9. **Il denominatore contiene cinque righe di troppo** — lo 0,5% —, perché una seduta è stata
    pubblicata due volte e le sue notizie sono state estratte due volte. È l'unico caso nel corpus, e
-   toglierle sposta l'intervallo grezzo di due o tre decimi: da [45,1% , 92,2%] a [45,3% , 92,5%].
+   toglierle sposta l'intervallo grezzo di uno o due decimi: da [44,6% , 92,2%] a [44,7% , 92,4%].
    Vale la pena dire **come** si trova, perché la regola ovvia è sbagliata: cercare i doppioni per
    titolo e data ne produce 34, quasi tutti falsi, dato che più commissioni dello stesso giorno sono
    pubblicate con lo stesso titolo generico. Il doppione vero si riconosce dal contenuto — due
@@ -572,11 +613,17 @@ fattura.
    coincidono esattamente — ma tocca **gli audit**: per una parte delle candidate il campione
    elencava la riga e poi, sotto «accoppiata a:», **niente**. Nel campione congelato sono 25 casi su
    117. I lettori se ne sono accorti e hanno ricostruito la coppia dai dati, ma il rischio si misura:
-   nella classe incerta, dove il campione mostrava gli accostamenti i gemelli veri sono 9 su 30, dove
-   non mostrava niente sono **0 su 10**. Se quei dieci si comportassero come gli altri, i gemelli veri
-   fra le incerte sarebbero il **22,5%** invece del 18,8% e la risposta scenderebbe di circa un punto
-   e mezzo. Non è una correzione da applicare: è la stima del rischio. Il modo di chiuderla è
-   rigiudicare quei casi sul campione rifatto, ed è in corso.
+   nella classe incerta, dove il campione mostrava gli accostamenti i gemelli veri erano 9 su 30, dove
+   non mostrava niente **0 su 10**: il rischio dichiarato era che la risposta scendesse di circa un
+   punto e mezzo.
+   **È stato chiuso rifacendo il campione e facendo rigiudicare quei casi a un terzo lettore**, che
+   non ha visto i giudizi precedenti. Sulle 28 candidate incerte rigiudicate i gemelli veri sono **3**
+   (erano 4), e per **nessuna** delle nove che restano senza accostamenti esiste una riga scritta con
+   lo stesso fatto: cercate una per una nei 2.668 testi integrali, zero occorrenze. Lo zero non era un
+   effetto del campione difettoso, era il dato. La quota di gemelli veri fra le incerte passa quindi da
+   18,8% a **17,5%** e la risposta da 83,9% a **83,8%**: il difetto era reale, l'effetto sul numero
+   principale è di un decimo di punto. Resta vero per gli altri usi di quel file — chiunque risolva
+   quegli identificativi come se fossero del database ottiene righe sbagliate, ed è successo a noi.
 
 ## 6-bis. Una seconda AI sulle candidate, e che cosa ha insegnato il primo tentativo
 
@@ -609,21 +656,22 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 
 | numero | programma |
 |---|---|
-| 45,1% e 92,2% (intervallo grezzo di novità) | `report2/novita_meccanica.py` |
-| 18,8% di gemelli veri fra le incerte, e da lì l'83,9% | `report2/campione_dedup.py` più il giudizio di due lettori |
-| 31,0% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
+| 44,6% e 92,2% (intervallo grezzo di novità) | `report2/novita_meccanica.py` |
+| 17,5% di gemelli veri fra le incerte, e da lì l'83,8% | `report2/risposta.py`, che legge i file dell'audit |
+| il campione degli audit, e quello del rigiudizio | `report2/campione_dedup.py`, `report2/ricampiona_toccati.py` |
+| 30,6% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
 | dispersione fra lotti, 1,46 e 0,74 | `report2/varianza_lettori.py` |
 | 107 atti che rinviano alla registrazione | `report2/record_dichiarato.py` |
 | 17 identificativi di seduta negli atti, 7 risolti | `report2/link_verbali_video.py` |
 | collegamento registrazione-atto | `report2/collega_video_atti.py` |
 | tutte le tabelle del database | `report1/build_db.py` |
 | 25 concordi e 5 discordi della seconda AI | `report2/seconda_ai.js` |
-| 36,8% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
+| 37,1% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
 | i doppioni di pubblicazione e quanto spostano l'intervallo | `report2/doppioni_documenti.py` |
 
 Alla consegna, `report2/congela_consegna.py` mette accanto al rapporto lo **stato che ha prodotto
 questi numeri**: i dati, i programmi che li calcolano, il commit del repository e un file di numeri
-generato eseguendo i programmi, non ricopiato a mano. Senza, «83,9%» è un'affermazione che nessuno
+generato eseguendo i programmi, non ricopiato a mano. Senza, «83,8%» è un'affermazione che nessuno
 può rifare, perché il database cambia a ogni lotto che rientra.
 
 E un programma, `report2/verifica_numeri_rapporto.py`, ricalcola tutti questi valori dal database e

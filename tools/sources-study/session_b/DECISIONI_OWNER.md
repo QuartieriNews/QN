@@ -230,3 +230,14 @@ mandata da chi ha un nome e un indirizzo, non da una sessione automatica.
 
 **Finché non decide**, il caso resta nel rapporto in forma non identificante e nessuno viene
 contattato.
+
+**Aggiornamento del 16 settembre, ore 13:10Z — non è più un caso isolato.** Un secondo lettore ha
+trovato in un'altra registrazione **venti minuti di microfono aperto durante una sospensione**, con
+conversazioni private di consiglieri e di pubblico, in parte mascherate dalla pipeline della
+piattaforma e in parte no. Anche qui il lettore ha rimosso tutto e non ha riprodotto nulla nel log.
+
+Due casi su 305 registrazioni lette non fanno una frequenza, ma cambiano la natura della decisione:
+il primo poteva essere un incidente, due sono un **modo in cui la fonte pubblica sistematicamente
+più di quello che intende pubblicare** — e nel secondo caso non è nemmeno «dopo la fine»: è dentro
+la seduta, in una pausa che tutti in aula considerano privata. La raccomandazione non cambia (la
+segnalazione la fa l'owner), ma vale ora per una prassi, non per un item.
