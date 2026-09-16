@@ -693,3 +693,30 @@ titolo di traffico che dovrebbe autorizzarlo (via Cilicia due mesi e mezzo, Pinc
 due buchi in una catena di otto proroghe); anni sbagliati nei dispositivi (`12/06/2025` per una
 festa del 2026, un protocollo datato 2027 su una seduta di giugno 2026); oggetto e dispositivo che
 si contraddicono in una dozzina di atti.
+
+## 28. Il difetto di riservatezza era sistematico, non isolato (16 settembre, 04:10)
+
+Dopo aver corretto i due atti trovati ieri, ho passato un controllo su **tutti** i lotti letti
+cercando la combinazione «numero civico + condizione personale» invece dei soli nomi. Ne sono
+usciti **altri 19**: tutte determinazioni dirigenziali per stalli di sosta riservati, ciascuna con
+via, civico esatto e condizione di disabilità del titolare.
+
+Non era un errore di un lettore: **era sistematico**, perché la fonte scrive così e la regola che
+avevo dato parlava solo di nomi. Corretto in blocco su tutti e dodici i lotti, con la nota riga per
+riga; controllo finale: **nessun residuo**. Indirizzo ridotto alla via, che serve alla
+localizzazione; civico, numero di contrassegno, date personali e rapporti di parentela omessi.
+
+**Un caso che ho invece lasciato**, e vale la pena dire perché: una mozione municipale chiede di
+inserire un incrocio fra i *black point* ed elenca gli incidenti mortali avvenuti lì, con date e
+età. È un atto politico pubblico, senza nomi, e quegli incidenti sono la ragione stessa della
+mozione: toglierli svuoterebbe la notizia e non proteggerebbe nessuno che l'atto già non protegga.
+La differenza con gli stalli riservati è che lì l'atto riguarda **una persona determinata alla sua
+residenza**, qui riguarda **un luogo pericoloso per tutti**.
+
+**Avanzamento**: 650 atti letti su 1.983, 126 notizie candidate, **19,4%**; 82 atti con OCR
+incerto. B10–B12, tutti determinazioni di traffico, hanno dato il 17,3%.
+
+**Trovato dai lettori, materiale per il rapporto**: due cortei del 13 giugno con finalità opposte
+autorizzati sulla base dello stesso protocollo della Questura, con percorsi e orari sovrapposti;
+due atti gemelli il cui oggetto dice «abbattimento» e la premessa «lavori di stabilità» sulle stesse
+alberature; per tre Municipi compaiono due Gruppi di Polizia Locale con serie di repertorio diverse.
