@@ -3233,3 +3233,77 @@ Ma il danno di oggi resta: **gli identificativi citati in questo file prima dell
 indicare righe diverse**. Non li riscrivo a mano — sarebbe un altro modo di sbagliare —; chi li
 rilegge deve sapere che valgono come riferimenti al momento in cui sono stati scritti, e che il
 registro da ora impedisce che succeda di nuovo.
+
+## 83. V3_133–V3_144: due ipotesi smentite contando, e la terza che regge (2026-09-16 10:54Z)
+
+### Che cosa fa conservare le cifre a un verbale: la domanda si chiude
+
+Il lettore ha contato, sui nove verbali del suo lotto, le cifre pronunciate in aula e quelle
+sopravvissute nel verbale. **Le prime due spiegazioni sono smentite dai suoi stessi dati**:
+
+| | |
+|---|---|
+| l'unico verbale **a elenco puntato** | **4 cifre su 4 — 100%** |
+| gli otto verbali **in prosa estesa** | da **0%** a 50% |
+
+La prima ipotesi (la prosa estesa conserva, l'elenco no) è quindi **rovesciata**. La seconda (conta
+se il verbale registri *chi ha parlato*) non discrimina: tutti e otto i verbali in prosa registrano
+chi ha parlato, turno per turno, e fra loro c'è un fattore cinquanta.
+
+**Il predittore che regge è il terzo, ed è una proprietà del documento, non della sua forma:**
+
+> sopravvive la cifra che è **parte dell'atto o della procedura che il verbale ha il compito di
+> certificare**; muore la cifra usata come argomento, contesto o colore.
+
+Il verbale al 100% conserva tutto perché tutto era procedura: protocollo, articoli, quattro
+favorevoli, due astenuti. Uno conserva l'intera catena decisionale — cinque maggio, quattro giugno,
+primo luglio, tre turni, due settimane — e perde lo sfondo tecnico: 58 scuole, il decreto, i venti
+giorni. I due a zero sono **audizioni senza decisione**, dove ogni cifra era contesto.
+
+**E un fatto che nessuna delle tre ipotesi prevedeva**: il verbale non si limita a perdere, a volte
+**aggiunge e contraddice**. Scrive che gli accessi sono «limitati, **ma in crescita**» quando in aula
+la crescita non è mai detta; cambia l'anno di apertura di uno sportello; scrive «due strutture
+accessorie» dove l'aula dice «più annessi». Il verbale **ha una fonte propria** — i documenti
+d'ufficio — e la usa per correggere il parlato. Il che spiega perché la cifra procedurale sia più
+solida nel verbale che nella registrazione.
+
+Tre lettori, tre risposte, e la terza sopravvive al conteggio delle prime due. Vale la pena dirlo nel
+rapporto così: la regolarità non l'ha trovata nessuno dei tre da solo.
+
+### La scala di qualità: il vizio è misurato, e non spiega tutto
+
+Il conteggio che avevo chiesto. **21 candidate su 43 (il 49% del lotto, il 64% delle non-`alta`) non
+arrivano ad `alta` esclusivamente perché manca la data**: sono compiute e localizzate. **Diciotto di
+quelle ventuno sono `solo dal parlato`.**
+
+Se a quelle diciotto si assegnasse `alta`, le `solo dal parlato` passerebbero dal **16,7% al 76,7%**,
+**superando** le `anche negli atti` (45,5%). E la ragione per cui le confermate sono datate è che **è
+l'atto a datarle**: il lettore dichiara di aver preso le date dal verbale, non dall'audio. Quindi il
+requisito «datato» funziona come **un test sull'esistenza dell'atto travestito da test sul fatto**.
+
+**Ma il lettore argomenta contro la propria tesi, ed è la parte che vale di più.** Delle dodici
+non-`alta` che restano, dieci lo sono per ragioni proprie: il fatto è annunciato e non compiuto, o il
+toponimo è storpiato, o la trascrizione lascia dubbi. Quindi azzerando il vizio della data **un
+residuo di divario resterebbe**, perché *il parlato d'aula annuncia più di quanto certifichi*.
+
+Ho aggiunto alla specifica il **settimo emendamento**: ogni candidata non-`alta` dichiara in una
+parola perché (`data`, `luogo`, `non compiuto`, `trascrizione`). Non cambia la scala — cambiarla in
+corsa è l'errore di §63 — serve a misurarla su tutto il corpus invece che su un lotto.
+
+### Altro
+
+**Un falso positivo della mia misura sulle ripetizioni**: in un item la `quota_ripetuta` è 6% e non è
+un guasto del modello — **è la delibera letta due volte da chi presiede**. Chi aggrega quella colonna
+senza guardare il testo scambia una prassi d'aula per un difetto. Aggiunto ai mandati.
+
+**Un limite della fonte che non dipende da noi**: la **deissi su schermo condiviso**. Dieci minuti di
+commento su una mappa lasciano «qua», «questo pezzo», «fino all'altro carrozziere». Non è la
+trascrizione: è che la fonte è **solo audio**.
+
+**Sostituzioni lessicali che rovesciano il senso**, oltre ai toponimi: «per i gatti ci sono 5
+articoli, mentre per i gatti ce ne stanno 18» — la prima volta era «cani».
+
+E il rilievo che la soglia esclude i regolamenti cittadini senza luogo: **tre item su dodici**
+producono zero o due candidate pur contenendo fatti veri (200.000 cani microchippati a Roma, il
+divieto di animali nei circhi scritto e inapplicabile). Il rapporto **sottostima strutturalmente le
+sedute dedicate a norme cittadine**, e in questo lotto erano un terzo.

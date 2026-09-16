@@ -125,13 +125,21 @@ notiziabilità esclude per costruzione. Quella parte sta nel §4 e non è meno i
 parlato**, con gli stessi lettori e le stesse trascrizioni: fra le candidate che gli atti confermano
 il **55,7%** è di qualità alta, fra quelle nuove il **19,5%**. Trentasei punti.
 
-**Ma una parte di quel divario la produciamo noi, e va detto prima di interpretarlo.** La nostra
-scala assegna `alta` solo a un fatto *datato*; il parlato d'aula dice «l'anno scorso», «da
-vent'anni», «tre settimane fa». Un fatto che in aula ha una data precisa quasi sempre ce l'ha perché
-**qualcuno stava leggendo l'atto che la porta** — e quel fatto finisce, per definizione, fra quelli
-confermati dagli atti. Il 19,5% quindi **non si può leggere come «il parlato è meno affidabile»**:
-misura insieme una proprietà del parlato e una scelta della nostra regola di punteggio, e non
-sappiamo ancora in che proporzione.
+**Ma gran parte di quel divario la produciamo noi, ed è stato misurato.** La nostra scala assegna
+`alta` solo a un fatto *datato*; il parlato d'aula dice «l'anno scorso», «da vent'anni», «tre
+settimane fa». Su un lotto contato riga per riga, **21 candidate su 43 — il 64% di quelle che non
+arrivano ad alta — mancano l'alta esclusivamente per la data**: sono compiute e localizzate. E
+**diciotto di quelle ventuno sono notizie nuove**. Se la data non fosse richiesta, in quel lotto le
+nuove passerebbero dal 16,7% al 76,7% di qualità alta, **superando le confermate**.
+
+Il motivo è che a datare un fatto, in aula, è quasi sempre **l'atto che qualcuno sta leggendo**: il
+lettore dichiara di aver preso le date dal verbale, non dall'audio. Il requisito «datato» funziona
+quindi come **un test sull'esistenza dell'atto travestito da test sul fatto**.
+
+Resta un divario vero sotto quello artificiale, e va detto: delle dodici candidate che mancano l'alta
+per altri motivi, dieci la mancano perché il fatto è **annunciato e non compiuto**, o il toponimo è
+storpiato. **Il parlato d'aula annuncia più di quanto certifichi** — ma molto meno di quanto il
+19,5% lasciasse credere.
 
 Il perché è un effetto di selezione, e non riguarda la qualità del parlato. Un fatto compiuto,
 datato e localizzato **tende per costruzione a generare un atto**; e appena lo genera esce dalla
@@ -209,26 +217,29 @@ all'altro. Una proposta sui cinghiali diventa «150 interventi, 200 mila euro» 
 dispositivo — piano in trenta giorni, tavolo permanente, rendicontazione trimestrale in aula,
 numero verde ventiquattr'ore al posto della sola casella di posta.
 
-Quanto un verbale conservi non dipende però da quanto la seduta sia stata vivace: **dipende da come
-il verbale è scritto**. I verbali in prosa narrativa estesa — quelli redatti riascoltando — tengono
-tutto, comprese cifre che la trascrizione automatica storpia: uno scrive `17.182,05 euro` dove la
-registrazione dice «17.000». I verbali a elenco puntato tengono l'intestazione e le presenze. Il
-caso estremo è un verbale che registra «Intervengono il presidente, il consigliere X e il
-consigliere Y» e nient'altro, mentre l'intera discussione — chi non voterà e perché, quali risorse
-non sono arrivate — esiste solo nella registrazione.
+**Quale cifra sopravvive in un verbale, e quale no.** Tre letture indipendenti hanno proposto tre
+spiegazioni, e le prime due sono state smentite contando. Non è la forma: l'unico verbale a elenco
+puntato del campione conserva **quattro cifre su quattro**, mentre i verbali in prosa estesa vanno
+dallo 0% al 50%. Non è che il verbale registri chi ha parlato: lo fanno tutti, e fra loro c'è un
+fattore cinquanta. Quella che regge al conteggio è la terza:
 
-Questa correzione viene da un lettore a cui era stata chiesta la verifica dell'ipotesi opposta, e
-che l'ha smentita misurando. **Un lettore successivo l'ha smentita a sua volta**: ha confrontato
-parola per parola quattro verbali tutti in prosa estesa e non ha trovato conservata **nessuna** delle
-ventitré cifre; l'unico atto che le conserva tutte è **a tabella**, con una colonna «esito» da
-riempire. La sua spiegazione è che conti che cosa il verbale *è*: un registro di chi ha parlato non
-ha posto per la cifra, un registro di decisioni sì.
+> sopravvive la cifra che è **parte dell'atto o della procedura che il verbale ha il compito di
+> certificare**; muore la cifra usata come argomento, contesto o colore.
 
-Due letture competenti, stesso metodo, risultati opposti. Lasciamo la contraddizione in vista invece
-di scegliere: una regolarità che due lettori misurano al contrario non è una regolarità, è una
-domanda aperta. Quello su cui non si contraddicono è il fatto grosso — **dove il verbale è pieno il
-video aggiunge poco, dove è di sole presenze aggiunge quasi tutto**: `solo dal parlato` allo 0% con
-verbale pieno, 50% con verbale di sola presenza, 71% con verbale assente.
+Il verbale che conserva tutto lo fa perché tutto era procedura — protocollo, articoli, quattro
+favorevoli, due astenuti. Uno conserva l'intera catena delle date di un appalto e perde lo sfondo
+tecnico: 58 scuole adeguate, il decreto, i venti giorni. I due che stanno a zero sono **audizioni
+senza decisione**, dove ogni cifra era contesto.
+
+E una cosa che nessuna delle tre spiegazioni prevedeva: **il verbale non si limita a perdere, a
+volte aggiunge e corregge.** Scrive che gli accessi a uno sportello sono «limitati, ma in crescita»
+quando in aula la crescita non è mai stata detta; cambia l'anno di apertura; scrive «due strutture
+accessorie» dove l'aula dice «più annessi». Il verbale **ha una fonte propria**, i documenti
+d'ufficio, e la usa contro il parlato.
+
+Il fatto grosso su cui tutte le letture concordano: **dove il verbale è pieno il video aggiunge
+poco, dove è di sole presenze aggiunge quasi tutto** — notizie solo dal parlato allo 0% con verbale
+pieno, 50% con verbale di sola presenza, 71% con verbale assente.
 
 ## 4. Che cosa si vede solo ascoltando
 
