@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 15,18 € |
-| **Disponibile** | **62,82 €** |
+| Speso nella sessione B | 23,07 € |
+| **Disponibile** | **54,93 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -36,7 +36,7 @@ listino in dollari):
 | 15/09 20:17 | controllo Codex C1 sullo schema del database | 0,16 € |
 | 16/09 00:20 | controllo Codex C2 sulla specifica di lettura | 0,20 € |
 | 16/09 05:55 | prova T1: 2,12 ore di audio RomaTV trascritte | 0,30 € |
-| 16/09 08:30 | trascrizione in corso: 143 registrazioni, 101,4 ore | 14,6 € |
+| 16/09 10:10 | trascrizione in corso: 219 registrazioni, 154,9 ore | 22,49 € |
 | 16/09 08:50 | controllo Codex C3 sulla specifica delle registrazioni (3.835 token in, 8.737 out) | 0,22 € |
 
 Impegno previsto ancora da spendere: **circa 25 €** per le 172 ore di registrazioni che restano
@@ -1894,3 +1894,34 @@ un sostituto si sia astenuto, **si deduce solo dalle repliche**. Nessun verbale 
 **E un dettaglio che dice molto sull'epoca.** In una commissione si discute a lungo di un
 partecipante non identificato collegato alla seduta: risulta essere **un servizio automatico di
 trascrizione**, attivato da qualcuno e rimasto lì.
+
+## 58. Il toponimo storpiato che fabbrica novità (16 settembre, 10:10)
+
+Eseguito il rilievo 6.3 del controllo C3: un toponimo sbagliato dal riconoscimento automatico non
+trova il suo gemello, e la candidata risulta nuova **per un errore di trascrizione invece che per un
+fatto**. Con 126 registrazioni lette e 573 candidate dal parlato:
+
+| | toponimo fermo | toponimo dichiarato incerto |
+|---|---|---|
+| nessun gemello scritto (**S**) | 217 | **125** |
+| solo dubbi (U) | 150 | 75 |
+| almeno un duplicato (D) | 2 | 4 |
+
+**Il 36,5% delle candidate «certamente nuove» poggia su un toponimo che il lettore stesso ha
+marcato incerto.** Scartandole, la novità certa scende **dal 59,7% al 37,9%**.
+
+Il rapporto avrà quindi una scala a tre gradini, non un numero:
+
+- **37,9%** — nuove con un toponimo fermo: il pavimento, quello che regge a qualunque obiezione;
+- **59,7%** — nuove, cioè senza alcun gemello fra le righe scritte, toponimi incerti compresi;
+- fino a **oltre il 98%** se si contano come nuove anche tutte quelle che hanno solo un `dubbio`.
+
+Tre numeri, tre domande diverse, tutti e tre misurati. È la forma che il controllo C3 chiedeva, e a
+questo punto la larghezza non è più un'incertezza da nascondere: **è il risultato**, perché dice che
+la risposta dipende da quanto si è disposti a fidarsi di una trascrizione automatica.
+
+Nota di metodo: il flag `toponimo_da_verificare` sta nei JSON dei lettori, non nella tabella, e il
+programma lo rilegge da lì incrociando item e titolo. È fragile — se un titolo cambia, l'incrocio
+salta — e lo dichiaro invece di farlo passare per esatto.
+
+Ledger: trascrizione a **219 registrazioni, 154,9 ore, 22,49 €**; disponibili **54,93 €**.
