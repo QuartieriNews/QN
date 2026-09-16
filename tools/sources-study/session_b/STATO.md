@@ -3871,3 +3871,72 @@ e la data in aula la porta quasi sempre l'atto che qualcuno sta leggendo. Il req
 buona parte da sé.
 
 Il rapporto ora porta questi numeri invece di quelli di un lotto.
+
+## 101. V3_169–V3_180: due controesempi alla regola, e la soglia sulla ripetizione è cieca (2026-09-16 12:10Z)
+
+### La regola sulle cifre ha due controesempi veri
+
+Dopo quattro conteggi che la confermavano, il quinto ne trova due — ed è quello che avevo chiesto:
+*cerca controesempi, non conferme*.
+
+1. Un'assessora enuncia **cinque frazioni di suolo concedibile** per zona urbanistica — un terzo,
+   metà, un terzo, due terzi, la totalità — e **il verbale non ne riporta nessuna**. Non erano
+   colore né argomento: erano il **dispositivo dell'atto** su cui si votava il parere. La regola le
+   avrebbe date per sopravvissute.
+2. **Lo stesso numero muore come norma e sopravvive come argomento**: il «100%» del suburbio
+   scompare dal verbale come quota concedibile e **riappare** dentro l'obiezione di una consigliera.
+   È l'inverso esatto della regola.
+
+Quindi la regola descrive una tendenza forte e non una legge, e il rapporto deve dirlo così. Il
+lettore aggiunge la nota che la salva parzialmente: quella sopravvivenza dentro l'obiezione è anche
+**l'unico modo per capire che il «tre terzi» della trascrizione non è un errore**.
+
+### La soglia del 10% sulla ripetizione dà il verdetto sbagliato
+
+Misurato su due item dello stesso lotto:
+
+| | quota ripetuta | che cosa succede |
+|---|---|---|
+| un item | **8,5%** | **si perde contenuto**: la lettura riprende dal comma 14 dopo essersi interrotta all'8 — i commi 9-13 non esistono nel testo |
+| un altro | **44,8%** | **non si perde niente**: il presidente legge due volte gli articoli 67 e 71, nelle premesse e nel dispositivo |
+
+Cioè: **a 8,5% si perde, a 44,8% no.** La mia sesta regola impone `non attendibile` sul secondo, che
+è il caso in cui il conteggio è corretto, e lascia passare il primo, che è quello in cui manca roba.
+**La quota di ripetizione non è un indicatore di perdita, e il 10% non è dove la perdita comincia.**
+
+Non cambio la regola adesso — cambiarla mentre sei lotti la stanno applicando è l'errore di §63, e
+oggi l'ho già fatto tre volte. La dichiaro nel rapporto e scrivo qui la correzione giusta per chi
+rifarà lo studio: **misurare la perdita, non la ripetizione** — cercare il punto di innesco e
+verificare se il testo riprende da dove si era interrotto.
+
+### Un difetto del metodo di riscontro che riguarda tutti i lettori
+
+`grep -ril` sugli atti **sottostima i riscontri, e sottostima proprio sui nomi lunghi**: i PDF
+estratti vanno a capo dentro il nome, e «Angelo Musco» spezzato su due righe non si trova cercando
+per riga. L'errore cade **esattamente sui toponimi**, che sono quello che i lettori cercano.
+
+Il lettore si è costruito un indice appiattito e ha rifatto tutte le proprie ricerche. L'ho portato
+in `report2/cerca_negli_atti.py`, con l'indice salvato una volta e riusato: su un solo termine di
+prova trova **8 atti dove grep ne trova 7**. È ora nei mandati.
+
+### Il caso che spiega perché il verbale è sottile
+
+Il verbale di un item chiude con «*la videoregistrazione della seduta sostituisce la trascrizione a
+verbale degli interventi*». Quindi il verbale è magro **per regolamento**, perché l'atto probatorio
+è la registrazione — cioè il materiale che stiamo leggendo noi, la cui trascrizione automatica
+sbaglia proprio i numeri. **La cifra non è persa in principio: è delegata a un supporto che la
+corrompe.**
+
+### E un metodo riusabile, dal lettore
+
+Quando il verbale manca e la trascrizione dà due cifre diverse per la stessa cosa — «16 milioni» a un
+punto e «10 milioni» a un altro — **vince la cifra che chiude il conto con le altre cifre della
+stessa frase**: 1.600 case per 10.000 euro fa 16 milioni, e la dilazione a mille euro l'anno per
+sei più sei anni conferma. Aggiunto ai mandati.
+
+### La specifica è cambiata sotto di lui. Terza volta.
+
+Ha applicato il nono emendamento comparso mentre leggeva, e l'ha dichiarato — citando la riga della
+specifica che dice che non si modifica durante una lettura. Ha ragione. Da qui alla consegna **non
+tocco più la specifica**: le osservazioni dei lettori vanno nel rapporto e nella nota per chi rifarà
+lo studio, non in un decimo emendamento.
