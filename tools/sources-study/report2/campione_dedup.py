@@ -8,10 +8,23 @@
 #     alle righe scritte che un criterio piu' largo avvicina (stesso Municipio, data a tre giorni,
 #     una parola lunga in comune). Un gemello mancato **alza** la novita', ed e' l'errore che
 #     gonfia il numero principale: e' li' che il campione va guardato per primo.
-import csv, os, random, re, collections
+import csv, os, random, re, sys, collections
 
 NET = os.environ['QN_NET']
-SEME = '2026-06-dedup-audit'
+# Il seme si puo' cambiare da riga di comando per estrarre un **secondo** campione indipendente: il
+# numero principale del rapporto poggia su quaranta casi e un solo giudice, e un secondo giro con
+# altri casi e' l'unico modo di sapere se quella stima regge. Le candidate gia' giudicate si
+# escludono, cosi' i due campioni non si sovrappongono.
+SEME = sys.argv[1] if len(sys.argv) > 1 else '2026-06-dedup-audit'
+gia_giudicate = set()
+for f in ('AUDIT_dubbi.csv', 'AUDIT_dedup.csv'):
+    p_g = NET + '/report2/out/' + f
+    if os.path.exists(p_g):
+        for r in csv.DictReader(open(p_g, encoding='utf-8')):
+            for c in ('id_parlata', 'id_a'):
+                if r.get(c): gia_giudicate.add(r[c])
+if gia_giudicate:
+    print('candidate gia\' giudicate in un giro precedente, escluse: %d' % len(gia_giudicate))
 PARLATO = {'A3', 'A4'}
 righe = list(csv.DictReader(open(NET + '/report1/db/notizie_candidate.csv', encoding='utf-8')))
 
@@ -39,7 +52,7 @@ scritte = [r for r in righe if r['fonte'] not in PARLATO]
 forti = [r for r in parl if classe(r['gemelli_scritti']) == 'D']
 
 # --- richiamo: le S, e i loro vicini secondo un criterio deliberatamente piu' largo del nostro
-esse = [r for r in parl if classe(r['gemelli_scritti']) == 'S']
+esse = [r for r in parl if classe(r['gemelli_scritti']) == 'S' and r['id'] not in gia_giudicate]
 per_mun = collections.defaultdict(list)
 for s in scritte:
     for m in (s['municipio'] or '').split(';'):
@@ -102,7 +115,7 @@ for i, (a, cand) in enumerate(camp, 1):
 # vero, la novita' reale starebbe vicino al limite superiore invece che a quello inferiore. Il
 # revisore della prima tornata l'ha segnalato guardando di sfuggita 41 accostamenti deboli e
 # trovandone tre convincenti: un'indicazione, non una misura. Questa sezione la rende misurabile.
-dubbi = [r for r in parl if classe(r['gemelli_scritti']) == 'U']
+dubbi = [r for r in parl if classe(r['gemelli_scritti']) == 'U' and r['id'] not in gia_giudicate]
 random.Random(SEME + '-U').shuffle(dubbi)
 campU = dubbi[:40]
 out += ['', '## C. La classe «dubbio» — candidate accostate a una riga scritta ma non allo stesso oggetto',
@@ -116,9 +129,13 @@ for i, r in enumerate(campU, 1):
         out += [riga(b, '     '), '        accostamento %s' % forza]
     out += ['']
 
-open(NET + '/report2/campione_dedup.md', 'w', encoding='utf-8').write('\n'.join(out))
+# Il campione si scrive con il proprio seme nel nome: sovrascrivere il file precedente cancellava
+# l'unica copia di quello che un revisore aveva davanti, e il seme da solo non lo ricostruisce
+# perche' il database intanto e' cambiato.
+nome = NET + '/report2/campione_dedup_%s.md' % re.sub(r'[^a-z0-9]+', '-', SEME.lower()).strip('-')
+open(nome, 'w', encoding='utf-8').write('\n'.join(out))
 print('A. coppie gemelle (precisione): %d' % len(forti))
 print('B. candidate S con almeno un vicino largo: %d su %d S (campionate %d)'
       % (len(vicini), len(esse), len(camp)))
 print('C. classe dubbio: %d candidate (campionate %d)' % (len(dubbi), len(campU)))
-print('scritto report2/campione_dedup.md')
+print('scritto', os.path.basename(nome))
