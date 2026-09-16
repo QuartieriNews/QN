@@ -3472,3 +3472,84 @@ quella che per procedura non si registra*; *il verbale si scrive in diretta*; *a
 racconta una seduta diversa da quella avvenuta*; *un atto che dispone il contrario di quanto
 deciso*; *qualche volta è la registrazione a correggere l'atto*; *come il residuo viene prodotto*;
 *quale cifra sopravvive in un verbale*; *che cosa il Report 2 aggiunge al Report 1*.
+
+## 90. V3_145–V3_168: la regola sulle cifre è confermata due volte, e il parlato sbaglia (2026-09-16 11:24Z)
+
+Due lotti, ventiquattro registrazioni, e per la prima volta due misure indipendenti che **confermano**
+invece di smentire.
+
+### Le cifre nei verbali: contate due volte, stessa risposta
+
+| lotto | cifre pronunciate | sopravvissute | controesempi |
+|---|---|---|---|
+| V3_145–156 | 72 | 29 (40%) | **0** |
+| V3_157–168 | ~80 | 47 (59%) | 4 |
+
+Delle morte, tutte meno quattro sono **argomento, contesto o colore**: 137 aziende e 7.000 addetti,
+8 milioni nel 2016, il 50% di differenziata, 9″99 sui cento metri, il Giro d'Italia 2018.
+
+**Il caso che chiude la questione**: un assessore legge dieci statistiche sull'arresto cardiaco —
+60.000 casi l'anno, 58%, 7,5% europeo — dicendo «tutto questo è presente nell'atto che stiamo
+discutendo». Nel documento **non ce n'è nessuna**. Sopravvivono tutte e sole le cifre che *sono* la
+norma: 250 mq, 350 dispositivi, 16.500 esercizi, 31 dicembre 2026.
+
+La formulazione finale, raffinata da entrambi i lettori: **sopravvive la cifra di cui quel verbale è
+il documento probatorio**. Le quattro eccezioni del secondo lotto sono cifre procedurali **di un
+altro organo** o di un passaggio futuro — cioè confermano la regola specificandola.
+
+### E il parlato sbaglia, non solo il verbale
+
+Il contrappeso alla tesi del rapporto, e viene dai lettori:
+
+- una consigliera **annuncia il proprio voto contrario**; nel verbale i contrari sono due e lei non
+  c'è, perché aveva lasciato la seduta. **Chi si fidasse del solo parlato sbaglierebbe il conteggio.**
+- il verbale corregge l'oratore **contro la sua stessa voce**: «oltre sei mesi dalla chiusura»
+  diventa «a più di cinque mesi», e cinque è il numero giusto;
+- il verbale porta l'importo esatto di un debito, **17.182,05**, dove in aula si sentono 21.000,
+  17.000, 2.182, 1.224,30;
+- gli orari di entrata e uscita al minuto **in registrazione non esistono**: nessuno li annuncia,
+  vengono dal foglio presenze.
+
+E una volta è lo scritto a sbagliare e la voce ad avere ragione: una convocazione elenca un «verbale
+n. 20 del 14/06/2026», data impossibile; il parlato dice 14/05 e il verbale lo conferma.
+
+**Sulle trascrizioni a pagamento i numeri pronunciati non sono affidabili**: «250.000 metri quadrati»
+per 250, «venerdì scorso 22 giugno» per il 12. Per uno studio che conta cifre è il difetto peggiore,
+e la conseguenza operativa è netta: **quando il verbale c'è, la cifra si prende dal verbale**.
+
+### Il foglio di riscontro: 26%, non 15%
+
+Il secondo lettore ha dato il numero esatto: **685 testi su 2.668 (il 26%) non hanno una riga nel
+foglio**. Il primo ha misurato l'effetto: otto item su dodici hanno trovato un atto fuori foglio, e
+con il solo foglio avrebbe scritto `solo dal parlato` su **undici candidate che invece stanno
+scritte**.
+
+### Due difetti nuovi, e uno riguarda una persona
+
+**La duplicazione corrompe le cifre anche sotto la soglia.** Lo stesso passaggio trascritto due volte
+dà numeri **diversi**: «non sono 113. 5.14, 235, 64» contro «non sono 116. 5145, 235, 64». Stesso
+audio, due trascrizioni, cifre discordi. Dove il modello cicla le quantità vanno considerate perse
+**anche a `quota_ripetuta` bassa**: è un difetto che quella colonna non misura.
+
+**E una registrazione pubblicata prosegue per tredici minuti dopo la chiusura dei lavori**, con
+parlato privato di natura personale catturato a microfono aperto. Il lettore non ha fatto entrare
+nulla nei nostri file, nemmeno anonimizzato, e nel log non ha riprodotto né contenuto né
+identificativi: **dalla nostra parte è chiuso**. Ma quel materiale è ancora online, pubblicato
+dall'amministrazione, e riguarda persone che non sapevano di essere registrate. **Aperta la D7**: la
+segnalazione, se si fa, la fa l'owner — va mandata da chi ha un nome e un indirizzo, non da una
+sessione automatica.
+
+### Una divergenza fra letture che non credo isolata
+
+La risoluzione sulla titolazione di un parco è `notizia_candidata = no` per chi ha letto l'atto e
+qualità `alta` per chi ha ascoltato la seduta. Chi leggeva il dispositivo ha visto una
+regolarizzazione; chi ascoltava ha sentito che un parco **intitolato e inaugurato con una targa non
+era mai stato intitolato**, e che gli uffici l'avevano messo per iscritto a novembre 2025. È la
+differenza fra leggere il dispositivo e leggere la premessa.
+
+### Il limite che il primo lettore nomina meglio di come l'avevo scritto io
+
+«Quando il verbale della seduta stessa esiste ed è *con sintesi*, tutto il detto sta scritto e la
+colonna della novità collassa»: 4 `solo dal parlato` su 11 dove il verbale c'è, 20 su 31 dove manca.
+**Così la colonna misura la verbalizzazione, non la novità territoriale.** È la stessa cosa che il
+numero principale dice dall'alto, vista dal basso di un lotto.

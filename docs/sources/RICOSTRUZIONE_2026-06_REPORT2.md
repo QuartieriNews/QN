@@ -226,16 +226,28 @@ fattore cinquanta. Quella che regge al conteggio è la terza:
 > sopravvive la cifra che è **parte dell'atto o della procedura che il verbale ha il compito di
 > certificare**; muore la cifra usata come argomento, contesto o colore.
 
-Il verbale che conserva tutto lo fa perché tutto era procedura — protocollo, articoli, quattro
-favorevoli, due astenuti. Uno conserva l'intera catena delle date di un appalto e perde lo sfondo
-tecnico: 58 scuole adeguate, il decreto, i venti giorni. I due che stanno a zero sono **audizioni
-senza decisione**, dove ogni cifra era contesto.
+Due letture successive l'hanno contata su altri verbali e l'hanno confermata: **72 cifre pronunciate
+e 29 sopravvissute in un caso, circa 80 e 47 nell'altro**, e delle morte quasi tutte erano argomento
+o contesto — 137 aziende e settemila addetti, otto milioni nel 2016, il 50% di differenziata, 9″99
+sui cento metri. Il caso che chiude la questione: un assessore legge dieci statistiche sull'arresto
+cardiaco — 60.000 casi l'anno, 58%, 7,5% europeo — dicendo «tutto questo è presente nell'atto che
+stiamo discutendo». Nel documento **non ce n'è nessuna**. Sopravvivono tutte e sole le cifre che
+*sono* la norma: 250 metri quadri, 350 dispositivi, 16.500 esercizi, 31 dicembre 2026.
 
-E una cosa che nessuna delle tre spiegazioni prevedeva: **il verbale non si limita a perdere, a
-volte aggiunge e corregge.** Scrive che gli accessi a uno sportello sono «limitati, ma in crescita»
-quando in aula la crescita non è mai stata detta; cambia l'anno di apertura; scrive «due strutture
-accessorie» dove l'aula dice «più annessi». Il verbale **ha una fonte propria**, i documenti
-d'ufficio, e la usa contro il parlato.
+La formulazione che regge su tutti i conteggi è quindi più stretta: **sopravvive la cifra di cui quel
+verbale è il documento probatorio**.
+
+**E il verbale non si limita a perdere: a volte aggiunge, e a volte ha ragione lui.** Ha una fonte
+propria — i documenti d'ufficio — e la usa contro il parlato. Porta l'importo esatto di un debito,
+`17.182,05`, dove in aula si sentono 21.000, 17.000, 2.182 e 1.224,30. Corregge l'oratore contro la
+sua stessa voce: «oltre sei mesi dalla chiusura» diventa «a più di cinque mesi», e cinque è il numero
+giusto. Porta gli orari di entrata e uscita al minuto, che **nella registrazione non esistono**
+perché nessuno li annuncia.
+
+E in un caso corregge l'aula su un fatto: una consigliera **annuncia il proprio voto contrario**,
+ma nel verbale i contrari sono due e lei non c'è, perché aveva lasciato la seduta. **Chi si fidasse
+del solo parlato sbaglierebbe il conteggio.** È il contrappeso a tutto questo capitolo, e va scritto
+con la stessa forza: la registrazione è più completa, l'atto è più esatto.
 
 Il fatto grosso su cui tutte le letture concordano: **dove il verbale è pieno il video aggiunge
 poco, dove è di sole presenze aggiunge quasi tutto** — notizie solo dal parlato allo 0% con verbale
