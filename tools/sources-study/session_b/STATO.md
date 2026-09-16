@@ -2418,3 +2418,104 @@ astratto.
 **E una decisione di riservatezza che il lettore ha preso meglio di come la specifica la impone**:
 riportando l'insediamento oggetto di decisione ha **omesso la designazione etnica usata in aula**,
 non vietata da DEC-102 ma inutile al fatto e stigmatizzante. Va aggiunto alla specifica come regola.
+
+## 69. Correzione a §66: l’allarme era sbagliato, il difetto vero è un altro e più piccolo (2026-09-16 09:07Z)
+
+In §66 ho scritto che l'insieme di confronto sono «gli atti letti, non gli atti che abbiamo», e che
+il 58,0% non era difendibile. **Il lettore del lotto X01 ha smontato la premessa**, e ricontrollando
+ha ragione lui.
+
+Misurato sul repertorio di Atti Web, senza margine di dubbio:
+
+| | |
+|---|---|
+| atti in `confronto_atti.csv` con repertorio **8–28 giugno** | 1.983 su 1.983 |
+| atti mai confrontati con repertorio **di giugno fuori dall'8–28** | 685 su 685 |
+
+I 1.983 **non sono gli atti che qualcuno ha letto: sono esattamente il perimetro dello studio**,
+8–28 giugno, che l'HANDOFF prescrive. I 685 non sono stati dimenticati, sono fuori finestra. E la
+mia misura del rischio — «151 candidate, il 36%, nominano un luogo che compare in un atto mai
+confrontato» — contava **compresenze di toponimo con atti dell'1–7 e del 29–30 giugno**, cioè fuori
+perimetro per costruzione. **La ritiro.**
+
+**Che cosa resta, ed è preciso.** Il lettore ha isolato il meccanismo che nessuno aveva guardato:
+
+- per i **verbali** (MMV, GMV, CMV) la data di repertorio **è** la data della seduta. Verificato sul
+  suo lotto: 21 verbali su 21. Quindi il verbale di una seduta dell'8–28 giugno sta sempre dentro i
+  1.983, e da quel lato non manca niente;
+- per le **convocazioni** (MMC) la data di repertorio è la data del **protocollo**, che precede la
+  seduta. Verificato: 12 su 12, protocolli del 3–5 giugno per sedute dell'8–15 giugno.
+
+Da cui il difetto vero, sistematico e tutto mio: **ogni seduta dei primi giorni della finestra la cui
+convocazione è stata protocollata prima dell'8 giugno ha la convocazione fuori dall'insieme di
+confronto.** Non è un caso sfortunato, è una conseguenza necessaria di aver definito il perimetro
+sulla data di repertorio quando per un tipo di atto quella data non è la data del fatto.
+
+Pesa meno di quanto pesava l'allarme che ho scritto: una convocazione annuncia, raramente contiene
+il fatto. Tocca il collegamento registrazione-convocazione, non il gemello scritto di una notizia.
+Ma va chiuso, e i due lotti X01/X02 lo stanno chiudendo: X01 ne ha già lette 12.
+
+**E una cosa che va detta a parte perché è vera e sopravvive a tutto il resto.** Il verbale di una
+seduta di fine giugno, repertoriato a luglio, **non ce l'abbiamo affatto**: `A2_text/` contiene solo
+atti di giugno. Lì non è questione di insieme di confronto, è che il documento non è mai stato
+scaricato. Da verificare quanto pesa, ed è la sola parte di §66 che potrebbe ancora spostare il
+numero principale.
+
+**Quarta volta oggi.** Quattro volte una mia misura ha smentito chi aveva letto il materiale, e
+quattro volte era la mia misura a essere sbagliata (§56, §60, §62, questa). La regola di §60 regge
+solo se la applico *prima* di scrivere, non dopo: qui l'ho scritta nel rapporto e poi corretta.
+L'unica difesa che ha funzionato è stata far leggere il materiale a qualcuno.
+
+## 70. X01 e X02: il buco misurato, e quanto grande è (2026-09-16 09:14Z)
+
+Due lotti indipendenti, 65 atti, stesso meccanismo trovato da entrambi senza sapere l'uno dell'altro:
+
+> **Atti Web indicizza i verbali per la data della seduta e le convocazioni per la data del
+> protocollo.**
+
+Verificato: X01, 21 verbali su 21 con repertorio = seduta, 12 convocazioni su 12 con protocollo che
+precede; X02, 11 verbali su 11 e 21 convocazioni, **19 delle quali convocano una seduta dentro
+l'8–28 giugno** pur essendo repertoriate fra l'1 e il 5. In totale 31 convocazioni su 33 (94%)
+riguardano sedute della finestra.
+
+**Quanto è grande il buco, adesso che so come contarlo.** Fra i 685 atti fuori finestra, quelli
+repertoriati **1–7 giugno** sono candidati a riguardare sedute dentro la finestra:
+
+| | 1–7 giugno | 29–30 giugno |
+|---|---|---|
+| convocazioni (MMC, CMC, CPC) | **127** | 33 |
+| verbali (MMV, CMV, GMV, CPV) | 95 | 20 |
+| altro | 333 | 77 |
+
+I 95 verbali dell'1–7 **non servono**: se il repertorio è la data della seduta, quelle sedute sono
+dell'1–7 e stanno fuori dal perimetro dei fatti, non solo da quello degli atti. Servono le **127
+convocazioni**, di cui 31 già lette: ne restano **96**, e i lotti X03, X04 e X05 le coprono tutte.
+
+Con questo il difetto smette di essere un allarme e diventa un lavoro con una fine.
+
+**Un difetto di fonte che vale il rapporto.** X02: venti righe `ocr_incerto`, ma **solo nove portano
+il marcatore Tesseract**. Le altre undici sono **PDF nativi con lo strato di testo corrotto
+all'origine**, e non sono sparse: sono **tutti e dieci gli atti del Municipio XII** del lotto, più
+uno. `ROMA CM'IT~LE`, `Prot. ca-l'Io`, `RCl16286I2026` dove `l` e `I` stanno per `/`. Un Municipio
+pubblica sistematicamente PDF con testo inservibile e la nostra estrazione lo copia senza passare da
+Tesseract: è una fonte difettosa, non rumore casuale, ed è la conferma sul campo della regola della
+specifica (`ocr_incerto` vale sul testo, non sul marcatore).
+
+**Perché i verbali arrivano tardi, detto da un verbale.** Il 30 giugno una commissione del Municipio
+X **non riesce ad approvare** i verbali delle sedute dell'1, 9, 10 e 23 giugno per mancanza del
+numero legale. Il ritardo del record non è disorganizzazione: è la stessa mancanza di numero legale
+che blocca le decisioni.
+
+**E un precedente su DEC-102 che viene dall'amministrazione.** In `A2_MMV_X_NjIwNzc` **la fonte
+anonimizza da sola**, scrivendo `Omissis` al posto dei nomi degli ospiti esterni. Su quei verbali
+l'ente fa già quello che noi facciamo: da citare, perché smentisce l'idea che la protezione delle
+persone sia un'invenzione nostra imposta alla fonte.
+
+**Due rilievi dei lettori che restano aperti per l'owner o per me.**
+1. I civici dei **beni pubblici**: X02 li ha tenuti (Parco Clemente Riva, Salaria Sport Village, ex
+   scuola Quartararo) e ha tolto quelli legati a persone, incluso il **numero di banco di un
+   mercato**, che è di fatto un numero di concessione. È esattamente la D5 aperta; il lettore ha
+   applicato la linea che la D5 propone. Se l'owner decide diversamente è una passata automatica
+   sulla colonna `luoghi`.
+2. L'emendamento sulle convocazioni non copre i `CPC` capitolini: X02 l'ha esteso per non avere due
+   metri per lo stesso oggetto, dichiarandolo e rendendolo reversibile in blocco. Scelta giusta.

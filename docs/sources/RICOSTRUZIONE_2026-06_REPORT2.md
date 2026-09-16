@@ -45,20 +45,21 @@ Da cui la scala:
 - **99,0%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
-**Avvertenza che vale più dei tre numeri, e che va tolta solo quando sarà stata chiusa.** Questi
-valori sono misurati contro gli atti **letti** — 1.983 — non contro gli atti che abbiamo: in
-archivio ce ne sono **2.668**, e fra i 685 mai confrontati ci sono **275 verbali e convocazioni**,
-in gran parte verbali di sedute di giugno repertoriati fuori giugno. Sono precisamente i documenti
-che conterrebbero il gemello scritto di ciò che si è detto in aula. Misura grossolana del rischio:
-delle 422 candidate date per certamente nuove, **151 — il 36% — nominano un luogo che compare in
-uno di quegli atti**. La compresenza di un toponimo non è un gemello, quindi 151 è un tetto e non
-una stima; ma finché quei 275 atti non sono letti, **il 58,0% è da considerarsi un limite superiore
-del limite inferiore**. La lettura è in corso e i numeri saranno rifatti.
+**Contro che cosa sono misurati, detto con precisione.** Contro i 1.983 atti con data di repertorio
+fra l'8 e il 28 giugno, che è il perimetro dello studio. Gli altri 685 atti di giugno che abbiamo in
+archivio sono dell'1–7 e del 29–30: fuori finestra per costruzione, non dimenticati.
 
-Il difetto è emerso oggi da tre strade indipendenti — un controllo sugli identificativi delle
-registrazioni, una frase che cambia esito solo per il confine del corpus, e un lettore che cercava
-la convocazione di una seduta e l'ha trovata nell'archivio ma non nel foglio di confronto. È un
-difetto della nostra pipeline, non delle fonti.
+C'è però un punto in cui il perimetro, definito sulla data di repertorio, **non coincide con il
+perimetro dei fatti**. Per i verbali la data di repertorio è la data della seduta, e allora il
+verbale di una seduta dell'8–28 giugno sta sempre dentro. Per le **convocazioni** la data di
+repertorio è quella del protocollo, che precede la seduta: la convocazione di una seduta dei primi
+giorni della finestra, protocollata prima dell'8, **resta fuori**. È una conseguenza necessaria
+della definizione, la stiamo chiudendo leggendo quelle convocazioni, e tocca il collegamento fra
+registrazione e atto, non il gemello scritto di una notizia.
+
+Resta un limite che non si chiude e va dichiarato: **il verbale di una seduta di fine giugno
+repertoriato a luglio non è nella raccolta.** Non è un problema di insieme di confronto — è un
+documento che non abbiamo.
 
 La larghezza non è un'incertezza da nascondere: **è il risultato**. Dice che la risposta dipende da
 quanto ci si fida di una trascrizione automatica, e che un terzo delle notizie «certamente nuove»
