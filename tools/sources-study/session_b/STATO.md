@@ -3370,3 +3370,39 @@ e ora dice *«1 segmento, circa 10 secondi, in coda»*.
 La regola che ne ricavo, e che vale più della correzione: **quando scrivo un programma per misurare
 una mancanza, la prima cosa da provare è che la mancanza la veda**. Filtrare i dati difettosi
 all'ingresso è il modo più naturale di renderli invisibili proprio alla misura che li cerca.
+
+## 86. La causa vera delle registrazioni perse: `SystemExit` (2026-09-16 11:14Z)
+
+Riavviato il driver, è morto di nuovo in pochi minuti. Stavolta ho guardato **perché**, invece di
+riavviarlo e basta.
+
+`rtv_transcribe.py`, sulla risposta di errore dell'API, faceva:
+
+```python
+raise SystemExit('trascrizione fallita su %s: HTTP %d %s' % ...)
+```
+
+**`SystemExit` non deriva da `Exception`, deriva da `BaseException`**: passa attraverso l'
+`except Exception` del driver come se non ci fosse. Quindi **un solo file audio rifiutato dall'API
+uccideva il programma che ne stava trascrivendo trecento**, lasciando a metà l'item in lavorazione.
+
+È la causa vera delle registrazioni perse di §65. Lì avevo trovato il secondo anello — i segmenti
+cancellati prima della trascrizione, che rendevano l'item irripetibile — e l'avevo corretto
+credendo di aver chiuso il caso. Il primo anello era questo, e in §65 avevo persino scritto che il
+driver «logga l'errore e continua»: lo credevo perché il codice ha un `except`, non perché avessi
+visto un errore seguito da una ripresa. **Un `except` che non cattura è indistinguibile da un
+`except` che funziona, finché non guardi che cosa succede dopo.**
+
+Corretto: `RuntimeError` al posto di `SystemExit`. E il driver ora **mette da parte un item che
+fallisce due volte** (`rtv_item_rinunciati.txt`) invece di ricominciare sempre da lui: senza, la coda
+si incastrava sul primo file corrotto e gli altri non arrivavano mai.
+
+Il file che lo uccideva è `e7f9ea9a`, che l'API rifiuta come «Audio file might be corrupted or
+unsupported» — un audio davvero difettoso, che ora viene dichiarato invece di fermare tutto.
+
+**Tre difetti diversi, una sola forma.** Oggi ho trovato: un conteggio di processi che non vedeva il
+processo, un programma per dichiarare le lacune che scartava le lacune prima di contarle, una prima
+misura T4 che misurava la mia finestra, e ora un gestore di errori che non gestiva. Tutti e quattro
+si comportano bene finché non succede la cosa che dovrebbero intercettare. **La prova di un
+meccanismo di sicurezza non è che il programma funzioni: è che fallisca come previsto quando lo si
+rompe apposta.** Nessuno di questi quattro era mai stato messo alla prova con un guasto vero.

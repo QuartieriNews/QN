@@ -42,6 +42,10 @@ from rtv_prep_audio import remux
 from rtv_transcribe import trascrivi
 
 giri_a_vuoto = 0
+falliti = {}
+if os.path.exists(BASE + '/rtv_item_rinunciati.txt'):
+    for l in open(BASE + '/rtv_item_rinunciati.txt'):
+        falliti[l.split('\t')[0]] = 9
 while True:
     c, ore = speso()
     if c >= TETTO_USD:
@@ -52,7 +56,7 @@ while True:
     recupero = [os.path.basename(m)[5:-4] for m in glob.glob(MONO + '/comm_*.mp3')
                 if not os.path.exists(TRA + '/comm_%s.json' % os.path.basename(m)[5:-4])]
     resta = [i for i in pronti() if not os.path.exists(TRA + '/comm_%s.json' % i)]
-    resta = list(dict.fromkeys(recupero + resta))
+    resta = [i for i in dict.fromkeys(recupero + resta) if falliti.get(i, 0) < 2]
     if not resta:
         giri_a_vuoto += 1
         if giri_a_vuoto > 240:
@@ -81,5 +85,13 @@ while True:
             c, ore = speso()
             print('OK %s  %.0f min  | totale %.1f ore, $%.2f' % (i, res['durata_s'] / 60, ore, c), flush=True)
         except Exception as e:
+            # Un item che fallisce due volte si mette da parte e non si ritenta piu': altrimenti la
+            # coda ricomincia sempre da lui e il driver non arriva mai agli altri. La lista resta su
+            # disco, cosi' chi guarda sa che cosa manca e perche'.
             print('ERRORE %s: %s' % (i, str(e)[:300]), flush=True)
+            falliti[i] = falliti.get(i, 0) + 1
+            if falliti[i] >= 2:
+                with open(BASE + '/rtv_item_rinunciati.txt', 'a') as fh:
+                    fh.write('%s\t%s\n' % (i, str(e)[:200].replace('\n', ' ')))
+                print('RINUNCIO a %s dopo due tentativi' % i, flush=True)
             time.sleep(10)

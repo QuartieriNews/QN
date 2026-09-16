@@ -56,7 +56,12 @@ def trascrivi(path, tmpdir, nome):
                 break
             if r.status_code in (429, 500, 502, 503, 504) and tentativo < 3:
                 time.sleep(5 * (tentativo + 1)); continue
-            raise SystemExit('trascrizione fallita su %s: HTTP %d %s' % (out, r.status_code, r.text[:300]))
+            # RuntimeError, non SystemExit: `SystemExit` deriva da BaseException e passa attraverso
+            # gli `except Exception` di chi chiama, quindi un solo file audio rifiutato dall'API
+            # **uccideva il driver** che ne stava trascrivendo trecento, lasciando a meta' l'item in
+            # lavorazione. E' la causa vera delle registrazioni perse annotate in STATO §65: la
+            # cancellazione anticipata dei segmenti era il secondo anello, questo era il primo.
+            raise RuntimeError('trascrizione fallita su %s: HTTP %d %s' % (out, r.status_code, r.text[:300]))
         j = r.json()
         pezzi.append({'i': i, 'inizio_s': round(ini, 1), 'fine_s': round(fin, 1),
                       'byte': os.path.getsize(out), 'testo': j.get('text', ''), 'usage': j.get('usage')})
