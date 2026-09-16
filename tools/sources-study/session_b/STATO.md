@@ -3594,3 +3594,37 @@ id aveva appena tolto dal database, ricomparso in un altro programma poche ore d
 id si rileggono da tutti e due i file — e verificato eseguendo due volte di seguito: zero id nuovi.
 
 Aver capito un difetto in un posto non lo toglie dagli altri posti dove ho scritto la stessa logica.
+
+## 92. La notiziabilità di un atto dipende da chi lo legge, e il fattore è due (2026-09-16 11:40Z)
+
+Rinfrescando i numeri del rapporto ho controllato la quota di atti notiziabili e ho trovato una cosa
+che non stavo cercando.
+
+| | atti | notiziabili |
+|---|---|---|
+| i 1.983 atti della finestra (lotti B) | 1.983 | 544 — **27,4%** |
+| i 161 atti fuori finestra (lotti X) | 161 | 84 — **52,2%** |
+
+Poteva essere il materiale, visto che i lotti X sono quasi tutti convocazioni. **Non lo è**:
+confrontando **lo stesso tipo di atto**, le convocazioni,
+
+> lotti B: **21,0%** notiziabili su 509 · lotti X: **44,2%** su 129.
+
+Stesso tipo di documento, stessa regola scritta, **il doppio di notizie**.
+
+**La causa più probabile è mia.** Ai lettori dei lotti X ho spiegato *perché* il lotto esisteva e ho
+chiesto nel mandato «quali fatti territoriali contengono». Ai lettori dei lotti B avevo dato la sola
+specifica. Non ho cambiato la soglia: ho cambiato **che cosa il lettore stava cercando**, e la resa
+è raddoppiata.
+
+Va nel rapporto, perché tocca un numero che ci sta dentro: **il 27,4% non è una proprietà degli
+atti**, è una proprietà della coppia atto-lettore. Chi rifacesse questo studio con un mandato scritto
+un po' diversamente troverebbe il doppio delle notizie negli stessi documenti — e non saprebbe di
+averlo fatto, se non confrontasse due lotti come qui.
+
+È anche un limite di tutte le percentuali di notiziabilità che il Report 2 pubblica, comprese quelle
+per tipo di atto, e va detto **accanto a quei numeri** e non in una nota in fondo.
+
+Nota metodologica per la consegna: il rapporto dice «1.983 atti letti». Sono diventati **2.144** —
+1.983 nella finestra più 161 fuori, letti per chiudere il buco delle convocazioni. Le due cifre
+vanno tenute distinte: 1.983 è **il perimetro del confronto**, 2.144 è **quanto abbiamo letto**.

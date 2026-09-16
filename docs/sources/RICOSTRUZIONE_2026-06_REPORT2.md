@@ -16,7 +16,15 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
   97 dai canali YouTube dei Municipi e 381 da RomaTV. Di queste, 318 le abbiamo trascritte noi e 82
   portavano già la trascrizione della piattaforma. Alla data di questa bozza le registrazioni lette
   sono **265**.
-- Gli atti danno **628 notizie candidate**, le registrazioni **1.081** finora.
+- Gli atti letti sono in realtà **2.144**: i 1.983 della finestra più 161 fuori, letti per chiudere
+  un buco che il perimetro lasciava aperto. I 1.983 danno **544 notizie candidate**, il **27,4%**;
+  le registrazioni ne danno **1.081** finora.
+- **Quel 27,4% non è però una proprietà degli atti.** Gli stessi documenti — le convocazioni — sono
+  giudicati notiziabili nel **21,0%** dei casi da un gruppo di lettori e nel **44,2%** da un altro.
+  Stessa regola scritta, il doppio di notizie. La differenza sta nel mandato: al secondo gruppo era
+  stato chiesto esplicitamente quali fatti territoriali cercare. **La notiziabilità è una proprietà
+  della coppia documento-lettore**, e chiunque rifaccia questo studio con un mandato scritto un po'
+  diversamente troverà numeri diversi dagli stessi atti.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — ha una risposta, e
   arriva tardi: **circa l'86%** delle notizie che nascono in una seduta non sta in nessun atto.
   Il confronto meccanico da solo dava un intervallo largo, fra il 46% e il 92%; è un audit su
