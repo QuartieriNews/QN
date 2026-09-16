@@ -755,9 +755,12 @@ fattura.
    sale.** Le convocazioni di commissione sono nel corpus per undici Municipi e **per quattro no** —
    II, III, IV e XV: zero atti di quel tipo. Non è una scelta, è come li pubblicano. L'effetto si
    misura: nei quattro Municipi senza convocazioni la quota di candidate con un duplicato certo è
-   **4,0%**, negli altri **9,6%** — meno della metà —, e la novità certa è 46,3% contro 42,2%. La
-   direzione è quella che ci si aspetta e la causa non è separabile dalle differenze reali fra
-   Municipi, ma va detta: **una parte della novità che misuriamo è la forma in cui un'amministrazione
+   **4,0%**, negli altri **9,6%** — meno della metà —, e la novità certa è 46,3% contro 42,2%.
+   Accanto all'assenza c'è una causa diversa e molto più rara, da non confondere con quella:
+   l'**illeggibilità**. Undici atti su 1.983 hanno un testo sotto i 400 byte — scansioni di moduli
+   manoscritti che non restituiscono né la data né l'ordine del giorno: il documento c'è e non dice
+   niente. La direzione è quella che ci si aspetta e la causa non è separabile dalle differenze reali
+   fra Municipi, ma va detta: **una parte della novità che misuriamo è la forma in cui un'amministrazione
    pubblica i propri atti**. Con un'ironia utile: le convocazioni sono anche il tipo di documento che
    produce **quasi tutti gli accostamenti sbagliati** (21 su 79 nel rigiudizio, 19 dei quali fatti
    diversi), perché condividono protocollo e oggetto con il verbale della seduta che convocano.

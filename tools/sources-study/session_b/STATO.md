@@ -4689,3 +4689,60 @@ dichiarato.
   dal testo e in **336 (37,9%)** quel Municipio non è fra quelli dichiarati dalla fonte. Nuovo §7
   punto 13. È una deviazione grossa e l'abbiamo scelta noi: chi seguisse lo schema alla lettera
   otterrebbe una distribuzione territoriale diversa.
+
+## 118. V3_346–V3_388: la formula dichiarata non predice la resa, e due conti che ho rifatto (2026-09-16 15:30Z)
+
+19 candidate, 11 nuove. Tutti e dieci gli item del 23 giugno.
+
+### Un limite al fatto da cui parte il rapporto
+
+Il §1 dice che 107 verbali dichiarano che il record della seduta è la registrazione. Il lettore ha
+trovato il controesempio: **un Municipio che porta quella formula scrive comunque verbali pieni** —
+voto nominale, annunci, segnalazioni. Quindi **la formula dichiarata non predice la resa**: dice che
+cosa l'organo considera il record, non quanto scrive. Aggiunto nel §3 accanto alla correlazione, dove
+tocca il fatto di partenza.
+
+### Il caso peggiore finora di verbale che cancella i luoghi
+
+**37 minuti che nominano otto luoghi** — biblioteca in ristrutturazione, casa dei giovani, istituto
+comprensivo, circolo, area di borghetto, Questura — diventano **ventidue righe con zero toponimi**.
+Terzo caso indipendente, terzo Municipio. Nel §3.
+
+E una cosa che non avevamo: **l'aula corregge a penna tre errori dei verbali arretrati, su fogli che
+restano in ufficio**. Gli atti pubblicati restano quelli sbagliati; la correzione non arriva da
+nessuna parte.
+
+### Due conti che ho rifatto invece di riportarli
+
+- Il lettore scrive che il Municipio VIII «le convocazioni ce le ha, sono moduli manoscritti la cui
+  scansione non restituisce niente». **Contato**: il VIII ha 42 convocazioni con mediana 1.178 byte e
+  **solo 3 sotto i 400 byte**. Non è una proprietà del Municipio, sono tre atti. Il punto suo però
+  regge ed è nuovo: **assenza e illeggibilità sono due cause diverse** e vanno contate separate. Sul
+  corpus intero sono **11 atti su 1.983** sotto i 400 byte (8 `GCM`, 3 `MMC`). Aggiunto al §7 punto 12.
+- «Nei 1.983 atti» come formula per dire «non risulta da nessuna parte» **è falsa**, perché i testi
+  integrali sono 2.668: il lettore l'ha corretta nei propri file. Nel rapporto la formula compare una
+  volta sola e già cita entrambi i numeri; nei mandati nuovi c'è l'istruzione di scrivere «nei testi
+  degli atti».
+
+### Altre cose misurate dal lotto
+
+- **Tre importi ai centesimi** che stanno nell'atto e in aula non sono mai pronunciati (250.000,00 di
+  cui 242.596,06 per un altro municipio; 97.656,74 e 69.009,93 contro «98.000» e «67.000» detti in
+  aula). La forma netta della regola regge.
+- **Controesempio sulle cifre a favore della carta sbagliata**: un protocollo detto **giusto** in aula
+  è reso sbagliato dall'OCR della convocazione. La regola «la cifra si prende dall'atto» ha un limite
+  quando l'atto è corrotto, e i mandati ora lo dicono.
+- **Un verbale di sopralluogo che documenta una seduta mai avvenuta**; un verbale che scrive «alle
+  10,45 entra la presidente» in una seduta 12:33–13:00 — **l'atto si smentisce da solo**.
+- **La chiusura di una seduta sta solo nel verbale in un item e solo nella registrazione in un
+  altro**: la coppia simmetrica che impedisce di dire quale fonte sia più affidabile sugli orari.
+- **Sotto soglia, 0,056**: un intervento duplicato tre volte al posto dello scambio di merito.
+- **Manifest**: due item sono una sola seduta (apertura, sospensione, ripresa, chiusura lo dicono);
+  altri due dello stesso giorno sono invece sedute distinte, e lo dice la registrazione stessa.
+
+### D7: quattordici casi
+
+Cinque in dieci item. Il più netto: un consigliere dice «anche se la registrazione c'è, fuori
+verbale», e **il verbale di quella seduta non esiste** — l'unica traccia è quella che lui riteneva
+informale. `DECISIONI_OWNER.md` aggiornato; i denominatori dei cinque lettori che hanno cercato sono
+3/10, 3/10, 0/10, 4/10, 5/10.

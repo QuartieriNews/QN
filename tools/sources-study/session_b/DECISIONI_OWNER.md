@@ -258,7 +258,15 @@ esplicito in aula di chiudere una questione «fuori registrazione», e quattro m
 capigruppo rimasti dentro il flusso. Tre lettori che hanno guardato apposta: tre su dieci, tre su
 dieci, zero su dieci.
 
-Nove casi su 305 registrazioni lette non fanno una frequenza — ma cambiano la natura della decisione:
+**Alle 15:30Z sono quattordici**, e il conto dei lettori che hanno guardato apposta e' 3/10, 3/10,
+0/10, 4/10, 5/10. Il caso che dice tutto: un consigliere dichiara in aula «anche se la registrazione
+c'e', fuori verbale» — e il verbale di quella seduta **non esiste**, quindi l'unica traccia di quel
+passaggio e' proprio quella che lui riteneva informale. Piu': una telefonata a microfono aperto,
+dieci minuti di conversazione prima dell'appello, una sospensione muta, un «buona registrazione»
+dopo la chiusura.
+
+Quattordici casi su 313 registrazioni lette non fanno una frequenza — ma cambiano la natura della
+decisione:
 il primo poteva essere un incidente, due sono un **modo in cui la fonte pubblica sistematicamente
 più di quello che intende pubblicare** — e nel secondo caso non è nemmeno «dopo la fine»: è dentro
 la seduta, in una pausa che tutti in aula considerano privata. La raccomandazione non cambia (la
