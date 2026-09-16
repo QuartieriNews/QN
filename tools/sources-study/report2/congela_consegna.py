@@ -16,6 +16,9 @@ DA_COPIARE = [
     'report2/coppie_parlato_scritto.csv', 'report2/manifest_video_rtv.csv',
     'report2/manifest_video_rtv_fuori_finestra.csv', 'report2/manifest_report2.csv',
     'report2/out/AUDIT_dedup.csv', 'report2/out/AUDIT_dubbi.csv', 'report2/out/AUDIT2_dedup.csv',
+    # Il rigiudizio non e' un audit in piu': **sostituisce** i giudizi dati sul campione difettoso
+    # (STATO §105), e senza di lui il 17,5% non si rifa'. Con l'elenco dei casi che ha ripreso.
+    'report2/out/AUDIT3_rigiudizio.csv', 'report2/out/DA_RIGIUDICARE.csv',
     'report2/out/INDICE_EVIDENZE.csv', 'report2/t4_esito.csv',
 ]
 copiati = 0
@@ -29,9 +32,13 @@ for f in DA_COPIARE:
 # I programmi che producono i numeri vanno congelati con i dati: una riga cambiata in uno di loro
 # cambia il risultato senza che i dati si muovano.
 os.makedirs(dest + '/programmi', exist_ok=True)
-for f in ('report1/build_db.py', 'report2/novita_meccanica.py', 'report2/audit_toponimi.py',
-          'report2/campione_dedup.py', 'report2/copertura_testi_atti.py',
-          'report2/record_dichiarato.py', 'report2/link_verbali_video.py'):
+for f in ('report1/build_db.py', 'report2/risposta.py', 'report2/novita_meccanica.py',
+          'report2/audit_toponimi.py', 'report2/campione_dedup.py', 'report2/ricampiona_toccati.py',
+          'report2/copertura_testi_atti.py', 'report2/motivo_non_alta.py',
+          'report2/doppioni_documenti.py', 'report2/magneti_dedup.py',
+          'report2/verifica_numeri_rapporto.py', 'report2/testo_documento.py',
+          'report2/cerca_negli_atti.py', 'report2/record_dichiarato.py',
+          'report2/link_verbali_video.py'):
     p = REPO + '/' + f
     if os.path.exists(p): shutil.copy(p, dest + '/programmi/' + os.path.basename(p))
 
@@ -46,8 +53,12 @@ with open(dest + '/COME_RIFARE_I_CONTI.md', 'w', encoding='utf-8') as fh:
              'qui accanto e non riscritti a mano.\n')
 
 with open(dest + '/numeri.txt', 'w', encoding='utf-8') as fh:
-    for prog in ('novita_meccanica.py', 'audit_toponimi.py'):
+    # `risposta.py` per primo: e' il numero principale, ed e' l'unico che legge i file dell'audit.
+    for prog in ('risposta.py', 'novita_meccanica.py', 'audit_toponimi.py', 'motivo_non_alta.py',
+                 'copertura_testi_atti.py', 'doppioni_documenti.py'):
         r = subprocess.run([sys.executable, REPO + '/report2/' + prog],
                            capture_output=True, text=True, env={**os.environ, 'QN_NET': NET})
         fh.write('=== %s\n%s\n' % (prog, r.stdout))
 print('congelati %d file di dati in %s' % (copiati, os.path.basename(dest)))
+print('programmi: %d' % len(os.listdir(dest + '/programmi')))
+print('numeri.txt: %d righe' % sum(1 for _ in open(dest + '/numeri.txt', encoding='utf-8')))

@@ -4421,3 +4421,30 @@ accostamenti sbagliati — 21 su 79 nel rigiudizio, 19 dei quali fatti diversi.
 leggibile: un altro lettore ha **cercato e dichiarato di non aver trovato nulla** in tutti e dieci i
 suoi item. Da qui in avanti i mandati chiedono di cercarlo e di dichiararlo anche quando non c'è:
 tre casi valgono solo se si sa in quanti item si è guardato. `DECISIONI_OWNER.md` aggiornato.
+
+## 112. Provato il congelamento della consegna, e il programma dei compatti rientra nel repository (2026-09-16 14:27Z)
+
+Due cose che alla consegna non voglio scoprire rotte, provate adesso che c'è tempo.
+
+**`congela_consegna.py` girato per prova** (cartella cancellata subito dopo: 4,9 MB che
+duplicherebbero i dati e che qualcuno potrebbe scambiare per il congelamento vero). Funziona, ma gli
+mancavano i pezzi di oggi. Aggiunti:
+- `AUDIT3_rigiudizio.csv` e `DA_RIGIUDICARE.csv` fra i dati — **il rigiudizio non è un audit in più,
+  sostituisce i giudizi dati sul campione difettoso, e senza di lui il 17,5% non si rifà**;
+- otto programmi che prima non venivano congelati, fra cui `risposta.py`, `motivo_non_alta.py`,
+  `testo_documento.py` e `cerca_negli_atti.py`: senza gli ultimi due chi rifà i conti non ritrova
+  nemmeno i testi;
+- `numeri.txt` ora esegue sei programmi invece di due, e comincia da `risposta.py`, che è il numero
+  principale.
+Prova: 17 file di dati, 15 programmi, 64 righe di numeri, e il primo valore stampato è
+«RISPOSTA: 83.8% banda [79.2% , 87.0%]».
+
+**`compatte.py` esisteva solo nello scratchpad.** È il programma che genera i file da caricare su
+Drive, cioè l'ultimo passo della consegna, e stava fuori dal repository: una copia sola, in una
+cartella che oggi si è già riavviata una volta. Portato in `report1/compatte.py` e rimesso al suo
+posto come symlink, come tutti gli altri — una sorgente, due percorsi, nessuna divergenza possibile.
+Rigenerato per prova: 3.434 documenti compatti, i file per fonte tornano.
+
+Restano da fare alla consegna, in quest'ordine: `build_db.py`, `risposta.py`,
+`verifica_numeri_rapporto.py`, `audit_toponimi.py`, `copertura_testi_atti.py`, `motivo_non_alta.py`,
+`compatte.py`, `congela_consegna.py`, e **solo allora** Drive, una volta sola.
