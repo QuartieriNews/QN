@@ -17,7 +17,7 @@ def minuti(hm):
 
 righe = list(csv.DictReader(open(NET + '/report2/manifest_video_rtv.csv', encoding='utf-8')))
 rx = re.compile(r'\[(\d+):(\d\d)\]')
-persi = []; senza = 0; ok = 0
+persi = []; senza = 0; ok = 0; manifest_storto = []
 for r in righe:
     p = NET + '/video/' + (r.get('file') or '')
     d = minuti(r.get('durata_hm') or '')
@@ -29,6 +29,14 @@ for r in righe:
     if scarto >= SOGLIA_MIN: persi.append((r['item_id'], d, round(ultimo, 1), round(scarto, 1),
                                            r.get('quota_ripetuta') or '', r.get('lacuna') or ''))
     else: ok += 1
+    # Il controllo e' cieco in una direzione, e l'ha visto un lettore: uno scarto **negativo** — la
+    # trascrizione va oltre la durata dichiarata — non e' una coda persa, e' un manifest sbagliato,
+    # e un filtro sui soli scarti positivi non lo vede. Si contano a parte perche' sono un difetto
+    # dei nostri metadati, non della registrazione.
+    # Sotto il minuto lo scarto negativo e' l'arrotondamento di `durata_hm`, che e' in minuti interi:
+    # contano i casi grossi e quelli con durata dichiarata zero.
+    if scarto < -1.0 or (d == 0 and ultimo > 0):
+        manifest_storto.append((r['item_id'], d, round(ultimo, 1), round(scarto, 1)))
 
 print('registrazioni esaminate: %d (saltate %d)' % (len(righe) - senza, senza))
 print('con l\'ultimo marcatore almeno %.0f minuti prima della durata dichiarata: %d (%.1f%%)'
@@ -41,5 +49,11 @@ print('\nle venti con lo scarto piu\' grande (item, durata, ultimo marcatore, sc
 for x in sorted(persi, key=lambda y: -y[3])[:20]:
     print('  %-8s durata %4d   ultimo %6.1f   scarto %5.1f   quota_ripetuta %-6s %s'
           % (x[0], x[1], x[2], x[3], x[4] or '-', 'lacuna dichiarata' if x[5].strip() else ''))
+if manifest_storto:
+    print('\nscarti **negativi** (la trascrizione va oltre la durata dichiarata: manifest sbagliato): %d'
+          % len(manifest_storto))
+    for x in sorted(manifest_storto, key=lambda y: y[3])[:10]:
+        print('  %-8s durata dichiarata %4d   ultimo marcatore %6.1f   scarto %5.1f' % x)
+
 print('\nLo scarto non e\' sempre perdita: una seduta puo\' chiudere prima della fine del file, ed e\'')
 print('il caso piu\' comune. Serve a dire **dove guardare**, non a contare i minuti persi.')

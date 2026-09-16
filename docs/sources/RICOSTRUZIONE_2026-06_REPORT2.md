@@ -540,6 +540,11 @@ consecutivi della stessa seduta** pubblicati come registrazioni distinte. Sono d
 si contano separatamente, perché le ripubblicazioni condividono il testo e gli spezzoni no: una
 misura che cerca testo condiviso vede i primi e **per costruzione** non vede i secondi.
 
+E un difetto piccolo dei metadati, che si vede solo cercandolo nel verso opposto: **otto item hanno
+durata dichiarata `0:00`** pur avendo una trascrizione con contenuto fino a quarantotto secondi. Sono
+sedute brevissime — appelli, seconde convocazioni andate deserte — di cui il censimento non registra
+la durata. Chi calcolasse le parole al minuto su quel campo dividerebbe per zero.
+
 Un terzo caso, trovato leggendo, non è nessuno dei due e nessuna misura automatica lo vedrebbe: due
 item che il censimento dà come sedute distinte dello stesso giorno sono **la stessa seduta**, spezzata
 perché a metà è migrata su un'altra piattaforma — stessi presenti, stesso guasto, apertura alle 10.11
