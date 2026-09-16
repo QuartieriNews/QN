@@ -5074,3 +5074,65 @@ le aveva compresse in una riga. Corretto nel mandato dell'ultimo lotto; il rappo
   presentano, commissioni che scoprono da terzi un cantiere, tre dipartimenti che non sanno l'esito
   di un proprio bando, verbali approvati senza che nessuno li abbia uditi. Nel §4, perché è la misura
   di quanto la colonna della novità **non** vede.
+
+## 126. La lettura è finita: 478 su 478, e i numeri definitivi (2026-09-16 17:58Z)
+
+L'ultimo lotto (V3_377–V3_399) è rientrato. **Tutte e 478 le registrazioni censite sono lette** —
+381 RomaTV e 97 YouTube. Controllo sull'intero corpus prima di ricostruire: 478 file, **1.674
+candidate**, zero senza evidenza, 400 marcatori verificati contro il testo e tutti presenti, nessuna
+violazione di schema.
+
+### I numeri definitivi
+
+`chiudi_studio.py` ha eseguito gli undici passi in 150 secondi. Quello che il rapporto dice adesso:
+
+| | |
+|---|---|
+| registrazioni lette | **478** |
+| candidate dal parlato | **1.674** |
+| S / U / D | **768 / 789 / 117** |
+| intervallo grezzo | **[45,9% , 93,0%]** |
+| **risposta** | **84,8%**, banda **[80,2% ; 88,0%]** |
+| novità certa corretta (precisione + richiamo) | 46,5% contro 45,9% grezza |
+| scartando i toponimi incerti | 31,7% |
+| tetto della copertura nei testi | 31,4% (201 su 640) |
+| qualità alta: confermate / nuove | 51,0% / 16,5% |
+| bloccate dalla sola data | 302 su 580 (52%), di cui l'83% nuove |
+| integrazioni al Report 1 | **397** |
+| correlazione convenzione-novità | −0,53 (meccanica), −0,69 (lettori) |
+
+La risposta si è mossa di un punto rispetto a stamattina (83,8% → 84,8%) mentre il corpus raddoppiava:
+è il segno che regge. `verifica_numeri_rapporto.py` non segnala più nulla.
+
+### Che cosa ha aggiunto l'ultimo lotto
+
+- **Il quarto conteggio sulla variabile interpretativa** (15 → 9 o 10 su 19) e, soprattutto, **perché
+  oscilla**: quattro dei cinque cambi di segno vengono da **una sola convocazione**, quella di una
+  commissione monotematica su un bene, dove una riga di ordine del giorno copre tutto; in una seduta
+  fatta di note e solleciti i cambi sono zero. **È una proprietà del tipo di seduta**, non del lotto.
+  È la cosa che rende la variabile governabile, e sta nel §7 punto 1.
+- **Una passerella in tre stati su tre fonti**: i verbali la danno fra gli interventi *ultimati*, tre
+  giorni dopo un tecnico dice in aula che parte dei montanti va ancora montata, e in un terzo lotto
+  era «montata ma non aperta» — dentro venti minuti di registrazione muta.
+- **Un meccanismo di perdita che non è una scelta**: la lettura di un verbale, in seduta, **non si
+  verbalizza**. Mezz'ora di toponimi diventa «si passa alla lettura dei seguenti verbali… approvati
+  all'unanimità»: dieci pronunciati, zero sopravvissuti.
+- **Il confine vero della raccolta**, l'unico trovato: nel corpus non c'è **alcun verbale di
+  commissione capitolina dopo il 24 giugno**, quindici in tutto il mese. E le date di protocollo dei
+  verbali raccolti (245 giugno, 74 luglio, 22 agosto, 9 settembre) mostrano che i timbri tardivi
+  stanno quasi tutti in un Municipio: per gli altri **assenza e ritardo non sono distinguibili**, e
+  il rapporto lo dice invece di scegliere.
+- **La prova documentale della convocazione per e-mail**: un verbale scrive testualmente che la
+  commissione è «formalmente convocata dalla Presidente per le ore 14,00 tramite e-mail». L'ipotesi
+  del §7 punto 14 è ora citabile da un atto.
+- E un fatto sulle fonti che riguarda anche noi: una commissione che, non sapendo perché un ponte sia
+  stato rinominato, **cerca la risposta in diretta con un assistente artificiale** e la riferisce
+  all'aula come tale, dopo di che un altro commissario la ripete come acquisita. Nel §4.
+
+### Quello che resta
+
+1. Rileggere il rapporto dall'inizio con i numeri nuovi — `verifica_numeri_rapporto.py` dice se un
+   numero *compare*, non se compare al posto giusto (§102).
+2. `congela_consegna.py`.
+3. Drive, una sola sessione: tutti i `Report1_*` rigenerati e il cestino delle tre parti A1 stantie.
+4. L'avviso all'owner: consegna, D5, D6 e **D7**.
