@@ -2820,3 +2820,75 @@ non calcolo, e il programma prepara il campione senza pretendere di rispondere.
 primo lotto che l'ha applicato. Corretto: quel valore diventa una cella vuota, che nelle statistiche
 di volume non si somma. Cambiare un contratto costa sempre da qualche parte, e stavolta il costo si
 è visto subito.
+
+## 76. V3_109–V3_120: una segnalazione DEC-102 che viene da un altro ramo (2026-09-16 10:12Z)
+
+Dodici registrazioni, 34 candidate, cronometraggio item per item (il lettore lo dichiara e si vede:
+da 44 s a 209 s). Due item a zero candidate, entrambi di pura procedura.
+
+### La segnalazione che ho verificato per prima
+
+Il lettore ha escluso dai propri file tre vicende personali di una commissione capitolina, **e poi
+si è accorto che una rientrava dal ramo atti**: la notizia N1296, estratta dallo stesso verbale,
+portava fra i `luoghi` il nome di un liceo. Ha scritto: «il rispetto di DEC-102 sul ramo video non
+serve se la stessa informazione entra dal ramo atti».
+
+Verificato nell'atto. Il verbale racconta per esteso un caso che riguarda **uno studente minorenne**
+— un principio di sospensione per il mancato riconoscimento della carriera alias —, con la scuola
+nominata. La nostra riga **non racconta quella vicenda**: dice che gli sportelli hanno riaperto in
+tre Municipi, con sedi e accessi. Quindi non era una violazione in atto, e la conclusione del
+lettore («la stessa informazione entra dal ramo atti») è più forte di quello che i dati mostrano.
+
+Ma il nome della scuola in quella colonna **non serviva al fatto che la riga afferma** — la scuola
+non è una sede di sportello, è il luogo dell'episodio — e accostato a un episodio pubblico
+contribuisce a identificare un minore. DEC-102 lo dice per esteso: *un nome non è l'unico modo di
+identificare una persona*. Tolto, con `fix_b07_scuola_minore.py` e copia di sicurezza; nessun'altra
+riga del corpus lo portava (l'unica altra occorrenza di quel nome è il commediografo, in un evento).
+
+**La lezione vera è la sua, non la mia correzione**: le regole di riservatezza applicate ramo per
+ramo non proteggono nessuno, perché un fatto escluso da una fonte rientra dall'altra. Va scritto nel
+rapporto come limite del metodo, non come incidente.
+
+### Le ipotesi, smentite di nuovo e meglio
+
+**Ipotesi 1**: delle tre `solo dal parlato` di qualità alta **una sola** sta nelle nicchie previste.
+Le altre due sono un tecnico che risponde in audizione ordinaria e una consigliera che illustra un
+ordine del giorno — cioè «discussione politica generale», che l'ipotesi dava per vuota. La
+riformulazione del lettore regge sui suoi dati: una `solo dal parlato` nasce quando in sala c'è
+**qualcuno che deve rispondere di un luogo nominato**, e le sorgenti sono due — un tecnico che dà un
+numero su un sito (11 su 19) e un eletto che riporta una segnalazione su una via (8 su 19).
+
+E una regolarità netta, in negativo: **la discussione su un testo senza territorio produce zero
+candidate, sempre**. Un regolamento d'aula per 37 minuti: zero. Un regolamento sui defibrillatori
+per quasi un'ora di dibattito competente: zero. Un regolamento sugli animali per 80 minuti: una
+sola, e arriva fuori ordine del giorno negli ultimi dieci minuti.
+
+**Ipotesi 2**: smentita, e il predittore non è la forma del verbale ma **l'organo che lo redige**. I
+verbali delle commissioni capitoline sono quasi verbatim e tengono tutte le cifre — anche quello
+della seduta più conflittuale del lotto, 59 KB; quelli del Municipio II sono di sola presenza, 3 KB,
+e l'intera audizione sta in una frase. Con il corollario operativo rovesciato: **il video vale meno
+dove il verbale è pieno**, e si misura — `solo dal parlato` allo **0% con verbale pieno** (0 su 5),
+**50% con verbale di sola presenza** (4 su 8), **71% con verbale assente** (15 su 21).
+
+E i verbali di sola presenza non sono inutili: **sono complementari**. Uno dà i due voti contrari
+nome per nome, e nella registrazione non si sentono affatto.
+
+### Il difetto di fonte più grave finora
+
+Un verbale capitolino dichiara la seduta **chiusa alle 14.44**; la registrazione dura fino alle
+15.24 e dopo le 14.44 contiene tutta la parte sui Municipi III e VI e la conclusione politica. Negli
+ultimi secondi del file la segreteria lo spiega da sé: **dalle 14.46 era rimasta una sola
+consigliera**. Quaranta minuti di lavoro pubblico senza numero legale, verbalizzati come se il
+numero legale ci fosse stato. Lo stesso, più corto, in un secondo item.
+
+### Normalizzazione retroattiva, che il lettore ha chiesto e che serviva
+
+Il sesto emendamento (`non attendibile` invece di `0`) è comparso **mentre lui leggeva**: ha
+applicato la regola nuova a due item e i lotti precedenti avevano scritto `0` per la stessa
+condizione. Due codifiche nello stesso corpus, con la sbagliata più frequente — di nuovo il costo di
+§63, e di nuovo creato da me. `normalizza_volumi.py` ha riscritto **13 item** (di 39 sopra soglia:
+gli altri 26 non avevano messo zero), e solo dove la condizione è vera: uno zero su un item sotto
+soglia è un conteggio, non un dato mancante.
+
+**Numeri dopo tutto questo, 226 registrazioni lette su 415**: novità **[48,0% , 97,0%]** su tutto il
+corpus, **[50,1% , 97,0%]** dentro il blocco.
