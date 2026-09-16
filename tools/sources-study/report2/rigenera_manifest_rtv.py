@@ -19,10 +19,15 @@ def chiave(video_id):
     return (v[5:] if v.startswith('comm_') else v[:8]).lower()
 
 # --- quello che c'e' gia': id e valori che nessuno deve toccare
+# Gli identificativi si rileggono da **tutti e due** i file: quello in finestra e quello fuori.
+# Leggendo solo il primo, una registrazione spostata fuori finestra perdeva il proprio numero e ne
+# riceveva uno nuovo alla rigenerazione successiva — lo stesso difetto di posizione che il registro
+# degli id ha appena tolto dal database, ricomparso qui.
 vecchie = {}
-if os.path.exists(MAN):
-    for r in csv.DictReader(open(MAN, encoding='utf-8')):
-        vecchie[chiave(r['video_id'])] = r
+for f_man in (MAN, NET + '/report2/manifest_video_rtv_fuori_finestra.csv'):
+    if os.path.exists(f_man):
+        for r in csv.DictReader(open(f_man, encoding='utf-8')):
+            vecchie[chiave(r['video_id'])] = r
 usati = {int(r['item_id'].split('_')[1]) for r in vecchie.values()}
 
 # --- il catalogo: metadati della fonte
@@ -86,14 +91,31 @@ for t in sorted(os.listdir(V + '/rtv/txt')):
     }
     righe.append(riga)
 
+# Il perimetro dello studio e' 8-28 giugno: le registrazioni fuori finestra non entrano nel
+# manifest, ma non spariscono in silenzio — si scrivono a parte, cosi' chi guarda sa che esistono e
+# perche' non sono state lette.
+FUORI = NET + '/report2/manifest_video_rtv_fuori_finestra.csv'
+dentro = [r for r in righe if '2026-06-08' <= (r['data_seduta'] or '')[:10] <= '2026-06-28']
+fuori = [r for r in righe if r not in dentro]
+if fuori:
+    with open(FUORI, 'w', newline='', encoding='utf-8') as fh:
+        w = csv.DictWriter(fh, fieldnames=CAMPI); w.writeheader(); w.writerows(fuori)
+righe = dentro
+
 righe.sort(key=lambda r: (r['data_seduta'], r['item_id']))
 if os.path.exists(MAN): os.replace(MAN, MAN + '.prima_della_rigenerazione')
 with open(MAN, 'w', newline='', encoding='utf-8') as fh:
     w = csv.DictWriter(fh, fieldnames=CAMPI); w.writeheader(); w.writerows(righe)
 
-persi = set(vecchie) - {chiave(r['video_id']) for r in righe}
+# Un avviso che non distingue fra «sparita» e «spostata fuori finestra» spaventa per niente: le
+# righe uscite dal manifest perche' la seduta e' dell'1-7 giugno stanno nel file a parte, e non
+# vanno confuse con una trascrizione che manca davvero.
+fuori_chiavi = {chiave(r['video_id']) for r in fuori}
+persi = set(vecchie) - {chiave(r['video_id']) for r in righe} - fuori_chiavi
 print('registrazioni nel manifest: %d (prima %d) | identificativi nuovi: %d'
       % (len(righe), len(vecchie), nuovi))
+if fuori:
+    print('fuori dalla finestra 8-28 giugno, elencate a parte: %d' % len(fuori))
 print('identificativi conservati: %d' % (len(righe) - nuovi))
 if persi:
     print('ATTENZIONE: %d righe del manifest precedente non hanno piu\' una trascrizione: %s'

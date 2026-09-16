@@ -33,7 +33,15 @@ def tagli(d, sil):
         vicini = [x for x in sil if abs(x - t) <= TOLLERANZA_S and x > punti[-1] + 30]
         punti.append(min(vicini, key=lambda x: abs(x - t)) if vicini else t)
         t = punti[-1] + PEZZO_S
-    punti.append(d)
+    # L'ultimo taglio puo' cadere a un soffio dalla fine e produrre un pezzo di frazioni di secondo:
+    # l'API lo rifiuta come «Audio file might be corrupted or unsupported», e un file di 467 byte
+    # faceva fallire la trascrizione di una registrazione da quaranta minuti perfettamente sana.
+    # Una coda piu' corta di mezzo minuto si attacca al pezzo precedente invece di diventare un
+    # pezzo suo.
+    if punti and d - punti[-1] < 30 and len(punti) > 1:
+        punti[-1] = d
+    else:
+        punti.append(d)
     return punti
 
 def trascrivi(path, tmpdir, nome):

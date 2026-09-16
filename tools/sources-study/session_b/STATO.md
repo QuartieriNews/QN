@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 32,87 € |
-| **Disponibile** | **45,13 €** |
+| Speso nella sessione B | 34,43 € |
+| **Disponibile** | **44,43 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -39,7 +39,7 @@ listino in dollari):
 | 16/09 08:50 | controllo Codex C3 sulla specifica delle registrazioni (3.835 token in, 8.737 out) | 0,22 € |
 | 16/09 10:19 | trascrizione, 260 registrazioni su 275, 184,7 ore ($ 29,13, ancora in corso) | 26,80 € |
 | 16/09 11:49 | controllo Codex C4 sul rapporto scritto (12.831 token in, 12.283 out) | 0,22 € |
-| 16/09 12:30 | trascrizione, 303 registrazioni su 318, 216,2 ore ($ 34,07, in corso) | 31,34 € |
+| 16/09 13:35 | trascrizione **finita**, 318 registrazioni su 318, 227,7 ore ($ 35,76) | 32,90 € |
 | 16/09 12:35 | controllo Codex C5 sul database e sul programma (16.508 token in, 19.378 out) | 0,29 € |
 | 16/09 12:42 | prova T4, seconda AI su 30 candidate, due passate | 0,14 € |
 
@@ -3553,3 +3553,44 @@ differenza fra leggere il dispositivo e leggere la premessa.
 colonna della novità collassa»: 4 `solo dal parlato` su 11 dove il verbale c'è, 20 su 31 dove manca.
 **Così la colonna misura la verbalizzazione, non la novità territoriale.** È la stessa cosa che il
 numero principale dice dall'alto, vista dal basso di un lotto.
+
+## 91. Trascrizione finita: 318 su 318, e il corpus è più grande di come lo contavo (2026-09-16 11:36Z)
+
+**L'ultimo item non era corrotto: era tagliato male da me.** Il driver aveva rinunciato a `e7f9ea9a`
+perché l'API rispondeva «Audio file might be corrupted or unsupported». L'mp3 invece è sano:
+trentanove minuti, 9,6 MB, stream valido. Il difetto stava nei tagli: `tagli()` metteva l'ultimo
+punto esattamente sulla durata del file, e quando il taglio precedente cadeva a un soffio dalla fine
+usciva un pezzo da **0,1 secondi e 467 byte**. Quello l'API lo rifiuta — e un file da 467 byte
+faceva fallire la trascrizione di una registrazione da quaranta minuti perfettamente in ordine.
+
+Corretto: una coda più corta di mezzo minuto si attacca al pezzo precedente. Recuperato l'item e
+tolto dalla lista dei rinunciati. **318 registrazioni su 318 trascritte**, $ 35,76 (32,90 €).
+
+Vale la pena notare la forma, perché è la quinta volta oggi: il messaggio d'errore diceva «file
+corrotto» e il file era sano; a essere sbagliato era **quello che gli mandavo**. Un errore che
+descrive il dato invece di descrivere la richiesta manda a cercare dalla parte sbagliata.
+
+### Il corpus RomaTV è di 400 registrazioni, non 318
+
+Rigenerato il manifest: **400 righe**, cioè 318 a pagamento (trascritte da noi) **più 82 della
+piattaforma** (trascritte dalla fonte). Non si sovrappongono: ogni registrazione ha una sola origine.
+Delle 400, **381 sono dentro la finestra 8–28 giugno** e 19 fuori.
+
+Quindi il corpus del Report 2 è **381 RomaTV + 97 YouTube = 478 registrazioni**, non 415 come
+scrivevo. Ne sono lette 265. Ne restano **213**, cioè diciotto lotti: con due lettori in parallelo
+sono cinque o sei ore, e alla consegna mancano quattro giorni. Regge, ma il margine non è quello che
+credevo.
+
+Le 19 fuori finestra **non spariscono in silenzio**: vanno in
+`manifest_video_rtv_fuori_finestra.csv`, con i loro identificativi, così chi guarda sa che esistono e
+perché non sono state lette.
+
+### E nel rigenerare il manifest ho rifatto lo stesso errore di stamattina
+
+Alla seconda esecuzione il programma ha assegnato **identificativi nuovi a 19 registrazioni che ne
+avevano già uno**: rileggeva gli id dal solo manifest in finestra, e le righe spostate nel file
+«fuori finestra» risultavano sconosciute. È **lo stesso difetto di posizione** che il registro degli
+id aveva appena tolto dal database, ricomparso in un altro programma poche ore dopo. Corretto — gli
+id si rileggono da tutti e due i file — e verificato eseguendo due volte di seguito: zero id nuovi.
+
+Aver capito un difetto in un posto non lo toglie dagli altri posti dove ho scritto la stessa logica.
