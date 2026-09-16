@@ -2291,3 +2291,130 @@ più aggiunge un aneddoto, un atto mancante sposta il numero su cui poggia tutto
 **Come ci sono arrivato.** Non guardando la novità, ma chiedendomi chi scrivesse una colonna. Le tre
 correzioni di oggi (§62, §64, questa) nascono tutte dalla stessa domanda — *questo numero da dove
 viene?* — e nessuna da un controllo della cosa che stavo misurando.
+
+## 67. V3_073–V3_084: il parlato non è debole, è il residuo (2026-09-16 08:50Z)
+
+Dodici registrazioni dell'11 giugno, 10,75 ore, 75 candidate, zero saltate. Il lettore ha dichiarato
+la forbice (54–94, centro 75) e le otto coppie di passaggi simili con esito diverso, come chiesto.
+
+**Un meccanismo migliore di quello che avevo messo nel rapporto.** Avevo scritto che la qualità alta
+la dà la documentalità: non è l'atto, è l'esistenza di un documento. Il lettore lo ha verificato sul
+proprio lotto e regge **tre casi su cinque**; ma propone una spiegazione che li contiene tutti e
+cinque e spiega anche perché il documentale sia l'eccezione.
+
+Le `solo dal parlato` di qualità alta sono il **9,1%** (5 su 55) contro il **73,7%** delle `anche
+negli atti`. Guardando le altre cinquanta, sono quasi tutte **fatti negativi o non ancora accaduti**:
+annunci senza data, proposte non deliberate, lavori fermi, assenze, risposte mancate. E allora:
+
+> un fatto compiuto, datato e localizzato tende **per costruzione a generare un atto**, e appena lo
+> genera esce da `solo dal parlato`.
+
+Non è il parlato a essere debole: è un **effetto di selezione alla fonte**. Ciò che resta solo nel
+parlato è il residuo che non è ancora diventato atto. Con una sola eccezione strutturale — **un
+documento compiuto che esiste ma sta fuori dal perimetro del corpus**: un verbale di maggio, i
+questionari di un ufficio dietetico, un messaggio dell'azienda sanitaria letto ad alta voce.
+
+**E qui il lotto incontra §66 senza saperlo.** La prova più netta è `V3_077 [00:00]`: la stessa
+frase, lo stesso lettore, lo stesso documento letto ad alta voce produce due righe con esito
+opposto. La risoluzione su viale Palmiro Togliatti è `anche negli atti` perché l'atto dell'8 giugno
+è nel corpus; gli stalli di via Antonio Tempesta sono `non verificabile / fuori perimetro` perché il
+verbale di maggio non c'è. **Cambia solo il confine del corpus.** È esattamente il difetto che ho
+misurato in §66 da tutt'altra parte, e che due misure indipendenti trovino la stessa cosa è il
+motivo per cui vale la pena chiuderlo prima della consegna.
+
+Sostituisco nel rapporto il meccanismo della documentalità con questo, che lo include.
+
+**Previsione che il lettore lascia ai prossimi lotti** (e che va verificata, non citata): le
+`solo dal parlato` di qualità alta dovrebbero concentrarsi in due nicchie — letture di documenti
+extra-giugno e atti compiuti dall'organo in aula (commemorazioni, inaugurazioni, sopralluoghi
+appena svolti) — e mancare quasi del tutto dalla discussione politica generale.
+
+**Una contestazione sua che ho verificato, e che è metà giusta.** Dice che `quota_ripetuta` del
+manifest sottostima: in V3_080 un intero periodo è ripetuto due volte mentre la quota dichiara
+0,008. Misurato: la mia misura **quel blocco lo vede**, marca 68 parole su 8.345, cioè proprio lo
+0,8%. Non è una sottostima, è una **quota globale**: dice quanta parte del testo è duplicata, non se
+un passaggio lo è. Ma il rilievo resta, in altra forma — la soglia a dodici parole è una scelta, e a
+sei parole la stessa registrazione passa da 0,8% a **2,9%**. Va dichiarato: la quota non è una
+bandierina sul singolo passaggio, e dipende dalla lunghezza del blocco.
+
+**Difetti nuovi da tenere.** V3_077: lo stesso periodo sull'articolo 16 ripetuto **quattordici
+volte** (`quota_ripetuta` 0,212, parole del manifest inutilizzabili). V3_078 `[02:20]`: «13 giugno
+**2027**» dentro la lettura di un atto. Appelli nominali integrali illeggibili in tre registrazioni:
+**i voti individuali non sono ricostruibili dall'audio**, solo i totali proclamati — limite da
+scrivere nel rapporto. V3_076 dura 31 secondi e il manifest dichiara `0:00`. Fra V3_076 e V3_078,
+stessa seduta, **mancano ventiquattro minuti** fra l'appello fallito e quello valido.
+
+**E un atto che dichiara di non contenere la sostanza**: il verbale di V3_080 rinvia esplicitamente
+alla registrazione per gli elementi non riportati.
+
+**Dieci item su dodici abbinati a mano** a verbali che il censimento non assegna (è vuoto per tutti
+e dodici). Anche questo lettore ha ritrovato da solo il link nel verbale del Municipio XI: terza
+volta che il meccanismo emerge dal basso.
+
+## 68. V3_085–V3_096: tre strade indipendenti allo stesso difetto (2026-09-16 08:51Z)
+
+Dodici registrazioni, 41 candidate (31 `solo dal parlato`, 10 `anche negli atti`), tutte a
+pagamento, quindi **tutte e 41 con evidenza a grana di cinque minuti**: vanno dichiarate in blocco
+come verificabilità grossolana, non mescolate alle altre.
+
+**Il lettore ha trovato §66 da solo, dall'interno della lettura.** Mentre io ci arrivavo chiedendomi
+chi scrivesse la colonna `verbale_match`, lui ci è arrivato cercando la convocazione di una seduta:
+`A2_MMC_XII_NDUxNjI` esiste in `A2_text/` e **non ha una riga** in `confronto_atti.csv`. Chi si
+fosse fidato del foglio avrebbe scritto «convocazione: no».
+
+Verificati i suoi numeri, perché vanno verificati: dice 111 file contro 78 righe sulla famiglia
+`A2_MMC_XII`; sono **56 file contro 33 righe**, −41%. Il rapporto è persino peggiore di quello che
+riferisce, l'assoluto è sbagliato. Il fatto — la convocazione c'è e il foglio non la contiene — è
+confermato.
+
+Quindi lo stesso difetto è emerso oggi da **tre strade indipendenti**: la mia sui link (§62→§66), la
+frase di V3_077 che cambia esito solo per il confine del corpus (§67), e questa. È il difetto da
+chiudere prima della consegna, e i due lotti di lettura degli atti mancanti sono partiti.
+
+**Un problema di comparabilità che ne nasce.** Questo lettore, accortosi del buco, ha verificato
+ogni candidata anche con `grep` sui testi integrali e ha letto per intero i verbali corrispondenti.
+Le sue 31 `solo dal parlato` reggono un controllo **più severo** di quello degli altri lotti. Ha
+ragione a dirlo: non sono confrontabili con chi ha usato il solo foglio. Un lotto in più con una
+definizione diversa, e stavolta l'ha creato la diligenza di un lettore, non un mio emendamento.
+
+**Il meccanismo che propone, e che è più preciso del mio.** Non è che i verbali manchino: è che
+**quando ci sono riassumono via esattamente ciò che ha valore**.
+- V3_088: il verbale scrive «descrivendo poi tutte le caratteristiche dei 4 quadranti», e in quella
+  frase spariscono il 15% di posti riservati a bambini con disabilità con operatore uno-a-uno, il
+  10% ai segnalati dai servizi sociali, i 485 posti e lo spostamento di Saxa Rubra di quadrante.
+- V3_095: il verbale è di trenta righe, elenca i presenti al minuto e dichiara che «la
+  videoregistrazione della seduta sostituisce la trascrizione a verbale degli interventi». I 135.000
+  euro per due assistenti sociali alla tutela minori esistono **solo** nella registrazione.
+- V3_089: la proposta sui cinghiali diventa una riga, e sparisce tutto il dispositivo — piano in 30
+  giorni, tavolo permanente, rendicontazione trimestrale, numero verde 24 ore.
+
+Con il corollario che chiude il ragionamento: **nelle sedute-monologo il verbale è quasi verbatim e
+non c'è nulla di nuovo** (V3_085). La novità nasce dove c'è dialogo, e il dialogo è precisamente la
+parte che il verbale comprime. Va nel rapporto accanto al meccanismo di §67: uno dice perché il
+parlato è il residuo, questo dice come il residuo viene prodotto.
+
+**Contraddizioni fra livelli che nessuna delle due carte mostra da sola.** Il 12 giugno in
+commissione capitolina si dice che sul Casale Zola il municipio «ha avviato un rilevamento interno»
+e che non c'è cantiere; il 17 giugno un verbale municipale presenta una delibera di Giunta che
+**adotta un progetto di fattibilità da 600.000 euro**. Il centro non sa quello che il municipio ha
+già fatto. E la stessa proposta capitolina sui defibrillatori è letta **250 mq nel XV e 200 mq nel
+III** nella stessa settimana.
+
+**Un difetto suo che ho verificato e ridimensionato.** Dice che `grana_marcatore_s` non corrisponde
+(V3_085 dichiara 209 s, i marcatori distano 298 s). Vero per quell'item; misurato su tutte le
+registrazioni con almeno tre marcatori, la grana dichiarata coincide con la mediana reale entro il
+10% in **259 casi su 260**. Il difetto esiste dove i marcatori sono due — registrazioni di pochi
+minuti — e lì il valore dichiarato è privo di senso, non dove la registrazione è lunga.
+
+**Due rilievi sulla soglia che vanno risolti, non archiviati.** In V3_094 l'unica cosa decisa —
+una risoluzione approvata 6-1 che impegna il Municipio ad applicare la regola 3-30-300 a tutte le
+riqualificazioni — **resta fuori** perché non nomina un bene, mentre entra una citazione di
+passaggio a una via. E la proposta sui cinghiali entra solo perché il proponente ha messo molti
+toponimi nelle premesse: «la discriminante non è il peso dell'atto ma la prosa». È il rilievo 4.1
+del C3, che avevo chiuso dichiarando il claim come territoriale; due lettori indipendenti ora lo
+riportano dal campo. La dichiarazione regge, ma va scritta nel rapporto con questi esempi, non in
+astratto.
+
+**E una decisione di riservatezza che il lettore ha preso meglio di come la specifica la impone**:
+riportando l'insediamento oggetto di decisione ha **omesso la designazione etnica usata in aula**,
+non vietata da DEC-102 ma inutile al fatto e stigmatizzante. Va aggiunto alla specifica come regola.

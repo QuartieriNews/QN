@@ -189,3 +189,14 @@ del Municipio XI. Non dedurre mai il territorio dal nome dell'atto: leggilo dall
 registrazione in cui metà del testo è duplicato dal modello, non misura niente. Dove
 `quota_ripetuta` supera il 10%, scrivi il valore nella nota della qualità della trascrizione e
 dichiara che il dato di volume non è utilizzabile.
+
+
+## Emendamento del 16 settembre, quinto (riservatezza)
+
+Una designazione etnica, religiosa o di provenienza riferita a un gruppo di persone **non si
+riporta** quando non è necessaria al fatto amministrativo. DEC-102 non la vieta, ma nominarla
+aggiunge uno stigma e non aggiunge informazione: l'insediamento, la baraccopoli, il gruppo di
+occupanti si scrivono per quello che sono nel procedimento. Se la designazione *è* l'oggetto della
+decisione dell'organo, si riporta e si dichiara in `nota`.
+
+La regola nasce da un lettore che l'ha applicata prima che fosse scritta.
