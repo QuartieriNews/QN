@@ -543,7 +543,7 @@ senza che nulla lo segnali.
 | `Report1_territori_2026-06.csv` (96 celle, con le 2 lacune) | **caricato** |
 | `Report1_vicende_2026-06.csv` (218 vicende) | **caricato** |
 | `notizie_compatte_E3.csv` (44 KB) | **caricato** (`Report1_notizie_E3_2026-06.csv`, 43.577 byte) |
-| `notizie_compatte_A1.csv` (161 KB) | da caricare |
+| `notizie_compatte_A1.csv` (161 KB) | **caricato in tre parti** (53.927 + 52.857 + 54.363 byte, §38) |
 | `notizie_compatte_E2.csv` (161 KB) | da caricare |
 | `documenti_compatti.csv` (164 KB) | da caricare |
 
@@ -1011,3 +1011,31 @@ segmenti sono circa 10 GB, gli stessi minuti in mono ne occupano 3,3.
 Il tetto è nel driver, non nella mia attenzione: ricalcola la spesa dai token restituiti
 dall'API prima di ogni registrazione e si ferma a 42 $. Non è una stima sui minuti — è la somma
 di quello che l'API ha detto di aver consumato.
+
+## 38. Perché A1 è in tre parti, e come ho verificato che siano fedeli (16 settembre, 06:25)
+
+Il connettore Drive carica **contenuto**, non file: il testo deve passare per la mia risposta, e una
+risposta ha un tetto di lunghezza. `notizie_compatte_A1.csv` sta sotto quel tetto solo diviso in
+tre. Non è una scelta editoriale: è il limite del canale, e lo scrivo perché l'owner non pensi che
+il file sia stato tagliato per qualche criterio di contenuto.
+
+- `Report1_notizie_A1_2026-06_parte1di3.csv` — N0001–N0175, 53.927 byte
+- `Report1_notizie_A1_2026-06_parte2di3.csv` — N0176–N0350, 52.857 byte
+- `Report1_notizie_A1_2026-06_parte3di3.csv` — N0351–N0524, 54.363 byte
+
+Ogni parte porta la sua riga di intestazione, quindi ciascuna si apre da sola; concatenandole
+saltando le due intestazioni ripetute si riottiene il file intero.
+
+**La verifica.** Ricopiare 525 righe a mano è esattamente il modo di introdurre un errore
+silenzioso, quindi non mi sono fidato della rilettura. Drive restituisce `fileSize`: ho confrontato
+quel numero con i byte della porzione corrispondente del file locale. Tutte e tre coincidono **al
+byte**.
+
+Nel farlo è saltata fuori una differenza che valeva la pena capire: il file locale è scritto con
+fine riga CRLF, il caricato con LF, e la differenza è esattamente **un byte per riga**. Non è un
+danno — un CSV è valido in entrambi i modi — ma spiega perché `Report1_notizie_E3_2026-06.csv`
+risulta su Drive di 43.577 byte contro i 43.730 locali: 153 righe, 153 byte. Anche quel
+caricamento, fatto prima che me ne accorgessi, è fedele.
+
+Il metodo vale per i due file grandi che restano (`notizie_compatte_E2.csv`, `documenti_compatti.csv`):
+tre parti ciascuno, e il confronto sui byte come prova.
