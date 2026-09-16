@@ -457,6 +457,7 @@ for blocco in sorted(per_blocco):
 # dentro il blocco come prescrive il metodo e su tutto il corpus, cosi' il costo della partizione
 # in blocchi si vede invece di restare implicito.
 PARLATO_FONTI = {'A3', 'A4'}
+coppie_ps = []
 scritte_tutte = [n for n in notizie if n['fonte'] not in PARLATO_FONTI]
 for n in notizie:
     n['gemelli_scritti'] = ''
@@ -465,22 +466,33 @@ for a in notizie:
     if a['fonte'] in PARLATO_FONTI:
         ga = giorno(a)
         dup = dub = dup_b = dub_b = 0
+        righe_coppia = []
         for b in scritte_tutte:
             gb = giorno(b)
             if not ga or not gb or abs((ga - gb).days) > 1: continue
             if not stesso_luogo(a, b): continue
             forte = stesso_oggetto(a, b)
             dup += forte; dub += not forte
+            # Le coppie si scrivono su file: chi deve auditarle non le ricalcola con una seconda
+            # copia della regola, che divergerebbe.
+            righe_coppia.append({'parlata': a['id'], 'scritta': b['id'],
+                                 'forza': 'forte' if forte else 'debole',
+                                 'stesso_blocco': 'sì' if BLOCCO[a['fonte']] == BLOCCO[b['fonte']] else 'no'})
             if BLOCCO[a['fonte']] == BLOCCO[b['fonte']]:
                 dup_b += forte; dub_b += not forte
         a['gemelli_scritti'] = f'{dup}/{dub}'
         a['gemelli_scritti_blocco'] = f'{dup_b}/{dub_b}'
+        coppie_ps.extend(righe_coppia)
 parl = [n for n in notizie if n['fonte'] in PARLATO_FONTI]
 def classe(v):
     d, u = (int(x) for x in v.split('/'))
     return 'D' if d else ('U' if u else 'S')
 cc = collections.Counter(classe(n['gemelli_scritti']) for n in parl)
 cb = collections.Counter(classe(n['gemelli_scritti_blocco']) for n in parl)
+with open(R2 + '/coppie_parlato_scritto.csv', 'w', newline='', encoding='utf-8') as fh:
+    w = csv.DictWriter(fh, fieldnames=['parlata', 'scritta', 'forza', 'stesso_blocco'])
+    w.writeheader(); w.writerows(coppie_ps)
+print('coppie parlato-scritto scritte in report2/coppie_parlato_scritto.csv: %d' % len(coppie_ps))
 print('confronto esaustivo parlato-scritto, su tutto il corpus: %s' % dict(cc))
 print('  dentro il blocco, come prescrive il metodo:            %s' % dict(cb))
 

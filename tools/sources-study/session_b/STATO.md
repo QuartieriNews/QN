@@ -2981,3 +2981,77 @@ calcolato non è una misura, e oggi ne ho già sbagliate abbastanza.
 
 Stato vero: driver vivo, **303 item su 318**, $ 34,07 (31,34 €), quattro scaricamenti in parallelo
 come da limite.
+
+## 79. L’audit della deduplicazione, e due difetti miei che ha scoperto strada facendo (2026-09-16 10:31Z)
+
+### Quello che ha trovato prima ancora di cominciare
+
+**Due copie dei programmi, divergenti.** Il revisore ha eseguito `report2/novita_meccanica.py` e ha
+ottenuto **[55,1% , 98,4%]** invece del [48,0% , 97,0%] che pubblico, e ne ha dedotto che «due
+meccanismi diversi convivono nel database». Aveva ragione sul sintomo e la causa era peggiore: nella
+cartella dei dati c'erano **copie vecchie** di `novita_meccanica.py` e `audit_toponimi.py`, ferme a
+prima della correzione di §75. Lui ha eseguito quelle.
+
+È esattamente la frase che ripeto dall'inizio dello studio — *una regola di validazione in due copie
+diverge* — applicata a me. Risolto sostituendo tutte le copie nella cartella dei dati con
+**collegamenti** ai file del repository: ora i due percorsi sono lo stesso file e non possono più
+separarsi.
+
+**Il campione era fatto male.** La sezione A elencava la riga parlata e un contatore `1/2`, **senza
+la riga scritta con cui era stata accoppiata**. Il revisore ha dovuto rieseguire il confronto per
+sapere che cosa stesse giudicando. Un campione che non mostra la coppia non è un campione. Corretto,
+e corretto nel modo giusto: le coppie ora le scrive `build_db.py` mentre le calcola
+(`coppie_parlato_scritto.csv`, 1.197 righe), così chi le audita non le ricalcola con una seconda
+copia della regola.
+
+### I risultati
+
+**Precisione degli accostamenti forti: 15 su 29 sono davvero lo stesso fatto (52%, IC 34–69%).**
+Nove dei dodici errori sono lo stesso accostamento: **una convocazione contro l'esito della seduta
+che convoca**. «Il Consiglio discuterà la mozione X» e «il Consiglio ha respinto la mozione X con
+quattro favorevoli e sette astenuti» condividono quasi tutte le parole e non sono lo stesso fatto.
+Ma l'effetto sul numero è **+0,1 punti**: quasi tutti quegli errori scivolano da D a U, che
+nell'intervallo c'è già.
+
+**Richiamo: 2 candidate su 40 date per nuove avevano davvero un gemello.** Una persa per tre giorni
+di scarto e per «casale della Torricella» contro «Parco della Torricella»; una perché il parlato
+nomina lo stabilimento e lo scritto scrive «stabilimento balneare non indicato», che è un
+non-toponimo trattato come toponimo. Stima: 5,0% [1,4% , 16,5%] → **16 falsi «nuove»** sulle 324 con
+vicini, banda [4 , 53].
+
+> **Quota di novità inferiore corretta ≈ 46,5%, banda [42,7% , 47,7%].** Il 48,0% è gonfiato di
+> circa un punto e mezzo, al massimo cinque.
+
+### Il difetto che conta più di tutti i numeri
+
+**L'unità su cui la regola lavora non è la stessa dalle due parti: dal lato parlato è il fatto, dal
+lato scritto è il documento.** Ogni verbale produce **una riga sola**, il cui titolo copre l'intera
+seduta ma la cui sintesi racconta **un punto solo** dell'ordine del giorno. Il revisore l'ha
+verificato riaprendo gli atti: in **sei casi su sei** il fatto parlato stava davvero nel verbale, ma
+non nella sintesi della riga che lo rappresenta.
+
+Due conseguenze. Giudicare sulle sintesi senza aprire gli atti avrebbe dato precisione **31% invece
+di 52%**. E, più grave: **il richiamo è compromesso a monte** — un fatto che nel verbale è il terzo
+punto dell'ordine del giorno non ha alcuna possibilità di essere riconosciuto, perché la riga che
+rappresenta quel verbale parla d'altro. Non è una soglia da ritoccare: è perdita di informazione
+prima del confronto, e la stima del richiamo la eredita.
+
+### Il pezzo che manca davvero, e che ho appena messo in lavorazione
+
+Il revisore ha chiuso indicando dove sta il vero problema del numero: **non nel limite inferiore, ma
+nell'ampiezza dell'intervallo**. Le 480 candidate della classe `dubbio` — metà del corpus parlato —
+sono contate come nuove in alto e come già scritte in basso, e **nessuno le ha mai guardate**. Dalla
+sua osservazione di sfuggita su 41 accostamenti deboli, tre gli sono parsi veri; se la precisione di
+U fosse davvero del 5–10%, **la risposta del rapporto starebbe vicino al 97%, non al 48%**.
+
+Lo dice come indicazione e non come misura, ed è corretto così. Ho aggiunto al generatore la
+**sezione C** — 40 candidate `dubbio` con tutti i loro accostamenti — e lanciato l'audit. È la
+misura che decide come si legge l'intero rapporto.
+
+### E un rilievo sul mio criterio
+
+Il criterio che ho dato è **asimmetrico** («la seconda non aggiunge niente alla prima») ma applicato
+a coppie non ordinate: in un caso il parere di commissione non aggiunge nulla alla delibera, mentre
+la delibera aggiunge molto al parere, e il giudizio si rovescia a seconda di quale riga si chiami
+«seconda». Il revisore ha dichiarato la convenzione che ha scelto e dove sta scritta, così chiunque
+può spostarla e ricalcolare. Da sistemare nel criterio prima della consegna.

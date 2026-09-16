@@ -85,7 +85,11 @@ Una scelta va dichiarata: il metodo confronta dentro i blocchi tematici, noi con
 il corpus. È una deviazione, e **abbassa** la novità di due punti (50,1% dentro i blocchi contro
 48,0% su tutto). Diciamo entrambe le cifre invece di scegliere quella che ci comoda.
 
-La larghezza non è un'incertezza da nascondere: **è il risultato**. Dice che la risposta dipende da
+La larghezza non è un'incertezza da nascondere: **è il risultato**. Ma va detto dove sta il suo
+peso: l'intervallo è largo perché **480 candidate su 964 — metà del corpus parlato — sono
+«dubbie»**, accostate a una riga scritta per data e luogo ma non per oggetto, e contate come nuove
+in alto e come già scritte in basso. Da che parte stiano davvero decide se la risposta è vicina al
+48% o al 97%, ed è la misura che stiamo facendo adesso. Dice che la risposta dipende da
 quanto ci si fida di una trascrizione automatica, e che un terzo delle notizie «certamente nuove»
 poggia su un toponimo che il lettore stesso ha segnalato come dubbio.
 
@@ -349,10 +353,17 @@ fattura.
    un silenzio più corto di cinque minuti è invisibile.
 7. Il materiale di riscontro è **congelato** in `report2/snapshot/`, così la novità non dipende dal
    giorno in cui un lotto è stato letto.
-8. **La qualità della deduplicazione è assunta, non misurata.** I tre numeri dipendono da quanto
-   bene la regola (data ±1 giorno, luogo, oggetto) accosta ciò che va accostato: un audit di
-   precisione e richiamo su un campione non è stato fatto, e senza quello l'intervallo dichiara
-   l'incertezza sugli accostamenti dubbi ma non quella sugli accostamenti mancati.
+8. **La qualità della deduplicazione, ora misurata su un campione giudicato da un lettore.** La
+   precisione degli accostamenti forti è **52%** (15 su 29): nove errori su dodici sono lo stesso —
+   una *convocazione* accostata all'*esito* della seduta che convoca, che condivide quasi tutte le
+   parole e non è lo stesso fatto. Il richiamo, su 40 candidate date per nuove, perde **2 gemelli
+   veri** (5%, IC [1,4% , 16,5%]). Correggendo entrambi, la novità certa scende da 48,0% a
+   **≈46,5%**, banda [42,7% , 47,7%].
+   Il difetto più profondo non è una soglia: **l'unità di confronto non è la stessa dalle due
+   parti**. Dal lato parlato l'unità è il fatto, dal lato scritto è il documento — ogni verbale
+   produce una riga sola, la cui sintesi racconta un punto solo dell'ordine del giorno. Un fatto che
+   nel verbale è il terzo punto **non ha modo di essere riconosciuto**. Il richiamo è quindi
+   compromesso prima del confronto, e la stima qui sopra lo eredita.
 9. **L'unità di misura della dispersione fra lotti** (§7.1) confronta due gruppi che differiscono
    per la regola di lettura *e* per il corpus: il segnale c'è, la separazione delle due cause no.
 10. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota
