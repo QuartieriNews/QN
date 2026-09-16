@@ -4612,3 +4612,61 @@ flusso. Tre lettori che hanno guardato apposta danno 3/10, 3/10, 0/10. `DECISION
   fortunato: la ripetizione cadeva dopo la chiusura e ha mangiato silenzio.)
 - La confidenza mediana **non protegge**: un item con mediana 0,94 perde la maggior parte di due
   appelli nominali, perché il difetto colpisce le enunciazioni brevissime e la mediana non le vede.
+
+## 116. V3_236–V3_344: due difetti nostri trovati da un lettore, e misurati da me (2026-09-16 15:03Z)
+
+33 candidate, 23 nuove, 7 `alta`. Tutte sedute del 23 giugno.
+
+### Difetto nostro n. 1: `cerca_negli_atti.py` cerca per sottostringa
+
+Il lettore l'ha scoperto contando: **«ratti» dà 518 atti** perché trova «con*tratti*», «ater» ne dà
+1.083. I conteggi su termini corti non significano niente. **Le zero occorrenze restano solide** — la
+sottostringa può solo sovrastimare — e quello è l'uso che i lettori ne hanno fatto, quindi nessun
+riscontro precedente cade.
+
+Corretto senza cambiare il comportamento su cui i lettori stanno lavorando: aggiunta `cerca_parola`
+(confine di parola sul testo appiattito) e la riga di comando ora stampa **entrambi** i conteggi
+quando differiscono: `ratti 518 atti <- 0 a parola intera`. Nei mandati nuovi l'avvertenza c'è.
+
+### Difetto nostro n. 2: il sesto emendamento è ambiguo, e si vede nei dati
+
+Dice «i campi di volume» al plurale, e i lettori l'hanno letto in tre modi. **Contato su tutti i 45
+item sopra la soglia del 10%**: 21 hanno entrambi i campi dichiarati inattendibili, 16 solo le parole
+al minuto, 8 nessuno dei due. Conseguenza misurata: **il 10,9% delle parole del corpus** (136.078 su
+1.250.785, 24 item) viene da registrazioni sopra soglia e **conserva un conteggio numerico**. Chi
+sommasse quel campo sommerebbe testo duplicato. Nel §7 punto 5, dichiarato come difetto di una regola
+scritta male, non di chi l'ha applicata.
+
+### Il pubblico è la parte che non si registra
+
+Il lettore ha visto un pattern che vale più dei singoli casi: **nelle due sedute del lotto in cui
+interviene il pubblico, l'intervento del pubblico non esiste**. In una la registrazione prosegue ma
+la trascrizione è vuota per 4m21s (microfoni d'aula spenti); nell'altra chi presiede dice
+«interrompiamo la registrazione per consentire un intervento da parte dei cittadini» e **il file
+finisce lì**, e per quella seduta non c'è verbale. Con il terzo caso di un altro lotto — i cittadini
+a cui è negata la parola, che nel verbale diventano «chiarimenti inerenti lo svolgimento della
+seduta» — è un capoverso nuovo del §3.
+
+### Un limite alla mia misura di ieri sera, trovato prima da lui
+
+Sulla correlazione fra densità dei verbali e novità (r = −0,60): **densità non è fedeltà**. Il
+Municipio più verboso del suo lotto è quello che perde più cifre, e i verbali **a elenco** conservano
+i dati meglio di quelli in prosa, che riscrivono. La correlazione resta, con il limite scritto
+accanto: la quota di verbali misura quanto un organo verbalizza, non quanto bene.
+
+### Uno stato del verbale che mancava
+
+Oltre ad assente, vuoto e «pieno ma selettivo», c'è il **troncato**: una pagina, senza chiusura né
+firme. Aggiunto ai mandati.
+
+### Boilerplate, più in profondità del link
+
+Di una commissione congiunta esistono due verbali, di due organi diversi, due segretarie, protocolli
+a due mesi di distanza, e **il punto congiunto è riportato parola per parola identico**. Nel §5,
+accanto ai tre verbali con lo stesso link.
+
+### Indice delle evidenze
+
+Aggiunte **sedici righe** per i casi entrati oggi nei §3, §5 e §6: senza, la promessa del §7-bis
+(«ogni caso porta l'identificativo dell'atto o della registrazione») non era più vera. Ora l'indice
+è a 62 casi.

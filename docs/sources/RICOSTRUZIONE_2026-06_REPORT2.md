@@ -248,6 +248,15 @@ alcun verbale in tutto il mese pur essendoci sedute registrate. Su un dossier di
 volte in otto giorni, tre verbali su quattro non dicono nulla: l'istruttoria sopravvive solo nelle
 registrazioni.
 
+**E c'è una parte che non viene registrata quasi per definizione: quella del pubblico.** Nelle due
+sedute di un lotto in cui interviene il pubblico, l'intervento del pubblico non esiste in nessuna
+forma: nella prima la registrazione continua ma la trascrizione è **vuota per 4 minuti e 21 secondi**,
+perché i microfoni d'aula sono spenti; nella seconda chi presiede dice «interrompiamo la registrazione
+per consentire un intervento da parte dei cittadini» e **il file finisce lì** — e per quella seduta
+un verbale non esiste. In un terzo caso i cittadini e un comitato di quartiere ai quali viene negata
+la parola, e la sospensione che ne segue, nel verbale diventano «chiarimenti inerenti lo svolgimento
+della seduta».
+
 **La parte più informativa è quella che per procedura non si registra.** In una commissione chi non
 è formalmente convocato parla **solo a registrazione interrotta**, e quegli interventi «per motivi
 di privacy non vengono inseriti». In un'altra le due sospensioni «a microfoni spenti» sono
@@ -412,8 +421,10 @@ cui verbali dichiarano che «la videoregistrazione sostituisce la trascrizione d
 si può controllare sui dati: **dove i verbali pesano di più sugli atti di un Municipio, la novità del
 parlato è più bassa**. La correlazione fra le due quote, sui dieci Municipi con abbastanza materiale,
 è **−0,60** sulla misura meccanica e **−0,50** sul giudizio dei lettori. Dieci Municipi non sono una
-dimostrazione e la densità dei verbali è un indicatore grossolano; ma il segno è quello atteso su due
-misure indipendenti, e dice una cosa scomoda: **una parte di quello che chiamiamo novità è la
+dimostrazione, e c'è un limite che un lettore ha visto prima di me: **densità non è fedeltà**. Il
+Municipio più verboso del suo lotto è anche quello che perde più cifre, e i verbali **a elenco**
+conservano i dati meglio di quelli in prosa, che riscrivono. La quota di verbali misura quanto un
+organo verbalizza, non quanto bene; ma il segno è quello atteso su due misure indipendenti, e dice una cosa scomoda: **una parte di quello che chiamiamo novità è la
 convenzione di verbalizzazione dell'organo che stiamo ascoltando.** L'oggetto della seduta spiega le
 differenze *dentro* uno stesso organo; la convenzione spiega quelle *fra* organi.
 (`report2/convenzione_organo.py`.)
@@ -578,7 +589,10 @@ l'organo, non «il verbale».
 
 E un rimando che sembra un dato e non lo è: **tre verbali di tre sedute diverse portano lo stesso
 identico link** alla «versione integrale audio video». È un boilerplate copiato, e chi lo prendesse
-per un identificativo di seduta abbinerebbe tre sedute allo stesso video.
+per un identificativo di seduta abbinerebbe tre sedute allo stesso video. Il boilerplate arriva anche
+più in profondità: di una commissione congiunta esistono due verbali, di due organi diversi, con due
+segretarie e protocolli a due mesi di distanza, e **il punto congiunto è riportato parola per parola
+identico** in entrambi.
 
 Due casi dicono quanto costa, e nessuno dei due supera la soglia. A **0,061** — sotto il 10%, dove
 nessuno andrebbe a guardare — una decina di righe duplicate dentro l'appello di voto **si portano via
@@ -680,7 +694,13 @@ fattura.
 3. L'unità di conteggio è la candidata, non il fatto: due lettori possono spezzare lo stesso fatto
    in modo diverso.
 4. Un accostamento `dubbio` non prova una sovrapposizione: per questo il numero è un intervallo.
-5. I dati di volume (parole, parole al minuto) sono inaffidabili dove la duplicazione supera il 10%.
+5. I dati di volume (parole, parole al minuto) sono inaffidabili dove la duplicazione supera il 10%
+   — **e la regola che li invalida è stata applicata in tre modi diversi**, perché dice «i campi di
+   volume» al plurale e i lettori hanno letto il plurale in modi diversi. Sui 45 item sopra la
+   soglia: 21 hanno entrambi i campi dichiarati inattendibili, 16 solo le parole al minuto, 8
+   nessuno dei due. In pratica **il 10,9% delle parole del corpus viene da registrazioni sopra la
+   soglia e conserva un conteggio numerico**: chi sommasse quel campo sommerebbe anche testo
+   duplicato. È un difetto nostro, di una regola scritta in modo ambiguo e non di chi l'ha applicata.
    La soglia però **non vede il difetto opposto**: una registrazione di 5h07 in cui il primo parlato
    arriva a `[85:57]`, con due sospensioni di 17 e 43 minuti e circa due ore e mezza di aula parlante,
    ha duplicazione 0,0% e trentaquattro parole al minuto — un dato di volume altrettanto privo di

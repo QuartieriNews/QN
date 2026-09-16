@@ -25,10 +25,22 @@ def indice(ricostruisci=False):
     return out
 
 def cerca(frase, idx=None):
-    """Gli atti che contengono la frase, confrontata sul testo appiattito."""
+    """Gli atti che contengono la frase, confrontata sul testo appiattito.
+    Match per **sottostringa**: «ratti» trova anche «contratti». Va benissimo per un toponimo di due
+    parole e per le zero occorrenze (che con la sottostringa sono ancora piu' solide), ma i conteggi
+    su termini corti non significano niente. Se conti, usa `cerca_parola`."""
     idx = idx if idx is not None else indice()
     q = norm(frase)
     return [n for n, t in idx.items() if q and q in t]
+
+def cerca_parola(frase, idx=None):
+    """Come `cerca`, ma a parola intera: il difetto l'ha trovato un lettore contando «ratti» e
+    ottenendo 518 atti, quasi tutti per «contratti»."""
+    idx = idx if idx is not None else indice()
+    q = norm(frase)
+    if not q: return []
+    rx = re.compile(r'(?<![a-z0-9])' + re.escape(q) + r'(?![a-z0-9])')
+    return [n for n, t in idx.items() if rx.search(t)]
 
 if __name__ == '__main__':
     idx = indice(ricostruisci='--ricostruisci' in sys.argv)
@@ -39,4 +51,8 @@ if __name__ == '__main__':
         sys.exit(0)
     for t in termini:
         r = cerca(t, idx)
-        print('%-44s %d atti%s' % (t, len(r), ': ' + ', '.join(r[:4]) if r else ''))
+        w = cerca_parola(t, idx)
+        nota = ''
+        if len(r) != len(w):
+            nota = '   <- %d a parola intera: la differenza e\' dentro altre parole' % len(w)
+        print('%-40s %4d atti%s%s' % (t, len(r), ': ' + ', '.join(r[:4]) if r else '', nota))
