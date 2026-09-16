@@ -468,15 +468,24 @@ for a in notizie:
         dup = dub = dup_b = dub_b = 0
         righe_coppia = []
         for b in scritte_tutte:
+            # Il metodo §4.1 chiede **due criteri su tre** per il dubbio e tre per il duplicato.
+            # La catena qui sopra invece pretende sempre data *e* luogo, e usa l'oggetto solo per
+            # distinguere dubbio da duplicato: cosi' una coppia data+oggetto con luoghi scritti in
+            # modo diverso, o luogo+oggetto a quattro giorni di distanza, non viene mai accostata.
+            # Il rilievo e' del controllo C5. Qui i tre criteri si contano davvero.
             gb = giorno(b)
-            if not ga or not gb or abs((ga - gb).days) > 1: continue
-            if not stesso_luogo(a, b): continue
-            forte = stesso_oggetto(a, b)
+            d_ok = bool(ga) and bool(gb) and abs((ga - gb).days) <= 1
+            l_ok = stesso_luogo(a, b)
+            o_ok = stesso_oggetto(a, b)
+            n = d_ok + l_ok + o_ok
+            if n < 2: continue
+            forte = n == 3
             dup += forte; dub += not forte
             # Le coppie si scrivono su file: chi deve auditarle non le ricalcola con una seconda
             # copia della regola, che divergerebbe.
             righe_coppia.append({'parlata': a['id'], 'scritta': b['id'],
                                  'forza': 'forte' if forte else 'debole',
+                                 'criteri': ''.join(c for c, ok in (('d', d_ok), ('l', l_ok), ('o', o_ok)) if ok),
                                  'stesso_blocco': 'sì' if BLOCCO[a['fonte']] == BLOCCO[b['fonte']] else 'no'})
             if BLOCCO[a['fonte']] == BLOCCO[b['fonte']]:
                 dup_b += forte; dub_b += not forte
@@ -490,7 +499,7 @@ def classe(v):
 cc = collections.Counter(classe(n['gemelli_scritti']) for n in parl)
 cb = collections.Counter(classe(n['gemelli_scritti_blocco']) for n in parl)
 with open(R2 + '/coppie_parlato_scritto.csv', 'w', newline='', encoding='utf-8') as fh:
-    w = csv.DictWriter(fh, fieldnames=['parlata', 'scritta', 'forza', 'stesso_blocco'])
+    w = csv.DictWriter(fh, fieldnames=['parlata', 'scritta', 'forza', 'criteri', 'stesso_blocco'])
     w.writeheader(); w.writerows(coppie_ps)
 print('coppie parlato-scritto scritte in report2/coppie_parlato_scritto.csv: %d' % len(coppie_ps))
 print('confronto esaustivo parlato-scritto, su tutto il corpus: %s' % dict(cc))

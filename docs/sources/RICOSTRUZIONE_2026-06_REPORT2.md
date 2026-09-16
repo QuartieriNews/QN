@@ -89,7 +89,14 @@ La larghezza non è un'incertezza da nascondere: **è il risultato**. Ma va dett
 peso: l'intervallo è largo perché **480 candidate su 964 — metà del corpus parlato — sono
 «dubbie»**, accostate a una riga scritta per data e luogo ma non per oggetto, e contate come nuove
 in alto e come già scritte in basso. Da che parte stiano davvero decide se la risposta è vicina al
-48% o al 97%, ed è la misura che stiamo facendo adesso. Dice che la risposta dipende da
+48% o al 97%, ed è la misura che stiamo facendo adesso.
+
+**Le due incertezze aperte tirano in direzioni opposte, e questo è il risultato onesto da
+consegnare.** Il confronto fra righe non vede i fatti sepolti dentro atti che ne raccontano altri, e
+questo **abbassa** il limite inferiore, fino a un tetto del 35,5%. Le 480 candidate «dubbie»
+potrebbero essere in larga parte falsi accostamenti, e questo **alza** il limite superiore fino a
+renderlo la risposta. Finché le due misure non sono chiuse, il rapporto risponde con un intervallo e
+con il nome dei due meccanismi che lo tengono largo — non con un numero. Dice che la risposta dipende da
 quanto ci si fida di una trascrizione automatica, e che un terzo delle notizie «certamente nuove»
 poggia su un toponimo che il lettore stesso ha segnalato come dubbio.
 
@@ -362,8 +369,15 @@ fattura.
    Il difetto più profondo non è una soglia: **l'unità di confronto non è la stessa dalle due
    parti**. Dal lato parlato l'unità è il fatto, dal lato scritto è il documento — ogni verbale
    produce una riga sola, la cui sintesi racconta un punto solo dell'ordine del giorno. Un fatto che
-   nel verbale è il terzo punto **non ha modo di essere riconosciuto**. Il richiamo è quindi
-   compromesso prima del confronto, e la stima qui sopra lo eredita.
+   nel verbale è il terzo punto **non ha modo di essere riconosciuto**, e il richiamo è compromesso
+   prima del confronto.
+   Quanto pesi si può misurare, perché il testo integrale degli atti ce l'abbiamo: cercando ogni
+   candidata data per nuova **dentro il testo** di un atto plausibile — stesso Municipio, tre giorni
+   di distanza, con il suo toponimo e una parola del titolo — se ne ritrovano **140 su 394, il
+   35,5%**. Una parola che compare in un atto non prova che sia lo stesso fatto: 35,5% è un **tetto**,
+   non una stima. Ma dice che il 5% misurato sul confronto fra righe è solo la parte visibile: quello
+   è ciò che il confronto poteva vedere e non ha visto, questo è ciò che **per costruzione non
+   poteva vedere**.
 9. **L'unità di misura della dispersione fra lotti** (§7.1) confronta due gruppi che differiscono
    per la regola di lettura *e* per il corpus: il segnale c'è, la separazione delle due cause no.
 10. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota

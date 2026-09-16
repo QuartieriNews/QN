@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 32,44 € |
-| **Disponibile** | **45,56 €** |
+| Speso nella sessione B | 32,73 € |
+| **Disponibile** | **45,27 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -40,6 +40,7 @@ listino in dollari):
 | 16/09 10:19 | trascrizione, 260 registrazioni su 275, 184,7 ore ($ 29,13, ancora in corso) | 26,80 € |
 | 16/09 11:49 | controllo Codex C4 sul rapporto scritto (12.831 token in, 12.283 out) | 0,22 € |
 | 16/09 12:30 | trascrizione, 303 registrazioni su 318, 216,2 ore ($ 34,07, in corso) | 31,34 € |
+| 16/09 12:35 | controllo Codex C5 sul database e sul programma (16.508 token in, 19.378 out) | 0,29 € |
 
 Gli orari di questa tabella sono ora di Roma; le intestazioni delle sezioni sono in UTC. Andava
 detto: due fusi nello stesso file si leggono male.
@@ -3055,3 +3056,54 @@ a coppie non ordinate: in un caso il parere di commissione non aggiunge nulla al
 la delibera aggiunge molto al parere, e il giudizio si rovescia a seconda di quale riga si chiami
 «seconda». Il revisore ha dichiarato la convenzione che ha scelto e dove sta scritta, così chiunque
 può spostarla e ricalcolare. Da sistemare nel criterio prima della consegna.
+
+## 80. Il controllo C5, e la misura che l'audit non poteva fare (2026-09-16 10:38Z)
+
+Ultimo dei cinque controlli Codex, sul codice e sullo schema — che nessuno aveva mai guardato.
+Undici rilievi sul programma, cinque sullo schema. Due sono importanti.
+
+**BLOCCANTE, e ha ragione: la deduplicazione non applicava la regola «due su tre».** Il metodo §4.1
+dice che due criteri su tre (data ±1 giorno, luogo, oggetto) danno `dubbio` e tre danno `duplicato`.
+Il codice invece pretendeva **sempre data e luogo**, e usava l'oggetto solo per distinguere dubbio da
+duplicato: una coppia data+oggetto con i luoghi scritti in modo diverso, o luogo+oggetto a quattro
+giorni di distanza, non veniva mai accostata. I tre criteri ora si contano davvero, nel confronto
+esaustivo, e le coppie portano quali criteri hanno soddisfatto.
+
+Effetto: S da 470 a **469**, U da 480 a **493**. Un decimo di punto. La regola era sbagliata e la
+correzione va fatta comunque, ma va detto che non sposta niente: la quasi totalità delle coppie che
+condividono data e oggetto condivide anche il luogo.
+
+**E il rilievo che vale più di tutti gli altri messi insieme**, che il C5 formula come proposta:
+riparare l'asimmetria dell'unità di confronto introducendo una tabella di «fatti», spezzando i
+documenti scritti sui punti dell'ordine del giorno. **La sua proposta non funziona sui nostri dati**:
+propone di spezzare i campi già letti (`oggetto_sintetico`, `contenuto`), ma quei campi sono
+riassunti di un punto solo — l'informazione si è persa alla lettura, non allo spezzettamento.
+
+Però il testo integrale degli atti ce l'abbiamo. Quindi ho fatto la misura che l'audit non poteva
+fare (`copertura_testi_atti.py`): per ogni candidata data per nuova, cercarla **dentro il testo** di
+un atto plausibile — stesso Municipio, tre giorni di distanza — con il suo toponimo **e** una parola
+del titolo.
+
+> **140 candidate su 394 — il 35,5% — compaiono nel testo di un atto vicino.**
+
+Un toponimo che compare in un atto non prova che sia lo stesso fatto: **35,5% è un tetto, non una
+stima**. Ma va messo accanto al 5% che l'audit sul confronto fra righe aveva misurato, perché i due
+numeri dicono cose diverse: il 5% è quello che il confronto fra righe **poteva ancora vedere e non ha
+visto**, il 35,5% è quello che per costruzione **non poteva vedere**. Fra i 140 c'è N1873, uno dei
+due gemelli veri che il revisore aveva trovato a mano: il metodo sul testo integrale lo ritrova.
+
+**Quindi il limite inferiore del 48% è molto più molle di quanto l'audit da solo lasciasse credere**,
+e va scritto così. Con la complicazione che le due misure aperte tirano in direzioni opposte: questa
+abbassa il limite inferiore, l'audit della classe `dubbio` (in corso) potrebbe alzare il superiore
+fino a renderlo la risposta. Il rapporto deve dire questo, non un numero.
+
+**Gli altri rilievi del C5, da fare prima della consegna**: la scelta del «lotto più recente» confronta
+stringhe (`L9` contro `L10`); `settimana` è calcolata sulla data del fatto invece che su quella di
+pubblicazione, e falsa le tabelle territoriali; `integra_gemello_id` e `campi_integrati` non sono mai
+riempiti, quindi il contributo informativo dei duplicati del Report 2 non è misurabile;
+`vicende.confidenza` dipende dall'ultima riga processata; lo schema ammette **un solo** `gemello_id`
+mentre una notizia può averne molti; e i nomi delle colonne nello schema non coincidono con quelli
+prodotti (`titolo` contro `titolo_anonimizzato`), per cui un programma conforme allo schema non
+leggerebbe i nostri file.
+
+Registro: C5 16.508 token in, 19.378 out, 0,29 €.
