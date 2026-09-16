@@ -1584,3 +1584,49 @@ censimento che entra nelle nostre statistiche, e va corretto o dichiarato prima 
 log**, trovando e correggendo due proprie citazioni sbagliate. Ha inoltre fatto la scansione DEC-102
 su novanta cognomi sentiti in aula: zero occorrenze nei file, e i quattro allarmi erano toponimi
 («Santa Croce in Gerusalemme», «Santo Stefano Rotondo», «via Bonelli») e la parola «Primo appello».
+
+## 51. La regola che avevo scritto io era sbagliata, e si vedeva nei numeri (16 settembre, 09:00)
+
+Rientrato V4_061–V4_072: 12 sedute, 10 ore e 27 minuti, 79.075 parole, 48 candidate. Ma delle 48,
+**solo 8 sono `solo dal parlato` e 33 sono `non verificabile`** — contro il 72% e il 40% dei lotti
+precedenti. Non è il territorio che cambia: è la regola che ho scritto io.
+
+**Che cosa avevo sbagliato.** Nel prompt del lotto avevo messo due frasi che si contraddicono: una
+elencava il verbale «di sola presenza» fra i casi da marcare `non verificabile`, l'altra diceva che
+proprio lì il `solo dal parlato` è dimostrato. Il lettore l'ha isolata, ha applicato quella che gli
+avevo ordinato di applicare, e **ha misurato anche l'altra lettura**: con quella, le sue 8
+diventerebbero 12.
+
+Ma il difetto vero è più profondo di una contraddizione. La mia regola faceva dipendere il giudizio
+**dall'esistenza del verbale della seduta**, e la domanda non è quella. Come ha scritto il lettore:
+sette sedute su dodici non hanno verbale negli atti di giugno, quindi 33 candidate risultano
+`non verificabile` **benché il fatto non compaia in nessuno dei 1.983 atti** — che è esattamente la
+definizione di `solo dal parlato`. La sua coppia numero 6 lo dice meglio di me: due fatti ugualmente
+documentati, entrambi assenti da tutti gli atti, uno finisce `non verificabile` e l'altro `solo dal
+parlato`, e l'unica differenza è che la seconda seduta ha un verbale e la prima no.
+
+**Correzione, nella specifica.** `solo dal parlato` = il fatto non compare in nessun atto né fra le
+notizie estratte, **a prescindere dallo stato del verbale**. `non verificabile` = soltanto per
+documenti fuori dal nostro corpus: sentenze, pareri di soprintendenza, carteggi d'ufficio, atti di
+un altro mese. Lo stato del verbale si registra **a parte** — `assente`, `di sola presenza`,
+`troncato`, `con sintesi` — perché è un difetto della fonte da contare, non un motivo per non
+rispondere alla domanda. Mandata al lettore in corsa e messa nel prompt degli ultimi tredici.
+
+**La conseguenza per il rapporto.** I lotti sono stati letti con tre formulazioni diverse di questo
+campo, e **il campo dichiarato dai lettori non è quindi una serie omogenea**: va pubblicato lotto
+per lotto, con la formulazione usata accanto. La misura che resta confrontabile su tutto è quella
+meccanica — quante candidate dal parlato non hanno alcun gemello per data e luogo in tutto il corpus
+— ed è quella che il rapporto darà come numero principale.
+
+**Intanto la fonte conferma se stessa.** Per il Municipio I, **12 dei 23 verbali di commissione di
+giugno sono «di sola presenza» o senza alcun contenuto verbalizzato**, e di Commissione Trasparenza
+**non esiste alcun verbale in tutto il mese**, pur essendoci due sedute registrate. Per una seduta
+esistono **due verbali identici e vuoti**. E circa **70 minuti di seduta non sono stati registrati**
+in quattro casi, sempre dove si approvano verbali o si guarda una struttura.
+
+**Un parere votato da quattro consiglieri su otto**, con il presidente che dichiara a verbale
+«verificherò per mio scrupolo personale se quattro vanno bene»; un commissario che deve dire «esisto
+anch'io» perché il conto dei presenti sbaglia due volte; una delibera votata cinque a due mentre un
+consigliere dice «non credo che si possa votare una delibera così sostanziosa e tecnica in un'ora di
+commissione», con il termine che scade il giorno dopo. E il consenso alla registrazione raccolto a
+voce, perché i moduli non erano arrivati.

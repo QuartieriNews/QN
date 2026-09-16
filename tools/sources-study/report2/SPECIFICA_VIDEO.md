@@ -117,3 +117,28 @@ separatamente le candidate delle due origini, perché la verificabilità non è 
 
 Sulle trascrizioni della piattaforma la confidenza è reale: quando è bassa, `qualita` non può essere
 `alta`. Su quelle a pagamento non c'è confidenza e vale la regola generale — si giudica il testo.
+
+## Emendamento del 16 settembre (secondo): `novita_rispetto_agli_atti` era definito male
+
+La formulazione data ai lotti V4_061–V4_084 si contraddiceva, e un lettore l'ha isolata: metteva il
+verbale «di sola presenza» fra i casi `non verificabile` e nello stesso tempo diceva che proprio lì
+il `solo dal parlato` è dimostrato. Peggio: faceva dipendere il giudizio **dall'esistenza del
+verbale della seduta**, mentre la domanda è un'altra. Definizione corretta, da qui in avanti:
+
+- **`anche negli atti`** — il fatto compare in un atto di giugno o in una notizia già estratta.
+- **`solo dal parlato`** — il fatto **non compare in nessuno dei 1.983 atti né fra le notizie già
+  estratte**. Vale *a prescindere* dallo stato del verbale della seduta: che il verbale manchi, sia
+  vuoto, sia di sola presenza o sia pieno non cambia la risposta, perché la domanda è se il fatto
+  stia scritto da qualche parte, non se quella seduta abbia un verbale.
+- **`non verificabile`** — soltanto quando il fatto riguarda documenti **fuori dal nostro corpus**:
+  atti di un'altra amministrazione (sentenze, pareri di soprintendenza, carteggi d'ufficio), atti di
+  un altro mese, o un riferimento troppo generico per essere cercato.
+
+**Lo stato del verbale si registra a parte**, nella nota della candidata o nel log, con una di
+queste quattro parole: `assente`, `di sola presenza`, `troncato`, `con sintesi`. È un difetto della
+fonte e va contato come tale — **non è un motivo per non rispondere alla domanda sulla novità**.
+
+Nella relazione vanno dati sempre due numeri: le candidate `solo dal parlato` e, fra queste, quante
+provengono da sedute il cui verbale è assente, vuoto o di sola presenza. I lotti letti con la
+formulazione vecchia non sono confrontabili su questo campo e la misura buona, per tutti, resta
+quella meccanica: quante candidate non hanno alcun gemello per data e luogo in tutto il corpus.
