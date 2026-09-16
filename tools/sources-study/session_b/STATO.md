@@ -3825,3 +3825,24 @@ com'è già dichiarato nella tabella delle fonti dal Report 1.
 La cosa da notare è la forma, per la terza volta oggi: **il risolutore funzionava sui casi per cui
 l'avevo provato e falliva sull'intera classe che non avevo provato.** L'ho scoperto solo perché l'ho
 eseguito su tutto invece che sui dodici casi da cui ero partito.
+
+## 99. Lo stato che accompagna il numero (2026-09-16 11:57Z)
+
+Il C5 chiedeva che il numero pubblicato fosse accompagnato dallo snapshot che lo ha generato.
+`report2/congela_consegna.py` lo fa: copia in una cartella datata i quindici file di dati che
+servono, **i programmi che producono i numeri** — perché una riga cambiata in uno di loro cambia il
+risultato senza che i dati si muovano —, il commit del repository, e un `numeri.txt` **prodotto
+eseguendo i programmi**, non riscritto a mano.
+
+Provato e poi cancellato: si esegue alla consegna, con i dati finiti, non adesso.
+
+Ho anche messo in `CRITERIO_AUDIT.md` il richiamo a `testo_documento.py`: due revisori hanno perso
+tempo a ricostruire da soli la regola per aprire un documento, ciascuno a modo suo. Il secondo l'ha
+scritta bene e ora sta lì, dove la trova il terzo.
+
+**Una cosa che la prova ha fatto vedere e che non sapevo.** La riga «per memoria» di
+`novita_meccanica.py` — la catena della deduplicazione, cioè la misura sbagliata — oggi dà
+**[54,4% , 94,6%]** contro il [45,1% , 92,2%] del confronto esaustivo. All'inizio della giornata le
+due misure distavano un punto; ora ne distano nove. La differenza **cresce con il corpus**, perché
+più righe scritte entrano e più la catena ne consuma prima del confronto. Se avessi tenuto la misura
+vecchia, l'errore sarebbe aumentato lotto dopo lotto mentre i numeri sembravano solo «assestarsi».

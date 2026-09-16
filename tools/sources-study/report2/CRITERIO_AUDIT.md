@@ -41,3 +41,20 @@ campione la sintesi parlava d'altro.
 
 Si scrive **incerto** e si dice che cosa manca. Un incerto onesto vale più di una scelta a caso, e i
 casi incerti sono quelli da cui si impara dove la regola non arriva.
+
+## Come si apre un documento
+
+Non ricostruire la regola: `report2/testo_documento.py` restituisce il testo integrale di un
+documento a partire dal suo `documento_id`, e dice da dove l'ha preso.
+
+```python
+import os; os.environ.setdefault('QN_NET', '<cartella dei dati>')
+from testo_documento import testo
+t, fonte = testo('A2_0333')      # oppure 'A3_028' per una registrazione
+```
+
+Copre 3.393 documenti su 3.394. L'unico scoperto è un comunicato dei Carabinieri, la cui fonte
+rimanda alla pagina-vetrina invece che al testo: è un difetto dichiarato, non un buco del programma.
+
+Due revisori hanno perso tempo a ricostruire questa regola da soli, ciascuno a modo suo. Il secondo
+l'ha scritta bene e ora sta qui.
