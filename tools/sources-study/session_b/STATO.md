@@ -2218,6 +2218,19 @@ non ora, perché un quinto processo in parallelo violerebbe il limite. Se il seg
 registrazione va tenuta **dichiarando la lacuna**, non scartata.
 
 **Che cosa mi insegna.** Ho guardato quel log tre volte contando le righe `OK` e non ho mai letto le
-due righe `ERRORE`. Un conteggio di successi non è un controllo: 261 su 263 sembra ottimo finché non
-si chiede che fine hanno fatto i due. Da qui in avanti il conto giusto è **item attesi meno item con
-trascrizione**, non il numero di righe `OK`.
+due righe `ERRORE`. Un conteggio di successi non è un controllo. Poi ho fatto il conto giusto —
+**item attesi meno item con trascrizione** — e ha mostrato una cosa che il log non diceva:
+
+| | |
+|---|---|
+| attesi dalla lista di scaricamento | **318** |
+| con trascrizione | 262 |
+| scaricamento ancora in corso | 53 |
+| in lavorazione adesso | 1 |
+| **fermi con l'audio pronto e nessuno che li riprenda** | **2** |
+
+I due fermi sono `2bff8cd6` e **`494cc3af`**. Del secondo nel log **non c'è nessuna riga**: né `OK`
+né `ERRORE`. L'mp3 è delle 04:09, l'errore di `41e7b841` delle 04:11; nel mezzo il driver è morto o
+è stato riavviato, e quell'item è uscito dalla coda senza lasciare traccia. Quindi le righe `ERRORE`
+non sono nemmeno il limite superiore delle perdite: **un item può sparire senza comparire nel log in
+nessuna forma**. L'unico conto che tiene è quello per differenza, e va rifatto alla consegna.
