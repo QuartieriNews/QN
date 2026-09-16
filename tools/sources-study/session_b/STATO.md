@@ -3847,7 +3847,7 @@ due misure distavano un punto; ora ne distano nove. La differenza **cresce con i
 più righe scritte entrano e più la catena ne consuma prima del confronto. Se avessi tenuto la misura
 vecchia, l'errore sarebbe aumentato lotto dopo lotto mentre i numeri sembravano solo «assestarsi».
 
-## 100. Il motivo per cui una candidata non arriva ad alta, contato su tutto il corpus (2026-09-16 11:56Z)
+## 100. Il motivo per cui una candidata non arriva ad alta, contato su tutto il corpus (2026-09-16 12:04Z)
 
 `report2/motivo_non_alta.py`, così il conto si rifà invece di citare tre lotti a memoria.
 
