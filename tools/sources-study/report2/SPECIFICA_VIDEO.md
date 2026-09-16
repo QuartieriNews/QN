@@ -78,3 +78,22 @@ esteso, né con le iniziali, né nella forma storpiata dalla trascrizione.
 Un'aula pubblica è piena di parlato personale che non è notizia: liti, stati di salute, vicende
 private citate da chi interviene. Non entra nei file, nemmeno in forma anonimizzata, a meno che
 non sia esso stesso l'oggetto di una decisione dell'organo.
+
+## Emendamento del 16 settembre: su che cosa si verifica `novita_rispetto_agli_atti`
+
+I primi due lotti (V4_001–V4_024) hanno usato come riscontro `deliver/A2_2026-06_items.csv`, che
+**non porta l'oggetto degli atti**: solo tipologia, municipio e data. Con quel materiale il
+riscontro è strutturalmente impossibile per quasi tutte le affermazioni, e il lettore del secondo
+lotto lo ha segnalato. Da qui in avanti si usano i materiali che nel frattempo sono stati prodotti:
+
+- `report2/confronto_atti.csv` — **tutti e 1.983 gli atti di giugno letti**, con organo, oggetto
+  sintetico, luoghi, e il titolo della notizia candidata quando c'è. È il riscontro vero.
+- `report1/db/notizie_candidate.csv` — le notizie già estratte da fonti testuali e atti: titolo,
+  luoghi, date, fonte.
+
+La regola resta quella: `anche negli atti` quando la stessa cosa compare in un atto o in una
+notizia già estratta; `solo dal parlato` quando non compare da nessuna parte; `non verificabile`
+quando l'atto potrebbe esistere ma non è isolabile. La differenza è che ora il `solo dal parlato`
+si può sostenere invece di supporre. **Nella relazione va detto su quale dei due materiali è stato
+fatto il riscontro**, perché i primi due lotti e i successivi non sono confrontabili su questo
+campo.

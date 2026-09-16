@@ -1278,3 +1278,48 @@ nei file nemmeno in forma anonimizzata**, a meno che non sia esso stesso l'ogget
 dell'organo. Negli atti il problema era la fonte che pubblica troppo; qui è il microfono acceso.
 
 Avviati i primi due lotti di lettura (V4_001–V4_024).
+
+## 44. 32 notizie su 42 esistono solo nel parlato (16 settembre, 07:10)
+
+Primo lotto di registrazioni rientrato, V4_013–V4_024: 12 sedute, 6 ore e 21 minuti, 48.766 parole,
+**42 candidate di cui 32 `solo dal parlato`**. Il lettore ha verificato che **tutti e 111 i
+marcatori `[mm:ss]` citati come evidenza esistono davvero** nelle trascrizioni: un'evidenza
+inventata sarebbe peggio di una notizia mancata, e il controllo va chiesto sempre.
+
+**Il mio errore, e la correzione.** La specifica mandava a verificare `novita_rispetto_agli_atti`
+su `deliver/A2_2026-06_items.csv`, che **non porta l'oggetto degli atti**: solo tipologia,
+municipio e data. Con quel materiale il riscontro è strutturalmente impossibile per quasi ogni
+affermazione — il lettore lo ha segnalato invece di far finta di aver verificato, ed è la cosa
+giusta che poteva fare. Nel frattempo però esistono i 1.983 atti letti: ho generato
+`report2/confronto_atti.csv` (organo, oggetto, luoghi, titolo della candidata) e ho emendato la
+specifica perché i lotti successivi usino quello e `notizie_candidate.csv`. **I primi due lotti e i
+seguenti non sono confrontabili su quel campo, e il rapporto deve dirlo**: il 76% di
+`solo dal parlato` di V4_013–V4_024 è un valore ottenuto con un riscontro debole, quindi un limite
+superiore.
+
+**Quello che si vede solo ascoltando.** È la parte che nessun atto contiene, e da sola giustifica
+il Report 2: numero legale mancato due volte nello stesso consiglio (sei presenti al primo appello,
+undici al secondo, la seduta si apre al terzo) mentre negli atti resta **un solo verbale**; un
+appello che non torna, con «sette presenti, sette favorevoli» e un cognome verbalizzato due volte;
+**due consiglieri che votano senza sapere su che cosa** — uno chiede a votazione in corso di quale
+delibera si tratti e poi vota a favore; presenze e voti dati in chat; verbali approvati dopo una
+sospensione chiesta da chi non li aveva letti; **la verbalizzante che dichiara in diretta di non
+riuscire a verbalizzare un'audizione di un'ora e un quarto perché non sente.**
+
+**La trascrizione automatica sbaglia dove conta.** Lo stesso rione in tre grafie in dieci minuti;
+una sigla sanitaria in quattro forme in quattro minuti; un importo di spesa con un numero
+appiccicato in coda; un requisito ISEE fuori scala; anni a quattro cifre troncati a tre; il nome di
+un'azienda fuso con la sigla della municipalizzata, così che **dal solo testo non si sa chi doveva
+fare il lavoro**; una sigla compitata lettera per lettera in aula perché nessuno la capiva, e
+trascritta lo stesso in due modi diversi.
+
+**Riservatezza: il microfono è il problema, come previsto.** Il lettore ha tolto — e non ha
+riprodotto nemmeno nel log — il civico e il nome di una richiedente privata letti ad alta voce in
+aula, **con la presidenza che dichiarava la privacy «ridondante»**; un malore in diretta; dove vive
+oggi una persona citata in un elenco commemorativo. Ha però segnalato un punto in cui la regola
+toglie precisione senza proteggere nessuno: il divieto di civici applicato a una **sede pubblica**.
+Ha ragione, e va deciso: un civico che indica uno sportello comunale non identifica una persona.
+
+**Una discrepanza del manifest** da verificare: per tre spezzoni del Consiglio del Municipio I il
+`convocazione_match` punta a un documento la cui numerazione non compare fra le convocazioni di
+giugno.

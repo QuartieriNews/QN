@@ -1,7 +1,7 @@
 # Versioni compatte di notizie_candidate e documenti per il caricamento su Drive (DEC-102 §4.2):
 # dati per item, senza testi integrali. Una per fonte, perche' il connettore carica contenuto e
 # non file, e un CSV intero non entra in una sola risposta.
-import csv, os, collections
+import csv, os, re, collections
 S = os.environ['QN_NET']; D = S + '/report1/db'
 
 # 'sintesi' e 'note' restano fuori: sono la parte lunga e il file deve poter essere caricato.
@@ -32,6 +32,19 @@ def accorcia(righe, campo):
 
 n = list(csv.DictReader(open(D + '/notizie_candidate.csv', encoding='utf-8')))
 accorcia(n, 'evidenza_url')
+
+# Lo schema vuole in 'evidenza_locale' un localizzatore: 'p. N' per gli atti, '[mm:ss]' per le
+# registrazioni, vuoto per le pagine HTML. I lettori del Report 1 ci hanno messo invece la frase
+# della fonte che sostiene la notizia, su tutte e 1.227 le righe. La citazione resta nella tabella
+# intera nello scratchpad; nella versione da caricare resta solo il localizzatore, perche' e'
+# quello che rende verificabile la riga e perche' le citazioni pesano 173 KB su 1.3 MB.
+LOCALIZZATORE = re.compile(r'^\s*(p\.|pag|pagina|\[\d{1,2}:\d{2})', re.I)
+citazioni = 0
+for r in n:
+    v = (r.get('evidenza_locale') or '').strip()
+    if v and not LOCALIZZATORE.match(v):
+        r['evidenza_locale'] = ''; citazioni += 1
+print('righe in cui evidenza_locale conteneva una citazione e non un localizzatore:', citazioni)
 print('notizie compatte:')
 scrivi('notizie_compatte', n, COLONNE)
 for fonte in sorted({r['fonte'] for r in n}):
