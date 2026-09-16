@@ -747,3 +747,18 @@ controllo va fatto **dopo** ogni sostituzione automatica, non al posto suo.
 
 Regola che porto avanti: **dopo ogni modifica in blocco, rileggere almeno una riga toccata per
 intero.** Il campione di una riga avrebbe mostrato subito tutti e tre i difetti.
+
+**La coda della riparazione, perché non finisce dove sembra.** Il primo controllo dopo la
+riparazione ne ha trovati altri sette, il secondo altri quattro, il terzo altri due. Ogni giro
+restringeva il filtro e scopriva un caso che il giro prima non vedeva. Il bilancio: 12 campi
+mutilati riscritti a mano, 4 numeri civici **recuperati dai testi di partenza** invece che dalla
+memoria, 7 note di omissione tolte da atti che non erano individuali.
+
+**E due cose che i giri successivi hanno trovato e che il primo non cercava**: in due atti il campo
+`luoghi` conteneva **l'indirizzo di abitazione del richiedente** — «via Luigi Chiarelli 6
+(abitazione indicata nell'istanza)», «via Valtravaglia 6 (abitazione indicata nell'istanza)». Non
+era il civico dello stallo: era **casa sua**, scritta perché la fonte la scrive. Rimossi.
+
+Audit definitivo sulle 700 righe lette: nessun atto individuale con civico, nessun indirizzo di
+abitazione, nessun campo spezzato. L'unico residuo segnalato era un falso positivo («2,60 metri di
+altezza, 2,30 di larghezza»).
