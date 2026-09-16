@@ -3371,7 +3371,7 @@ La regola che ne ricavo, e che vale più della correzione: **quando scrivo un pr
 una mancanza, la prima cosa da provare è che la mancanza la veda**. Filtrare i dati difettosi
 all'ingresso è il modo più naturale di renderli invisibili proprio alla misura che li cerca.
 
-## 86. La causa vera delle registrazioni perse: `SystemExit` (2026-09-16 11:14Z)
+## 86. La causa vera delle registrazioni perse: `SystemExit` (2026-09-16 11:08Z)
 
 Riavviato il driver, è morto di nuovo in pochi minuti. Stavolta ho guardato **perché**, invece di
 riavviarlo e basta.
