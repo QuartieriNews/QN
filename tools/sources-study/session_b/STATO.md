@@ -1039,3 +1039,47 @@ caricamento, fatto prima che me ne accorgessi, è fedele.
 
 Il metodo vale per i due file grandi che restano (`notizie_compatte_E2.csv`, `documenti_compatti.csv`):
 tre parti ciascuno, e il confronto sui byte come prova.
+
+## 39. 1.650 atti, e una regola che ho cambiato mentre qualcuno stava leggendo (16 settembre, 06:45)
+
+Lotti B31–B33 rientrati: 150 atti su 150, tutti `MMC`, **43 candidate (28,7%)**. Con questi il
+totale è **1.650 atti letti e 396 candidate, il 24,0%** — la media che regge da venti lotti.
+
+**Quello che ho fatto io, e che secondo le mie stesse regole non si fa.** La specifica di lettura
+non si modifica mentre un lotto è in lettura: l'ho scritto in `SPECIFICA_LETTURA.md` dopo averlo
+imparato sul Report 1. Qui l'ho violato: ho aggiunto l'emendamento MMC alla specifica e l'ho
+mandato a un lettore **già in corsa**, che aveva chiuso i tre lotti con un criterio suo più largo.
+
+Non me ne pento, ma va scritto perché è una scelta fra due danni. L'alternativa era lasciare che
+sei lotti dello stesso identico tipo di atto — 300 convocazioni di commissione — fossero letti con
+due soglie diverse: le percentuali non sarebbero state confrontabili fra loro né con il resto dello
+studio, e la tabella del rapporto avrebbe mostrato una differenza di composizione dove c'era solo
+una differenza di lettore. Ho preferito l'incoerenza dichiarata all'incomparabilità nascosta.
+
+L'effetto è misurato, non stimato: il lettore ha **declassato 32 righe su 75** (9 in B31, 9 in B32,
+14 in B33), **nessuna promossa**, scrivendo il motivo dentro la riga e l'elenco nei log. Da 50% a
+28,7%. B33 è il più colpito perché conteneva i bandi scolastici e i punti sui centri estivi, che
+l'emendamento tratta come temi generali senza luogo. Chi legge il rapporto deve sapere che quei tre
+lotti sono stati letti due volte e che la seconda vale.
+
+**La coppia che spiega meglio di ogni tabella quanto la quota dipenda dalla fonte e non dal
+metodo.** Due atti della stessa commissione del Municipio VIII, gravemente mutili dallo stesso
+scanner: in uno la riga che nomina il Polo Civico Ostiense ha retto l'OCR, nell'altro no. Il primo
+è `sì`, il secondo `no`. Non è il merito dell'atto a decidere: è quale riga è sopravvissuta alla
+scansione. Su 150 atti, **74 hanno il testo incerto** e solo 66 portano il marcatore OCR: gli altri
+8 hanno lo strato di testo corrotto all'origine, tutti del Municipio XII.
+
+**Dove il lettore ha forzato di più**, e ha fatto bene a dirlo: un atto che nomina la ciclabile
+Colosseo-Ostia, i tratti, i parchi e l'unico importo dei tre lotti (18 milioni) è finito a `no`
+perché si dichiara «posticipata», e l'emendamento esclude i posticipi. La differenza con il `sì`
+gemello sta nella formula dell'oggetto, non nel fatto. È una regola che andrà discussa nel rapporto,
+non nascosta in un log.
+
+**La fonte continua a contraddirsi.** Giorni inesistenti (`139.06.2026`, `44/06/2026`,
+`36/06/2026`), timbri datati 2006, 2008, 2020, 2025 e 2028 su atti del 2026, un protocollo che
+contiene se stesso duplicato, due commissioni ancora intitolate al «Giubileo 2025» convocate nel
+giugno 2026. Tre coppie di duplicati veri, lasciate separate e dichiarate. E due atti che
+pubblicano **indirizzi di posta elettronica nominativi** al posto dei soggetti invitati: non
+riprodotti da nessuna parte, come tutti gli altri identificatori.
+
+Lanciati i quattro lotti finali B37–B40; con quelli la lettura degli atti si chiude.
