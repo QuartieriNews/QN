@@ -3629,7 +3629,7 @@ Nota metodologica per la consegna: il rapporto dice «1.983 atti letti». Sono d
 1.983 nella finestra più 161 fuori, letti per chiudere il buco delle convocazioni. Le due cifre
 vanno tenute distinte: 1.983 è **il perimetro del confronto**, 2.144 è **quanto abbiamo letto**.
 
-## 93. Un programma che dice quali numeri del rapporto sono vecchi (2026-09-16 11:44Z)
+## 93. Un programma che dice quali numeri del rapporto sono vecchi (2026-09-16 11:40Z)
 
 Rinfrescando i numeri ne ho trovati **quattro vecchi in un colpo solo** — 19,5%, 35,5%, 85,6%,
 32,1% — dopo averli già «rinfrescati» due volte oggi. Cercarli a occhio in un testo di quattrocento

@@ -483,6 +483,11 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | 25 concordi e 5 discordi della seconda AI | `report2/seconda_ai.js` |
 | 36,8% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
 
+E un programma, `report2/verifica_numeri_rapporto.py`, ricalcola tutti questi valori dal database e
+dice quali il testo non contiene più: serve perché a ogni lotto che rientra i numeri invecchiano, e
+cercarli a occhio in quattrocento righe non funziona — quattro erano vecchi anche dopo due giri di
+correzione a mano.
+
 Quello che **non** è riproducibile da un programma sta nei §3 e §4: sono letture, non misure, e ogni
 caso porta l'identificativo dell'atto o della registrazione con il marcatore, così che chiunque
 possa andare a vedere.
