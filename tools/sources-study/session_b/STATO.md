@@ -4859,3 +4859,24 @@ discutibile che ora sta nel §7 punto 5 invece di restare nascosta.
 - **Voti**: tre riscontrati, uno pieno e due parziali dichiarati — in uno l'elenco dei componenti è
   stato preso dal verbale di un'altra seduta della stessa commissione.
 - **Ripetizione**: a [49:55] **una sola frase ripetuta per l'intero intervallo di cinque minuti**.
+
+## 121. Drive controllato in lettura, e che cosa va sostituito davvero (2026-09-16 16:10Z)
+
+Guardata la cartella `Fonti 2026-06` senza toccarla. Le tre parti di A1 sono lì con gli
+identificativi annotati e le dimensioni del §88 (53.927 + 52.857 + 54.363 byte). Ma il conto dei file
+stantii è più lungo di tre: **tutti i `Report1_*` caricati vengono dal database**, e il database da
+allora è cambiato — `settimana` ricalcolata, campi di integrazione, righe nuove. Quindi alla consegna
+vanno rigenerati e sostituiti anche `Report1_notizie_E3`, `Report1_vicende`, `Report1_territori`,
+`Report1_fonti`, `Report1_notizie_C1/C4/C5`, non solo le tre parti di A1.
+
+**Una cosa che ho verificato prima di allarmarmi.** I file caricati stamattina alle 02:52–03:25
+portano gli identificativi di **prima** del registro (§105): potevano puntare a righe diverse da
+quelle di oggi. Non è così, e si vede da dove cade la divergenza — le righe che hanno cambiato numero
+sono quelle **dopo la posizione 2.365**, cioè le registrazioni lette di recente. I file su Drive
+contengono solo righe del Report 1 (A1, E3, C1, C4, C5), che stanno in testa e non si sono mai
+spostate. **Gli identificativi pubblicati sono ancora validi**; è il contenuto delle colonne a essere
+vecchio.
+
+Nessun file caricato contiene righe del parlato: la cartella non ha ancora niente del Report 2.
+Confermato il piano: **una sola sessione di caricamento a lettura finita**, con i compatti rigenerati
+da `compatte.py`, e solo dopo il cestino delle tre parti di A1.
