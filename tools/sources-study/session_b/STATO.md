@@ -965,3 +965,49 @@ intera, nessuna parola spezzata.
 **Riservatezza.** Le trascrizioni sono piene di nomi — l'appello nominale apre ogni seduta. Restano
 nello scratchpad come tutti i testi integrali (DEC-102); i lettori applicano l'anonimizzazione di
 `SPECIFICA_ATTI.md` §nomi, che vale parola per parola anche qui.
+
+## 36. 1.400 atti; una quota a zero che non significa una settimana vuota (16 settembre, 06:10)
+
+Lotti B25–B27 rientrati: 150 atti su 150, **25 candidate (16,7%)**. Le tre quote singole sono
+40%, 10% e **zero**, e la spiegazione non è nella soglia ma nella composizione: B26 e B27 sono
+fatti per due terzi di convocazioni (47) e verbali (16). Un lotto di convocazioni produce zero
+notizie perché convoca, non perché la settimana fosse povera — è la stessa cosa vista in §30,
+ora nella sua forma estrema. La forbice spostando i casi limite: B25 32–44%, B26 8–20%,
+B27 0–12%, complessivo 13,3–25,3%.
+
+**Un atto che si legge solo insieme a un altro.** `A2_GMD_VIII_NDk5NA` conserva la sola pagina di
+attestazione: la delibera è sparita, restano gli estremi. Il contenuto — otto strade nominate —
+sta nel verbale di Giunta `A2_GMV_VIII_MzY1Mg`, che è in un lotto diverso. Il collegamento è
+annotato in tutte e due le righe. È il secondo caso (dopo §32) in cui un difetto della fonte si
+vede solo incrociando due lotti, e conferma che leggere gli atti a uno a uno non basta: il
+database deve poterli mettere accanto.
+
+**Aritmetica e tempo della fonte, ancora.** Municipio XIII dichiara 2.260.000 € a pagina 4 e
+2.660.000 € in ogni altro punto dello stesso atto; un Commissario ad acta apre alle 14,35 e firma
+«alle ore 11,35»; un percorso partecipativo si svolge otto mesi prima dell'assemblea che lo avvia;
+un verbale del 17 giugno 2026 risulta approvato «der 20/4/2025»; tre atti della stessa seduta del
+Municipio II nominano tre segretari diversi. Niente è stato conciliato: le due cifre stanno
+entrambe nella riga.
+
+**La fonte continua a contraddire la propria anonimizzazione.** In un atto i ricorrenti sono
+coperti con «XXX» e in due punti dello stesso testo due dipendenti sono scritti per esteso. Il
+lettore non li ha riprodotti, nemmeno in iniziali — la regola presa in §28 ha retto. Omessi anche
+lotto, civico, scala e interni di due appartamenti con muffa che la fonte pubblica per intero:
+restano le vie, che bastano a dire dove.
+
+**Dove la soglia è una scelta.** Il lettore ha dichiarato otto coppie di atti simili con esito
+diverso. La più istruttiva: un parere contrario motivato su un parcheggio è `sì`, un parere
+favorevole a un restauro è `no` — perché il fatto nasce con il dissenso e non con l'adesione. E i
+verbali di Giunta sono `sì` solo quando portano l'elenco delle strade che la delibera non porta.
+Sono scelte difendibili, ma sono scelte, e stanno nei log perché il rapporto le possa mostrare.
+
+## 37. La trascrizione è partita, con un tetto che si ferma da solo (16 settembre, 06:15)
+
+`rtv_asr_driver.py` gira in sottofondo: prende le registrazioni man mano che finiscono di
+scaricarsi, remuxa, riduce a mono, trascrive, e **cancella i segmenti e il file intermedio**
+tenendo solo il mono a 32 kbps e il JSON. Senza questo il disco non basterebbe: 227,6 ore di
+segmenti sono circa 10 GB, gli stessi minuti in mono ne occupano 3,3.
+
+Il tetto è nel driver, non nella mia attenzione: ricalcola la spesa dai token restituiti
+dall'API prima di ogni registrazione e si ferma a 42 $. Non è una stima sui minuti — è la somma
+di quello che l'API ha detto di aver consumato.
