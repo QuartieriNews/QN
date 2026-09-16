@@ -178,8 +178,17 @@ cinque candidate bloccate dalla data che **non** erano nuove venivano tutte dall
 cui verbale riporta davvero la discussione. Altri due lotti hanno ripetuto il controllo e l'hanno
 **corretto**: non conta che esista un verbale, conta che esista **un documento che porti il merito** —
 può essere l'atto letto ad alta voce in aula, o il verbale di un'altra seduta. Con quella
-formulazione le eccezioni si riducono a una su tredici, e il controllo speculare non ne ha nessuna:
-le candidate nuove bloccate dalla data vengono sempre da verbali assenti o vuoti di merito.
+formulazione le eccezioni si riducono a una su tredici.
+
+**Il controllo speculare, invece, si rompe, ed è la cosa più istruttiva del capitolo.** Doveva dire
+che le candidate nuove bloccate dalla data vengono sempre da verbali assenti o vuoti; un lotto ne ha
+trovate **due su cinque** che vengono da sedute il cui verbale **esiste ed è pieno** — solo, è
+selettivo. Il caso più netto non entra nemmeno nel conteggio, perché ha superato la soglia di
+qualità: il cancello divelto del cantiere di un impianto è «solo dal parlato», e il verbale di quella
+seduta, letto e approvato in aula, non ne fa parola. Quindi la distinzione utile non è fra verbale
+che c'è e verbale che manca, ma fra tre casi: **verbale assente, verbale vuoto, e verbale che ha
+scelto di non scrivere**. È la stessa selezione editoriale che governa le cifre (§3), vista da un
+altro lato.
 
 Resta un controesempio che va detto, perché è il caso in cui la regola dovrebbe funzionare meglio:
 una seduta il cui verbale esiste ed è fedele — riporta perfino gli orari al minuto — e le cui tre
@@ -305,6 +314,12 @@ omette entrambe le ammissioni. La commissione se ne accorge leggendolo in dirett
 dichiara di averlo votato senza averlo letto. Quel verbale era destinato agli enti esterni:
 **quello che esce dal Municipio è la versione senza le ammissioni**.
 
+E in un terzo sopralluogo l'omissione si sente accadere: un'ammissione tecnica del progettista fatta
+sul posto non arriva nel verbale, e nella registrazione **si sente la commissione decidere di non
+scriverla**. Specularmente, un verbale può riportare tutte le cifre del merito **e sbagliarle tutte**,
+perché è fedele a chi parlava e non all'atto: l'accuratezza del verbale non è una proprietà unica,
+dipende da che cosa il verbalizzante considera la fonte.
+
 Succede, non è una legge: in un altro sopralluogo i due documenti **conservano entrambi
 l'ammissione**, e la versione approvata aggiunge dettagli — e aggiunge anche un divieto di riprese e
 fotografie concordato con la società, che nella bozza letta in aula non c'era. Il rischio non è che
@@ -383,6 +398,13 @@ soglie di un tessuto urbanistico — e sopravvive una cifra **nata nella discuss
 ipotizzata lì per lì, perché era diventata il punto su cui si decideva. E quando l'aula, invece di
 riassumere, **legge l'atto ad alta voce**, le cifre passano tutte intere. La perdita non è nella
 prova: è nella redazione del riassunto.
+
+E c'è una perdita che nessuna delle due direzioni prevedeva: **i verbali cancellano i luoghi**. In
+una commissione sei verbali arretrati vengono letti a voce con il loro oggetto — una scala pubblica,
+un parco regionale, una villa comunale, una stazione — e nel verbale di quella seduta diventano sei
+date e sei numeri di protocollo. **Quattro di quei luoghi esistono solo nell'audio.** Per uno studio
+che misura la novità territoriale è il caso peggiore: non si perde un dettaglio, si perde
+esattamente la coordinata che rende un fatto un fatto locale.
 
 L'obiezione ovvia è che decida il redattore, cioè che sia una questione di persone e di uffici. È
 stata controllata e non regge: **lo stesso ufficio, nello stesso mese**, conserva importo, numero di
@@ -515,6 +537,12 @@ possa contare.
 registrazione, **due sbagliano l'orario di chiusura** — 13:47 contro le 10.07 reali, 14:14 contro le
 11.05 — cioè attribuiscono ore di lavori a sedute di mezz'ora. Chi misurasse la durata delle sedute
 sui verbali otterrebbe numeri privi di senso.
+
+Due casi dicono quanto costa, e nessuno dei due supera la soglia. A **0,061** — sotto il 10%, dove
+nessuno andrebbe a guardare — una decina di righe duplicate dentro l'appello di voto **si portano via
+il voto di una presidenza di commissione**, mentre la seduta si chiude dichiarando l'unanimità. E in
+una seduta telematica due voti passano **in chat**, perché i microfoni non funzionano: lì una parte
+del verbale reale non è nell'audio, e nessuna colonna lo segnala.
 
 **Tre difetti diversi, e la nostra colonna ne vede uno solo.** La quota di testo duplicato intercetta
 la ripetizione; non vede il **silenzio** (trentacinque minuti muti a quota 0,0, e una commissione che

@@ -243,7 +243,16 @@ parlato oltre la chiusura in tutti e dieci i propri item — compresi trentacinq
 ne ha trovati. Da qui in avanti i mandati chiedono di cercarlo e di **dichiarare anche quando non
 c'è**: tre casi valgono solo se si sa in quanti item si è guardato.
 
-Tre casi su 305 registrazioni lette non fanno una frequenza, ma cambiano la natura della decisione:
+**E alle 14:35Z il conto cambia scala.** Un lettore che ha cercato in tutti e dieci i propri item ne
+ha trovati **tre**: un microfono aperto durante l'appello (dichiarato poi in aula dalla presidenza) e
+due registrazioni che proseguono dopo la chiusura — in una la presidenza dice «*ora interrompo la
+registrazione*», saluta, e il flusso continua con due nomi di battesimo e una frase privata. Siamo a
+**sei casi**, e il primo lettore che ha guardato apposta ne ha trovati tre su dieci.
+
+Questo toglie l'ultima interpretazione benevola: non è un incidente e non è raro. È il modo normale
+in cui queste registrazioni finiscono, e chi le pubblica non le rivede.
+
+Sei casi su 305 registrazioni lette non fanno una frequenza — ma cambiano la natura della decisione:
 il primo poteva essere un incidente, due sono un **modo in cui la fonte pubblica sistematicamente
 più di quello che intende pubblicare** — e nel secondo caso non è nemmeno «dopo la fine»: è dentro
 la seduta, in una pausa che tutti in aula considerano privata. La raccomandazione non cambia (la

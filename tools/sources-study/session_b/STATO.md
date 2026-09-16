@@ -4448,3 +4448,60 @@ Rigenerato per prova: 3.434 documenti compatti, i file per fonte tornano.
 Restano da fare alla consegna, in quest'ordine: `build_db.py`, `risposta.py`,
 `verifica_numeri_rapporto.py`, `audit_toponimi.py`, `copertura_testi_atti.py`, `motivo_non_alta.py`,
 `compatte.py`, `congela_consegna.py`, e **solo allora** Drive, una volta sola.
+
+## 113. V3_231–V3_311: il controllo speculare si rompe, e la rottura dice una cosa migliore (2026-09-16 14:35Z)
+
+10 item, 4h47 di registrazione, 18 candidate, 8 `alta`.
+
+### La terza correzione in due ore, e questa volta migliora la spiegazione
+
+Il controllo speculare del §2 — «le nuove bloccate dalla data vengono da verbali assenti o vuoti» —
+**si rompe**: due su cinque vengono da sedute il cui verbale esiste ed è pieno, solo che è
+**selettivo**. Il caso che chiude la questione non entra nemmeno nel conteggio perché è di qualità
+alta: il **cancello divelto** del cantiere di un impianto è solo dal parlato, e il verbale di quella
+seduta — letto e approvato in aula — non ne fa parola.
+
+Quindi la distinzione utile non è fra verbale che c'è e verbale che manca, ma fra **tre** casi:
+verbale assente, verbale vuoto, **verbale che ha scelto di non scrivere**. È la stessa selezione
+editoriale che governa le cifre, vista da un altro lato — e adesso il §2 e il §3 dicono la stessa
+cosa invece di due cose vicine.
+
+### Tre controesempi sulle cifre, e uno è nuovo di tipo
+
+- Un verbale riporta **tutte** le cifre del merito **e tutte sbagliate**, perché è fedele a chi
+  parlava e non all'atto. L'accuratezza del verbale non è una proprietà unica: dipende da che cosa il
+  verbalizzante considera la fonte.
+- In un sopralluogo un'ammissione tecnica non sopravvive, e nella registrazione **si sente la
+  commissione decidere di non scriverla**.
+- **I verbali cancellano i toponimi.** Sei verbali arretrati letti a voce con il loro oggetto — una
+  scala pubblica, un parco regionale, una villa comunale, una stazione — diventano sei date e sei
+  protocolli: **quattro luoghi esistono solo nell'audio**. Per uno studio che misura la novità
+  *territoriale* è il caso peggiore: non si perde un dettaglio, si perde la coordinata che fa di un
+  fatto un fatto locale. Nel rapporto §3.
+
+### Difetti di volume, tutti e tre, con il costo
+
+- **Sotto soglia (0,061)**: dentro l'appello di voto una ripetizione **si porta via il voto di una
+  presidenza di commissione**, mentre la seduta si chiude dichiarando l'unanimità.
+- **Linea che cade**: sei punti in cinque item; in una seduta telematica **due voti passano in chat**
+  perché i microfoni non funzionano — parte del verbale reale non è nell'audio.
+- **Silenzio**: sulle trascrizioni a pagamento si vede solo contando le parole per minuto (sei minuti
+  iniziali a 14 parole al minuto), perché la grana a 300 secondi lo nasconde.
+- E il **caso inverso misurabile**: un verbale contiene una proposizione che nell'audio non c'è,
+  **esattamente dove la registrazione si interrompe a metà frase**. Non è un'invenzione del
+  verbalizzante: è la linea che cade, e lì il verbale è l'unica copia.
+
+### D7 cambia scala
+
+Il lettore ha cercato microfoni aperti e parlato oltre la chiusura **in tutti e dieci** i suoi item e
+ne ha trovati **tre** — in uno la presidenza dice «ora interrompo la registrazione», saluta, e il
+flusso prosegue con due nomi di battesimo e una frase privata. Siamo a **sei casi**, e il primo
+lettore che ha guardato apposta ne ha trovati tre su dieci. Toglie l'ultima interpretazione benevola:
+non è un incidente, è il modo normale in cui queste registrazioni finiscono. `DECISIONI_OWNER.md`
+aggiornato; l'urgenza della D7 è ora di un altro ordine.
+
+### Manifest
+
+Un item che sembrava una seduta di tre minuti è la **prima di tre parti**, e il manifest è l'unico
+dei tre a non dirlo. Il lettore l'ha verificato senza aprire gli item degli altri, dagli url
+progressivi e dal contenuto di apertura e chiusura.
