@@ -3595,7 +3595,7 @@ id si rileggono da tutti e due i file — e verificato eseguendo due volte di se
 
 Aver capito un difetto in un posto non lo toglie dagli altri posti dove ho scritto la stessa logica.
 
-## 92. La notiziabilità di un atto dipende da chi lo legge, e il fattore è due (2026-09-16 11:37Z)
+## 92. La notiziabilità di un atto dipende da chi lo legge, e il fattore è due (2026-09-16 11:36Z)
 
 Rinfrescando i numeri del rapporto ho controllato la quota di atti notiziabili e ho trovato una cosa
 che non stavo cercando.
