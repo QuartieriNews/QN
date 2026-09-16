@@ -142,3 +142,29 @@ Nella relazione vanno dati sempre due numeri: le candidate `solo dal parlato` e,
 provengono da sedute il cui verbale è assente, vuoto o di sola presenza. I lotti letti con la
 formulazione vecchia non sono confrontabili su questo campo e la misura buona, per tutti, resta
 quella meccanica: quante candidate non hanno alcun gemello per data e luogo in tutto il corpus.
+
+## Emendamento del 16 settembre (terzo): dopo il controllo C3
+
+Il revisore tecnico ha giudicato la definizione precedente ancora ambigua su tre punti. Correzioni,
+che **non toccano la soglia di notiziabilità** — quella resta identica, e i lotti già letti restano
+validi:
+
+1. **Il fatto detto in aula che contraddice un atto è `solo dal parlato`, non `anche negli atti`.**
+   «Compare negli atti» vuol dire che l'atto dice **la stessa cosa**, non che parla dello stesso
+   tema. Se in aula si dice che un cantiere è fermo e l'atto dice che è avviato, la notizia è la
+   contraddizione, e non sta scritta da nessuna parte. Segnalarlo nella nota con la parola
+   `contraddice`.
+2. **Un fatto di giugno che compare in un atto di un altro mese non è `non verificabile`: è
+   `fuori perimetro`.** Va scritto così nella nota, e nel conteggio sta a parte: non è incertezza
+   nostra, è un confine del corpus.
+3. **`non verificabile` va sempre qualificato** con il motivo, una parola sola nella nota:
+   `esterno` (atto di un'altra amministrazione: sentenza, soprintendenza, carteggio d'ufficio),
+   `generico` (il riferimento è troppo vago per essere cercato), `fuori perimetro` (punto 2). Tre
+   cause diverse in un solo valore non si leggono.
+
+**Che cosa misura questo campo, detto una volta per tutte.** Misura la novità **territoriale**: un
+fatto su un luogo nominato che non sta scritto. **Non** misura la novità politico-istituzionale — il
+numero legale che salta, la seduta che decade, l'ufficio che non si presenta — che la soglia esclude
+per costruzione. Quella parte resta fuori dalle candidate **di proposito** e va nella relazione,
+nella sezione sui difetti visibili solo ascoltando: è materiale del rapporto, non di questa colonna.
+Il rapporto deve dirlo esplicitamente, altrimenti il numero sembra più generale di quello che è.

@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 14,96 € |
-| **Disponibile** | **63,04 €** |
+| Speso nella sessione B | 15,18 € |
+| **Disponibile** | **62,82 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -37,6 +37,7 @@ listino in dollari):
 | 16/09 00:20 | controllo Codex C2 sulla specifica di lettura | 0,20 € |
 | 16/09 05:55 | prova T1: 2,12 ore di audio RomaTV trascritte | 0,30 € |
 | 16/09 08:30 | trascrizione in corso: 143 registrazioni, 101,4 ore | 14,6 € |
+| 16/09 08:50 | controllo Codex C3 sulla specifica delle registrazioni (3.835 token in, 8.737 out) | 0,22 € |
 
 Impegno previsto ancora da spendere: **circa 25 €** per le 172 ore di registrazioni che restano
 (§35), più i controlli Codex C3–C5 e la seconda AI sulle candidate. Il tetto regge.
@@ -1630,3 +1631,60 @@ anch'io» perché il conto dei presenti sbaglia due volte; una delibera votata c
 consigliere dice «non credo che si possa votare una delibera così sostanziosa e tecnica in un'ora di
 commissione», con il termine che scade il giorno dopo. E il consenso alla registrazione raccolto a
 voce, perché i moduli non erano arrivati.
+
+## 52. Controllo C3: quattro rilievi bloccanti, e il numero principale diventa un intervallo (16 settembre, 08:50)
+
+Mandato il controllo Codex C3 sulla specifica delle registrazioni, chiedendo esplicitamente di
+cercare «dove questa specifica produce numeri che non reggono». Verdetto in
+`reviews/C3_specifica_video.md`: **non pubblicabile come numero unico** la quota di novità del
+parlato. Quattro rilievi bloccanti, tutti fondati.
+
+**1. «Compare negli atti» non era definito.** Se in aula si dice che un cantiere è fermo e l'atto
+dice che è avviato, il tema è lo stesso e il contenuto opposto: marcarlo `anche negli atti`
+significa contare una contraddizione come sovrapposizione. **Corretto nella specifica**: quel caso
+è `solo dal parlato`, con la parola `contraddice` nella nota, perché la notizia *è* la
+contraddizione.
+
+**2. «Atto di un altro mese» non è incertezza nostra, è un confine del corpus.** Finiva in
+`non verificabile` e gonfiava quella casella abbassando la novità. Ora è una categoria a sé,
+`fuori perimetro`. E `non verificabile` va sempre qualificato — `esterno`, `generico`,
+`fuori perimetro` — perché tre cause diverse in un solo valore non si leggono.
+
+**3. Il `dubbio` non è prova di sovrapposizione.** Lo dicevo io stesso in §46 e poi lo stavo usando
+come se lo fosse. Il revisore impone la forma giusta: **un intervallo, non un punto**, e solo
+parlato-contro-scritto, non «tutto il corpus» (due sedute che dicono la stessa cosa non c'entrano
+con la domanda). Scritto `novita_meccanica.py`, che classifica ogni candidata dal parlato in
+**S** (nessun gemello scritto), **U** (solo dubbi), **D** (almeno un duplicato):
+
+| | |
+|---|---|
+| candidate dal parlato confrontate | 310 |
+| S — nessun gemello fra le righe scritte | **202** |
+| U — solo dubbi | 104 |
+| D — almeno un duplicato | 4 |
+| **quota di novità** | **[65,2% , 98,7%]** |
+
+L'intervallo è largo perché i dubbi sono un terzo del totale, e questa larghezza **è il risultato**:
+dire «il 68%» sarebbe stato finto rigore. Il 65,2% è la parte che non ha alcun riscontro scritto; il
+resto è quanto al massimo potrebbe sovrapporsi.
+
+**4. Che cosa misura davvero questo numero.** La soglia di notiziabilità esclude per costruzione i
+regolamenti senza luogo, il numero legale mancato, l'organizzazione interna degli organi — e più
+lettori hanno segnalato che il fatto più rilevante della seduta finiva fuori. Il revisore: se il
+titolo è «quanto aggiunge il parlato» è un difetto; se è dichiaratamente territoriale è una scelta.
+**Ho scelto di dichiararla invece di cambiare la soglia a metà studio**: la colonna misura la
+novità *territoriale*, la parte politico-istituzionale sta nella relazione fra i difetti visibili
+solo ascoltando. Cambiare la soglia ora avrebbe prodotto una quarta definizione e reso i lotti
+ancora meno confrontabili; l'informazione non si perde, perché quei casi stanno nei log e nel
+massimo della forbice di ogni lotto.
+
+**Congelato il materiale di riscontro** in `report2/snapshot/` (rilievo 6.2): la novità non deve
+dipendere dal giorno in cui un lotto è stato letto.
+
+**Resta da fare, e lo scrivo perché non si perda**: la ricodifica ex post del campo dichiarato sui
+JSON già prodotti, sullo snapshot congelato — recupera la coerenza dell'etichetta, non la
+completezza dell'estrazione, e questa differenza va dichiarata. Da dichiarare anche: che il KPI è
+«atti + pipeline del Report 1» e non solo atti; che l'unità di conteggio è la candidata e non il
+fatto, quindi due lettori possono spezzare lo stesso fatto in modo diverso; e che un toponimo
+sbagliato dall'ASR produce un falso `solo dal parlato`, per cui le righe con
+`toponimo_da_verificare = sì` vanno controllate a parte.
