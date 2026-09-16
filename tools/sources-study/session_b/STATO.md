@@ -762,3 +762,32 @@ era il civico dello stallo: era **casa sua**, scritta perché la fonte la scrive
 Audit definitivo sulle 700 righe lette: nessun atto individuale con civico, nessun indirizzo di
 abitazione, nessun campo spezzato. L'unico residuo segnalato era un falso positivo («2,60 metri di
 altezza, 2,30 di larghezza»).
+
+## 30. 800 atti letti; la quota dipende dalla composizione, non dalla soglia (16 settembre, 04:40)
+
+**B13–B15: 150 atti, 43 notizie, 28,7%** — sopra la fascia 13–29% dei lotti precedenti, e il
+lettore ha spiegato perché prima che glielo chiedessi: i suoi tre lotti sono **interamente
+discipline di traffico**, ed è lì che finisce tutto ciò che di concreto succede in strada. Due
+voragini, alberi pericolanti, un sospetto dissesto del sottosuolo con i bus esclusi da aprile,
+quattro cantieri giubilari, i varchi della Fascia Verde, il GRAB, tre bonifiche di rete lunghe mesi.
+
+Il suo giudizio: 28–30% è il valore vero per un lotto di solo traffico, non un allargamento del
+criterio; e ha indicato **quali due scelte irrigidire** per riportarlo a 24%. Ha anche dichiarato
+la sua incoerenza interna più netta — scavi notturni su tre strade a San Lorenzo classificati `sì`,
+tre strade per quattro settimane a Prati classificate `no` — segnalando che uniformarli sposta la
+quota di ±2 punti. Vale più della cifra.
+
+**Totale: 800 atti su 1.983, 166 notizie candidate, 20,8%.**
+
+**Audit di riservatezza ripassato su tutti gli 800**: pulito. Le 15 segnalazioni del filtro erano
+tutte **falsi positivi** — numeri di concessione edilizia o di occupazione di suolo, che sono atti
+e non persone, e note dei lettori che dichiaravano di *non* aver riportato i numeri personali. Il
+filtro va letto, non creduto: è lo stesso errore che stanotte mi ha fatto mutilare dodici campi.
+La regola è ora nel prompt: i numeri di concessione edilizia restano, quelli personali no.
+
+**Materiale nuovo per il rapporto**: pareri datati dopo l'atto che li richiama; un'autorizzazione
+valida «dal 19.06.2026 al 22.02.2026», cioè che finisce prima di cominciare; determinazioni
+prorogate da atti di numero inferiore dello stesso anno; una stessa nota di protocollo che avvia
+due procedimenti per titolari diversi; catene di proroghe con scoperti fino a ventidue giorni; e
+un atto la cui data finale è il 14 luglio 2027, quasi certamente un refuso per il 2026 — riportato
+come sta, perché correggerlo sarebbe inventare.
