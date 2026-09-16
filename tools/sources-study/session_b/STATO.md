@@ -3154,3 +3154,82 @@ era uno dei campi mai popolati segnalati dal C5. Le righe non verificate restano
 un campo vuoto sarebbe indistinguibile da una verifica riuscita.
 
 Registro: T4 16.212 + 25.687 token in, 2.904 + 1.991 out, **0,14 €** in tutto.
+
+## 82. L'audit della classe «dubbio» cambia la risposta del rapporto (2026-09-16 10:51Z)
+
+Il pezzo che mancava, e sposta tutto.
+
+**Su 40 candidate della classe `dubbio`, 6 avevano davvero un gemello scritto: il 15,0%**, Wilson
+[7,1% ; 29,1%]. Sui 102 accostamenti i veri sono 6, cioè una precisione del **5,9% per
+accostamento**. L'ipotesi «5-10%» del primo revisore era giusta sugli accostamenti e bassa sulle
+candidate — una candidata con dieci accostamenti resta una candidata.
+
+Il revisore ha lavorato aprendo **il testo integrale** di ognuno dei 102 documenti scritti, non
+confrontando sintesi. Ha pagato: **in 3 dei 6 gemelli veri la sintesi della riga scritta racconta un
+altro punto dell'ordine del giorno.** È la conferma sul campo dell'asimmetria di unità, misurata da
+chi la stava subendo.
+
+**Una scoperta strutturale che vale quanto il numero**: tutti e sei i gemelli veri sono **la
+registrazione scritta della stessa seduta** — cinque verbali e una deliberazione. Nessuno è una
+fonte scritta indipendente. La classe `dubbio` non nasconde notizie già pubblicate altrove: nasconde,
+in un caso su sei o sette, **il verbale della stessa riunione**.
+
+### E un difetto mio che il revisore ha isolato misurando
+
+`stesso_oggetto` **restituisce falso appena i tipi differiscono**, prima ancora di guardare le
+parole. Nel suo campione **86 accostamenti su 102 venivano scartati lì**, e con loro quattro dei sei
+gemelli veri — due dei quali avrebbero superato la soglia sulle parole (0,714 e 0,600).
+
+La causa è che i due vocabolari descrivono cose diverse: dal lato parlato `tipo` dice **come** il
+fatto è emerso (un'audizione, un sopralluogo), dal lato scritto dice **che cosa è il documento**.
+Misurato: **416 candidate parlate su 993 (42%)** hanno tipo `audizione`, `sopralluogo` o
+`interrogazione`, e dal lato scritto quei tipi contano **tre righe in tutto**. Per il 42% del parlato
+la classe «duplicato» era irraggiungibile qualunque cosa dicesse il testo.
+
+Corretto: il tipo resta un filtro fra righe della stessa natura e non si applica fra parlato e
+scritto. Effetto: **D da 31 a 76**, S da 486 a 470.
+
+### La risposta, adesso
+
+| | |
+|---|---|
+| intervallo grezzo | **[46,1% , 92,5%]** |
+| con la precisione dei dubbi misurata (15,0%) | **85,6%** |
+| agli estremi dell'intervallo di confidenza (7,1% – 29,1%) | fra **79,0%** e **89,2%** |
+
+**L'intervallo si stringe da quarantasei punti a dieci, e la risposta sta vicino al limite
+superiore, non a quello inferiore.** Per mesi il numero che avevo in testa era il 48%.
+
+Tre avvertenze da pubblicare insieme al numero, tutte del revisore:
+1. è una stima su **40 candidate**: l'intervallo va scritto, non tolto;
+2. la precisione misurata è **per difetto** — ha misurato i gemelli *fra gli accostamenti proposti*,
+   e i difetti strutturali perdono gemelli **prima** della proposta;
+3. il denominatore è gonfiato dai doppioni del parlato già noti.
+
+E la misura sul testo integrale degli atti tira in senso opposto: **144 candidate su 391 (36,8%)**
+date per nuove compaiono comunque nel testo di un atto vicino. Le due misure vanno pubblicate
+insieme: una dice che i dubbi sono quasi tutti falsi accostamenti, l'altra che i gemelli veri si
+nascondono dove il confronto fra righe non guarda.
+
+### Il problema di dato più grave della sessione
+
+**`notizie_candidate.csv` è stato riscritto mentre il revisore lavorava, e 18 delle 40 candidate del
+campione hanno cambiato identificativo**: il blocco delle registrazioni è scalato di **+12**. Il caso
+peggiore è una **collisione silenziosa**: l'identificativo che lui stava giudicando indicava, dopo la
+riscrittura, **un'altra riga esistente** — non un vuoto, che si sarebbe visto.
+
+La causa è mia e la conoscevo a metà: l'identificativo era la **posizione** nella lista
+(`enumerate`). Le righe del Report 1 restavano ferme perché stanno in testa, e da lì la mia
+convinzione — ripetuta anche nei mandati — che gli identificativi non cambiassero mai. Bastava
+aggiungere un lotto di atti, che si inserisce **in mezzo**, per far scorrere tutte le righe delle
+registrazioni.
+
+Corretto: gli identificativi stanno ora in un **registro** (`db/registro_id.csv`, 2.874 righe)
+legato all'identità della riga — documento e titolo — non alla sua posizione. Verificato eseguendo
+il builder due volte di seguito: **zero identificativi cambiati**. Il registro si versiona con i
+dati.
+
+Ma il danno di oggi resta: **gli identificativi citati in questo file prima delle 11:00 possono
+indicare righe diverse**. Non li riscrivo a mano — sarebbe un altro modo di sbagliare —; chi li
+rilegge deve sapere che valgono come riferimenti al momento in cui sono stati scritti, e che il
+registro da ora impedisce che succeda di nuovo.

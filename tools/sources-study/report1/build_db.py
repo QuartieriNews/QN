@@ -359,6 +359,7 @@ if os.path.isdir(R2 + '/out_video'):
 # ---- deduplicazione (metodo §4.1, schema §2 regola 2) ----------------------
 # Three conditions, in order: (a) date within +/-1 day, (b) place, (c) object. (a)+(b) without (c)
 # is a doubt, never a merge: the yield is then reported as a range.
+PARLATO_FONTI = {'A3', 'A4'}
 TIPO_AFFINE = {'evento': 'evento', 'convegno': 'evento', 'avviso': 'avviso',
                'delibera': 'atto', 'mozione': 'atto', 'risoluzione': 'atto',
                'ordine del giorno': 'atto', 'interrogazione': 'atto'}
@@ -400,7 +401,17 @@ def parole(s):
     return {w for w in geo.norm(s).split() if len(w) > 3}
 
 def stesso_oggetto(a, b):
-    if TIPO_AFFINE.get(a['tipo'], a['tipo']) != TIPO_AFFINE.get(b['tipo'], b['tipo']): return False
+    # Il tipo vale come filtro solo fra righe della stessa natura. Fra parlato e scritto i due
+    # vocabolari descrivono cose diverse: dal lato parlato `tipo` dice **come** il fatto e' emerso
+    # (un'audizione, un sopralluogo), dal lato scritto dice **che cosa e' il documento** (una
+    # delibera, un avviso). Confrontarli come se fossero la stessa tassonomia rendeva la classe
+    # "duplicato" irraggiungibile per il 42% delle candidate del parlato, qualunque cosa dicesse il
+    # testo: `audizione` e `sopralluogo` dal lato scritto contano tre righe in tutto.
+    # Trovato dal revisore della classe dubbio, misurando: 86 accostamenti su 102 venivano scartati
+    # qui, prima che la soglia sulle parole fosse valutata, e quattro dei sei gemelli veri con loro.
+    misto = (a['fonte'] in PARLATO_FONTI) != (b['fonte'] in PARLATO_FONTI)
+    if not misto and TIPO_AFFINE.get(a['tipo'], a['tipo']) != TIPO_AFFINE.get(b['tipo'], b['tipo']):
+        return False
     pa, pb = parole(a['titolo_anonimizzato'] + ' ' + a['luoghi']), parole(b['titolo_anonimizzato'] + ' ' + b['luoghi'])
     if not pa or not pb: return False
     return len(pa & pb) / min(len(pa), len(pb)) >= 0.6
@@ -456,7 +467,6 @@ for blocco in sorted(per_blocco):
 # gemelli scritti esistono **davvero**, provando tutte le coppie. Il conteggio e' fatto due volte,
 # dentro il blocco come prescrive il metodo e su tutto il corpus, cosi' il costo della partizione
 # in blocchi si vede invece di restare implicito.
-PARLATO_FONTI = {'A3', 'A4'}
 coppie_ps = []
 scritte_tutte = [n for n in notizie if n['fonte'] not in PARLATO_FONTI]
 for n in notizie:
@@ -504,6 +514,39 @@ with open(R2 + '/coppie_parlato_scritto.csv', 'w', newline='', encoding='utf-8')
 print('coppie parlato-scritto scritte in report2/coppie_parlato_scritto.csv: %d' % len(coppie_ps))
 print('confronto esaustivo parlato-scritto, su tutto il corpus: %s' % dict(cc))
 print('  dentro il blocco, come prescrive il metodo:            %s' % dict(cb))
+
+# ---- identificativi stabili -----------------------------------------------
+# Fino a oggi l'identificativo di una notizia era la sua **posizione** nella lista: `N{k:04d}` da
+# `enumerate`. Le righe del Report 1 restavano ferme perche' stanno in testa, ma bastava aggiungere
+# un lotto di atti — che si inserisce in mezzo — per far scorrere di dodici posizioni tutte le righe
+# delle registrazioni. Un revisore se n'e' accorto nel modo peggiore: il database e' stato riscritto
+# mentre lavorava, e l'identificativo che stava giudicando indicava un'altra riga. Non un vuoto:
+# **un'altra riga esistente**, cioe' una collisione silenziosa.
+# Da qui in avanti l'identificativo sta in un registro, legato all'identita' della riga (documento e
+# titolo) e non alla sua posizione. Le righe gia' viste tengono il proprio; le nuove prendono il
+# primo numero libero. Il registro si versiona insieme ai dati.
+REGISTRO = R + '/db/registro_id.csv'
+chiave_id = lambda n: (n['documento_id'], (n['titolo_anonimizzato'] or '').strip())
+registro = {}
+if os.path.exists(REGISTRO):
+    for r in csv.DictReader(open(REGISTRO, encoding='utf-8')):
+        registro[(r['documento_id'], r['titolo'])] = r['id']
+liberi = max([int(v[1:]) for v in registro.values()] or [0])
+nuovi_id = 0
+for n in notizie:
+    k = chiave_id(n)
+    if k in registro:
+        n['id'] = registro[k]
+    else:
+        liberi += 1; n['id'] = f'N{liberi:04d}'; registro[k] = n['id']; nuovi_id += 1
+doppi = len(notizie) - len({n['id'] for n in notizie})
+if doppi:
+    print('ATTENZIONE: %d righe condividono un identificativo (documento e titolo uguali)' % doppi)
+os.makedirs(R + '/db', exist_ok=True)
+with open(REGISTRO, 'w', newline='', encoding='utf-8') as fh:
+    w = csv.writer(fh); w.writerow(['id', 'documento_id', 'titolo'])
+    for (d, ti), i in sorted(registro.items(), key=lambda x: x[1]): w.writerow([i, d, ti])
+print('identificativi: %d dal registro, %d nuovi' % (len(notizie) - nuovi_id, nuovi_id))
 
 # ---- esito della seconda AI (prova T4) ------------------------------------
 # Lo schema prevede il campo `verifica_seconda_ai` e finora nessuno lo riempiva (rilievo C5). Qui si

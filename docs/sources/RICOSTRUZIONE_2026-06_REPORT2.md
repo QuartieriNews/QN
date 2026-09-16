@@ -15,9 +15,11 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
   che è il perimetro dello studio — e **415 registrazioni di sedute**, 97 dai canali YouTube dei
   Municipi e 318 da RomaTV. Alla data di questa bozza le registrazioni lette sono **226**.
 - Gli atti danno **628 notizie candidate**, le registrazioni **964** finora.
-- La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — non ha una risposta
-  sola. Ne ha tre, misurate: **32%** di novità certa con un toponimo affidabile, **48%** di novità
-  certa, fino al **97%** come limite superiore.
+- La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — ha una risposta, e
+  arriva tardi: **circa l'86%** delle notizie che nascono in una seduta non sta in nessun atto.
+  Il confronto meccanico da solo dava un intervallo largo, fra il 46% e il 92%; è un audit su
+  campione della classe incerta — l'unico modo di sapere da che parte stesse — a restringerlo. Con
+  la banda di confidenza di quell'audit la risposta sta **fra il 79% e l'89%**.
 - **107 verbali su 2.668 atti, in sette Municipi su quindici, dichiarano dentro il proprio testo
   che il record completo della seduta non è l'atto ma la registrazione** — con quattro formule di
   forza diversa, dalla più netta («la videoregistrazione sostituisce la trascrizione degli
@@ -37,19 +39,33 @@ Tre esiti:
 
 | | |
 |---|---|
-| **S** — nessun gemello fra le righe scritte | 463 |
-| **U** — nessun duplicato, ma almeno un accostamento dubbio | 472 |
-| **D** — almeno un duplicato certo | 29 |
+| **S** — nessun gemello fra le righe scritte | 470 |
+| **U** — nessun duplicato, ma almeno un accostamento dubbio | 473 |
+| **D** — almeno un duplicato certo | 76 |
+
+Da cui l'intervallo grezzo **[46,1% , 92,5%]**. Largo quarantasei punti, e per settimane ho creduto
+che la risposta stesse in basso.
+
+**Sta in alto, e lo si sa solo dopo averlo misurato.** Un lettore ha giudicato a mano 40 candidate
+della classe U, aprendo il testo integrale di ognuno dei 102 documenti accostati: **6 su 40 avevano
+davvero un gemello scritto, il 15,0%** (banda 95% [7,1% ; 29,1%]). Riportando quella proporzione
+sulle 473 candidate incerte, la novità reale è **85,6%**, fra **79,0%** e **89,2%** agli estremi
+della banda.
+
+Con una scoperta che vale quanto il numero: **tutti e sei i gemelli veri sono la registrazione
+scritta della stessa seduta** — cinque verbali e una deliberazione. Nessuno è una fonte indipendente.
+La classe incerta non nascondeva notizie già pubblicate altrove: nascondeva, in un caso su sei o
+sette, il verbale della riunione stessa.
 
 Da cui la scala:
 
-- **32,1%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
+- **32%** circa — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
   conservativo che sappiamo calcolare, e **non viene dallo stesso programma degli altri due**: lo
   calcola `report2/audit_toponimi.py` scartando le righe che poggiano su un toponimo dichiarato
   dubbio. Regge all'obiezione sulla trascrizione, non a tutte: se la deduplicazione sbaglia a non
   accostare, anche questo numero è alto.
-- **48,0%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
-- **97,0%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
+- **46,1%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
+- **92,5%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
 **Contro che cosa sono misurati, detto con precisione.** Non contro i soli atti: contro **tutte le
@@ -373,8 +389,8 @@ fattura.
    prima del confronto.
    Quanto pesi si può misurare, perché il testo integrale degli atti ce l'abbiamo: cercando ogni
    candidata data per nuova **dentro il testo** di un atto plausibile — stesso Municipio, tre giorni
-   di distanza, con il suo toponimo e una parola del titolo — se ne ritrovano **140 su 394, il
-   35,5%**. Una parola che compare in un atto non prova che sia lo stesso fatto: 35,5% è un **tetto**,
+   di distanza, con il suo toponimo e una parola del titolo — se ne ritrovano **144 su 391, il
+   36,8%**. Una parola che compare in un atto non prova che sia lo stesso fatto: 35,5% è un **tetto**,
    non una stima. Ma dice che il 5% misurato sul confronto fra righe è solo la parte visibile: quello
    è ciò che il confronto poteva vedere e non ha visto, questo è ciò che **per costruzione non
    poteva vedere**.
@@ -418,7 +434,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 
 | numero | programma |
 |---|---|
-| 48,0% e 97,0% (intervallo di novità) | `report2/novita_meccanica.py` |
+| 46,1% e 92,5% (intervallo grezzo di novità) | `report2/novita_meccanica.py` |
 | 32,1% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
 | dispersione fra lotti, 1,46 e 0,74 | `report2/varianza_lettori.py` |
 | 107 atti che rinviano alla registrazione | `report2/record_dichiarato.py` |
@@ -426,7 +442,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | collegamento registrazione-atto | `report2/collega_video_atti.py` |
 | tutte le tabelle del database | `report1/build_db.py` |
 | 25 concordi e 5 discordi della seconda AI | `report2/seconda_ai.js` |
-| 35,5% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
+| 36,8% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
 
 Quello che **non** è riproducibile da un programma sta nei §3 e §4: sono letture, non misure, e ogni
 caso porta l'identificativo dell'atto o della registrazione con il marcatore, così che chiunque
