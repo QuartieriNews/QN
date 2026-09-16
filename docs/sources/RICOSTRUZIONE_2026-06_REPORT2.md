@@ -1,7 +1,8 @@
 # Ricostruzione di giugno 2026 — Report 2: gli atti e le registrazioni
 
 Bozza in lavorazione. Gli atti sono letti per intero, le registrazioni per poco più di metà; **i conteggi qui dentro sono quelli al 16 settembre e vanno rigenerati prima della
-consegna** con `report1/build_db.py`, `report2/novita_meccanica.py` e `report2/audit_toponimi.py`.
+consegna** — `report1/build_db.py`, poi `report2/risposta.py`, `verifica_numeri_rapporto.py`,
+`audit_toponimi.py`, `copertura_testi_atti.py`, `motivo_non_alta.py`, `convenzione_organo.py`.
 I meccanismi descritti nei §3 e §4 ricorrono in tutti i lotti letti finora; quanto siano stabili
 è però un'impressione di lettura e non una misura, e come tale va presa.
 
@@ -28,7 +29,7 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
   arriva tardi: **circa l'84%** delle notizie che nascono in una seduta non sta in nessun atto.
   Il confronto meccanico da solo dava un intervallo largo, fra il 45% e il 92%; è un audit su
   campione della classe incerta — l'unico modo di sapere da che parte stesse — a restringerlo. Con
-  la banda di confidenza di quell'audit la risposta sta **fra il 79,5% e l'87,5%**.
+  la banda di confidenza di quell'audit la risposta sta **fra il 79,2% e l'87,0%**.
 - **107 verbali su 2.668 atti, in sette Municipi su quindici, dichiarano dentro il proprio testo
   che il record completo della seduta non è l'atto ma la registrazione** — con quattro formule di
   forza diversa, dalla più netta («la videoregistrazione sostituisce la trascrizione degli
@@ -281,13 +282,13 @@ In aula l'assessorato dichiara che la soprintendenza aveva chiesto di **bloccare
 variante e che il parere prescrittivo nelle aree tutelate era stato **negato**; il verbale di quella
 seduta scrive che l'incontro «ha consentito di chiarire i rispettivi ambiti di competenza».
 
-**E lo stesso organo si smentisce a due settimane di distanza.** L'8 giugno una commissione dichiara
+**A volte la smentita attraversa il tempo, e riguarda una notizia che avevamo già pubblicato.** L'8 giugno una commissione dichiara
 «concluso il giro degli sfalci nei parchi» — è una delle notizie che il Report 1 aveva già estratto —
 e il 22 giugno, nella stessa commissione, un commissario parla di «enorme ritardo, una giungla nei
 parchi». Senza la registrazione della seconda seduta, la prima resterebbe l'ultima parola.
 
-**E qualche volta le due fonti non si completano: si smentiscono.** In dodici registrazioni lette di
-seguito ce ne sono quattro casi. Il verbale di una commissione scuola scrive che il trasferimento
+**Il caso generale, però, è che le due fonti non si completino: si smentiscano.** In dodici
+registrazioni lette di seguito ce ne sono quattro casi. Il verbale di una commissione scuola scrive che il trasferimento
 temporaneo di alcune sezioni di una materna è stato revocato per «criticità organizzative, in
 particolare legate alla **mensa**»; due giorni dopo, in commissione trasparenza, l'assessora dice due
 volte che non si tratta di ragioni tecniche e che **«la mensa non c'entra niente»** — il trasferimento
@@ -303,15 +304,16 @@ Il caso inverso più netto è di un altro lotto, e ribalta la gerarchia: un verb
 un'ora precisa **la registrazione audio fu sospesa** per mancato consenso della funzionaria tecnica
 che stava per rispondere. Tutte le risposte di quel passaggio — le interlocuzioni con il gestore
 idrico, l'assenza di cedimenti, la verifica di allacci non autorizzati, il passaggio della
-manutenzione a una società in house — **esistono solo sulla carta**. È il quarto meccanismo che
-produce lo stesso buco, dopo la prassi, il consenso mancante e la norma: qui la registrazione si
-ferma su richiesta di chi parla, e il verbale è l'unica fonte.
+manutenzione a una società in house — **esistono solo sulla carta**. È il meccanismo del consenso
+mancante visto nella sua forma più netta: non microfoni spenti in una pausa, ma la registrazione
+fermata su richiesta di chi sta per rispondere — e lì il verbale non è una copia più povera, è
+l'unica.
 
 Nel senso opposto, in quelle stesse dodici, un caso solo: un verbale contiene un fatto che l'audio
 non ha («i terreni vanno ancora acquisiti»), e insieme **anonimizza** — dove la registrazione nomina
 l'agenzia capitolina che ha redatto il progetto, il verbale scrive «professionisti».
 
-**E il documento che viaggia può essere quello sbagliato.** Di uno stesso sopralluogo esistono due
+**Il documento che viaggia può essere quello sbagliato.** Di uno stesso sopralluogo esistono due
 documenti: una risoluzione scrive che la società ha versato il materiale prima della chiusura del
 cantiere e senza dispositivi antiodore, «per non mancare le scadenze del PNRR»; il verbale dello
 stesso sopralluogo — **già approvato** — scrive «si constata» dove il fatto era solo dichiarato, e
@@ -331,7 +333,7 @@ fotografie concordato con la società, che nella bozza letta in aula non c'era. 
 la versione ufficiale ometta sempre: è che ometta **senza che si possa saperlo**, se non
 confrontandola con la registrazione.
 
-**E nelle dodici successive il rapporto si rovescia: due volte ha ragione il parlato, quattro la
+**Nelle dodici successive il rapporto si rovescia: due volte ha ragione il parlato, quattro la
 carta.** Non è una smentita del capoverso precedente, è la sua condizione: in quel secondo gruppo
 **nove item su dodici hanno un verbale**, e dove il verbale c'è è lui a correggere — il toponimo
 storpiato dalla trascrizione, la risoluzione che in aula diventa «la scorsa settimana» e ha due
@@ -404,7 +406,7 @@ ipotizzata lì per lì, perché era diventata il punto su cui si decideva. E qua
 riassumere, **legge l'atto ad alta voce**, le cifre passano tutte intere. La perdita non è nella
 prova: è nella redazione del riassunto.
 
-**E sopra l'oggetto della seduta c'è un livello che conta di più: come quell'organo verbalizza.**
+**Sopra l'oggetto della seduta c'è un livello che conta di più: come quell'organo verbalizza.**
 Un lettore l'ha notato confrontando organi diversi — ce ne sono di quasi stenografici e ce ne sono i
 cui verbali dichiarano che «la videoregistrazione sostituisce la trascrizione degli interventi» —, e
 si può controllare sui dati: **dove i verbali pesano di più sugli atti di un Municipio, la novità del
@@ -416,7 +418,7 @@ convenzione di verbalizzazione dell'organo che stiamo ascoltando.** L'oggetto de
 differenze *dentro* uno stesso organo; la convenzione spiega quelle *fra* organi.
 (`report2/convenzione_organo.py`.)
 
-E c'è una perdita che nessuna delle due direzioni prevedeva: **i verbali cancellano i luoghi**. In
+C'è poi una perdita che nessuna delle due direzioni prevedeva: **i verbali cancellano i luoghi**. In
 una commissione sei verbali arretrati vengono letti a voce con il loro oggetto — una scala pubblica,
 un parco regionale, una villa comunale, una stazione — e nel verbale di quella seduta diventano sei
 date e sei numeri di protocollo. **Quattro di quei luoghi esistono solo nell'audio.** Per uno studio
@@ -535,7 +537,7 @@ emendamento dall'altro. Nessuno dei tre conteggi è sbagliato per sciatteria: **
 emendamenti è già un'interpretazione**, e un numero dentro un riassunto non è un dato solo perché è
 scritto in una tabella. Vale per il nostro foglio come per i verbali di cui parla questo capitolo.
 
-**E un difetto che è nostro, non della fonte.** La mascheratura automatica dei nomi di persona ha
+**Un difetto che è nostro, non della fonte.** La mascheratura automatica dei nomi di persona ha
 colpito **un toponimo**: l'oggetto di una mozione votata all'unanimità esce come `spostamento
 mercato *********`, e solo l'atto di Consiglio dice che quegli asterischi sono il nome di un
 quartiere. Senza il riscontro documentale quella candidata sarebbe stata scartata per «luogo
@@ -567,7 +569,7 @@ anche dove la fonte scrive l'identificativo, il testo può consegnarlo rotto. Qu
 quattro Municipi su quindici: è una buona prassi da nominare, non un meccanismo su cui una pipeline
 possa contare.
 
-**E il verbale sbaglia anche le cose che dovrebbe saper fare.** Su sei verbali confrontati con la
+**Il verbale sbaglia anche le cose che dovrebbe saper fare.** Su sei verbali confrontati con la
 registrazione, **due sbagliano l'orario di chiusura** — 13:47 contro le 10.07 reali, 14:14 contro le
 11.05 — cioè attribuiscono ore di lavori a sedute di mezz'ora. Chi misurasse la durata delle sedute
 sui verbali otterrebbe numeri privi di senso. Ma non è generale: su altri sette verbali, di un altro
@@ -592,7 +594,7 @@ senza ripetizione, senza silenzio e senza lacuna dichiarata. Un lettore ha anche
 costa** un ciclo: dove il modello entra in loop il blocco raddoppia, e il parlato reale che sparisce
 è pari al duplicato — 1.315 parole scritte dove ne erano state dette circa 600.
 
-**E la percentuale di testo duplicato non dice dove si perde.** Misurato su due registrazioni dello
+**La percentuale di testo duplicato non dice dove si perde.** Misurato su due registrazioni dello
 stesso lotto: a **8,5%** di testo duplicato mancano cinque commi di un regolamento — la lettura
 riprende dal quattordicesimo dopo essersi interrotta all'ottavo; a **44,8%** non manca niente,
 perché il presidente legge lo stesso articolo due volte, nelle premesse e nel dispositivo. La soglia
@@ -634,7 +636,7 @@ lavoro.
 | testo dentro blocchi duplicati | mediana 0,0%, mai sopra il 10% | mediana 0,5%, **39 registrazioni su 211 sopra il 10%, massimo 86,6%** |
 | comportamento nei silenzi | **inventa parole** | lascia il blocco vuoto |
 
-**E il difetto peggiore non è perdere, è inventare.** In un item la trascrizione riporta **nove
+**Il difetto peggiore, però, non è perdere: è inventare.** In un item la trascrizione riporta **nove
 «Favorevole» di fila** dove l'aula ha votato 2 favorevoli, 2 contrari e 2 astenuti, e il parere è
 stato **respinto**: chi leggesse la sola trascrizione registrerebbe l'opposto di quello che è
 successo, senza alcun segnale che qualcosa non torna. È il motivo per cui in questo studio un voto va
@@ -648,7 +650,7 @@ Il modello a pagamento **entra in loop** sulle registrazioni lunghe e silenziose
 frase ripetuta cento volte di fila, in un altro un blocco di 150 parole ripetuto undici volte, il
 47% del file. Dove succede, il conteggio delle parole e le parole al minuto non misurano nulla.
 
-**E sbaglia i numeri senza lasciare il segno che li ha sbagliati.** La stessa soglia della stessa
+**Sbaglia anche i numeri, senza lasciare il segno che li ha sbagliati.** La stessa soglia della stessa
 proposta capitolina, nello stesso Municipio, la stessa mattina, esce **«150 metri quadri»** in una
 commissione delle 10.35 e **«250 metri quadri»** in un'altra delle 11.34; gli atti danno 250, con tre
 riscontri indipendenti. Nessuna delle due trascrizioni è marcata come incerta — il modello a
