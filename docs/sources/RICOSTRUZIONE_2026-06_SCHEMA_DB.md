@@ -69,7 +69,7 @@ una riga appartiene sempre a un solo documento (l'unione fra documenti sta in `v
 | `id` | `N<progressivo a 4 cifre>` | no |
 | `documento_id` | `documenti.id` | no |
 | `fonte` | `fonti.codice`, ridondante per la lettura diretta | no |
-| `titolo` | ≤ 12 parole, senza nomi di persona (DEC-102) | no |
+| `titolo_anonimizzato` | ≤ 12 parole, senza nomi di persona (DEC-102) | no |
 | `sintesi` | ≤ 60 parole, senza nomi di persona | no |
 | `tipo` | delibera, mozione, risoluzione, ordine del giorno, interrogazione, sopralluogo, audizione, arresto, sequestro, incendio, incidente, controllo, evento, avviso, altro | no |
 | `luoghi` | toponimi citati, separati da `;`, come compaiono nel testo | sì |
@@ -102,7 +102,7 @@ Vicenda = insieme di notizie candidate che seguono lo stesso fatto nel tempo o f
 | Colonna | Contenuto | Vuoto |
 |---|---|---|
 | `id` | `V<progressivo a 3 cifre>` | no |
-| `titolo` | ≤ 12 parole, senza nomi di persona | no |
+| `titolo_anonimizzato` | ≤ 12 parole, senza nomi di persona | no |
 | `tipo` | come `notizie_candidate.tipo` | no |
 | `municipio`, `zona` | come sopra | sì |
 | `prima_pubblicazione`, `ultima_pubblicazione` | ISO | no |
@@ -188,3 +188,33 @@ Vicenda = insieme di notizie candidate che seguono lo stesso fatto nel tempo o f
 Prima dell'estrazione, controllo Codex C1 su questo documento (tabelle, regole di collegamento,
 regole di qualità) e sul manifesto della prima lettura. Dopo l'estrazione, controllo C2 su un
 campione del Report 1 secondo le quote di §4.3. Esiti in `reviews/`, costi nel ledger.
+
+
+## 1.6 `coppie_parlato_scritto.csv` — ogni accostamento fra una riga del parlato e una scritta
+
+Aggiunta il 16 settembre su rilievo del controllo C5: il numero principale del Report 2 si calcola da
+qui, e lasciarlo fuori dalle tabelle rendeva il database non autosufficiente. `gemello_id` ne ammette
+uno solo, mentre una riga può averne molti: quella colonna resta la catena della deduplicazione, e
+questa tabella è il confronto esaustivo.
+
+| colonna | valori | obbligatoria |
+|---|---|---|
+| `parlata` | `notizie_candidate.id` di una riga con fonte A3 o A4 | sì |
+| `scritta` | `notizie_candidate.id` di una riga di fonte scritta | sì |
+| `forza` | `forte` (tre criteri su tre) o `debole` (due su tre) | sì |
+| `criteri` | quali criteri hanno tenuto: `d` data, `l` luogo, `o` oggetto | sì |
+| `stesso_blocco` | sì/no: se le due righe stanno nello stesso blocco tematico | sì |
+
+## 1.7 `registro_id.csv` — l'identificativo di una notizia, e perché non è la sua posizione
+
+Aggiunta il 16 settembre. Fino a quel giorno `notizie_candidate.id` era la **posizione** della riga
+nella costruzione: aggiungere un lotto di atti, che entra in mezzo, faceva scorrere tutti gli
+identificativi delle registrazioni, e un audit in corso si è trovato a giudicare righe diverse da
+quelle che aveva davanti — con una collisione silenziosa, non un vuoto. Ora l'identificativo sta in
+questo registro, legato all'identità della riga.
+
+| colonna | valori | obbligatoria |
+|---|---|---|
+| `id` | `N` + quattro cifre, assegnato una volta sola | sì |
+| `documento_id` | il documento da cui la riga viene | sì |
+| `titolo` | il titolo della riga, che insieme al documento la identifica | sì |
