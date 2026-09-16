@@ -235,3 +235,14 @@ lettore ha dovuto fissare questa convenzione da solo perché la specifica non la
 dichiarata nel log: con la lettura larga — «datato» perché la seduta ha una data — le sue candidate
 di qualità alta sarebbero state venti invece di nove. Senza questa riga i lotti non sono
 confrontabili sul campo `qualita`, e la differenza è di un fattore due.
+
+## Emendamento del 16 settembre, nono
+
+Il manifest porta una colonna **`lacuna`**: quando è piena, quella registrazione ha un pezzo che non
+c'è, e la riga dice quale. Non è un difetto della trascrizione, è materiale che la fonte non ha
+servito. Chi legge un item con la lacuna dichiarata **non deve cercare quello che manca** — e deve
+riportarla in `qualita_trascrizione.note`, perché una seduta che si interrompe prima della fine può
+sembrare una seduta finita male.
+
+Finora ce n'è una: una registrazione a cui il CDN non serve l'ultimo segmento, 58 su 59 scaricati,
+circa dieci secondi in coda.

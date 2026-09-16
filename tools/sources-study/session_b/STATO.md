@@ -3769,3 +3769,16 @@ identificato al primo giro.
 candidate, il denominatore della novità è **sovrastimato di circa il 5%**. E i dodici testi che
 risultavano irrecuperabili **sono recuperabili**: sono item già scaricati salvati con un nome diverso
 dall'url, e con la regola giusta la copertura passa da 86 a **98 su 98**.
+
+## 96. La lacuna dichiarata nel manifest (2026-09-16 11:52Z)
+
+La registrazione di §85 — quella a cui il CDN non serve l'ultimo segmento — ha ora una colonna sua nel
+manifest: `lacuna`, con scritto che cosa manca e perché. Sopravvive alla rigenerazione perché la
+dichiarazione sta nel programma e non nel file.
+
+Sembra un dettaglio e non lo è: un lettore che non sa che mancano dieci secondi in coda **li cerca,
+non li trova, e non sa se è colpa sua**. Aggiunto anche alla specifica come nono emendamento, con
+l'istruzione di riportarla nelle note della trascrizione: una seduta che si interrompe prima della
+fine può sembrare una seduta finita male.
+
+Quell'item è `V3_316` e non è ancora stato letto — i lotti sono arrivati a V3_192.

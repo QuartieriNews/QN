@@ -11,7 +11,14 @@ V = NET + '/video'
 MAN = NET + '/report2/manifest_video_rtv.csv'
 CAMPI = ['item_id', 'fonte', 'video_id', 'territorio', 'organo', 'data_seduta', 'data_pubblicazione',
          'durata_hm', 'parole', 'quota_ripetuta', 'url', 'file', 'origine_trascrizione',
-         'grana_marcatore_s', 'confidenza_mediana', 'verbale_match', 'convocazione_match']
+         'grana_marcatore_s', 'confidenza_mediana', 'verbale_match', 'convocazione_match', 'lacuna']
+
+# Le lacune note di una registrazione si dichiarano riga per riga, e sopravvivono alla
+# rigenerazione perche' stanno qui e non nel file. Un lettore che non sa che mancano dieci secondi
+# in coda li cerca, e non li trova, e non sa se e' colpa sua.
+LACUNE = {
+    '41e7b841': 'ultimi ~10 secondi assenti: il CDN non serve l\'ultimo segmento (58 su 59 scaricati)',
+}
 GUID = re.compile(r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}')
 
 def chiave(video_id):
@@ -88,6 +95,7 @@ for t in sorted(os.listdir(V + '/rtv/txt')):
         # dichiarazioni della fonte. Il collegamento sta a fianco, in video_atti.csv.
         'verbale_match': (vecchia or {}).get('verbale_match', ''),
         'convocazione_match': (vecchia or {}).get('convocazione_match', ''),
+        'lacuna': LACUNE.get(k, ''),
     }
     righe.append(riga)
 
