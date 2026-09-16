@@ -627,6 +627,20 @@ il voto di una presidenza di commissione**, mentre la seduta si chiude dichiaran
 una seduta telematica due voti passano **in chat**, perché i microfoni non funzionano: lì una parte
 del verbale reale non è nell'audio, e nessuna colonna lo segnala.
 
+**E il caso che le mette tutte in fila.** In due registrazioni la linea cade proprio mentre parla una
+consigliera collegata da remoto: tre minuti e quaranta in una, cinque e quarantacinque nell'altra,
+e in mezzo **l'intera illustrazione di una risoluzione** che in nessun atto esiste, perché non è mai
+stata votata. Quelle due registrazioni hanno duplicazione **0,0%** e confidenza dichiarata **0,94**:
+le nostre metriche danno il punteggio più alto ai due item in cui manca il contenuto più importante.
+
+Una parte di questo si può però cercare a macchina, ed è il contributo migliore che un lettore abbia
+dato agli strumenti: **se l'ultimo marcatore di tempo è molto prima della durata dichiarata, la coda
+non è stata trascritta.** Sul corpus intero (`report2/code_perdute.py`): **undici registrazioni su
+381 finiscono almeno cinque minuti prima**, due almeno dieci — 70 e 18 minuti —, e **nessuna delle
+undici ha la colonna delle lacune compilata**. Non tutto lo scarto è perdita, perché una seduta può
+chiudere prima della fine del file; il controllo dice dove guardare, e le due grandi le avevano già
+trovate i lettori leggendo.
+
 **Tre difetti diversi, e la nostra colonna ne vede uno solo.** La quota di testo duplicato intercetta
 la ripetizione; non vede il **silenzio** (trentacinque minuti muti a quota 0,0, e una commissione che
 fa 87 parole al minuto contro 120-133 perché scorre allegati in silenzio) e non vede la **linea che
@@ -880,6 +894,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | 37,1% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
 | i doppioni di pubblicazione e quanto spostano l'intervallo | `report2/doppioni_documenti.py` |
 | la convenzione dell'organo contro la novità, r = −0,60 | `report2/convenzione_organo.py` |
+| le undici registrazioni che perdono la coda | `report2/code_perdute.py` |
 
 Alla consegna, `report2/congela_consegna.py` mette accanto al rapporto lo **stato che ha prodotto
 questi numeri**: i dati, i programmi che li calcolano, il commit del repository e un file di numeri

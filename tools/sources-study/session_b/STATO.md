@@ -4880,3 +4880,55 @@ vecchio.
 Nessun file caricato contiene righe del parlato: la cartella non ha ancora niente del Report 2.
 Confermato il piano: **una sola sessione di caricamento a lettura finita**, con i compatti rigenerati
 da `compatte.py`, e solo dopo il cestino delle tre parti di A1.
+
+## 122. V3_367–V3_242: un lettore propone un controllo meccanico, lo eseguo su tutto il corpus (2026-09-16 16:15Z)
+
+30 candidate, 8 `alta`, 23 nuove.
+
+### Il contributo migliore agli strumenti finora
+
+Il lettore ha trovato un item che dichiara 1:06 e finisce a `[47:29]` — diciotto minuti e mezzo non
+trascritti, `lacuna` vuota — e invece di fermarsi al caso ha proposto la regola: **se l'ultimo
+marcatore è molto prima della durata dichiarata, la coda non è stata trascritta.**
+
+Scritto `report2/code_perdute.py` e girato su tutte e 381 le registrazioni RomaTV:
+- **undici** hanno l'ultimo marcatore almeno **cinque** minuti prima della durata dichiarata (2,9%);
+- **due** almeno dieci: quella dei 70 minuti (il caso da 5h07 già noto) e questa dei 18 e mezzo;
+- **nessuna delle undici ha la colonna delle lacune compilata**;
+- una sola era già intercettata dalla soglia sulla ripetizione.
+
+**Il risultato è tranquillizzante, ed è il motivo per cui valeva la pena eseguirlo**: le due grandi
+le avevano già trovate i lettori leggendo, e non c'è una coda di casi nascosti. Lo scarto non è
+sempre perdita — una seduta può chiudere prima della fine del file — quindi il programma dice dove
+guardare, non quanti minuti sono persi. Nel rapporto §5 e in tabella al §7-bis.
+
+### Il caso che mette in fila tutti i difetti delle metriche
+
+In due registrazioni la linea cade **proprio mentre parla una consigliera collegata da remoto**: 3m41s
+e 5m45s, e in mezzo l'intera illustrazione di una risoluzione che in nessun atto esiste perché non è
+mai stata votata. Quelle due registrazioni hanno `quota_ripetuta` **0,0** e confidenza **0,94**:
+**le nostre metriche danno il punteggio più alto ai due item in cui manca il contenuto più
+importante.** Nel §5.
+
+### Altre due che il rapporto già dice, confermate con prova diretta
+
+- **Densità non è fedeltà**, ora con la prova pulita: due Municipi portano **la stessa clausola di
+  rinvio alla registrazione**; quello che scrive in prosa riscritta conserva **zero** cifre e un
+  toponimo, quello che scrive a elenco telegrafico le conserva **tutte**.
+- **Il caso inverso più netto del corpus**: l'aula vota «gli spazi della rampa per l'istituto
+  comprensivo» e l'atto dice sgombero dei reperti dal quinto piano e assegnazione al liceo. **Tutto
+  ciò che rende quella notizia una notizia sta sulla carta.**
+
+### Un limite del settimo emendamento, dichiarato dal lettore e da tenere
+
+Forzando «osservazione individuale non verificata» e «fatto riferito di seconda mano» sul motivo
+`data`, **il conteggio dei «solo per la data» risulta gonfiato**. Serve un quinto motivo, `riferito`.
+Non tocco la specifica (§101): va nella nota per chi rifarà lo studio, e il §7 punto 1 già dichiara
+che quel campo non è una serie omogenea.
+
+### Manifest, di nuovo nei due sensi
+
+Tre item sono **una sola seduta** (il lettore l'ha dimostrato ricostruendo dall'atto i tre appelli
+delle 10.33, 10.55 e 11.24 — e il secondo nel corpus manca); due item dello stesso giorno sono invece
+sedute distinte. E una convocazione **datata 24/06 per protocollo convoca per il 30/06**: appaiare per
+data produce falsi positivi, ed è ora nei mandati.
