@@ -1136,3 +1136,62 @@ atto non può declassare una notizia del Report 1. È il solo effetto della rego
 3. **35 sintesi superano le 60 parole e 17 titoli le 12** che lo schema prescrive. Non le ho
    troncate: un taglio a metà frase è un danno peggiore di un limite superato, e la lezione di §29
    vale anche qui. Sono contate e dichiarate.
+
+## 41. Tutti e 1.983 gli atti letti, e un esperimento naturale sui lettori (16 settembre, 07:20)
+
+Lotti B34–B36 rientrati e lotti B37–B40 scritti: **1.983 atti su 1.983, nessuno saltato,
+544 candidate (27,4%)**. Il database sta a **2.968 documenti, 1.771 candidate, 311 vicende** (58
+nate solo dagli atti), resa netta **1.266–1.700**.
+
+**La quota dipende dal tipo di atto, non dalla soglia**, e ora si può misurare invece di dirlo:
+
+| sigla | che cos'è | atti | quota |
+|---|---|---|---|
+| `MMV` | verbali di commissione municipale | 312 | **46%** |
+| `CMR` | risoluzioni di Consiglio municipale | 30 | 40% |
+| `MMC` | convocazioni di commissione | 386 | 24% |
+| `DDS` | determinazioni di traffico | 682 | 23% |
+| `DMS` | determinazioni municipali | 131 | 21% |
+| `CPC` | convocazioni di commissione capitolina | 76 | 17% |
+| `AY` | ordini del giorno dell'Assemblea | 60 | 8% |
+| `CMC` | convocazioni di Consiglio municipale | 47 | **4%** |
+
+Fra il 4% delle convocazioni di Consiglio e il 46% dei verbali ci sono 42 punti, e non è una
+differenza di lettore: una convocazione annuncia una seduta, un verbale dice che cosa vi è
+successo. Chi misura «quante notizie contengono gli atti di Roma» senza dire *quali* atti ha letto
+non sta misurando niente.
+
+**L'esperimento naturale.** La specifica non aveva una regola per i verbali `MMV` — come non
+l'aveva per le convocazioni. Stavolta però **due lettori diversi ci sono arrivati
+indipendentemente**, senza che io passassi niente dall'uno all'altro: B34–B36 ha prodotto 46%, 54%,
+50%; B37–B39 ha prodotto 38%, 40%, 44%. Media 50% contro 40,7%.
+
+Questo è il numero che mancava allo studio: **lo scarto fra due lettori sullo stesso tipo di atto
+è di circa 9 punti**, mentre lo scarto fra tipi di atto è di 42. La composizione conta quattro
+volte più del lettore — ma il lettore non conta zero, e la forbice del rapporto deve dirlo. Qui
+**non ho imposto un criterio comune a posteriori**: rileggere per uniformare avrebbe distrutto
+l'unica misura indipendente che ho della variabilità fra lettori. Il prezzo è che i verbali sono
+letti con due soglie leggermente diverse, e lo dichiaro.
+
+**Il lettore ha omesso più di quanto l'owner abbia deciso, e va rimesso a posto.** Oltre ai civici
+ha tolto **i nomi degli artisti in cartellone** e **i nomi delle persone commemorate nelle
+intitolazioni**. Le decisioni D1 e D3 dicono l'opposto: il nome dentro un toponimo, un locale o
+un'opera resta, e una dedica o una commemorazione conserva il nome, perché è il fatto. È una
+perdita di precisione dichiarata dal lettore stesso — da segnare fra i limiti del Report 2, non da
+correggere a mano riga per riga senza rileggere gli atti.
+
+**Quello che la fonte fa a chi ci finisce dentro.** Un verbale di Commissione Pari Opportunità
+nomina per esteso la persona audita, un suo familiare, il titolo del libro che identifica
+entrambi e l'esito giudiziario a carico del familiare, dentro il racconto di una violenza
+domestica. Un altro riporta la condizione di salute di un alunno di una classe individuata in una
+scuola nominata. Tre verbali scrivono «Omissis» per una persona e poi la descrivono in modo che
+l'omissis non serva a niente («titolare di un asilo nido in prossimità dell'area verde»). Nulla di
+tutto questo è nelle colonne. Ma è pubblicato, e il rapporto deve dirlo: **la fonte non protegge
+le persone che nomina, e chi la riusa eredita il problema.**
+
+**Difetti di forma, invariati per volume.** 73 atti su 150 con testo incerto nei soli B34–B36, di
+cui **20 senza marcatore OCR e tutti e venti del Municipio XII**: in tre lotti non c'è un solo
+verbale di quel municipio con lo strato di testo integro. Timbri datati 2025 e 2028 su atti del
+2026; una seduta aperta alle 14,00 e chiusa alle 11.33; «con tre (4) voti favorevoli»; elenchi di
+voto che comprendono chi non risulta presente; due verbali distinti della stessa commissione per
+lo stesso giorno, con segretari e ordini del giorno diversi, lasciati separati.
