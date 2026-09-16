@@ -3846,3 +3846,28 @@ scritta bene e ora sta lì, dove la trova il terzo.
 due misure distavano un punto; ora ne distano nove. La differenza **cresce con il corpus**, perché
 più righe scritte entrano e più la catena ne consuma prima del confronto. Se avessi tenuto la misura
 vecchia, l'errore sarebbe aumentato lotto dopo lotto mentre i numeri sembravano solo «assestarsi».
+
+## 100. Il motivo per cui una candidata non arriva ad alta, contato su tutto il corpus (2026-09-16 11:58Z)
+
+`report2/motivo_non_alta.py`, così il conto si rifà invece di citare tre lotti a memoria.
+
+Su **153 candidate** che dichiarano il motivo (661 vengono da lotti letti prima dell'emendamento e
+**non si contano**, non si indovinano):
+
+| motivo | quante |
+|---|---|
+| **data** | **74** (48%) |
+| trascrizione | 31 |
+| non compiuto | 23 |
+| luogo | 13 |
+| più di un motivo | 12 |
+
+**Settantaquattro candidate su centocinquantatré mancano l'alta solo perché manca il quando**, e di
+quelle **sessanta — l'81% — sono notizie nuove**, contro il 14% di confermate.
+
+È la conferma su corpus della diagnosi che veniva da un lotto solo: la nostra scala chiede una data,
+e la data in aula la porta quasi sempre l'atto che qualcuno sta leggendo. Il requisito «datato»
+**seleziona i fatti che hanno un atto**, e il divario di qualità fra nuove e confermate lo misura in
+buona parte da sé.
+
+Il rapporto ora porta questi numeri invece di quelli di un lotto.

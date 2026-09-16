@@ -149,10 +149,11 @@ il **53,3%** è di qualità alta, fra quelle nuove il **19,0%**. Trentaquattro p
 
 **Ma gran parte di quel divario la produciamo noi, ed è stato misurato.** La nostra scala assegna
 `alta` solo a un fatto *datato*; il parlato d'aula dice «l'anno scorso», «da vent'anni», «tre
-settimane fa». Su un lotto contato riga per riga, **21 candidate su 43 — il 64% di quelle che non
-arrivano ad alta — mancano l'alta esclusivamente per la data**: sono compiute e localizzate. E
-**diciotto di quelle ventuno sono notizie nuove**. Se la data non fosse richiesta, in quel lotto le
-nuove passerebbero dal 16,7% al 76,7% di qualità alta, **superando le confermate**.
+settimane fa». Contato riga per riga su tutte le candidate che dichiarano il motivo — 153 —, **74 mancano l'alta
+esclusivamente per la data**: sono compiute e localizzate, il 48% di quelle che non ci arrivano. E
+**sessanta di quelle settantaquattro, l'81%, sono notizie nuove**. Su uno dei lotti, se la data non
+fosse richiesta, le nuove passerebbero dal 16,7% al 76,7% di qualità alta, **superando le
+confermate**.
 
 Il motivo è che a datare un fatto, in aula, è quasi sempre **l'atto che qualcuno sta leggendo**: il
 lettore dichiara di aver preso le date dal verbale, non dall'audio. Il requisito «datato» funziona
