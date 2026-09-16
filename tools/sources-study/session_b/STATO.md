@@ -1241,3 +1241,40 @@ un solo voto contrario; due elencano meno cognomi dei voti dichiarati. E in un v
 direzione municipale attribuisce un'area giochi al dipartimento e il dipartimento al municipio,
 mentre l'area resta pericolosa: la contraddizione non è formale, è la ragione per cui non ci
 mette mano nessuno.
+
+## 43. Le registrazioni: 97 sedute in finestra, e un indicatore di qualità che vale zero (16 settembre, 06:45)
+
+*(Nota sulle ore: i §§41 e 42 portano un orario di Roma sbagliato di una quarantina di minuti,
+scritto a occhio invece che letto. Da qui in avanti è preso dall'orologio.)*
+
+Chiusa la lettura degli atti, la seconda metà del Report 2 sono le registrazioni. Stato:
+
+- **130 didascalie YouTube convertite in testo** con i marcatori a **10 secondi** che il metodo
+  chiede per il lotto A (`caps_to_text.py`): 128,6 ore, 769.226 parole. Incrociate con il
+  censimento e ristrette alla finestra 8–28 giugno restano **97 sedute, 607.627 parole**, in
+  `report2/manifest_video.csv`. Le 33 fuori finestra restano disponibili ma non entrano nel
+  rapporto.
+- **Trascrizioni della piattaforma RomaTV**: 50 delle 82 scaricate, il resto in corso.
+- **Trascrizione a pagamento delle commissioni RomaTV**: 77 registrazioni, 55,6 ore, 8,02 €.
+
+**L'indicatore di qualità di YouTube è inservibile, e va detto.** Il formato `json3` porta un campo
+di confidenza per parola (`acAsrConf`). Su 129 video su 130 la mediana è **0,000** — e guardando
+dentro il primo file il campo c'è su tutti e 1.245 i segmenti e vale **zero su tutti**. Non è
+«bassa confidenza»: è un campo compilato a zero. Chi lo usasse come filtro scarterebbe tutto, chi
+lo usasse come soglia non filtrerebbe niente. È lo stesso schema del marcatore OCR negli atti: il
+marcatore non dice la verità sul testo, quindi **si giudica il testo**. Le trascrizioni RomaTV, al
+contrario, portano confidenze vere (media 0,84–0,87 sui primi campioni).
+
+**La specifica di lettura** è `report2/SPECIFICA_VIDEO.md`, derivata dallo schema del lotto A con
+tre aggiunte: marcatori a 10 secondi; **ogni candidata deve portare almeno un `[mm:ss]`**, perché
+senza il punto della registrazione non è verificabile; e il campo
+`novita_rispetto_agli_atti` — `solo dal parlato` / `anche negli atti` / `non verificabile` — che è
+la domanda per cui il Report 2 esiste: che cosa si sente in aula e non sta scritto da nessuna
+parte. Il controllo si fa sui materiali locali, senza rete.
+
+Una regola in più rispetto agli atti, perché un'aula non è un fascicolo: **il parlato personale che
+attraversa una seduta — liti, stati di salute, vicende private citate da chi interviene — non entra
+nei file nemmeno in forma anonimizzata**, a meno che non sia esso stesso l'oggetto di una decisione
+dell'organo. Negli atti il problema era la fonte che pubblica troppo; qui è il microfono acceso.
+
+Avviati i primi due lotti di lettura (V4_001–V4_024).
