@@ -447,9 +447,11 @@ fattura.
    non una stima. Ma dice che il 5% misurato sul confronto fra righe è solo la parte visibile: quello
    è ciò che il confronto poteva vedere e non ha visto, questo è ciò che **per costruzione non
    poteva vedere**.
-9. **L'unità di misura della dispersione fra lotti** (§7.1) confronta due gruppi che differiscono
+9. **Il denominatore contiene cinque righe di troppo** — lo 0,5% —, perché una seduta è stata
+   pubblicata due volte e le sue notizie sono state estratte due volte. È l'unico caso nel corpus.
+10. **L'unità di misura della dispersione fra lotti** (§7.1) confronta due gruppi che differiscono
    per la regola di lettura *e* per il corpus: il segnale c'è, la separazione delle due cause no.
-10. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota
+11. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota
    alta di candidate «compiute, datate e localizzate» che restano senza gemello anche estendendo il
    corpus ai mesi vicini; nessuna differenza di qualità fra candidate nuove e confermate, o una
    differenza di segno opposto; molti casi «residuali» che si scoprono già formalizzati in atti
