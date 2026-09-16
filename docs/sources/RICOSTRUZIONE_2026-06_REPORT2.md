@@ -149,7 +149,7 @@ quindi come **un test sull'esistenza dell'atto travestito da test sul fatto**.
 Resta un divario vero sotto quello artificiale, e va detto: delle dodici candidate che mancano l'alta
 per altri motivi, dieci la mancano perché il fatto è **annunciato e non compiuto**, o il toponimo è
 storpiato. **Il parlato d'aula annuncia più di quanto certifichi** — ma molto meno di quanto il
-19,5% lasciasse credere.
+19,0% lasciasse credere.
 
 Il perché è un effetto di selezione, e non riguarda la qualità del parlato. Un fatto compiuto,
 datato e localizzato **tende per costruzione a generare un atto**; e appena lo genera esce dalla
@@ -429,7 +429,7 @@ fattura.
    Quanto pesi si può misurare, perché il testo integrale degli atti ce l'abbiamo: cercando ogni
    candidata data per nuova **dentro il testo** di un atto plausibile — stesso Municipio, tre giorni
    di distanza, con il suo toponimo e una parola del titolo — se ne ritrovano **144 su 391, il
-   36,8%**. Una parola che compare in un atto non prova che sia lo stesso fatto: 35,5% è un **tetto**,
+   36,8%**. Una parola che compare in un atto non prova che sia lo stesso fatto: 36,8% è un **tetto**,
    non una stima. Ma dice che il 5% misurato sul confronto fra righe è solo la parte visibile: quello
    è ciò che il confronto poteva vedere e non ha visto, questo è ciò che **per costruzione non
    poteva vedere**.
