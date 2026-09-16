@@ -92,3 +92,32 @@ Il Report 2 deve dire che cosa gli atti aggiungono al Report 1. Perciò, in
   lettera, come prima azione. Se non è Claude Opus 5, fermati e riferiscilo.
 - `log/<lotto>_problemi.md`: OCR illeggibili, contraddizioni, atti saltati e perché, forzature.
 - Messaggio finale: atti letti, notizie candidate, tempo, problemi. Nient'altro.
+
+## Emendamento del 16 settembre: le convocazioni di commissione (MMC)
+
+I primi 27 lotti non contengono nessun atto `MMC`. La regola generale — «una convocazione senza
+ordine del giorno significativo non è notizia» — lascia aperto il caso opposto e non bastava. Il
+criterio qui sotto è stato fissato leggendo B28–B30 e da qui in avanti **vale identico su tutti i
+lotti che contengono MMC**; i lotti B28, B29 e B30 lo applicano già.
+
+**`sì` se l'ordine del giorno nomina un luogo, un'opera, un impianto o una struttura del
+territorio e la seduta verte su che cosa vi accade.** Rientrano i sopralluoghi fissati dalla
+convocazione stessa, le audizioni di comitati e operatori su un luogo nominato, le votazioni su
+interventi in strade nominate, gli esami di delibere e risoluzioni che nominano un bene.
+
+**`no` in tutti gli altri casi**, in particolare:
+
+- pareri e audizioni su regolamenti o proposte capitoline che non nominano alcun luogo;
+- ordini del giorno di organizzazione interna dell'organo (programmazione dei lavori, uso degli
+  spazi, approvazione di verbali, osservatori);
+- temi generali senza luogo, comprese le formule collettive come «negli istituti comprensivi del
+  territorio» o «sulle aree parco del Municipio»: nominarle tutte equivale a non nominarne nessuna;
+- annullamenti e posticipi di convocazione, che incidono solo sul funzionamento dell'organo;
+- atti-evento, per la regola 6, anche quando nominano il luogo, se non chiudono un'area al transito;
+- ordini del giorno non leggibili o privi di oggetto.
+
+Un **titolo di progetto non è un luogo**: «Spazi a colori», «Abitare la Bellezza», «Chiedi se c'è
+Angela» restano `no`; «polo scolastico ex Residence» è `sì` perché nomina una struttura.
+
+`qualita` non supera mai `media`, perché una convocazione annuncia; scende a `bassa` dove la data
+o l'ordine del giorno non sono leggibili.
