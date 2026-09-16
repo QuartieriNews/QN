@@ -2121,7 +2121,7 @@ Terza volta in questa sessione che una mia misura smentisce chi ha letto il mate
 è quella sbagliata (§56, §60, questa). La regola di §60 ha retto: ho ricontrollato prima di
 pubblicare il risultato negativo. Ma l'avevo già scritto una volta, come risultato.
 
-## 63. Quanto costa cambiare la regola sotto i lettori (2026-09-16 08:47Z)
+## 63. Quanto costa cambiare la regola sotto i lettori (2026-09-16 08:19Z)
 
 Il C3 dice (§3.3) che i lotti letti con definizioni diverse non sono confrontabili su
 `novita_rispetto_agli_atti`, e chiede la ricodifica ex-post. Prima di ricodificare ho misurato
@@ -2150,3 +2150,6 @@ Da tenere fermo: **non è una misura della variabilità fra LLM**. È la misura 
 cambiare il contratto mentre il lavoro è in corso, ed è un costo che ho creato io emendando la
 specifica tre volte. La regola «non si modifica mentre un lotto è in lettura» era scritta nella
 specifica dalla prima riga; l'ho rispettata sul singolo lotto e violata sulla serie.
+
+*(Timestamp corretto: avevo scritto 08:47Z a occhio invece di leggerlo dall'orologio, che diceva
+08:19Z. Stessa svista già annotata in questa sessione; l'orologio si legge, non si stima.)*
