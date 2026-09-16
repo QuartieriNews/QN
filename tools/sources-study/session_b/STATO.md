@@ -3783,7 +3783,7 @@ fine può sembrare una seduta finita male.
 
 Quell'item è `V3_316` e non è ancora stato letto — i lotti sono arrivati a V3_192.
 
-## 97. Il denominatore è gonfio dello 0,5%, non del 5% (2026-09-16 11:51Z)
+## 97. Il denominatore è gonfio dello 0,5%, non del 5% (2026-09-16 11:49Z)
 
 Il secondo revisore ha trovato tre doppioni del parlato oltre a quelli noti e ne ha tratto: «quattro
 doppioni su 77 candidate, il denominatore della novità è sovrastimato di circa il 5%».
