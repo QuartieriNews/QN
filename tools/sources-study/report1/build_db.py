@@ -128,6 +128,123 @@ loc_t = collections.Counter(n['tier_localizzazione'] for n in notizie)
 print('localizzazione:', dict(loc_t))
 print('con Municipio:', sum(1 for n in notizie if n['municipio']), '| toponimo da verificare:', sum(1 for n in notizie if n['toponimo_da_verificare'] == 'sì'))
 
+# ---- Report 2: gli atti (fonte A2) ----------------------------------------
+# Gli atti entrano nelle stesse cinque tabelle e passano per la stessa deduplicazione: il
+# Report 2 non ha un database suo. Una regola di confronto tenuta in due copie diverge, e la
+# domanda che il Report 2 deve poter rispondere — quali notizie gli atti aggiungono a quelle
+# del Report 1 — si risponde solo se le due metà stanno nello stesso confronto.
+R2 = S + '/report2'
+ocr_a2 = corrotti_a2 = 0
+
+# Il codice di tipologia della fonte non e' documentato: questa mappa e' ricavata leggendo un
+# atto per ciascun codice (organo emittente e oggetto), non dedotta dalla sigla. I codici per
+# cui nessun lotto ha ancora fornito un esempio finiscono in 'altro' e vengono stampati.
+TIPO_ATTO = {
+    'ACD': 'delibera', 'CMD': 'delibera', 'GCD': 'delibera', 'GMD': 'delibera', 'MCD': 'delibera',
+    'OCD': 'delibera', 'CID': 'delibera',
+    'AY': 'ordine del giorno', 'CMY': 'ordine del giorno',
+    'CMC': 'ordine del giorno', 'CPC': 'ordine del giorno', 'MMC': 'ordine del giorno',
+    'AZ': 'mozione', 'CMZ': 'mozione', 'CMR': 'risoluzione',
+    'CMV': 'altro', 'CPV': 'altro', 'GMV': 'altro', 'MMV': 'altro',
+    'GCM': 'altro', 'GMM': 'altro', 'GMT': 'altro', 'DMS': 'altro',
+    'DDS': 'avviso',
+}
+
+def formato_atto(v):
+    """I lettori hanno scritto il formato a parole, non con l'enum: otto formulazioni per due casi."""
+    v = (v or '').lower()
+    return 'PDF scansione' if ('ocr' in v or 'scansion' in v) else 'PDF testo'
+
+def esito_atto(v):
+    v = (v or '').lower()
+    if not v or 'illeggibile' in v or 'non leggibile' in v or 'vuoto' in v: return 'fallito'
+    if 'parzial' in v or 'in parte' in v: return 'parziale'
+    return 'completo'
+
+def sn(v):
+    return 'sì' if (v or '').strip().lower() in ('sì', 'si', 'true', '1') else 'no'
+
+def iso_it(v):
+    m = re.match(r'(\d{2})/(\d{2})/(\d{4})', (v or '').strip())
+    return f'{m.group(3)}-{m.group(2)}-{m.group(1)}' if m else ''
+
+if os.path.isdir(R2 + '/out'):
+    man2 = list(csv.DictReader(open(R2 + '/manifest_report2.csv', encoding='utf-8')))
+    meta_atto = {r['name']: r for r in man2}
+    # L'identificativo segue l'ordine del manifest, non quello dei lotti: cosi' non cambia
+    # quando un lotto viene riletto.
+    id_atto = {r['name']: f'A2_{k:04d}' for k, r in enumerate(man2, 1)}
+
+    letti2 = {}
+    for f in sorted(glob.glob(R2 + '/out/B*_atti.csv')):
+        lotto = os.path.basename(f)[:3]
+        for r in csv.DictReader(open(f, encoding='utf-8')):
+            letti2[r['name']] = (lotto, r)     # una rilettura successiva sostituisce la precedente
+
+    sconosciuti = collections.Counter()
+    n_r1 = len(notizie)
+    for name in sorted(letti2, key=lambda x: id_atto.get(x, '')):
+        lotto, r = letti2[name]
+        meta = meta_atto.get(name)
+        if not meta:
+            print('ATTO SENZA MANIFEST', name); continue
+        did = id_atto[name]
+        tipo = TIPO_ATTO.get(meta['tipologia'])
+        if tipo is None:
+            tipo = 'altro'; sconosciuti[meta['tipologia']] += 1
+        fmt = formato_atto(r.get('formato'))
+        incerto = sn(r.get('ocr_incerto'))
+        if incerto == 'sì':
+            ocr_a2 += 1
+            if fmt != 'PDF scansione': corrotti_a2 += 1
+        documenti[did] = {
+            'id': did, 'fonte': 'A2', 'tipo': 'atto', 'url': meta['url'],
+            'data_pubblicazione': iso_it(meta['data']), 'timestamp_pubblicazione': '',
+            'data_evento_inizio': '', 'data_evento_fine': '',
+            'titolo_anonimizzato': r.get('oggetto_sintetico', ''),
+            'municipi_meta': meta['municipio'] if meta['municipio'] != 'non indicato' else '',
+            'tematica': meta['tipologia'], 'caratteri': meta.get('caratteri', ''),
+            'formato_item': fmt, 'metodo_estrazione': 'OCR' if fmt == 'PDF scansione' else 'nativo',
+            'ocr_incerto': incerto, 'trascrizione_incerta': '',
+            'esito_lettura': esito_atto(r.get('esito_testo')), 'settimana': meta.get('settimana', ''),
+            'report_origine': '2', 'letto_da': lotto,
+        }
+        if r.get('notizia_candidata', '').strip().lower() not in ('sì', 'si'): continue
+        # Il Municipio del manifest e' il valore autorevole (regola 11 della specifica atti):
+        # il gazetteer qui non lo sostituisce, aggiunge soltanto la zona.
+        loc = geo.localise(' '.join([r.get('luoghi', ''), r.get('titolo_candidato', ''),
+                                     r.get('oggetto_sintetico', '')]))
+        mun = norm_mun(meta['municipio'])
+        zona = loc.get('zona') or ''
+        tier = loc.get('tier') or ''
+        if not tier: tier = 'meta' if mun else 'assente'
+        data_fatto = iso_it(r.get('data_repertorio')) or iso_it(meta['data'])
+        notizie.append({
+            'id': '', 'documento_id': did, 'fonte': 'A2',
+            'titolo_anonimizzato': r.get('titolo_candidato', ''), 'sintesi': r.get('contenuto', ''),
+            'tipo': tipo, 'luoghi': r.get('luoghi', ''), 'municipio': ';'.join(mun),
+            'zona': zona, 'tier_localizzazione': tier,
+            'toponimo_da_verificare': 'sì' if (r.get('luoghi', '').strip() and not zona and not mun) else 'no',
+            'evidenza_url': meta['url'], 'evidenza_locale': r.get('evidenza_pagina', ''),
+            'data_fatto': data_fatto, 'data_pubblicazione': iso_it(meta['data']),
+            'disponibilita': '', 'qualita': (r.get('qualita') or 'media').strip(),
+            'dedup_stato': 'unica', 'gemello_id': '', 'ragione_dedup': '', 'prima_fonte': 'sì',
+            'vicenda_id': '', 'integra_gemello_id': '', 'campi_integrati': '',
+            'settimana': meta.get('settimana', ''), 'report_origine': '2',
+            'verifica_seconda_ai': 'non eseguita', 'municipio_testo': '',
+            'note': r.get('coerenza_organo_territorio_o_nota', ''),
+        })
+    # Gli identificativi del Report 1 non si rinumerano: il rapporto gia' consegnato li cita.
+    for k, n in enumerate(notizie[n_r1:], n_r1 + 1): n['id'] = f'N{k:04d}'
+    print(f'atti letti: {len(letti2)} di {len(man2)} nel manifest; '
+          f'candidate dagli atti: {len(notizie) - n_r1}')
+    if sconosciuti:
+        print('  tipologie senza un esempio letto, portate a "altro":', dict(sconosciuti))
+    lunghe = sum(1 for n in notizie[n_r1:] if len(n['sintesi'].split()) > 60)
+    titoloni = sum(1 for n in notizie[n_r1:] if len(n['titolo_anonimizzato'].split()) > 12)
+    print(f'  fuori schema, lasciate intatte: {lunghe} sintesi oltre 60 parole, '
+          f'{titoloni} titoli oltre 12 parole')
+
 # ---- deduplicazione (metodo §4.1, schema §2 regola 2) ----------------------
 # Three conditions, in order: (a) date within +/-1 day, (b) place, (c) object. (a)+(b) without (c)
 # is a doubt, never a merge: the yield is then reported as a range.
@@ -140,8 +257,21 @@ def giorno(n):
     try: return datetime.date.fromisoformat(d[:10])
     except (ValueError, TypeError): return None
 
+# Two strings that look like toponyms are not places the news is *about*, and letting them
+# through defeats the Municipio safeguard below by pretending to be a finer match:
+#   - the name of the Municipio itself ("Municipio Roma XII"), which is the organ, not a place;
+#   - the room the organ sits in ("Sala …", "Aula …", "Sede …"), which is where the meeting
+#     happens, not what it is about.
+# Both arrived with the acts, where every convocation carries them, and they were pairing
+# unrelated sittings of the same body on the same day.
+SEDE = re.compile(r'^(sala|aula|sede|ufficio|sportello)\b')
 def toponimi(n):
-    return {geo.norm(t) for t in re.split(r'[;,]', n['luoghi']) if len(geo.norm(t)) > 3}
+    out = set()
+    for t in re.split(r'[;,]', n['luoghi']):
+        t = geo.norm(t)
+        if len(t) <= 3 or 'municipio' in t or SEDE.match(t): continue
+        out.add(t)
+    return out
 
 def stesso_luogo(a, b):
     """Method §4.1 condition (b): same normalised toponym, or same Municipio *only when neither
@@ -225,6 +355,13 @@ for n in notizie:
     v['ultima_pubblicazione'] = max(v['ultima_pubblicazione'], n['data_pubblicazione'] or '')
     v['confidenza'] = 'alta' if n['dedup_stato'] == 'duplicato' else 'bassa'
 
+# Una vicenda e' "solo Report 2" quando nessuna delle notizie che la compongono viene dal
+# Report 1: e' la colonna che dice quali storie gli atti hanno portato e le fonti testuali no.
+for v in vicende:
+    origini = {n['report_origine'] for n in notizie if n['vicenda_id'] == v['id']}
+    v['solo_report2'] = 'sì' if origini == {'2'} else 'no'
+print('vicende solo dagli atti:', sum(1 for v in vicende if v['solo_report2'] == 'sì'), 'su', len(vicende))
+
 # ---- territori -------------------------------------------------------------
 territori = {}
 for n in notizie:
@@ -247,6 +384,7 @@ def scrivi(nome, righe, campi):
 
 ANAGRAFE = {
     'A1': ('Avvisi e notizie dei Municipi', 'Roma Capitale — Municipi I–XV', 'https://www.comune.roma.it/web/it/municipio-<n>.page'),
+    'A2': ('Atti degli organi capitolini e municipali', 'Roma Capitale — Albo Pretorio / Atti Web', 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/'),
     'C1': ('Comunicati della Questura di Roma', 'Polizia di Stato — Questura di Roma', 'https://questure.poliziadistato.it/it/Roma'),
     'C2': ('Comunicati stampa dei Carabinieri', 'Arma dei Carabinieri', 'https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa'),
     'C4': ('Notizie del Comando dei Vigili del fuoco di Roma', 'Corpo nazionale dei Vigili del fuoco', 'https://www.vigilfuoco.it/comando-vvf-roma/notizie'),
@@ -261,10 +399,14 @@ for cod in ORDINE_FONTI:
     nome, ente, elenco = ANAGRAFE[cod]
     fonti.append({'codice': cod, 'nome': nome, 'blocco': BLOCCO[cod], 'ente': ente, 'url_elenco': elenco,
                   'base_url': 'https://www.comune.roma.it/web/it/' if cod == 'E3' else '',
-                  'formato': 'HTML', 'item_giugno': len(docs), 'paginazione_completa': 'sì',
-                  'data_lettura': '2026-09-15', 'report': '1',
+                  'formato': 'PDF' if cod == 'A2' else 'HTML', 'item_giugno': len(docs),
+                  'paginazione_completa': 'sì',
+                  'data_lettura': '2026-09-16' if cod == 'A2' else '2026-09-15',
+                  'report': '2' if cod == 'A2' else '1',
                   'note': ('67 item su 79 rispondono con la pagina di blocco "Accesso negato" (HTTP 200): testo non disponibile' if cod == 'C1'
                            else 'l\'URL del singolo comunicato rimanda alla pagina-vetrina: nessun testo disponibile' if cod == 'C2'
+                           else f'{ocr_a2} atti su {len(docs)} hanno il testo incerto; '
+                                f'{corrotti_a2} portano lo strato di testo rovinato all\'origine, senza marcatore OCR' if cod == 'A2'
                            else '')})
 
 # Every (Municipio, week) cell is emitted, including the empty ones: a gap is a cell with no

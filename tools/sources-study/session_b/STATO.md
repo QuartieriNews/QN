@@ -1083,3 +1083,56 @@ pubblicano **indirizzi di posta elettronica nominativi** al posto dei soggetti i
 riprodotti da nessuna parte, come tutti gli altri identificatori.
 
 Lanciati i quattro lotti finali B37–B40; con quelli la lettura degli atti si chiude.
+
+## 40. Un solo database per i due rapporti, e un difetto che è rientrato da un'altra porta (16 settembre, 07:00)
+
+Gli atti sono entrati nelle **stesse cinque tabelle** del Report 1, non in un database parallelo.
+Ho esteso `report1/build_db.py` invece di scriverne un secondo, per la ragione già pagata una
+volta: una regola di confronto tenuta in due copie diverge. E perché la domanda che il Report 2
+deve poter rispondere — *quali notizie gli atti aggiungono a quelle delle fonti testuali* — si
+risponde solo se le due metà stanno dentro lo stesso confronto.
+
+Stato con 1.900 atti su 1.983 (mancano i lotti B36 e B40, in lettura):
+
+| | righe |
+|---|---|
+| `documenti` | 2.885 (985 del Report 1 + 1.900 atti) |
+| `notizie_candidate` | 1.734 (1.227 + **507 dagli atti**) |
+| `vicende` | 304, di cui **52 solo dagli atti** |
+
+Gli identificativi del Report 1 **non sono stati rinumerati**: il rapporto consegnato li cita, e
+una rinumerazione silenziosa avrebbe reso false tutte le sue citazioni. Le candidate degli atti
+partono da dove finivano quelle del Report 1.
+
+**Il difetto.** La prima esecuzione ha dato 462 dubbi contro i 276 del Report 1 da solo: 186 dubbi
+nuovi su 507 righe. Non era il ripiego sul Municipio che avevo già corretto — solo 10 coppie su
+535 si appaiavano su quello. Guardando **quali toponimi tenevano insieme le coppie** è venuto
+fuori: `municipio roma xii`, `municipio roma viii`, `sala fabio grossi`. I lettori scrivono in
+`luoghi` anche **il nome del Municipio** e **l'aula in cui l'organo si riunisce**, e la regola li
+prendeva per toponimi fini — scavalcando proprio la garanzia che avevo messo perché il Municipio
+non appaiasse fatti diversi. Lo stesso difetto, rientrato da un'altra porta.
+
+La correzione è stretta e sta nella regola, non nei dati: il nome di un Municipio non è un
+toponimo, e `Sala…`, `Aula…`, `Sede…`, `Ufficio…`, `Sportello…` sono il posto dove l'organo si
+riunisce, non ciò di cui l'atto parla. Dubbi fra atti da 186 a **142**.
+
+**Conseguenza sul Report 1, che dichiaro invece di nasconderla.** La regola è condivisa, quindi
+anche il Report 1 cambia: la resa netta passa da **882–1.158 a 885–1.161**, tre item su 1.227
+(0,3%), tutti nella direzione di meno falsi duplicati. Gli atti non c'entrano: il confronto marca
+sempre la riga successiva, e tutte le righe del Report 1 precedono quelle degli atti, quindi un
+atto non può declassare una notizia del Report 1. È il solo effetto della regola nuova.
+
+**Tre cose che ho trovato costruendo, e che vanno nel rapporto.**
+
+1. **Il codice di tipologia della fonte non è documentato.** Ventisette sigle (DDS, MMC, MMV, CPC,
+   AY, AZ, CMZ, CMY…). Non le ho dedotte dalle lettere: ho letto **un atto per ciascuna sigla** e
+   costruito la mappa su organo emittente e oggetto. Quattro sigle (OCD, PMO, PMT, SO) non hanno
+   ancora un esempio nei lotti letti: vanno in `altro` e il programma le stampa, invece di fingere
+   di saperle.
+2. **I lettori hanno scritto il formato a parole, non con l'enum della specifica**: otto
+   formulazioni diverse per due soli casi reali («nativo», «PDF nativo», «PDF con testo», «PDF
+   testo nativo», «testo nativo», «OCR», «PDF scansione (OCR Tesseract)», «PDF testo»). Stessa
+   deriva su `esito_testo`. Normalizzati in modo deterministico, con la regola scritta nel codice.
+3. **35 sintesi superano le 60 parole e 17 titoli le 12** che lo schema prescrive. Non le ho
+   troncate: un taglio a metà frase è un danno peggiore di un limite superato, e la lezione di §29
+   vale anche qui. Sono contate e dichiarate.
