@@ -3308,7 +3308,7 @@ producono zero o due candidate pur contenendo fatti veri (200.000 cani microchip
 divieto di animali nei circhi scritto e inapplicabile). Il rapporto **sottostima strutturalmente le
 sedute dedicate a norme cittadine**, e in questo lotto erano un terzo.
 
-## 84. I rilievi del C5 sistemati, e uno che non si applicava (2026-09-16 11:08Z)
+## 84. I rilievi del C5 sistemati, e uno che non si applicava (2026-09-16 11:02Z)
 
 **Il rilievo sull'ordinamento dei lotti non vale sui nostri dati.** Il C5 dice che confrontare `L9`
 con `L10` come stringhe fa vincere il nono. Verificato: i lotti sono **a due cifre con lo zero

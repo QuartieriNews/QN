@@ -241,6 +241,13 @@ Il fatto grosso su cui tutte le letture concordano: **dove il verbale è pieno i
 poco, dove è di sole presenze aggiunge quasi tutto** — notizie solo dal parlato allo 0% con verbale
 pieno, 50% con verbale di sola presenza, 71% con verbale assente.
 
+**E che cosa il Report 2 aggiunge a quello che il Report 1 aveva già.** Non solo notizie nuove:
+anche pezzi mancanti di notizie vecchie. **263 righe di questo rapporto completano o correggono una
+riga del precedente** — e il campo che aggiungono più spesso non è il luogo, è **il tipo dell'atto
+(242 casi) e la data del fatto (191)**. Un avviso municipale dice che una cosa succederà; l'atto o la
+seduta dicono *quando* e *con quale strumento*. È il contributo che si perderebbe del tutto in una
+vista che scarta i duplicati.
+
 ## 4. Che cosa si vede solo ascoltando
 
 Questa parte resta fuori dal conteggio delle candidate **di proposito**, perché la soglia chiede un
