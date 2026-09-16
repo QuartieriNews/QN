@@ -3655,3 +3655,42 @@ qualità alta 53,3% contro 19,0%.
 | con la precisione dei dubbi (15,0%) | **85,2%**, fra 78,5% e 88,9% |
 | scartando i toponimi incerti | 31,0% |
 | divario di qualità dentro il parlato | 53,3% contro 19,0% |
+
+## 94. L'indice delle evidenze trova quello che serviva trovare (2026-09-16 11:47Z)
+
+Nove affermazioni su dieci rintracciate **e verificate aprendo i testi**, non i log. E quattro
+correzioni al rapporto, che è esattamente il motivo per cui il C4 voleva questo indice.
+
+**Una cifra che non esiste.** «Il 50% di differenziata» non c'è in nessuna delle cinque registrazioni
+da cui viene quel conteggio: il lettore ha cercato `50%`, `50 per cento`, `cinquanta`,
+`differenziat`. Nel parlato ci sono «dal **65** che è il target» e «il **35%** di 1,7 milioni di
+tonnellate». La cifra stava nell'elenco di un log e **non nel testo**. Sostituita con una delle due
+vere. È il caso che giustifica l'indice da solo: senza, avrei pubblicato un numero che nessuno ha
+mai pronunciato.
+
+**Un'affermazione vera e più debole del vero.** «12 dei 23 verbali» del Municipio I: ricontando sono
+**17 su 23**. Corretta **verso l'alto**, che è la direzione in cui non mi sarei mai corretto da solo.
+
+**Un numero stantio che sembrava ancora giusto.** Il rapporto diceva «263 righe completano una riga
+del Report 1». Il valore corrente è **284** — ma il 263 di oggi coincide per caso con il conteggio
+del solo campo `tipo`. Il lettore lo scrive meglio di come lo direi io: *un numero stantio che sembra
+ancora giusto*. Era già corretto in questa versione, ma il meccanismo va tenuto a mente: un numero
+sbagliato che continua a comparire da qualche parte non si fa notare.
+
+**Due sedute mescolate in un elenco puntato.** «Tre appelli falliti — 7 su 49, poi 14, poi 20 —
+numero legale al quarto»: la registrazione dà 7 su **48**, poi **18**, poi **26 al terzo appello**,
+che apre i lavori. Gli appelli falliti erano **due**, e la seduta a quattro appelli è **un'altra**.
+Avevo fuso due casi in una riga.
+
+Scarti minori corretti: «comitato» per «associazione», «due minuti» per ottanta secondi, e il
+«fattore cinquanta» che non è un rapporto — fra 11% e 50% ci sono quattro volte e mezzo, non
+cinquanta: regge solo come differenza in punti, e così l'ho riscritto.
+
+**E una cosa che l'indice non poteva verificare, dichiarata**: i tre conteggi aggregati sulle cifre
+dei verbali (72/29, ~80/47) stanno nei log dei lettori, e rifarli vuol dire ricontare quattordici
+coppie verbale-registrazione. Segnati `verificato = no`. I casi puntuali dentro la stessa
+affermazione sono stati aperti uno per uno e reggono.
+
+**Una nota che vale per il rapporto**: tre affermazioni su dieci non hanno una fonte sola — la
+registrazione porta metà del fatto e l'atto l'altra metà. L'indice ha una riga per lato. Non è un
+difetto dell'indice: è esattamente la cosa che il §3 racconta.

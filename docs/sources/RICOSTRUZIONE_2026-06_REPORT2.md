@@ -175,13 +175,15 @@ dimostrata: per dimostrarla servirebbe scomporre il 25% nelle sue cause, e non l
 
 ## 3. Che cosa gli atti registrano, e che cosa no
 
-**Negli atti passa solo chi vince.** In una seduta dell'Assemblea Capitolina sono stati votati 138
-ordini del giorno e solo 47 sono diventati atti: i respinti non lasciano traccia documentale. In
+**Negli atti passa solo chi vince.** In una seduta dell'Assemblea Capitolina sono stati **presentati
+138 ordini del giorno** su una sola proposta, otto sono stati dichiarati inammissibili, la seduta è
+stata tolta senza esaurirli, e **47 sono diventati atti**: i respinti non lasciano traccia
+documentale. In
 un'altra, le mozioni approvate diventano tutte atti e le due respinte — piazza Addis Abeba e Tor
 Tre Teste — non esistono da nessuna parte. Chi ricostruisse il mese dai soli atti vedrebbe un
 consiglio che approva e mai uno che respinge.
 
-**Il verbale c'è ma è vuoto.** Per il Municipio I, 12 dei 23 verbali di commissione di giugno sono
+**Il verbale c'è ma è vuoto.** Per il Municipio I, **17 dei 23** verbali di commissione di giugno sono
 «di sola presenza» o senza alcun contenuto verbalizzato, e di Commissione Trasparenza non esiste
 alcun verbale in tutto il mese pur essendoci sedute registrate. Su un dossier discusso quattro
 volte in otto giorni, tre verbali su quattro non dicono nulla: l'istruttoria sopravvive solo nelle
@@ -230,16 +232,16 @@ numero verde ventiquattr'ore al posto della sola casella di posta.
 **Quale cifra sopravvive in un verbale, e quale no.** Tre letture indipendenti hanno proposto tre
 spiegazioni, e le prime due sono state smentite contando. Non è la forma: l'unico verbale a elenco
 puntato del campione conserva **quattro cifre su quattro**, mentre i verbali in prosa estesa vanno
-dallo 0% al 50%. Non è che il verbale registri chi ha parlato: lo fanno tutti, e fra loro c'è un
-fattore cinquanta. Quella che regge al conteggio è la terza:
+dallo 0% al 50%. Non è che il verbale registri chi ha parlato: lo fanno tutti, e fra loro c'è
+cinquanta punti di differenza. Quella che regge al conteggio è la terza:
 
 > sopravvive la cifra che è **parte dell'atto o della procedura che il verbale ha il compito di
 > certificare**; muore la cifra usata come argomento, contesto o colore.
 
 Due letture successive l'hanno contata su altri verbali e l'hanno confermata: **72 cifre pronunciate
 e 29 sopravvissute in un caso, circa 80 e 47 nell'altro**, e delle morte quasi tutte erano argomento
-o contesto — 137 aziende e settemila addetti, otto milioni nel 2016, il 50% di differenziata, 9″99
-sui cento metri. Il caso che chiude la questione: un assessore legge dieci statistiche sull'arresto
+o contesto — 137 aziende e settemila addetti, otto milioni nel 2016, il 35% di un milione e
+settecentomila tonnellate, 9″99 sui cento metri. Il caso che chiude la questione: un assessore legge dieci statistiche sull'arresto
 cardiaco — 60.000 casi l'anno, 58%, 7,5% europeo — dicendo «tutto questo è presente nell'atto che
 stiamo discutendo». Nel documento **non ce n'è nessuna**. Sopravvivono tutte e sole le cifre che
 *sono* la norma: 250 metri quadri, 350 dispositivi, 16.500 esercizi, 31 dicembre 2026.
@@ -274,8 +276,8 @@ vista che scarta i duplicati.
 Questa parte resta fuori dal conteggio delle candidate **di proposito**, perché la soglia chiede un
 luogo nominato. È materiale del rapporto, non della tabella.
 
-- Un'Assemblea Capitolina con tre appelli falliti — 7 presenti su 49, poi 14, poi 20 — e il numero
-  legale raggiunto al quarto dopo due ore e ventitré; la discussione sul piano degli arenili chiusa
+- Un'Assemblea Capitolina con due appelli falliti — 7 presenti su 48, poi 18 — e il numero
+  legale raggiunto al terzo, con 26, dopo due ore e ventitré; la discussione sul piano degli arenili chiusa
   senza voto «visto l'orario»; dopo la pausa la seduta non riprende e la registrazione resta accesa
   su un'aula vuota per oltre un'ora.
 - Consiglieri che votano chiedendo a votazione in corso di quale delibera si tratti; un parere
