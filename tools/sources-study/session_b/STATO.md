@@ -4932,3 +4932,20 @@ Tre item sono **una sola seduta** (il lettore l'ha dimostrato ricostruendo dall'
 delle 10.33, 10.55 e 11.24 — e il secondo nel corpus manca); due item dello stesso giorno sono invece
 sedute distinte. E una convocazione **datata 24/06 per protocollo convoca per il 30/06**: appaiare per
 data produce falsi positivi, ed è ora nei mandati.
+
+## 123. L'ultimo miglio in un comando solo (2026-09-16 16:38Z)
+
+Scritto `report2/chiudi_studio.py`: esegue **in ordine** i passi che alla fine della lettura vanno
+rifatti — il database, la risposta e la banda, il controllo dei numeri del rapporto, i toponimi
+incerti, il tetto della copertura, il motivo del non-`alta`, la convenzione dell'organo, i doppioni,
+le code perdute, i magneti, i file compatti — e **si ferma al primo errore**, perché i passi
+successivi leggono quello che il precedente doveva scrivere.
+
+Il motivo per cui esiste: a mano se ne dimentica uno, e **pubblicare un numero vecchio accanto a uno
+nuovo è peggio di due numeri vecchi**, perché il testo non torna con sé stesso. È già successo (§102).
+
+Tre cose lo script **non** fa, e non deve farle: rileggere il rapporto con i numeri nuovi, congelare
+la consegna, e Drive. Le stampa in coda come promemoria.
+
+Provato su due passi (uno dei due lungo) per verificare che l'ordine, l'ambiente e i codici di uscita
+funzionino, senza ricostruire il database mentre due lotti stanno ancora scrivendo.
