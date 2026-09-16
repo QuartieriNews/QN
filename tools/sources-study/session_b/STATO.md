@@ -2466,7 +2466,7 @@ quattro volte era la mia misura a essere sbagliata (§56, §60, §62, questa). L
 solo se la applico *prima* di scrivere, non dopo: qui l'ho scritta nel rapporto e poi corretta.
 L'unica difesa che ha funzionato è stata far leggere il materiale a qualcuno.
 
-## 70. X01 e X02: il buco misurato, e quanto grande è (2026-09-16 09:14Z)
+## 70. X01 e X02: il buco misurato, e quanto grande è (2026-09-16 09:11Z)
 
 Due lotti indipendenti, 65 atti, stesso meccanismo trovato da entrambi senza sapere l'uno dell'altro:
 
