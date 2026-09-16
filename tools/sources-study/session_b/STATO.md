@@ -4297,3 +4297,24 @@ l'84% nuove. `verifica_numeri_rapporto.py` non segnala più nulla.
 **Attenzione per la consegna**: questi numeri invecchiano a ogni lotto. L'ultimo giro va fatto
 **dopo** l'ultimo lotto, con `build_db.py`, poi `risposta.py`, `verifica_numeri_rapporto.py`,
 `audit_toponimi.py`, `copertura_testi_atti.py`, `motivo_non_alta.py`, e infine `congela_consegna.py`.
+
+## 109. La macchina si è riavviata: che cosa è sopravvissuto e perché (2026-09-16 13:22Z)
+
+Riavvio del contenitore mentre due lotti di lettura erano a metà. **Persi i due lettori**, con i loro
+rapporti finali. **Non perso niente di quello che costa**: le 381 trascrizioni RomaTV sono tutte al
+loro posto (3,4 GB, controllate una per una contro il manifest: 381 presenti, 0 mancanti), i 2.668
+testi degli atti, il database, gli snapshot e il repository.
+
+**I cinque item che i due lotti avevano già scritto si sono salvati** — V3_227, V3_228, V3_257,
+V3_258, V3_259 — perché la specifica chiede di scrivere un file per item invece di un file per lotto.
+Non era stata pensata per questo; oggi ha pagato. Li ho controllati a mano: schema completo, ogni
+candidata con la sua evidenza, e i marcatori verificati contro il testo delle trascrizioni — 11 su 11
+esistono. Restano validi e non vanno riletti.
+
+**Quello che invece è perso è il rapporto narrativo** dei due lotti: le misure e le osservazioni che
+un lettore consegna solo alla fine. Gli item ci sono, la lettura che li ha prodotti no. Da qui la
+regola che ho messo nei mandati nuovi: **scrivere il JSON di ogni item appena è finito**, dichiarato
+esplicitamente invece che lasciato all'abitudine.
+
+**Ripartiti due lotti** su 148 item rimasti, saltando i cinque già scritti. Il promemoria era armato
+e ha fatto il suo lavoro: la sessione si è ritrovata da sola.
