@@ -3964,3 +3964,75 @@ giusto* di §94, e stavolta la coincidenza era fra due numeri entrambi veri.
 
 Da qui una regola per la consegna: il programma di verifica dice se un numero **compare**, non se
 compare **al posto giusto**. Quella parte resta a chi legge.
+
+## 103. V3_181–V3_192: la regola sulle cifre cambia forma, e il parlato smentisce la carta (2026-09-16 12:18Z)
+
+Dodici item su dodici, 27 candidate, 8 `alta` / 19 `media`, 21 `solo dal parlato`, **zero
+`non verificabile`** — il lotto è quasi tutto municipale, e un fatto municipale o sta negli atti
+municipali o non sta da nessuna parte.
+
+### La regola sulle cifre era quasi giusta, e il «quasi» era il punto
+
+Fin qui la formulazione era: *sopravvive la cifra di cui quel verbale è il documento probatorio*. Il
+lettore ne ha trovati due controesempi, e vanno in direzioni opposte — che è il motivo per cui
+insieme spostano la spiegazione invece di limarla:
+
+- «L'amministrazione ne ha individuati **175**» sta nelle premesse di una mozione, è puro contesto
+  ripreso da una pagina web, la mozione non ne è in nessun senso il documento probatorio — e
+  **sopravvive**, mentre «una trentina», detto nello stesso intervento, muore;
+- il mandato dell'**8 giugno 2026** di un dipartimento capitolino per uno studio di fattibilità è un
+  atto amministrativo datato, con nota di trasmissione, cioè il caso che la regola dava per salvo —
+  e **non sopravvive**: il verbale scrive «L'Assessore interviene per la replica», e del mandato non
+  c'è traccia nei 1.983 atti né nei 2.668 testi.
+
+**La discriminante non è probatoria, è redazionale.** Sopravvive quello che è già scritto dentro un
+atto che il verbale trascrive; muore quello che sta nella discussione, qualunque ne sia lo statuto.
+Una cifra probatoria pronunciata in dibattito muore come le altre.
+
+È una formulazione più debole come legge e più utile come indicazione: dice **dove** cercare quello
+che manca — non fra le cifre deboli, ma nel dibattito. Portata nel rapporto §3.
+
+### Il parlato non aggiunge soltanto: smentisce
+
+Quattro casi in dodici registrazioni, tutti verificati contro l'atto:
+
+1. un verbale motiva la revoca di un trasferimento di sezioni con «criticità… legate alla **mensa**»;
+   due giorni dopo l'assessora dice due volte «**la mensa non c'entra niente**» — è stato il rifiuto
+   della scuola ospitante. La versione scritta è la versione presentabile;
+2. l'ufficio dichiara in aula di non avere in mano la determina di subappalto: la determina porta la
+   data di quel giorno stesso;
+3. la stessa determina data la richiesta al 2024 con protocollo 2026: qui è la registrazione a
+   correggere il refuso;
+4. il verbale di una commissione delle 10.35 racconta al passato un voto che la commissione delle
+   11.34 non aveva ancora espresso e che poi non ha espresso.
+
+Caso inverso, uno solo: un verbale contiene un fatto che l'audio non ha, e insieme **anonimizza**
+(«professionisti» dove l'audio nomina l'agenzia capitolina). Il contrappeso del §3 regge, ma va letto
+così: l'atto è più esatto **sui fatti procedurali**; sulle ragioni di una decisione può essere la
+versione ripulita.
+
+### Due conferme di cose già scritte, misurate meglio
+
+- **Il silenzio batte la ripetizione.** V3_182 dura 5h07 e il primo parlato è a `[85:57]`: due
+  sospensioni di 17 e 43 minuti, circa due ore e mezza di aula parlante. `quota_ripetuta` = 0,0 e 34
+  parole al minuto. La soglia del sesto emendamento — che guarda solo la duplicazione — non vede il
+  difetto di volume più grosso del corpus. Dichiarato nel §7 punto 5; non tocco la specifica (§101).
+- **I numeri della trascrizione a pagamento.** Stessa soglia, stessa proposta, stesso Municipio,
+  stessa mattina: «150 metri quadri» alle 10.35 e «250» alle 11.34. Gli atti danno 250. Nessuna delle
+  due è marcata incerta, perché quel modello non dichiara confidenza: **senza riscontro esterno la
+  cifra sbagliata è indistinguibile da quella giusta**.
+
+### Quello che il lettore contesta della soglia, e ha ragione a contestare
+
+Tre item su dodici escono con **zero candidate** non perché non sia successo niente, ma perché la
+soglia chiede un luogo nominato. L'esclusione peggiore: il parere su un obbligo che ricadrebbe su
+migliaia di esercizi di somministrazione di Roma è `no` perché «regolamento cittadino senza luogo» —
+la soglia tratta allo stesso modo un regolamento senza effetti e un obbligo con effetti diffusi. È
+lo stesso rilievo di C3 §4.1, arrivato da un lettore che quel controllo non l'ha letto. Va nel
+rapporto come limite dichiarato, non in un emendamento.
+
+### Metodo che porto avanti nei mandati
+
+Quattro riscontri decisivi del lotto vengono dai **testi integrali**, non dalle righe del confronto;
+e i grep a zero occorrenze su 2.668 testi sono serviti quanto quelli positivi — senza, quattro
+candidate sarebbero uscite `non verificabile` invece che `solo dal parlato`. Il foglio non basta.

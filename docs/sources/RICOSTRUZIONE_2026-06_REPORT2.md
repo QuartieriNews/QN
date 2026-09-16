@@ -146,6 +146,13 @@ fatto su un luogo nominato che non sta scritto. Non misura la novità politico-i
 numero legale che salta, la seduta che decade, l'ufficio che non si presenta — che la soglia di
 notiziabilità esclude per costruzione. Quella parte sta nel §4 e non è meno importante.
 
+La soglia ha anche un effetto che va detto senza attenuarlo: **tratta allo stesso modo un regolamento
+senza effetti e un obbligo con effetti diffusi**. Il parere su una proposta che imporrebbe il
+defibrillatore a ogni esercizio di somministrazione di Roma sopra una certa superficie — discusso in
+due Municipi, in uno dei quali la commissione arriva a chiedere il ritiro dell'atto — resta fuori dal
+conteggio perché è «un regolamento cittadino senza luogo». Tre registrazioni su dodici, in un lotto,
+escono con zero candidate per questo motivo, non perché in aula non sia successo niente.
+
 **E una notizia nuova è meno verificabile di una confermata.** Il confronto va fatto **dentro il
 parlato**, con gli stessi lettori e le stesse trascrizioni: fra le candidate che gli atti confermano
 il **53,5%** è di qualità alta, fra quelle nuove il **18,8%**. Quasi trentacinque punti.
@@ -235,6 +242,23 @@ traccia **unicamente nella registrazione**.
 ragione l'aula. Un verbale, per un errore di riconoscimento ottico, cita una deliberazione «n. 3»
 dove l'aula dice correttamente «n. 35 del 16 marzo 2010».
 
+**E qualche volta le due fonti non si completano: si smentiscono.** In dodici registrazioni lette di
+seguito ce ne sono quattro casi. Il verbale di una commissione scuola scrive che il trasferimento
+temporaneo di alcune sezioni di una materna è stato revocato per «criticità organizzative, in
+particolare legate alla **mensa**»; due giorni dopo, in commissione trasparenza, l'assessora dice due
+volte che non si tratta di ragioni tecniche e che **«la mensa non c'entra niente»** — il trasferimento
+è saltato perché la comunità scolastica ospitante lo ha rifiutato. La versione scritta è la versione
+presentabile. Nella stessa seduta la direzione tecnica dichiara che «oggi siamo ancora a 17 e non
+abbiamo in mano la determina di subappalto»: quella determina porta **la data di quel giorno stesso**.
+La stessa determina data la richiesta di subappalto al 2024 con un protocollo del 2026, e qui è la
+registrazione ad avere ragione. E il verbale di una commissione delle 10.35 racconta al passato che
+«in commissione commercio si è votato il documento»: quella commissione si riunisce **un'ora più
+tardi** e il parere non lo esprime — né quel giorno né dopo.
+
+Nel senso opposto, in quelle stesse dodici, un caso solo: un verbale contiene un fatto che l'audio
+non ha («i terreni vanno ancora acquisiti»), e insieme **anonimizza** — dove la registrazione nomina
+l'agenzia capitolina che ha redatto il progetto, il verbale scrive «professionisti».
+
 **Come il residuo viene prodotto.** Non è che i verbali manchino: è che, nei casi letti, quando
 ci sono **riassumono via le cifre e i dispositivi**. Non è una misura sistematica — nessuno ha
 confrontato verbale e registrazione riga per riga su un campione — ma il modo in cui accade è
@@ -272,6 +296,21 @@ dell'atto in votazione** e che il verbale non riporta affatto; e uno stesso nume
 zona — che **muore come norma e sopravvive dentro l'obiezione di una consigliera**, cioè esattamente
 al contrario di come la regola prevede. Quella sopravvivenza per la via sbagliata è anche l'unico
 modo per capire che una cifra storpiata dalla trascrizione non era un errore.
+
+**Due controesempi successivi spostano la spiegazione, e la rendono più semplice.** In un verso: una
+mozione scrive nelle premesse «L'amministrazione ne ha individuati **175**» — cifra di puro contesto,
+ripresa da una pagina web, di cui quella mozione non è in nessun senso il documento probatorio — e la
+cifra **sopravvive intatta**, mentre «di fatto a terra ce ne sono una trentina», detto nello stesso
+intervento, muore. Nell'altro verso: il mandato dell'**8 giugno 2026** di un dipartimento capitolino
+a un'agenzia comunale per lo studio di fattibilità su un incrocio dove si continua a morire — atto
+amministrativo datato, con nota di trasmissione, esattamente il tipo di cifra che la regola dà per
+salva — **non sopravvive**: il verbale liquida l'intervento con «L'Assessore interviene per la
+replica», e di quel mandato non c'è traccia né nei 1.983 atti né nei 2.668 testi integrali.
+
+La discriminante, allora, **non è probatoria: è redazionale**. Sopravvive quello che è già scritto
+dentro un atto che il verbale trascrive; muore quello che sta nella discussione, qualunque ne sia lo
+statuto. Una cifra probatoria pronunciata in dibattito muore come le altre — ed è una formulazione
+più utile, perché dice dove cercare quello che manca: non fra le cifre deboli, ma **nel dibattito**.
 
 **E il verbale non si limita a perdere: a volte aggiunge, e a volte ha ragione lui.** Ha una fonte
 propria — i documenti d'ufficio — e la usa contro il parlato. Porta l'importo esatto di un debito,
@@ -424,6 +463,14 @@ Il modello a pagamento **entra in loop** sulle registrazioni lunghe e silenziose
 frase ripetuta cento volte di fila, in un altro un blocco di 150 parole ripetuto undici volte, il
 47% del file. Dove succede, il conteggio delle parole e le parole al minuto non misurano nulla.
 
+**E sbaglia i numeri senza lasciare il segno che li ha sbagliati.** La stessa soglia della stessa
+proposta capitolina, nello stesso Municipio, la stessa mattina, esce **«150 metri quadri»** in una
+commissione delle 10.35 e **«250 metri quadri»** in un'altra delle 11.34; gli atti danno 250, con tre
+riscontri indipendenti. Nessuna delle due trascrizioni è marcata come incerta — il modello a
+pagamento non dichiara confidenza — e quindi, **senza un riscontro esterno, la cifra sbagliata è
+indistinguibile da quella giusta**. È il motivo per cui in questo studio le cifre pronunciate si
+prendono dall'atto quando l'atto c'è.
+
 **Costo effettivo misurato** (prova T1 su 2,12 ore, poi confermato sul corpus): 600 token audio al
 minuto, costanti; **0,00261 $ al minuto**, il 13% sotto il listino a minuto. La spesa reale non è
 leggibile senza una chiave di amministrazione: il dato è il consumo dichiarato dall'API, non la
@@ -447,6 +494,11 @@ fattura.
    in modo diverso.
 4. Un accostamento `dubbio` non prova una sovrapposizione: per questo il numero è un intervallo.
 5. I dati di volume (parole, parole al minuto) sono inaffidabili dove la duplicazione supera il 10%.
+   La soglia però **non vede il difetto opposto**: una registrazione di 5h07 in cui il primo parlato
+   arriva a `[85:57]`, con due sospensioni di 17 e 43 minuti e circa due ore e mezza di aula parlante,
+   ha duplicazione 0,0% e trentaquattro parole al minuto — un dato di volume altrettanto privo di
+   senso, che nessun controllo intercetta. Il difetto peggiore della fonte non è la ripetizione: è il
+   silenzio.
 6. Le misure sui silenzi valgono solo per le registrazioni con marcatore a 10 secondi: sulle altre
    un silenzio più corto di cinque minuti è invisibile.
 7. Il materiale di riscontro è **congelato** in `report2/snapshot/`, così la novità non dipende dal
