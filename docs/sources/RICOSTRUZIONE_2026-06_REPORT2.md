@@ -26,10 +26,10 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
   della coppia documento-lettore**, e chiunque rifaccia questo studio con un mandato scritto un po'
   diversamente troverà numeri diversi dagli stessi atti.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — ha una risposta, e
-  arriva tardi: **circa l'85%** delle notizie che nascono in una seduta non sta in nessun atto.
+  arriva tardi: **circa l'84%** delle notizie che nascono in una seduta non sta in nessun atto.
   Il confronto meccanico da solo dava un intervallo largo, fra il 45% e il 92%; è un audit su
   campione della classe incerta — l'unico modo di sapere da che parte stesse — a restringerlo. Con
-  la banda di confidenza di quell'audit la risposta sta **fra il 78% e l'89%**.
+  la banda di confidenza di quell'audit la risposta sta **fra il 79,5% e l'87,5%**.
 - **107 verbali su 2.668 atti, in sette Municipi su quindici, dichiarano dentro il proprio testo
   che il record completo della seduta non è l'atto ma la registrazione** — con quattro formule di
   forza diversa, dalla più netta («la videoregistrazione sostituisce la trascrizione degli
@@ -56,11 +56,17 @@ Tre esiti:
 Da cui l'intervallo grezzo **[45,1% , 92,2%]**. Largo quarantasei punti, e per settimane ho creduto
 che la risposta stesse in basso.
 
-**Sta in alto, e lo si sa solo dopo averlo misurato.** Un lettore ha giudicato a mano 40 candidate
-della classe U, aprendo il testo integrale di ognuno dei 102 documenti accostati: **6 su 40 avevano
-davvero un gemello scritto, il 15,0%** (banda 95% [7,1% ; 29,1%]). Riportando quella proporzione
-sulle 473 candidate incerte, la novità reale è **85,2%**, fra **78,5%** e **88,9%** agli estremi
-della banda.
+**Sta in alto, e lo si sa solo dopo averlo misurato — due volte.** Due lettori, indipendentemente,
+hanno giudicato a mano quaranta candidate ciascuno della classe incerta, aprendo il testo integrale
+di ogni documento accostato: **6 su 40 (15,0%)** il primo, **9 su 40 (22,5%)** il secondo. Gli
+intervalli si sovrappongono largamente e la differenza non è significativa; sulla base congiunta,
+**15 su 80 = 18,8%** delle candidate incerte ha davvero un gemello scritto.
+
+Riportando quella proporzione, la novità reale è **83,9%**, banda 95% **[79,5% ; 87,5%]**.
+
+I due giri hanno anche prodotto, per un difetto del generatore, venti coppie giudicate da entrambi:
+**accordo 19 su 20**. L'unica divergenza è il caso limite per cui il criterio di giudizio era stato
+riscritto.
 
 Con una scoperta che vale quanto il numero: **tutti e sei i gemelli veri sono la registrazione
 scritta della stessa seduta** — cinque verbali e una deliberazione. Nessuno è una fonte indipendente.
@@ -116,6 +122,12 @@ peso: l'intervallo è largo perché **480 candidate su 964 — metà del corpus 
 «dubbie»**, accostate a una riga scritta per data e luogo ma non per oggetto, e contate come nuove
 in alto e come già scritte in basso. Da che parte stiano davvero decide se la risposta è vicina al
 48% o al 97%, ed è la misura che stiamo facendo adesso.
+
+**Una cosa che i due audit hanno trovato e che cambia come si legge la classe incerta.** Dei quaranta
+accostamenti giudicati «fatti diversi», **diciassette nascono da verbali della stessa seduta che
+registrano solo le presenze e rimandano alla registrazione**. Cioè: **il verbale della stessa seduta
+non è di per sé una fonte scritta del fatto**, e contarlo come tale era il modo più frequente in cui
+il confronto meccanico dichiarava «già scritto» qualcosa che scritto non era.
 
 **Le due incertezze aperte tirano in direzioni opposte, e questo è il risultato onesto da
 consegnare.** Il confronto fra righe non vede i fatti sepolti dentro atti che ne raccontano altri, e
@@ -476,6 +488,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | numero | programma |
 |---|---|
 | 45,1% e 92,2% (intervallo grezzo di novità) | `report2/novita_meccanica.py` |
+| 18,8% di gemelli veri fra le incerte, e da lì l'83,9% | `report2/campione_dedup.py` più il giudizio di due lettori |
 | 31,0% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
 | dispersione fra lotti, 1,46 e 0,74 | `report2/varianza_lettori.py` |
 | 107 atti che rinviano alla registrazione | `report2/record_dichiarato.py` |

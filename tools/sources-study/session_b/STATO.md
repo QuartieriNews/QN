@@ -3695,7 +3695,7 @@ affermazione sono stati aperti uno per uno e reggono.
 registrazione porta metà del fatto e l'atto l'altra metà. L'indice ha una riga per lato. Non è un
 difetto dell'indice: è esattamente la cosa che il §3 racconta.
 
-## 95. Il secondo audit: il numero regge, e il campione era rotto (2026-09-16 11:50Z)
+## 95. Il secondo audit: il numero regge, e il campione era rotto (2026-09-16 11:44Z)
 
 ### Il timore che avevo era infondato, ed è misurato
 
