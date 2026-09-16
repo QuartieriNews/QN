@@ -3628,3 +3628,30 @@ per tipo di atto, e va detto **accanto a quei numeri** e non in una nota in fond
 Nota metodologica per la consegna: il rapporto dice «1.983 atti letti». Sono diventati **2.144** —
 1.983 nella finestra più 161 fuori, letti per chiudere il buco delle convocazioni. Le due cifre
 vanno tenute distinte: 1.983 è **il perimetro del confronto**, 2.144 è **quanto abbiamo letto**.
+
+## 93. Un programma che dice quali numeri del rapporto sono vecchi (2026-09-16 11:44Z)
+
+Rinfrescando i numeri ne ho trovati **quattro vecchi in un colpo solo** — 19,5%, 35,5%, 85,6%,
+32,1% — dopo averli già «rinfrescati» due volte oggi. Cercarli a occhio in un testo di quattrocento
+righe non funziona, e non funzionerà nemmeno il 20 settembre a mezzanotte.
+
+`report2/verifica_numeri_rapporto.py` ricalcola dal database i nove valori che il rapporto cita e
+dice, per ciascuno, se il testo li contiene. **Non corregge**: dire a un programma di riscrivere il
+rapporto è il modo di perdere il controllo di che cosa afferma. Stampa e basta; correggo io.
+
+Ha anche un limite che dichiara da sé: se un numero non compare, il programma non sa distinguere fra
+«il rapporto è vecchio» e «quel numero il rapporto non lo cita». Lo dice invece di fingere di saperlo.
+
+Tutti e nove tornano, ai valori di adesso: 1.081 candidate dal parlato, 1.983 atti in finestra, 544
+candidate da quegli atti, 265 registrazioni lette, 284 integrazioni, intervallo [45,1% , 92,2%],
+qualità alta 53,3% contro 19,0%.
+
+### I numeri di oggi, aggiornati
+
+| | |
+|---|---|
+| S / U / D | 487 / 510 / 84 su 1.081 |
+| intervallo grezzo | [45,1% , 92,2%] |
+| con la precisione dei dubbi (15,0%) | **85,2%**, fra 78,5% e 88,9% |
+| scartando i toponimi incerti | 31,0% |
+| divario di qualità dentro il parlato | 53,3% contro 19,0% |
