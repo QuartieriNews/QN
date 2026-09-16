@@ -2,7 +2,7 @@
 
 > **Governance:** every item in this file is a **candidate for independent review by Claude + OpenAI**. Nothing here authorizes implementation in production. Council outcome should be one of: `APPROVE`, `PILOT`, `DEFER`, `REJECT`.
 
-Last updated: 2026-09-15
+Last updated: 2026-09-16
 
 ## QN-TC-001 — GPT-6 Astra as OpenAI reviewer / automation agent
 
@@ -208,6 +208,34 @@ Before any Claude→n8n write-capable pilot, require Claude Code **>=2.1.271** a
 
 ### Evidence
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.271
+
+---
+
+## QN-TC-009 — Claude Code 2.1.273 closes additional permission/MCP-policy gaps
+
+**Status:** NEW — CANDIDATE FOR SECURITY BASELINE UPDATE / COUNCIL REVIEW  
+**Area:** security, permissions, MCP, reliability, speed  
+**Impact:** security **high**; architecture **low**; speed/reliability **medium**; cost **low**
+
+### What changed
+Anthropic released Claude Code 2.1.273 on 2026-09-15. It fixes several edge cases that matter specifically for unattended or highly autonomous sessions: Bash commands the permission checker could not fully analyze could skip the prompt under `permissions.blockReadsOutsideWorkingDirectories`; a subshell could hide a dangerous `rm` in bypass mode; and `allowManagedMcpServersOnly`, `deniedMcpServers`, and `disableClaudeAiConnectors` delivered through MDM or `managed-settings.json` could be ignored when server-managed settings were also present. It also prevents a memory directory selected by repository settings from being loaded/recalled/indexed when it lies outside the permitted working-directory boundary.
+
+The release also improves reliability for long-running agent work: background/sub-agent final results are no longer lost in a documented streaming edge case, the context meter no longer over-counts advisor-tool turns enough to trigger automatic compaction at roughly half the real context window, and Claude now surfaces when an MCP server disconnects and reconnection gives up.
+
+### Why it matters for QN
+QN's candidate architecture explicitly contemplates Claude accessing GitHub and n8n through controlled MCP/tool permissions, eventually diagnosing and repairing workflows with limited human intervention. QN-TC-008 proposed Claude Code >=2.1.271 as the security floor for that pilot. Version 2.1.273 shows that meaningful permission-policy edge cases still existed two releases later, including exactly the combination QN cares about: filesystem boundaries + managed MCP restrictions + unattended shell work.
+
+### Expected benefit
+A safer baseline before any write-capable Claude→n8n/MCP pilot, lower risk of policy composition accidentally broadening access, more reliable background-agent completion, and less premature context compaction during long development/debug sessions.
+
+### Risks / unknowns
+This is hardening, not a guarantee of safe autonomous production access. Bypass mode remains a high-risk operating mode; policy combinations can still have future regressions; and a model can make damaging but technically permitted changes within its allowed boundary. Version pinning also creates a maintenance obligation to re-run boundary tests after security-relevant upgrades.
+
+### Proposed action
+Council should consider **superseding the QN-TC-008 minimum from >=2.1.271 to >=2.1.273** before any write-capable Claude→n8n/MCP pilot. Add staging regression tests for: (1) unanalyzable Bash commands must prompt/deny rather than bypass workspace boundaries; (2) subshells cannot hide destructive operations; (3) managed MCP allow-only/deny policies remain effective when server-managed settings coexist; and (4) repository memory cannot read outside the QN workspace. For autonomous QN operation, do not use bypass mode. No production-autonomy change until Claude + OpenAI independently confirm the policy and test results.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.273
 
 ---
 
