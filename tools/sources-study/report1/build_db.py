@@ -270,7 +270,9 @@ def item_video(j, meta, lotto):
         'metodo_estrazione': 'trascrizione piattaforma', 'ocr_incerto': '',
         # La piattaforma dichiara confidenza zero su ogni parola (STATO §43): non e' un giudizio
         # di bassa qualita', e' un campo non compilato, quindi la trascrizione resta incerta.
-        'trascrizione_incerta': 'sì; la piattaforma non dichiara una confidenza utilizzabile',
+        'trascrizione_incerta': ('sì; confidenza mediana %s, marcatore ogni %s s'
+                                 % (meta.get('confidenza_mediana') or 'non dichiarata',
+                                    meta.get('grana_marcatore_s') or '10')),
         'esito_lettura': 'completo', 'settimana': settimana(j.get('data_seduta', '')),
         'report_origine': '2', 'letto_da': lotto,
     }
@@ -300,7 +302,11 @@ def item_video(j, meta, lotto):
     return doc, righe
 
 if os.path.isdir(R2 + '/out_video'):
-    meta_video = {r['item_id']: r for r in csv.DictReader(open(R2 + '/manifest_video.csv', encoding='utf-8'))}
+    meta_video = {}
+    for mf in ('manifest_video.csv', 'manifest_video_rtv.csv'):
+        if os.path.exists(R2 + '/' + mf):
+            for r in csv.DictReader(open(R2 + '/' + mf, encoding='utf-8')):
+                meta_video[r['item_id']] = r
     n_prima = len(notizie)
     letti_v = 0
     for f in sorted(glob.glob(R2 + '/out_video/*.json')):
