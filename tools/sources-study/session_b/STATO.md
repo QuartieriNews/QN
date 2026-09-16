@@ -3770,7 +3770,7 @@ candidate, il denominatore della novità è **sovrastimato di circa il 5%**. E i
 risultavano irrecuperabili **sono recuperabili**: sono item già scaricati salvati con un nome diverso
 dall'url, e con la regola giusta la copertura passa da 86 a **98 su 98**.
 
-## 96. La lacuna dichiarata nel manifest (2026-09-16 11:48Z)
+## 96. La lacuna dichiarata nel manifest (2026-09-16 11:46Z)
 
 La registrazione di §85 — quella a cui il CDN non serve l'ultimo segmento — ha ora una colonna sua nel
 manifest: `lacuna`, con scritto che cosa manca e perché. Sopravvive alla rigenerazione perché la
