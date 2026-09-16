@@ -97,3 +97,23 @@ quando l'atto potrebbe esistere ma non è isolabile. La differenza è che ora il
 si può sostenere invece di supporre. **Nella relazione va detto su quale dei due materiali è stato
 fatto il riscontro**, perché i primi due lotti e i successivi non sono confrontabili su questo
 campo.
+
+## Le registrazioni RomaTV (fonte A3): due grane di marcatore
+
+Gli item `V3_*` stanno in `report2/manifest_video_rtv.csv` e i testi in `video/rtv/txt/`. Le colonne
+in più rispetto al manifest YouTube dicono **da dove viene la trascrizione e quanto è fine
+l'evidenza**:
+
+- `origine_trascrizione = piattaforma` — trascrizione della piattaforma, parola per parola, con
+  tempi e **confidenza veri** (mediana in `confidenza_mediana`, in genere 0,84–0,87). Marcatore
+  **ogni 10 secondi**, come chiede il metodo.
+- `origine_trascrizione = a pagamento` — trascritta da noi con `gpt-4o-mini-transcribe`, che **non
+  restituisce tempi interni**: il marcatore cade all'inizio di ogni pezzo, **circa ogni 5 minuti**
+  (il valore esatto è in `grana_marcatore_s`).
+
+Sulle registrazioni a pagamento, quindi, `evidenza` individua un intervallo di cinque minuti e non
+un punto. **Va usato lo stesso: meglio un'evidenza grossolana che nessuna.** Nella relazione dichiara
+separatamente le candidate delle due origini, perché la verificabilità non è la stessa.
+
+Sulle trascrizioni della piattaforma la confidenza è reale: quando è bassa, `qualita` non può essere
+`alta`. Su quelle a pagamento non c'è confidenza e vale la regola generale — si giudica il testo.

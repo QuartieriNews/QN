@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 8,38 € |
-| **Disponibile** | **69,62 €** |
+| Speso nella sessione B | 14,96 € |
+| **Disponibile** | **63,04 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -36,7 +36,7 @@ listino in dollari):
 | 15/09 20:17 | controllo Codex C1 sullo schema del database | 0,16 € |
 | 16/09 00:20 | controllo Codex C2 sulla specifica di lettura | 0,20 € |
 | 16/09 05:55 | prova T1: 2,12 ore di audio RomaTV trascritte | 0,30 € |
-| 16/09 07:30 | trascrizione in corso: 77 registrazioni, 55,6 ore | 8,02 € |
+| 16/09 08:30 | trascrizione in corso: 143 registrazioni, 101,4 ore | 14,6 € |
 
 Impegno previsto ancora da spendere: **circa 25 €** per le 172 ore di registrazioni che restano
 (§35), più i controlli Codex C3–C5 e la seconda AI sulle candidate. Il tetto regge.
@@ -1510,3 +1510,25 @@ entro quindici giorni; tre verbali approvati dichiarando che non c'erano modific
 «con le modifiche» di cui il presidente aveva appena detto di non avere contezza; tre debiti fuori
 bilancio approvati senza un solo intervento, con il sistema di voto che si guasta e una votazione
 annullata.
+
+## 49. RomaTV in testo: 206 sedute e due gradi di verificabilità (16 settembre, 08:30)
+
+Convertite in testo tutte le registrazioni RomaTV disponibili (`rtv_to_text.py`): **82 dalla
+piattaforma** (73,8 ore) e **143 trascritte da noi** (101,4 ore). Ristrette alla finestra 8–28
+giugno restano **206 sedute, 157,7 ore, 958.809 parole**, in `report2/manifest_video_rtv.csv`.
+Con le 97 di YouTube il corpus parlato del Report 2 sta a **303 registrazioni e circa 1,57 milioni
+di parole** — e crescerà, perché lo scaricamento è a 198 su 318.
+
+**Le due origini non danno la stessa evidenza, e la differenza è scritta nel manifest.** La
+piattaforma restituisce parola per parola con tempo e confidenza veri: marcatore **ogni 10
+secondi**, come chiede il metodo, e una confidenza utilizzabile (mediana 0,84–0,87), all'opposto
+dello zero di YouTube. Il modello che abbiamo pagato non restituisce tempi interni: il marcatore
+cade all'inizio di ogni pezzo, **circa ogni 5 minuti**. Su quelle registrazioni l'evidenza
+individua un intervallo, non un punto.
+
+Non è un difetto da nascondere in una nota: è il prezzo della scelta fatta in §35 — copertura
+completa con evidenza grossolana invece di copertura parziale con evidenza fine. La specifica ora
+lo dice, il manifest porta `grana_marcatore_s` riga per riga, e i lettori devono dichiarare
+separatamente le candidate delle due origini, perché **non sono verificabili allo stesso modo**.
+
+Ledger aggiornato: 14,96 € spesi, **63,04 € disponibili**.
