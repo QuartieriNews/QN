@@ -20,6 +20,16 @@ D1–D3 (`tools/sources-study/session_b/DECISIONI_OWNER.md`), che valgono qui co
   persona, perché una ditta individuale non ha un nome diverso da quello del titolare. Le società
   con denominazione propria restano, anche quando contengono un cognome.
   Nel dubbio riporta alla lettera e dichiaralo in `note`.
+- **Un nome non è l'unico modo di identificare una persona.** Gli atti individuali — stalli
+  riservati, contrassegni, concessioni, procedimenti edilizi su abitazioni — identificano il
+  titolare anche senza nominarlo, se metti insieme **indirizzo con numero civico**, condizione
+  personale (disabilità, invalidità, stato di famiglia) e **date precise di eventi personali**
+  (decesso, trasferimento). Togliere il nome non basta. In questi atti: **via sì, numero civico no**;
+  la condizione personale solo se è l'oggetto amministrativo dell'atto e mai insieme all'indirizzo
+  esatto; **mai una data di decesso o di evento personale**, né un numero di contrassegno o di
+  concessione che identifichi il titolare. Il fatto amministrativo — lo stallo è stato revocato,
+  l'intervallo fra il venir meno del diritto e la revoca è di due anni e otto mesi — si scrive per
+  intero: è quello il dato che serve allo studio.
 - **Le contraddizioni si dichiarano, non si risolvono.** Un valore dedotto non è mai scritto come
   letto. `non verificato` dove resta incertezza.
 - Scrivere solo dentro `out/` e `log/`. Non modificare i testi di partenza.

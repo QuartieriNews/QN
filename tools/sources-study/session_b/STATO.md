@@ -661,3 +661,35 @@ forma dice qualcosa che i conteggi non dicevano:
 Il verbale dei numeri legali caduti nel Municipio XII (V053, V055, V056: tre sedute in tre
 settimane) è il caso in cui la struttura per vicende mostra un fatto che le singole notizie non
 mostravano.
+
+## 27. Un nome non è l'unico modo di identificare una persona (16 settembre, 03:50)
+
+**B07–B09: 150 atti, 20 notizie, 13,3%.** Totale a 450 atti su 1.983: **86 notizie, 19%**. Il
+lettore ha fatto la cosa più utile possibile per il rapporto: ha dato la **sensibilità della
+soglia**, non solo il numero. Con una soglia più larga sulle discipline di traffico si andrebbe
+intorno al 20%, con una più stretta al 7%. E ha dichiarato che i suoi tre lotti non sono un
+campione qualsiasi: 108 atti su 150 sono determinazioni di traffico, la categoria strutturalmente
+meno notiziabile dell'archivio.
+
+**Il problema di riservatezza più serio trovato finora, e non riguarda i nomi.** Due atti di revoca
+di stalli riservati descrivevano, senza nominare nessuno:
+
+- indirizzo **con numero civico**, condizione di **disabilità**, e il fatto che una titolare
+  «risulta deceduta e l'altra trasferita»;
+- indirizzo con civico, disabilità, e la **data esatta del decesso** del titolare.
+
+Il lettore aveva applicato DEC-102 come la conosceva — nessun nome, ruoli al loro posto — e
+formalmente aveva ragione. Ma **la combinazione di via, civico, condizione personale e data
+identifica una persona meglio di un nome**, e per giunta rivela dati sanitari. Corretto in posto:
+via sì, civico no, nessuna data personale, nessun numero di contrassegno. **Il fatto amministrativo
+resta per intero**, compreso il dato che davvero interessa allo studio: fra il venir meno del
+diritto e la revoca passano due anni e otto mesi, durante i quali lo stallo è rimasto riservato.
+
+La regola è ora scritta nella specifica degli atti e nel prompt dei lotti successivi. Verificato
+che nessun numero di contrassegno fosse mai stato trascritto: nei sette lotti non ce n'è uno.
+
+**Materiale per il rapporto** da questi lotti: intervalli scoperti fra l'avvio di un cantiere e il
+titolo di traffico che dovrebbe autorizzarlo (via Cilicia due mesi e mezzo, Pincio undici giorni,
+due buchi in una catena di otto proroghe); anni sbagliati nei dispositivi (`12/06/2025` per una
+festa del 2026, un protocollo datato 2027 su una seduta di giugno 2026); oggetto e dispositivo che
+si contraddicono in una dozzina di atti.
