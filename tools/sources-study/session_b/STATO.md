@@ -5166,11 +5166,12 @@ Lo stato vivo sta in due file dello scratchpad: `drive_caricati.txt` (nome, byte
 `DRIVE_RIPRESA.md`, che descrive la procedura per intero — servono se la sessione si interrompe,
 perché la cartella Drive da sola non dice quali parti mancano.
 
-## 128. La cartella Drive chiusa: 49 parti, nessun ricaricamento (2026-09-16 20:17Z)
+## 128. La cartella Drive: 49 parti caricate (2026-09-16 20:17Z)
 
 Il caricamento è finito: **49 parti per 1.864.166 byte** nella cartella `Fonti 2026-06`. L'elenco
 della cartella, riconciliato nome per nome con i file locali, dà 49 su 49 e **nessuno scarto di
-byte**. Nessun file è stato ricaricato: il conteggio dei byte non ha mai bocciato una copia. Le tre
+byte**. Il conteggio dei byte non ha mai bocciato una copia — ma **quel conteggio non basta**, e
+la §129 racconta come si è visto. Le tre
 vecchie parti A1 in tre pezzi non sono più nella cartella, cestinate dopo il caricamento delle
 quattro nuove — l'ordine che §127 si era dato ha retto.
 
@@ -5179,13 +5180,10 @@ scrivevano in append sullo stesso `drive_caricati.txt`. È il registro ad aver r
 dividere il lavoro: dice quali parti mancano, cosa che la cartella Drive da sola non dice, perché i
 nomi ci sono anche quando il contenuto è sbagliato.
 
-**Tre file sono stati riscaricati e confrontati byte per byte**, uno per ciascuno dei tre che hanno
-caricato: `Report1_documenti_C5` (625 B), `Report1_notizie_A1_parte4di4` (1.921 B) e
-`Report2_documenti_A3_parte3di3` (2.036 B). Tutti e tre identici all'originale, accenti, virgolette
-caporali e base64 compresi. Il quarto controllo è andato sulla parte più a rischio — la `9di9` dei
-documenti A2, l'unica dove il sottoagente ha dovuto correggere una trascrizione — e lì al conteggio
-dei byte si è aggiunta la struttura: 147 righe, primo identificativo `A2_1999`, ultimo `A2_2144`,
-gli stessi che il file su Drive mostra una volta decodificato.
+A campione, tre file sono stati riscaricati e confrontati byte per byte, uno per ciascuno dei tre
+che hanno caricato: `Report1_documenti_C5` (625 B), `Report1_notizie_A1_parte4di4` (1.921 B) e
+`Report2_documenti_A3_parte3di3` (2.036 B), tutti e tre identici. Un campione però è un campione:
+il controllo è poi stato esteso a tutte e 49 le parti (§129).
 
 **Il limite di lettura era più stretto di quanto §127 dicesse.** Il taglio in due pezzi
 (`1,88p` e `89,$p`) regge solo per le parti con poche righe lunghe: su una parte da 198 righe il
@@ -5193,5 +5191,34 @@ secondo pezzo ha superato il limite ed è stato troncato. Il limite vero sta int
 ai 50 KB. La regola corretta è **misurare il pezzo prima di leggerlo** (`sed -n '...' | wc -c`) e
 cercare il marcatore di troncamento prima di usare il testo. Un pezzo troncato di nascosto resta
 comunque l'unico modo in cui la procedura può sbagliare, e resta comunque intercettato: il file
-caricato sarebbe più corto, e il conteggio dei byte lo boccerebbe. È il motivo per cui quel
-controllo sta lì.
+caricato sarebbe più corto, e il conteggio dei byte lo boccerebbe. Contro *quell'* errore il
+conteggio dei byte basta; contro un altro no, e la §129 lo racconta.
+
+## 129. Il controllo che sembrava bastare, e l'errore che ci passava sotto (2026-09-16 20:45Z)
+
+Il conteggio dei byte — la verifica che §127 aveva scelto e su cui §128 si appoggiava — **ha lasciato
+passare un errore vero**. In una parte dei documenti A2 il sottoagente aveva trascritto
+`par2=NzQwNDE=` invece di `par2=NzQ0MDE=`: due cifre invertite dentro un token base64 dell'URL di
+evidenza. Stessa lunghezza, quindi stessi byte, quindi verifica superata. Se n'è accorto lui
+scaricando il file e confrontandolo davvero; ha cestinato la copia sbagliata e ricaricato.
+
+Questo è il caso peggiore per un errore di copia, e questi dati lo attirano: gli URL di A2 e A3
+sono token base64 opachi, dove una trasposizione non si vede nemmeno rileggendo, e un URL sbagliato
+manda il lettore su un atto diverso — o su niente. La conclusione non è che il conteggio dei byte
+sia inutile (intercetta troncamenti, righe perse e accenti riscritti, che sono gli errori più
+frequenti): è che **non è sufficiente**, e su un dato che si consegna la sufficienza è quello che
+serve.
+
+**Allora il confronto è stato esteso a tutte e 49 le parti, e tutte e 49 risultano identiche
+all'originale.** Il programma è `tools/sources-study/report2/verifica_drive.py`. Il punto che lo
+rende praticabile: **non ricopia niente a mano**. Il contenuto scaricato da Drive resta già scritto
+su disco — nelle trascrizioni della sessione e dei sottoagenti, e nei file che il sistema salva
+quando una risposta è troppo grande — e il programma lo cerca lì, confrontando la codifica base64
+del file locale con quello che il disco contiene. Ricopiare a mano 46.000 caratteri di base64 per
+verificarli era la strada che il sottoagente aveva provato, e gli ha fatto introdurre due errori
+suoi che sembravano differenze del file: **una verifica che si esegue a mano introduce la stessa
+classe di errore che dovrebbe trovare.**
+
+La regola che resta, per qualunque consegna futura fatta con questo strumento: il conteggio dei byte
+è il filtro veloce durante il caricamento; **la consegna si chiude solo con il confronto del
+contenuto su tutti i file**, e il confronto lo fa un programma.
