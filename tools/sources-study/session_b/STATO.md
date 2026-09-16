@@ -2234,3 +2234,60 @@ né `ERRORE`. L'mp3 è delle 04:09, l'errore di `41e7b841` delle 04:11; nel mezz
 è stato riavviato, e quell'item è uscito dalla coda senza lasciare traccia. Quindi le righe `ERRORE`
 non sono nemmeno il limite superiore delle perdite: **un item può sparire senza comparire nel log in
 nessuna forma**. L'unico conto che tiene è quello per differenza, e va rifatto alla consegna.
+
+## 66. Il numero principale poggia su un insieme di confronto incompleto (2026-09-16 08:47Z)
+
+Partito da tutt'altro — controllare chi produce la colonna `verbale_match` — sono arrivato al
+difetto più serio trovato finora, ed è mio.
+
+**Primo: «il censimento» non è della fonte, è nostro.** In §45, §52 e nel rapporto ho scritto che
+«il censimento abbina la registrazione al suo atto in modo inaffidabile», mettendolo fra i *difetti
+delle fonti*. Quel censimento lo costruisce `video/yt_census_build.py`: abbina per Municipio, data e
+sovrapposizione di parole chiave. Le sue sviste sono **nostre**, e attribuirle alla fonte in un
+rapporto sarebbe una falsa accusa. Da correggere ovunque compaia.
+
+**Secondo: il meccanismo del link non l'ho scoperto io.** In §62 ho presentato il link dentro il
+verbale come un reperto nuovo. Lo stesso programma lo usa già da prima: `LINKMAP`, con il commento
+«Municipio I embeds it in every June verbale», e **28 dei 131 item YouTube sono abbinati proprio
+così** — più dei 23 abbinati per data e nome. Di nuovo c'è solo che la pratica esiste anche in
+RomaTV (XI e X) e che due forme simili (`catalog`, `live`) non servono a questo. §62 va letto con
+questa correzione davanti.
+
+**Terzo, e serio: contro che cosa abbiamo misurato la novità.** Scomponendo gli abbinamenti per
+origine:
+
+| origine dell'abbinamento | n | punta a un altro Municipio | punta a un atto fuori dai 1.983 |
+|---|---|---|---|
+| link scritto nel verbale (lo dichiara la fonte) | 28 | **0** | 7 |
+| data e nome (lo deduciamo noi) | 23 | 0 | 6 |
+| convocazioni, per data e nome (noi) | 102 | **6** | 25 |
+
+Il «18% sbagliato» di §52 mescolava due cose diverse: gli abbinamenti **errati** sono 6, tutti sulle
+convocazioni dedotte da noi; gli altri 38 sono *fuori perimetro*, ed è la distinzione che il C3 §1.2
+imponeva di non confondere.
+
+Ma il «fuori perimetro» non regge neanche lui. Ho controllato tre di quegli atti: **li abbiamo**, in
+`A2_text/`, e due portano una data di giugno. Il motivo è un altro:
+
+- atti che abbiamo scaricato e teniamo in `A2_text/`: **2.668**
+- atti dentro `confronto_atti.csv`, cioè l'insieme contro cui è misurata tutta la novità: **1.983**
+- differenza mai confrontata: **685**, di cui **275 verbali e convocazioni**
+
+I 1.983 sono gli atti *letti*, non gli atti *che abbiamo*. Un verbale di seduta di giugno
+repertoriato a luglio sta fuori per costruzione — ed è esattamente il documento che conterrebbe il
+gemello scritto di ciò che si è detto in quella seduta.
+
+**Quanto pesa.** Misura grossolana ma sufficiente a non ignorarla: delle **422** candidate del
+parlato classificate S («nessun gemello scritto»), **151 — il 36% — nominano un luogo che compare in
+un atto che non abbiamo mai confrontato**. La compresenza di un toponimo non è un gemello (viale
+Palmiro Togliatti compare ovunque), quindi 151 è un tetto, non una stima. Ma il limite inferiore
+pubblicato, **58,0%, non è difendibile** finché quei 275 atti non sono letti e confrontati.
+
+**Che cosa faccio.** Leggere i 275 verbali e convocazioni mancanti con la specifica degli atti, già
+in perimetro e senza costo di rete, e rifare la misura. Se la scelta fosse fra estendere l'insieme
+di confronto e leggere altre registrazioni, viene prima l'insieme di confronto: una registrazione in
+più aggiunge un aneddoto, un atto mancante sposta il numero su cui poggia tutto il rapporto.
+
+**Come ci sono arrivato.** Non guardando la novità, ma chiedendomi chi scrivesse una colonna. Le tre
+correzioni di oggi (§62, §64, questa) nascono tutte dalla stessa domanda — *questo numero da dove
+viene?* — e nessuna da un controllo della cosa che stavo misurando.
