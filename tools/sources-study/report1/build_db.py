@@ -8,6 +8,7 @@ import geo_lookup as geo
 S = os.environ['QN_NET']; R = S + '/report1'; D = R + '/db'
 os.makedirs(D, exist_ok=True)
 
+A2_BASE = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti&par1='
 ORDINE_FONTI = ['A1', 'A2', 'C1', 'C2', 'C4', 'C5', 'E2', 'E3']
 BLOCCO = {'A1': 'Amministrazione', 'A2': 'Amministrazione', 'C1': 'Cronaca', 'C2': 'Cronaca',
           'C4': 'Cronaca', 'C5': 'Cronaca', 'E2': 'Eventi', 'E3': 'Eventi'}
@@ -398,7 +399,8 @@ for cod in ORDINE_FONTI:
     if not docs: continue
     nome, ente, elenco = ANAGRAFE[cod]
     fonti.append({'codice': cod, 'nome': nome, 'blocco': BLOCCO[cod], 'ente': ente, 'url_elenco': elenco,
-                  'base_url': 'https://www.comune.roma.it/web/it/' if cod == 'E3' else '',
+                  'base_url': ('https://www.comune.roma.it/web/it/' if cod == 'E3'
+                               else A2_BASE if cod == 'A2' else ''),
                   'formato': 'PDF' if cod == 'A2' else 'HTML', 'item_giugno': len(docs),
                   'paginazione_completa': 'sì',
                   'data_lettura': '2026-09-16' if cod == 'A2' else '2026-09-15',
