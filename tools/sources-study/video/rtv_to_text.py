@@ -4,7 +4,7 @@
 #    quindi marcatore ogni 10 secondi come chiede il metodo per il lotto A;
 #  - trascrizioni a pagamento (rtv/trascrizioni): il modello non restituisce tempi interni, solo
 #    il pezzo, quindi il marcatore cade all'inizio di ogni pezzo, circa ogni 5 minuti.
-import csv, glob, json, os, statistics as st
+import collections, csv, glob, json, os, statistics as st
 BASE = os.path.dirname(os.path.abspath(__file__))
 DEST = BASE + '/rtv/txt'; os.makedirs(DEST, exist_ok=True)
 
@@ -13,6 +13,19 @@ def hhmmss(s):
 
 def secondi(t):
     h, m, s = t.split(':'); return int(h) * 3600 + int(m) * 60 + float(s)
+
+def quota_ripetuta(testo, n=12):
+    """Quota di parole dentro blocchi di n parole che compaiono piu' di una volta. Il modello di
+    trascrizione a pagamento entra in loop sulle registrazioni lunghe e silenziose e riscrive lo
+    stesso passaggio anche tre o quattro volte: senza questo numero il conteggio delle parole e la
+    lettura stessa risultano gonfiati, e chi legge non ha modo di accorgersene."""
+    par = [w.lower() for w in testo.split()]
+    if len(par) < n * 3: return 0.0
+    c = collections.Counter(tuple(par[i:i + n]) for i in range(len(par) - n + 1))
+    coperte = set()
+    for i in range(len(par) - n + 1):
+        if c[tuple(par[i:i + n])] > 1: coperte.update(range(i, i + n))
+    return round(len(coperte) / len(par), 3)
 
 righe = []
 for p in sorted(glob.glob(BASE + '/rtv/speech/*.json')):
@@ -34,6 +47,7 @@ for p in sorted(glob.glob(BASE + '/rtv/speech/*.json')):
     open('%s/%s.txt' % (DEST, guid), 'w', encoding='utf-8').write(testo)
     conf = [w['Confidence'] for w in parole if isinstance(w.get('Confidence'), (int, float))]
     righe.append({'item': guid, 'origine': 'piattaforma', 'parole': len(parole),
+                  'quota_ripetuta': quota_ripetuta(testo),
                   'durata_s': round(secondi(parole[-1]['EndTime']), 1),
                   'confidenza_mediana': round(st.median(conf), 3) if conf else '',
                   'quota_sotto_0_7': round(sum(1 for c in conf if c < 0.7) / len(conf), 3) if conf else '',
@@ -51,11 +65,12 @@ for p in sorted(glob.glob(BASE + '/rtv/trascrizioni/*.json')):
     open('%s/%s.txt' % (DEST, nome), 'w', encoding='utf-8').write(testo)
     grana = round(st.median([x['fine_s'] - x['inizio_s'] for x in pezzi])) if pezzi else ''
     righe.append({'item': nome, 'origine': 'a pagamento', 'parole': len(testo.split()),
+                  'quota_ripetuta': quota_ripetuta(testo),
                   'durata_s': j.get('durata_s', ''), 'confidenza_mediana': '',
                   'quota_sotto_0_7': '', 'grana_marcatore_s': grana,
                   'caratteri': len(testo), 'errore': ''})
 
-campi = ['item', 'origine', 'parole', 'durata_s', 'confidenza_mediana', 'quota_sotto_0_7',
+campi = ['item', 'origine', 'parole', 'quota_ripetuta', 'durata_s', 'confidenza_mediana', 'quota_sotto_0_7',
          'grana_marcatore_s', 'caratteri', 'errore']
 with open(BASE + '/rtv/indice_rtv.csv', 'w', newline='', encoding='utf-8') as f:
     w = csv.DictWriter(f, fieldnames=campi, extrasaction='ignore'); w.writeheader(); w.writerows(righe)

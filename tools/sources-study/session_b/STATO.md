@@ -1830,3 +1830,67 @@ verbali del novembre 2024 e del luglio 2025 approvati a giugno 2026.
 **Una cifra che non è colpa della trascrizione.** In una seduta si dicono «566» e poi «556»
 domande — e **il verbale riporta entrambe le cifre**. Non è l'ASR che sbaglia: è la fonte che non
 sa quante siano.
+
+## 56. Correzione a §55: avevo misurato la cosa sbagliata (16 settembre, 10:00)
+
+In §55 ho scritto che la ripetizione di blocchi nella trascrizione a pagamento era «un ventesimo di
+quanto riferito». **Era sbagliato, e il lettore aveva ragione.** Avevo cercato le ripetizioni
+**solo alle giunzioni fra due pezzi consecutivi**: una domanda più stretta di quella giusta. Il
+lettore del lotto successivo l'ha misurata come andava misurata — blocchi ripetuti ovunque nel
+testo — e i suoi numeri (18,9% e 17,2% su due registrazioni) sono confermati.
+
+Misura corretta, su tutte le 211 trascrizioni a pagamento, contando le parole che stanno dentro
+blocchi di dodici parole presenti più di una volta:
+
+| | trascrizioni della piattaforma | trascrizioni a pagamento |
+|---|---|---|
+| mediana della quota ripetuta | 0,0% | 0,5% |
+| registrazioni sopra il 10% | **0** | **39** |
+| massimo | 1,7% | **86,6%** |
+
+**È un difetto del modello che abbiamo pagato, non del materiale.** Sulle stesse sedute, con lo
+stesso audio istituzionale, la piattaforma non supera l'1,7% e il nostro modello arriva a
+riscrivere quattro volte lo stesso passaggio: in una registrazione da 9.902 parole il 67,9% del
+testo sta dentro blocchi duplicati. Succede sulle registrazioni lunghe e silenziose, che è
+esattamente il profilo delle sedute municipali.
+
+Conseguenze, tutte da dichiarare nel rapporto:
+1. **Il conteggio delle parole è gonfiato** su quelle registrazioni, e con esso le parole al minuto
+   e qualunque statistica di volume.
+2. Un lettore che trova la stessa frase tre volte può prenderla per insistenza dell'oratore.
+3. Chi ripetesse questo studio con lo stesso modello troverebbe lo stesso difetto: va scritto.
+
+Ho aggiunto `quota_ripetuta` all'indice e al manifest RomaTV, riga per riga, e l'avvertenza nel
+prompt dei lettori. Gli identificativi `V3_*` già assegnati **non sono cambiati** — i lotti letti li
+citano — e i 26 item nuovi hanno preso i numeri liberi: il corpus RomaTV è ora a **274 item**.
+
+**Un limite che il lettore ha isolato e che vale per tutte le misure sui silenzi.** Con il marcatore
+ogni 300 secondi, qualunque silenzio più corto di cinque minuti è invisibile: scrivere «zero tratti
+muti» su una trascrizione a pagamento è **un artefatto della grana, non una misura**. Le due origini
+non sono confrontabili su questo, e i numeri sui silenzi valgono solo per le registrazioni della
+piattaforma.
+
+## 57. Sette verbali trovati a orecchio, e un atto che sbaglia i propri conti (16 settembre, 10:00)
+
+Il lotto V3_013–V3_024 ha prodotto 52 candidate, **34 `solo dal parlato`, di cui 13 da sedute con
+verbale pieno**. E ha fatto due cose che valgono più delle percentuali.
+
+**Ha trovato sette verbali che il censimento non assegna**, identificandoli **per ora di apertura,
+ordine del giorno ed esiti di voto** invece che per metadati. È il metodo che funziona quando
+l'abbinamento automatico manca, e l'ho messo nel prompt dei lotti successivi. Ha inoltre verificato
+che nel corpus **non esiste alcun verbale di Consiglio del Municipio V** — zero su 1.983 — per cui
+quelle sedute hanno il verbale davvero assente, non solo non abbinato.
+
+**E ha trovato un difetto dentro un atto, non nella registrazione.** Una risoluzione del Municipio V
+proclama «Favorevoli: 16» ed elenca **22 nomi**, con 22 presenti, 22 votanti, zero contrari e zero
+astenuti. In aula si dice «all'unanimità». **Ha ragione l'aula**: è l'atto a sbagliare il proprio
+conteggio. Finora avevamo trovato registrazioni che aggiungono agli atti; questa è una
+registrazione che **corregge** un atto.
+
+**La votazione che non lascia traccia.** In una seduta, fra due marcatori si passa da «possiamo
+votare, posso procedere?» agli interventi che la danno per avvenuta: che il voto ci sia stato, e che
+un sostituto si sia astenuto, **si deduce solo dalle repliche**. Nessun verbale nel corpus.
+
+**E un dettaglio che dice molto sull'epoca.** In una commissione si discute a lungo di un
+partecipante non identificato collegato alla seduta: risulta essere **un servizio automatico di
+trascrizione**, attivato da qualcuno e rimasto lì.
