@@ -3343,3 +3343,30 @@ Restano aperti del C5: i nomi delle colonne nello schema (`titolo` contro `titol
 che vanno allineati prima della consegna; la cardinalità di `gemello_id`, che ammette un solo gemello
 mentre le coppie stanno già in `coppie_parlato_scritto.csv`; e la tabella degli accostamenti che il
 C5 vorrebbe dentro le cinque tabelle.
+
+## 85. La registrazione che il CDN non serve per intero (2026-09-16 11:12Z)
+
+Gli scaricamenti sono finiti (pozza libera), il driver ASR era morto su un errore dell'API («Audio
+file might be corrupted or unsupported») e l'ho riavviato con il codice corretto: restano 12 item su
+318, dieci con i segmenti completi e uno con il mono pronto.
+
+Il dodicesimo è `41e7b841`, quello di §65. **Riprovato oggi, a distanza di ore: il segmento 58 è
+ancora vuoto.** Non è un intoppo di rete, è un difetto della fonte — una registrazione pubblicata di
+cui il CDN non serve l'ultimo pezzo.
+
+Scartare una seduta pubblica per una coda di dieci secondi sarebbe peggio che tenerla dichiarando la
+lacuna. `video/recupera_segmento_mancante.py` ricostruisce la playlist locale con i **58 segmenti su
+59** che esistono. Niente di aggirato: si usa quello che il CDN ha servito. Le IV non si inventano —
+ogni segmento ha IV uguale all'MD5 del proprio indice, verificato sui segmenti di un'altra
+registrazione dove `cfcd2084…` è MD5("0").
+
+**E il programma, alla prima esecuzione, ha dichiarato «nessuna lacuna».** Perché scartavo i file da
+zero byte prima di contare: il segmento mancante spariva dalla lista, l'ultimo diventava il 57, e
+non c'era più nessun buco da vedere. Un programma scritto **apposta** per dichiarare una lacuna che
+non riusciva a vederla — la stessa forma di difetto che oggi ho trovato nel conteggio dei processi,
+nel log del driver e nella prima misura del T4. Corretto: i segmenti vuoti si contano come mancanti,
+e ora dice *«1 segmento, circa 10 secondi, in coda»*.
+
+La regola che ne ricavo, e che vale più della correzione: **quando scrivo un programma per misurare
+una mancanza, la prima cosa da provare è che la mancanza la veda**. Filtrare i dati difettosi
+all'ingresso è il modo più naturale di renderli invisibili proprio alla misura che li cerca.
