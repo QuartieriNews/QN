@@ -3782,3 +3782,24 @@ l'istruzione di riportarla nelle note della trascrizione: una seduta che si inte
 fine può sembrare una seduta finita male.
 
 Quell'item è `V3_316` e non è ancora stato letto — i lotti sono arrivati a V3_192.
+
+## 97. Il denominatore è gonfio dello 0,5%, non del 5% (2026-09-16 11:51Z)
+
+Il secondo revisore ha trovato tre doppioni del parlato oltre a quelli noti e ne ha tratto: «quattro
+doppioni su 77 candidate, il denominatore della novità è sovrastimato di circa il 5%».
+
+Verificati: i tre esistono e sono veri — stesso titolo, documenti diversi, tutti dalla coppia
+`A3_028`/`A3_030`, cioè **la stessa seduta pubblicata due volte**.
+
+Ma la proporzione no. Misurata su tutto il corpus del parlato: **5 righe in eccesso su 1.081, lo
+0,5%**, e tutte e cinque da quell'unica coppia di item.
+
+Il 5% veniva dal suo campione, che è fatto di candidate di classe D — e i doppioni **si addensano
+proprio lì**, perché una seduta pubblicata due volte produce due righe che si accostano fra loro.
+Estrapolare da quel sottoinsieme moltiplica per dieci.
+
+Non è un rilievo contro di lui: ha dato il numero dichiarando da dove veniva, ed è così che ho potuto
+controllarlo. Ma il numero da pubblicare è **0,5%**, e vale la pena tenerlo come esempio di una
+trappola che oggi ho preso anch'io almeno una volta (§72, la stima del buco delle convocazioni
+estratta da un elenco già filtrato): **un campione selezionato per una proprietà non misura la
+frequenza di quella proprietà.**
