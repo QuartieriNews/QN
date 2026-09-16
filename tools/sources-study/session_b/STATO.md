@@ -4949,3 +4949,64 @@ la consegna, e Drive. Le stampa in coda come promemoria.
 
 Provato su due passi (uno dei due lungo) per verificare che l'ordine, l'ambiente e i codici di uscita
 funzionino, senza ricostruire il database mentre due lotti stanno ancora scrivendo.
+
+## 124. Due lotti insieme, e un errore mio nel modo di modificare il rapporto (2026-09-16 16:45Z)
+
+V3_332–V3_246 (12 candidate) e V3_243–V3_321 (27 candidate). Restano 28 registrazioni, due lotti in
+corso: la lettura si chiude stasera.
+
+### Prima l'errore, perché riguarda il metodo
+
+Nel §120 avevo scritto di aver portato nel rapporto il conteggio dei toponimi. **Non c'era.** Lo
+script con cui applico le modifiche fa tutte le sostituzioni in memoria e scrive il file alla fine:
+quella volta la seconda sostituzione non trovò il suo ancoraggio, lo script morì, e **anche la prima,
+già riuscita, non fu mai scritta**. Ho scoperto il buco solo perché rileggendo non trovavo la frase.
+
+Da qui in avanti: una sostituzione per script, oppure `SALTATO` stampato e il file scritto lo stesso.
+Applicato subito in questo turno.
+
+### I toponimi, ora con un numero vero
+
+Tre lettori hanno contato entrambi i lati su **quattordici sedute**: **89 toponimi pronunciati, 17
+sopravvissuti nel verbale — il 19%**. E il dettaglio che spiega il meccanismo: **dentro la prosa di
+un verbale è sopravvissuto un toponimo su trentuno**; gli altri si salvano negli ordini dei lavori e
+negli elenchi. Non è che la prosa perda di più: è che quello che si salva non si salva nella prosa.
+
+### La scelta interpretativa che sposta il campo dei lettori di un quinto
+
+Quando l'ordine dei lavori porta il toponimo e l'oggetto di un'interrogazione ma **la risposta non
+c'è da nessuna parte**, il fatto è «anche negli atti» o «solo dal parlato»? I lettori applicano la
+lettera (l'atto deve dire *la stessa cosa*) e scrivono «solo dal parlato». Un lettore ha contato che
+cosa costa: **con l'interpretazione opposta il suo lotto passerebbe da 22 a 16 novità su 27**. È il
+nuovo §7 punto 1, ed è la ragione più forte per cui la risposta del rapporto è quella meccanica.
+
+### Tre cose nuove nel §3 e §5
+
+- **Le correzioni ai verbali spariscono dai verbali**: sei correzioni accolte in trentasei minuti
+  durante la rilettura di sei verbali arretrati, e **nessuna delle sei compare nel verbale della
+  seduta in cui sono state fatte**.
+- **La duplicazione alta non implica difetto**: il valore più alto di un lotto (8,4%) era la
+  presidente che rileggeva il deliberato su richiesta dell'aula. La colonna conta allo stesso modo un
+  difetto della macchina e una prassi di garanzia.
+- **«Assente» a volte vuol dire «non ancora pubblicato»**: di una seduta del 4 giugno il verbale porta
+  il protocollo del **10 agosto**. Qualifica il §7 punto 15 (la raccolta dei verbali è quasi
+  completa) senza smentirlo: è una terza cosa rispetto a «non scritto» e «scritto e vuoto».
+
+### Il caso limite, e il suo esatto rovescio
+
+Ventotto minuti su quali murales di un ex stabile sopravvivranno al cantiere, con le prescrizioni
+delle soprintendenze e la spiegazione che sulla street art non esiste vincolo: **i due verbali della
+stessa seduta riducono tutto a tre frasi** e rimandano alla registrazione. E la registrazione del
+canale gemello, per quei ventotto minuti, **è muta**: il rinvio punta a un file vuoto. Variante nuova
+del difetto di manifest — due item, una seduta, un canale muto.
+
+Il rovescio sta nell'altro lotto: un'aula vota «gli spazi della rampa per l'istituto» e l'atto dice
+sgombero dei reperti dal quinto piano e assegnazione al liceo. Le due cose insieme sono il §3 in
+miniatura.
+
+### Il controllo sulle code, verificato da un lettore e migliorabile
+
+Un lettore ha rieseguito `code_perdute.py` e **conferma esattamente 11** item con scarto ≥ 300 s.
+Ha anche trovato il verso cieco: **gli scarti negativi** — un item con `durata_hm` = `0:00` e
+marcatori fino a `[00:41]` — cioè errori di manifest che un filtro sui soli scarti positivi non vede.
+Da aggiungere al programma.
