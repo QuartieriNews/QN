@@ -2120,3 +2120,33 @@ meccanismo su cui una pipeline possa contare.
 Terza volta in questa sessione che una mia misura smentisce chi ha letto il materiale e la mia misura
 è quella sbagliata (§56, §60, questa). La regola di §60 ha retto: ho ricontrollato prima di
 pubblicare il risultato negativo. Ma l'avevo già scritto una volta, come risultato.
+
+## 63. Quanto costa cambiare la regola sotto i lettori (2026-09-16 08:47Z)
+
+Il C3 dice (§3.3) che i lotti letti con definizioni diverse non sono confrontabili su
+`novita_rispetto_agli_atti`, e chiede la ricodifica ex-post. Prima di ricodificare ho misurato
+**quanto** sono incomparabili, con `report2/varianza_lettori.py`.
+
+Il controllo è questo: il campo lo scrive un lettore, la classificazione S/U/D la calcola il
+confronto. La misura meccanica non sa niente del lettore, quindi porta la sola eterogeneità del
+materiale. Il rapporto fra le due escursioni dice chi disperde.
+
+| gruppo | lotti | escursione del lettore | escursione meccanica | rapporto |
+|---|---|---|---|---|
+| V4 YouTube, letti sotto tre definizioni successive | 9 | **71 punti** | 49 punti | **1,46** |
+| V3 RomaTV, letti a specifica ferma | 6 | **12 punti** | 23 punti | **0,52** |
+
+Sopra 1 il lettore aggiunge dispersione al materiale; sotto 1 ne toglie. A regola ferma i lettori
+concordano più di quanto vari il materiale (12 punti, vicino ai ~9 punti misurati fra due lettori
+sullo stesso tipo di atto); a regola che cambia sotto di loro la dispersione **supera** quella del
+materiale. La correlazione fra giudizio umano e misura meccanica sui 15 lotti è +0,22: nulla.
+
+Il caso estremo è V4_061: `solo dal parlato` al **16,7%** e `non verificabile` al **68,8%**, mentre
+la misura meccanica sullo stesso lotto dà S al 58,3%. Quel lettore non stava leggendo peggio, stava
+applicando una definizione diversa — e infatti è uno dei lotti letti prima dell'emendamento che ha
+tolto dal `non verificabile` il fuori-perimetro.
+
+Da tenere fermo: **non è una misura della variabilità fra LLM**. È la misura di che cosa costa
+cambiare il contratto mentre il lavoro è in corso, ed è un costo che ho creato io emendando la
+specifica tre volte. La regola «non si modifica mentre un lotto è in lettura» era scritta nella
+specifica dalla prima riga; l'ho rispettata sul singolo lotto e violata sulla serie.
