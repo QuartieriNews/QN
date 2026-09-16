@@ -2065,3 +2065,58 @@ separatamente.
 **Un difetto nuovo della trascrizione**: in due registrazioni compaiono parole **sostituite da
 asterischi** dalla piattaforma. Una censura automatica che rende illeggibili dei passaggi, e che va
 messa accanto alle invenzioni nei silenzi e ai blocchi duplicati.
+
+## 62. Il link dentro il verbale: la mia misura era sbagliata due volte (2026-09-16 08:15Z)
+
+Un lettore aveva detto: «i verbali del Municipio XI chiudono con il link di streaming, e quel link
+contiene l'identificativo del video … se altri Municipi fanno lo stesso il censimento si può rifare
+in automatico». Avevo cercato e riferito: 17 atti, **zero** risolti al nostro corpus, 3
+identificativi rovinati dall'OCR. Conclusione che avevo tratto: prassi reale ma inutilizzabile.
+
+Entrambi i numeri erano miei difetti, non della fonte.
+
+1. Cercavo la stringa `vod/<guid>`. Cercando l'identificativo dovunque compaia, gli atti sono **40**
+   e i Municipi **quattro**, non uno.
+2. Risolvevo i guid contro la colonna `video_id` del manifest. Per le commissioni quel campo è
+   `comm_` + **i primi 8 esadecimali** del guid, non il guid: nessuna stringa poteva mai
+   coincidere. Lo zero non misurava la fonte, misurava la mia chiave.
+
+Misurato bene (`report2/link_verbali_video.py`), il quadro è un altro. Le forme sono tre e valgono
+cose diverse:
+
+| forma | dove | atti | guid distinti | che cosa identifica |
+|---|---|---|---|---|
+| `watch/vod/<guid>` | verbali XI (15) e X (2) | 17 | 17 | **la singola seduta** |
+| `search/catalog/<guid>` | verbali XV | 21 | **1** | il catalogo del Municipio |
+| `watch/live/<guid>` | convocazioni IX | 2 | 1 | il canale della diretta |
+
+Solo la prima abbina un atto a una registrazione. La seconda dice che la registrazione esiste, non
+quale: lo stesso identificativo in tutti e 21 i verbali. La terza sta nella convocazione e identifica
+l'organo, non la seduta. Dei due link di diretta del IX, **uno è corrotto dall'OCR di un carattere**
+(`…a43aa6e7` contro `…a43aabe7`): il difetto che avevo attribuito a tre identificativi esiste, su uno.
+
+Dei 17 identificativi di seduta, **7 risolvono a un item del nostro corpus** e 9 altri a
+registrazioni che esistono sul portale ma che non abbiamo scaricato; uno solo non risolve a niente.
+
+### Il vero valore: 7 abbinamenti dichiarati dalla fonte
+
+Quei 7 non sono un matcher, sono un **banco di prova**: sono gli unici casi in cui l'abbinamento
+atto-registrazione lo dichiara la fonte e non lo ricostruiamo noi. Su di essi:
+
+- il **censimento della piattaforma ne dichiara 0 su 7**. Tutti e sette hanno `verbale_match` vuoto;
+- il nostro collegamento per Municipio+data contiene il verbale vero **7 volte su 7**, e in **4 casi
+  su 7** il compatibile era già unico (negli altri tre erano 2, 2 e 3).
+
+È poco (n=7, un solo Municipio) e va scritto come tale. Ma è la sola verifica esterna che abbiamo del
+collegamento, e dice due cose coerenti con tutto il resto: il censimento della fonte è il pezzo
+debole, e l'euristica Municipio+data non ha mai perso il verbale giusto dove si poteva controllare.
+
+### Che cosa non dice
+
+Che il censimento si possa rifare in automatico: 17 atti su 1.983, due Municipi su quindici. È una
+buona prassi da nominare — un verbale che cita la registrazione a cui si riferisce —, non un
+meccanismo su cui una pipeline possa contare.
+
+Terza volta in questa sessione che una mia misura smentisce chi ha letto il materiale e la mia misura
+è quella sbagliata (§56, §60, questa). La regola di §60 ha retto: ho ricontrollato prima di
+pubblicare il risultato negativo. Ma l'avevo già scritto una volta, come risultato.

@@ -141,13 +141,33 @@ lettere. Due atti identici con lo stesso protocollo pubblicati due volte.
 
 **Nelle registrazioni.** Lo stesso toponimo compare fino a **dodici grafie nella stessa seduta**,
 anche quando è l'oggetto della discussione; le sigle saltano quasi sempre; gli importi slittano di
-tre ordini di grandezza. Quattro item su 274 sono **due sedute pubblicate due volte**.
+tre ordini di grandezza. In due registrazioni la piattaforma **sostituisce parole con asterischi**.
+Quattro item su 274 sono **due sedute pubblicate due volte**; altri cinque sono **spezzoni
+consecutivi della stessa seduta** pubblicati come registrazioni distinte — due difetti diversi, che
+si contano separatamente perché le ripubblicazioni condividono il testo e gli spezzoni no.
 
 **Nel collegamento fra i due.** Il censimento abbina la registrazione al suo atto in modo
 inaffidabile: su 78 abbinamenti dichiarati, 6 puntano a un atto di un altro Municipio e 8 a un atto
 che non è di giugno; e per 63 registrazioni esiste un verbale univoco che il censimento **non**
 dichiara. Tre lettori hanno recuperato a mano più di venti verbali identificandoli per ora di
 apertura, ordine del giorno ed esiti di voto.
+
+Il controllo esterno lo offre la fonte stessa, in un solo punto. **Diciassette verbali scrivono
+dentro l'atto l'identificativo della registrazione** della seduta (`…/watch/vod/<identificativo>`):
+quindici del Municipio XI, due del X. Sono gli unici casi in cui l'abbinamento lo dichiara chi ha
+redatto l'atto invece di ricostruirlo noi. Sette di quei diciassette cadono su registrazioni del
+nostro corpus, e su quei sette: il censimento **ne dichiara zero**; il nostro collegamento per
+Municipio e data contiene il verbale giusto **sette volte su sette**, ed era già univoco in quattro.
+Sono sette casi di un Municipio solo — troppo pochi per una percentuale, abbastanza per dire da che
+parte sta il difetto.
+
+Altri due Municipi scrivono un link che sembra la stessa cosa e non lo è: ventuno verbali del XV
+rimandano al **catalogo** del Municipio, sempre con lo stesso identificativo, e due convocazioni del
+IX al **canale della diretta**. Il primo dice che la registrazione esiste, non quale; il secondo
+identifica l'organo, non la seduta. E uno dei due link del IX è **corrotto dall'OCR di un carattere**:
+anche dove la fonte scrive l'identificativo, il testo può consegnarlo rotto. Quaranta atti su 1.983,
+quattro Municipi su quindici: è una buona prassi da nominare, non un meccanismo su cui una pipeline
+possa contare.
 
 **Nella fonte, verso le persone.** Tre ordinanze pubblicate all'Albo Pretorio riportano nome, luogo
 e data di nascita, codice fiscale, indirizzo con civico, scala, piano e interno, la condizione
