@@ -160,10 +160,17 @@ all'altro. Una proposta sui cinghiali diventa «150 interventi, 200 mila euro» 
 dispositivo — piano in trenta giorni, tavolo permanente, rendicontazione trimestrale in aula,
 numero verde ventiquattr'ore al posto della sola casella di posta.
 
-E dove la seduta è un monologo il verbale è quasi verbatim, e dal parlato non emerge quasi
-niente: la novità nasce dove c'è dialogo, e il dialogo è precisamente la parte che il verbale
-comprime. È un'ipotesi che i prossimi lotti possono smentire, ed è stata scritta perché la
-smentiscano.
+Quanto un verbale conservi non dipende però da quanto la seduta sia stata vivace: **dipende da come
+il verbale è scritto**. I verbali in prosa narrativa estesa — quelli redatti riascoltando — tengono
+tutto, comprese cifre che la trascrizione automatica storpia: uno scrive `17.182,05 euro` dove la
+registrazione dice «17.000». I verbali a elenco puntato tengono l'intestazione e le presenze. Il
+caso estremo è un verbale che registra «Intervengono il presidente, il consigliere X e il
+consigliere Y» e nient'altro, mentre l'intera discussione — chi non voterà e perché, quali risorse
+non sono arrivate — esiste solo nella registrazione.
+
+Questa correzione viene da un lettore a cui era stata chiesta la verifica dell'ipotesi opposta, e
+che l'ha smentita misurando. Vale come sono state scritte tutte le regolarità di questo rapporto:
+finché un lotto non le smentisce.
 
 ## 4. Che cosa si vede solo ascoltando
 
@@ -244,6 +251,12 @@ identifica l'organo, non la seduta. E uno dei due link del IX è **corrotto dall
 anche dove la fonte scrive l'identificativo, il testo può consegnarlo rotto. Quaranta atti su 1.983,
 quattro Municipi su quindici: è una buona prassi da nominare, non un meccanismo su cui una pipeline
 possa contare.
+
+**E un difetto della nostra trascrizione che non è rumore ma perdita.** Quando il modello entra in
+ciclo non aggiunge testo inutile: **riscrive lo stesso passaggio al posto di quello che si stava
+dicendo**. In una registrazione sparisce così l'illustrazione dell'atto da parte della proponente,
+in un'altra l'inizio dell'intervento critico. La percentuale di testo duplicato dice *quanto*, non
+*che cosa* è andato perduto — e per saperlo bisogna andare al punto di innesco e guardare.
 
 **Nella fonte, verso le persone.** Tre ordinanze pubblicate all'Albo Pretorio riportano nome, luogo
 e data di nascita, codice fiscale, indirizzo con civico, scala, piano e interno, la condizione
@@ -329,6 +342,13 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 Quello che **non** è riproducibile da un programma sta nei §3 e §4: sono letture, non misure, e ogni
 caso porta l'identificativo dell'atto o della registrazione con il marcatore, così che chiunque
 possa andare a vedere.
+
+**Quello che la riservatezza ci costa, detto per intero.** In una seduta il fatto è che la titolare
+di un banco di mercato non ha mai protocollato una domanda. Il verbale municipale lo scrive con il
+numero del banco e il tipo di attività; noi no, perché il banco è uno solo e quei due dati
+identificano una persona privata quanto un nome. Il fatto amministrativo resta nei nostri file,
+l'attribuzione no — e **chi volesse contestare quella notizia non avrebbe abbastanza per farlo**. È
+il prezzo di DEC-102. Va pagato, e va scritto che lo si sta pagando.
 
 ## 8. Decisioni editoriali in attesa dell'owner
 

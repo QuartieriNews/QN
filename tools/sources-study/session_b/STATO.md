@@ -2683,3 +2683,77 @@ righe `CEN_` su 14 «anche dove il toponimo lo renderebbe ovvio». È l'applicaz
 regola (un dedotto non si scrive come letto) e insieme una perdita: quelle nove righe non entrano in
 nessuna statistica per Municipio. Va deciso se il territorio dei `CEN_` si ricava dal toponimo
 dichiarando la deduzione, o se resta vuoto. Lo aggiungo alle decisioni aperte.
+
+## 74. C4 e V3_097–V3_108: sette bocciature e un’ipotesi smentita misurando (2026-09-16 09:53Z)
+
+### Il controllo C4 sul rapporto scritto
+
+Sette rilievi **BLOCCANTI**, tutti fondati. I quattro che cambiano il testo:
+
+1. **«Contro i 1.983 atti» era falso.** `novita_meccanica.py` confronta il parlato contro **tutte le
+   righe scritte**, atti *più* notizie del Report 1. Il nome del campo
+   (`novita_rispetto_agli_atti`) dice meno di quello che il numero misura. Corretto nel rapporto e
+   dichiarato come difetto di nome.
+2. **Il 36,8% non esce dal programma che calcola gli altri due.** Lo calcola `audit_toponimi.py`, e
+   scrivere «da cui la scala» faceva credere a una sola formula. Corretto.
+3. **«È il pavimento: regge a qualunque obiezione»**: falso. Regge all'obiezione sulla trascrizione,
+   non a quella sulla deduplicazione. Riscritto.
+4. **La dispersione fra lotti**: il testo diceva «lotti letti a regola mobile contro regola ferma»,
+   il programma divide per corpus (YouTube contro RomaTV). I due gruppi differiscono per la regola
+   **e** per il materiale, e la misura non separa le cause. Riscritto come segnale, non come misura.
+
+E un rilievo che ha trasformato un aneddoto in una misura. Il §1 diceva che la frase «la
+videoregistrazione sostituisce la trascrizione» sta «in due verbali» e che «tutto il resto discende
+da qui». Due verbali non reggono una tesi, e il C4 aveva ragione a bocciarla. Misurato invece con
+`record_dichiarato.py` su tutti e 2.668 gli atti:
+
+| formula | atti | Municipi |
+|---|---|---|
+| la registrazione **sostituisce** il verbale | 21 | II |
+| si rimanda alla registrazione | 37 | VIII, XI, XII |
+| il verbale è dichiarato **sommario** | 15 | IX |
+| versione integrale sul portale | 34 | I, XV |
+| **totale** | **107** | **7 Municipi su 15** |
+
+Centosette atti, quasi tutti verbali, in sette Municipi su quindici, dichiarano **dentro il proprio
+testo** che il record completo della seduta non è l'atto ma la registrazione. Non è una nostra tesi:
+è l'amministrazione che lo scrive. Ora il §1 dice questo.
+
+Restano aperti dal C4: l'audit di precisione e richiamo della deduplicazione (mai fatto, e i tre
+numeri ci poggiano sopra) e l'indice delle evidenze per i casi narrativi. Ho aggiunto al rapporto la
+**mappa numero→programma** e tre punti nuovi alle incertezze, fra cui le **tre condizioni che
+smentirebbero** il meccanismo del §2, scritte perché qualcuno le verifichi.
+
+### Il lotto V3_097–V3_108
+
+**Ipotesi 2 smentita per metà, e la variabile vera è un'altra.** Non è monologo contro dibattito: è
+**la forma del verbale**. I verbali scritti in prosa narrativa estesa — redatti riascoltando —
+tengono tutto, comprese le cifre che la trascrizione storpia (un verbale scrive 17.182,05 euro dove
+la registrazione dice «17.000»); i verbali a elenco puntato tengono intestazione e presenze e basta.
+Il caso estremo: un verbale registra «Intervengono il presidente, il consigliere X e il consigliere
+Y» e nient'altro, mentre l'intera discussione esiste solo nella registrazione.
+
+**Una terza nicchia, non prevista**: l'**esito di un accesso agli atti letto ad alta voce** —
+autovelox chiesto nel 2022 e mai autorizzato, attraversamenti illuminati chiesti nel 2023 con un
+atto di giunta e mai installati. Nasce dentro uno scontro politico, cioè esattamente dove le prime
+due nicchie dicevano che non si trova niente.
+
+**E una precisazione che corregge la nicchia della lettura ad alta voce**: leggere un documento
+**che è nel corpus** produce corrispondenze, non novità. La novità è **ciò che i presenti aggiungono
+attorno al documento** — i plessi che la delibera non nomina, il sopralluogo ricordato a memoria.
+
+**Il difetto della ripetizione è peggiore di come l'avevo scritto.** Non gonfia il conteggio delle
+parole: **cancella il parlato del tratto in cui si innesca**. In un item sparisce l'illustrazione
+dell'atto da parte della proponente, in un altro l'inizio dell'intervento critico. `quota_ripetuta`
+misura quanto, non che cosa. Emendata la specifica, e con essa la regola che faceva scrivere `0` nei
+campi di volume: uno zero è indistinguibile da un dato vero, ora si scrive `non attendibile`.
+
+**Un errore in un atto trovato dall'incrocio con l'audio**: un verbale dichiara la chiusura alle
+12:35 di una seduta che la registrazione chiude alle 9:33. Tre ore di scarto, visibili solo mettendo
+insieme le due fonti.
+
+**E il costo della riservatezza, detto dal lettore meglio di come lo dice la specifica**: in una
+seduta il fatto è che la titolare di un banco non ha mai protocollato una domanda; il verbale
+municipale lo scrive con numero di banco e tipo di attività, noi no. «Chi volesse contestare la
+notizia non ha abbastanza per farlo.» È il prezzo di DEC-102, ed è giusto pagarlo, ma va scritto nel
+rapporto invece di far finta che non ci sia.
