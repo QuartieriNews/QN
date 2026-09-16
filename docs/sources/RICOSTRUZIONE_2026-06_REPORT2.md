@@ -281,6 +281,11 @@ In aula l'assessorato dichiara che la soprintendenza aveva chiesto di **bloccare
 variante e che il parere prescrittivo nelle aree tutelate era stato **negato**; il verbale di quella
 seduta scrive che l'incontro «ha consentito di chiarire i rispettivi ambiti di competenza».
 
+**E lo stesso organo si smentisce a due settimane di distanza.** L'8 giugno una commissione dichiara
+«concluso il giro degli sfalci nei parchi» — è una delle notizie che il Report 1 aveva già estratto —
+e il 22 giugno, nella stessa commissione, un commissario parla di «enorme ritardo, una giungla nei
+parchi». Senza la registrazione della seconda seduta, la prima resterebbe l'ultima parola.
+
 **E qualche volta le due fonti non si completano: si smentiscono.** In dodici registrazioni lette di
 seguito ce ne sono quattro casi. Il verbale di una commissione scuola scrive che il trasferimento
 temporaneo di alcune sezioni di una materna è stato revocato per «criticità organizzative, in
@@ -418,6 +423,15 @@ date e sei numeri di protocollo. **Quattro di quei luoghi esistono solo nell'aud
 che misura la novità territoriale è il caso peggiore: non si perde un dettaglio, si perde
 esattamente la coordinata che rende un fatto un fatto locale.
 
+Un secondo lettore, su un altro Municipio, ha trovato la stessa cosa nella forma più netta: un
+verbale pieno — nomi, orari al minuto, il voto 6-0 — riduce il fatto territoriale più grosso della
+seduta, gli sfalci fermi con **cinque strade nominate a voce** e la richiesta di convocare
+l'assessore, a «uno scambio d'informazioni sui luoghi ove è necessario provvedere allo sfalcio».
+I cinque toponimi spariscono tutti. Nello stesso lotto, i cittadini ai quali viene negata la parola e
+la sospensione che ne segue diventano «chiarimenti inerenti lo svolgimento della seduta». **Il
+verbale che ha scelto di non scrivere si è presentato in tutte e quattro le sedute del lotto che un
+verbale ce l'avevano**: non è il caso raro, è il caso normale.
+
 L'obiezione ovvia è che decida il redattore, cioè che sia una questione di persone e di uffici. È
 stata controllata e non regge: **lo stesso ufficio, nello stesso mese**, conserva importo, numero di
 partecipanti e fascia d'età di un progetto già finanziato, e di un'iniziativa civica senza atto non
@@ -512,6 +526,14 @@ quelle registrazioni rende inutilizzabile il conteggio delle parole. Lo storpiam
 propri invece è di entrambe: lo stesso toponimo compare fino a **dodici grafie nella stessa
 seduta**, anche quando è l'oggetto della discussione; le sigle saltano quasi sempre; gli importi
 slittano di tre ordini di grandezza.
+
+**Un altro che è nostro: il foglio di riscontro riassume, e un riassunto contiene numeri.** Un
+lettore ha notato che il nostro `confronto_atti.csv` descrive un atto come «parere favorevole con
+**nove** emendamenti», mentre in aula e nell'allegato del verbale gliene risultano **undici**.
+Contandoli sul testo integrale dell'atto ne vengono nove o dieci secondo dove si taglia un
+emendamento dall'altro. Nessuno dei tre conteggi è sbagliato per sciatteria: **contare gli
+emendamenti è già un'interpretazione**, e un numero dentro un riassunto non è un dato solo perché è
+scritto in una tabella. Vale per il nostro foglio come per i verbali di cui parla questo capitolo.
 
 **E un difetto che è nostro, non della fonte.** La mascheratura automatica dei nomi di persona ha
 colpito **un toponimo**: l'oggetto di una mozione votata all'unanimità esce come `spostamento
@@ -611,6 +633,13 @@ lavoro.
 | confidenza dichiarata | reale, mediana 0,84–0,94 | assente |
 | testo dentro blocchi duplicati | mediana 0,0%, mai sopra il 10% | mediana 0,5%, **39 registrazioni su 211 sopra il 10%, massimo 86,6%** |
 | comportamento nei silenzi | **inventa parole** | lascia il blocco vuoto |
+
+**E il difetto peggiore non è perdere, è inventare.** In un item la trascrizione riporta **nove
+«Favorevole» di fila** dove l'aula ha votato 2 favorevoli, 2 contrari e 2 astenuti, e il parere è
+stato **respinto**: chi leggesse la sola trascrizione registrerebbe l'opposto di quello che è
+successo, senza alcun segnale che qualcosa non torna. È il motivo per cui in questo studio un voto va
+sempre riscontrato sul verbale o sull'atto prima di essere scritto — e per cui un conteggio di voti
+preso da una trascrizione automatica, in qualunque pipeline, non è un dato.
 
 Sulle didascalie YouTube la confidenza per parola **vale zero su ogni parola**: è un campo
 compilato a zero, non una misura, e chi lo usasse come filtro scarterebbe tutto.

@@ -252,7 +252,13 @@ registrazione*», saluta, e il flusso continua con due nomi di battesimo e una f
 Questo toglie l'ultima interpretazione benevola: non è un incidente e non è raro. È il modo normale
 in cui queste registrazioni finiscono, e chi le pubblica non le rivede.
 
-Sei casi su 305 registrazioni lette non fanno una frequenza — ma cambiano la natura della decisione:
+**Alle 14:57Z sono nove.** Un terzo lettore che li ha cercati ne ha trovati altri tre su dieci item:
+**trentacinque minuti di linea aperta dopo la chiusura** con due frammenti di voci reali, un accordo
+esplicito in aula di chiudere una questione «fuori registrazione», e quattro minuti di riunione dei
+capigruppo rimasti dentro il flusso. Tre lettori che hanno guardato apposta: tre su dieci, tre su
+dieci, zero su dieci.
+
+Nove casi su 305 registrazioni lette non fanno una frequenza — ma cambiano la natura della decisione:
 il primo poteva essere un incidente, due sono un **modo in cui la fonte pubblica sistematicamente
 più di quello che intende pubblicare** — e nel secondo caso non è nemmeno «dopo la fine»: è dentro
 la seduta, in una pausa che tutti in aula considerano privata. La raccomandazione non cambia (la

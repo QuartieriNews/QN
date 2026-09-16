@@ -4555,3 +4555,60 @@ angoli diversi. Il §2 la dice già nella forma buona (assente / vuoto / che ha 
   due sensi, e l'ho messa nei mandati.
 - **Zero** microfoni aperti o parlato oltre la chiusura in dieci item cercati: il denominatore di D7
   cresce senza che cresca il numeratore, ed è esattamente quello che serve per non gonfiare il conto.
+
+## 115. V3_379–V3_235: la trascrizione non perde, inventa — e un numero sbagliato è nostro (2026-09-16 14:57Z)
+
+13 candidate su dieci item (tre a zero per la soglia sui regolamenti cittadini, uno dura 21 secondi).
+
+### Il difetto peggiore trovato finora nelle trascrizioni
+
+In un item la trascrizione riporta **nove «Favorevole» di fila** dove l'aula ha votato 2 favorevoli,
+2 contrari e 2 astenuti e il parere è stato **respinto**. Non è una perdita: è un'invenzione
+coerente, senza nessun segnale che qualcosa non torni. Chi leggesse la sola trascrizione registrerebbe
+**l'opposto** di quello che è successo.
+
+Nel rapporto §6, con la conseguenza operativa: un conteggio di voti preso da una trascrizione
+automatica non è un dato, in nessuna pipeline. Nei mandati dei lettori è già scritto: un voto si
+riscontra sul verbale o sull'atto prima di scriverlo.
+
+### «Il verbale che ha scelto di non scrivere» è il caso normale, non l'eccezione
+
+Nel lotto, otto sedute: quattro senza verbale, quattro con verbale, **zero vuoti** — e il terzo caso
+si presenta in **tutte e quattro** quelle che il verbale ce l'hanno. La peggiore: un verbale pieno
+(nomi, orari al minuto, voto 6-0) riduce il fatto territoriale più grosso della seduta — gli sfalci
+fermi, **cinque strade nominate a voce**, la richiesta di convocare l'assessore — a «uno scambio
+d'informazioni sui luoghi ove è necessario provvedere allo sfalcio». Cinque toponimi spariti. E i
+cittadini a cui viene negata la parola diventano «chiarimenti inerenti lo svolgimento della seduta».
+
+È il secondo lettore indipendente che trova i verbali a cancellare **i luoghi**: nel rapporto §3, ora
+con due casi da due Municipi diversi.
+
+### Una smentita che attraversa il tempo
+
+L'8 giugno la commissione dichiara «concluso il giro degli sfalci nei parchi» — ed è una delle notizie
+che il **Report 1** aveva già estratto. Il 22 giugno, stessa commissione: «enorme ritardo, una giungla
+nei parchi». Senza la registrazione della seconda seduta, la prima resterebbe l'ultima parola. Nel §3.
+
+### Un numero sbagliato che è nostro, e non è sciatteria
+
+Il lettore ha trovato che `confronto_atti.csv` riassume un atto come «parere favorevole con **nove**
+emendamenti» mentre a lui, in aula e nell'allegato del verbale, ne risultano **undici**. **L'ho
+contato io sul testo integrale**: vengono **nove o dieci** secondo dove si taglia un emendamento
+dall'altro (dieci occorrenze di «Finalità:», nove incipit normativi). Nessuno dei tre conteggi è
+sbagliato per distrazione: **contare gli emendamenti è già un'interpretazione**. Nel §5, perché vale
+per il nostro foglio esattamente come per i verbali di cui parla quel capitolo — un numero dentro un
+riassunto non è un dato solo perché sta in una tabella.
+
+### D7: nove casi
+
+Altri tre in dieci item cercati: **trentacinque minuti di linea aperta dopo la chiusura**, un accordo
+esplicito di chiudere una questione «fuori registrazione», e quattro minuti di capigruppo rimasti nel
+flusso. Tre lettori che hanno guardato apposta danno 3/10, 3/10, 0/10. `DECISIONI_OWNER.md` aggiornato.
+
+### Due cose per la nota a chi rifarà lo studio
+
+- La soglia del 10% sulla ripetizione è **esclusiva**: un item a 0,10 esatto non viene marcato, e in
+  questo lotto il ciclo pesava il 12% del file. Il lettore l'ha applicata così e l'ha scritto. (Caso
+  fortunato: la ripetizione cadeva dopo la chiusura e ha mangiato silenzio.)
+- La confidenza mediana **non protegge**: un item con mediana 0,94 perde la maggior parte di due
+  appelli nominali, perché il difetto colpisce le enunciazioni brevissime e la mediana non le vede.
