@@ -12,10 +12,10 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
 
 - Letti **1.983 atti amministrativi** — tutti quelli con data di repertorio fra l'8 e il 28 giugno,
   che è il perimetro dello studio — e **415 registrazioni di sedute**, 97 dai canali YouTube dei
-  Municipi e 318 da RomaTV. Alla data di questa bozza le registrazioni lette sono **193**.
-- Gli atti danno **544 notizie candidate** (27,4%), le registrazioni **863** finora.
+  Municipi e 318 da RomaTV. Alla data di questa bozza le registrazioni lette sono **199**.
+- Gli atti danno **544 notizie candidate** (27,4%), le registrazioni **883** finora.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — non ha una risposta
-  sola. Ne ha tre, misurate: **37,5%** di novità certa con un toponimo affidabile, **55%** di novità
+  sola. Ne ha tre, misurate: **37%** di novità certa con un toponimo affidabile, **54%** di novità
   certa, fino al **99%** come limite superiore.
 - La scoperta che regge tutto il resto non è un numero ma una frase, scritta in due verbali:
   **«la videoregistrazione sostituisce la trascrizione degli interventi».** L'ente dichiara che il
@@ -33,16 +33,16 @@ Tre esiti:
 
 | | |
 |---|---|
-| **S** — nessun gemello fra le righe scritte | 476 |
-| **U** — nessun duplicato, ma almeno un accostamento dubbio | 375 |
+| **S** — nessun gemello fra le righe scritte | 480 |
+| **U** — nessun duplicato, ma almeno un accostamento dubbio | 389 |
 | **D** — almeno un duplicato certo | 12 |
 
 Da cui la scala:
 
-- **37,5%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il pavimento: regge
+- **36,8%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il pavimento: regge
   a qualunque obiezione.
-- **55,2%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
-- **98,6%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
+- **54,4%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
+- **98,4%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
 **Contro che cosa sono misurati, detto con precisione.** Contro i 1.983 atti con data di repertorio
@@ -50,7 +50,7 @@ fra l'8 e il 28 giugno, che è il perimetro dello studio. Gli altri 685 atti di 
 archivio sono dell'1–7 e del 29–30: fuori finestra per costruzione, non dimenticati.
 
 C'è però un punto in cui il perimetro, definito sulla data di repertorio, **non coincide con il
-perimetro dei fatti**. Per i verbali la data di repertorio è la data della seduta, e allora il
+perimetro dei fatti**, e lo abbiamo chiuso leggendo 161 atti in più. Per i verbali la data di repertorio è la data della seduta, e allora il
 verbale di una seduta dell'8–28 giugno sta sempre dentro. Per le **convocazioni** la data di
 repertorio è quella del protocollo, che precede la seduta: la convocazione di una seduta dei primi
 giorni della finestra, protocollata prima dell'8, **resta fuori**. È una conseguenza necessaria

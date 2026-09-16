@@ -204,7 +204,7 @@ if os.path.isdir(R2 + '/out'):
     id_atto = {r['name']: f'A2_{k:04d}' for k, r in enumerate(man2, 1)}
 
     letti2 = {}
-    for f in sorted(glob.glob(R2 + '/out/B*_atti.csv')):
+    for f in sorted(glob.glob(R2 + '/out/[BX]*_atti.csv')):
         lotto = os.path.basename(f)[:3]
         for r in csv.DictReader(open(f, encoding='utf-8')):
             letti2[r['name']] = (lotto, r)     # una rilettura successiva sostituisce la precedente

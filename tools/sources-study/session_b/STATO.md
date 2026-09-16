@@ -2636,3 +2636,50 @@ Da sistemare nella specifica prima della consegna: o la regola cambia nome, o ca
 messa in un mandato**, dove pesa di più: due lettori hanno lavorato con in testa un'aspettativa
 sbagliata. Entrambi l'hanno misurata invece di confermarla. Nel mandato di X05 ho scritto la stima
 corretta **e** l'istruzione di misurarla comunque.
+
+## 73. I lotti X dentro il database: la previsione regge (2026-09-16 09:37Z)
+
+X05 chiuso: **17 su 32** dentro la finestra (15 se si pretende che l'anno della seduta sia letto e
+non dedotto: due atti scrivono giorno e mese e non l'anno, e il lettore ha messo `non verificato`
+invece di dedurlo — regola applicata bene). Con X03 e X04 fa **42 su 96**, il 44%, vicino al 39%
+misurato prima e lontano dal «quasi tutte» che avevo scritto io.
+
+**X05 smentisce anche un'ipotesi di X04.** X04 aveva detto che il Municipio XII protocolla in blocco
+a inizio mese; in X05 il XII ha scarti di 2 e 7 giorni, e lo scarto massimo del lotto (14 giorni)
+viene dal **Municipio XI**. La regolarità per Municipio non generalizza: quello che resta è che gli
+scarti **variano molto**, fra 0 e 14 giorni, e questo basta a dire che allargare la finestra non
+funziona. Le **commissioni capitoline** sono la parte più produttiva del recupero, 10 su 14 dentro,
+con scarti regolari di 4-9 giorni.
+
+**Integrazione nel database.** `estendi_manifest_x.py` aggiunge gli atti dei lotti X al manifest del
+Report 2 — **in coda, mai in mezzo**, perché l'identificativo `A2_NNNN` segue l'ordine del manifest
+e inserirli in ordine alfabetico avrebbe rinumerato ogni atto già citato dai lotti. 161 righe
+aggiunte, zero «ATTO SENZA MANIFEST». Il glob di `build_db.py` passa da `out/B*_atti.csv` a
+`out/[BX]*_atti.csv`.
+
+**Effetto misurato isolando i soli lotti X** (stesse 199 registrazioni, 883 candidate, due
+esecuzioni consecutive):
+
+| | senza i lotti X | con i lotti X |
+|---|---|---|
+| S | 491 | 480 |
+| U | 378 | 389 |
+| quota di novità | [55,6% , 98,4%] | **[54,4% , 98,4%]** |
+
+**Undici candidate passano da «certamente nuova» a «incerta»: 1,2 punti.** In §71 avevo scritto,
+prima di vedere, che avrebbero spostato pochissimo. Regge — e stavolta la previsione l'avevo messa
+per iscritto prima della misura, che è l'unico modo perché valga qualcosa.
+
+**Numeri correnti, 199 registrazioni lette su 415:** scala **36,8 / 54,4 / 98,4**, con il 32,3%
+delle righe «certamente nuove» che poggia su un toponimo dichiarato incerto. Stratificata: didascalie
+YouTube [59,3 , 98,5], a pagamento [55,6 , 98,4], piattaforma [28,2 , 98,1].
+
+**Recupero delle due registrazioni perse** (§65) avviato dall'mp3 già pronto, senza riscaricare
+nulla; il segmento vuoto di `41e7b841` resta in attesa che la pozza dei quattro scaricamenti si
+liberi.
+
+**E un rilievo di X05 che non va perso.** Il lettore ha lasciato `municipio = non verificato` su 9
+righe `CEN_` su 14 «anche dove il toponimo lo renderebbe ovvio». È l'applicazione giusta della
+regola (un dedotto non si scrive come letto) e insieme una perdita: quelle nove righe non entrano in
+nessuna statistica per Municipio. Va deciso se il territorio dei `CEN_` si ricava dal toponimo
+dichiarando la deduzione, o se resta vuoto. Lo aggiungo alle decisioni aperte.
