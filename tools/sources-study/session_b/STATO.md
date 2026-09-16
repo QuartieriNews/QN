@@ -4933,7 +4933,7 @@ delle 10.33, 10.55 e 11.24 — e il secondo nel corpus manca); due item dello st
 sedute distinte. E una convocazione **datata 24/06 per protocollo convoca per il 30/06**: appaiare per
 data produce falsi positivi, ed è ora nei mandati.
 
-## 123. L'ultimo miglio in un comando solo (2026-09-16 16:38Z)
+## 123. L'ultimo miglio in un comando solo (2026-09-16 16:35Z)
 
 Scritto `report2/chiudi_studio.py`: esegue **in ordine** i passi che alla fine della lettura vanno
 rifatti — il database, la risposta e la banda, il controllo dei numeri del rapporto, i toponimi
