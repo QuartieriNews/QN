@@ -45,6 +45,21 @@ Da cui la scala:
 - **99,0%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
+**Avvertenza che vale più dei tre numeri, e che va tolta solo quando sarà stata chiusa.** Questi
+valori sono misurati contro gli atti **letti** — 1.983 — non contro gli atti che abbiamo: in
+archivio ce ne sono **2.668**, e fra i 685 mai confrontati ci sono **275 verbali e convocazioni**,
+in gran parte verbali di sedute di giugno repertoriati fuori giugno. Sono precisamente i documenti
+che conterrebbero il gemello scritto di ciò che si è detto in aula. Misura grossolana del rischio:
+delle 422 candidate date per certamente nuove, **151 — il 36% — nominano un luogo che compare in
+uno di quegli atti**. La compresenza di un toponimo non è un gemello, quindi 151 è un tetto e non
+una stima; ma finché quei 275 atti non sono letti, **il 58,0% è da considerarsi un limite superiore
+del limite inferiore**. La lettura è in corso e i numeri saranno rifatti.
+
+Il difetto è emerso oggi da tre strade indipendenti — un controllo sugli identificativi delle
+registrazioni, una frase che cambia esito solo per il confine del corpus, e un lettore che cercava
+la convocazione di una seduta e l'ha trovata nell'archivio ma non nel foglio di confronto. È un
+difetto della nostra pipeline, non delle fonti.
+
 La larghezza non è un'incertezza da nascondere: **è il risultato**. Dice che la risposta dipende da
 quanto ci si fida di una trascrizione automatica, e che un terzo delle notizie «certamente nuove»
 poggia su un toponimo che il lettore stesso ha segnalato come dubbio.
@@ -57,15 +72,25 @@ notiziabilità esclude per costruzione. Quella parte sta nel §4 e non è meno i
 **E una notizia nuova è meno verificabile di una confermata.** Fra le candidate che gli atti
 confermano, il 55,4% è di qualità alta; fra quelle nuove, il 25,4%.
 
-Un lettore ha proposto il meccanismo, guardando le due sole eccezioni del suo lotto: le
-`solo dal parlato` che arrivano a qualità alta sono quelle in cui **chi parla sta leggendo ad alta
-voce un documento che esiste ma è fuori dal corpus di giugno** — un verbale di maggio, i tabulati
-di un ufficio. Non è l'atto a conferire la qualità alta: è **l'esistenza di un documento**. Quando
-il parlato porta un documento dentro l'aula può arrivare ad alta; quando porta un'impressione, un
-ricordo o una stima, no.
+Il perché è un effetto di selezione, e non riguarda la qualità del parlato. Un fatto compiuto,
+datato e localizzato **tende per costruzione a generare un atto**; e appena lo genera esce dalla
+colonna «solo dal parlato». Quello che resta nel parlato è allora, per definizione, il **residuo**:
+annunci senza data, proposte non deliberate, lavori fermi da mesi, assenze, risposte mancate —
+fatti negativi o non ancora accaduti, che nessun atto registra perché non c'è niente da registrare.
 
-Il corollario cambia la lettura del numero: **quel 25% non misura la debolezza del parlato, misura
-quanto raramente il parlato è documentale.**
+Con una sola eccezione strutturale: **chi parla sta leggendo ad alta voce un documento che esiste
+ma sta fuori dal perimetro del corpus** — un verbale di maggio, i questionari di un ufficio, un
+messaggio dell'azienda sanitaria. Lì il fatto ha tutte e tre le coordinate e resta comunque fuori
+dagli atti, non perché sia debole ma perché il corpus finisce dove finisce giugno.
+
+La prova sta in una sola frase di una commissione del Municipio V, dove lo stesso lettore, leggendo
+lo stesso elenco ad alta voce, ha prodotto due righe di esito opposto: la risoluzione su viale
+Palmiro Togliatti è «anche negli atti», perché l'atto è di giugno; gli stalli di via Antonio
+Tempesta sono «non verificabile», perché il verbale che li contiene è di maggio. **Cambia solo il
+confine del corpus.**
+
+Quel 25%, quindi, non misura la debolezza del parlato: misura **dove passa il confine di ciò che
+abbiamo raccolto**.
 
 ## 3. Che cosa gli atti registrano, e che cosa no
 
@@ -109,6 +134,19 @@ traccia **unicamente nella registrazione**.
 16» ed elenca 22 nomi, con 22 presenti e zero contrari: in aula si dice «all'unanimità», e ha
 ragione l'aula. Un verbale, per un errore di riconoscimento ottico, cita una deliberazione «n. 3»
 dove l'aula dice correttamente «n. 35 del 16 marzo 2010».
+
+**Come il residuo viene prodotto.** Non è che i verbali manchino: è che, quando ci sono,
+**riassumono via esattamente ciò che ha valore**. Un verbale di commissione scuola segue la seduta
+minuto per minuto e poi scrive «descrivendo poi tutte le caratteristiche dei 4 quadranti»: in quella
+frase spariscono il 15% dei posti riservati a bambini con disabilità con operatore uno-a-uno, il
+10% ai segnalati dai servizi sociali, i 485 posti e lo spostamento di un quartiere da un quadrante
+all'altro. Una proposta sui cinghiali diventa «150 interventi, 200 mila euro» e perde tutto il
+dispositivo — piano in trenta giorni, tavolo permanente, rendicontazione trimestrale in aula,
+numero verde ventiquattr'ore al posto della sola casella di posta.
+
+Il corollario chiude il ragionamento: **nelle sedute-monologo il verbale è quasi verbatim, e non
+c'è nulla di nuovo.** La novità nasce dove c'è dialogo, e il dialogo è precisamente la parte che il
+verbale comprime.
 
 ## 4. Che cosa si vede solo ascoltando
 
