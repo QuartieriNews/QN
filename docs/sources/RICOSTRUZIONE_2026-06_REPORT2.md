@@ -1,10 +1,10 @@
 # Ricostruzione di giugno 2026 — Report 2: gli atti e le registrazioni
 
-Bozza in lavorazione. Atti e registrazioni sono letti per intero; **i conteggi qui dentro sono quelli al 16 settembre e vanno rigenerati prima della
-consegna** — `report1/build_db.py`, poi `report2/risposta.py`, `verifica_numeri_rapporto.py`,
-`audit_toponimi.py`, `copertura_testi_atti.py`, `motivo_non_alta.py`, `convenzione_organo.py`.
-I meccanismi descritti nei §3 e §4 ricorrono in tutti i lotti letti finora; quanto siano stabili
-è però un'impressione di lettura e non una misura, e come tale va presa.
+**Atti e registrazioni sono letti per intero**: 1.983 atti e tutte e 478 le registrazioni censite.
+I conteggi di questo testo sono stati rigenerati dai programmi il 16 settembre, a lettura finita, e
+si rifanno con `report2/chiudi_studio.py`; lo stato che li ha prodotti è congelato accanto al
+rapporto. I meccanismi descritti nei §3 e §4 ricorrono in tutti i lotti; dove sono stati contati il
+numero c'è, dove no è un'impressione di lettura ed è detto.
 
 Perimetro: **8–28 giugno 2026**, come prescrive il metodo. Il Report 1 aveva letto 985 item
 testuali e ne aveva ricavato 1.227 notizie candidate.
@@ -13,8 +13,8 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
 
 - Letti **1.983 atti amministrativi** — tutti quelli con data di repertorio fra l'8 e il 28 giugno,
   che è il perimetro dello studio — e censite **478 registrazioni di sedute** nella stessa finestra,
-  97 dai canali YouTube dei Municipi e 381 da RomaTV. Di queste, 318 le abbiamo trascritte noi e 82
-  portavano già la trascrizione della piattaforma. Le registrazioni lette sono **tutte e 478**.
+  97 dai canali YouTube dei Municipi e 381 da RomaTV. Di queste, **318 le abbiamo trascritte noi**; 63
+  portavano già la trascrizione della piattaforma RomaTV e 97 le didascalie di YouTube. Le registrazioni lette sono **tutte e 478**.
 - Gli atti letti sono in realtà **2.144**: i 1.983 della finestra più 161 fuori, letti per chiudere
   un buco che il perimetro lasciava aperto. I 1.983 danno **544 notizie candidate**, il **27,4%**;
   le registrazioni ne danno **1.674**.
@@ -186,8 +186,9 @@ trovate **due su cinque** che vengono da sedute il cui verbale **esiste ed è pi
 selettivo. Il caso più netto non entra nemmeno nel conteggio, perché ha superato la soglia di
 qualità: il cancello divelto del cantiere di un impianto è «solo dal parlato», e il verbale di quella
 seduta, letto e approvato in aula, non ne fa parola. Quindi la distinzione utile non è fra verbale
-che c'è e verbale che manca, ma fra tre casi: **verbale assente, verbale vuoto, e verbale che ha
-scelto di non scrivere**. È la stessa selezione editoriale che governa le cifre (§3), vista da un
+che c'è e verbale che manca, ma fra tre casi — **verbale assente, verbale vuoto, e verbale che ha
+scelto di non scrivere** — più un quarto, raro, che i lettori hanno incontrato due volte: il verbale
+**troncato**, una pagina senza chiusura né firme. È la stessa selezione editoriale che governa le cifre (§3), vista da un
 altro lato.
 
 Resta un controesempio che va detto, perché è il caso in cui la regola dovrebbe funzionare meglio:
@@ -597,8 +598,8 @@ Non si somigliano:
 | | trascrizione della piattaforma (fonte) | trascrizione nostra (pipeline) |
 |---|---|---|
 | blocchi di testo ripetuti, mediana | 0,0% | 0,5% |
-| registrazioni sopra il 10% di testo duplicato | **0** | **39** |
-| massimo | 1,7% | **86,6%** |
+| registrazioni sopra il 10% di testo duplicato | **0 su 63** | **57 su 318** |
+| massimo | 0,5% | **86,6%** |
 | parole inventate dentro i silenzi | sì | no |
 | parole sostituite da asterischi | sì, 2 casi | no |
 | silenzi lasciati vuoti | no | sì |
@@ -740,7 +741,7 @@ lavoro.
 |---|---|---|
 | grana del marcatore | 10 secondi | ~5 minuti (il modello non dà tempi interni) |
 | confidenza dichiarata | reale, mediana 0,84–0,94 | assente |
-| testo dentro blocchi duplicati | mediana 0,0%, mai sopra il 10% | mediana 0,5%, **39 registrazioni su 211 sopra il 10%, massimo 86,6%** |
+| testo dentro blocchi duplicati | mediana 0,0%, mai sopra il 10% | mediana 0,5%, **57 registrazioni su 318 sopra il 10%, massimo 86,6%** |
 | comportamento nei silenzi | **inventa parole** | lascia il blocco vuoto |
 
 **Il difetto peggiore, però, non è perdere: è inventare.** In un item la trascrizione riporta **nove
@@ -940,8 +941,8 @@ fattura.
    (erano 4), e per **nessuna** delle nove che restano senza accostamenti esiste una riga scritta con
    lo stesso fatto: cercate una per una nei 2.668 testi integrali, zero occorrenze. Lo zero non era un
    effetto del campione difettoso, era il dato. La quota di gemelli veri fra le incerte passa quindi da
-   18,8% a **17,5%** e la risposta da 83,9% a **83,8%**: il difetto era reale, l'effetto sul numero
-   principale è di un decimo di punto. Resta vero per gli altri usi di quel file — chiunque risolva
+   18,8% a **17,5%**, e la risposta, con il corpus di allora, da 83,9% a 83,8%: il difetto era reale,
+   l'effetto sul numero principale è di un decimo di punto. Resta vero per gli altri usi di quel file — chiunque risolva
    quegli identificativi come se fossero del database ottiene righe sbagliate, ed è successo a noi.
 
 ## 6-bis. Una seconda AI sulle candidate, e che cosa ha insegnato il primo tentativo
@@ -990,7 +991,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | la convenzione dell'organo contro la novità, r = −0,53 | `report2/convenzione_organo.py` |
 | le undici registrazioni che perdono la coda | `report2/code_perdute.py` |
 | 121 su 233 bloccate dalla data, e l'84% di nuove fra quelle | `report2/motivo_non_alta.py` |
-| le quote di qualità alta (54,5% e 18,2%) e il controllo dei numeri citati | `report2/verifica_numeri_rapporto.py` |
+| le quote di qualità alta (51,0% e 16,5%) e il controllo dei numeri citati | `report2/verifica_numeri_rapporto.py` |
 
 Alla consegna, `report2/congela_consegna.py` mette accanto al rapporto lo **stato che ha prodotto
 questi numeri**: i dati, i programmi che li calcolano, il commit del repository e un file di numeri
