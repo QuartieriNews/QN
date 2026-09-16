@@ -3656,7 +3656,7 @@ qualità alta 53,3% contro 19,0%.
 | scartando i toponimi incerti | 31,0% |
 | divario di qualità dentro il parlato | 53,3% contro 19,0% |
 
-## 94. L'indice delle evidenze trova quello che serviva trovare (2026-09-16 11:47Z)
+## 94. L’indice delle evidenze trova quello che serviva trovare (2026-09-16 11:41Z)
 
 Nove affermazioni su dieci rintracciate **e verificate aprendo i testi**, non i log. E quattro
 correzioni al rapporto, che è esattamente il motivo per cui il C4 voleva questo indice.
