@@ -1323,3 +1323,46 @@ Ha ragione, e va deciso: un civico che indica uno sportello comunale non identif
 **Una discrepanza del manifest** da verificare: per tre spezzoni del Consiglio del Municipio I il
 `convocazione_match` punta a un documento la cui numerazione non compare fra le convocazioni di
 giugno.
+
+## 45. Le prime 24 sedute, e un difetto del censimento misurato (16 settembre, 07:25)
+
+Rientrato anche V4_001–V4_012: 12 sedute, 12 ore e 56 minuti, 73.511 parole, **64 candidate, 56
+`solo dal parlato` (87,5%)**. Con il lotto precedente: **24 sedute, 106 candidate, 88 solo dal
+parlato**.
+
+**Quel 87,5% è un limite superiore, e il lettore lo ha detto prima che glielo chiedessi.** Con
+`A2_2026-06_items.csv` — nessun titolo di atto — il «non compare negli atti» è *un'assenza di
+prova, non una prova di assenza*. Due lettori diversi sono arrivati alla stessa conclusione
+indipendentemente. Dal terzo lotto in avanti il riscontro si fa su `confronto_atti.csv`, che porta
+l'oggetto di tutti e 1.983 gli atti: il numero che ne uscirà sarà più basso e più difendibile, e i
+due gruppi di lotti vanno tenuti separati nel rapporto.
+
+**Il censimento sbaglia ad abbinare le convocazioni, e ora so di quanto.** Un lettore ha notato che
+due registrazioni dell'8 giugno condividono la stessa convocazione pur essendo commissioni diverse.
+Il primo controllo che ho scritto non l'ha visto, perché la colonna `organo` del manifest dice
+«Commissione» per tutte e non distingue quale. Rifatto il controllo **sui titoli del censimento**:
+su 78 registrazioni con una convocazione abbinata, **4 abbinamenti su 8 registrazioni sono
+sbagliati** — Lavori Pubblici con la congiunta Cultura-Ambiente, Commercio con la congiunta
+Cultura-Commercio, Politiche Sociali con la congiunta Pari Opportunità. Gli altri quattro gruppi
+condivisi sono legittimi: sono sedute spezzate in più video (primo, secondo e terzo appello dello
+stesso consiglio). Circa il **5% degli abbinamenti automatici è falso**, e va dichiarato invece di
+lasciarlo usare.
+
+**L'Assemblea Capitolina del mese, ascoltata.** Tre appelli falliti di fila — 7 presenti su 49, poi
+14, poi 20 — e il numero legale raggiunto solo al quarto, **dopo 2 ore e 23 minuti**, con 28
+presenti. La discussione generale sul piano degli arenili viene poi sospesa e chiusa **senza voto,
+«visto l'orario»**; più ordini del giorno decadono perché i firmatari non ci sono. Nell'atto
+pubblicato di tutto questo resta una riga.
+
+**E dentro le commissioni:** un parere che non passa perché 3 favorevoli, 3 astenuti e 2 non
+partecipanti su 8, con la presidenza che se ne accorge facendo i conti a voce; una commissione che
+si chiude constatando che alla domanda su quella scuola **nessuno ha risposto**, perché il
+dipartimento invitato non si è presentato; una seduta convocata per errore su un parere assegnato
+ad altra commissione; l'esame delle determinazioni dirigenziali, che era l'oggetto della seduta,
+svolto nei 22 minuti in cui il microfono è muto.
+
+**Aperta la decisione D5** in `DECISIONI_OWNER.md`: tre lettori diversi hanno segnalato che il
+divieto di civici, applicato alle **sedi pubbliche**, toglie precisione senza proteggere nessuno —
+due immobili comunali contigui messi a bando diventano indistinguibili. La raccomandazione è tenere
+il civico quando individua una sede o un immobile pubblico. Fino alla decisione i lettori applicano
+il divieto senza eccezioni.

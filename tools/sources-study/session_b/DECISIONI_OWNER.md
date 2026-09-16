@@ -148,3 +148,28 @@ pubblico. È accettabile: il Report 1 e il Report 2 misurano che cosa le fonti o
 giornale di quartiere, non tengono un registro di chi presenta pratiche.
 
 **Se l'owner decide diversamente**: una riga, corretta senza rileggere nulla.
+
+## D5 — il numero civico di una sede pubblica (aperta, 16 settembre)
+
+**Il problema.** La regola di ri-identificazione vieta i numeri civici, perché un civico più una
+via individuano un'abitazione e quindi una persona. Tre lettori diversi, indipendentemente, hanno
+segnalato lo stesso effetto collaterale: applicata alla lettera, la regola toglie il civico anche a
+**sedi pubbliche** — uno sportello anagrafico, un'aula consiliare, una scuola, un immobile comunale
+messo a bando — dove non c'è nessuna persona da proteggere.
+
+**Il costo, misurato su un caso reale.** In una seduta del Municipio V si discutono due immobili
+comunali contigui sulla stessa via: uno con contratto firmato, l'altro con affidamento revocato.
+Senza i civici **diventano indistinguibili per indirizzo**, e il lettore ha dovuto distinguerli per
+esito e destinazione. Lo stesso vale per gli open day della carta d'identità, dove il civico è
+l'informazione che serve al lettore per andarci.
+
+**Raccomandazione.** Tenere il civico quando individua una **sede di un ente pubblico o un immobile
+pubblico** (municipio, anagrafe, scuola, biblioteca, impianto, immobile a bando): lì il civico è
+l'indirizzo di un servizio, non di una persona. Toglierlo quando individua un'abitazione, il
+recapito di un richiedente o di un privato coinvolto in un procedimento — cioè il caso per cui la
+regola esiste.
+
+**Perché la decisione è dell'owner e non mia.** La regola oggi è uniforme e quindi facile da
+verificare; l'eccezione introduce un giudizio («questa sede è pubblica?») che qualcuno deve
+esercitare riga per riga. È un baratto fra precisione e verificabilità, e sta all'owner sceglierlo.
+Fino alla decisione i lettori continuano ad applicare il divieto senza eccezioni, dichiarandolo.
