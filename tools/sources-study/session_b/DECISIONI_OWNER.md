@@ -201,3 +201,32 @@ pubblicato, non una scelta tecnica, e non la prendo io.
 
 **Finché non è decisa** i lettori restano alla lettera (strada 1): è la più prudente e non crea
 dati che poi andrebbero disfatti.
+
+## D7 — La registrazione che continua dopo la fine della seduta
+
+**Aperta il 16 settembre 2026. Non è una decisione sui nostri file: quelli sono già a posto.**
+
+In una registrazione pubblicata dalla piattaforma istituzionale il flusso **prosegue per circa tredici
+minuti dopo la chiusura dei lavori**, con parlato privato di natura personale catturato a microfono
+aperto, del tutto estraneo alla seduta. Non è un difetto di trascrizione: è la fonte che ha
+pubblicato oltre la chiusura.
+
+Il lettore non ha fatto entrare nulla nei nostri file, **nemmeno anonimizzato**, e nel proprio log
+non ha riprodotto né il contenuto né gli identificativi. Dalla nostra parte è chiuso.
+
+**Quello che resta è una scelta dell'owner, e non la prendo io**: quel materiale è **ancora online**,
+pubblicato dall'amministrazione, e riguarda persone che non sapevano di essere registrate.
+
+Le strade sono tre, e hanno costi diversi:
+1. **Segnalare a chi gestisce la piattaforma**, indicando la registrazione e il minutaggio. È la cosa
+   che protegge le persone, ed è anche un atto che ci identifica come chi ha guardato.
+2. **Dirlo nel rapporto senza identificare la registrazione**, come difetto di sistema: protegge le
+   persone dal nostro lato, non le toglie da lì.
+3. **Non fare nulla.** Sconsigliato: sapere e tacere è una scelta anche quella.
+
+**Raccomandazione**: la prima, con la seconda come conseguenza — nel rapporto il caso si racconta
+senza identificare l'item, e la segnalazione la fa l'owner, non lo studio. Una segnalazione va
+mandata da chi ha un nome e un indirizzo, non da una sessione automatica.
+
+**Finché non decide**, il caso resta nel rapporto in forma non identificante e nessuno viene
+contattato.

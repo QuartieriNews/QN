@@ -227,3 +227,11 @@ data non fosse richiesta, le nuove supererebbero le confermate. La ragione è ch
 in aula, è quasi sempre l'atto che qualcuno sta leggendo — quindi il requisito «datato» funziona
 come un test sull'esistenza dell'atto travestito da test sul fatto. Con questa colonna la
 correzione si può calcolare su tutto il corpus invece che su un lotto.
+
+## Emendamento del 16 settembre, ottavo
+
+**«Datato» vuol dire che la data è attaccata al fatto, non che si sa quando è stata detta.** Un
+lettore ha dovuto fissare questa convenzione da solo perché la specifica non la dava, e l'ha
+dichiarata nel log: con la lettura larga — «datato» perché la seduta ha una data — le sue candidate
+di qualità alta sarebbero state venti invece di nove. Senza questa riga i lotti non sono
+confrontabili sul campo `qualita`, e la differenza è di un fattore due.
