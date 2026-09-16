@@ -1688,3 +1688,53 @@ completezza dell'estrazione, e questa differenza va dichiarata. Da dichiarare an
 fatto, quindi due lettori possono spezzare lo stesso fatto in modo diverso; e che un toponimo
 sbagliato dall'ASR produce un falso `solo dal parlato`, per cui le righe con
 `toponimo_da_verificare = sì` vanno controllate a parte.
+
+## 53. Corpus YouTube chiuso: 97 sedute, e la regola per cui passa solo chi vince (16 settembre, 09:15)
+
+Rientrato V4_085–V4_097, l'ultimo lotto YouTube: 13 sedute, 17 ore e 34 minuti, 100.256 parole, 59
+candidate. **Il corpus YouTube è completo: 97 registrazioni, 469 candidate dal parlato.** Database:
+3.065 documenti, 2.240 candidate. Quota di novità meccanica: **[61,4% , 98,9%]**.
+
+**Il risultato strutturale, ora con i nomi.** Nell'Assemblea Capitolina di quel lotto le mozioni
+**approvate** diventano atti e stanno tutte nel corpus — Stardust Village, bus notturno per Ostia,
+poli civici, servitù Terna, due debiti fuori bilancio. Le due mozioni **respinte** — piazza Addis
+Abeba e Tor Tre Teste — **non lasciano alcun atto**, e la registrazione è l'unica traccia che siano
+mai state discusse e votate. È il §47 confermato su casi nominati: *negli atti passa solo chi
+vince*. Chi ricostruisse il mese dai soli atti vedrebbe un consiglio che approva e mai uno che
+respinge.
+
+**Il lettore ha fatto meglio di quello che gli avevo chiesto**, e l'ho adottato per i lotti RomaTV:
+invece di fermarsi all'oggetto sintetico degli atti è andato a leggere **il testo integrale OCR** in
+`A2_text/`, perché «un riassunto non regge la domanda *sta scritto da qualche parte?*». Ha ragione,
+e il riscontro dei lotti precedenti è più debole per questo.
+
+**Un effetto collaterale della correzione di ieri, misurato.** Avere ristretto `non verificabile`
+ai soli documenti fuori corpus sposta **otto fatti** fuori dal conteggio della novità: solleciti
+all'Agenzia del Demanio, 135 offerte e i criteri di un bando, pareri di soprintendenza annunciati,
+una risposta scritta della polizia locale, un trasferimento fondato su una determina di novembre.
+Nessuno di questi compare negli atti di giugno. Quindi **chi legge il solo numero dei `solo dal
+parlato` sottostima quanto la registrazione aggiunge** — l'opposto del rischio che temevo, e va
+dichiarato accanto al numero.
+
+**La seduta che non riprende.** Nell'Assemblea: sette minuti di nulla in apertura, prova tecnica
+del sistema di voto, tre appelli (10, 13, 25 presenti), aula aperta dopo un'ora e trentotto, buchi
+di 54, 27, 15, 14 e 13 minuti. Dopo la pausa pranzo **la seduta non riprende**: viene tolta, e la
+registrazione resta accesa su un'aula vuota per oltre un'ora. Nel lotto ci sono **5 ore e 34 minuti
+di silenzio** oltre i dieci secondi; senza quella sola registrazione, 95 minuti.
+
+**E circa un'ora di seduta pubblica non registrata affatto**, misurata confrontando gli orari detti
+in aula con la durata dei file: in un caso la registrazione si interrompe tre volte e di una seduta
+di 79 minuti restano 51 minuti di file.
+
+**Dodici grafie per «Pratone di via Teulada»**, che è l'oggetto unico di tre registrazioni:
+«Platone», «Gatulada», «prodotone», «Agolata», «Peulata». L'inno d'Italia diventa una filastrocca.
+E in una commissione un minuto di silenzio non è una pausa: è l'aula che cerca un file su Drive e
+**scopre di non avere la licenza per aprirlo**.
+
+**Dove il lettore ha forzato, e lo ha scritto.** Un incendio che rende inagibili più appartamenti di
+un complesso nominato: la regola sul parlato personale, letta alla lettera, lo escluderebbe perché
+l'aula ha solo espresso solidarietà. Lo ha tenuto dopo aver tolto ogni elemento riferibile a una
+persona, e ha dichiarato che con la lettura stretta quella riga uscirebbe.
+
+Avviata la lettura del corpus RomaTV: **248 item** (185 trascritti da noi, 63 dalla piattaforma),
+1.150.875 parole, primo lotto in corso.
