@@ -55,9 +55,17 @@ numero legale che salta, la seduta che decade, l'ufficio che non si presenta —
 notiziabilità esclude per costruzione. Quella parte sta nel §4 e non è meno importante.
 
 **E una notizia nuova è meno verificabile di una confermata.** Fra le candidate che gli atti
-confermano, il 55,4% è di qualità alta; fra quelle nuove, il 25,4%. È l'atto che permette di
-accertare che un fatto sia compiuto, datato e localizzato: **nel parlato la novità si paga in
-certezza**.
+confermano, il 55,4% è di qualità alta; fra quelle nuove, il 25,4%.
+
+Un lettore ha proposto il meccanismo, guardando le due sole eccezioni del suo lotto: le
+`solo dal parlato` che arrivano a qualità alta sono quelle in cui **chi parla sta leggendo ad alta
+voce un documento che esiste ma è fuori dal corpus di giugno** — un verbale di maggio, i tabulati
+di un ufficio. Non è l'atto a conferire la qualità alta: è **l'esistenza di un documento**. Quando
+il parlato porta un documento dentro l'aula può arrivare ad alta; quando porta un'impressione, un
+ricordo o una stima, no.
+
+Il corollario cambia la lettura del numero: **quel 25% non misura la debolezza del parlato, misura
+quanto raramente il parlato è documentale.**
 
 ## 3. Che cosa gli atti registrano, e che cosa no
 
@@ -77,7 +85,11 @@ registrazioni.
 è formalmente convocato parla **solo a registrazione interrotta**, e quegli interventi «per motivi
 di privacy non vengono inseriti». In un'altra le due sospensioni «a microfoni spenti» sono
 esattamente i minuti in cui intervengono polizia locale e azienda sanitaria, gli unici soggetti
-tecnici presenti.
+tecnici presenti. E in un Consiglio la registrazione è **interrotta su richiesta, in
+applicazione dell'articolo 32 comma 3 del regolamento**: l'intervento del comitato e il voto finale
+non esistono in video, e che l'ordine del giorno sia passato con 18 voti all'unanimità si sa solo
+dall'atto. Sono tre meccanismi diversi — la prassi, il consenso mancante, la norma — che producono
+lo stesso buco.
 
 **Il verbale si scrive in diretta, decidendo a voce che cosa lasciarci** — due interventi saltati
 esplicitamente, un capoverso rinegoziato per due minuti. E alla domanda se gli assessori correggano
@@ -87,6 +99,11 @@ mai i verbali che ricevono: «no, non lo fanno mai».
 ragioni acustiche — richieste di ripetere, un consigliere che esce perché non sente, la presidenza
 che rinuncia — e il verbale descrive un sopralluogo regolare. In un'altra il parere è messo ai voti
 prima che l'assessore risponda, e nessun atto registra la sequenza.
+
+**Un atto che dispone il contrario di quanto deciso.** In un Consiglio l'atto depositato conteneva
+nel dispositivo **la soluzione scartata dalla commissione**; l'emendamento è stato scritto in aula,
+senza nemmeno le copie. L'atto pubblicato dice soltanto «così come emendata»: dell'errore resta
+traccia **unicamente nella registrazione**.
 
 **E qualche volta è la registrazione a correggere l'atto.** Una risoluzione proclama «Favorevoli:
 16» ed elenca 22 nomi, con 22 presenti e zero contrari: in aula si dice «all'unanimità», e ha

@@ -2019,3 +2019,49 @@ sospensioni «a microfoni spenti senza registrazione» sono esattamente i minuti
 polizia locale e azienda sanitaria, gli unici due soggetti tecnici presenti; il motivo detto è che
 gli ospiti esterni non avevano firmato il consenso. Si aggiunge al caso di §54: **la parte più
 informativa è quella che per procedura non viene registrata.**
+
+## 61. Perché la novità si paga in certezza: il meccanismo (16 settembre, 11:10)
+
+Rientrato V3_061–V3_072: 12 registrazioni, 6 ore e 44 minuti, **62 candidate, 38 `solo dal parlato`
+di cui 27 da sedute con verbale pieno**. Ma la cosa che conta è un'altra.
+
+**Avevo chiesto a questo lettore di verificare l'osservazione sul rapporto fra novità e qualità, e
+lui ha trovato il meccanismo.** Nel suo lotto la forbice è ancora più larga della media: 5,3% di
+qualità alta fra le `solo dal parlato` contro il 45% fra le `anche negli atti`. Le **uniche due**
+`solo dal parlato` arrivate ad alta sono casi in cui **chi parla sta leggendo ad alta voce un
+documento che esiste ma è fuori dal corpus di giugno**: un verbale di maggio, i tabulati di un
+ufficio.
+
+Da cui la sua conclusione, che ho messo nel rapporto al posto della mia: **non è l'atto a conferire
+la qualità alta, è l'esistenza di un documento.** Quando il parlato porta un documento dentro
+l'aula può arrivare ad alta; quando porta un'impressione, un ricordo o una stima, no. E il
+corollario ribalta la lettura del numero: **quel 25% non misura la debolezza del parlato, misura
+quanto raramente il parlato è documentale.**
+
+**Un terzo meccanismo che produce buchi nel record.** Finora avevamo la prassi (chi non è convocato
+parla a registrazione spenta) e il consenso mancante (gli ospiti esterni senza modulo). Qui c'è la
+norma: la registrazione è interrotta su richiesta **in applicazione dell'articolo 32 comma 3 del
+regolamento**, e l'intervento del comitato e il voto finale non esistono in video. Che l'ordine del
+giorno sia passato con 18 voti all'unanimità si sa solo dall'atto — per una volta nel verso opposto.
+
+**Un atto che dispone il contrario di quanto deciso.** L'atto depositato conteneva nel dispositivo
+**la soluzione che la commissione aveva scartato**; l'emendamento è stato scritto in aula, senza
+nemmeno le copie. L'atto pubblicato dice soltanto «così come emendata»: dell'errore resta traccia
+solo nella registrazione. Aggiunto al rapporto.
+
+**E altre due sedute che nessun atto racconta.** Una commissione convocata **in urgenza alle 19:22
+per le 8:30 del mattino dopo**, con i curricula inviati la stessa sera e un consigliere che dichiara
+di aver saputo della seduta dal telefono; il verbale non esiste. E un Consiglio intero **senza
+nessun assessore in aula**, con la contestazione che attraversa maggioranza e opposizione e resta
+senza risposta.
+
+**Una precisazione sul mio conteggio dei duplicati.** In §60 avevo detto «quattro item su 274 sono
+due sedute pubblicate due volte». Il lettore ha trovato un'altra cosa: **tre item che sono tre
+spezzoni consecutivi della stessa seduta**, e due che sono Parte 1 e Parte 2. La mia misura cerca
+registrazioni *ripubblicate*, che condividono il testo; **gli spezzoni non condividono niente**, e
+il mio metodo non li vede per costruzione. Sono due difetti diversi del corpus e vanno contati
+separatamente.
+
+**Un difetto nuovo della trascrizione**: in due registrazioni compaiono parole **sostituite da
+asterischi** dalla piattaforma. Una censura automatica che rende illeggibili dei passaggi, e che va
+messa accanto alle invenzioni nei silenzi e ai blocchi duplicati.
