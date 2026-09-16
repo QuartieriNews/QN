@@ -3554,7 +3554,7 @@ colonna della novità collassa»: 4 `solo dal parlato` su 11 dove il verbale c'�
 **Così la colonna misura la verbalizzazione, non la novità territoriale.** È la stessa cosa che il
 numero principale dice dall'alto, vista dal basso di un lotto.
 
-## 91. Trascrizione finita: 318 su 318, e il corpus è più grande di come lo contavo (2026-09-16 11:36Z)
+## 91. Trascrizione finita: 318 su 318, e il corpus è più grande di come lo contavo (2026-09-16 11:33Z)
 
 **L'ultimo item non era corrotto: era tagliato male da me.** Il driver aveva rinunciato a `e7f9ea9a`
 perché l'API rispondeva «Audio file might be corrupted or unsupported». L'mp3 invece è sano:

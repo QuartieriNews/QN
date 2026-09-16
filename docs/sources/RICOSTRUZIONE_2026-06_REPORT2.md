@@ -12,9 +12,11 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
 ## 1. In breve
 
 - Letti **1.983 atti amministrativi** — tutti quelli con data di repertorio fra l'8 e il 28 giugno,
-  che è il perimetro dello studio — e **415 registrazioni di sedute**, 97 dai canali YouTube dei
-  Municipi e 318 da RomaTV. Alla data di questa bozza le registrazioni lette sono **226**.
-- Gli atti danno **628 notizie candidate**, le registrazioni **964** finora.
+  che è il perimetro dello studio — e censite **478 registrazioni di sedute** nella stessa finestra,
+  97 dai canali YouTube dei Municipi e 381 da RomaTV. Di queste, 318 le abbiamo trascritte noi e 82
+  portavano già la trascrizione della piattaforma. Alla data di questa bozza le registrazioni lette
+  sono **265**.
+- Gli atti danno **628 notizie candidate**, le registrazioni **1.081** finora.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — ha una risposta, e
   arriva tardi: **circa l'86%** delle notizie che nascono in una seduta non sta in nessun atto.
   Il confronto meccanico da solo dava un intervallo largo, fra il 46% e il 92%; è un audit su
@@ -39,11 +41,11 @@ Tre esiti:
 
 | | |
 |---|---|
-| **S** — nessun gemello fra le righe scritte | 470 |
-| **U** — nessun duplicato, ma almeno un accostamento dubbio | 473 |
-| **D** — almeno un duplicato certo | 76 |
+| **S** — nessun gemello fra le righe scritte | 487 |
+| **U** — nessun duplicato, ma almeno un accostamento dubbio | 510 |
+| **D** — almeno un duplicato certo | 84 |
 
-Da cui l'intervallo grezzo **[46,1% , 92,5%]**. Largo quarantasei punti, e per settimane ho creduto
+Da cui l'intervallo grezzo **[45,1% , 92,2%]**. Largo quarantasei punti, e per settimane ho creduto
 che la risposta stesse in basso.
 
 **Sta in alto, e lo si sa solo dopo averlo misurato.** Un lettore ha giudicato a mano 40 candidate
@@ -64,8 +66,8 @@ Da cui la scala:
   calcola `report2/audit_toponimi.py` scartando le righe che poggiano su un toponimo dichiarato
   dubbio. Regge all'obiezione sulla trascrizione, non a tutte: se la deduplicazione sbaglia a non
   accostare, anche questo numero è alto.
-- **46,1%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
-- **92,5%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
+- **45,1%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
+- **92,2%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
 **Contro che cosa sono misurati, detto con precisione.** Non contro i soli atti: contro **tutte le
@@ -98,8 +100,8 @@ cose fanno risultare nuovo ciò che non è stato guardato. Con il confronto esau
 scende di **sette punti e mezzo**, che erano un difetto nostro.
 
 Una scelta va dichiarata: il metodo confronta dentro i blocchi tematici, noi confrontiamo su tutto
-il corpus. È una deviazione, e **abbassa** la novità di due punti (50,1% dentro i blocchi contro
-48,0% su tutto). Diciamo entrambe le cifre invece di scegliere quella che ci comoda.
+il corpus. È una deviazione, e **abbassa** la novità di due punti (47,1% dentro i blocchi contro
+45,1% su tutto). Diciamo entrambe le cifre invece di scegliere quella che ci comoda.
 
 La larghezza non è un'incertezza da nascondere: **è il risultato**. Ma va detto dove sta il suo
 peso: l'intervallo è largo perché **480 candidate su 964 — metà del corpus parlato — sono
@@ -464,7 +466,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 
 | numero | programma |
 |---|---|
-| 46,1% e 92,5% (intervallo grezzo di novità) | `report2/novita_meccanica.py` |
+| 45,1% e 92,2% (intervallo grezzo di novità) | `report2/novita_meccanica.py` |
 | 32,1% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
 | dispersione fra lotti, 1,46 e 0,74 | `report2/varianza_lettori.py` |
 | 107 atti che rinviano alla registrazione | `report2/record_dichiarato.py` |
