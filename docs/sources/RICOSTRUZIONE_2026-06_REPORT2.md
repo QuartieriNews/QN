@@ -14,10 +14,10 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
 - Letti **1.983 atti amministrativi** — tutti quelli con data di repertorio fra l'8 e il 28 giugno,
   che è il perimetro dello studio — e **415 registrazioni di sedute**, 97 dai canali YouTube dei
   Municipi e 318 da RomaTV. Alla data di questa bozza le registrazioni lette sono **199**.
-- Gli atti danno **544 notizie candidate** (27,4%), le registrazioni **883** finora.
+- Gli atti danno **628 notizie candidate**, le registrazioni **923** finora.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — non ha una risposta
-  sola. Ne ha tre, misurate: **37%** di novità certa con un toponimo affidabile, **54%** di novità
-  certa, fino al **99%** come limite superiore.
+  sola. Ne ha tre, misurate: **32%** di novità certa con un toponimo affidabile, **47%** di novità
+  certa, fino al **97%** come limite superiore.
 - **107 verbali su 2.668 atti, in sette Municipi su quindici, dichiarano dentro il proprio testo
   che il record completo della seduta non è l'atto ma la registrazione** — con quattro formule di
   forza diversa, dalla più netta («la videoregistrazione sostituisce la trascrizione degli
@@ -37,19 +37,19 @@ Tre esiti:
 
 | | |
 |---|---|
-| **S** — nessun gemello fra le righe scritte | 480 |
-| **U** — nessun duplicato, ma almeno un accostamento dubbio | 389 |
-| **D** — almeno un duplicato certo | 12 |
+| **S** — nessun gemello fra le righe scritte | 435 |
+| **U** — nessun duplicato, ma almeno un accostamento dubbio | 459 |
+| **D** — almeno un duplicato certo | 29 |
 
 Da cui la scala:
 
-- **36,8%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
+- **32,1%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
   conservativo che sappiamo calcolare, e **non viene dallo stesso programma degli altri due**: lo
   calcola `report2/audit_toponimi.py` scartando le righe che poggiano su un toponimo dichiarato
   dubbio. Regge all'obiezione sulla trascrizione, non a tutte: se la deduplicazione sbaglia a non
   accostare, anche questo numero è alto.
-- **54,4%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
-- **98,4%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
+- **47,1%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
+- **96,9%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
 **Contro che cosa sono misurati, detto con precisione.** Non contro i soli atti: contro **tutte le
@@ -71,6 +71,19 @@ registrazione e atto, non il gemello scritto di una notizia.
 Resta un limite che non si chiude e va dichiarato: **il verbale di una seduta di fine giugno
 repertoriato a luglio non è nella raccolta.** Non è un problema di insieme di confronto — è un
 documento che non abbiamo.
+
+**Come questi numeri sono cambiati, perché conta più dei numeri.** Fino a ieri il confronto usava la
+catena della deduplicazione, che — seguendo il metodo, che descrive un lavoro fatto a mano — *toglie*
+una riga dai confronti appena questa ha trovato un gemello. Per contare quante notizie distinte
+restano va bene. Per chiedere *se una cosa detta in aula sta scritta da qualche parte* no: 111
+candidate del parlato avevano come unico gemello un'altra registrazione e non sono mai state
+confrontate con un atto, e 537 righe scritte su 1.855 erano già uscite dal confronto. Entrambe le
+cose fanno risultare nuovo ciò che non è stato guardato. Con il confronto esaustivo la novità certa
+scende da **54,5% a 47,1%**: **sette punti e mezzo** che erano un difetto nostro.
+
+Una scelta va dichiarata: il metodo confronta dentro i blocchi tematici, noi confrontiamo su tutto
+il corpus. È una deviazione, e **abbassa** la novità di due punti (49,3% dentro i blocchi contro
+47,1% su tutto). Diciamo entrambe le cifre invece di scegliere quella che ci comoda.
 
 La larghezza non è un'incertezza da nascondere: **è il risultato**. Dice che la risposta dipende da
 quanto ci si fida di una trascrizione automatica, e che un terzo delle notizie «certamente nuove»
@@ -331,8 +344,8 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 
 | numero | programma |
 |---|---|
-| 54,4% e 98,4% (intervallo di novità) | `report2/novita_meccanica.py` |
-| 36,8% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
+| 47,1% e 96,9% (intervallo di novità) | `report2/novita_meccanica.py` |
+| 32,1% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
 | dispersione fra lotti, 1,46 e 0,74 | `report2/varianza_lettori.py` |
 | 107 atti che rinviano alla registrazione | `report2/record_dichiarato.py` |
 | 17 identificativi di seduta negli atti, 7 risolti | `report2/link_verbali_video.py` |

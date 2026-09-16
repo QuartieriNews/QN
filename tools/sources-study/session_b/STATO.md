@@ -2759,7 +2759,7 @@ municipale lo scrive con numero di banco e tipo di attività, noi no. «Chi vole
 notizia non ha abbastanza per farlo.» È il prezzo di DEC-102, ed è giusto pagarlo, ma va scritto nel
 rapporto invece di far finta che non ci sia.
 
-## 75. La deduplicazione consumava le righe, e il numero principale ne usciva gonfio di sette punti (2026-09-16 10:20Z)
+## 75. La deduplicazione consumava le righe, e il numero principale ne usciva gonfio di sette punti (2026-09-16 09:58Z)
 
 Il C4 aveva scritto, in astratto, che i tre numeri poggiano su una deduplicazione mai misurata
 (§6.4). Sono andato a guardare il codice invece di preparare solo il campione, e il difetto era lì.
