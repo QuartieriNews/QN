@@ -5136,3 +5136,32 @@ La risposta si è mossa di un punto rispetto a stamattina (83,8% → 84,8%) ment
 2. `congela_consegna.py`.
 3. Drive, una sola sessione: tutti i `Report1_*` rigenerati e il cestino delle tre parti A1 stantie.
 4. L'avviso all'owner: consegna, D5, D6 e **D7**.
+
+## 127. La sessione Drive: un caricamento che si controlla da solo (2026-09-16 18:35Z)
+
+I compatti per item stanno su Drive e non nel repository (DEC-104), quindi la consegna del Report 2
+non è finita finché la cartella `Fonti 2026-06` non contiene i file rigenerati sul corpus completo.
+Erano da caricare **49 parti** per **1,9 MB**: i `Report1_*` rifatti — non solo A1, perché la
+ricostruzione del registro degli identificativi (§105) ha cambiato i numeri in tutte le tabelle — più
+i nuovi `Report2_*` per A3 e A4.
+
+Lo strumento di caricamento accetta solo testo passato per intero nella chiamata, e non un percorso;
+quindi ogni file va riscritto carattere per carattere. Due limiti si incontrano subito, e vanno in
+direzioni opposte: **la lettura** tronca l'output oltre i 50 KB, **la scrittura** non regge molto più
+di 54 KB per chiamata. Da qui `parti_drive.py`, che taglia un CSV in parti da 54 KB su confine di
+riga ripetendo l'intestazione — così ogni parte si apre da sola — e la regola di leggere ogni parte
+in due pezzi (`sed -n '1,88p'` e `sed -n '89,$p'`).
+
+**Il controllo è il conteggio dei byte.** La risposta del caricamento riporta `fileSize`: se non
+coincide con `wc -c` del file locale, la copia non è fedele e si rifà. Non è una verifica completa —
+una sostituzione della stessa lunghezza passerebbe — ma intercetta troncamenti, righe perse,
+accenti normalizzati e virgolette riscritte, cioè tutti i modi in cui una copia a mano si rompe
+davvero. Sui primi otto file (le sette tabelle C e la prima parte di A3) i byte coincidono tutti.
+
+Ordine di lavoro, perché un'interruzione non lasci la cartella peggio di com'era: prima si carica la
+sostituta, **poi** si cestina la stantia. Le tre parti A1 vecchie (in tre pezzi) vanno via quando
+saranno caricate le quattro nuove. Le tabelle C sostituite sono già state cestinate.
+
+Lo stato vivo sta in due file dello scratchpad: `drive_caricati.txt` (nome, byte, id) e
+`DRIVE_RIPRESA.md`, che descrive la procedura per intero — servono se la sessione si interrompe,
+perché la cartella Drive da sola non dice quali parti mancano.
