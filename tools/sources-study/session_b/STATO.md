@@ -605,3 +605,38 @@ campo **al testo, non al marcatore**.
 nella stessa seduta che chiedono cose opposte sullo stesso parcheggio; una convocazione del 9
 giugno che mette in approvazione un verbale del 14; un verbale con 18 votanti, 17 favorevoli e
 0 contrari; la Bibliocard a 10 euro a pagina 3 e gratuita nel deliberato.
+
+## 25. B04–B06 letti; una violazione DEC-102 trovata cercando altro (16 settembre, 03:40)
+
+**B04–B06: 150 atti, 44 notizie candidate, 29,3%.** La forbice si conferma e si spiega con la
+composizione: 20% in un lotto fatto per metà di pareri su proposte capitoline (atti consultivi che
+non cambiano nulla), 42% dove ci sono verbali di Consiglio con voti divisi e sopralluoghi, 26% fra
+le convocazioni di Commissione Capitolina. Totale sui sei lotti: **66 notizie su 300, il 22%**.
+
+**Lo stesso difetto del Municipio, trovato in modo indipendente.** Questo lettore ha segnalato i 49
+atti `CEN_CPC_X_*` con `municipio = X` che sono dell'Assemblea Capitolina, e ha fatto di più: ha
+indicato nella nota il Municipio **effettivo dell'oggetto** (Olgiata → XV, Palmarola → XIV, Torrino
+Nord → IX, Villa Gordiani → V). Quelle note valgono più della correzione automatica, perché
+localizzano l'atto dove sta il fatto.
+
+**Una violazione DEC-102 trovata per caso, mentre cercavo altro.** Cercando il nome della ditta
+individuale, il filtro ha agganciato la sottostringa dentro `Corbucci`: e lì c'era una nota che
+riportava **il cognome di un consigliere capitolino**, finito nell'output proprio mentre il lettore
+segnalava che la fonte lo scrive in due grafie diverse. È il caso in cui la regola è più facile da
+dimenticare: si sta documentando un difetto della fonte, non raccontando un fatto. Corretto in "il
+cognome di un consigliere compare in due grafie diverse", e la regola è ora esplicita nel prompt
+dei lotti successivi. Audit allargato su tutti e sette i lotti: nessun altro nome dopo una
+qualifica.
+
+**D4 applicata a valle** sulle due righe lette prima che esistesse (B03, B04). Il lotto B07, partito
+dopo, la applica già da sé.
+
+**Incoerenza dichiarata dal lettore stesso**: una riga di B04 è stata classificata notizia con un
+criterio che lui stesso ha poi stretto in B05; non ha riscritto un lotto chiuso e l'ha segnalata
+come la classificazione più fragile dei tre. Resta così, dichiarata: riscriverla a posteriori
+sarebbe peggio, perché nasconderebbe che la soglia si è assestata leggendo.
+
+**Materiale per il rapporto**: l'aritmetica delle votazioni della fonte è sbagliata di frequente —
+unanimità proclamate con astenuti o contrari, un atto con 16 voti dichiarati e 22 nomi elencati,
+due mozioni distinte con lo stesso numero; e gli identificatori dello stesso procedimento divergono
+fra atti (una proposta è `RC/14716/2026` in un atto e `RC/0017442/2026` in un altro).
