@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 0,66 € |
-| **Disponibile** | **77,34 €** |
+| Speso nella sessione B | 8,38 € |
+| **Disponibile** | **69,62 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -36,9 +36,10 @@ listino in dollari):
 | 15/09 20:17 | controllo Codex C1 sullo schema del database | 0,16 € |
 | 16/09 00:20 | controllo Codex C2 sulla specifica di lettura | 0,20 € |
 | 16/09 05:55 | prova T1: 2,12 ore di audio RomaTV trascritte | 0,30 € |
+| 16/09 07:30 | trascrizione in corso: 77 registrazioni, 55,6 ore | 8,02 € |
 
-Impegno previsto ancora da spendere: **circa 33 €** per la trascrizione delle 227,6 ore già in
-coda (§35), più i controlli Codex C3–C5 e la seconda AI sulle candidate. Il tetto regge.
+Impegno previsto ancora da spendere: **circa 25 €** per le 172 ore di registrazioni che restano
+(§35), più i controlli Codex C3–C5 e la seconda AI sulle candidate. Il tetto regge.
 
 Nessun "extra usage", nessun abbonamento, nessun automatismo mensile: studio una tantum.
 
@@ -1195,3 +1196,48 @@ verbale di quel municipio con lo strato di testo integro. Timbri datati 2025 e 2
 2026; una seduta aperta alle 14,00 e chiusa alle 11.33; «con tre (4) voti favorevoli»; elenchi di
 voto che comprendono chi non risulta presente; due verbali distinti della stessa commissione per
 lo stesso giorno, con segretari e ordini del giorno diversi, lasciati separati.
+
+## 42. La notizia che non possiamo scrivere perché la fonte l'ha pubblicata male (16 settembre, 07:35)
+
+Consegna dei lotti B37–B40: 183 atti, 73 candidate (39,9%), forbice 32,2–53,6%. I numeri sono già
+in §41; qui sta la cosa che non avevo ancora visto in nessun lotto.
+
+**Tre ordinanze del Sindaco pubblicate all'Albo Pretorio** (`CEN_SO_X_NzQ5NA`, `NzQ5NQ`, `NzQ5Ng`)
+riportano, per ciascun destinatario: nome, luogo e data di nascita, codice fiscale, indirizzo con
+civico, scala, piano e interno, la condizione personale e — in un caso — un procedimento di tutela
+di persone fragili. Una quarta (`CEN_SO_X_NzUwMQ`) porta anagrafica, residenza e riferimenti
+catastali; lì il lettore non ha riportato **nemmeno le denominazioni delle due società**, perché
+sono formate sui nomi delle persone parti del procedimento. È la scelta giusta e va oltre la
+lettera di D2: una ragione sociale che è il nome di chi ci sta dentro non è un'organizzazione, è
+una persona con un'altra etichetta.
+
+**Quello che ne segue per il metodo, e che va nel rapporto.** Le tre ordinanze di bonifica sono
+dello stesso giorno, sulla stessa strada, dentro un progetto di rigenerazione nominato. Lette in
+serie **sono un fatto di quartiere**. Il lettore le ha tenute a `no` per due ragioni: la regola
+chiede un cambiamento per chi abita il quartiere e qui l'effetto si ferma a un alloggio; e DEC-102
+rende quel racconto non scrivibile senza re-identificare persone fragili. Da sole spostano B40 dal
+36,4% al 45,5%.
+
+Qui la nostra regola di riservatezza e il difetto della fonte si sommano: **una notizia esiste,
+è pubblica, ed è fuori dal nostro conteggio perché la fonte l'ha pubblicata in un modo che non si
+può anonimizzare restando una notizia.** Non è una perdita da nascondere in una forbice: è un
+risultato dello studio. Un giornale che volesse quella storia dovrebbe raccoglierla altrove, non
+dall'Albo.
+
+**Due limiti del database emersi dallo stesso lotto.**
+
+1. `A2_MMV_I_NjE3ODI` e `A2_MMV_I_NjEyNjE` sono **lo stesso verbale con lo stesso protocollo**,
+   pubblicato due volte. Nessuno dei due è candidata, quindi la deduplicazione non li vede mai:
+   il duplicato esiste solo a livello di `documenti`. La resa netta non ne risente, ma
+   l'inventario del mese conta due volte un atto che è uno solo, e il rapporto deve dirlo.
+2. I verbali gemelli della stessa seduta congiunta (`VIII_NjExMzg` / `VIII_NjI1MDk`) producono due
+   candidate che il confronto lega entrambe a una terza riga precedente, non l'una all'altra:
+   finiscono nella stessa vicenda, ma `gemello_id` non punta al gemello più vicino. È come
+   funziona la regola — si ferma al primo riscontro utile — e va letto sapendolo.
+
+**Aritmetica della fonte, nuova forma.** Quattro verbali del Municipio XIV dichiarano
+«unanimità dei votanti» **in presenza di astenuti**; uno proclama un parere non favorevole senza
+un solo voto contrario; due elencano meno cognomi dei voti dichiarati. E in un verbale del XII la
+direzione municipale attribuisce un'area giochi al dipartimento e il dipartimento al municipio,
+mentre l'area resta pericolosa: la contraddizione non è formale, è la ragione per cui non ci
+mette mano nessuno.
