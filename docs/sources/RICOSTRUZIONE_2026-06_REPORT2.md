@@ -10,12 +10,12 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
 
 ## 1. In breve
 
-- Letti **1.983 atti amministrativi** (tutti quelli di giugno) e **371 registrazioni di sedute** —
-  97 dai canali YouTube dei Municipi, 274 da RomaTV. Alla data di questa bozza le registrazioni
-  lette sono 163.
-- Gli atti danno **544 notizie candidate** (27,4%), le registrazioni **727** finora.
+- Letti **1.983 atti amministrativi** — tutti quelli con data di repertorio fra l'8 e il 28 giugno,
+  che è il perimetro dello studio — e **415 registrazioni di sedute**, 97 dai canali YouTube dei
+  Municipi e 318 da RomaTV. Alla data di questa bozza le registrazioni lette sono **193**.
+- Gli atti danno **544 notizie candidate** (27,4%), le registrazioni **863** finora.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — non ha una risposta
-  sola. Ne ha tre, misurate: **38%** di novità certa con un toponimo affidabile, **58%** di novità
+  sola. Ne ha tre, misurate: **37,5%** di novità certa con un toponimo affidabile, **55%** di novità
   certa, fino al **99%** come limite superiore.
 - La scoperta che regge tutto il resto non è un numero ma una frase, scritta in due verbali:
   **«la videoregistrazione sostituisce la trascrizione degli interventi».** L'ente dichiara che il
