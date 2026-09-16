@@ -214,3 +214,16 @@ l'illustrazione dell'atto da parte della proponente, in un'altra l'inizio dell'i
 `quota_ripetuta` misura *quanto* testo è duplicato, non *che cosa* è andato perduto, e le due cose
 non coincidono. Chi legge un item sopra il 10% deve cercare il punto di innesco e dichiarare che cosa
 manca, non solo che il conteggio è gonfio.
+
+## Emendamento del 16 settembre, settimo
+
+Ogni candidata che **non** arriva a `qualita: alta` porta in `nota` il motivo in una parola, scelto
+fra: `data` (il fatto è compiuto e localizzato, manca solo il quando), `luogo` (toponimo incerto o
+non nominato), `non compiuto` (annunciato, proposto, previsto), `trascrizione` (il testo non regge).
+
+Non cambia la scala: serve a **misurarla**. Un lettore ha contato che 21 candidate su 43 non
+arrivavano ad `alta` **solo** per la data, e che diciotto di quelle erano `solo dal parlato`: se la
+data non fosse richiesta, le nuove supererebbero le confermate. La ragione è che a datare un fatto,
+in aula, è quasi sempre l'atto che qualcuno sta leggendo — quindi il requisito «datato» funziona
+come un test sull'esistenza dell'atto travestito da test sul fatto. Con questa colonna la
+correzione si può calcolare su tutto il corpus invece che su un lotto.
