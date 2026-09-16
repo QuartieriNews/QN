@@ -2144,6 +2144,12 @@ materiale. Il rapporto fra le due escursioni dice chi disperde.
 | V4 YouTube, letti sotto tre definizioni successive | 9 | **71 punti** | 49 punti | **1,46** |
 | V3 RomaTV, letti a specifica ferma | 6 | **12 punti** | 23 punti | **0,52** |
 
+*Aggiornamento del 16/09 09:16Z, con due lotti in più (otto invece di sei): l'escursione del lettore
+sale a **22 punti**, quella meccanica a 30, il rapporto a **0,74**. La direzione regge — a regola
+ferma il lettore disperde meno del materiale — ma il **0,52 era un numero da sei lotti**, e con due
+in più si muove di venti punti percentuali. Da citare come 0,74 e da rifare alla consegna: su
+numeri così piccoli l'escursione massima è una statistica fragile.*
+
 Sopra 1 il lettore aggiunge dispersione al materiale; sotto 1 ne toglie. A regola ferma i lettori
 concordano più di quanto vari il materiale (12 punti, vicino ai ~9 punti misurati fra due lettori
 sullo stesso tipo di atto); a regola che cambia sotto di loro la dispersione **supera** quella del
