@@ -4746,3 +4746,56 @@ Cinque in dieci item. Il più netto: un consigliere dice «anche se la registraz
 verbale», e **il verbale di quella seduta non esiste** — l'unica traccia è quella che lui riteneva
 informale. `DECISIONI_OWNER.md` aggiornato; i denominatori dei cinque lettori che hanno cercato sono
 3/10, 3/10, 0/10, 4/10, 5/10.
+
+## 119. V3_389–V3_310: due affermazioni verificate, una cade e una si rovescia (2026-09-16 15:36Z)
+
+21 candidate su nove sedute (due item erano la stessa seduta: prima chiamata deserta e seconda).
+
+### La mia affermazione sul link cade
+
+Avevo messo nel §5, su segnalazione di un lettore, che **tre verbali di sedute diverse portano lo
+stesso identico link** alla registrazione. Questo lettore, cercando, ne ha trovati 18 tutti distinti.
+**Ho controllato io sui 2.668 testi: venti atti portano un identificativo di registrazione e sono
+tutti distinti, zero duplicati.** La duplicazione vera è quella che il rapporto descriveva già due
+capoversi sopra — i ventuno verbali del XV che rimandano al *catalogo* del Municipio. Avevo scritto
+come nuovo un fenomeno già raccontato, e in una forma sbagliata. Corretto.
+
+**Il boilerplate però esiste davvero**, e sta nel testo: i due verbali della stessa commissione
+congiunta condividono **1.786 caratteri in blocchi da quaranta in su, sei dei quali oltre i cento**,
+su documenti di 3.338 e 4.014 caratteri. Il lettore diceva «1.117 caratteri identici verificati con
+diff»: il blocco singolo più lungo è 372, ma la somma è maggiore di quanto dicesse. Misurato da me e
+scritto così.
+
+### L'obiezione più pericolosa al rapporto, sollevata da un lettore e verificata
+
+«I verbali mancano perché non li avete raccolti.» Il lettore l'ha sollevata con una prova seria: una
+commissione di cui il corpus ha il verbale 53 e il 56 e non il 54 e il 55. Se fosse vera in generale,
+metà del §3 — e la correlazione del §114 — misurerebbero la nostra raccolta invece della loro prassi.
+
+**Si può verificare, perché ogni verbale ne cita un altro quando lo approva.** Presi tutti i
+riferimenti «verbale n. X del …» nei testi, quelli che puntano a sedute **dentro la finestra** sono
+41 e **40 sono nel corpus**. Ne manca uno. L'assenza di un verbale è quindi quasi sempre una proprietà
+dell'organo, non della raccolta. Nuovo §7 punto 13, dove serve: accanto al punto 12, che per le
+**convocazioni** dice il contrario.
+
+*Metodo, per chi rifarà i conti*: il mio primo tentativo estraeva il numero dalla testa del testo e
+prendeva **il numero del verbale precedente**, quello che la seduta stava approvando. Me ne sono
+accorto stampando i contesti, non i numeri. Con quell'estrazione sbagliata «cinque serie su tredici»
+avevano buchi: un risultato pulito e falso.
+
+### Altre cose dal lotto
+
+- **Il caso inverso più semplice**: una seduta di 32 minuti in cui la presidenza «lascia in pausa» e
+  **venti minuti corrono muti** — il punto sostanziale, l'elenco delle opere giubilari, sta solo nei
+  verbali. Nel §3.
+- **Un voto proclamato che non torna né con le chiamate né con sé stesso**, senza verbale né atto per
+  riscontrarlo: il lettore l'ha lasciato non riscontrato e non l'ha usato. È la cosa giusta, e nel §3
+  sta accanto al caso della trascrizione che inventa i voti.
+- Due conteggi d'appello sbagliati di uno per difetto nella stessa giornata; e nella seduta con uno
+  **scrutatore** le tre proclamazioni coincidono esattamente. Dove qualcuno conta per mestiere, le
+  cifre reggono.
+- **Dei 685 atti fuori foglio ne ha letti quattro e due erano decisivi**, fra cui l'unico punto del
+  corpus in cui è scritto il ribaltamento di un parere — mentre il verbale della seduta registrata
+  non ne fa parola.
+- **Gli atti sono meno prudenti di DEC-102**: un verbale scrive apertamente una condizione di salute
+  e nomina una professionista. Il lettore ha applicato la regola più stretta e l'ha dichiarato.
