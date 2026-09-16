@@ -46,7 +46,13 @@ while True:
     c, ore = speso()
     if c >= TETTO_USD:
         print('TETTO RAGGIUNTO: $%.2f su %.1f ore. Mi fermo.' % (c, ore), flush=True); break
+    # Chi ha gia' l'audio mono ma non la trascrizione va ripreso: succede quando la chiamata
+    # all'API fallisce dopo che i segmenti sono stati cancellati. Senza questa riga quegli item
+    # sparivano in silenzio, perche' pronti() cerca una playlist locale che non c'e' piu'.
+    recupero = [os.path.basename(m)[5:-4] for m in glob.glob(MONO + '/comm_*.mp3')
+                if not os.path.exists(TRA + '/comm_%s.json' % os.path.basename(m)[5:-4])]
     resta = [i for i in pronti() if not os.path.exists(TRA + '/comm_%s.json' % i)]
+    resta = list(dict.fromkeys(recupero + resta))
     if not resta:
         giri_a_vuoto += 1
         if giri_a_vuoto > 240:
@@ -59,17 +65,19 @@ while True:
             print('TETTO RAGGIUNTO: $%.2f su %.1f ore. Mi fermo.' % (c, ore), flush=True); sys.exit(0)
         segdir = AUD + '/comm_%s_segs' % i
         try:
-            m4a = remux(segdir, KEY)
             mono = MONO + '/comm_%s.mp3' % i
+            m4a = None if os.path.exists(mono) else remux(segdir, KEY)
             if not os.path.exists(mono):
                 r = subprocess.run([__import__('imageio_ffmpeg').get_ffmpeg_exe(), '-hide_banner',
                                     '-loglevel', 'error', '-y', '-i', m4a, '-ac', '1', '-ar', '16000',
                                     '-b:a', '32k', mono], capture_output=True, text=True)
                 if r.returncode != 0: raise RuntimeError(r.stderr[:200])
-            shutil.rmtree(segdir, ignore_errors=True)
             res = trascrivi(mono, TRA, 'comm_%s' % i)
             json.dump(res, open(TRA + '/comm_%s.json' % i, 'w'), ensure_ascii=False, indent=1)
-            if os.path.exists(m4a): os.remove(m4a)
+            # I segmenti si cancellano solo a trascrizione riuscita: cancellarli prima rendeva
+            # irripetibile ogni errore dell'API.
+            shutil.rmtree(segdir, ignore_errors=True)
+            if m4a and os.path.exists(m4a): os.remove(m4a)
             c, ore = speso()
             print('OK %s  %.0f min  | totale %.1f ore, $%.2f' % (i, res['durata_s'] / 60, ore, c), flush=True)
         except Exception as e:

@@ -2183,3 +2183,41 @@ Conseguenze da tenere presenti e non dimenticare alla consegna:
 Correzione anche al registro (§2): la trascrizione era annotata a 22,49 € su 154,9 ore; è a 26,80 €
 su 184,7 ore e non è finita. La stima era vecchia di ore, non sbagliata all'origine — ma lasciata
 ferma in tabella diventa un numero falso.
+
+## 65. Due registrazioni perse in silenzio dal driver ASR (2026-09-16 08:41Z)
+
+Controllo di routine della VM (driver attivo, 261 item, $ 29,13, disco 26 G liberi, quattro
+scaricamenti in parallelo come da limite). Nel log due sole righe `ERRORE`. Guardate da vicino, non
+erano due intoppi: erano **due registrazioni che il driver non avrebbe mai ripreso**.
+
+**Il difetto.** Il driver cancellava i segmenti scaricati *prima* di chiamare l'API:
+
+```
+shutil.rmtree(segdir, ...)      # <- prima
+res = trascrivi(mono, ...)      # <- poi
+```
+
+Se la chiamata falliva, i segmenti non c'erano più; e la coda di lavoro si costruisce da
+`pronti()`, che pretende la playlist locale dentro quei segmenti. Item scomparso, senza che nulla
+lo dicesse: nel log resta una riga `ERRORE` che sembra un intoppo passeggero.
+
+È successo a **2bff8cd6** (timeout di lettura dopo 600 s). L'audio mono è ancora lì, 10,8 MB: la
+trascrizione si recupera senza riscaricare niente.
+
+**Correzione applicata** (`video/rtv_asr_driver.py`, copia di sicurezza `.prima_del_fix_perdita`):
+i segmenti si cancellano solo a trascrizione riuscita; la coda di lavoro parte anche dagli mp3 mono
+senza trascrizione; `remux` si salta se il mono esiste già. Il processo in corso ha il vecchio
+codice in memoria, quindi la correzione vale dal prossimo avvio — che farò a driver fermo, non
+interrompendolo a metà di un item.
+
+**Il secondo caso è un difetto della fonte, non mio.** In **41e7b841** l'ultimo dei 59 segmenti
+(`slen_58`) è un **file di zero byte**: il CDN risponde vuoto, e ha continuato a rispondere vuoto a
+ogni tentativo. Gli altri 58 sono integri. La registrazione non è irrecuperabile: manca la coda.
+Riproverò lo scaricamento del solo segmento quando la pozza dei quattro scaricamenti si svuota —
+non ora, perché un quinto processo in parallelo violerebbe il limite. Se il segmento resta vuoto, la
+registrazione va tenuta **dichiarando la lacuna**, non scartata.
+
+**Che cosa mi insegna.** Ho guardato quel log tre volte contando le righe `OK` e non ho mai letto le
+due righe `ERRORE`. Un conteggio di successi non è un controllo: 261 su 263 sembra ottimo finché non
+si chiede che fine hanno fatto i due. Da qui in avanti il conto giusto è **item attesi meno item con
+trascrizione**, non il numero di righe `OK`.
