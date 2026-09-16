@@ -262,6 +262,13 @@ stiamo discutendo». Nel documento **non ce n'è nessuna**. Sopravvivono tutte e
 La formulazione che regge su tutti i conteggi è quindi più stretta: **sopravvive la cifra di cui quel
 verbale è il documento probatorio**.
 
+**È una tendenza forte, non una legge, e i controesempi sono istruttivi.** Una lettura successiva ne
+ha trovati due nello stesso verbale: cinque frazioni di suolo concedibile che erano **il dispositivo
+dell'atto in votazione** e che il verbale non riporta affatto; e uno stesso numero — il 100% di una
+zona — che **muore come norma e sopravvive dentro l'obiezione di una consigliera**, cioè esattamente
+al contrario di come la regola prevede. Quella sopravvivenza per la via sbagliata è anche l'unico
+modo per capire che una cifra storpiata dalla trascrizione non era un errore.
+
 **E il verbale non si limita a perdere: a volte aggiunge, e a volte ha ragione lui.** Ha una fonte
 propria — i documenti d'ufficio — e la usa contro il parlato. Porta l'importo esatto di un debito,
 `17.182,05`, dove in aula si sentono 21.000, 17.000, 2.182 e 1.224,30. Corregge l'oratore contro la
@@ -363,6 +370,16 @@ identifica l'organo, non la seduta. E uno dei due link del IX è **corrotto dall
 anche dove la fonte scrive l'identificativo, il testo può consegnarlo rotto. Quaranta atti su 1.983,
 quattro Municipi su quindici: è una buona prassi da nominare, non un meccanismo su cui una pipeline
 possa contare.
+
+**E la percentuale di testo duplicato non dice dove si perde.** Misurato su due registrazioni dello
+stesso lotto: a **8,5%** di testo duplicato mancano cinque commi di un regolamento — la lettura
+riprende dal quattordicesimo dopo essersi interrotta all'ottavo; a **44,8%** non manca niente,
+perché il presidente legge lo stesso articolo due volte, nelle premesse e nel dispositivo. La soglia
+che ci eravamo dati — non fidarsi dei conteggi sopra il 10% — dà quindi il verdetto giusto per il
+motivo sbagliato e quello sbagliato nel caso più estremo. **Quello che va misurato è la perdita, non
+la ripetizione**: cercare il punto di innesco e verificare se il testo riprende da dove si era
+interrotto. Lo scriviamo come correzione per chi rifarà questo lavoro, non come qualcosa che abbiamo
+già applicato.
 
 **E un difetto della nostra trascrizione che non è rumore ma perdita.** Quando il modello entra in
 ciclo non aggiunge testo inutile: **riscrive lo stesso passaggio al posto di quello che si stava

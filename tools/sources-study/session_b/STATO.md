@@ -3872,7 +3872,7 @@ buona parte da sé.
 
 Il rapporto ora porta questi numeri invece di quelli di un lotto.
 
-## 101. V3_169–V3_180: due controesempi alla regola, e la soglia sulla ripetizione è cieca (2026-09-16 12:10Z)
+## 101. V3_169–V3_180: due controesempi alla regola, e la soglia sulla ripetizione è cieca (2026-09-16 12:08Z)
 
 ### La regola sulle cifre ha due controesempi veri
 
