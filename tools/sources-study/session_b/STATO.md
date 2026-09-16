@@ -3406,3 +3406,32 @@ misura T4 che misurava la mia finestra, e ora un gestore di errori che non gesti
 si comportano bene finché non succede la cosa che dovrebbero intercettare. **La prova di un
 meccanismo di sicurezza non è che il programma funzioni: è che fallisca come previsto quando lo si
 rompe apposta.** Nessuno di questi quattro era mai stato messo alla prova con un guasto vero.
+
+## 87. Il secondo giro di audit è pronto, e c'è un pezzo nuovo da controllare (2026-09-16 11:18Z)
+
+Il numero principale del rapporto — **85,6%** — poggia su **quaranta casi giudicati da un solo
+revisore**. È poco per la cosa su cui si regge tutto, e il revisore stesso l'ha scritto. Ho preparato
+il secondo giro: `campione_dedup.py` accetta un seme da riga di comando, **esclude le candidate già
+giudicate** (109) e ne estrae altre quaranta, disgiunte dalle prime.
+
+**E c'è un pezzo che nessuno ha ancora guardato, creato da una mia correzione di oggi.** Togliendo il
+filtro sul tipo (§82) gli accostamenti forti sono passati da 31 a **76**: quarantacinque
+classificazioni «duplicato» nuove, mai verificate da nessuno. La precisione misurata era **52%** su
+un campione estratto *prima* di quella correzione. Se i quarantacinque nuovi fossero peggiori, la
+classe D sarebbe gonfia e la novità sottostimata — cioè un errore nella **direzione opposta** a
+quello che l'audit dei dubbi ha corretto. Il secondo campione ne contiene la sezione di precisione
+su tutti e 77.
+
+**Un difetto del generatore, trovato usandolo.** Scriveva sempre su `campione_dedup.md`, quindi il
+secondo giro **cancellava il file che il primo revisore aveva davanti**. Il seme da solo non lo
+ricostruisce, perché il database intanto è cambiato — e oggi è cambiato parecchio. Ora il nome porta
+il seme.
+
+**E il criterio di giudizio è stato corretto** (`report2/CRITERIO_AUDIT.md`): era asimmetrico — «la
+seconda non aggiunge niente alla prima» — ma applicato a coppie che non hanno un ordine, e il
+giudizio si rovesciava a seconda di quale riga si chiamasse seconda. Ora si guarda in **tutte e due
+le direzioni**: se una delle due porta un fatto che l'altra non ha, non sono lo stesso fatto. Il
+difetto si è visto solo perché il revisore ha **dichiarato la convenzione che aveva scelto** invece
+di applicarla in silenzio.
+
+Stato: 154 registrazioni V3 lette, 310 trascritte su 318, driver vivo, nessun item messo da parte.
