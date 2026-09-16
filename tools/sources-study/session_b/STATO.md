@@ -530,7 +530,7 @@ senza che nulla lo segnali.
 | `Report1_notizie_C5_2026-06.csv` (11 righe) | **caricato** |
 | `Report1_territori_2026-06.csv` (96 celle, con le 2 lacune) | **caricato** |
 | `Report1_vicende_2026-06.csv` (218 vicende) | **caricato** |
-| `notizie_compatte_E3.csv` (44 KB) | da caricare |
+| `notizie_compatte_E3.csv` (44 KB) | **caricato** (`Report1_notizie_E3_2026-06.csv`, 43.577 byte) |
 | `notizie_compatte_A1.csv` (161 KB) | da caricare |
 | `notizie_compatte_E2.csv` (161 KB) | da caricare |
 | `documenti_compatti.csv` (164 KB) | da caricare |
