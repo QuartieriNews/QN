@@ -25,8 +25,20 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 0,00 € |
-| Disponibile | 78,00 € |
+| Speso nella sessione B | 0,66 € |
+| **Disponibile** | **77,34 €** |
+
+Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
+listino in dollari):
+
+| Quando | Voce | Costo |
+|---|---|---|
+| 15/09 20:17 | controllo Codex C1 sullo schema del database | 0,16 € |
+| 16/09 00:20 | controllo Codex C2 sulla specifica di lettura | 0,20 € |
+| 16/09 05:55 | prova T1: 2,12 ore di audio RomaTV trascritte | 0,30 € |
+
+Impegno previsto ancora da spendere: **circa 33 €** per la trascrizione delle 227,6 ore già in
+coda (§35), più i controlli Codex C3–C5 e la seconda AI sulle candidate. Il tetto regge.
 
 Nessun "extra usage", nessun abbonamento, nessun automatismo mensile: studio una tantum.
 
@@ -43,8 +55,8 @@ sessione A in `quota_sessione_A.md`.
 | 0. Setup ambiente di lavoro | fatto |
 | 1. Verifica chiave + primo commit di STATO.md | fatto |
 | 2. Recuperi lenti (RomaTV, YouTube, Atti Web) | in corso: A2 958/2669 PDF, YouTube 18/131, RomaTV 17/318 |
-| 3. Report 1 — consegna 17 settembre ore 19:00 | fonti testuali recuperate (985 item), estrazione fatta, lettura in corso |
-| 4. Report 2 — consegna 20 settembre ore 19:00 | non iniziato |
+| 3. Report 1 — consegna 17 settembre ore 19:00 | **consegnato** in `docs/sources/RICOSTRUZIONE_2026-06_REPORT1.md` |
+| 4. Report 2 — consegna 20 settembre ore 19:00 | atti: 1.250 di 1.983 letti; video: 141 di 318 registrazioni scaricate, prova T1 fatta |
 
 ## 5. Registro
 
@@ -886,3 +898,70 @@ Audit sui nostri 27 lotti: **nessun codice fiscale, nessuna partita IVA**, tutto
 lavoro accanto alla carica di consigliere restringe comunque il campo anche senza il cognome; e il
 cognome di un collezionista, che resta perché identifica la collezione, compare anche nel nome
 della donante, resa con il ruolo.
+
+## 34. Il Municipio dei primi sei lotti riallineato (16 settembre, 05:50)
+
+I lotti B01–B06 erano stati letti prima della correzione descritta in §24 e portavano ancora il
+Municipio vecchio. `report2/fix_municipio_b01_b06.py` riscrive quella sola colonna dal file
+`_municipio_corretto.csv`, che è la trascrizione del manifest, e lascia intatto tutto il resto:
+**140 righe su 300 cambiate** (B01 47, B02 42, B03 2, B04 0, B05 0, B06 49). Nessuna riga senza
+riscontro nel manifest: i 300 `name` sono tutti presenti.
+
+Applicata la regola presa a caro prezzo in §29 — dopo una modifica in blocco si rilegge per intero
+almeno una riga toccata — ho poi cercato, su tutti e sei i lotti, le note di coerenza che citano un
+Municipio diverso dalla colonna. Ne restano **due**, ed entrambe sono giuste: un verbale del
+Municipio IX che dice esso stesso che i tratti stradali chiusi ricadono nell'VIII, e un ordine del
+giorno del Municipio V su un corteo previsto nel I. Non sono incoerenze introdotte dalla correzione,
+sono esattamente la cosa che la colonna `coerenza_organo_territorio_o_nota` serve a registrare.
+
+Una cosa che ho sbagliato e che vale la pena scrivere: ho riscritto i sei file **senza copiarli
+prima**. La verifica è riuscita lo stesso, ma se la mappa di correzione fosse stata sbagliata non
+avrei avuto il valore precedente per accorgermene. Da qui in avanti una modifica in blocco si fa
+su una copia, non sull'originale.
+
+## 35. Prova T1: quanto costa davvero trascrivere (16 settembre, 06:00)
+
+Prima di qualunque lotto a pagamento, la prova prescritta da HANDOFF §4 su due ore di audio.
+Scelte **4 registrazioni di 4 organi diversi e 2 settimane diverse** (Municipio XII, Commissioni
+Capitoline, Municipio VIII, Municipio XV), per 2,12 ore complessive: una sola registrazione lunga
+avrebbe misurato quella, non il corpus.
+
+Catena: segmenti HLS cifrati → remux con la chiave AES → mono 16 kHz a 32 kbps → tagli allineati
+ai silenzi vicino ai multipli di 5 minuti → `gpt-4o-mini-transcribe`.
+
+| Misura | Valore |
+|---|---|
+| Audio trascritto | 127,0 minuti (2,12 ore), 26 pezzi |
+| Token audio in ingresso | 76.199, cioè **600 al minuto, costanti** |
+| Token di testo in uscita | 20.478 (161 al minuto) |
+| Testo prodotto | 80.864 caratteri (636 al minuto) |
+| Tempo di lavoro | 169 secondi, **45 volte più veloce del tempo reale** |
+| Costo a token (3,00 / 1,25 / 5,00 $ per milione) | 0,331 $, cioè **0,00261 $ al minuto** |
+| Costo allo stesso audio al listino a minuto (0,003 $) | 0,381 $ |
+
+Il prezzo effettivo misurato è **il 13% sotto il listino a minuto**, perché la fatturazione a token
+segue il parlato e non l'orologio. I 600 token audio al minuto sono identici su tutti e 26 i pezzi:
+è una tariffa a durata, non a densità di parole.
+
+Proiezioni: **35,6 $ (≈ 33 €)** per le 227,6 ore già in coda di scaricamento, **41,4 $ (≈ 38 €)**
+per tutte le 328 sedute dell'8–28 giugno prive di trascrizione della piattaforma (264,6 ore). Il
+tetto regge in entrambi i casi; il driver si ferma comunque da solo a 42 $.
+
+**Due limiti da dichiarare nel rapporto, non da nascondere.**
+
+1. La spesa reale non è leggibile da qui: l'API di fatturazione richiede una chiave di
+   amministrazione che questa sessione non ha. Il costo sopra è calcolato sui token che l'API
+   restituisce, moltiplicati per le tariffe di listino: è una misura del consumo, non della
+   fattura.
+2. `gpt-4o-mini-transcribe` non dà marcatori temporali. Li ricavo dal taglio: ogni pezzo porta il
+   suo inizio in secondi, quindi l'evidenza è **al pezzo (circa 5 minuti)**, non ai 10 secondi che
+   il metodo chiede per il lotto A. Il modello che li darebbe (`whisper-1`, `verbose_json`) costa
+   il doppio, 82 $ sulle stesse ore, e sfonderebbe il tetto. Ho scelto la copertura completa con
+   evidenza grossolana invece della copertura parziale con evidenza fine, e lo scrivo nel rapporto.
+
+Il taglio sui silenzi funziona: alla giunzione fra il primo e il secondo pezzo la frase prosegue
+intera, nessuna parola spezzata.
+
+**Riservatezza.** Le trascrizioni sono piene di nomi — l'appello nominale apre ogni seduta. Restano
+nello scratchpad come tutti i testi integrali (DEC-102); i lettori applicano l'anonimizzazione di
+`SPECIFICA_ATTI.md` §nomi, che vale parola per parola anche qui.
