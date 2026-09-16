@@ -25,8 +25,8 @@ la prova T1 di misura del prezzo effettivo prima di qualunque lotto di trascrizi
 |---|---|
 | Tetto complessivo | 78,86 € |
 | Speso prima della sessione B | 0,86 € |
-| Speso nella sessione B | 23,07 € |
-| **Disponibile** | **54,93 €** |
+| Speso nella sessione B | 27,68 € |
+| **Disponibile** | **50,32 €** |
 
 Voci della sessione B (cambio usato 1 $ = 0,92 €, dichiarato perché il tetto è in euro e il
 listino in dollari):
@@ -36,11 +36,19 @@ listino in dollari):
 | 15/09 20:17 | controllo Codex C1 sullo schema del database | 0,16 € |
 | 16/09 00:20 | controllo Codex C2 sulla specifica di lettura | 0,20 € |
 | 16/09 05:55 | prova T1: 2,12 ore di audio RomaTV trascritte | 0,30 € |
-| 16/09 10:10 | trascrizione in corso: 219 registrazioni, 154,9 ore | 22,49 € |
 | 16/09 08:50 | controllo Codex C3 sulla specifica delle registrazioni (3.835 token in, 8.737 out) | 0,22 € |
+| 16/09 10:19 | trascrizione, 260 registrazioni su 275, 184,7 ore ($ 29,13, ancora in corso) | 26,80 € |
 
-Impegno previsto ancora da spendere: **circa 25 €** per le 172 ore di registrazioni che restano
-(§35), più i controlli Codex C3–C5 e la seconda AI sulle candidate. Il tetto regge.
+Gli orari di questa tabella sono ora di Roma; le intestazioni delle sezioni sono in UTC. Andava
+detto: due fusi nello stesso file si leggono male.
+
+La riga della trascrizione **ha superato la stima** di 22,49 €: il driver è a $ 29,13 con quindici
+registrazioni ancora da fare, e si fermerebbe da solo al suo tetto di $ 42. Fine previsto intorno a
+$ 30,6, cioè **28,2 €**. La stima precedente era ferma a 154,9 ore quando le ore sono 184,7.
+
+Impegno previsto ancora da spendere: **circa 2 €** per le registrazioni che restano, più i
+controlli Codex C4 e C5 (~0,2 € l'uno) e la seconda AI sulle candidate. Il tetto regge con
+ampio margine.
 
 Nessun "extra usage", nessun abbonamento, nessun automatismo mensile: studio una tantum.
 
@@ -2153,3 +2161,25 @@ specifica dalla prima riga; l'ho rispettata sul singolo lotto e violata sulla se
 
 *(Timestamp corretto: avevo scritto 08:47Z a occhio invece di leggerlo dall'orologio, che diceva
 08:19Z. Stessa svista già annotata in questa sessione; l'orologio si legge, non si stima.)*
+
+## 64. Il corpus è ancora in crescita: il manifest non è la verità (2026-09-16 08:22Z)
+
+Misurando i link (§62) mi sono accorto che `rtv/txt` contiene **293** trascrizioni e
+`manifest_video_rtv.csv` ne elenca **274**: diciannove registrazioni sono trascritte ma non nel
+manifest, perché il driver ASR sta ancora lavorando (260 item su 275 audio preparati, $ 29,13).
+
+Conseguenze da tenere presenti e non dimenticare alla consegna:
+
+1. Il manifest va **rigenerato** quando il driver finisce, conservando gli id già assegnati; i
+   lettori leggono dal manifest, quindi finché non lo rigenero quei diciannove item non li legge
+   nessuno.
+2. I conteggi che passano dal manifest — «274 item», i 7 link risolti di §62, la stratificazione per
+   origine della trascrizione — sono **fotografie di uno stato intermedio** e vanno rifatti, non
+   citati come definitivi. Nessuno dei dieci identificativi ancora non risolti di §62 è fra i
+   trascritti fuori manifest, quindi quel 7 su 17 per ora non cambia; ma va ricontrollato dopo.
+3. Lo stesso vale per `build_db.py`: non lo rieseguo mentre due lettori scrivono dentro
+   `out_video/`, per non assegnare id a candidate di file scritti a metà.
+
+Correzione anche al registro (§2): la trascrizione era annotata a 22,49 € su 154,9 ore; è a 26,80 €
+su 184,7 ore e non è finita. La stima era vecchia di ore, non sbagliata all'origine — ma lasciata
+ferma in tabella diventa un numero falso.

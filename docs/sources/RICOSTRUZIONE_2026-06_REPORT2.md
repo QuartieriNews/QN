@@ -204,7 +204,13 @@ fattura.
 
 1. Il campo `novita_rispetto_agli_atti` è stato definito tre volte: i lotti non sono confrontabili
    su quel campo e vanno pubblicati con la formulazione accanto. Il numero principale è quello
-   meccanico, che non ne dipende.
+   meccanico, che non ne dipende. Quanto costi, si può misurare: i lotti letti mentre la regola
+   cambiava si distendono su **71 punti** di `solo dal parlato`, quelli letti a regola ferma su
+   **12**. Il metro è la misura meccanica, che del lettore non sa niente e porta la sola
+   eterogeneità del materiale: nei primi la dispersione del lettore vale **1,46 volte** quella del
+   materiale, nei secondi **0,52**. A regola ferma i lettori concordano più di quanto vari il
+   materiale; a regola mobile no. Il costo non è dei lettori, è di chi ha cambiato il contratto in
+   corsa.
 2. Il confronto è contro «gli atti **più** le notizie già estratte dal Report 1»: eredita gli errori
    e le omissioni di quella pipeline.
 3. L'unità di conteggio è la candidata, non il fatto: due lettori possono spezzare lo stesso fatto
