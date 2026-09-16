@@ -33,16 +33,16 @@ Tre esiti:
 
 | | |
 |---|---|
-| **S** — nessun gemello fra le righe scritte | 422 |
-| **U** — nessun duplicato, ma almeno un accostamento dubbio | 298 |
-| **D** — almeno un duplicato certo | 7 |
+| **S** — nessun gemello fra le righe scritte | 476 |
+| **U** — nessun duplicato, ma almeno un accostamento dubbio | 375 |
+| **D** — almeno un duplicato certo | 12 |
 
 Da cui la scala:
 
-- **38,1%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il pavimento: regge
+- **37,5%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il pavimento: regge
   a qualunque obiezione.
-- **58,0%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
-- **99,0%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
+- **55,2%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
+- **98,6%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
 **Contro che cosa sono misurati, detto con precisione.** Contro i 1.983 atti con data di repertorio

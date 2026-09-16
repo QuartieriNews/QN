@@ -2519,3 +2519,53 @@ persone sia un'invenzione nostra imposta alla fonte.
    sulla colonna `luoghi`.
 2. L'emendamento sulle convocazioni non copre i `CPC` capitolini: X02 l'ha esteso per non avere due
    metri per lo stesso oggetto, dichiarandolo e rendendolo reversibile in blocco. Scelta giusta.
+
+## 71. La data del fatto per le convocazioni: difetto reale, effetto minimo (2026-09-16 09:14Z)
+
+Continuando su §70 ho guardato che cosa `build_db.py` usa come data del fatto per un atto:
+`data_repertorio`, sempre. Il campo `validita_o_seduta`, che i lettori compilano da quattro lotti,
+**non era letto da nessuna parte**.
+
+Misurato sulle convocazioni già dentro il database (B01–B40):
+
+| | |
+|---|---|
+| la data di seduta **diverge** da quella di repertorio | **242** |
+| la data di seduta non è scritta | 221 |
+| coincidono | 46 |
+
+Per 242 convocazioni la data del fatto nel database era quindi sbagliata, a volte di settimane
+(repertorio 12 giugno, seduta 1 luglio). Siccome la deduplicazione appaia a **un giorno** di
+distanza, l'accostamento fra una convocazione e la seduta che convoca era impossibile **per
+costruzione** — e non ai bordi del perimetro, dentro.
+
+Corretto: `data_del_fatto()` legge la data di seduta per le sole convocazioni (MMC, CMC, CPC), in
+entrambe le grafie, e se il campo ne porta più d'una diversa non sceglie e ricade sul repertorio.
+Per gli altri tipi il campo porta una *validità*, non una seduta: leggerlo lì sarebbe un errore
+peggiore di quello che corregge.
+
+**Effetto sul numero principale, misurato isolando la sola correzione** (stessi ingressi, due
+esecuzioni):
+
+| | senza correzione | con correzione |
+|---|---|---|
+| S (nessun gemello scritto) | 478 | 476 |
+| D (almeno un duplicato) | 10 | 12 |
+| quota di novità | [55,4% , 98,8%] | **[55,2% , 98,6%]** |
+
+**Due candidate su 863. Due decimi di punto.** Il difetto era reale, la correzione resta perché una
+data sbagliata è sbagliata, ma non sposta niente — e conferma per misura quello che in §69 avevo
+solo asserito: *una convocazione annuncia, raramente contiene il fatto*.
+
+**Il che vuol dire anche questo, e va detto senza giri.** La catena partita stamattina da §66 —
+allarme, ritiro, meccanismo, correzione — è costata quattro lotti di lettura e mezza giornata per
+due decimi di punto sul numero principale. I lotti non sono sprecati (danno fatti territoriali, il
+collegamento delle convocazioni e la misura del meccanismo), ma chi legge il rapporto deve sapere
+che il buco esisteva e **non era dove pensavo, e non pesava quanto temevo**. Quando arriveranno
+X03–X05 con le altre 96 convocazioni, l'attesa ragionevole è che spostino altrettanto poco: lo
+scrivo prima di vederlo, così è una previsione e non una razionalizzazione.
+
+**Numeri aggiornati a 193 registrazioni lette su 415** (96 RomaTV + 97 YouTube):
+quota di novità **[55,2% , 98,6%]**, e **37,5%** scartando le righe che poggiano su un toponimo
+dichiarato incerto (31,9% delle S). La scala dei tre numeri diventa **37,5 / 55,2 / 98,6**, da
+rifare ancora alla consegna.

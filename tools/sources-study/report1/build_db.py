@@ -166,6 +166,32 @@ def esito_atto(v):
 def sn(v):
     return 'sì' if (v or '').strip().lower() in ('sì', 'si', 'true', '1') else 'no'
 
+CONVOCAZIONI_A2 = {'MMC', 'CMC', 'CPC'}
+
+def data_del_fatto(tipologia, r, meta):
+    """La data a cui il fatto appartiene, che per le convocazioni non e' quella di repertorio.
+    Atti Web indicizza i verbali per la data della seduta e le convocazioni per la data del
+    protocollo, che precede la seduta di giorni: usare il repertorio come data del fatto rende
+    impossibile per costruzione l'accostamento fra una convocazione e la seduta che convoca,
+    perche' la deduplicazione appaia a un giorno di distanza. Misurato sulle convocazioni gia'
+    lette: 242 su 509 hanno una data di seduta diversa da quella di repertorio.
+    Vale solo per le convocazioni: in altri tipi `validita_o_seduta` porta una validita', non una
+    data di seduta, e leggerla come data del fatto sarebbe un errore peggiore di quello che
+    corregge."""
+    if tipologia in CONVOCAZIONI_A2:
+        d = data_seduta(r.get('validita_o_seduta'))
+        if d: return d
+    return iso_it(r.get('data_repertorio')) or iso_it(meta['data'])
+
+def data_seduta(v):
+    """Una data sola dal campo della seduta, in qualunque delle due grafie i lettori l'abbiano
+    scritta. Se il campo ne porta piu' d'una diversa non si sceglie: il fatto e' ambiguo e si
+    ricade sul repertorio, dichiarandolo con il silenzio invece che con una scelta."""
+    s = (v or '').strip()
+    trovate = {f'{a}-{m}-{g}' for a, m, g in re.findall(r'(\d{4})-(\d{2})-(\d{2})', s)}
+    trovate |= {f'{a}-{m}-{int(g):02d}' for g, m, a in re.findall(r'(\d{1,2})[/.](\d{2})[/.](\d{4})', s)}
+    return trovate.pop() if len(trovate) == 1 else ''
+
 def iso_it(v):
     m = re.match(r'(\d{2})/(\d{2})/(\d{4})', (v or '').strip())
     return f'{m.group(3)}-{m.group(2)}-{m.group(1)}' if m else ''
@@ -220,7 +246,7 @@ if os.path.isdir(R2 + '/out'):
         zona = loc.get('zona') or ''
         tier = loc.get('tier') or ''
         if not tier: tier = 'meta' if mun else 'assente'
-        data_fatto = iso_it(r.get('data_repertorio')) or iso_it(meta['data'])
+        data_fatto = data_del_fatto(meta['tipologia'], r, meta)
         notizie.append({
             'id': '', 'documento_id': did, 'fonte': 'A2',
             'titolo_anonimizzato': r.get('titolo_candidato', ''), 'sintesi': r.get('contenuto', ''),
