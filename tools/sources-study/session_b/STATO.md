@@ -38,6 +38,7 @@ listino in dollari):
 | 16/09 05:55 | prova T1: 2,12 ore di audio RomaTV trascritte | 0,30 € |
 | 16/09 08:50 | controllo Codex C3 sulla specifica delle registrazioni (3.835 token in, 8.737 out) | 0,22 € |
 | 16/09 10:19 | trascrizione, 260 registrazioni su 275, 184,7 ore ($ 29,13, ancora in corso) | 26,80 € |
+| 16/09 11:49 | controllo Codex C4 sul rapporto scritto (12.831 token in, 12.283 out) | 0,22 € |
 
 Gli orari di questa tabella sono ora di Roma; le intestazioni delle sezioni sono in UTC. Andava
 detto: due fusi nello stesso file si leggono male.
