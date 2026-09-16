@@ -3804,7 +3804,7 @@ trappola che oggi ho preso anch'io almeno una volta (§72, la stima del buco del
 estratta da un elenco già filtrato): **un campione selezionato per una proprietà non misura la
 frequenza di quella proprietà.**
 
-## 98. Il testo di un documento, da 86 a 3.393 su 3.394 (2026-09-16 11:52Z)
+## 98. Il testo di un documento, da 86 a 3.393 su 3.394 (2026-09-16 11:49Z)
 
 Il secondo revisore aveva trovato che i dodici testi dati per «non recuperabili» erano recuperabili:
 item già scaricati, salvati con un nome diverso dall'url. Ha scritto la regola nel proprio spazio di
