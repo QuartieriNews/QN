@@ -284,7 +284,11 @@ def item_video(j, meta, lotto):
     fonte = meta.get('fonte') or 'A4'
     did = '%s_%s' % (fonte, j['item_id'].split('_')[1])
     dur = j.get('durata_hm', '')
-    parole = int(j.get('parole') or 0)
+    # Dal sesto emendamento un lettore scrive `non attendibile` invece di zero dove la ripetizione
+    # del modello supera il 10%: uno zero sarebbe indistinguibile da un conteggio vero. Qui quel
+    # valore diventa una cella vuota, che nelle statistiche di volume non si somma.
+    grezzo = str(j.get('parole') or '').strip()
+    parole = int(grezzo) if grezzo.isdigit() else ''
     doc = {
         'id': did, 'fonte': fonte, 'tipo': 'registrazione', 'url': meta.get('url', ''),
         'data_pubblicazione': meta.get('data_pubblicazione', ''), 'timestamp_pubblicazione': '',
@@ -441,6 +445,45 @@ for blocco in sorted(per_blocco):
             if b['dedup_stato'] == 'duplicato': b['prima_fonte'] = 'no'
     print(f'{blocco}: {len(gruppo)} notizie confrontate sull\'intero mese')
 
+# ---- il confronto esaustivo parlato-contro-scritto -------------------------
+# La deduplicazione qui sopra segue il metodo §4.1 e **consuma** le righe: appena una riga prende
+# un gemello esce dal confronto, come a mano. Va bene per contare la resa netta, non per dire se
+# una cosa detta in aula sta scritta da qualche parte, che e' la domanda del Report 2. Con la
+# catena, 111 candidate del parlato avevano come unico gemello un'altra registrazione e non sono
+# mai state confrontate con lo scritto; e 537 righe scritte su 1.855, gia' legate, erano fuori da
+# ogni confronto successivo. Entrambe le cose alzano la novita'.
+# Questo passaggio non tocca la deduplicazione: aggiunge, per ogni riga del parlato, quanti
+# gemelli scritti esistono **davvero**, provando tutte le coppie. Il conteggio e' fatto due volte,
+# dentro il blocco come prescrive il metodo e su tutto il corpus, cosi' il costo della partizione
+# in blocchi si vede invece di restare implicito.
+PARLATO_FONTI = {'A3', 'A4'}
+scritte_tutte = [n for n in notizie if n['fonte'] not in PARLATO_FONTI]
+for n in notizie:
+    n['gemelli_scritti'] = ''
+    n['gemelli_scritti_blocco'] = ''
+for a in notizie:
+    if a['fonte'] in PARLATO_FONTI:
+        ga = giorno(a)
+        dup = dub = dup_b = dub_b = 0
+        for b in scritte_tutte:
+            gb = giorno(b)
+            if not ga or not gb or abs((ga - gb).days) > 1: continue
+            if not stesso_luogo(a, b): continue
+            forte = stesso_oggetto(a, b)
+            dup += forte; dub += not forte
+            if BLOCCO[a['fonte']] == BLOCCO[b['fonte']]:
+                dup_b += forte; dub_b += not forte
+        a['gemelli_scritti'] = f'{dup}/{dub}'
+        a['gemelli_scritti_blocco'] = f'{dup_b}/{dub_b}'
+parl = [n for n in notizie if n['fonte'] in PARLATO_FONTI]
+def classe(v):
+    d, u = (int(x) for x in v.split('/'))
+    return 'D' if d else ('U' if u else 'S')
+cc = collections.Counter(classe(n['gemelli_scritti']) for n in parl)
+cb = collections.Counter(classe(n['gemelli_scritti_blocco']) for n in parl)
+print('confronto esaustivo parlato-scritto, su tutto il corpus: %s' % dict(cc))
+print('  dentro il blocco, come prescrive il metodo:            %s' % dict(cb))
+
 # ---- vicende (schema §2 regola 3) -----------------------------------------
 vicende = []
 for n in notizie:
@@ -551,7 +594,7 @@ print('celle Municipio×settimana senza notizie:', sum(1 for r in terr_righe if 
 print('tabelle scritte in report1/db/:')
 scrivi('fonti', fonti, ['codice','nome','blocco','ente','url_elenco','base_url','formato','item_giugno','paginazione_completa','data_lettura','report','note'])
 scrivi('documenti', list(documenti.values()), ['id','fonte','tipo','url','data_pubblicazione','timestamp_pubblicazione','data_evento_inizio','data_evento_fine','titolo_anonimizzato','municipi_meta','tematica','caratteri','formato_item','metodo_estrazione','ocr_incerto','trascrizione_incerta','esito_lettura','settimana','report_origine','letto_da'])
-scrivi('notizie_candidate', notizie, ['id','documento_id','fonte','titolo_anonimizzato','sintesi','tipo','luoghi','municipio','municipio_testo','zona','tier_localizzazione','toponimo_da_verificare','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','disponibilita','qualita','dedup_stato','gemello_id','ragione_dedup','prima_fonte','vicenda_id','integra_gemello_id','campi_integrati','settimana','report_origine','verifica_seconda_ai','note'])
+scrivi('notizie_candidate', notizie, ['id','documento_id','fonte','titolo_anonimizzato','sintesi','tipo','luoghi','municipio','municipio_testo','zona','tier_localizzazione','toponimo_da_verificare','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','disponibilita','qualita','dedup_stato','gemello_id','ragione_dedup','gemelli_scritti','gemelli_scritti_blocco','prima_fonte','vicenda_id','integra_gemello_id','campi_integrati','settimana','report_origine','verifica_seconda_ai','note'])
 scrivi('vicende', vicende, ['id','titolo_anonimizzato','tipo','municipio','zona','prima_pubblicazione','ultima_pubblicazione','n_notizie','fonti','confidenza','solo_report2','stato'])
 scrivi('territori', terr_righe, ['municipio','settimana','n_documenti','n_notizie','n_notizie_alta','n_notizie_media','n_notizie_bassa','fonti_presenti','mediana_giorni_pubblicazione','lacuna'])
 for blocco, c in campioni.items():

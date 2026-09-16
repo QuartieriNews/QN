@@ -4,13 +4,14 @@
 import csv, collections, os, json, glob
 S = os.environ['QN_NET']
 righe = list(csv.DictReader(open(S + '/report1/db/notizie_candidate.csv', encoding='utf-8')))
-per_id = {r['id']: r for r in righe}
 PARLATO = {'A3', 'A4'}
-legami = collections.defaultdict(set)
-for r in righe:
-    g = r['gemello_id']
-    if g and g in per_id and r['dedup_stato'] in ('duplicato', 'dubbio'):
-        legami[r['id']].add((g, r['dedup_stato'])); legami[g].add((r['id'], r['dedup_stato']))
+
+def classe(v):
+    """La classe viene dal confronto esaustivo che `build_db.py` scrive in `gemelli_scritti`, non
+    dalla catena `gemello_id`: la catena consuma le righe e non risponde alla domanda «questa cosa
+    detta sta scritta da qualche parte»."""
+    d, u = (int(x) for x in (v or '0/0').split('/'))
+    return 'D' if d else ('U' if u else 'S')
 
 # il flag sta nei JSON dei lettori, non nella tabella: lo rileggo da li'
 incerto = {}
@@ -23,8 +24,7 @@ for f in glob.glob(S + '/report2/out_video/*.json'):
 c = collections.Counter()
 for r in righe:
     if r['fonte'] not in PARLATO: continue
-    stati = {s for (a, s) in legami[r['id']] if per_id[a]['fonte'] not in PARLATO}
-    cl = 'D' if 'duplicato' in stati else ('U' if 'dubbio' in stati else 'S')
+    cl = classe(r['gemelli_scritti'])
     it = r['documento_id'].replace('A4_', 'V4_').replace('A3_', 'V3_')
     inc = incerto.get((it, r['titolo_anonimizzato'][:40]),
                       (r['toponimo_da_verificare'] or 'no').lower() in ('sì', 'si'))

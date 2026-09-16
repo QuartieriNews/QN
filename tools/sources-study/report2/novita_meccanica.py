@@ -4,26 +4,23 @@
 #   U = nessun duplicato ma almeno un dubbio          -> incerta
 #   D = almeno un duplicato con una riga scritta      -> non nuova
 # Quota di novita' = [ S/N , (S+U)/N ].
-# Un gemello fra due registrazioni non conta: la domanda e' che cosa il parlato aggiunge allo
-# scritto, non quante volte due sedute dicono la stessa cosa.
+#
+# Il conteggio viene dalle colonne `gemelli_scritti`, che `build_db.py` calcola provando tutte le
+# coppie parlato-scritto. **Non** si ricava da `gemello_id`: quella e' la catena della
+# deduplicazione, che consuma le righe (una riga gia' legata esce dai confronti successivi) e
+# quindi non risponde alla domanda "questa cosa detta sta scritta da qualche parte". Misurato: la
+# catena dava S=480 su 883, il confronto esaustivo ne da' molti meno. La differenza fra le due
+# righe qui sotto e' il prezzo di quella confusione, e va lasciata in vista.
 import csv, os, collections
+
 D = os.environ['QN_NET'] + '/report1/db'
 righe = list(csv.DictReader(open(D + '/notizie_candidate.csv', encoding='utf-8')))
-per_id = {r['id']: r for r in righe}
 PARLATO = {'A3', 'A4'}
 
-def scritta(r): return r['fonte'] not in PARLATO
+def classe(v):
+    d, u = (int(x) for x in (v or '0/0').split('/'))
+    return 'D' if d else ('U' if u else 'S')
 
-# I legami sono diretti (b punta ad a): li rendo simmetrici, perche' la domanda non ha una direzione.
-legami = collections.defaultdict(set)
-for r in righe:
-    g = r['gemello_id']
-    if g and g in per_id and r['dedup_stato'] in ('duplicato', 'dubbio'):
-        legami[r['id']].add((g, r['dedup_stato']))
-        legami[g].add((r['id'], r['dedup_stato']))
-
-conteggio = collections.Counter()
-per_origine = collections.defaultdict(collections.Counter)
 manifest = {}
 for mf in ('manifest_video.csv', 'manifest_video_rtv.csv'):
     p = os.environ['QN_NET'] + '/report2/' + mf
@@ -31,22 +28,39 @@ for mf in ('manifest_video.csv', 'manifest_video_rtv.csv'):
         for m in csv.DictReader(open(p, encoding='utf-8')):
             manifest[m['item_id']] = m.get('origine_trascrizione', 'didascalie YouTube')
 
-for r in righe:
-    if scritta(r): continue
-    stati = {s for (altro, s) in legami[r['id']] if scritta(per_id[altro])}
-    cl = 'D' if 'duplicato' in stati else ('U' if 'dubbio' in stati else 'S')
-    conteggio[cl] += 1
-    # l'origine si ricava dall'item, che e' nel documento_id: A4_007 -> V4_007
-    it = r['documento_id'].replace('A4_', 'V4_').replace('A3_', 'V3_')
-    per_origine[manifest.get(it, 'ignota')][cl] += 1
+def stampa(titolo, conteggio):
+    N = sum(conteggio.values())
+    if not N: return
+    S, U, Dd = conteggio['S'], conteggio['U'], conteggio['D']
+    print('%s: N=%d  S=%d U=%d D=%d  ->  [%.1f%% , %.1f%%]'
+          % (titolo, N, S, U, Dd, 100 * S / N, 100 * (S + U) / N))
 
-N = sum(conteggio.values())
-S, U, Dd = conteggio['S'], conteggio['U'], conteggio['D']
-print('candidate dal parlato confrontate: %d' % N)
-print('  S nessun gemello scritto: %d | U solo dubbi: %d | D almeno un duplicato: %d' % (S, U, Dd))
-print('  QUOTA DI NOVITA'"'"': [%.1f%% , %.1f%%]' % (100 * S / N, 100 * (S + U) / N))
-print('stratificata per origine della trascrizione (C3 §5.2):')
+parl = [r for r in righe if r['fonte'] in PARLATO]
+tutto = collections.Counter(classe(r['gemelli_scritti']) for r in parl)
+blocco = collections.Counter(classe(r['gemelli_scritti_blocco']) for r in parl)
+
+print('QUOTA DI NOVITA\', confronto esaustivo parlato-contro-scritto')
+stampa('  su tutto il corpus              ', tutto)
+stampa('  dentro il blocco (metodo §4.1)  ', blocco)
+print()
+print('stratificata per origine della trascrizione (C3 §5.2), su tutto il corpus:')
+per_origine = collections.defaultdict(collections.Counter)
+for r in parl:
+    it = r['documento_id'].replace('A4_', 'V4_').replace('A3_', 'V3_')
+    per_origine[manifest.get(it, 'ignota')][classe(r['gemelli_scritti'])] += 1
 for orig, c in sorted(per_origine.items()):
-    n = sum(c.values())
-    if not n: continue
-    print('  %-22s N=%3d  novita [%.1f%% , %.1f%%]' % (orig, n, 100 * c['S'] / n, 100 * (c['S'] + c['U']) / n))
+    stampa('  %-22s' % orig, c)
+
+# Il confronto con la catena, che e' la misura sbagliata, tenuto in vista di proposito.
+per_id = {r['id']: r for r in righe}
+legami = collections.defaultdict(set)
+for r in righe:
+    g = r['gemello_id']
+    if g in per_id and r['dedup_stato'] in ('duplicato', 'dubbio'):
+        legami[r['id']].add((g, r['dedup_stato'])); legami[g].add((r['id'], r['dedup_stato']))
+catena = collections.Counter()
+for r in parl:
+    stati = {s for (a, s) in legami[r['id']] if per_id[a]['fonte'] not in PARLATO}
+    catena['D' if 'duplicato' in stati else ('U' if 'dubbio' in stati else 'S')] += 1
+print()
+stampa('per memoria, la catena della deduplicazione (misura sbagliata)', catena)

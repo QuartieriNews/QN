@@ -2758,3 +2758,65 @@ seduta il fatto è che la titolare di un banco non ha mai protocollato una doman
 municipale lo scrive con numero di banco e tipo di attività, noi no. «Chi volesse contestare la
 notizia non ha abbastanza per farlo.» È il prezzo di DEC-102, ed è giusto pagarlo, ma va scritto nel
 rapporto invece di far finta che non ci sia.
+
+## 75. La deduplicazione consumava le righe, e il numero principale ne usciva gonfio di sette punti (2026-09-16 10:20Z)
+
+Il C4 aveva scritto, in astratto, che i tre numeri poggiano su una deduplicazione mai misurata
+(§6.4). Sono andato a guardare il codice invece di preparare solo il campione, e il difetto era lì.
+
+`build_db.py` deduplica come il metodo §4.1 descrive il lavoro a mano: scorre le righe e, appena una
+prende un gemello, **la toglie dai confronti successivi**.
+
+```python
+for i, a in enumerate(gruppo):
+    if a['dedup_stato'] != 'unica': continue        # a e' gia' legata: esce
+    for b in gruppo[i + 1:]:
+        if b['dedup_stato'] != 'unica' ...: continue # b e' gia' legata: esce
+```
+
+Va bene per contare la resa netta, che è a cosa serve. **Non va bene per la domanda del Report 2**,
+che è: *questa cosa detta in aula sta scritta da qualche parte?* Misurato:
+
+- **111 candidate del parlato** avevano come unico gemello **un'altra registrazione**, e dopo quel
+  legame non sono mai state confrontate con nessuna riga scritta;
+- **537 righe scritte su 1.855 (29%)**, già legate a qualcosa, erano fuori da ogni confronto
+  successivo: una candidata del parlato che arrivava dopo non poteva più incontrarle.
+
+Entrambe le cose fanno risultare «nuovo» ciò che non è stato confrontato.
+
+**Correzione.** Non ho toccato la deduplicazione: aggiungere una seconda regola di validazione in
+due copie è il modo di farle divergere. Ho aggiunto in `build_db.py` un **passaggio esaustivo** che
+prova tutte le coppie parlato-contro-scritto e scrive per ogni riga del parlato quanti gemelli
+scritti esistono davvero (`gemelli_scritti`), usando le **stesse** funzioni `stesso_luogo` e
+`stesso_oggetto`. `novita_meccanica.py` e `audit_toponimi.py` ora leggono quella colonna.
+
+**Effetto, su 923 candidate del parlato:**
+
+| misura | S | U | D | quota di novità |
+|---|---|---|---|---|
+| catena della deduplicazione (quella che usavo) | 503 | 405 | 15 | [54,5% , 98,4%] |
+| **confronto esaustivo** | **435** | **459** | **29** | **[47,1% , 96,9%]** |
+| esaustivo dentro il blocco, come prescrive il metodo | 455 | 439 | 29 | [49,3% , 96,9%] |
+
+**Sette punti e mezzo di novità in meno.** È la correzione più grande della giornata, ed è di gran
+lunga più grande di tutto quello per cui mi ero allarmato stamattina: la data del fatto delle
+convocazioni valeva 0,2 punti, i 161 atti recuperati 1,2, questo 7,4.
+
+La riga «dentro il blocco» va tenuta in vista: il metodo confronta dentro i blocchi tematici, e
+confrontare su tutto il corpus è una nostra deviazione che **abbassa** la novità di due punti.
+Dichiarare entrambe è l'unico modo onesto: la deviazione si vede invece di essere un miglioramento
+silenzioso del metodo di qualcun altro.
+
+**Scala aggiornata: 32,1 / 47,1 / 96,9** (il 32,1% scarta le righe che poggiano su un toponimo
+dichiarato incerto, che sono il 32,0% delle S).
+
+**Resta da fare, e il campione è pronto** (`report2/campione_dedup.py` → `campione_dedup.md`): far
+giudicare a un lettore 17 coppie unite (precisione) e 40 coppie non unite che condividono toponimo e
+data a un giorno (richiamo), su 283 trovate. Giudicare se due righe sono lo stesso fatto è lettura,
+non calcolo, e il programma prepara il campione senza pretendere di rispondere.
+
+**E una cosa che il mio stesso emendamento ha rotto.** Il sesto emendamento fa scrivere
+`non attendibile` invece di `0` nei campi di volume; il builder faceva `int(...)` e si è fermato al
+primo lotto che l'ha applicato. Corretto: quel valore diventa una cella vuota, che nelle statistiche
+di volume non si somma. Cambiare un contratto costa sempre da qualche parte, e stavolta il costo si
+è visto subito.
