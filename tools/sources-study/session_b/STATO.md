@@ -1403,3 +1403,52 @@ cambiando le colonne, poi togliendo le citazioni da `evidenza_locale`; e adesso 
 registrazioni cambia lo stato di deduplicazione anche delle righe del Report 1. Caricare a database
 in movimento significa mettere sul Drive dell'owner file che si contraddicono fra loro. Si carica
 una volta sola, alla fine, con la verifica sui byte parte per parte.
+
+## 47. Il verbale che esiste ed è vuoto (16 settembre, 08:00)
+
+Rientrato V4_025–V4_036, il primo lotto letto con il riscontro vero sui 1.983 atti: 12 sedute,
+17 ore e 17 minuti, 87.699 parole, **85 candidate di cui 61 `solo dal parlato` (72%)**, forbice
+65–103. Il numero non è crollato passando dal riscontro debole a quello vero — era 87,5% e 67,7%
+nei primi due lotti, è 72% qui — ma adesso **si può sostenere invece di supporre**.
+
+**E si può sostenere per una ragione che non avevo previsto.** Il lettore ha guardato non solo *se*
+il verbale della stessa seduta esista, ma *se contenga qualcosa*. Per due commissioni del Municipio
+I del 12 giugno il verbale risulta agli atti **privo di qualsiasi contenuto verbalizzato**. Quindi
+le date di riapertura dei tre nidi, la variante che elimina il pavimento radiante e i diecimila
+euro di bilancio per le pari opportunità **esistono solo nella registrazione**, e non perché non
+abbiamo cercato: perché l'atto che dovrebbe contenerli è una scatola vuota. Lo stesso per un
+verbale troncato e per una seduta senza alcun verbale.
+
+Dove invece il verbale è pieno — la commissione sport del Municipio IX, la trasparenza del IX — il
+lettore ha dovuto scrivere `anche negli atti` quasi ovunque. **Il riscontro vero funziona in
+entrambe le direzioni, ed è questo che lo rende una misura.**
+
+**Gli atti registrano solo ciò che passa.** Nell'Assemblea Capitolina del lotto sono stati votati
+**138 ordini del giorno**, e solo **47 sono diventati atti**: i respinti non lasciano traccia
+documentale. Chi ricostruisse il mese dai soli atti vedrebbe le decisioni e non le proposte, e non
+avrebbe modo di accorgersene.
+
+**La stessa seduta, misurata.** 6 ore e 21 minuti dichiarate per 10.551 parole: **28 parole al
+minuto**, contro le 109–155 delle sedute normali. Almeno 2 ore e 20 di silenzio in tredici buchi,
+il più lungo di **41 minuti**. Primo appello: sette presenti su quarantotto; secondo diciotto;
+lavori aperti solo al terzo, un'ora dopo. Alle 15 la seduta è tolta con il piano degli arenili
+fermo agli emendamenti. E durante i voti: «Votanti 24, favorevoli 25», corretto nella stessa frase;
+un esito ribaltato dopo l'annuncio, con richiesta di mettere a verbale un voto sbagliato; la
+numerazione degli ordini del giorno che salta da 28 a 30, da 48 a 50, da 58 a 63; e un voto tenuto
+lo stesso dopo che la presidenza ha chiesto a voce **«Deliberato di che? Eh, c'è un problema»**.
+
+**Un titolo sbagliato alla fonte.** Il canale istituzionale pubblica una registrazione intitolata
+«Assemblea Capitolina giovedì 11 giugno 2026»; dentro c'è la conferenza nazionale dei presidenti
+dei consigli comunali, e chi apre dice «oggi il 12 giugno». Il nostro manifest riporta fedelmente
+quello che il canale ha pubblicato: **l'errore è della fonte, non del censimento**, e il lettore ha
+fatto la cosa giusta lasciando i valori del manifest e segnalando la discordanza invece di
+correggerla da sé.
+
+**Una nota sul mestiere.** Il lettore ha verificato tutti e 291 i marcatori `[mm:ss]` citati come
+evidenza, e nel farlo ha scoperto che **il suo stesso verificatore sbagliava** su un'espressione
+regolare che non contemplava i minuti a tre cifre: falsi allarmi su una seduta di sei ore. Ha
+corretto il verificatore, non i dati. È esattamente il modo in cui questi controlli vanno fatti —
+quando un controllo e un dato non concordano, il primo sospettato è il controllo.
+
+Database con 48 registrazioni dentro: **3.016 documenti, 2.025 candidate, 340 vicende**; delle 254
+candidate dal parlato, **144 non hanno alcun riscontro nel confronto meccanico**.
