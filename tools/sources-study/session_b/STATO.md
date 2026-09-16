@@ -3803,3 +3803,25 @@ controllarlo. Ma il numero da pubblicare è **0,5%**, e vale la pena tenerlo com
 trappola che oggi ho preso anch'io almeno una volta (§72, la stima del buco delle convocazioni
 estratta da un elenco già filtrato): **un campione selezionato per una proprietà non misura la
 frequenza di quella proprietà.**
+
+## 98. Il testo di un documento, da 86 a 3.393 su 3.394 (2026-09-16 11:55Z)
+
+Il secondo revisore aveva trovato che i dodici testi dati per «non recuperabili» erano recuperabili:
+item già scaricati, salvati con un nome diverso dall'url. Ha scritto la regola nel proprio spazio di
+lavoro. L'ho portata dentro la pipeline (`report2/testo_documento.py`) invece di lasciarla lì, così
+il prossimo non deve riscoprirla.
+
+Provata su **tutti** i documenti del database, e la prima esecuzione ha mostrato un buco più grande
+di quello che stavo chiudendo: **266 non trovati**, di cui 265 erano **le registrazioni**. Per una
+registrazione il «testo» è la trascrizione, che non sta in nessuna delle cartelle degli item: sta in
+`video/`, con il nome del video. Il risolutore dichiarava «non trovato» proprio nel caso in cui serve
+di più — chi audita una candidata del parlato ha bisogno della trascrizione, non dell'url del flusso
+audio.
+
+Aggiunta quella strada: **3.393 documenti su 3.394**. L'unico che resta è un comunicato dei
+Carabinieri, e non è un difetto nostro: quella fonte rimanda alla pagina-vetrina invece che al testo,
+com'è già dichiarato nella tabella delle fonti dal Report 1.
+
+La cosa da notare è la forma, per la terza volta oggi: **il risolutore funzionava sui casi per cui
+l'avevo provato e falliva sull'intera classe che non avevo provato.** L'ho scoperto solo perché l'ho
+eseguito su tutto invece che sui dodici casi da cui ero partito.
