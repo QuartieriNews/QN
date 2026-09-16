@@ -3435,3 +3435,40 @@ difetto si è visto solo perché il revisore ha **dichiarato la convenzione che 
 di applicarla in silenzio.
 
 Stato: 154 registrazioni V3 lette, 310 trascritte su 318, driver vivo, nessun item messo da parte.
+
+## 88. Drive: ho guardato e ho deciso di non caricare adesso (2026-09-16 11:20Z)
+
+Controllata la cartella Drive `Fonti 2026-06`: le tre parti di A1 sono lì con gli identificativi che
+avevo annotato, caricate stamattina alle 03:15–03:25. Rigenerato il file compatto: **162.926 byte
+contro i 161.147 delle tre parti**, quindi il contenuto è davvero cambiato — le colonne di oggi
+(`settimana` ricalcolata, i campi di integrazione) e le correzioni.
+
+**Non le sostituisco adesso.** Il database non è fermo: due lotti stanno ancora scrivendo, e oggi ho
+cambiato il builder cinque volte. Caricare ora vorrebbe dire rifare tutto alla consegna, ed è
+esattamente la giostra per cui in §46 avevo sospeso i caricamenti. Sostituisco e cestino le vecchie
+**una volta sola**, a lettura finita.
+
+Il rischio che resta e che va detto all'owner alla consegna: **su Drive ci sono tre file che
+sembrano correnti e non lo sono**. Non li tolgo prima di avere il sostituto pronto — una cartella con
+un buco è peggio di una con un file vecchio — ma non devono arrivare al 20 settembre così.
+
+## 89. L'indice delle evidenze: il compito è pronto, non l'ho fatto a mano (2026-09-16 11:20Z)
+
+Il rilievo **bloccante** del C4 §6.2: i casi raccontati nei §3 e §4 non portano un identificativo, e
+senza riferimento valgono come aneddoti.
+
+Ho provato a compilarlo da solo cercando in STATO e **non si può**: quando ho riassunto gli hand-back
+dei lettori ho tenuto i fatti e lasciato cadere gli identificativi. Sono nei log dei lettori e nei
+JSON, non qui. Fare l'indice significa tornare a quelle fonti, ed è lavoro di lettura, non di
+memoria — se lo facessi «ricordando» produrrei riferimenti plausibili e sbagliati, che è la cosa
+peggiore che possa finire in un indice delle evidenze.
+
+`report2/COMPITO_INDICE_EVIDENZE.md` estrae le **dieci affermazioni** dal rapporto, dice dove
+cercare, e — la parte che conta — stabilisce che **un'affermazione che nessuno ritrova va tolta dal
+rapporto**, e che questo è un esito utile quanto l'altro. Assegnato al primo lettore libero.
+
+Le dieci: *negli atti passa solo chi vince*; *il verbale c'è ma è vuoto*; *la parte più informativa è
+quella che per procedura non si registra*; *il verbale si scrive in diretta*; *a volte il verbale
+racconta una seduta diversa da quella avvenuta*; *un atto che dispone il contrario di quanto
+deciso*; *qualche volta è la registrazione a correggere l'atto*; *come il residuo viene prodotto*;
+*quale cifra sopravvive in un verbale*; *che cosa il Report 2 aggiunge al Report 1*.
