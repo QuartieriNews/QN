@@ -567,3 +567,41 @@ Gli atti non notiziabili restano comunque nel CSV, perché la quota di atti noti
 domande del Report 2.
 
 Primi due lotti tripli avviati (B01–B03 e B04–B06), i due subagenti Opus consentiti.
+
+## 24. Primi 150 atti letti, e un difetto che toccava tutti e 40 i lotti (16 settembre, 03:00)
+
+**B01–B03: 150 atti, 22 notizie candidate, 14,7%.** La quota non è omogenea e la differenza fra i
+lotti è il dato interessante, non un problema: B03 al 4% (47 convocazioni su 50), B01 al 10%,
+B02 al 30% (quasi tutta produzione di indirizzo di tre sedute d'Aula).
+
+Il lettore ha dichiarato la regola che ha applicato e **l'alternativa più severa**: un atto di
+indirizzo è notizia solo se nomina un luogo identificabile e ne cambia la prospettiva
+amministrativa; con la lettura stretta — un atto non vincolante non cambia nulla — B02 andrebbe
+vicino a zero e il totale intorno al 5%. Il rapporto potrà dare entrambe le cifre, perché **tutte
+le righe `no` restano nel CSV**: il dato grezzo per decidere c'è.
+
+**Difetto che toccava tutti e 40 i lotti, trovato dal lettore.** Il manifesto ricavava il Municipio
+dal nome del file, dove `X` è il **ripiego per "Municipio assente"** scelto da `a2_list_all.py` —
+indistinguibile dal Municipio X. Verificato sugli inventari di origine: gli atti municipali e le
+determinazioni hanno sempre il Municipio, mentre **272 atti centrali su 322 non ce l'hanno**.
+Manifesto ricostruito dagli inventari invece che dal nome del file: **218 righe corrette** da `X` a
+`non indicato`, e restano 65 atti davvero del Municipio X. Aggiunta anche la colonna `fonte_atto`
+(A2 1.056, DDS 682, CEN 245). I sei lotti già letti portano ancora il valore vecchio: la mappa di
+correzione è in `report2/_municipio_corretto.csv` e va applicata in aggregazione.
+
+**Autocorrezione del lettore, verificata.** Aveva inizialmente riportato i cognomi dei Consiglieri
+firmatari, se n'è accorto, ha rigenerato due lotti e ha dichiarato l'audit. Controllo mio sulle 150
+righe: gli unici nomi rimasti sono odonimi (via Federico Torre, via Alberto Mario, via Andrea
+Doria). L'autocorrezione ha tenuto.
+
+**Deviazione dalla specifica, giusta.** Otto atti delle Biblioteche non portano il marcatore
+`(OCR Tesseract)` ma hanno errori di riconoscimento inequivocabili: il lettore li ha marcati
+`ocr_incerto = sì` contro la lettera della specifica, dichiarandolo. Ha ragione — certi PDF
+portano uno strato di testo già corrotto all'origine, che la nostra estrazione copia senza passare
+da Tesseract, e marcare `no` un testo palesemente corrotto sarebbe falso. La specifica ora lega il
+campo **al testo, non al marcatore**.
+
+**Contraddizioni notevoli fra gli atti**, dichiarate e non risolte: due ordini del giorno approvati
+nella stessa seduta che chiedono cose opposte sullo stesso parcheggio; una convocazione del 9
+giugno che mette in approvazione un verbale del 14; un verbale con 18 votanti, 17 favorevoli e
+0 contrari; la Bibliocard a 10 euro a pagina 3 e gratuita nel deliberato.

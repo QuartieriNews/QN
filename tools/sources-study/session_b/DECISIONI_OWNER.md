@@ -121,3 +121,30 @@ database che non si può leggere.
 
 **Se l'owner decide diversamente**: nessuna rilettura. I nomi interessati stanno in righe
 annotate una per una nei file dei problemi, e la sostituzione è una passata sui CSV.
+
+---
+
+## D4 — Ditta individuale il cui nome è il nome di una persona
+
+Stato: **aperta**, default applicato. Nasce dal lettore degli atti B01–B03, che ha isolato il caso
+invece di risolverlo in silenzio.
+
+**Il caso.** Un atto municipale riporta la richiesta di un P.A.M.A. da parte di una **ditta
+individuale**, la cui denominazione coincide con il nome della persona fisica che è anche parte del
+procedimento. Le regole già decise si contraddicono: D2.b dice che le **organizzazioni** restano
+alla lettera (e una ditta lo è); D1 dice che le **persone coinvolte nel fatto** diventano il ruolo
+(e il richiedente lo è). Il lettore ha applicato la regola di chiusura — nel dubbio riporta e
+dichiara — ed è l'unico nome di persona fisica rimasto nei tre lotti.
+
+**Default che applico: il nome va tolto.** Dove la denominazione di una ditta individuale coincide
+con il nome di una persona che è anche parte del procedimento, **vince la persona**: diventa "una
+ditta individuale". DEC-102 esiste per non ridistribuire i dati personali di chi compare nelle
+fonti, e una ditta individuale non ha un nome diverso da quello del suo titolare — chiamarla
+"organizzazione" sarebbe un cavillo che svuota la tutela proprio nel caso in cui serve. Restano
+alla lettera le società con denominazione propria, anche quando contiene un cognome.
+
+**Costo della scelta**: si perde l'identificazione del richiedente in un atto amministrativo
+pubblico. È accettabile: il Report 1 e il Report 2 misurano che cosa le fonti offrono a un
+giornale di quartiere, non tengono un registro di chi presenta pratiche.
+
+**Se l'owner decide diversamente**: una riga, corretta senza rileggere nulla.
