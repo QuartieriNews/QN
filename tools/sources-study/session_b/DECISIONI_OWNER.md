@@ -243,7 +243,7 @@ parlato oltre la chiusura in tutti e dieci i propri item — compresi trentacinq
 ne ha trovati. Da qui in avanti i mandati chiedono di cercarlo e di **dichiarare anche quando non
 c'è**: tre casi valgono solo se si sa in quanti item si è guardato.
 
-**E alle 14:35Z il conto cambia scala.** Un lettore che ha cercato in tutti e dieci i propri item ne
+**E alle 14:29Z il conto cambia scala.** Un lettore che ha cercato in tutti e dieci i propri item ne
 ha trovati **tre**: un microfono aperto durante l'appello (dichiarato poi in aula dalla presidenza) e
 due registrazioni che proseguono dopo la chiusura — in una la presidenza dice «*ora interrompo la
 registrazione*», saluta, e il flusso continua con due nomi di battesimo e una frase privata. Siamo a

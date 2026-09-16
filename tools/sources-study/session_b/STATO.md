@@ -4449,7 +4449,7 @@ Restano da fare alla consegna, in quest'ordine: `build_db.py`, `risposta.py`,
 `verifica_numeri_rapporto.py`, `audit_toponimi.py`, `copertura_testi_atti.py`, `motivo_non_alta.py`,
 `compatte.py`, `congela_consegna.py`, e **solo allora** Drive, una volta sola.
 
-## 113. V3_231–V3_311: il controllo speculare si rompe, e la rottura dice una cosa migliore (2026-09-16 14:35Z)
+## 113. V3_231–V3_311: il controllo speculare si rompe, e la rottura dice una cosa migliore (2026-09-16 14:29Z)
 
 10 item, 4h47 di registrazione, 18 candidate, 8 `alta`.
 
