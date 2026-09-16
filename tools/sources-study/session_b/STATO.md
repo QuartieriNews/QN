@@ -791,3 +791,34 @@ prorogate da atti di numero inferiore dello stesso anno; una stessa nota di prot
 due procedimenti per titolari diversi; catene di proroghe con scoperti fino a ventidue giorni; e
 un atto la cui data finale è il 14 luglio 2027, quasi certamente un refuso per il 2026 — riportato
 come sta, perché correggerlo sarebbe inventare.
+
+## 31. 950 atti; la fonte anonimizza se stessa in modo incoerente (16 settembre, 05:00)
+
+**B16–B18: 150 atti, 45 notizie, 30%** (22%, 34%, 34%). Totale: **950 su 1.983, 211 notizie, 22,2%**.
+
+Il lettore ha aggiunto la cosa che al rapporto serviva e che nessuno gli aveva chiesto: **la quota
+va confrontata a parità di composizione**. Nei suoi tre lotti la parte fatta di set cinematografici,
+traslochi e stalli riservati sta sotto il 20% in tutti e tre; a far salire B17 e B18 sono quattro
+atti del piano di illuminazione pubblica, il cantiere del GRAB, un intervento giubilare, «100
+Parchi per Roma», una bonifica idrica di tre mesi e tre discipline definitive che riscrivono una
+piazza e due strade. Ha dato anche la **forbice per lotto** (B16 12–36%, B17 24–48%, B18 26–50%) e
+ha fissato un criterio uniforme sugli atti-evento: `sì` solo se chiudono al **transito**, `no` se
+vietano la sola sosta.
+
+**Un rilievo che riguarda direttamente DEC-102, ma dal lato della fonte.** Gli atti di Roma
+Capitale **anonimizzano in modo incoerente**: in cinque atti usano le sole iniziali, in altri
+nominano per esteso la stessa categoria di persone. Non è un difetto del nostro metodo, è un dato
+sulla fonte: chi costruisse una pipeline fidandosi dell'anonimizzazione a monte pubblicherebbe nomi
+in chiaro senza accorgersene. Va nel rapporto.
+
+**Verifica che nessuno aveva chiesto e che il lettore ha fatto comunque**: ha controllato i toponimi
+del dispositivo di tutti e 150 gli atti contro il Municipio del manifesto. Nessun atto colloca
+l'oggetto fuori dal Municipio dichiarato. È il controllo che nei lotti precedenti aveva trovato i
+49 atti capitolini marcati Municipio X.
+
+**Anomalie di tempo, che stanno diventando il tema del Report 2**: venti mesi fra istanza e atto;
+un atto retroattivo di due giorni; quattro giorni di transennamento dei Vigili del fuoco senza
+alcun atto di traffico; **nove mesi fra la scadenza del titolo e la revoca** di uno stallo
+riservato; e **otto anni di cantiere del mercato Alberone**, dal 2020 al 2028 previsto. Due
+proroghe della stessa concessione lasciano scoperti il 27 e 28 giugno e citano date di concessione
+diverse; un cantiere ai Parioli resta scoperto quasi due mesi.
