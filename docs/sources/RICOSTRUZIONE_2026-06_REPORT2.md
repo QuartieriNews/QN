@@ -94,8 +94,17 @@ fatto su un luogo nominato che non sta scritto. Non misura la novità politico-i
 numero legale che salta, la seduta che decade, l'ufficio che non si presenta — che la soglia di
 notiziabilità esclude per costruzione. Quella parte sta nel §4 e non è meno importante.
 
-**E una notizia nuova è meno verificabile di una confermata.** Fra le candidate che gli atti
-confermano, il 55,4% è di qualità alta; fra quelle nuove, il 25,4%.
+**E una notizia nuova è meno verificabile di una confermata.** Il confronto va fatto **dentro il
+parlato**, con gli stessi lettori e le stesse trascrizioni: fra le candidate che gli atti confermano
+il **55,7%** è di qualità alta, fra quelle nuove il **19,5%**. Trentasei punti.
+
+**Ma una parte di quel divario la produciamo noi, e va detto prima di interpretarlo.** La nostra
+scala assegna `alta` solo a un fatto *datato*; il parlato d'aula dice «l'anno scorso», «da
+vent'anni», «tre settimane fa». Un fatto che in aula ha una data precisa quasi sempre ce l'ha perché
+**qualcuno stava leggendo l'atto che la porta** — e quel fatto finisce, per definizione, fra quelli
+confermati dagli atti. Il 19,5% quindi **non si può leggere come «il parlato è meno affidabile»**:
+misura insieme una proprietà del parlato e una scelta della nostra regola di punteggio, e non
+sappiamo ancora in che proporzione.
 
 Il perché è un effetto di selezione, e non riguarda la qualità del parlato. Un fatto compiuto,
 datato e localizzato **tende per costruzione a generare un atto**; e appena lo genera esce dalla
@@ -182,8 +191,17 @@ consigliere Y» e nient'altro, mentre l'intera discussione — chi non voterà e
 non sono arrivate — esiste solo nella registrazione.
 
 Questa correzione viene da un lettore a cui era stata chiesta la verifica dell'ipotesi opposta, e
-che l'ha smentita misurando. Vale come sono state scritte tutte le regolarità di questo rapporto:
-finché un lotto non le smentisce.
+che l'ha smentita misurando. **Un lettore successivo l'ha smentita a sua volta**: ha confrontato
+parola per parola quattro verbali tutti in prosa estesa e non ha trovato conservata **nessuna** delle
+ventitré cifre; l'unico atto che le conserva tutte è **a tabella**, con una colonna «esito» da
+riempire. La sua spiegazione è che conti che cosa il verbale *è*: un registro di chi ha parlato non
+ha posto per la cifra, un registro di decisioni sì.
+
+Due letture competenti, stesso metodo, risultati opposti. Lasciamo la contraddizione in vista invece
+di scegliere: una regolarità che due lettori misurano al contrario non è una regolarità, è una
+domanda aperta. Quello su cui non si contraddicono è il fatto grosso — **dove il verbale è pieno il
+video aggiunge poco, dove è di sole presenze aggiunge quasi tutto**: `solo dal parlato` allo 0% con
+verbale pieno, 50% con verbale di sola presenza, 71% con verbale assente.
 
 ## 4. Che cosa si vede solo ascoltando
 

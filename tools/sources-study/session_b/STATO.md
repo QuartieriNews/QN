@@ -2892,3 +2892,68 @@ soglia è un conteggio, non un dato mancante.
 
 **Numeri dopo tutto questo, 226 registrazioni lette su 415**: novità **[48,0% , 97,0%]** su tutto il
 corpus, **[50,1% , 97,0%]** dentro il blocco.
+
+## 77. V3_121–V3_132: il meccanismo del rapporto potrebbe essere un artefatto della nostra scala (2026-09-16 10:25Z)
+
+Il rilievo più serio della giornata, e non riguarda un numero: riguarda la tesi.
+
+**Il lettore sostiene che la scala di qualità premia strutturalmente i fatti che stanno negli atti.**
+`alta` richiede che il fatto sia *datato*; il parlato d'aula dice «l'anno scorso», «da vent'anni»,
+«tre settimane fa». Un fatto che ha una data precisa, in aula, quasi sempre ce l'ha perché **qualcuno
+stava leggendo l'atto che la porta** — e quel fatto finisce in `anche negli atti`. Quindi la
+differenza di qualità fra nuove e confermate misurerebbe la nostra regola di punteggio, non il
+parlato.
+
+Misurato su tutto il corpus letto, dentro il solo parlato (stessi lettori, stesse trascrizioni):
+
+| | alta | media | bassa | quota alta |
+|---|---|---|---|---|
+| `anche negli atti` | 147 | 115 | 2 | **55,7%** |
+| `solo dal parlato` | 120 | 452 | 43 | **19,5%** |
+| `non verificabile` | 18 | 67 | 12 | 18,6% |
+
+Il divario è reale e grande — trentasei punti — **dentro lo stesso materiale**. Ma le due spiegazioni
+sono entrambe compatibili con questo numero:
+
+- la mia (§67, §2 del rapporto): ciò che resta solo nel parlato è il **residuo**, cioè quello che non
+  è ancora diventato fatto compiuto, datato e localizzato;
+- la sua: la scala **richiede** la data, e la data in aula la porta l'atto letto ad alta voce.
+
+Non sono alternative, sono lo stesso meccanismo visto da due lati — in entrambe è l'atto a fornire la
+data. Ma la sua versione dice una cosa in più che la mia nascondeva: **una parte del divario la
+produciamo noi**, con la definizione di `alta`. Il 19,5% non si può leggere come «il parlato è meno
+affidabile». Va scritto nel rapporto, e il prossimo lotto ha il compito di contare quante candidate
+mancano l'`alta` **solo** per la data.
+
+### Ipotesi 3: due lettori, risultati opposti
+
+Il lotto precedente aveva concluso che il predittore è la forma del verbale (prosa estesa conserva,
+elenco puntato no). Questo lettore ha confrontato parola per parola quattro verbali **tutti in prosa
+estesa**: **cifre conservate 0 su 23**. E l'unico atto **a tabella** le conserva tutte, perché la
+tabella ha una colonna «esito» da riempire. La sua spiegazione: conta **che cosa il verbale è** — un
+registro di *chi ha parlato* non ha posto per la cifra, un registro di *decisioni* sì.
+
+Due lettori, stesso metodo, conclusioni incompatibili. **Non scelgo**: la contraddizione va nel
+rapporto così com'è, e il lotto successivo ha il compito di misurarla senza sapere quale risposta
+farebbe comodo. Una regolarità che due lettori competenti misurano al contrario non è una
+regolarità: è una domanda aperta.
+
+### Altre cose che restano
+
+- **Il foglio da solo sovrastima `solo dal parlato` di circa il 15%**: due riscontri decisivi su
+  dodici item stavano in `A2_text/` e non nel foglio. Ora è nel mandato di ogni lettore.
+- **`anche negli atti` a volte vuol dire «l'atto esisterà»**: una risoluzione letta il 15 giugno è
+  repertoriata il 18, una colonnina discussa il 15 compare nel verbale del 19. Il campo è sensibile
+  alla data di chiusura del corpus, e va dichiarato.
+- **Leggere un atto non basta a produrre luoghi**: in un item la commissione legge un verbale di
+  Giunta pieno di toponimi e non ne aggiunge nessuno. Ciò che genera l'aggiunta non è la lettura ma
+  **l'esserci stati** — il sopralluogo, l'abitare il quadrante.
+- **La trascrizione sbaglia esattamente le parole che valgono**: Eataly→«Ital», Parco Pisino→«parco
+  Bisino», protocollo `CF 96796/2026`→«CF 90 6726». E le ripetizioni del modello **si concentrano
+  dove le voci si accavallano**: la parte più conflittuale della seduta è la meno leggibile.
+- **Un verbale che smentisce la registrazione**: scrive orti «in fase di completamento» e passerella
+  «entro fine giugno» mentre in aula si era detto che l'ASL ha interdetto l'area.
+- **Un atto ritirato non lascia traccia**: la deroga sul «progetto di vita» che gli uffici facevano
+  firmare ai genitori, poi ritirata, esiste solo nella registrazione.
+- E `assente` **significa assente dal corpus, non mai scritto**: un verbale di questo lotto risulta
+  approvato altrove come «n. 52 del 15.06.2026».
