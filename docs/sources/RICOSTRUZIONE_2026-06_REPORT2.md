@@ -256,7 +256,7 @@ poco, dove è di sole presenze aggiunge quasi tutto** — notizie solo dal parla
 pieno, 50% con verbale di sola presenza, 71% con verbale assente.
 
 **E che cosa il Report 2 aggiunge a quello che il Report 1 aveva già.** Non solo notizie nuove:
-anche pezzi mancanti di notizie vecchie. **263 righe di questo rapporto completano o correggono una
+anche pezzi mancanti di notizie vecchie. **284 righe di questo rapporto completano o correggono una
 riga del precedente** — e il campo che aggiungono più spesso non è il luogo, è **il tipo dell'atto e la data del fatto**. Un avviso municipale dice che una cosa succederà; l'atto o la
 seduta dicono *quando* e *con quale strumento*. È il contributo che si perderebbe del tutto in una
 vista che scarta i duplicati.
