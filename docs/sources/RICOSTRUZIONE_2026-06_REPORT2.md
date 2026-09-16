@@ -26,10 +26,10 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
   della coppia documento-lettore**, e chiunque rifaccia questo studio con un mandato scritto un po'
   diversamente troverà numeri diversi dagli stessi atti.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — ha una risposta, e
-  arriva tardi: **circa l'86%** delle notizie che nascono in una seduta non sta in nessun atto.
-  Il confronto meccanico da solo dava un intervallo largo, fra il 46% e il 92%; è un audit su
+  arriva tardi: **circa l'85%** delle notizie che nascono in una seduta non sta in nessun atto.
+  Il confronto meccanico da solo dava un intervallo largo, fra il 45% e il 92%; è un audit su
   campione della classe incerta — l'unico modo di sapere da che parte stesse — a restringerlo. Con
-  la banda di confidenza di quell'audit la risposta sta **fra il 79% e l'89%**.
+  la banda di confidenza di quell'audit la risposta sta **fra il 78% e l'89%**.
 - **107 verbali su 2.668 atti, in sette Municipi su quindici, dichiarano dentro il proprio testo
   che il record completo della seduta non è l'atto ma la registrazione** — con quattro formule di
   forza diversa, dalla più netta («la videoregistrazione sostituisce la trascrizione degli
@@ -59,7 +59,7 @@ che la risposta stesse in basso.
 **Sta in alto, e lo si sa solo dopo averlo misurato.** Un lettore ha giudicato a mano 40 candidate
 della classe U, aprendo il testo integrale di ognuno dei 102 documenti accostati: **6 su 40 avevano
 davvero un gemello scritto, il 15,0%** (banda 95% [7,1% ; 29,1%]). Riportando quella proporzione
-sulle 473 candidate incerte, la novità reale è **85,6%**, fra **79,0%** e **89,2%** agli estremi
+sulle 473 candidate incerte, la novità reale è **85,2%**, fra **78,5%** e **88,9%** agli estremi
 della banda.
 
 Con una scoperta che vale quanto il numero: **tutti e sei i gemelli veri sono la registrazione
@@ -69,7 +69,7 @@ sette, il verbale della riunione stessa.
 
 Da cui la scala:
 
-- **32%** circa — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
+- **31%** circa — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
   conservativo che sappiamo calcolare, e **non viene dallo stesso programma degli altri due**: lo
   calcola `report2/audit_toponimi.py` scartando le righe che poggiano su un toponimo dichiarato
   dubbio. Regge all'obiezione sulla trascrizione, non a tutte: se la deduplicazione sbaglia a non
@@ -119,7 +119,7 @@ in alto e come già scritte in basso. Da che parte stiano davvero decide se la r
 
 **Le due incertezze aperte tirano in direzioni opposte, e questo è il risultato onesto da
 consegnare.** Il confronto fra righe non vede i fatti sepolti dentro atti che ne raccontano altri, e
-questo **abbassa** il limite inferiore, fino a un tetto del 35,5%. Le 480 candidate «dubbie»
+questo **abbassa** il limite inferiore, fino a un tetto del 36,8%. Le 480 candidate «dubbie»
 potrebbero essere in larga parte falsi accostamenti, e questo **alza** il limite superiore fino a
 renderlo la risposta. Finché le due misure non sono chiuse, il rapporto risponde con un intervallo e
 con il nome dei due meccanismi che lo tengono largo — non con un numero. Dice che la risposta dipende da
@@ -133,7 +133,7 @@ notiziabilità esclude per costruzione. Quella parte sta nel §4 e non è meno i
 
 **E una notizia nuova è meno verificabile di una confermata.** Il confronto va fatto **dentro il
 parlato**, con gli stessi lettori e le stesse trascrizioni: fra le candidate che gli atti confermano
-il **55,7%** è di qualità alta, fra quelle nuove il **19,5%**. Trentasei punti.
+il **53,3%** è di qualità alta, fra quelle nuove il **19,0%**. Trentaquattro punti.
 
 **Ma gran parte di quel divario la produciamo noi, ed è stato misurato.** La nostra scala assegna
 `alta` solo a un fatto *datato*; il parlato d'aula dice «l'anno scorso», «da vent'anni», «tre
@@ -474,7 +474,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | numero | programma |
 |---|---|
 | 45,1% e 92,2% (intervallo grezzo di novità) | `report2/novita_meccanica.py` |
-| 32,1% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
+| 31,0% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
 | dispersione fra lotti, 1,46 e 0,74 | `report2/varianza_lettori.py` |
 | 107 atti che rinviano alla registrazione | `report2/record_dichiarato.py` |
 | 17 identificativi di seduta negli atti, 7 risolti | `report2/link_verbali_video.py` |
