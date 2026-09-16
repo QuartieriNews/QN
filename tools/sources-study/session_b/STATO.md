@@ -720,3 +720,30 @@ incerto. B10–B12, tutti determinazioni di traffico, hanno dato il 17,3%.
 autorizzati sulla base dello stesso protocollo della Questura, con percorsi e orari sovrapposti;
 due atti gemelli il cui oggetto dice «abbattimento» e la premessa «lavori di stabilità» sulle stesse
 alberature; per tre Municipi compaiono due Gruppi di Polizia Locale con serie di repertorio diverse.
+
+## 29. La correzione in blocco ha fatto danni, e li ho dovuti riparare a mano
+
+La sostituzione automatica del paragrafo precedente **era sbagliata due volte**, e me ne sono
+accorto solo controllando una riga a campione dopo averla eseguita:
+
+1. **Ha colpito atti che non erano individuali.** Un evento a Villa Miani, un cantiere in via
+   Minghetti, riprese in via Merulana: citano la disabilità solo come **deroga** al divieto di
+   sosta. Lì il civico è un cancello carrabile o un tratto di strada, non la residenza di qualcuno.
+   Ripristinati.
+2. **Ha spezzato le frasi.** «sul lato destro subito prima del,» — la regex toglieva il civico e
+   lasciava l'articolo. Tre campi resi incomprensibili.
+3. **E aveva mancato il plurale**: «civici 6 e 18» non corrispondeva al modello, quindi cinque
+   campi erano rimasti esposti.
+
+Riparato a mano, leggendo ogni campo per intero e riscrivendolo: gli atti individuali veri perdono
+il civico dappertutto, gli atti generali lo riprendono. Controllo finale: nessun atto individuale
+con civico, nessuna frase spezzata, nessuna nota di omissione su un atto che non la richiede.
+
+**È esattamente l'errore contro cui mi ero espresso poche ore fa** scegliendo la rilettura invece
+del rattoppo automatico per il Report 1: una regex applicata a un riassunto non è una regola
+applicata al testo. Avevo ragione allora e l'ho dimenticato adesso, con l'attenuante che qui il
+difetto era di riservatezza e la fretta era giustificata — ma la fretta è il motivo per cui il
+controllo va fatto **dopo** ogni sostituzione automatica, non al posto suo.
+
+Regola che porto avanti: **dopo ogni modifica in blocco, rileggere almeno una riga toccata per
+intero.** Il campione di una riga avrebbe mostrato subito tutti e tre i difetti.
