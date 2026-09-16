@@ -1968,3 +1968,54 @@ rinuncia e chiude — e **il verbale descrive un sopralluogo regolare, senza far
 un'altra il parere sulla delibera è messo ai voti **prima** che l'assessore risponda; una consigliera
 obietta che «le risposte sono funzionali al parere» e il presidente procede lo stesso. Nessun atto
 registra la sequenza.
+
+## 60. La novità si paga in certezza, e io ho sbagliato la terza misura di fila (16 settembre, 10:45)
+
+Rientrato V3_025–V3_036: 12 sedute, 7 ore e 17 minuti, **36 candidate, 21 `solo dal parlato`** di
+cui **17 da sedute con verbale pieno** (13 al netto di una duplicazione). Corpus parlato letto:
+**641 candidate**.
+
+**Un'osservazione del lettore che ho verificato su tutto il corpus, ed è un risultato.** Nel suo
+lotto *nessuna* candidata `solo dal parlato` arrivava a qualità `alta`, mentre tutte le `alta` erano
+`anche negli atti`. La sua spiegazione: è l'atto che permette di accertare che un fatto sia
+compiuto, datato e localizzato. Misurato su tutte e 641:
+
+| | qualità alta | media | bassa |
+|---|---|---|---|
+| anche negli atti (166) | **92 — 55,4%** | 72 | 2 |
+| solo dal parlato (390) | **99 — 25,4%** | 265 | 26 |
+| non verificabile (85) | 15 | 59 | 11 |
+
+Non è zero come nel suo lotto, ma il rapporto è netto: **una notizia nuova ha metà probabilità di
+essere di qualità alta rispetto a una che gli atti confermano**. Nel parlato la novità si paga in
+certezza, e il rapporto deve dirlo accanto ai tre numeri della novità: la parte più nuova è anche la
+meno verificabile.
+
+**La mia terza misura sbagliata di fila.** Il lettore ha trovato che due suoi item sono **la stessa
+seduta pubblicata due volte**. Ho cercato la cosa su tutto il corpus e ho trovato **zero** coppie.
+Sbagliato: per andare più veloce avevo campionato i blocchi ogni tre parole, e il campionamento
+faceva mancare proprio il caso noto. Rifatta senza scorciatoia, la coppia condivide il **52%** dei
+blocchi da dodici parole, e sul corpus ce n'è **una seconda** (V3_259 / V3_261, Municipio V, 19
+giugno, 57%). **Quattro item su 274 sono due sedute pubblicate due volte.**
+
+Tre volte in una mattina una mia verifica rapida ha contraddetto un lettore e tre volte aveva
+ragione il lettore: la ripetizione dei blocchi, il conteggio giusto, e ora questa. La regola che
+me ne viene: **quando una mia misura smentisce chi ha letto il materiale, il primo sospettato è la
+mia misura.**
+
+**Altri due reperti del lotto.** Una registrazione a pagamento ripete lo stesso blocco di 150 parole
+**undici volte**: il 47% del file, e le «157 parole al minuto» che ne risultano sono un numero
+falso — il ritmo reale è 95. E una volta è **l'atto a sbagliare e la registrazione ad aver ragione**:
+l'aula cita correttamente una deliberazione «n. 35 del 16 marzo 2010», l'OCR del verbale scrive
+«n. 3».
+
+**Una seduta che esiste solo perché è stata ripresa.** Un Consiglio municipale che non riesce ad
+aprirsi: appello, scrutatori, tre minuti per votare la procedibilità, due gruppi che dichiarano di
+non partecipare, rinvio al giorno dopo. **Il verbale di quella seduta non esiste nel corpus**: senza
+la registrazione, quella seduta non è mai avvenuta.
+
+**E la parte tecnica tenuta fuori, con il motivo dichiarato in aula.** In un'altra seduta le due
+sospensioni «a microfoni spenti senza registrazione» sono esattamente i minuti in cui intervengono
+polizia locale e azienda sanitaria, gli unici due soggetti tecnici presenti; il motivo detto è che
+gli ospiti esterni non avevano firmato il consenso. Si aggiunge al caso di §54: **la parte più
+informativa è quella che per procedura non viene registrata.**
