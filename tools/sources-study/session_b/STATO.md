@@ -4505,3 +4505,53 @@ aggiornato; l'urgenza della D7 è ora di un altro ordine.
 Un item che sembrava una seduta di tre minuti è la **prima di tre parti**, e il manifest è l'unico
 dei tre a non dirlo. Il lettore l'ha verificato senza aprire gli item degli altri, dagli url
 progressivi e dal contenuto di apertura e chiusura.
+
+## 114. V3_317–V3_374: sopra l'oggetto della seduta c'è l'organo, e si misura (2026-09-16 14:32Z)
+
+30 candidate, 11 `alta`, zero `non verificabile`.
+
+### Il livello che mancava alla regola sulle cifre
+
+Il lettore ha trovato due controesempi e da lì una spiegazione migliore: **fra organi diversi la
+variabile non è l'oggetto della seduta, è la convenzione di verbalizzazione dell'organo**. Ci sono
+organi quasi stenografici e organi il cui verbale dichiara che «la videoregistrazione sostituisce la
+trascrizione degli interventi» — e allora anche una seduta che non è di parere non porta cifre.
+L'oggetto spiega le differenze **dentro** uno stesso organo; la convenzione quelle **fra** organi.
+
+**L'ho controllato sui dati invece di riferirlo.** `report2/convenzione_organo.py`: per ogni Municipio
+la quota di verbali sugli atti contro la quota di novità del parlato. Sui dieci Municipi con
+abbastanza materiale, **r = −0,60** sulla misura meccanica (classe S, che non sa niente del giudizio
+del lettore) e **r = −0,50** sul campo dei lettori. Due misure indipendenti, stesso segno, quello
+atteso.
+
+Dieci Municipi non sono una dimostrazione e la densità dei verbali è un indicatore grossolano della
+convenzione — ma la cosa che dice è scomoda e va nel rapporto: **una parte di quello che chiamiamo
+novità è il modo in cui un organo verbalizza.** Nel §3, con il programma in tabella al §7-bis.
+
+### Altre due che correggono il rapporto senza rovesciarlo
+
+- **Gli orari di chiusura**: il lotto precedente ne aveva trovati due sbagliati su sei; questo ne
+  trova **zero su sette**. Anche qui la variabile è l'organo, non «il verbale». Aggiunto, perché due
+  su sei senza il controesempio era una generalizzazione.
+- **Il rimando che sembra un dato**: tre verbali di tre sedute diverse portano **lo stesso identico
+  link** alla versione integrale audio-video. È boilerplate copiato: chi lo prendesse per un
+  identificativo di seduta abbinerebbe tre sedute allo stesso video. Va accanto ai quaranta atti con
+  identificativo del §5.
+
+### Il secondo verso del controllo sulle eccezioni si rompe di nuovo, in modo diverso
+
+Nove conferme e **due eccezioni**: in una il verbale esiste, è lungo cinque pagine e segue la
+discussione battuta per battuta, **e il fatto non c'è**. «Verbale pieno» non implica «fatto scritto» —
+è la stessa cosa vista ieri con il cancello divelto, e ormai è la terza volta che la incontriamo da
+angoli diversi. Il §2 la dice già nella forma buona (assente / vuoto / che ha scelto di non scrivere).
+
+### Cose da tenere per la nota a chi rifarà lo studio
+
+- **Collisione dentro la specifica**, segnalata e non risolta: `qualita_trascrizione.note` ha un
+  limite di 30 parole e il sesto e il nono emendamento gli chiedono quattro informazioni. Il lettore
+  ha tenuto il limite e messo l'analisi nel log. Giusto così; la specifica non si tocca (§101).
+- Due commissioni dello stesso Municipio lo stesso giorno **non** sono la stessa seduta: hanno dato
+  **due pareri distinti sullo stesso atto** (2-1 e 5 favorevoli). L'avvertenza sul manifest vale nei
+  due sensi, e l'ho messa nei mandati.
+- **Zero** microfoni aperti o parlato oltre la chiusura in dieci item cercati: il denominatore di D7
+  cresce senza che cresca il numeratore, ed è esattamente quello che serve per non gonfiare il conto.

@@ -399,6 +399,18 @@ ipotizzata lì per lì, perché era diventata il punto su cui si decideva. E qua
 riassumere, **legge l'atto ad alta voce**, le cifre passano tutte intere. La perdita non è nella
 prova: è nella redazione del riassunto.
 
+**E sopra l'oggetto della seduta c'è un livello che conta di più: come quell'organo verbalizza.**
+Un lettore l'ha notato confrontando organi diversi — ce ne sono di quasi stenografici e ce ne sono i
+cui verbali dichiarano che «la videoregistrazione sostituisce la trascrizione degli interventi» —, e
+si può controllare sui dati: **dove i verbali pesano di più sugli atti di un Municipio, la novità del
+parlato è più bassa**. La correlazione fra le due quote, sui dieci Municipi con abbastanza materiale,
+è **−0,60** sulla misura meccanica e **−0,50** sul giudizio dei lettori. Dieci Municipi non sono una
+dimostrazione e la densità dei verbali è un indicatore grossolano; ma il segno è quello atteso su due
+misure indipendenti, e dice una cosa scomoda: **una parte di quello che chiamiamo novità è la
+convenzione di verbalizzazione dell'organo che stiamo ascoltando.** L'oggetto della seduta spiega le
+differenze *dentro* uno stesso organo; la convenzione spiega quelle *fra* organi.
+(`report2/convenzione_organo.py`.)
+
 E c'è una perdita che nessuna delle due direzioni prevedeva: **i verbali cancellano i luoghi**. In
 una commissione sei verbali arretrati vengono letti a voce con il loro oggetto — una scala pubblica,
 un parco regionale, una villa comunale, una stazione — e nel verbale di quella seduta diventano sei
@@ -536,7 +548,13 @@ possa contare.
 **E il verbale sbaglia anche le cose che dovrebbe saper fare.** Su sei verbali confrontati con la
 registrazione, **due sbagliano l'orario di chiusura** — 13:47 contro le 10.07 reali, 14:14 contro le
 11.05 — cioè attribuiscono ore di lavori a sedute di mezz'ora. Chi misurasse la durata delle sedute
-sui verbali otterrebbe numeri privi di senso.
+sui verbali otterrebbe numeri privi di senso. Ma non è generale: su altri sette verbali, di un altro
+Municipio, gli orari di chiusura sono **giusti sette volte su sette**. Anche qui la variabile è
+l'organo, non «il verbale».
+
+E un rimando che sembra un dato e non lo è: **tre verbali di tre sedute diverse portano lo stesso
+identico link** alla «versione integrale audio video». È un boilerplate copiato, e chi lo prendesse
+per un identificativo di seduta abbinerebbe tre sedute allo stesso video.
 
 Due casi dicono quanto costa, e nessuno dei due supera la soglia. A **0,061** — sotto il 10%, dove
 nessuno andrebbe a guardare — una decina di righe duplicate dentro l'appello di voto **si portano via
@@ -756,6 +774,7 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | 25 concordi e 5 discordi della seconda AI | `report2/seconda_ai.js` |
 | 37,1% delle nuove presenti nel testo di un atto | `report2/copertura_testi_atti.py` |
 | i doppioni di pubblicazione e quanto spostano l'intervallo | `report2/doppioni_documenti.py` |
+| la convenzione dell'organo contro la novità, r = −0,60 | `report2/convenzione_organo.py` |
 
 Alla consegna, `report2/congela_consegna.py` mette accanto al rapporto lo **stato che ha prodotto
 questi numeri**: i dati, i programmi che li calcolano, il commit del repository e un file di numeri
