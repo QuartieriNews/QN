@@ -1532,3 +1532,55 @@ lo dice, il manifest porta `grana_marcatore_s` riga per riga, e i lettori devono
 separatamente le candidate delle due origini, perché **non sono verificabili allo stesso modo**.
 
 Ledger aggiornato: 14,96 € spesi, **63,04 € disponibili**.
+
+## 50. Otto giorni di istruttoria che esistono solo nel parlato (16 settembre, 08:45)
+
+Rientrato V4_049–V4_060: 12 sedute, 7 ore e 24 minuti misurate sui marcatori, 58.222 parole,
+**43 candidate di cui 30 `solo dal parlato`**, forbice 34–53.
+
+**Il caso del dossier librerie.** Il Municipio I ne discute il 16, il 17, il 23 e il 24 giugno. Dei
+quattro verbali, **tre non hanno contenuto** e uno solo — quello del voto contrario del 24 — dice
+qualcosa. Otto giorni di istruttoria pubblica, con sopralluoghi e audizioni, **sopravvivono solo
+nelle registrazioni**. Non è un caso isolato del lotto: in sei sedute su dodici l'unica traccia
+scritta è la presenza o l'esito, e per due sedute non esiste alcun verbale fra i 1.983 atti di
+giugno, pur esistendo quelli di altre commissioni degli stessi giorni.
+
+**Una notizia che nasce da una smentita, e che gli atti confermano.** In una commissione
+l'assessorato apre dicendo che il cantiere chiude «venerdì»; una residente obietta; a fine seduta
+l'assessorato si corregge, dopo aver sentito l'impresa. **L'atto `DDS_DDS_I_NzEwODg` del 25 giugno,
+che proroga quella disciplina di traffico, dà ragione alla residente.** È il primo caso in cui il
+parlato e l'atto si controllano a vicenda invece di ripetersi: la notizia non è il cantiere, è la
+smentita — e non esiste in nessun atto.
+
+**La trascrizione sbaglia proprio dove sta la notizia.** Otto grafie per Porta Asinaria in
+cinquantadue minuti, nessuna corretta. **Dieci grafie per via del Casale di Zola**, che è l'oggetto
+stesso della seduta. «Palestre nei parchi del municipio €9» per «municipio 9». Le compensazioni
+arboree lette come «166 e più alberi qui sono essenze le 166 gli alberi sono 15». E dentro i
+silenzi la piattaforma inventa: il primo appello di un consiglio si apre su «schifo».
+
+**Il collegamento fra registrazione e atto, ora esatto.** Il lettore ha trovato la chiave: il
+`par2` in base64 dentro `verbale_match` è **l'ultimo segmento del `name` dell'atto**. Ho scritto
+`collega_video_atti.py`, che produce `report2/video_atti.csv` a fianco del censimento senza toccarlo,
+e il quadro su tutte e 303 le registrazioni è questo:
+
+| | convocazioni | verbali |
+|---|---|---|
+| abbinamento esatto dal censimento | 70 | 38 |
+| di cui puntano a un atto **di un altro Municipio** | **6** | 0 |
+| di cui puntano a un atto **che non è fra i 1.983 di giugno** | **8** | 0 |
+| senza abbinamento, ma con **un solo** atto compatibile | 43 | **63** |
+| senza abbinamento, con più atti compatibili nello stesso giorno | 82 | 129 |
+
+Quattordici abbinamenti su settantotto, il **18%**, sono sbagliati o non verificabili; e per 63
+registrazioni esiste un verbale univoco che il censimento non dichiara. Da ora i lettori hanno il
+collegamento esatto dove c'è e l'elenco dei compatibili dove non c'è, **senza che il programma ne
+scelga uno**.
+
+**Una durata che falsa una misura.** Per tre registrazioni il manifest dichiara `0:01` a fronte di
+circa un minuto e mezzo reale: le parole al minuto risultano gonfiate del 40–70%. È un dato del
+censimento che entra nelle nostre statistiche, e va corretto o dichiarato prima di pubblicarle.
+
+**E il mestiere, di nuovo.** Il lettore ha verificato 204 marcatori nei file e **115 nel proprio
+log**, trovando e correggendo due proprie citazioni sbagliate. Ha inoltre fatto la scansione DEC-102
+su novanta cognomi sentiti in aula: zero occorrenze nei file, e i quattro allarmi erano toponimi
+(«Santa Croce in Gerusalemme», «Santo Stefano Rotondo», «via Bonelli») e la parola «Primo appello».
