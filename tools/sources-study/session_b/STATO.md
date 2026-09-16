@@ -4671,7 +4671,7 @@ Aggiunte **sedici righe** per i casi entrati oggi nei §3, §5 e §6: senza, la 
 («ogni caso porta l'identificativo dell'atto o della registrazione») non era più vera. Ora l'indice
 è a 62 casi.
 
-## 117. Chiusura di due rilievi C5 rimasti aperti nel rapporto (2026-09-16 15:28Z)
+## 117. Chiusura di due rilievi C5 rimasti aperti nel rapporto (2026-09-16 15:25Z)
 
 Mentre i lotti girano, ho ripreso i rilievi del controllo C5 che chiedevano una **dichiarazione nel
 rapporto** e non una correzione di codice, per non arrivare alla consegna con un «da dichiarare» non
