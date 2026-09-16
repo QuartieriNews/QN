@@ -529,8 +529,8 @@ senza che nulla lo segnali.
 | `Report1_notizie_C4_2026-06.csv` (8 righe) | **caricato** |
 | `Report1_notizie_C5_2026-06.csv` (11 righe) | **caricato** |
 | `Report1_territori_2026-06.csv` (96 celle, con le 2 lacune) | **caricato** |
+| `Report1_vicende_2026-06.csv` (218 vicende) | **caricato** |
 | `notizie_compatte_E3.csv` (44 KB) | da caricare |
-| `vicende.csv` (30 KB) | da caricare |
 | `notizie_compatte_A1.csv` (161 KB) | da caricare |
 | `notizie_compatte_E2.csv` (161 KB) | da caricare |
 | `documenti_compatti.csv` (164 KB) | da caricare |
@@ -640,3 +640,24 @@ sarebbe peggio, perché nasconderebbe che la soglia si è assestata leggendo.
 unanimità proclamate con astenuti o contrari, un atto con 16 voti dichiarati e 22 nomi elencati,
 due mozioni distinte con lo stesso numero; e gli identificatori dello stesso procedimento divergono
 fra atti (una proposta è `RC/14716/2026` in un atto e `RC/0017442/2026` in un altro).
+
+## 26. Struttura delle vicende (16 settembre, 03:30)
+
+Caricata `vicende.csv`: 218 vicende, cioè insiemi di due o più notizie sullo stesso fatto. La
+forma dice qualcosa che i conteggi non dicevano:
+
+- **21 vicende attraversano le due agende eventi** (`fonti = E2;E3`). Sono più delle 8 coppie di
+  duplicati certi, perché una vicenda tiene insieme anche i legami marcati `dubbio`. Il quadro del
+  rapporto regge: la sovrapposizione fra E2 ed E3 esiste ma è piccola, e sta soprattutto nelle
+  aperture straordinarie e nelle mostre dei musei civici — non nelle proiezioni di quartiere.
+- **Il resto sono ripetizioni interne alla stessa fonte**: E2 che riannuncia lo stesso film in date
+  diverse, A1 che ripubblica lo stesso avviso.
+- **Nessuna vicenda attraversa Cronaca e Amministrazione**, e non è un caso: con l'80% della
+  Cronaca illeggibile non c'era materiale per trovarne.
+- Le vicende di confidenza `alta` — legame accertato — sono una minoranza; la maggioranza è `bassa`,
+  cioè poggia su continuità di luogo e oggetto. Il rapporto le conta separatamente, come prescrive
+  lo schema.
+
+Il verbale dei numeri legali caduti nel Municipio XII (V053, V055, V056: tre sedute in tre
+settimane) è il caso in cui la struttura per vicende mostra un fatto che le singole notizie non
+mostravano.
