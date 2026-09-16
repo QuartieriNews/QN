@@ -548,3 +548,22 @@ né un testo integrale, quindi rientra in §4.2: ora c'è, insieme ai `luoghi`.
 2. Rileggere `N0812` per il titolo d'opera anonimizzato per errore (residuo C2 n. 7).
 3. Report 2: gli atti sono pronti (2.669 PDF con testo e OCR); mancano trascrizioni RomaTV e
    sottotitoli YouTube.
+
+## 23. Report 2 avviato (16 settembre, 02:30)
+
+Gli atti delle tre settimane sono pronti e in lettura: **1.983 atti con testo** su 8–28 giugno
+(689 nella settimana 2, 663 nella 3, 631 nella 4), divisi in 40 lotti da 50, ordinati per tipologia
+in modo che ogni lotto veda un mix e non cinquanta convocazioni di fila.
+
+Tipologie: DDS 682 determinazioni dirigenziali, MMC 386 convocazioni di commissione, MMV 312
+verbali di commissione, DMS 131, CPC 76, AY 60, CMC 47 delibere di Consiglio, CMR 30, CMD 28,
+GCD 27, e code minori.
+
+`tools/sources-study/report2/SPECIFICA_ATTI.md`: deriva dallo schema del lotto B già collaudato,
+con i confini D1–D3 dentro. La regola che conta di più è scritta in chiaro nel prompt dei lettori:
+**la maggior parte degli atti non è una notizia, ed è un risultato da misurare, non un fallimento
+da evitare.** Un lotto che producesse notizie da quasi tutti gli atti avrebbe sbagliato la soglia.
+Gli atti non notiziabili restano comunque nel CSV, perché la quota di atti notiziabili è una delle
+domande del Report 2.
+
+Primi due lotti tripli avviati (B01–B03 e B04–B06), i due subagenti Opus consentiti.
