@@ -173,3 +173,31 @@ regola esiste.
 verificare; l'eccezione introduce un giudizio («questa sede è pubblica?») che qualcuno deve
 esercitare riga per riga. È un baratto fra precisione e verificabilità, e sta all'owner sceglierlo.
 Fino alla decisione i lettori continuano ad applicare il divieto senza eccezioni, dichiarandolo.
+
+## D6 — Il territorio degli atti `CEN_`
+
+**Aperta il 16 settembre 2026.**
+
+Negli atti delle commissioni capitoline (`CEN_CPC_*`, `CEN_CPV_*`) il segmento del nome che somiglia
+a un Municipio è **un segnaposto della fonte, non il territorio**. Il territorio vero, quando c'è,
+si legge dall'oggetto: «Parco Archeologico di Centocelle» dice Municipio V, «via Giorgio Ribotta»
+dice Municipio IX.
+
+La specifica impone che un valore dedotto non sia mai scritto come letto, e un lettore l'ha
+applicata alla lettera: `municipio = non verificato` su **9 righe su 14**, anche dove il toponimo
+rende il Municipio ovvio. La regola è giusta e il costo è reale: quelle righe non entrano in nessuna
+statistica per Municipio, e il Report 2 ne ha diverse.
+
+**Le due strade.**
+1. **Restare alla lettera**: `non verificato` dove l'atto non dichiara il territorio. Nessuna
+   deduzione entra nei dati; le statistiche per Municipio perdono le righe capitoline.
+2. **Dedurre dal toponimo dichiarandolo**: il territorio si ricava dal gazetteer a partire dai
+   luoghi nominati, e una colonna dice che è una deduzione nostra e non una lettura. È la stessa
+   cosa che il database già fa con `tier_localizzazione`.
+
+**Raccomandazione**: la seconda, perché la deduzione resta visibile e reversibile, e perché il
+gazetteer che la fa è lo stesso già usato per tutte le altre fonti. Ma è una decisione sul dato
+pubblicato, non una scelta tecnica, e non la prendo io.
+
+**Finché non è decisa** i lettori restano alla lettera (strada 1): è la più prudente e non crea
+dati che poi andrebbero disfatti.
