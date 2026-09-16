@@ -3,7 +3,8 @@
 Bozza in lavorazione. I materiali sono letti per intero sul lato atti e per circa metà sul lato
 registrazioni; **i conteggi qui dentro sono quelli al 16 settembre e vanno rigenerati prima della
 consegna** con `report1/build_db.py`, `report2/novita_meccanica.py` e `report2/audit_toponimi.py`.
-Le conclusioni qualitative non dipendono dai lotti che mancano: si ripetono identiche da otto lotti.
+I meccanismi descritti nei §3 e §4 ricorrono in tutti i lotti letti finora; quanto siano stabili
+è però un'impressione di lettura e non una misura, e come tale va presa.
 
 Perimetro: **8–28 giugno 2026**, come prescrive il metodo. Il Report 1 aveva letto 985 item
 testuali e ne aveva ricavato 1.227 notizie candidate.
@@ -17,9 +18,12 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
 - La domanda del rapporto — *quanto aggiunge il parlato a ciò che è scritto* — non ha una risposta
   sola. Ne ha tre, misurate: **37%** di novità certa con un toponimo affidabile, **54%** di novità
   certa, fino al **99%** come limite superiore.
-- La scoperta che regge tutto il resto non è un numero ma una frase, scritta in due verbali:
-  **«la videoregistrazione sostituisce la trascrizione degli interventi».** L'ente dichiara che il
-  record di ciò che si dice è il video, non l'atto. Tutto il resto discende da qui.
+- **107 verbali su 2.668 atti, in sette Municipi su quindici, dichiarano dentro il proprio testo
+  che il record completo della seduta non è l'atto ma la registrazione** — con quattro formule di
+  forza diversa, dalla più netta («la videoregistrazione sostituisce la trascrizione degli
+  interventi», 21 atti del Municipio II) al semplice rinvio al portale. Non è una tesi nostra: è
+  l'amministrazione che lo scrive. È il fatto da cui parte questo rapporto, non la causa di tutto
+  ciò che segue.
 
 ## 2. La risposta, e perché sono tre numeri
 
@@ -39,14 +43,21 @@ Tre esiti:
 
 Da cui la scala:
 
-- **36,8%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il pavimento: regge
-  a qualunque obiezione.
+- **36,8%** — nuove, con un toponimo che il lettore non ha marcato incerto. È il valore più
+  conservativo che sappiamo calcolare, e **non viene dallo stesso programma degli altri due**: lo
+  calcola `report2/audit_toponimi.py` scartando le righe che poggiano su un toponimo dichiarato
+  dubbio. Regge all'obiezione sulla trascrizione, non a tutte: se la deduplicazione sbaglia a non
+  accostare, anche questo numero è alto.
 - **54,4%** — nuove, cioè senza alcun gemello scritto, toponimi incerti compresi.
 - **98,4%** — limite superiore, se si contano come nuove anche quelle che hanno solo un
   accostamento dubbio.
 
-**Contro che cosa sono misurati, detto con precisione.** Contro i 1.983 atti con data di repertorio
-fra l'8 e il 28 giugno, che è il perimetro dello studio. Gli altri 685 atti di giugno che abbiamo in
+**Contro che cosa sono misurati, detto con precisione.** Non contro i soli atti: contro **tutte le
+righe che vengono da fonti scritte**, cioè i 1.983 atti con repertorio 8–28 giugno *più* le notizie
+già estratte dalle fonti testuali del Report 1. Il nome del campo (`novita_rispetto_agli_atti`) dice
+meno di quello che il numero misura, ed è un difetto di nome che va tenuto presente: una candidata
+del parlato è «nuova» quando non ha gemelli **né negli atti né nel già raccolto**. Gli atti sono
+quelli con data di repertorio fra l'8 e il 28 giugno, che è il perimetro dello studio. Gli altri 685 atti di giugno che abbiamo in
 archivio sono dell'1–7 e del 29–30: fuori finestra per costruzione, non dimenticati.
 
 C'è però un punto in cui il perimetro, definito sulla data di repertorio, **non coincide con il
@@ -84,14 +95,16 @@ ma sta fuori dal perimetro del corpus** — un verbale di maggio, i questionari 
 messaggio dell'azienda sanitaria. Lì il fatto ha tutte e tre le coordinate e resta comunque fuori
 dagli atti, non perché sia debole ma perché il corpus finisce dove finisce giugno.
 
-La prova sta in una sola frase di una commissione del Municipio V, dove lo stesso lettore, leggendo
+L'esempio più netto — uno solo, quindi illustrativo e non probante — è una frase di una
+commissione del Municipio V, dove lo stesso lettore, leggendo
 lo stesso elenco ad alta voce, ha prodotto due righe di esito opposto: la risoluzione su viale
 Palmiro Togliatti è «anche negli atti», perché l'atto è di giugno; gli stalli di via Antonio
 Tempesta sono «non verificabile», perché il verbale che li contiene è di maggio. **Cambia solo il
 confine del corpus.**
 
-Quel 25%, quindi, non misura la debolezza del parlato: misura **dove passa il confine di ciò che
-abbiamo raccolto**.
+Se il meccanismo è giusto, quel 25% non misura la debolezza del parlato ma **dove passa il confine
+di ciò che abbiamo raccolto**. È un'ipotesi coerente con i casi letti, non una conclusione
+dimostrata: per dimostrarla servirebbe scomporre il 25% nelle sue cause, e non l'abbiamo fatto.
 
 ## 3. Che cosa gli atti registrano, e che cosa no
 
@@ -136,8 +149,10 @@ traccia **unicamente nella registrazione**.
 ragione l'aula. Un verbale, per un errore di riconoscimento ottico, cita una deliberazione «n. 3»
 dove l'aula dice correttamente «n. 35 del 16 marzo 2010».
 
-**Come il residuo viene prodotto.** Non è che i verbali manchino: è che, quando ci sono,
-**riassumono via esattamente ciò che ha valore**. Un verbale di commissione scuola segue la seduta
+**Come il residuo viene prodotto.** Non è che i verbali manchino: è che, nei casi letti, quando
+ci sono **riassumono via le cifre e i dispositivi**. Non è una misura sistematica — nessuno ha
+confrontato verbale e registrazione riga per riga su un campione — ma il modo in cui accade è
+sempre lo stesso. Un verbale di commissione scuola segue la seduta
 minuto per minuto e poi scrive «descrivendo poi tutte le caratteristiche dei 4 quadranti»: in quella
 frase spariscono il 15% dei posti riservati a bambini con disabilità con operatore uno-a-uno, il
 10% ai segnalati dai servizi sociali, i 485 posti e lo spostamento di un quartiere da un quadrante
@@ -145,9 +160,10 @@ all'altro. Una proposta sui cinghiali diventa «150 interventi, 200 mila euro» 
 dispositivo — piano in trenta giorni, tavolo permanente, rendicontazione trimestrale in aula,
 numero verde ventiquattr'ore al posto della sola casella di posta.
 
-Il corollario chiude il ragionamento: **nelle sedute-monologo il verbale è quasi verbatim, e non
-c'è nulla di nuovo.** La novità nasce dove c'è dialogo, e il dialogo è precisamente la parte che il
-verbale comprime.
+E dove la seduta è un monologo il verbale è quasi verbatim, e dal parlato non emerge quasi
+niente: la novità nasce dove c'è dialogo, e il dialogo è precisamente la parte che il verbale
+comprime. È un'ipotesi che i prossimi lotti possono smentire, ed è stata scritta perché la
+smentiscano.
 
 ## 4. Che cosa si vede solo ascoltando
 
@@ -178,12 +194,32 @@ impossibili (`139.06.2026`, `44/06/2026`), timbri datati 2006, 2008, 2020, 2025 
 dei votanti» in presenza di astenuti. Un intero strato di testo cifrato con uno scorrimento di tre
 lettere. Due atti identici con lo stesso protocollo pubblicati due volte.
 
-**Nelle registrazioni.** Lo stesso toponimo compare fino a **dodici grafie nella stessa seduta**,
-anche quando è l'oggetto della discussione; le sigle saltano quasi sempre; gli importi slittano di
-tre ordini di grandezza. In due registrazioni la piattaforma **sostituisce parole con asterischi**.
-Quattro item su 274 sono **due sedute pubblicate due volte**; altri cinque sono **spezzoni
-consecutivi della stessa seduta** pubblicati come registrazioni distinte — due difetti diversi, che
-si contano separatamente perché le ripubblicazioni condividono il testo e gli spezzoni no.
+**Nella pubblicazione delle registrazioni** — difetti di chi pubblica. Su 274 item censiti al
+momento della misura, quattro sono **due sedute pubblicate due volte**; altri cinque sono **spezzoni
+consecutivi della stessa seduta** pubblicati come registrazioni distinte. Sono due difetti diversi e
+si contano separatamente, perché le ripubblicazioni condividono il testo e gli spezzoni no: una
+misura che cerca testo condiviso vede i primi e **per costruzione** non vede i secondi.
+
+**Nella trascrizione, e qui la distinzione conta.** Una parte delle registrazioni porta la
+trascrizione automatica *della piattaforma*, che è un difetto della fonte; per le altre la
+trascrizione **l'abbiamo fatta noi** con `gpt-4o-mini-transcribe`, e i suoi difetti sono nostri.
+Non si somigliano:
+
+| | trascrizione della piattaforma (fonte) | trascrizione nostra (pipeline) |
+|---|---|---|
+| blocchi di testo ripetuti, mediana | 0,0% | 0,5% |
+| registrazioni sopra il 10% di testo duplicato | **0** | **39** |
+| massimo | 1,7% | **86,6%** |
+| parole inventate dentro i silenzi | sì | no |
+| parole sostituite da asterischi | sì, 2 casi | no |
+| silenzi lasciati vuoti | no | sì |
+
+Il difetto più grave — un passaggio riscritto fino a quattro volte, in un caso il 67,9% di una
+registrazione da 9.902 parole — **è del modello che abbiamo pagato noi**, non della fonte, e su
+quelle registrazioni rende inutilizzabile il conteggio delle parole. Lo storpiamento dei nomi
+propri invece è di entrambe: lo stesso toponimo compare fino a **dodici grafie nella stessa
+seduta**, anche quando è l'oggetto della discussione; le sigle saltano quasi sempre; gli importi
+slittano di tre ordini di grandezza.
 
 **Nel collegamento fra i due.** Il censimento abbina la registrazione al suo atto in modo
 inaffidabile: su 78 abbinamenti dichiarati, 6 puntano a un atto di un altro Municipio e 8 a un atto
@@ -197,8 +233,9 @@ quindici del Municipio XI, due del X. Sono gli unici casi in cui l'abbinamento l
 redatto l'atto invece di ricostruirlo noi. Sette di quei diciassette cadono su registrazioni del
 nostro corpus, e su quei sette: il censimento **ne dichiara zero**; il nostro collegamento per
 Municipio e data contiene il verbale giusto **sette volte su sette**, ed era già univoco in quattro.
-Sono sette casi di un Municipio solo — troppo pochi per una percentuale, abbastanza per dire da che
-parte sta il difetto.
+Sono sette casi di un Municipio solo: troppo pochi per una percentuale e per una conclusione
+generale. Quello che si può dire è solo questo: **in quei sette casi** il censimento fallisce sette
+volte su sette e il collegamento per Municipio e data riesce sette volte su sette.
 
 Altri due Municipi scrivono un link che sembra la stessa cosa e non lo è: ventuno verbali del XV
 rimandano al **catalogo** del Municipio, sempre con lo stesso identificativo, e due convocazioni del
@@ -243,13 +280,14 @@ fattura.
 
 1. Il campo `novita_rispetto_agli_atti` è stato definito tre volte: i lotti non sono confrontabili
    su quel campo e vanno pubblicati con la formulazione accanto. Il numero principale è quello
-   meccanico, che non ne dipende. Quanto costi, si può misurare: i lotti letti mentre la regola
-   cambiava si distendono su **71 punti** di `solo dal parlato`, quelli letti a regola ferma su
-   **22**. Il metro è la misura meccanica, che del lettore non sa niente e porta la sola
-   eterogeneità del materiale: nei primi la dispersione del lettore vale **1,46 volte** quella del
-   materiale, nei secondi **0,74**. A regola ferma i lettori concordano più di quanto vari il
-   materiale; a regola mobile no. Il costo non è dei lettori, è di chi ha cambiato il contratto in
-   corsa.
+   meccanico, che non ne dipende. Quanto costi si può stimare, con una cautela. `report2/varianza_lettori.py` divide i lotti in
+   due gruppi — le registrazioni YouTube, lette mentre la definizione cambiava, e quelle RomaTV,
+   lette a definizione ferma — e misura per ciascuno quanto si distende il giudizio del lettore
+   (71 punti contro 22) rispetto a quanto si distende la misura meccanica, che del lettore non sa
+   niente (49 contro 30). Il rapporto fra le due dispersioni è **1,46** nel primo gruppo e **0,74**
+   nel secondo. **La cautela è che i due gruppi non differiscono solo per la regola**: sono anche
+   due corpora diversi, e la misura non sa separare le due cause. Il dato regge come segnale, non
+   come misura pulita dell'effetto di aver cambiato il contratto in corsa.
 2. Il confronto è contro «gli atti **più** le notizie già estratte dal Report 1»: eredita gli errori
    e le omissioni di quella pipeline.
 3. L'unità di conteggio è la candidata, non il fatto: due lettori possono spezzare lo stesso fatto
@@ -260,6 +298,37 @@ fattura.
    un silenzio più corto di cinque minuti è invisibile.
 7. Il materiale di riscontro è **congelato** in `report2/snapshot/`, così la novità non dipende dal
    giorno in cui un lotto è stato letto.
+8. **La qualità della deduplicazione è assunta, non misurata.** I tre numeri dipendono da quanto
+   bene la regola (data ±1 giorno, luogo, oggetto) accosta ciò che va accostato: un audit di
+   precisione e richiamo su un campione non è stato fatto, e senza quello l'intervallo dichiara
+   l'incertezza sugli accostamenti dubbi ma non quella sugli accostamenti mancati.
+9. **L'unità di misura della dispersione fra lotti** (§7.1) confronta due gruppi che differiscono
+   per la regola di lettura *e* per il corpus: il segnale c'è, la separazione delle due cause no.
+10. **Il meccanismo del §2 è un'ipotesi**, e queste sono le tre cose che la smentirebbero: una quota
+   alta di candidate «compiute, datate e localizzate» che restano senza gemello anche estendendo il
+   corpus ai mesi vicini; nessuna differenza di qualità fra candidate nuove e confermate, o una
+   differenza di segno opposto; molti casi «residuali» che si scoprono già formalizzati in atti
+   dello stesso perimetro. Nessuno dei tre è stato testato: vanno fatti prima di trattare il
+   meccanismo come acquisito.
+
+## 7-bis. Da dove viene ogni numero
+
+Perché chiunque possa rifarli invece di crederci. Tutti girano su `report2/snapshot/`, che è
+congelato, con `QN_NET` puntato alla cartella dei dati.
+
+| numero | programma |
+|---|---|
+| 54,4% e 98,4% (intervallo di novità) | `report2/novita_meccanica.py` |
+| 36,8% (scartando i toponimi incerti) | `report2/audit_toponimi.py` |
+| dispersione fra lotti, 1,46 e 0,74 | `report2/varianza_lettori.py` |
+| 107 atti che rinviano alla registrazione | `report2/record_dichiarato.py` |
+| 17 identificativi di seduta negli atti, 7 risolti | `report2/link_verbali_video.py` |
+| collegamento registrazione-atto | `report2/collega_video_atti.py` |
+| tutte le tabelle del database | `report1/build_db.py` |
+
+Quello che **non** è riproducibile da un programma sta nei §3 e §4: sono letture, non misure, e ogni
+caso porta l'identificativo dell'atto o della registrazione con il marcatore, così che chiunque
+possa andare a vedere.
 
 ## 8. Decisioni editoriali in attesa dell'owner
 

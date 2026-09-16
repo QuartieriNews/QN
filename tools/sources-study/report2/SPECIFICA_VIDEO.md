@@ -200,3 +200,17 @@ occupanti si scrivono per quello che sono nel procedimento. Se la designazione *
 decisione dell'organo, si riporta e si dichiara in `nota`.
 
 La regola nasce da un lettore che l'ha applicata prima che fosse scritta.
+
+## Emendamento del 16 settembre, sesto
+
+**Dove `quota_ripetuta` supera il 10% i campi di volume non si mettono a zero**: si scrive
+`non attendibile` e si spiega in `nota`. Uno zero è indistinguibile da un dato vero, e chi aggrega i
+lotti sommerebbe zeri finti. Lo ha segnalato un lettore che aveva applicato la regola precedente
+alla lettera su quattro item.
+
+**Il difetto della ripetizione è peggiore di come lo avevo descritto.** Non gonfia il conteggio delle
+parole: **cancella il parlato reale del tratto in cui si innesca**. In una registrazione sparisce
+l'illustrazione dell'atto da parte della proponente, in un'altra l'inizio dell'intervento critico.
+`quota_ripetuta` misura *quanto* testo è duplicato, non *che cosa* è andato perduto, e le due cose
+non coincidono. Chi legge un item sopra il 10% deve cercare il punto di innesco e dichiarare che cosa
+manca, non solo che il conteggio è gonfio.

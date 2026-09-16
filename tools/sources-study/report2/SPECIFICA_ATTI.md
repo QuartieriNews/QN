@@ -138,3 +138,10 @@ e avere due metri per lo stesso oggetto è peggio di qualunque soglia.
 interlacciate, frasi rimontate fuori ordine — e non solo gli errori di riconoscimento. Il campo
 misura quanto testo è inaffidabile, non quante volte l'abbiamo passato per Tesseract: dove il testo
 non si può leggere nell'ordine in cui è scritto, vale `sì` e il difetto si descrive nella riga.
+
+## Nota sullo stato del verbale (16 settembre)
+
+Le quattro parole per lo stato del verbale — pieno, troncato, di sola presenza, assente — **non
+bastano**: un lettore ha trovato un verbale pieno sul punto organizzativo e di sola presenza sul
+merito, cioè due stati nello stesso documento. Dove capita si dichiara lo stato **per punto**
+all'ordine del giorno, in `nota`, invece di sceglierne uno per tutto l'atto.
