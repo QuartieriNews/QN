@@ -3307,3 +3307,39 @@ E il rilievo che la soglia esclude i regolamenti cittadini senza luogo: **tre it
 producono zero o due candidate pur contenendo fatti veri (200.000 cani microchippati a Roma, il
 divieto di animali nei circhi scritto e inapplicabile). Il rapporto **sottostima strutturalmente le
 sedute dedicate a norme cittadine**, e in questo lotto erano un terzo.
+
+## 84. I rilievi del C5 sistemati, e uno che non si applicava (2026-09-16 11:08Z)
+
+**Il rilievo sull'ordinamento dei lotti non vale sui nostri dati.** Il C5 dice che confrontare `L9`
+con `L10` come stringhe fa vincere il nono. Verificato: i lotti sono **a due cifre con lo zero
+davanti** (`L01`…`L26`, `B01`…`B40`, `X01`…`X05`), quindi il confronto è corretto. Non ho cambiato
+la logica; ho aggiunto un **controllo che si ferma** se un lotto arriva con un nome fuori
+convenzione, perché la correttezza dipendeva da un'abitudine e non da una regola.
+
+**`settimana` era calcolata sulla data sbagliata, ed è vero.** Lo schema §1.3 dice «come in
+`documenti`», cioè dalla data di **pubblicazione**; il codice usava la data del fatto per le notizie
+del Report 1 e la data di seduta per le registrazioni. Corretto. Effetto sulle lacune territoriali:
+**nessuno** — due celle vuote prima, due dopo. La deviazione c'era e non distorceva il risultato; se
+non l'avessi misurata avrei scritto che l'avevo corretta lasciando credere che cambiasse qualcosa.
+
+**`vicende.confidenza` dipendeva dall'ultima riga processata**: ora una vicenda tenuta insieme da un
+duplicato certo resta `alta` anche se dopo arriva un dubbio.
+
+**E il campo che nessuno riempiva, che era il più interessante dei cinque.** Lo schema prevede
+`integra_gemello_id` e `campi_integrati` per dire che cosa una riga del Report 2 **aggiunge o
+corregge** alla sua gemella del Report 1 — senza, una vista che scarta i duplicati perde esattamente
+il contributo che il Report 2 esiste per misurare. Ora sono riempiti:
+
+> **263 righe del Report 2 integrano una gemella del Report 1.** Per campo: `tipo` 242,
+> `data_fatto` 191, `municipio` 59, `luoghi` 29, `zona` 20.
+
+**Prima versione dava 270 su 270, e il numero era falso.** Contavo come «correzione» anche due grafie
+diverse dello stesso posto in `luoghi`, che è testo libero: misuravo la varietà della scrittura. Per
+quel campo ora conta solo il caso «prima vuoto, ora pieno», e le integrazioni di `luoghi` scendono da
+270 a 29. Il numero da pubblicare è **263**, e il campo che gli atti e le registrazioni aggiungono
+più spesso non è il luogo: è **il tipo dell'atto e la data del fatto**.
+
+Restano aperti del C5: i nomi delle colonne nello schema (`titolo` contro `titolo_anonimizzato`),
+che vanno allineati prima della consegna; la cardinalità di `gemello_id`, che ammette un solo gemello
+mentre le coppie stanno già in `coppie_parlato_scritto.csv`; e la tabella degli accostamenti che il
+C5 vorrebbe dentro le cinque tabelle.

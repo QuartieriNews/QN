@@ -67,9 +67,15 @@ for fn, fonte in (('C2_2026-06_items.csv', 'C2'),):
 # were decided after the first batches ran, so its rows supersede theirs; without this, every
 # re-read item would contribute its news twice and inflate the whole database.
 letti = {}
+# I lotti si confrontano come stringhe, e questo vale **solo** perche' sono a due cifre con lo zero
+# davanti (L01, non L1): con L9 e L10 vincerebbe il nono. Il C5 l'ha segnalato come difetto; sui
+# nostri nomi non lo e', ma basta un lotto chiamato male per farlo diventare tale, quindi qui si
+# controlla invece di fidarsi della convenzione.
 for f in sorted(glob.glob(R + '/out/L*_notizie.csv')):
     if '_senza_' in f: continue
     lotto = os.path.basename(f)[:3]
+    if not re.fullmatch(r'L\d\d', lotto):
+        sys.exit('lotto con nome fuori convenzione: %s — l\'ordinamento fra lotti non sarebbe affidabile' % lotto)
     for r in csv.DictReader(open(f, encoding='utf-8')):
         prec = letti.get(r['documento_id'])
         if prec and prec[0][0] > lotto: continue      # an earlier file cannot override a later batch
@@ -120,7 +126,11 @@ for doc_id in sorted(letti):
             'disponibilita': r.get('disponibilita', ''), 'qualita': qualita(r),
             'dedup_stato': 'unica', 'gemello_id': '', 'ragione_dedup': '', 'prima_fonte': 'sì',
             'vicenda_id': '', 'integra_gemello_id': '', 'campi_integrati': '',
-            'settimana': settimana(r.get('data_fatto', '') or doc['data_pubblicazione']),
+            # Lo schema §1.3 dice «come in documenti», cioe' dalla data di **pubblicazione**. Qui
+            # usava la data del fatto: il rilievo e' del C5, verificato sullo schema. La settimana
+            # dice quando la notizia e' stata resa disponibile, non quando il fatto e' accaduto, e
+            # le lacune territoriali si leggono su quella.
+            'settimana': settimana(doc['data_pubblicazione'] or r.get('data_fatto', '')),
             'report_origine': '1', 'verifica_seconda_ai': 'non eseguita',
             'municipio_testo': ';'.join(m.strip() for m in mun_testo), 'note': r.get('note', ''),
         })
@@ -303,7 +313,8 @@ def item_video(j, meta, lotto):
         'trascrizione_incerta': ('sì; confidenza mediana %s, marcatore ogni %s s'
                                  % (meta.get('confidenza_mediana') or 'non dichiarata',
                                     meta.get('grana_marcatore_s') or '10')),
-        'esito_lettura': 'completo', 'settimana': settimana(j.get('data_seduta', '')),
+        'esito_lettura': 'completo',
+        'settimana': settimana(meta.get('data_pubblicazione', '') or j.get('data_seduta', '')),
         'report_origine': '2', 'letto_da': lotto,
     }
     righe = []
@@ -515,6 +526,34 @@ print('coppie parlato-scritto scritte in report2/coppie_parlato_scritto.csv: %d'
 print('confronto esaustivo parlato-scritto, su tutto il corpus: %s' % dict(cc))
 print('  dentro il blocco, come prescrive il metodo:            %s' % dict(cb))
 
+# ---- che cosa una riga del Report 2 aggiunge alla sua gemella del Report 1 --
+# Schema §1.3: quando una riga nuova **aggiunge o corregge** qualcosa alla gemella,
+# `integra_gemello_id` ripete il gemello e `campi_integrati` elenca le colonne. Nessuno li riempiva
+# (rilievo C5): senza, una vista che scarta i duplicati perde esattamente il contributo che il
+# Report 2 esiste per misurare.
+# Si confrontano solo i campi dove «pieno contro vuoto» o «diverso» significa qualcosa; il testo
+# libero no, perche' due sintesi diverse dello stesso fatto non sono una correzione.
+# `luoghi` e' testo libero: due grafie diverse dello stesso posto non sono una correzione, e
+# contarle come tali dava 270 integrazioni su 270, cioe' un numero che misurava la varieta' della
+# scrittura. Per quel campo conta solo il caso «prima vuoto, ora pieno».
+SOLO_SE_VUOTO = {'luoghi'}
+CAMPI_INTEGRABILI = ['data_fatto', 'municipio', 'zona', 'luoghi', 'tipo']
+per_id_int = {n['id']: n for n in notizie}
+integrate = 0
+for n in notizie:
+    g = per_id_int.get(n['gemello_id'])
+    if not g or n['report_origine'] != '2' or g['report_origine'] != '1': continue
+    campi = []
+    for c in CAMPI_INTEGRABILI:
+        a, b = (g.get(c) or '').strip(), (n.get(c) or '').strip()
+        if b and not a: campi.append(c)                          # riempie un vuoto
+        elif a and b and a != b and c not in SOLO_SE_VUOTO: campi.append(c)   # corregge
+    if campi:
+        n['integra_gemello_id'] = g['id']
+        n['campi_integrati'] = ';'.join(campi)
+        integrate += 1
+print('righe del Report 2 che integrano una gemella del Report 1: %d' % integrate)
+
 # ---- identificativi stabili -----------------------------------------------
 # Fino a oggi l'identificativo di una notizia era la sua **posizione** nella lista: `N{k:04d}` da
 # `enumerate`. Le righe del Report 1 restavano ferme perche' stanno in testa, ma bastava aggiungere
@@ -585,7 +624,10 @@ for n in notizie:
     v['n_notizie'] += 1
     v['fonti'] = ';'.join(sorted(set(v['fonti'].split(';')) | {n['fonte']}))
     v['ultima_pubblicazione'] = max(v['ultima_pubblicazione'], n['data_pubblicazione'] or '')
-    v['confidenza'] = 'alta' if n['dedup_stato'] == 'duplicato' else 'bassa'
+    # La confidenza di una vicenda non puo' dipendere dall'ultima riga processata (rilievo C5):
+    # una vicenda tenuta insieme da un duplicato certo resta alta anche se dopo arriva un dubbio.
+    if n['dedup_stato'] == 'duplicato': v['confidenza'] = 'alta'
+    elif v['confidenza'] != 'alta': v['confidenza'] = 'bassa'
 
 # Una vicenda e' "solo Report 2" quando nessuna delle notizie che la compongono viene dal
 # Report 1: e' la colonna che dice quali storie gli atti hanno portato e le fonti testuali no.
