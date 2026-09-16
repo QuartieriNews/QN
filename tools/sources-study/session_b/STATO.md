@@ -1366,3 +1366,40 @@ divieto di civici, applicato alle **sedi pubbliche**, toglie precisione senza pr
 due immobili comunali contigui messi a bando diventano indistinguibili. La raccomandazione è tenere
 il civico quando individua una sede o un immobile pubblico. Fino alla decisione i lettori applicano
 il divieto senza eccezioni.
+
+## 46. Il parlato nel confronto, e una misura che non dipende dal giudizio del lettore (16 settembre, 07:45)
+
+Anche le registrazioni entrano nelle stesse cinque tabelle, per la stessa ragione degli atti: la
+domanda del Report 2 — *che cosa si sente in aula e non sta scritto* — si risponde solo mettendo il
+parlato dentro lo stesso confronto, non in un database accanto. Con 47 sedute lette il database sta
+a **3.015 documenti, 2.019 candidate, 340 vicende**, netta 1.404–1.944.
+
+**E qui viene la cosa interessante.** Il lettore dichiara riga per riga se una notizia sia `solo dal
+parlato`, `anche negli atti` o `non verificabile`: è un giudizio. La deduplicazione invece confronta
+meccanicamente date, luoghi e oggetti contro tutte le altre 1.771 candidate. Sono due misure
+indipendenti della stessa cosa, e si possono incrociare.
+
+Sulle 248 candidate uscite finora dalle registrazioni:
+
+| dichiarazione del lettore | senza riscontro nel confronto | con un gemello per data e luogo |
+|---|---|---|
+| `solo dal parlato` (168) | 102 | **66** |
+| `anche negli atti` (48) | **24** | 24 |
+| `non verificabile` (32) | 12 | 20 |
+
+I due metodi **non dicono la stessa cosa**, e in entrambe le direzioni: 66 notizie che il lettore
+dà per nuove hanno comunque un candidato della stessa data e dello stesso luogo fra gli atti (58)
+o fra le fonti testuali (22); e 24 che il lettore dà per già scritte non hanno alcun gemello.
+
+Non è un errore di nessuno dei due. Un `dubbio` dice «stessa data, stesso luogo, oggetto incerto»:
+è un motivo per andare a guardare, non una prova che sia la stessa notizia. Ma permette di dare al
+rapporto **un intervallo che non dipende dal giudizio di chi legge**: fra le candidate dal parlato,
+quelle senza alcun riscontro altrove sono **102 su 248 (41%)**; quelle che il lettore giudica nuove
+sono 168 (68%). La verità sta in mezzo e i due estremi sono entrambi misurati.
+
+**Una scelta di sequenza.** I caricamenti su Drive sono sospesi fino a quando il database non è
+fermo. Ho già caricato A1 una volta e l'ho reso obsoleto due volte in mezza giornata — prima
+cambiando le colonne, poi togliendo le citazioni da `evidenza_locale`; e adesso l'ingresso delle
+registrazioni cambia lo stato di deduplicazione anche delle righe del Report 1. Caricare a database
+in movimento significa mettere sul Drive dell'owner file che si contraddicono fra loro. Si carica
+una volta sola, alla fine, con la verifica sui byte parte per parte.

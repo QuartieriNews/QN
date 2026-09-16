@@ -1,7 +1,7 @@
 # Builds the Report 1 database from the readers' output, per docs/sources/RICOSTRUZIONE_2026-06_SCHEMA_DB.md
 # (schema corrected after Codex control C1). Five tables in report1/db/: fonti, documenti,
 # notizie_candidate, vicende, territori. Deterministic and re-runnable: no network, no model calls.
-import csv, glob, os, re, sys, datetime, collections, random
+import csv, glob, json, os, re, sys, datetime, collections, random
 sys.path.insert(0, os.environ['QN_NET'])
 import geo_lookup as geo
 
@@ -9,8 +9,9 @@ S = os.environ['QN_NET']; R = S + '/report1'; D = R + '/db'
 os.makedirs(D, exist_ok=True)
 
 A2_BASE = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti&par1='
-ORDINE_FONTI = ['A1', 'A2', 'C1', 'C2', 'C4', 'C5', 'E2', 'E3']
-BLOCCO = {'A1': 'Amministrazione', 'A2': 'Amministrazione', 'C1': 'Cronaca', 'C2': 'Cronaca',
+ORDINE_FONTI = ['A1', 'A2', 'A3', 'A4', 'C1', 'C2', 'C4', 'C5', 'E2', 'E3']
+BLOCCO = {'A1': 'Amministrazione', 'A2': 'Amministrazione',
+          'A3': 'Amministrazione', 'A4': 'Amministrazione', 'C1': 'Cronaca', 'C2': 'Cronaca',
           'C4': 'Cronaca', 'C5': 'Cronaca', 'E2': 'Eventi', 'E3': 'Eventi'}
 
 ANNUNCIATI = {'avviso', 'ordine del giorno', 'convegno', 'interrogazione'}
@@ -246,6 +247,79 @@ if os.path.isdir(R2 + '/out'):
     print(f'  fuori schema, lasciate intatte: {lunghe} sintesi oltre 60 parole, '
           f'{titoloni} titoli oltre 12 parole')
 
+# ---- Report 2: le registrazioni (fonti A3 e A4) -----------------------------
+# Anche il parlato entra nelle stesse tabelle e nello stesso confronto: la domanda del Report 2
+# — che cosa si sente in aula e non sta scritto da nessuna parte — si risponde solo mettendo
+# le registrazioni accanto agli atti e alle fonti testuali, non in un database a parte.
+ROMANI_DA_TERRITORIO = re.compile(r'Municipio\s+([IVX]+)', re.I)
+
+def item_video(j, meta, lotto):
+    """Una riga di documenti e le sue candidate, dallo schema del lotto A."""
+    fonte = meta.get('fonte') or 'A4'
+    did = '%s_%s' % (fonte, j['item_id'].split('_')[1])
+    dur = j.get('durata_hm', '')
+    parole = int(j.get('parole') or 0)
+    doc = {
+        'id': did, 'fonte': fonte, 'tipo': 'registrazione', 'url': meta.get('url', ''),
+        'data_pubblicazione': meta.get('data_pubblicazione', ''), 'timestamp_pubblicazione': '',
+        'data_evento_inizio': '', 'data_evento_fine': '',
+        'titolo_anonimizzato': '%s, %s del %s' % (j.get('territorio', ''), j.get('organo', ''),
+                                                  j.get('data_seduta', '')),
+        'municipi_meta': ';'.join(ROMANI_DA_TERRITORIO.findall(j.get('territorio', '') or '')),
+        'tematica': '', 'caratteri': parole, 'formato_item': 'video',
+        'metodo_estrazione': 'trascrizione piattaforma', 'ocr_incerto': '',
+        # La piattaforma dichiara confidenza zero su ogni parola (STATO §43): non e' un giudizio
+        # di bassa qualita', e' un campo non compilato, quindi la trascrizione resta incerta.
+        'trascrizione_incerta': 'sì; la piattaforma non dichiara una confidenza utilizzabile',
+        'esito_lettura': 'completo', 'settimana': settimana(j.get('data_seduta', '')),
+        'report_origine': '2', 'letto_da': lotto,
+    }
+    righe = []
+    for c in j.get('notizie_candidate') or []:
+        ev = c.get('evidenza') or []
+        loc = geo.localise(' '.join(list(c.get('luoghi') or []) + [c.get('titolo', '')]))
+        mun = norm_mun(doc['municipi_meta'])
+        zona = loc.get('zona') or ''
+        tier = loc.get('tier') or ('meta' if mun else 'assente')
+        righe.append({
+            'id': '', 'documento_id': did, 'fonte': fonte,
+            'titolo_anonimizzato': c.get('titolo', ''), 'sintesi': c.get('sintesi', ''),
+            'tipo': c.get('tipo', 'altro'), 'luoghi': '; '.join(c.get('luoghi') or []),
+            'municipio': ';'.join(mun), 'zona': zona, 'tier_localizzazione': tier,
+            'toponimo_da_verificare': c.get('toponimo_da_verificare', 'no'),
+            'evidenza_url': meta.get('url', ''), 'evidenza_locale': ev[0] if ev else '',
+            'data_fatto': j.get('data_seduta', ''), 'data_pubblicazione': meta.get('data_pubblicazione', ''),
+            'disponibilita': '', 'qualita': (c.get('qualita') or 'media').strip(),
+            'dedup_stato': 'unica', 'gemello_id': '', 'ragione_dedup': '', 'prima_fonte': 'sì',
+            'vicenda_id': '', 'integra_gemello_id': '', 'campi_integrati': '',
+            'settimana': doc['settimana'], 'report_origine': '2',
+            'verifica_seconda_ai': 'non eseguita', 'municipio_testo': '',
+            # Il campo per cui il Report 2 esiste: che cosa il parlato aggiunge agli atti.
+            'note': 'novita: ' + (c.get('novita_rispetto_agli_atti') or 'non verificabile'),
+        })
+    return doc, righe
+
+if os.path.isdir(R2 + '/out_video'):
+    meta_video = {r['item_id']: r for r in csv.DictReader(open(R2 + '/manifest_video.csv', encoding='utf-8'))}
+    n_prima = len(notizie)
+    letti_v = 0
+    for f in sorted(glob.glob(R2 + '/out_video/*.json')):
+        try:
+            j = json.load(open(f, encoding='utf-8'))
+        except Exception as e:
+            print('REGISTRAZIONE ILLEGGIBILE', os.path.basename(f), str(e)[:80]); continue
+        meta = meta_video.get(j.get('item_id'), {})
+        if not meta:
+            print('REGISTRAZIONE SENZA MANIFEST', j.get('item_id')); continue
+        doc, righe = item_video(j, meta, os.path.basename(f)[:6])
+        documenti[doc['id']] = doc
+        notizie.extend(righe)
+        letti_v += 1
+    for k, n in enumerate(notizie[n_prima:], n_prima + 1): n['id'] = f'N{k:04d}'
+    nov = collections.Counter(n['note'] for n in notizie[n_prima:])
+    print('registrazioni lette: %d; candidate dal parlato: %d' % (letti_v, len(notizie) - n_prima))
+    print('  ', {k.replace('novita: ', ''): v for k, v in nov.most_common()})
+
 # ---- deduplicazione (metodo §4.1, schema §2 regola 2) ----------------------
 # Three conditions, in order: (a) date within +/-1 day, (b) place, (c) object. (a)+(b) without (c)
 # is a doubt, never a merge: the yield is then reported as a range.
@@ -386,6 +460,8 @@ def scrivi(nome, righe, campi):
 ANAGRAFE = {
     'A1': ('Avvisi e notizie dei Municipi', 'Roma Capitale — Municipi I–XV', 'https://www.comune.roma.it/web/it/municipio-<n>.page'),
     'A2': ('Atti degli organi capitolini e municipali', 'Roma Capitale — Albo Pretorio / Atti Web', 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/'),
+    'A3': ('Registrazioni delle sedute su RomaTV', 'Roma Capitale — streaming istituzionale', 'https://streaming.comune.roma.it/'),
+    'A4': ('Registrazioni delle sedute sui canali YouTube dei Municipi', 'Roma Capitale — Municipi', 'https://www.youtube.com/'),
     'C1': ('Comunicati della Questura di Roma', 'Polizia di Stato — Questura di Roma', 'https://questure.poliziadistato.it/it/Roma'),
     'C2': ('Comunicati stampa dei Carabinieri', 'Arma dei Carabinieri', 'https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa'),
     'C4': ('Notizie del Comando dei Vigili del fuoco di Roma', 'Corpo nazionale dei Vigili del fuoco', 'https://www.vigilfuoco.it/comando-vvf-roma/notizie'),
@@ -401,7 +477,8 @@ for cod in ORDINE_FONTI:
     fonti.append({'codice': cod, 'nome': nome, 'blocco': BLOCCO[cod], 'ente': ente, 'url_elenco': elenco,
                   'base_url': ('https://www.comune.roma.it/web/it/' if cod == 'E3'
                                else A2_BASE if cod == 'A2' else ''),
-                  'formato': 'PDF' if cod == 'A2' else 'HTML', 'item_giugno': len(docs),
+                  'formato': 'PDF' if cod == 'A2' else 'video' if cod in ('A3', 'A4') else 'HTML',
+                  'item_giugno': len(docs),
                   'paginazione_completa': 'sì',
                   'data_lettura': '2026-09-16' if cod == 'A2' else '2026-09-15',
                   'report': '2' if cod == 'A2' else '1',
