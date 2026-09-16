@@ -4318,3 +4318,32 @@ esplicitamente invece che lasciato all'abitudine.
 
 **Ripartiti due lotti** su 148 item rimasti, saltando i cinque già scritti. Il promemoria era armato
 e ha fatto il suo lavoro: la sessione si è ritrovata da sola.
+
+## 110. La scala sui «magneti» era un artefatto, e l'ho scoperto rifacendola sui dati giusti (2026-09-16 13:50Z)
+
+Stamattina avevo misurato che gli accostamenti verso le righe scritte che ne attirano molti sono
+giusti molto meno spesso, con una scala pulita e monotona: **80% / 75% / 50% / 21%** per fasce di
+1-2, 3-4, 5-9, 10 o più accostamenti. L'avevo tenuta fuori dal rapporto con l'avvertenza che i
+giudizi erano incrociati con il file delle coppie **mal chiavato** (§105).
+
+Rifatta sui giudizi del rigiudizio, che sono legati alle coppie giuste, **la scala non c'è**:
+
+| | 1-2 | 3-4 | 5-9 | 10 o più |
+|---|---|---|---|---|
+| accostamenti forti | 3/4 (75%) | 4/5 (80%) | 7/11 (64%) | 0/3 |
+| accostamenti deboli | 0/12 | 0/9 | 5/17 (29%) | 0/18 |
+
+Dentro la stessa forza la differenza non è stabilita: forti 0 su 3 contro 14 su 20 (p = 0,047, ma
+sono tre casi), deboli 0 su 18 contro 5 su 38 (p = 0,16). Sul totale viene p = 0,002, e **quel totale
+misura la composizione**, non l'effetto: le righe che attirano molti accostamenti ne attirano
+soprattutto di deboli, e i deboli sbagliano comunque nove volte su dieci.
+
+**La scala di stamattina era un artefatto dell'incrocio.** È la seconda cosa oggi che si scioglie
+appena la verifico con i dati giusti — la prima era la mia stessa descrizione del difetto del
+campione (§105). Il programma resta, con la storia scritta in testa, perché la domanda è buona e su
+un campione più grande si rifà in un minuto.
+
+Quello che **è** stabilito sul difetto documento-contro-fatto non viene da questa misura e sta già
+nel rapporto: cinque dei diciannove gemelli veri trovati dal rigiudizio sono invisibili sulle sintesi
+e si vedono solo aprendo il testo dell'atto, e lo stesso verbale viene accostato a due candidate
+diverse della stessa seduta. Quelli sono casi, non una curva, e reggono.
