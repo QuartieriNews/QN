@@ -954,6 +954,8 @@ congelato, con `QN_NET` puntato alla cartella dei dati.
 | i doppioni di pubblicazione e quanto spostano l'intervallo | `report2/doppioni_documenti.py` |
 | la convenzione dell'organo contro la novità, r = −0,60 | `report2/convenzione_organo.py` |
 | le undici registrazioni che perdono la coda | `report2/code_perdute.py` |
+| 121 su 233 bloccate dalla data, e l'84% di nuove fra quelle | `report2/motivo_non_alta.py` |
+| le quote di qualità alta (54,5% e 18,2%) e il controllo dei numeri citati | `report2/verifica_numeri_rapporto.py` |
 
 Alla consegna, `report2/congela_consegna.py` mette accanto al rapporto lo **stato che ha prodotto
 questi numeri**: i dati, i programmi che li calcolano, il commit del repository e un file di numeri
