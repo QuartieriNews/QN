@@ -1785,3 +1785,48 @@ ordini di grandezza («€3.280.000 000», «€200.000 000 a box»); un articol
 2» diventa «35,1».
 
 Avviato il secondo lotto RomaTV. Corpus parlato: 97 sedute YouTube lette, 248 RomaTV in coda.
+
+## 55. «La videoregistrazione sostituisce la trascrizione degli interventi» (16 settembre, 09:45)
+
+Primo lotto RomaTV rientrato, V3_001–V3_012: 12 sedute, 9 ore e 17 minuti, 52.298 parole, **30
+candidate di cui 16 `solo dal parlato`** (13 da sedute con verbale assente o di sola presenza, 3 da
+sedute con verbale pieno). Tutte e dodici sono trascrizioni a pagamento, quindi il confronto fra le
+due origini su questo lotto è degenere e va rifatto sul primo lotto con item della piattaforma.
+
+**Due verbali portano scritta la formula che chiude il cerchio dello studio: «la videoregistrazione
+sostituisce la trascrizione degli interventi».** Non è un'omissione, è una norma. L'ente dichiara
+per iscritto che il record di ciò che si è detto **è il video**, non l'atto. Tutto quello che questo
+rapporto ha misurato — verbali di sola presenza, istruttorie che vivono solo nelle registrazioni,
+mozioni respinte senza traccia — discende da lì, ed è la frase che il Report 2 deve citare per
+prima.
+
+**Un difetto del mio programma, trovato da un lettore.** `collega_video_atti.py` dava zero verbali
+compatibili per le sedute delle Commissioni Capitoline. Il motivo: cercavo il Municipio nel nome del
+territorio, e gli organi centrali non ne hanno — i loro atti stanno nel corpus sotto il prefisso
+`CEN_` con `municipio = non indicato`. Il lettore ha trovato a mano tre verbali (`CEN_CPV_*`) che il
+mio programma dichiarava inesistenti. Corretto: le registrazioni con **un solo verbale compatibile**
+passano da 63 a **76**, quelle senza alcun verbale scendono da 73 a 53. Chi legge i prossimi lotti
+ha l'avvertenza nel prompt.
+
+**Una segnalazione che ho verificato e ridimensionato.** Il lettore riferisce che la trascrizione a
+pagamento «ripete blocchi interi ai bordi dei pezzi», citando ~200 parole duplicate in una
+registrazione. Ho cercato: su **1.540 giunzioni fra pezzi**, zero ripetizioni identiche di almeno 8
+parole; con un confronto tollerante, **42 giunzioni (2,7%) con un blocco simile, la più lunga di 25
+parole**. Nella registrazione citata non c'è nessuna ripetizione. Il fenomeno esiste ma è un
+ventesimo di quanto riferito: lo dichiaro come 2,7% e avverto i lettori, invece di propagare il
+numero grande.
+
+**Il difetto opposto delle due origini, questo sì confermato.** Dove non si parla, la trascrizione a
+pagamento lascia il pezzo **letteralmente vuoto**; la piattaforma YouTube **inventa parole** («Prova
+Bra», «Och», «Ja»). Il primo errore si vede, il secondo no: una trascrizione che riempie i silenzi è
+più pericolosa di una che li lascia.
+
+**E le sedute.** Un'audizione chiesta a ottobre e ottenuta a giugno, con l'ospite rintracciato
+tramite un social; venti minuti bruciati perché il link è andato alla commissione sbagliata e senza
+modulo privacy la seduta non è pubblicabile; una presidenza che non riesce ad aprire la posta dove
+sta il regolamento da leggere; un atto che scopre in aula di non avere il Sindaco fra i destinatari;
+verbali del novembre 2024 e del luglio 2025 approvati a giugno 2026.
+
+**Una cifra che non è colpa della trascrizione.** In una seduta si dicono «566» e poi «556»
+domande — e **il verbale riporta entrambe le cifre**. Non è l'ASR che sbaglia: è la fonte che non
+sa quante siano.

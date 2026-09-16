@@ -21,8 +21,15 @@ def par2(u):
     return m.group(1).rstrip('=') if m else ''
 
 def municipio(t):
-    m = re.search(r'Municipio\s+([IVX]+)', t or '')
-    return m.group(1) if m else ''
+    """Il territorio di una registrazione. Gli organi centrali non hanno un Municipio: i loro
+    atti stanno nel corpus con fonte CEN e municipio 'non indicato', e cercarli per Municipio
+    non trovava nulla. Un lettore se n'e' accorto trovando a mano tre verbali CEN_CPV_* che
+    questo programma dava per inesistenti."""
+    t = t or ''
+    m = re.search(r'Municipio\s+([IVX]+)', t)
+    if m: return m.group(1)
+    if 'Capitolin' in t: return 'non indicato'
+    return ''
 
 def compatibili(mun, data, tipi):
     out = []
