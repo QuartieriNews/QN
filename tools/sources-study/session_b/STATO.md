@@ -3344,7 +3344,7 @@ che vanno allineati prima della consegna; la cardinalità di `gemello_id`, che a
 mentre le coppie stanno già in `coppie_parlato_scritto.csv`; e la tabella degli accostamenti che il
 C5 vorrebbe dentro le cinque tabelle.
 
-## 85. La registrazione che il CDN non serve per intero (2026-09-16 11:09Z)
+## 85. La registrazione che il CDN non serve per intero (2026-09-16 11:06Z)
 
 Gli scaricamenti sono finiti (pozza libera), il driver ASR era morto su un errore dell'API («Audio
 file might be corrupted or unsupported») e l'ho riavviato con il codice corretto: restano 12 item su
