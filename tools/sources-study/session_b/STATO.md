@@ -3940,3 +3940,27 @@ Ha applicato il nono emendamento comparso mentre leggeva, e l'ha dichiarato — 
 specifica che dice che non si modifica durante una lettura. Ha ragione. Da qui alla consegna **non
 tocco più la specifica**: le osservazioni dei lettori vanno nel rapporto e nella nota per chi rifarà
 lo studio, non in un decimo emendamento.
+
+## 102. Rilettura del rapporto dall'inizio, e un tranello che avevo scritto io (2026-09-16 12:16Z)
+
+Riletto il rapporto per intero invece di correggere i numeri uno a uno. Sette punti erano rimasti
+indietro rispetto a quello che il rapporto dice adesso:
+
+- il titolo del §2 prometteva **«tre numeri»** e la sezione ora dà una risposta sola con una banda;
+- «largo quarantasei punti» — sono **quarantasette**;
+- «per settimane ho creduto che la risposta stesse in basso»: **non sono settimane**, è di oggi, e
+  scriverlo così si dava una patina di lunga riflessione a un errore di poche ore;
+- «Finché le due misure non sono chiuse» — **una è chiusa**, ed è quella che ha cambiato la risposta;
+- «480 candidate su 964» erano i numeri di due ore fa: **510 su 1.081**;
+- il «25%» del divario di qualità era un residuo di due versioni fa: è **18,8%**;
+- «tutti e sei i gemelli veri» valeva per il primo audit, non per i quindici dei due.
+
+**E un tranello che avevo appena descritto e in cui sono quasi caduto.** Il programma di verifica dei
+numeri segnala che la quota di qualità alta delle confermate è ora 53,5% e quella delle nuove 18,8%.
+Ma **18,8% è anche la proporzione di gemelli veri fra le candidate incerte**, misurata dai due audit:
+due grandezze diverse che oggi coincidono. Se avessi cercato «18,8%» nel testo per controllare se era
+aggiornato, l'avrei trovato — nel posto sbagliato. È esattamente *il numero stantio che sembra ancora
+giusto* di §94, e stavolta la coincidenza era fra due numeri entrambi veri.
+
+Da qui una regola per la consegna: il programma di verifica dice se un numero **compare**, non se
+compare **al posto giusto**. Quella parte resta a chi legge.

@@ -1,7 +1,6 @@
 # Ricostruzione di giugno 2026 — Report 2: gli atti e le registrazioni
 
-Bozza in lavorazione. I materiali sono letti per intero sul lato atti e per circa metà sul lato
-registrazioni; **i conteggi qui dentro sono quelli al 16 settembre e vanno rigenerati prima della
+Bozza in lavorazione. Gli atti sono letti per intero, le registrazioni per poco più di metà; **i conteggi qui dentro sono quelli al 16 settembre e vanno rigenerati prima della
 consegna** con `report1/build_db.py`, `report2/novita_meccanica.py` e `report2/audit_toponimi.py`.
 I meccanismi descritti nei §3 e §4 ricorrono in tutti i lotti letti finora; quanto siano stabili
 è però un'impressione di lettura e non una misura, e come tale va presa.
@@ -37,7 +36,7 @@ testuali e ne aveva ricavato 1.227 notizie candidate.
   l'amministrazione che lo scrive. È il fatto da cui parte questo rapporto, non la causa di tutto
   ciò che segue.
 
-## 2. La risposta, e perché sono tre numeri
+## 2. La risposta, e perché ci è voluto un audit per averla
 
 Il campo che i lettori compilano riga per riga (`novita_rispetto_agli_atti`) è un giudizio, e nel
 corso dello studio è stato definito **tre volte in modo diverso** — due delle quali per errori miei,
@@ -53,8 +52,8 @@ Tre esiti:
 | **U** — nessun duplicato, ma almeno un accostamento dubbio | 510 |
 | **D** — almeno un duplicato certo | 84 |
 
-Da cui l'intervallo grezzo **[45,1% , 92,2%]**. Largo quarantasei punti, e per settimane ho creduto
-che la risposta stesse in basso.
+Da cui l'intervallo grezzo **[45,1% , 92,2%]**: largo quarantasette punti, cioè una risposta che
+non risponde. E fino all'audit davamo per buono che il valore vero stesse in basso.
 
 **Sta in alto, e lo si sa solo dopo averlo misurato — due volte.** Due lettori, indipendentemente,
 hanno giudicato a mano quaranta candidate ciascuno della classe incerta, aprendo il testo integrale
@@ -68,10 +67,10 @@ I due giri hanno anche prodotto, per un difetto del generatore, venti coppie giu
 **accordo 19 su 20**. L'unica divergenza è il caso limite per cui il criterio di giudizio era stato
 riscritto.
 
-Con una scoperta che vale quanto il numero: **tutti e sei i gemelli veri sono la registrazione
-scritta della stessa seduta** — cinque verbali e una deliberazione. Nessuno è una fonte indipendente.
-La classe incerta non nascondeva notizie già pubblicate altrove: nascondeva, in un caso su sei o
-sette, il verbale della riunione stessa.
+Con una scoperta che vale quanto il numero: nel primo giro **tutti e sei i gemelli veri erano la
+registrazione scritta della stessa seduta** — cinque verbali e una deliberazione —, nessuno una fonte
+indipendente. La classe incerta non nascondeva notizie già pubblicate altrove: nascondeva, in un caso
+su cinque o sei, il verbale della riunione stessa.
 
 Da cui la scala:
 
@@ -89,15 +88,17 @@ righe che vengono da fonti scritte**, cioè i 1.983 atti con repertorio 8–28 g
 già estratte dalle fonti testuali del Report 1. Il nome del campo (`novita_rispetto_agli_atti`) dice
 meno di quello che il numero misura, ed è un difetto di nome che va tenuto presente: una candidata
 del parlato è «nuova» quando non ha gemelli **né negli atti né nel già raccolto**. Gli atti sono
-quelli con data di repertorio fra l'8 e il 28 giugno, che è il perimetro dello studio. Gli altri 685 atti di giugno che abbiamo in
-archivio sono dell'1–7 e del 29–30: fuori finestra per costruzione, non dimenticati.
+quelli con data di repertorio fra l'8 e il 28 giugno, che è il perimetro dello studio. Gli altri 685
+atti di giugno che abbiamo in archivio sono dell'1–7 e del 29–30: fuori finestra per costruzione,
+non dimenticati.
 
 C'è però un punto in cui il perimetro, definito sulla data di repertorio, **non coincide con il
-perimetro dei fatti**, e lo abbiamo chiuso leggendo 161 atti in più. Per i verbali la data di repertorio è la data della seduta, e allora il
-verbale di una seduta dell'8–28 giugno sta sempre dentro. Per le **convocazioni** la data di
+perimetro dei fatti**, e lo abbiamo chiuso leggendo 161 atti in più. Per i verbali la data di
+repertorio è la data della seduta, e allora il verbale di una seduta dell'8–28 giugno sta sempre
+dentro. Per le **convocazioni** la data di
 repertorio è quella del protocollo, che precede la seduta: la convocazione di una seduta dei primi
 giorni della finestra, protocollata prima dell'8, **resta fuori**. È una conseguenza necessaria
-della definizione, la stiamo chiudendo leggendo quelle convocazioni, e tocca il collegamento fra
+della definizione; l'abbiamo chiusa leggendo quelle convocazioni, e tocca il collegamento fra
 registrazione e atto, non il gemello scritto di una notizia.
 
 Resta un limite che non si chiude e va dichiarato: **il verbale di una seduta di fine giugno
@@ -117,11 +118,11 @@ Una scelta va dichiarata: il metodo confronta dentro i blocchi tematici, noi con
 il corpus. È una deviazione, e **abbassa** la novità di due punti (47,1% dentro i blocchi contro
 45,1% su tutto). Diciamo entrambe le cifre invece di scegliere quella che ci comoda.
 
-La larghezza non è un'incertezza da nascondere: **è il risultato**. Ma va detto dove sta il suo
-peso: l'intervallo è largo perché **480 candidate su 964 — metà del corpus parlato — sono
-«dubbie»**, accostate a una riga scritta per data e luogo ma non per oggetto, e contate come nuove
-in alto e come già scritte in basso. Da che parte stiano davvero decide se la risposta è vicina al
-48% o al 97%, ed è la misura che stiamo facendo adesso.
+**Perché l'intervallo grezzo è così largo.** Perché **510 candidate su 1.081 — quasi metà del
+corpus parlato — sono «dubbie»**: accostate a una riga scritta per data e luogo ma non per oggetto, e
+quindi contate come nuove nel limite alto e come già scritte in quello basso. Da che parte stessero
+davvero decideva se la risposta fosse vicina al 45% o al 92%, e la larghezza non era un'incertezza da
+nascondere: era il fatto che nessuno le avesse guardate. È quello che i due audit hanno fatto.
 
 **Una cosa che i due audit hanno trovato e che cambia come si legge la classe incerta.** Dei quaranta
 accostamenti giudicati «fatti diversi», **diciassette nascono da verbali della stessa seduta che
@@ -129,14 +130,16 @@ registrano solo le presenze e rimandano alla registrazione**. Cioè: **il verbal
 non è di per sé una fonte scritta del fatto**, e contarlo come tale era il modo più frequente in cui
 il confronto meccanico dichiarava «già scritto» qualcosa che scritto non era.
 
-**Le due incertezze aperte tirano in direzioni opposte, e questo è il risultato onesto da
-consegnare.** Il confronto fra righe non vede i fatti sepolti dentro atti che ne raccontano altri, e
-questo **abbassa** il limite inferiore, fino a un tetto del 36,8%. Le 480 candidate «dubbie»
-potrebbero essere in larga parte falsi accostamenti, e questo **alza** il limite superiore fino a
-renderlo la risposta. Finché le due misure non sono chiuse, il rapporto risponde con un intervallo e
-con il nome dei due meccanismi che lo tengono largo — non con un numero. Dice che la risposta dipende da
-quanto ci si fida di una trascrizione automatica, e che un terzo delle notizie «certamente nuove»
-poggia su un toponimo che il lettore stesso ha segnalato come dubbio.
+**Delle due incertezze che tenevano largo l'intervallo, una è stata chiusa e l'altra no, e tirano in
+direzioni opposte.** Chiusa: le candidate «dubbie» sono in larga parte falsi accostamenti — l'81% —,
+e questo porta la risposta vicino al limite alto. Aperta: il confronto fra righe **non vede** i fatti
+sepolti dentro atti che ne raccontano altri, e questo tira in basso, fino a un tetto del 36,8% di
+candidate date per nuove che nel testo di un atto vicino compaiono comunque. L'83,9% va quindi letto
+come la risposta migliore che sappiamo dare **con la seconda incertezza ancora aperta e dichiarata**.
+
+E resta vero che **il 31% delle notizie «certamente nuove» poggia su un toponimo che il lettore
+stesso ha segnalato come dubbio**: la risposta dipende anche da quanto ci si fida di una trascrizione
+automatica.
 
 **Che cosa misura questo numero, detto una volta per tutte.** Misura la novità **territoriale**: un
 fatto su un luogo nominato che non sta scritto. Non misura la novità politico-istituzionale — il
@@ -145,7 +148,7 @@ notiziabilità esclude per costruzione. Quella parte sta nel §4 e non è meno i
 
 **E una notizia nuova è meno verificabile di una confermata.** Il confronto va fatto **dentro il
 parlato**, con gli stessi lettori e le stesse trascrizioni: fra le candidate che gli atti confermano
-il **53,3%** è di qualità alta, fra quelle nuove il **19,0%**. Trentaquattro punti.
+il **53,5%** è di qualità alta, fra quelle nuove il **18,8%**. Quasi trentacinque punti.
 
 **Ma gran parte di quel divario la produciamo noi, ed è stato misurato.** La nostra scala assegna
 `alta` solo a un fatto *datato*; il parlato d'aula dice «l'anno scorso», «da vent'anni», «tre
@@ -159,10 +162,10 @@ Il motivo è che a datare un fatto, in aula, è quasi sempre **l'atto che qualcu
 lettore dichiara di aver preso le date dal verbale, non dall'audio. Il requisito «datato» funziona
 quindi come **un test sull'esistenza dell'atto travestito da test sul fatto**.
 
-Resta un divario vero sotto quello artificiale, e va detto: delle dodici candidate che mancano l'alta
-per altri motivi, dieci la mancano perché il fatto è **annunciato e non compiuto**, o il toponimo è
-storpiato. **Il parlato d'aula annuncia più di quanto certifichi** — ma molto meno di quanto il
-19,0% lasciasse credere.
+Resta un divario vero sotto quello artificiale, e va detto: delle altre candidate che non arrivano
+ad alta, la maggior parte manca perché il fatto è **annunciato e non compiuto**, o perché il toponimo
+è storpiato. **Il parlato d'aula annuncia più di quanto certifichi** — ma molto meno di quanto il
+18,8% lasciasse credere.
 
 Il perché è un effetto di selezione, e non riguarda la qualità del parlato. Un fatto compiuto,
 datato e localizzato **tende per costruzione a generare un atto**; e appena lo genera esce dalla
@@ -175,16 +178,17 @@ ma sta fuori dal perimetro del corpus** — un verbale di maggio, i questionari 
 messaggio dell'azienda sanitaria. Lì il fatto ha tutte e tre le coordinate e resta comunque fuori
 dagli atti, non perché sia debole ma perché il corpus finisce dove finisce giugno.
 
-L'esempio più netto — uno solo, quindi illustrativo e non probante — è una frase di una
-commissione del Municipio V, dove lo stesso lettore, leggendo
-lo stesso elenco ad alta voce, ha prodotto due righe di esito opposto: la risoluzione su viale
+L'esempio più netto — uno solo, quindi illustrativo e non probante — è una frase di una commissione
+del Municipio V, dove lo stesso lettore, leggendo lo stesso elenco ad alta voce, ha prodotto due
+righe di esito opposto: la risoluzione su viale
 Palmiro Togliatti è «anche negli atti», perché l'atto è di giugno; gli stalli di via Antonio
 Tempesta sono «non verificabile», perché il verbale che li contiene è di maggio. **Cambia solo il
 confine del corpus.**
 
-Se il meccanismo è giusto, quel 25% non misura la debolezza del parlato ma **dove passa il confine
+Se il meccanismo è giusto, quel 18,8% non misura la debolezza del parlato ma **dove passa il confine
 di ciò che abbiamo raccolto**. È un'ipotesi coerente con i casi letti, non una conclusione
-dimostrata: per dimostrarla servirebbe scomporre il 25% nelle sue cause, e non l'abbiamo fatto.
+dimostrata: per dimostrarla servirebbe scomporre il divario nelle sue cause, e ne abbiamo scomposta
+una sola — la data, che ne spiega quasi metà.
 
 ## 3. Che cosa gli atti registrano, e che cosa no
 
