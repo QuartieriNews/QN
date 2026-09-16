@@ -2959,7 +2959,7 @@ regolarità: è una domanda aperta.
 - E `assente` **significa assente dal corpus, non mai scritto**: un verbale di questo lotto risulta
   approvato altrove come «n. 52 del 15.06.2026».
 
-## 78. Ho quasi lanciato un secondo driver ASR sopra il primo (2026-09-16 10:30Z)
+## 78. Ho quasi lanciato un secondo driver ASR sopra il primo (2026-09-16 10:27Z)
 
 Controllo di routine del driver di trascrizione. Ho scritto `pgrep -c '[r]tv_asr_driver.py'` e ho
 letto **0**: driver morto, 303 item su 318, si riavvia. L'ho riavviato.
