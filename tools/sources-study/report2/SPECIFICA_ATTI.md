@@ -121,3 +121,20 @@ Angela» restano `no`; «polo scolastico ex Residence» è `sì` perché nomina 
 
 `qualita` non supera mai `media`, perché una convocazione annuncia; scende a `bassa` dove la data
 o l'ordine del giorno non sono leggibili.
+
+
+## Emendamento del 16 settembre, secondo
+
+**Le particelle catastali non si riportano.** `foglio 423, particella 178` identifica un fondo e
+quindi il suo proprietario, esattamente come un numero civico identifica un'abitazione. Il fatto
+amministrativo si scrive per intero; in `luoghi` va `non verificato` se non c'è altro. La regola
+nasce da un lettore che l'ha applicata prima che fosse scritta, ragionando per analogia dal civico.
+
+**Il criterio di notiziabilità delle convocazioni vale anche per le `CMC` e le `CPC`**, cioè per le
+convocazioni di Consiglio municipale e di commissione capitolina. Hanno la stessa forma delle `MMC`
+e avere due metri per lo stesso oggetto è peggio di qualunque soglia.
+
+**`ocr_incerto` copre anche il testo nativo reso illeggibile dall'estrazione** — colonne
+interlacciate, frasi rimontate fuori ordine — e non solo gli errori di riconoscimento. Il campo
+misura quanto testo è inaffidabile, non quante volte l'abbiamo passato per Tesseract: dove il testo
+non si può leggere nell'ordine in cui è scritto, vale `sì` e il difetto si descrive nella riga.

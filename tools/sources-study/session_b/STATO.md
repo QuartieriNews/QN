@@ -2575,3 +2575,64 @@ scrivo prima di vederlo, così è una previsione e non una razionalizzazione.
 quota di novità **[55,2% , 98,6%]**, e **37,5%** scartando le righe che poggiano su un toponimo
 dichiarato incerto (31,9% delle S). La scala dei tre numeri diventa **37,5 / 55,2 / 98,6**, da
 rifare ancora alla consegna.
+
+## 72. X03 e X04: la mia stima del buco era generosa del doppio (2026-09-16 09:24Z)
+
+Avevo scritto nel mandato dei due lotti che le convocazioni repertoriate 1–7 giugno sono «quasi
+tutte per sedute dentro l'8–28», con scarto 3–11 giorni. **Tutti e due i lettori hanno misurato e
+mi hanno smentito**, ciascuno per conto suo.
+
+| | X03 | X04 | insieme |
+|---|---|---|---|
+| convocano una seduta **dentro** l'8–28 | 12 | 13 | **25 su 64 (39%)** |
+| convocano una seduta **prima** dell'8 | 15 | 18 | 33 |
+| data di seduta illeggibile | 5 | 1 | 6 |
+
+Lo scarto protocollo→seduta ha **mediana 3 giorni**, non 3–11. La mia stima nasceva dai 33 atti dei
+lotti X01/X02, che però venivano da un elenco **già filtrato** su chi portava una data dell'8–28 nel
+testo: ho estrapolato da un campione selezionato e non me ne sono accorto.
+
+Controprova aritmetica sulle 127 convocazioni, senza leggerle: sono repertoriate 29 il 1°, 42 il 3,
+28 il 4, 28 il 5. Con scarto 3 ne cadrebbero dentro 28; con scarto 4, 56. Il 39% misurato ci sta in
+mezzo. **Il buco vero è di circa cinquanta convocazioni, non di centoventisette.**
+
+**Due risultati dei lettori che valgono per il rapporto.**
+
+1. **Lo scarto massimo è 14 giorni** (protocollo 1° giugno, seduta 15), e **non è uniforme fra
+   Municipi**: il V protocolla e convoca a uno-due giorni di distanza, il XII protocolla in blocco a
+   inizio mese sedute anche di due settimane dopo. Quindi **allargare la finestra di repertorio non
+   è una soluzione**: qualunque ampiezza si scelga tratta i Municipi in modo diseguale. La soluzione
+   è quella che ho messo in `build_db.py`, cioè leggere la data della seduta.
+2. Delle 10 notizie candidate di X04, **solo 2 cadono dentro l'8–28**. Il valore del lotto sta in
+   sedute appena fuori finestra: correggere il perimetro le recupera solo in parte.
+
+**Difetti della fonte, nuovi e ripetuti.** I **moduli prestampati compilati a mano del Municipio
+VIII**: Tesseract non legge la grafia proprio dove stanno data, ora e ordine del giorno — cioè il
+campo che il lotto doveva misurare (`08-96 n Lo ZG alle ore v4 : 30`), e un atto è illeggibile per
+intero. Il **Municipio XII** conferma il difetto di X02: `Municipio Roma Xli` per XII in tutti i
+suoi atti, testo nativo corrotto all'origine. Un atto nativo del VII esce dall'estrazione con **due
+colonne interlacciate**, frasi rimontate fuori ordine. E cinque atti del Municipio V **convocano in
+modalità online su Teams una seduta il cui ordine del giorno è un sopralluogo in strada**: da nessun
+atto si può dedurre che il sopralluogo si sia svolto.
+
+**Tre scelte dei lettori che vanno decise, non archiviate.**
+1. **I civici dei beni pubblici**: X04 li ha tenuti (sedi, parco, uffici anagrafici) perché non
+   identificano nessuno; X03 li ha omessi tutti per prudenza; B28 li omette. **La pratica non è
+   uniforme**, e i lettori lo dichiarano entrambi. È la D5 aperta: finché l'owner non decide,
+   i lotti divergono. Ho messo nel mandato di X05 la linea D5 (civici pubblici sì, civici di
+   persone no) per non allargare la divergenza.
+2. **Le particelle catastali**: X04 ha omesso `foglio 423, particella 178` ragionando che una
+   particella identifica un fondo e quindi il proprietario, come un civico identifica
+   un'abitazione. La specifica non le elencava. **Ha ragione**, e l'ho aggiunta al mandato.
+3. **L'emendamento sulle convocazioni non copre le `CMC` di Consiglio**: X03 l'ha esteso per
+   analogia, 6 righe su 7 ne dipendono. Va scritto nella specifica o quelle righe vanno riviste.
+
+**Un rilievo sul quale il lettore ha applicato la lettera e ha ragione a segnalarlo**: un atto
+nativo con le colonne interlacciate non ha errori di *riconoscimento*, quindi `ocr_incerto = no`
+per la lettera della regola; ma se quel campo misura «quanto testo è inaffidabile», quel testo lo è.
+Da sistemare nella specifica prima della consegna: o la regola cambia nome, o cambia definizione.
+
+**Quinta e sesta smentita della giornata**, e stavolta la mia non era una misura ma una **stima
+messa in un mandato**, dove pesa di più: due lettori hanno lavorato con in testa un'aspettativa
+sbagliata. Entrambi l'hanno misurata invece di confermarla. Nel mandato di X05 ho scritto la stima
+corretta **e** l'istruzione di misurarla comunque.
