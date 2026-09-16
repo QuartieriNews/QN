@@ -1452,3 +1452,61 @@ quando un controllo e un dato non concordano, il primo sospettato è il controll
 
 Database con 48 registrazioni dentro: **3.016 documenti, 2.025 candidate, 340 vicende**; delle 254
 candidate dal parlato, **144 non hanno alcun riscontro nel confronto meccanico**.
+
+## 48. Quattro lotti, quattro risposte diverse alla stessa domanda (16 settembre, 08:20)
+
+Rientrato V4_037–V4_048: 12 sedute, 13 ore e 58 minuti, 75.815 parole, **63 candidate di cui 25
+`solo dal parlato` (40%)**, forbice 53–78.
+
+**Quel 40% contro il 72% del lotto precedente non è una differenza di territorio: è una differenza
+di lettura, e il lettore l'ha isolata lui stesso.** Il caso in discussione è preciso: *esiste il
+verbale della stessa seduta, ma il luogo di cui si parla non è fra quelli che l'atto elenca*. Questo
+lettore ha scelto `non verificabile` — «non rivendico una novità che senza rete non posso
+dimostrare» — e sono **undici notizie**; con la lettura opposta il `solo dal parlato` salirebbe da
+25 a 31 su 63.
+
+Messi in fila i quattro lotti: **87,5% — 67,7% — 72% — 40%**. I primi due con riscontro debole, gli
+ultimi due con quello vero; e fra gli ultimi due la differenza è tutta in questa scelta. Ne seguono
+due cose per il rapporto:
+
+1. **Il numero dichiarato dai lettori non è una misura stabile.** Va dato come intervallo e va detto
+   da che cosa dipende.
+2. **La misura stabile è quella meccanica**: quante candidate dal parlato non hanno alcun gemello
+   per data e luogo in tutto il corpus. Non dipende dal giudizio di chi legge, e oggi dice
+   **144 su 254**.
+
+Al lotto successivo ho dato la regola esplicita — se il verbale esiste ed elenca i suoi oggetti e
+il luogo non c'è, è `solo dal parlato`, perché *l'atto ha avuto l'occasione di dirlo e non l'ha
+detto* — chiedendo di **contare a parte** quante notizie ci cadono. Così la differenza fra i lotti
+resta misurabile invece di sparire in una media.
+
+**Il censimento trova meno di metà dei verbali che esistono.** Il lettore ha notato tre
+registrazioni con `verbale_match` vuoto nel manifest il cui verbale però sta negli atti. Misurato:
+per **34 registrazioni esiste un solo verbale possibile** (stesso Municipio, stessa data, nessuna
+ambiguità), e il manifest **non ne dichiara 26**. Tre su quattro dei casi facili, mancati. Per altre
+55 registrazioni ci sono più verbali lo stesso giorno e l'abbinamento non è decidibile così; per 8
+non c'è alcun verbale. Il collegamento automatico fra registrazione e atto, quindi, **sbaglia
+quando abbina (4 casi su 78, §45) e soprattutto non abbina quando potrebbe**.
+
+**La prova più netta del lotto.** Per una seduta il verbale è registrato «di sola presenza, senza
+sintesi degli interventi»: le sei notizie che ne escono — 483 domande per 652 posti nelle scuole
+dell'infanzia, 505 domande per 348 posti nei nidi con 136 bambini in lista d'attesa, una scuola
+dell'infanzia che scende da due sezioni a una, un nido chiuso circa 200 giorni, sette nidi ridotti o
+sfollati, due strutture restituite a fine settembre — sono **tutte solo nella registrazione**. E
+quaranta minuti di discussione unanime contro una proposta capitolina stanno in un verbale «senza
+contenuto verbalizzato».
+
+**Una data che non torna, verificata.** In aula si dice «commissione trasparenza del 13 luglio
+2026», il manifest dice 13 giugno; tutti i riferimenti interni («venerdì 24», «fino al 7 che è il
+venerdì», «buon inizio settimana») concordano con luglio. Ho controllato il calendario: **il 13
+giugno 2026 è un sabato, il 13 luglio un lunedì**. Il lettore ha lasciato il valore del manifest e
+segnalato la discordanza, che è la regola giusta; ma il dato del censimento qui è quasi certamente
+sbagliato.
+
+**E il resto delle sedute.** Un consiglio municipale che **decade** perché un gruppo resta in aula
+ma fuori dal numero legale, e la mozione passa alla seduta successiva «senza discussione»;
+presenze registrate in chat senza voce; un'interrogazione discussa dopo cinque settimane invece che
+entro quindici giorni; tre verbali approvati dichiarando che non c'erano modifiche e poi approvati
+«con le modifiche» di cui il presidente aveva appena detto di non avere contezza; tre debiti fuori
+bilancio approvati senza un solo intervento, con il sistema di voto che si guasta e una votazione
+annullata.
