@@ -168,3 +168,24 @@ numero legale che salta, la seduta che decade, l'ufficio che non si presenta —
 per costruzione. Quella parte resta fuori dalle candidate **di proposito** e va nella relazione,
 nella sezione sui difetti visibili solo ascoltando: è materiale del rapporto, non di questa colonna.
 Il rapporto deve dirlo esplicitamente, altrimenti il numero sembra più generale di quello che è.
+
+## Emendamento del 16 settembre (quarto): due errori miei nel terzo emendamento
+
+Un lettore ha trovato che il terzo emendamento si contraddice, e ha ragione. Correzioni:
+
+1. **`fuori perimetro` non è un valore di `novita_rispetto_agli_atti`**, è una **qualificazione di
+   `non verificabile`**. Il punto 2 del terzo emendamento lo faceva sembrare un quarto valore: era
+   scritto male. I tre valori restano `anche negli atti`, `solo dal parlato`, `non verificabile`, e
+   quest'ultimo porta sempre uno fra `esterno`, `generico`, `fuori perimetro`.
+2. **Il campo `nota` va aggiunto allo schema della candidata**, perché gli emendamenti lo rendono
+   obbligatorio (ci vanno la qualificazione di `non verificabile`, la parola `contraddice`, lo stato
+   del verbale) e lo schema non lo prevedeva. È una stringa libera, al massimo trenta parole.
+
+**Un'insidia sui nomi degli atti centrali.** Nei `name` che cominciano per `CEN_` il segmento che
+sembra un Municipio è **un segnaposto, non il territorio**: `CEN_CPV_X_...` può riguardare un luogo
+del Municipio XI. Non dedurre mai il territorio dal nome dell'atto: leggilo dall'oggetto.
+
+**Una misura che non va scritta.** `parole_al_minuto` calcolato sul `parole` del manifest, su una
+registrazione in cui metà del testo è duplicato dal modello, non misura niente. Dove
+`quota_ripetuta` supera il 10%, scrivi il valore nella nota della qualità della trascrizione e
+dichiara che il dato di volume non è utilizzabile.

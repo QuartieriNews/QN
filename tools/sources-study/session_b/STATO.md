@@ -1925,3 +1925,46 @@ programma lo rilegge da lì incrociando item e titolo. È fragile — se un tito
 salta — e lo dichiaro invece di farlo passare per esatto.
 
 Ledger: trascrizione a **219 registrazioni, 154,9 ore, 22,49 €**; disponibili **54,93 €**.
+
+## 59. Un minuto di registrazione su mezz'ora di seduta, e altri due errori miei (16 settembre, 10:30)
+
+Rientrato V3_037–V3_048: 12 sedute, 13,1 ore, **54 candidate, 35 `solo dal parlato`**, di cui
+**7 da sedute con verbale pieno**. Forbice 20–66.
+
+**Due errori miei, trovati dal lettore.** Il terzo emendamento si contraddiceva: il punto 2 diceva
+che un fatto in un atto di un altro mese è `fuori perimetro`, il punto 3 elencava `fuori perimetro`
+fra le qualificazioni di `non verificabile`. Non è un quarto valore, è una qualificazione, e l'avevo
+scritto in modo da far credere il contrario. Secondo errore: gli emendamenti rendono obbligatorio un
+campo `nota` che **lo schema non prevedeva**; il lettore l'ha aggiunto da sé su otto candidate.
+Entrambi corretti nel quarto emendamento. È la seconda volta che un lettore trova una
+contraddizione nelle mie regole applicandole invece di aggirarle, ed è il motivo per cui la
+specifica chiede di dichiarare le regole dubbie invece di correggerle.
+
+**Un'insidia che avrei potuto propagare.** Nei nomi degli atti centrali (`CEN_...`) il segmento che
+sembra un Municipio **è un segnaposto**: `CEN_CPV_X_...` può riguardare il Municipio XI. Chi
+deducesse il territorio dal nome dell'atto sbaglierebbe sistematicamente. Ora è scritto nella
+specifica.
+
+**Il caso che batte tutti i precedenti.** Una seduta ha **un solo minuto di registrazione**, dalle
+09:08 alle 09:09: l'audio si interrompe alla sospensione e tutta la parte deliberativa — otto
+verbali arretrati e un progetto di depavimentazione dei cortili scolastici — **non esiste
+nell'audio**, almeno una trentina di minuti. Finora avevamo verbali vuoti con la registrazione a
+supplire; qui mancano tutti e due.
+
+**La duplicazione del modello, vista da vicino.** In una registrazione una frase è ripetuta **circa
+cento volte di fila** e il 54% dei token sta dentro blocchi duplicati: il conteggio delle parole e
+le 55 parole al minuto **non misurano più niente**. Ho messo nella specifica la regola: sopra il 10%
+di `quota_ripetuta` il dato di volume non si riporta, si dichiara.
+
+**La misura dei silenzi, fatta bene una volta.** Sull'unica registrazione a grana 10 secondi del
+lotto il lettore ha potuto misurare davvero: **76,8 minuti di silenzio su 288**, in quattro tratti
+di 29, 30, 8 e 9 minuti — e **tutti e quattro coincidono al minuto con le sospensioni verbalizzate**.
+La registrazione non è tagliata: il silenzio è la seduta sospesa. È il contrario di quello che si
+potrebbe concludere dai vuoti delle trascrizioni a pagamento, dove non si sa.
+
+**E due sedute che gli atti raccontano diversamente da come sono andate.** Una fallisce per ragioni
+acustiche — richieste di ripetere, un consigliere che esce perché non sente, la presidenza che
+rinuncia e chiude — e **il verbale descrive un sopralluogo regolare, senza farne parola**. In
+un'altra il parere sulla delibera è messo ai voti **prima** che l'assessore risponda; una consigliera
+obietta che «le risposte sono funzionali al parere» e il presidente procede lo stesso. Nessun atto
+registra la sequenza.
