@@ -4090,18 +4090,37 @@ le collisioni ne creava un'altra, un piano più sotto.
   non sugli identificativi. Ricostruito il database col fix, i conteggi per riga e il file delle
   coppie coincidono esattamente (0 discordanze) e nessun riferimento è rotto.
 
-**Dove invece si sente: negli audit.** Il campione mostra la riga parlata (giusta) e poi i suoi
-accostamenti, presi dal file delle coppie (sbagliati per le righe della zona divergente). Toccate
-**39 candidate su 86** della sezione A e **37 su 80** della sezione C. Un lettore l'aveva scritto
-senza saperne la causa: «*accostamento NON mostrato dal campione: ricostruito*».
+**Dove invece si sente: negli audit — ma non come avevo scritto un'ora fa.** La prima versione di
+questa sezione diceva che il campione mostrava *gli accostamenti di un'altra riga*. Sbagliato, e la
+verifica è semplice: nel campione congelato i casi toccati hanno «accoppiata a:» **seguito da
+niente**. La ricerca falliva e basta. Sono **15 casi su 77 della sezione A e 10 su 40 della sezione
+C**, cioè 25 su 117 del secondo audit; del primo il campione è stato sovrascritto e non si può
+contare allo stesso modo.
 
-**Quanto pesa sul numero principale.** Sulla sola parte non toccata la quota di gemelli veri fra le
-incerte è **20,9% (9 su 43)** contro il **18,8% (15 su 80)** pubblicato: circa **un punto** di
-risposta finale. Ma le due parti **non differiscono solo per il difetto**: la zona divergente è fatta
-delle righe lette più di recente, quindi è anche un corpus diverso — la stessa confusione del §7
-punto 10. Quindi il 20,9% **non è una correzione da applicare**: è la misura di quanto il problema
-può pesare. Il modo giusto di chiudere la questione è rifare il campione sul database corretto e far
-rigiudicare i casi toccati: un lotto di lettore, e c'è margine.
+I lettori se ne sono accorti e hanno ricostruito la coppia dai dati — uno l'ha scritto: «*accostamento
+NON mostrato dal campione: ricostruito*» — e infatti le coppie che hanno registrato tengono il
+criterio della data 205 volte su 207. Hanno fatto a mano il lavoro del programma.
+
+**Quanto pesa, misurato dentro il solo secondo audit** (stesso lettore, stesso giro, quindi nessuna
+confusione fra difetto e corpus):
+
+| | casi | stesso fatto |
+|---|---|---|
+| sezione A, accostamenti mostrati | 62 | 37 (60%) |
+| sezione A, mostrati vuoti | 15 | 13 (87%) |
+| sezione C, accostamenti mostrati | 30 | 9 (30%) |
+| sezione C, mostrati vuoti | 10 | **0 (0%)** |
+
+Lo zero della quarta riga è il punto: dove il campione non mostrava niente, nella classe incerta non
+è stato trovato nessun gemello. Se quei dieci casi si comportassero come i trenta mostrati, sarebbero
+circa tre gemelli in più: **22,5% invece di 18,8%**, cioè circa un punto e mezzo di risposta finale
+**in meno**. Non è una correzione da applicare — è la stima del rischio, e il modo di chiuderla è
+rigiudicare quei casi.
+
+**Il campione del rigiudizio è pronto.** `report2/ricampiona_toccati.py` rimette davanti a un lettore
+le **53 candidate** che il campione non poteva mostrare accoppiate (25 di sezione A, 28 di sezione C:
+i 25 vuoti del secondo audit, più quelle del primo la cui coppia registrata non esiste nel file
+corretto, che è il modo di riconoscere una ricostruzione). Parte al primo slot libero.
 
 **Il fix.** Il blocco del registro è stato spostato **prima** della deduplicazione, con la nota del
 perché. Da adesso ogni confronto scrive riferimenti già stabili.

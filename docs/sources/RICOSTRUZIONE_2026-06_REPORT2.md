@@ -543,13 +543,14 @@ fattura.
    coppie parlato-scritto, era quindi scritto con i numeri vecchi: **612 righe su 1.429** puntavano
    a un'altra riga. Non tocca i conteggi — le classi S, U e D si calcolano sugli oggetti, e
    ricostruito il database col programma corretto i conteggi per riga e il file delle coppie
-   coincidono esattamente — ma tocca **gli audit**, perché il campione mostrava, per una parte delle
-   candidate, gli accostamenti di un'altra riga. Riguarda 37 delle 80 candidate incerte giudicate.
-   Sulla sola parte non toccata i gemelli veri sono il **20,9%** invece del 18,8%, cioè circa un
-   punto di risposta finale; ma quella parte è anche un corpus diverso (sono le registrazioni lette
-   per ultime), quindi è **una misura di quanto il problema può pesare, non una correzione da
-   applicare**. Il modo di chiuderla è rifare il campione sul database corretto e far rigiudicare i
-   casi toccati.
+   coincidono esattamente — ma tocca **gli audit**: per una parte delle candidate il campione
+   elencava la riga e poi, sotto «accoppiata a:», **niente**. Nel campione congelato sono 25 casi su
+   117. I lettori se ne sono accorti e hanno ricostruito la coppia dai dati, ma il rischio si misura:
+   nella classe incerta, dove il campione mostrava gli accostamenti i gemelli veri sono 9 su 30, dove
+   non mostrava niente sono **0 su 10**. Se quei dieci si comportassero come gli altri, i gemelli veri
+   fra le incerte sarebbero il **22,5%** invece del 18,8% e la risposta scenderebbe di circa un punto
+   e mezzo. Non è una correzione da applicare: è la stima del rischio. Il modo di chiuderla è
+   rigiudicare quei casi sul campione rifatto, ed è in corso.
 
 ## 6-bis. Una seconda AI sulle candidate, e che cosa ha insegnato il primo tentativo
 
