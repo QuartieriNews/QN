@@ -120,6 +120,10 @@ for doc_id in sorted(letti):
             'titolo_anonimizzato': r['titolo_anonimizzato'], 'sintesi': r['sintesi'], 'tipo': r['tipo'],
             'luoghi': r.get('luoghi', ''), 'municipio': ';'.join(mun_fonte),
             'zona': zona, 'tier_localizzazione': tier,
+            # DEC-105: il quartiere d'uso comune e la sua zona urbanistica sono due cose
+            # distinte, e la deduzione si dichiara invece di sparire dentro il valore.
+            'quartiere': loc.get('quartiere', ''), 'quartiere_zu': loc.get('quartiere_zu', ''),
+            'territorio_dedotto': loc.get('territorio_dedotto', ''),
             'toponimo_da_verificare': 'sì' if topo_v else 'no',
             'evidenza_url': r['evidenza_url'], 'evidenza_locale': r.get('evidenza_locale', ''),
             'data_fatto': r.get('data_fatto', ''), 'data_pubblicazione': r.get('data_pubblicazione', '') or doc['data_pubblicazione'],
@@ -262,6 +266,8 @@ if os.path.isdir(R2 + '/out'):
             'titolo_anonimizzato': r.get('titolo_candidato', ''), 'sintesi': r.get('contenuto', ''),
             'tipo': tipo, 'luoghi': r.get('luoghi', ''), 'municipio': ';'.join(mun),
             'zona': zona, 'tier_localizzazione': tier,
+            'quartiere': loc.get('quartiere', ''), 'quartiere_zu': loc.get('quartiere_zu', ''),
+            'territorio_dedotto': loc.get('territorio_dedotto', ''),
             'toponimo_da_verificare': 'sì' if (r.get('luoghi', '').strip() and not zona and not mun) else 'no',
             'evidenza_url': meta['url'], 'evidenza_locale': r.get('evidenza_pagina', ''),
             'data_fatto': data_fatto, 'data_pubblicazione': iso_it(meta['data']),
@@ -329,6 +335,8 @@ def item_video(j, meta, lotto):
             'titolo_anonimizzato': c.get('titolo', ''), 'sintesi': c.get('sintesi', ''),
             'tipo': c.get('tipo', 'altro'), 'luoghi': '; '.join(c.get('luoghi') or []),
             'municipio': ';'.join(mun), 'zona': zona, 'tier_localizzazione': tier,
+            'quartiere': loc.get('quartiere', ''), 'quartiere_zu': loc.get('quartiere_zu', ''),
+            'territorio_dedotto': loc.get('territorio_dedotto', ''),
             'toponimo_da_verificare': c.get('toponimo_da_verificare', 'no'),
             'evidenza_url': meta.get('url', ''), 'evidenza_locale': ev[0] if ev else '',
             'data_fatto': j.get('data_seduta', ''), 'data_pubblicazione': meta.get('data_pubblicazione', ''),
@@ -576,7 +584,7 @@ print('  dentro il blocco, come prescrive il metodo:            %s' % dict(cb))
 # contarle come tali dava 270 integrazioni su 270, cioe' un numero che misurava la varieta' della
 # scrittura. Per quel campo conta solo il caso «prima vuoto, ora pieno».
 SOLO_SE_VUOTO = {'luoghi'}
-CAMPI_INTEGRABILI = ['data_fatto', 'municipio', 'zona', 'luoghi', 'tipo']
+CAMPI_INTEGRABILI = ['data_fatto', 'municipio', 'zona', 'quartiere', 'quartiere_zu', 'luoghi', 'tipo']
 per_id_int = {n['id']: n for n in notizie}
 integrate = 0
 for n in notizie:
@@ -622,6 +630,7 @@ for n in notizie:
         capo['vicenda_id'] = vid
         vicende.append({'id': vid, 'titolo_anonimizzato': capo['titolo_anonimizzato'], 'tipo': capo['tipo'],
                         'municipio': capo['municipio'], 'zona': capo['zona'],
+                        'quartiere': capo.get('quartiere', ''), 'quartiere_zu': capo.get('quartiere_zu', ''),
                         'prima_pubblicazione': capo['data_pubblicazione'], 'ultima_pubblicazione': capo['data_pubblicazione'],
                         'n_notizie': 1, 'fonti': capo['fonte'],
                         'confidenza': 'media', 'solo_report2': 'no', 'stato': 'non verificato'})
@@ -724,8 +733,8 @@ print('celle Municipio×settimana senza notizie:', sum(1 for r in terr_righe if 
 print('tabelle scritte in report1/db/:')
 scrivi('fonti', fonti, ['codice','nome','blocco','ente','url_elenco','base_url','formato','item_giugno','paginazione_completa','data_lettura','report','note'])
 scrivi('documenti', list(documenti.values()), ['id','fonte','tipo','url','data_pubblicazione','timestamp_pubblicazione','data_evento_inizio','data_evento_fine','titolo_anonimizzato','municipi_meta','tematica','caratteri','formato_item','metodo_estrazione','ocr_incerto','trascrizione_incerta','esito_lettura','settimana','report_origine','letto_da'])
-scrivi('notizie_candidate', notizie, ['id','documento_id','fonte','titolo_anonimizzato','sintesi','tipo','luoghi','municipio','municipio_testo','zona','tier_localizzazione','toponimo_da_verificare','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','disponibilita','qualita','dedup_stato','gemello_id','ragione_dedup','gemelli_scritti','gemelli_scritti_blocco','prima_fonte','vicenda_id','integra_gemello_id','campi_integrati','settimana','report_origine','verifica_seconda_ai','note'])
-scrivi('vicende', vicende, ['id','titolo_anonimizzato','tipo','municipio','zona','prima_pubblicazione','ultima_pubblicazione','n_notizie','fonti','confidenza','solo_report2','stato'])
+scrivi('notizie_candidate', notizie, ['id','documento_id','fonte','titolo_anonimizzato','sintesi','tipo','luoghi','municipio','municipio_testo','zona','quartiere','quartiere_zu','territorio_dedotto','tier_localizzazione','toponimo_da_verificare','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','disponibilita','qualita','dedup_stato','gemello_id','ragione_dedup','gemelli_scritti','gemelli_scritti_blocco','prima_fonte','vicenda_id','integra_gemello_id','campi_integrati','settimana','report_origine','verifica_seconda_ai','note'])
+scrivi('vicende', vicende, ['id','titolo_anonimizzato','tipo','municipio','zona','quartiere','quartiere_zu','prima_pubblicazione','ultima_pubblicazione','n_notizie','fonti','confidenza','solo_report2','stato'])
 scrivi('territori', terr_righe, ['municipio','settimana','n_documenti','n_notizie','n_notizie_alta','n_notizie_media','n_notizie_bassa','fonti_presenti','mediana_giorni_pubblicazione','lacuna'])
 for blocco, c in campioni.items():
     righe = [n for n in notizie if n['id'] in c['ids']]

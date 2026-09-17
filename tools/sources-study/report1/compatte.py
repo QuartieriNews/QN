@@ -8,7 +8,8 @@ S = os.environ['QN_NET']; D = S + '/report1/db'
 # 'evidenza_locale' e 'report_origine' ci sono: senza la pagina un atto non e' verificabile, e
 # senza il rapporto di origine non si distingue una riga del Report 1 da una del Report 2.
 COLONNE = ['id', 'documento_id', 'fonte', 'report_origine', 'titolo_anonimizzato', 'tipo', 'luoghi',
-           'municipio', 'municipio_testo', 'zona', 'tier_localizzazione', 'toponimo_da_verificare',
+           'municipio', 'municipio_testo', 'zona', 'quartiere', 'quartiere_zu',
+           'territorio_dedotto', 'tier_localizzazione', 'toponimo_da_verificare',
            'evidenza_url', 'evidenza_locale', 'data_fatto', 'data_pubblicazione', 'qualita',
            'dedup_stato', 'gemello_id', 'ragione_dedup', 'prima_fonte', 'vicenda_id', 'settimana']
 COL_DOC = ['id', 'fonte', 'tipo', 'url', 'data_pubblicazione', 'titolo_anonimizzato', 'municipi_meta',

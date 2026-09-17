@@ -9,13 +9,19 @@ def norm(s):
     s=unicodedata.normalize("NFKD",str(s)); s="".join(c for c in s if not unicodedata.combining(c))
     s=re.sub(r"[^a-z0-9 ]+"," ",s.casefold()); return re.sub(r"\s+"," ",s).strip()
 INDEX={}
+# DEC-105: il quartiere d'uso comune e' un'attribuzione a se', non la zona editoriale che lo
+# contiene. QUART tiene il quartiere; INDEX resta la zona, che serve alla pubblicazione.
+QUART={}
+QINFO={n['neighbourhood_id']:n for n in G['neighbourhoods']}
 ZMUN={z['publication_zone_id']:z.get('primary_municipality') for z in G['publication_zones']}
 for n in G['neighbourhoods']:
     for k in [n['name_display']]+[a.strip() for a in n['aliases'].split('|') if a.strip()]:
         INDEX.setdefault(norm(k),set()).add(n['publication_zone_id'])
+        QUART.setdefault(norm(k),set()).add(n['neighbourhood_id'])
 for z in G['publication_zones']: INDEX.setdefault(norm(z['name_display']),set()).add(z['publication_zone_id'])
 STOP={norm(s) for s in G['free_text_stoplist']}; NEVER={norm(s) for s in G['never_substring']}
 KEYS=[k for k in INDEX if k not in NEVER and k not in STOP]
+QKEYS=[k for k in QUART if k not in NEVER and k not in STOP]
 TOPO=re.compile(r"\b(via|viale|piazza|piazzale|largo|corso|lungotevere|vicolo|circonvallazione|quartiere|zona|borgata|litorale|parco|villa)\s+(?:de[lgi]{0,3}\s+|d[ae]l?l[aeo']\s*)?[A-ZÀ-Ú][\w'’.-]+",re.U)
 MUNRE=re.compile(r"\b(?:Municipio|Municipi|MUNICIPIO)\s+(?:Roma\s+)?([IVX]{1,4}|\d{1,2})\b|\b([IVX]{1,4})\s+Municipio\b|\bMunicipio\s+Roma\s+([IVX]{1,4})\b")
 def municipi(text):
@@ -31,6 +37,16 @@ def zones(text):
         if f" {k} " in t:
             for z in INDEX[k]: hits.setdefault(z,set()).add(k)
     return hits
+def quartieri(text):
+    t=f" {norm(text)} "; out=set()
+    for k in QKEYS:
+        if f" {k} " in t: out|=QUART[k]
+    return out
+def municipi_di(qid):
+    """I Municipi di un quartiere: quello principale piu' quelli che attraversa."""
+    n=QINFO[qid]; out={n['municipality_code']} if n.get('municipality_code') else set()
+    out|={x.strip() for x in (n.get('spans_municipalities') or '').replace('/',',').split(',') if x.strip()}
+    return {m for m in out if m in ROM}
 def localise(text):
     text=text or ''
     mun=municipi(text); zh=zones(text); topo=bool(TOPO.search(text)) or bool(zh)
@@ -41,7 +57,26 @@ def localise(text):
     if len(mun)==1: mun_det=next(iter(mun))
     elif zone: mun_det=ZMUN.get(zone) or ''
     elif len(mun)>1: mun_det='multi:'+'/'.join(sorted(mun,key=ROM.index))
-    return {'toponimo':topo,'municipio':mun_det,'zona':zone or '','zone_hits':';'.join(sorted(zh)),'tier':tier,'mun_mentions':'/'.join(sorted(mun,key=ROM.index))}
+    qh=quartieri(text)
+    # Il quartiere non si sceglie: se il testo ne nomina piu' d'uno restano tutti (DEC-105 §3).
+    quart=';'.join(QINFO[q]['name_display'] for q in sorted(qh))
+    quart_zu=';'.join((QINFO[q].get('zu_code') or '') for q in sorted(qh))
+    mun_gaz=set()
+    for q in qh: mun_gaz|=municipi_di(q)
+    # Corrispondenza fra quello che il testo dichiara e quello che il gazetteer deduce.
+    if mun and mun_gaz and not (mun & mun_gaz):
+        dedotto='misto'; mun_det=';'.join(sorted(mun|mun_gaz,key=ROM.index))
+    elif mun:
+        dedotto='no'
+    elif mun_gaz:
+        dedotto='si'
+        if not mun_det: mun_det=';'.join(sorted(mun_gaz,key=ROM.index))
+    else:
+        dedotto=''
+    return {'toponimo':topo,'municipio':mun_det,'zona':zone or '','zone_hits':';'.join(sorted(zh)),
+            'tier':tier,'mun_mentions':'/'.join(sorted(mun,key=ROM.index)),
+            'quartiere':quart,'quartiere_zu':quart_zu.strip(';') if quart_zu.strip(';') else '',
+            'territorio_dedotto':dedotto}
 if __name__=='__main__':
     import csv
     src,textcols,out=sys.argv[1],sys.argv[2].split(','),sys.argv[3]
