@@ -56,7 +56,7 @@ def main():
             r = indice.get(p['riga'])
             if r is None:
                 print('riga assente:', p['riga'], p['_file']); mancanti += 1; continue
-            if p['esito'] == 'ripristinato' and p.get('valore_nuovo'):
+            if p['esito'] in ('ripristinato', 'corretto') and p.get('valore_nuovo'):
                 r[campo] = ripulisci(p['valore_nuovo']); applicati += 1
             # La ragione si conserva sempre, non solo quando il nome resta fuori: un'attribuzione
             # fatta con un dubbio dichiarato deve portarsi dietro il dubbio, o il dubbio sparisce.
@@ -67,6 +67,9 @@ def main():
             # I primi patch non avevano la colonna del flag: la ragione lo dice a parole.
             incerta = (p.get('trascrizione_incerta') or '').strip().lower() in ('sì', 'si') \
                 or bool(re.search(r'trascri\w*\s+incert|forma udita|oscilla|mal trascritt', nota, re.I))
+            if (p.get('attribuzione_incerta') or '').strip().lower() in ('sì', 'si') \
+                    and 'attribuzione_incerta' in campi:
+                r['attribuzione_incerta'] = 'sì'
             if incerta:
                 if 'trascrizione_incerta' in campi:
                     r['trascrizione_incerta'] = 'sì'

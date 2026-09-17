@@ -35,6 +35,22 @@ Due registrazioni della stessa seduta sono due fonti dello stesso fatto: se il n
 sola delle due, vale, e si dichiara in `note` da quale. Resta vietato prenderlo da un'altra seduta,
 da un altro atto o da quello che si sa del Municipio.
 
+**Che cosa è una formula da correggere.** È una formula quella che sta al posto di **una persona
+che ha agito**: «il presidente», «il direttore», «la referente», «un consigliere». **Non** è una
+formula l'attribuzione a un **organo o a un ente** che agisce come tale: «la presidenza», «la
+giunta», «la polizia locale», «l'associazione», «il Municipio». Quelle restano, perché sono
+l'organizzazione, che la DEC-105 tiene accanto al nome e non al posto del nome. Nel dubbio conta chi
+compie l'atto: se a parlare, decidere o rispondere è una persona, il nome va cercato.
+
+Non è una formula nemmeno il ruolo che non designa nessuno: «un direttore dedicato» in un assetto
+d'ufficio, «un professionista» che un'associazione dovrà incaricare. Lì non c'è una persona da
+nominare, e si dichiara.
+
+**La fonte vince anche sul ruolo, non solo sul genere.** Se la formula dice «il direttore audito» e
+la fonte dice che quella persona sostituisce il direttore, si scrive quello che la fonte sostiene e
+si dichiara lo scarto. Vale il limite di sempre: si corregge con quello che la fonte dà, non si
+inventa una carica per far tornare la frase.
+
 **Quando la fonte dà solo il nome di battesimo.** In commissione ci si chiama per nome e l'appello
 elenca i cognomi: spesso non c'è modo di ricongiungerli dentro la stessa fonte. «Il consigliere
 Andrea» **conta come ripristino**, non come identificazione insufficiente: è quello che la fonte
@@ -44,6 +60,13 @@ ragione concreta, e «è solo il nome di battesimo» non lo è.
 **Il genere lo detta la fonte, non la formula.** Dove la formula anonimizzata dice «una consigliera»
 e la fonte dice «il consigliere Guerrini», vince la fonte, e lo scarto si dichiara. La formula è
 quello che va corretto: non può essere la prova di sé stessa.
+
+**Due incertezze diverse, due posti diversi.** `trascrizione_incerta` riguarda **la forma udita**:
+il cognome che si sente in due modi. Quando invece è fragile **l'attribuzione** — la voce non è
+etichettata, il ricongiungimento fra nome e cognome poggia su un solo scambio — si alza
+`attribuzione_incerta` e si spiega in `ragione`. Sono cose che un lettore del dato deve poter
+distinguere senza leggere la prosa: un cognome incerto si verifica riascoltando, un'attribuzione
+incerta si verifica ricostruendo chi parlava.
 
 **Il minutaggio dell'evidenza si corregge.** Se `evidenza_locale` punta a un blocco che non contiene
 il passaggio, si scrive quello giusto e si dichiara lo scarto. La frase dell'evidenza non si

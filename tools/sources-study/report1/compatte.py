@@ -10,6 +10,7 @@ S = os.environ['QN_NET']; D = S + '/report1/db'
 COLONNE = ['id', 'documento_id', 'fonte', 'report_origine', 'titolo_anonimizzato', 'tipo', 'luoghi',
            'municipio', 'municipio_testo', 'zona', 'quartiere', 'quartiere_zu',
            'territorio_dedotto', 'tier_localizzazione', 'toponimo_da_verificare',
+           'attribuzione_incerta',
            'evidenza_url', 'evidenza_locale', 'data_fatto', 'data_pubblicazione', 'qualita',
            'dedup_stato', 'gemello_id', 'ragione_dedup', 'prima_fonte', 'vicenda_id', 'settimana']
 COL_DOC = ['id', 'fonte', 'tipo', 'url', 'data_pubblicazione', 'titolo_anonimizzato', 'municipi_meta',
