@@ -8,6 +8,7 @@ NET = os.environ['QN_NET']
 DB = NET + '/report1/db'
 FUORI = NET + '/report2/ripristino'
 PER_LOTTO = int(os.environ.get('PER_LOTTO', 35))
+PREFISSO = os.environ.get('PREFISSO', 'R')
 
 # Una sostituzione ha la forma "articolo + ruolo": e' cosi' che un lettore rende un nome tolto.
 RUOLI = (r"consiglier[ae]|assessor[ae]|funzionari[oa]|dirigente|referente|relator[ae]|"
@@ -61,12 +62,24 @@ def sorgenti(documenti):
     return p
 
 
-def formula_in(riga, campi):
+def formule_in(riga, campi):
+    """Ogni campo e ogni occorrenza. La prima versione si fermava alla prima formula trovata:
+    le successive nello stesso campo non entravano in lavorazione e restavano nel dato."""
+    out = []
     for c in campi:
-        m = FORMULA.search(riga.get(c) or '')
-        if m:
-            return c, m.group(0)
-    return None
+        trovate = [m.group(0) for m in FORMULA.finditer(riga.get(c) or '')]
+        if trovate:
+            out.append((c, trovate))
+    return out
+
+
+def gia_fatte():
+    """(riga, campo) gia' chiusi da un patch consegnato: una passata non rifa' il lavoro fatto."""
+    out = set()
+    for f in glob.glob(FUORI + '/patch_*.csv'):
+        for r in csv.DictReader(open(f, encoding='utf-8')):
+            out.add((r['riga'], r['campo']))
+    return out
 
 
 def main():
@@ -75,32 +88,38 @@ def main():
     fonte_di = {d['id']: d for d in documenti}
     percorso = sorgenti(documenti)
 
+    fatte = gia_fatte()
     lavoro = []
     for n in notizie:
-        t = formula_in(n, CAMPI_N)
-        if t:
+        for campo, formule in formule_in(n, CAMPI_N):
+            if (n['id'], campo) in fatte:
+                continue
             lavoro.append(dict(riga=n['id'], tabella='notizie', documento=n['documento_id'],
-                               fonte=n['fonte'], campo=t[0], formula=t[1],
+                               fonte=n['fonte'], campo=campo, formula=' | '.join(formule),
+                               occorrenze=len(formule),
                                sorgente=percorso.get(n['documento_id'], ''),
                                letto_da=fonte_di.get(n['documento_id'], {}).get('letto_da', '')))
     for d in documenti:
-        t = formula_in(d, CAMPI_D)
-        if t:
+        for campo, formule in formule_in(d, CAMPI_D):
+            if (d['id'], campo) in fatte:
+                continue
             lavoro.append(dict(riga=d['id'], tabella='documenti', documento=d['id'],
-                               fonte=d['fonte'], campo=t[0], formula=t[1],
+                               fonte=d['fonte'], campo=campo, formula=' | '.join(formule),
+                               occorrenze=len(formule),
                                sorgente=percorso.get(d['id'], ''), letto_da=d['letto_da']))
 
     senza = [x for x in lavoro if not x['sorgente']]
     # Un lotto tiene insieme righe della stessa fonte: cosi' il lettore apre un tipo di file solo.
     lavoro.sort(key=lambda x: (x['fonte'], x['documento'], x['riga']))
     os.makedirs(FUORI, exist_ok=True)
-    for v in glob.glob(FUORI + '/R*.csv'):
+    for v in glob.glob(FUORI + '/%s[0-9][0-9].csv' % PREFISSO):
         os.remove(v)
-    campi = ['riga', 'tabella', 'documento', 'fonte', 'campo', 'formula', 'sorgente', 'letto_da']
+    campi = ['riga', 'tabella', 'documento', 'fonte', 'campo', 'formula', 'occorrenze',
+             'sorgente', 'letto_da']
     n = 0
     for i in range(0, len(lavoro), PER_LOTTO):
         n += 1
-        with open('%s/R%02d.csv' % (FUORI, n), 'w', newline='', encoding='utf-8') as f:
+        with open('%s/%s%02d.csv' % (FUORI, PREFISSO, n), 'w', newline='', encoding='utf-8') as f:
             w = csv.DictWriter(f, campi)
             w.writeheader()
             w.writerows(lavoro[i:i + PER_LOTTO])

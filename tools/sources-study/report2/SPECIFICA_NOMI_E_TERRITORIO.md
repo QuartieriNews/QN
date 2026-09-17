@@ -24,6 +24,17 @@ in un elenco di presenze quando la notizia non riguarda le presenze, per dire.
 di persona, che la persona sia un privato cittadino, la prudenza in sé. Nel dubbio si scrive
 il nome e si dichiara il dubbio.
 
+**La forma.** Il nome torna nella prosa italiana corrente, con la carica accanto dove aiuta a
+capire — «l'assessore Petracca», «il direttore del Dipartimento Tutela Ambientale Giuseppe
+Sorrentino» — non `Nome Cognome (ruolo)` fra parentesi, che spezza le frasi in cui la carica è già
+scritta per esteso. La parentesi si usa solo dove senza si leggerebbe male. Se il campo cita già la
+persona poco prima, la seconda occorrenza si riduce al cognome invece di ripetere tutto.
+
+**Una fonte per il fatto, non per la riga.** Il nome deve comparire in una fonte **di quel fatto**.
+Due registrazioni della stessa seduta sono due fonti dello stesso fatto: se il nome si sente in una
+sola delle due, vale, e si dichiara in `note` da quale. Resta vietato prenderlo da un'altra seduta,
+da un altro atto o da quello che si sa del Municipio.
+
 **Verifica sulla fonte.** Un nome ripristinato va **riletto sulla fonte**, non ricostruito a
 memoria né dedotto dal ruolo. Se la fonte è una trascrizione e il nome è incerto, si scrive
 la forma udita e si alza `trascrizione_incerta`; se la fonte non permette di stabilirlo, resta
