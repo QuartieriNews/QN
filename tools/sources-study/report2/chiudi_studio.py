@@ -4,7 +4,7 @@
 # e' gia' successo di pubblicare un numero vecchio accanto a uno nuovo, che e' peggio di due numeri
 # vecchi perche' il testo non torna con se' stesso.
 # Non tocca Drive e non fa commit: quelli restano decisioni, non passi di uno script.
-import os, subprocess, sys, time
+import glob, os, shutil, subprocess, sys, time
 
 NET = os.environ['QN_NET']
 REPO = '/home/user/QN/tools/sources-study'
@@ -26,6 +26,21 @@ PASSI = [
     ('i file compatti per Drive', 'report1/compatte.py'),
 ]
 solo = sys.argv[1:] 
+# I programmi si importano a vicenda da QN_NET (build_db fa `sys.path.insert(0, QN_NET)`), quindi
+# una copia di lavoro vecchia esegue codice vecchio senza che niente lo dica: e' successo con
+# geo_lookup, e le colonne del territorio sono uscite vuote da una catena che riportava "ok".
+# Allineare prima di partire costa un secondo e toglie di mezzo tutta la classe di errore.
+allineati = 0
+for sorgente in glob.glob(REPO + '/**/*.py', recursive=True):
+    if '__pycache__' in sorgente:
+        continue
+    destinazione = NET + '/' + os.path.relpath(sorgente, REPO)
+    if not os.path.exists(destinazione) or open(sorgente, 'rb').read() != open(destinazione, 'rb').read():
+        os.makedirs(os.path.dirname(destinazione), exist_ok=True)
+        shutil.copy(sorgente, destinazione)
+        allineati += 1
+print('copia di lavoro allineata al repository: %d programmi' % allineati)
+
 uscita = []
 for titolo, prog in PASSI:
     if solo and not any(s in prog for s in solo): continue

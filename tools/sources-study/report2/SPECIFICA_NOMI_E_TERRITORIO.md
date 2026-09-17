@@ -54,6 +54,13 @@ reso «Fondazione Piccolo America» come «una fondazione cinematografica romana
 «un duo indie-pop». La DEC-105 nomina le imprese fra ciò che si conserva, e un'organizzazione senza
 nome non si può né cercare né verificare: **si rimettono**, con la stessa verifica sulla fonte.
 
+**Titoli, eventi, rassegne e opere valgono quanto i nomi di persona** (decisione dell'owner del 17
+settembre). Un evento senza nome non si cerca e non si verifica, esattamente come una persona senza
+nome. Con un limite che vale la pena scrivere due volte: **non si sostituisce una descrizione
+corretta con un titolo ipotizzato.** Se la fonte descrive e basta — «una mostra di fotografia» — la
+descrizione resta: il titolo si mette solo quando la fonte lo scrive. Il candidato si verifica; se
+non si verifica, non si scrive.
+
 Lo stesso vale per **titoli, rassegne e sedi**, che la §1 già proteggeva e che sono stati
 perifrasati lo stesso: «una trilogia documentaria» al posto del titolo, «la rassegna estiva di
 cinema all'aperto» al posto del suo nome, «il teatro all'aperto di largo Marcello Mastroianni 1» al
@@ -137,6 +144,22 @@ modo in cui quel fatto viene detto. In entrambi i casi si dichiara la scelta.
 singolare dopo due nomi non dice a chi si riferisce. Quando può valere per più di un nome si alza
 `attribuzione_incerta`; quando segue senza ambiguità l'ultimo, basta dichiararlo.
 
+**Gli errori di contenuto si correggono, non si segnalano soltanto** (owner, 17 settembre).
+Rileggendo le fonti per i nomi riemergono sintesi che la fonte non sostiene: un fatto attribuito a
+chi non l'ha compiuto, una qualifica che nessuno dà, un incontro dato per avvenuto che la fonte dice
+non essersi tenuto. Si **verifica sulla fonte e si corregge**, dichiarando in `ragione` che cosa
+diceva prima e su che cosa poggia la correzione. Restano `invariato` solo i casi in cui la fonte
+non basta a stabilire come stiano le cose — e allora l'incertezza si dichiara invece di scegliere.
+
+Due controlli da fare sempre, non solo quando saltano all'occhio: che **le qualifiche siano
+sostenute dalla fonte**, e che **l'azione sia attribuita a chi la fonte la attribuisce**.
+
+**Un nome incerto si riscontra prima di lasciarlo incerto.** Quando la forma o l'identità non
+tornano, si cerca conferma **nell'audio** e nelle **altre fonti della stessa seduta** — la seconda
+registrazione, il verbale, la convocazione, l'ordine del giorno. Solo se dopo il riscontro l'identità
+resta incerta si lascia il ruolo, e in nessun caso un'identità incerta si scrive come accertata:
+`attribuzione_incerta` esiste per questo.
+
 ## 2. Il confine della seduta
 
 Vale per le registrazioni. **Entra nell'analisi e nelle notizie solo ciò che sta dentro la
@@ -155,7 +178,10 @@ il resto, nomi compresi. Vale anche per formule equivalenti («questo non mettet
 **La ripresa può non essere dichiarata a parole.** Capita che il presidente sospenda e che nessuno
 annunci la ripresa, mentre la seduta riprende di fatto: si dà il benvenuto a un ospite, si dà la
 parola, si approva un verbale, si dichiara la chiusura. In quel caso **i lavori si considerano
-ripresi dal primo atto formale che li riprende**, e lo si scrive. Leggere la regola alla lettera
+ripresi dal primo atto formale che li riprende** (owner, 17 settembre), e **si documentano gli
+elementi che lo dimostrano**: quale atto, a che minuto, e perché è un atto della seduta — il
+benvenuto a un ospite audito, la parola data, un verbale approvato, la chiusura dichiarata. Una
+ripresa desunta senza quegli elementi scritti non è documentata, è supposta. Leggere la regola alla lettera
 butterebbe fuori l'intera registrazione, che non è quello che la regola vuole: il perimetro esclude
 ciò che seduta non è, non la seduta che nessuno ha riaperto a voce.
 
