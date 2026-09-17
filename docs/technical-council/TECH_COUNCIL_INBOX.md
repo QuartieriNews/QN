@@ -305,6 +305,38 @@ Do **not** change production now. When n8n 2.40.x reaches the stable/Cloud chann
 
 ---
 
+## QN-TC-012 — n8n high-severity inline-agent credential exposure fixed in 2.39.6
+
+**Status:** NEW — HIGH-PRIORITY SECURITY BASELINE / COUNCIL REVIEW  
+**Area:** security, credentials, AI agents, n8n version baseline  
+**Impact:** security **very high**; architecture **low**; speed **low**; cost **low**
+
+### What changed
+On 2026-09-16 n8n published a high-severity advisory (CVSS 8.3) for an **inline Agent node-tool credential ownership bypass**. When an inline agent registered a tool, n8n could resolve the tool input schema and decrypt a credential identified by the caller without first checking that the caller's project owned that credential. A low-privilege member who knew a credential ID could therefore cause a secret from another project/owner to be sent to an endpoint they controlled. Credential IDs can appear in workflow JSON, exports and editor URLs.
+
+The issue is patched in n8n **2.39.6** and **2.40.1** or later. n8n explicitly recommends upgrading; if that is not possible, restricting instance access to fully trusted users, auditing inline-agent tool credential references, and rotating potentially exposed credentials are only temporary mitigations.
+
+### Why it matters for QN
+QN is specifically evaluating AI agents that use n8n tools and credentials. This vulnerability is therefore not generic background security news: it affects the exact architecture under consideration. Even though QN uses n8n Cloud, the agent pilot should not proceed unless the actual Cloud instance is on a patched version.
+
+A second high-severity advisory published the same day concerns duplicate node IDs exposing credentials to shared workflow editors, but it affects the old 1.x line (<1.123.80); it does not change the proposed QN 2.x baseline.
+
+### Expected benefit
+Making 2.39.6+ a hard prerequisite closes a credential-exfiltration path before QN grants agents broader tool access. It also gives the Council a concrete minimum-version gate rather than a generic “latest version” recommendation.
+
+### Risks / unknowns
+Cloud deployments are managed by n8n, but QN should verify the instance version rather than assume the rollout has already reached the account. Patching this issue does not make agent-held credentials inherently safe; least-privilege credentials and environment separation remain necessary.
+
+### Proposed action
+Treat **n8n >=2.39.6 stable** (or a later stable release containing the patch) as a mandatory baseline before any QN Agent/MCP write-capable pilot. Verify the version of the QN Cloud instance. Until verified, do not expand agent permissions. If the instance were unexpectedly below 2.39.6, pause any inline-agent credential experimentation and escalate to n8n Cloud/support rather than trying to compensate only with prompts. Keep staging and production credentials separate even after patching. Council must independently confirm this baseline before implementation.
+
+### Evidence
+- https://github.com/n8n-io/n8n/security/advisories/GHSA-9rhv-fhr8-7q5r
+- https://github.com/n8n-io/n8n/releases/tag/n8n%402.39.6
+- https://github.com/n8n-io/n8n/security/advisories/GHSA-7gjv-rcf8-x5qc
+
+---
+
 # Council review checklist
 
 For each candidate, Claude and OpenAI should independently answer:
