@@ -5404,3 +5404,28 @@ riga; ma il residuo non varia per fonte, varia per **tipo di riga**: gli avvisi 
 tutti puliti perché i nomi stanno in colonna, i verbali e il parlato quasi tutti sporchi. Un campione
 stratificato per tipo di documento darebbe una cifra diversa e altrettanto corretta. Sta scritto nel
 rapporto, perché è il limite della misura e non un dettaglio.
+
+## 134. Il costo della consegna, che nessuno aveva misurato
+
+Il connettore Drive accetta **contenuto, non un percorso**: `create_file` vuole il testo dentro la
+chiamata, `update_file` cambia solo i metadati, `copy_file` copia file che sono già su Drive. Quindi
+ogni byte consegnato va letto e riscritto, e costa circa **1,15 token per byte**. I 4,64 MB di questa
+consegna sono ~5 milioni di token, e un file da 100 KB richiede quattro letture — Bash tronca
+l'uscita sopra i ~30 KB — più una scrittura.
+
+Tre conseguenze che vale la pena ricordare a chi rifà questo lavoro.
+
+1. **La dimensione delle parti non cambia il costo**, cambia solo il numero di chiamate: i byte sono
+   i byte. Le parti da 100 KB invece che da 54 KB dimezzano le chiamate e basta.
+2. **Il lavoro si parallelizza dando i file a due lettori**, non facendolo da soli: il costo in token
+   è lo stesso ma il tempo si dimezza e il contesto di chi coordina resta libero.
+3. **La verifica, invece, costa quasi niente**, perché le risposte di download troppo grandi
+   finiscono su disco e non nel contesto: `verifica_drive.py` cerca lì il base64 dell'originale.
+   È il motivo per cui la verifica del contenuto — l'unica che regge, il confronto dei byte no —
+   si può fare su tutti i file e non su un campione.
+
+E una cosa sulla forma della consegna: i compatti non portavano `sintesi` né `note`, per peso. Ma il
+ripristino dei nomi vive quasi tutto dentro `sintesi`, e quelle colonne esistono solo nello
+scratchpad, che muore con il contenitore. Consegnare lo schema senza il testo sarebbe stato
+consegnare la forma del lavoro invece del lavoro: da questa consegna ci sono anche i file
+`*_testo_*`, con titolo, sintesi e la ragione riga per riga.
