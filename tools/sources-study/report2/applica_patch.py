@@ -20,13 +20,13 @@ def ripulisci(s):
     return re.sub(r"[ \t]{2,}", " ", s).strip()
 
 
-# Una passata di revisione torna apposta su campi gia' lavorati e il suo valore vince su quello
+# Una passata di revisione torna apposta su campi gia' lavorati, e il suo valore vince su quello
 # della prima lettura: `patch_incerti` e' il riscontro sull'audio e sulle altre fonti della stessa
-# seduta, i lotti `F` sono la passata finale, che legge il database **dopo** i patch precedenti e
-# quindi porta quello che c'era piu' quello che ha trovato. La differenza con un conflitto sta tutta
-# qui: la revisione e' dichiarata in anticipo, il conflitto no. Due letture indipendenti che
-# divergono restano un errore e fermano tutto.
-REVISIONI = ('patch_incerti.csv', 'patch_F')
+# seduta; i lotti `F` sono la passata finale e `M` la misura del residuo, che leggono il database
+# **dopo** i patch precedenti e quindi portano quello che c'era piu' quello che hanno trovato.
+# La differenza con un conflitto sta tutta qui: la revisione e' dichiarata in anticipo, il conflitto
+# no. Due letture indipendenti che divergono restano un errore e fermano tutto.
+REVISIONI = ('patch_incerti.csv', 'patch_F', 'patch_M')
 
 
 def revisione(nome):
