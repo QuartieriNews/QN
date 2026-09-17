@@ -5429,3 +5429,31 @@ ripristino dei nomi vive quasi tutto dentro `sintesi`, e quelle colonne esistono
 scratchpad, che muore con il contenitore. Consegnare lo schema senza il testo sarebbe stato
 consegnare la forma del lavoro invece del lavoro: da questa consegna ci sono anche i file
 `*_testo_*`, con titolo, sintesi e la ragione riga per riga.
+
+## 135. Consegna chiusa: 66 parti, tutte verificate nel contenuto
+
+La cartella Drive `Fonti 2026-06` porta ora **66 parti nuove per 4,64 MB**, e le 49 vecchie sono
+cestinate. Ogni parte è stata **scaricata e confrontata con l'originale**, non solo pesata: il
+confronto dei byte da solo avrebbe lasciato passare almeno cinque file.
+
+**Quanti errori ha preso ciascun controllo.** Il controllo dimensionale ne ha presi sei — una frase
+troncata, una virgoletta di chiusura mancante, un campo vuoto saltato, una frase inserita «per
+analogia» con le righe vicine, un'elisione scritta dove la fonte non la usa. Il confronto del
+contenuto ne ha presi altri **cinque che avevano la dimensione esatta**, e sono tutti della stessa
+famiglia: un carattere cambiato dentro un token base64 di un URL — `NzA0NjI=` per `NzA0Njk=`,
+`MTAwNzc=` per `MTAwNjc=`, `NjA5MzY` per `NjA5Mzc`. Non cambiano un byte e mandano il documento su
+un atto diverso.
+
+È il motivo per cui la regola «si cestina il vecchio solo dopo che il nuovo ha superato il confronto
+del contenuto» non è una formalità: applicata alla lettera ha impedito di sostituire cinque file
+buoni con cinque file rotti che sembravano giusti.
+
+**Come si sbaglia ricopiando**, visto su undici casi: non a caso. Si imita il contesto — si scrive
+l'elisione che le righe vicine usano, si completa una frase con la formula che ricorre, si scambia
+un identificativo con quello simile di due righe sopra. Per questo il confronto va fatto contro
+l'originale e non riletto: chi ha sbagliato per analogia rilegge per analogia.
+
+Metodo che ha funzionato, e che vale la pena riusare: caricare in parallelo con più lettori, e far
+verificare **a ciascuno il proprio caricamento** con scarica-e-confronta prima di dichiararlo
+riuscito. Il coordinatore rifà la verifica alla fine su tutti, ma trovare l'errore mentre il file è
+ancora in mano a chi l'ha scritto costa un decimo.
