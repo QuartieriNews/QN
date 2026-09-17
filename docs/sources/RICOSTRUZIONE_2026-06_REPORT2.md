@@ -619,8 +619,8 @@ emendamento dall'altro. Nessuno dei tre conteggi è sbagliato per sciatteria: **
 emendamenti è già un'interpretazione**, e un numero dentro un riassunto non è un dato solo perché è
 scritto in una tabella. Vale per il nostro foglio come per i verbali di cui parla questo capitolo.
 
-**Un difetto che è nostro, non della fonte.** La mascheratura automatica dei nomi di persona ha
-colpito **un toponimo**: l'oggetto di una mozione votata all'unanimità esce come `spostamento
+**Un difetto che era nostro, non della fonte** — e che la DEC-105 ha tolto alla radice (§8). La
+mascheratura automatica dei nomi di persona ha colpito **un toponimo**: l'oggetto di una mozione votata all'unanimità esce come `spostamento
 mercato *********`, e solo l'atto di Consiglio dice che quegli asterischi sono il nome di un
 quartiere. Senza il riscontro documentale quella candidata sarebbe stata scartata per «luogo
 mancante»: la tutela della riservatezza, applicata a macchina, cancella anche ciò che riservato non
@@ -1007,17 +1007,61 @@ Quello che **non** è riproducibile da un programma sta nei §3 e §4: sono lett
 caso porta l'identificativo dell'atto o della registrazione con il marcatore, così che chiunque
 possa andare a vedere.
 
-**Quello che la riservatezza ci costa, detto per intero.** In una seduta il fatto è che la titolare
-di un banco di mercato non ha mai protocollato una domanda. Il verbale municipale lo scrive con il
-numero del banco e il tipo di attività; noi no, perché il banco è uno solo e quei due dati
-identificano una persona privata quanto un nome. Il fatto amministrativo resta nei nostri file,
-l'attribuzione no — e **chi volesse contestare quella notizia non avrebbe abbastanza per farlo**. È
-il prezzo di DEC-102. Va pagato, e va scritto che lo si sta pagando.
+**Quello che la riservatezza ci costava, e che l'owner ha deciso di non pagare più.** In una seduta
+il fatto è che la titolare di un banco di mercato non ha mai protocollato una domanda. Il verbale
+municipale lo scrive con il numero del banco e il tipo di attività; questo rapporto, finché la
+regola è stata quella, no — perché il banco è uno solo e quei due dati identificano una persona
+privata quanto un nome. Il fatto amministrativo restava nei file, l'attribuzione no, e **chi avesse
+voluto contestare quella notizia non avrebbe avuto abbastanza per farlo**.
 
-## 8. Decisioni editoriali in attesa dell'owner
+Era il prezzo dell'interpretazione che lo studio aveva dato alla DEC-102, ed è stato scritto qui
+finché si è pagato. La **DEC-105** lo ha revocato (§8): il criterio non è più la categoria della
+persona ma la **pertinenza al fatto**, e una titolare di banco che non ha protocollato la domanda è
+pertinente al fatto quanto lo sia mai stato qualcuno. Il caso resta in questa pagina perché la
+misura di che cosa costi una regola di riservatezza vale anche dopo che la regola è cambiata: è il
+conto che andrebbe rifatto ogni volta che se ne adotta una.
 
-**D5 — il numero civico di una sede pubblica.** Tre lettori hanno segnalato che il divieto di
-civici, applicato alle sedi pubbliche, toglie precisione senza proteggere nessuno: due immobili
-comunali contigui messi a bando diventano indistinguibili per indirizzo. Raccomandazione: tenere il
-civico quando individua una sede o un immobile pubblico. Fino alla decisione i lettori applicano il
-divieto senza eccezioni.
+## 8. Le decisioni dell'owner, e che cosa hanno cambiato
+
+Il 17 settembre l'owner ha sciolto tutte e sette le decisioni aperte con una voce sola, la
+**DEC-105**, che supersede in parte la DEC-102. Il verso è opposto a quello che questo rapporto
+dava per scontato mentre veniva scritto, e conviene dirlo prima dei dettagli: **non c'è più
+anonimizzazione automatica delle persone di cui parla la notizia.**
+
+Nomi di assessori, consiglieri, funzionari, cittadini, rappresentanti di comitati, professionisti e
+imprese — ditte individuali comprese — si scrivono quando sono **pertinenti al fatto**. Un'omissione
+richiede una ragione concreta legata al contenuto, dichiarata riga per riga: che una stringa sia un
+nome di persona non è una ragione. Con la stessa decisione valgono quanto i nomi le
+**organizzazioni, gli eventi, le rassegne e le opere**, con il limite che una descrizione corretta
+non si sostituisce mai con un titolo ipotizzato.
+
+**Che cosa ha comportato sui dati.** Non un ritocco: una rilettura. 956 campi lavorati contro le
+fonti già scaricate, 865 nomi rimessi, 87 lasciati con la ragione per cui la fonte non li dà. Il
+prezzo della riservatezza descritto più sopra — la titolare del banco di mercato di cui non si
+poteva scrivere l'attribuzione — non è più un prezzo: quel fatto ora è attribuibile e contestabile,
+che è la condizione perché sia una notizia.
+
+**Il difetto che la rilettura ha scoperto**, e che è la cosa più importante di questa sezione: la
+mascheratura non toglieva soltanto, **inventava**. Sostituendo un nome, i lettori costruivano
+l'attributo che lo rimpiazzava — «il regista americano» per chi la fonte dice solo essere un
+regista, «l'attrice» per una che *presenta* e non recita — e alcune di quelle qualifiche sono false.
+Un difetto di riservatezza produce reticenza; questo produceva **affermazioni sbagliate**, ed è
+peggio. Ripristinando, l'attributo che la fonte non dà cade.
+
+**Il territorio.** Dal luogo citato si ricavano ora due attribuzioni distinte e verificate fra loro:
+il Municipio e il **quartiere d'uso comune**, tenuto separato dalla **zona urbanistica**. Una
+deduzione dal gazetteer si dichiara come deduzione; i casi a cavallo di più territori restano tutti,
+perché forzarli a un valore solo è l'errore che la regola esiste per evitare.
+
+**Il perimetro delle registrazioni (D7).** Entra nell'analisi e nelle notizie solo ciò che sta
+dentro la seduta formalmente aperta, sospensioni escluse per intero, con apertura, sospensione,
+ripresa e chiusura come riferimenti; una ripresa riconoscibile vale anche senza la formula del
+presidente, purché gli elementi che la dimostrano siano scritti. **«Fuori verbale» non sospende la
+seduta**: quel passaggio è dentro il perimetro e si tratta come il resto. Sul materiale fuori seduta
+che resta online l'owner non apre, per ora, nessuna segnalazione esterna.
+
+I sette casi aperti che questa sezione elencava — D1 sui nomi dentro i toponimi, D2 sui confini
+della DEC-102, D3 sulle intitolazioni, D4 sulla ditta individuale, D5 sul civico delle sedi
+pubbliche, D6 sul territorio degli atti capitolini, D7 sulle registrazioni — sono chiusi tutti dalla
+stessa voce. Il ragionamento che ci ha portati resta in
+`tools/sources-study/session_b/DECISIONI_OWNER.md`: è la storia della decisione, non la decisione.
