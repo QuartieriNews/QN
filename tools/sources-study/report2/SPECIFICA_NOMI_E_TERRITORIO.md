@@ -249,3 +249,42 @@ fermano tutto.
 già anonimizzati — firmatari resi con «(OMISSIS)», firme senza nome. Per quel Municipio
 l'assenza di un nome negli atti non è una prova che il nome non ci sia: è una proprietà della
 fonte, e va dichiarata come tale invece di essere letta come conferma.
+
+## 5. Regole aggiunte alla passata finale
+
+**Quando il campo dice l'organo e la fonte dice la persona, vince la persona** — a una condizione:
+che sia la fonte ad attribuirle l'atto. «L'ufficio tecnico riferisce» dove la fonte scrive due righe
+sopra chi riferisce diventa il nome di chi riferisce; «la giunta ha deliberato» resta la giunta,
+perché lì l'atto è dell'organo e nessuna persona lo compie da sola. La domanda da farsi non è chi ha
+parlato, è **di chi la fonte dice che è l'atto**.
+
+**Stesso tema, date diverse: due fatti.** Due convocazioni della stessa commissione sullo stesso
+argomento in due giorni distinti non sono due fonti dello stesso fatto: sono due fatti. Il nome che
+una delle due scrive vale solo per la sua. La regola «una fonte per il fatto, non per la riga» tiene
+insieme due registrazioni **della stessa seduta**, non due sedute sullo stesso tema.
+
+**Storpiature che convergono su un ente reale si sciolgono; quelle che non convergono no.**
+«Carter Regola / Cartel Regola / Cartin Regola» sono la stessa cosa e quella cosa è Carteinregola:
+si scrive, con `trascrizione_incerta`. «Stella Lavorare Nord» e «Stellavorare di Donord» non
+convergono su niente di riconoscibile: lì la descrizione corretta resta, perché scioglierle
+sarebbe inventare un nome. Il criterio è se le forme udite **puntano tutte allo stesso ente
+identificabile**, non se una di esse suona plausibile.
+
+**`trascrizione_incerta` è per quello che si è sentito, non per come si scrive.** Sciogliere una
+storpiatura alza il flag; normalizzare una maiuscola tabellare («ILIAD ITALIA S.P.A» → «Iliad Italia
+S.p.A.») no: lì la forma non è in dubbio, è solo scritta in stampatello.
+
+**Il consenso alla registrazione non è l'anonimato dell'atto.** Chi non acconsente alla ripresa
+audio non per questo è anonimo nel verbale: se l'atto lo nomina, il nome si scrive, perché
+l'omissione riguardava l'audio e non il documento. Vale il contrario per le fonti che si
+anonimizzano da sole («Ing. Omissis»): lì non c'è niente da rimettere.
+
+**Cercare la forma storpiata, non solo quella giusta.** «Non l'ho trovato nella fonte» non è un
+esito finché si è cercata solo la grafia corretta. La trascrizione automatica rende «in via del
+Governo Vecchio» come «avvia dei Del governo vecchio»: un `grep` della forma buona non trova niente
+e la riga sembra non sostenuta quando invece lo è. Si cerca per pezzi — una parola sola, la parte
+finale, il nome senza la preposizione — prima di dichiarare che la fonte non dice.
+
+**Il puntatore sta dove sta l'identificazione.** Se il titolo dice *dove* e il blocco indicato
+contiene solo il resto, il puntatore va portato al blocco che contiene il *dove*: è quello che rende
+verificabile la riga. La frase non si tocca; il minutaggio sì.
