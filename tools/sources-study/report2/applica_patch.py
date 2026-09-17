@@ -72,7 +72,11 @@ def carica_patch():
                     sys.exit(1)
                 # La riga superata esce dall'elenco: applicarle entrambe farebbe dipendere il
                 # risultato dall'ordine di scrittura, che e' il modo peggiore di decidere.
-                persi = nomi_propri(visti[chiave][0]) - nomi_propri(r.get('valore_nuovo', ''))
+                # Confronto contro il testo, non contro i nomi estratti dal testo: «Giuliana Zagra»
+                # dentro «Monteverde Attiva Giuliana Zagra» e' un match piu' lungo, e un confronto
+                # fra insiemi lo dava per perso quando invece c'e'.
+                nuovo = r.get('valore_nuovo', '')
+                persi = {x for x in nomi_propri(visti[chiave][0]) if x not in nuovo}
                 if persi:
                     print('rivisto %s %s (%s -> %s): non c\'e\' piu\' %s'
                           % (r['riga'], r['campo'], visti[chiave][1], nome, sorted(persi)))

@@ -13,10 +13,11 @@ def leggi(nome):
 
 
 def patch():
-    righe = []
-    for f in sorted(glob.glob(PATCH + '/patch_*.csv')):
-        righe += list(csv.DictReader(open(f, encoding='utf-8')))
-    return righe
+    # Gli stessi patch che la catena applica, con le revisioni gia' risolte: contare le righe dei
+    # file darebbe un numero piu' alto di quello dei campi davvero cambiati, e due conti diversi
+    # della stessa cosa sono peggio di uno solo.
+    import applica_patch
+    return applica_patch.carica_patch()
 
 
 def si(v):
@@ -43,10 +44,13 @@ def main():
     print('\n== quello che resta irrisolto ==')
     inv = [r for r in p if r['esito'] == 'invariato']
     print('  campi senza il nome    %5d  (la fonte non lo dà)' % len(inv))
+    # I flag stanno sulla riga, e le righe sono nelle due tabelle: contarne una sola faceva
+    # sparire i dubbi dichiarati sull'altra.
+    tutte = notizie + documenti
     print('  attribuzione incerta   %5d  (a chi attribuire il passaggio)'
-          % sum(1 for n in notizie if si(n.get('attribuzione_incerta'))))
+          % sum(1 for r in tutte if si(r.get('attribuzione_incerta'))))
     print('  trascrizione incerta   %5d  (la forma del nome)'
-          % sum(1 for d in documenti if si(d.get('trascrizione_incerta'))))
+          % sum(1 for r in tutte if si(r.get('trascrizione_incerta'))))
     print('  formule residue        %5d  (campi chiusi solo in parte)'
           % sum(1 for r in p if (r.get('formule_residue') or '').strip()))
     print('  fuori perimetro        %5d  (fuori dalla seduta aperta)'
