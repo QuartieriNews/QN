@@ -27,6 +27,9 @@ PASSI = [
     ('le code perdute', 'report2/code_perdute.py'),
     ('i magneti della deduplicazione', 'report2/magneti_dedup.py'),
     ('i file compatti per Drive', 'report1/compatte.py'),
+    # Un controllo, non un passo: non scrive il database, lo rilegge. Se fallisce non ferma la
+    # catena - non c'e' piu' niente dopo - ma il verdetto resta in fondo, dove si guarda.
+    ('il territorio contro il gazetteer', 'report2/verifica_territori.py', True),
 ]
 solo = sys.argv[1:] 
 # I programmi si importano a vicenda da QN_NET (build_db fa `sys.path.insert(0, QN_NET)`), quindi
@@ -45,7 +48,10 @@ for sorgente in glob.glob(REPO + '/**/*.py', recursive=True):
 print('copia di lavoro allineata al repository: %d programmi' % allineati)
 
 uscita = []
-for titolo, prog in PASSI:
+controlli_falliti = []
+for passo in PASSI:
+    titolo, prog = passo[0], passo[1]
+    controllo = len(passo) > 2 and passo[2]
     if solo and not any(s in prog for s in solo): continue
     t0 = time.time()
     r = subprocess.run([sys.executable, REPO + '/' + prog], capture_output=True, text=True,
@@ -55,10 +61,14 @@ for titolo, prog in PASSI:
     print(r.stdout.rstrip()[-4000:])
     if r.returncode != 0:
         print(r.stderr.rstrip()[-2000:])
-        print('\nFermato qui: i passi successivi leggono quello che questo doveva scrivere.')
-        sys.exit(1)
+        if not controllo:
+            print('\nFermato qui: i passi successivi leggono quello che questo doveva scrivere.')
+            sys.exit(1)
+        controlli_falliti.append(titolo)
     uscita.append((titolo, prog))
 print('\n\n========== fatto: %d passi' % len(uscita))
+if controlli_falliti:
+    print('CONTROLLI FALLITI: %s — da guardare prima di consegnare.' % ', '.join(controlli_falliti))
 print('Restano tre cose che uno script non deve fare da solo:')
 print('  1. rileggere il rapporto con i numeri nuovi e correggere quelli che non tornano;')
 print('  2. `report2/congela_consegna.py`, che fotografa lo stato consegnato;')

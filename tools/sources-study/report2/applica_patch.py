@@ -20,18 +20,47 @@ def ripulisci(s):
     return re.sub(r"[ \t]{2,}", " ", s).strip()
 
 
+# Una passata di revisione torna apposta su campi gia' lavorati: patch_incerti e' il riscontro
+# sull'audio e sulle altre fonti della stessa seduta, e il suo valore vince su quello della prima
+# lettura. La differenza con un conflitto sta tutta qui: la revisione e' dichiarata in anticipo,
+# il conflitto no. Due letture indipendenti che divergono restano un errore e fermano tutto.
+REVISIONI = ('patch_incerti.csv',)
+
+
 def carica_patch():
     righe, visti = [], {}
-    for f in sorted(glob.glob(PATCH + '/patch_*.csv')):
+    prima = [f for f in sorted(glob.glob(PATCH + '/patch_*.csv'))
+             if os.path.basename(f) not in REVISIONI]
+    poi = [f for f in sorted(glob.glob(PATCH + '/patch_*.csv'))
+           if os.path.basename(f) in REVISIONI]
+    riviste = 0
+    for f in prima + poi:
+        nome = os.path.basename(f)
         for r in csv.DictReader(open(f, encoding='utf-8')):
-            r['_file'] = os.path.basename(f)
+            r['_file'] = nome
             chiave = (r['riga'], r['campo'])
-            if chiave in visti and visti[chiave] != r.get('valore_nuovo', ''):
-                print('CONFLITTO su %s %s: %s e %s divergono'
-                      % (r['riga'], r['campo'], visti[chiave][:40], r.get('valore_nuovo', '')[:40]))
-                sys.exit(1)
-            visti[chiave] = r.get('valore_nuovo', '')
+            # «invariato» senza valore non e' una revisione del testo: e' un riscontro che non ha
+            # trovato niente. Il campo resta come la passata precedente lo ha lasciato, e di questa
+            # riga valgono solo la ragione e i flag. Trattarla come superamento cancellerebbe un
+            # nome gia' ripristinato con la sua prova.
+            rivede = nome in REVISIONI and (r.get('valore_nuovo') or '').strip() \
+                and r['esito'] in ('ripristinato', 'corretto', 'fuori_seduta')
+            if chiave in visti and visti[chiave][0] != r.get('valore_nuovo', '') and (
+                    nome not in REVISIONI or rivede):
+                if not rivede:
+                    print('CONFLITTO su %s %s: %s (%s) e %s (%s) divergono'
+                          % (r['riga'], r['campo'], visti[chiave][0][:40], visti[chiave][1],
+                             r.get('valore_nuovo', '')[:40], nome))
+                    sys.exit(1)
+                # La riga superata esce dall'elenco: applicarle entrambe farebbe dipendere il
+                # risultato dall'ordine di scrittura, che e' il modo peggiore di decidere.
+                righe = [x for x in righe if (x['riga'], x['campo']) != chiave]
+                riviste += 1
+            if chiave not in visti or rivede:
+                visti[chiave] = (r.get('valore_nuovo', ''), nome)
             righe.append(r)
+    if riviste:
+        print('campi rivisti da una passata di riscontro: %d' % riviste)
     return righe
 
 
