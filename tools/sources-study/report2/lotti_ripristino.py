@@ -18,6 +18,14 @@ RUOLI = (r"consiglier[ae]|assessor[ae]|funzionari[oa]|dirigente|referente|relato
          r"ditta individuale|professionista|avvocat[oa]|architett[oa]|ingegner[ea]|"
          r"present(?:atore|atrice)|direttor[ei]|direttrice")
 FORMULA = re.compile(r"\b(un|una|un'|il|lo|la|l')\s*(" + RUOLI + r")\b", re.I)
+# Anche le organizzazioni erano state perifrasate ("una fondazione cinematografica romana",
+# "un duo indie-pop", "una testata online"), benche' nessuna regola lo chiedesse. La DEC-105 le
+# nomina esplicitamente, quindi vanno cercate insieme ai nomi di persona.
+ORG = (r"fondazione|associazione|cooperativa|comitato|consorzio|testata|emittente|"
+       r"compagnia|band|duo|trio|quartetto|orchestra|coro|collettivo|"
+       r"societ[àa]|impresa|ditta|studio|agenzia|editrice|casa editrice|galleria|"
+       r"scuola di musica|centro culturale|libreria")
+FORMULA_ORG = re.compile(r"\b(un|una|un')\s*(" + ORG + r")\b", re.I)
 CAMPI_N = ['titolo_anonimizzato', 'sintesi', 'evidenza_locale']
 CAMPI_D = ['titolo_anonimizzato']
 
@@ -67,7 +75,9 @@ def formule_in(riga, campi):
     le successive nello stesso campo non entravano in lavorazione e restavano nel dato."""
     out = []
     for c in campi:
-        trovate = [m.group(0) for m in FORMULA.finditer(riga.get(c) or '')]
+        testo = riga.get(c) or ''
+        trovate = [m.group(0) for m in FORMULA.finditer(testo)]
+        trovate += [m.group(0) for m in FORMULA_ORG.finditer(testo)]
         if trovate:
             out.append((c, trovate))
     return out

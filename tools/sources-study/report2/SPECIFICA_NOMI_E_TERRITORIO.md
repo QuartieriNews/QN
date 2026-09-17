@@ -15,8 +15,13 @@ automatica con il ruolo.
 
 **Il criterio è la pertinenza al fatto**, non la categoria della persona. Pertinente è chi
 agisce, decide, propone, chiede, risponde, testimonia o subisce il fatto raccontato. Non è
-pertinente chi compare per ragioni che con il fatto non c'entrano — chi è citato di sfuggita
-in un elenco di presenze quando la notizia non riguarda le presenze, per dire.
+pertinente chi compare per ragioni che con il fatto non c'entrano.
+
+Un chiarimento su un caso che torna spesso: **le autorità presenti a una cerimonia pubblica sono
+pertinenti**. Un'inaugurazione, un'intitolazione, una commemorazione *sono* l'occasione in cui chi
+governa si mostra, e per un giornale di quartiere chi c'era è spesso la notizia. Vale il criterio
+generale: togliere un nome vuole una ragione concreta, e «compare in un elenco di presenze» non lo
+è quando il fatto è la presenza.
 
 **Un'omissione va motivata.** Se un nome si toglie, in `note` va scritta la ragione
 **concreta e legata al contenuto** («il verbale attribuisce la frase a due persone diverse»,
@@ -34,6 +39,11 @@ persona poco prima, la seconda occorrenza si riduce al cognome invece di ripeter
 Due registrazioni della stessa seduta sono due fonti dello stesso fatto: se il nome si sente in una
 sola delle due, vale, e si dichiara in `note` da quale. Resta vietato prenderlo da un'altra seduta,
 da un altro atto o da quello che si sa del Municipio.
+
+**Anche le organizzazioni erano state perifrasate.** Nessuna regola lo chiedeva, ma i lettori hanno
+reso «Fondazione Piccolo America» come «una fondazione cinematografica romana», «Witch Post» come
+«un duo indie-pop». La DEC-105 nomina le imprese fra ciò che si conserva, e un'organizzazione senza
+nome non si può né cercare né verificare: **si rimettono**, con la stessa verifica sulla fonte.
 
 **Che cosa è una formula da correggere.** È una formula quella che sta al posto di **una persona
 che ha agito**: «il presidente», «il direttore», «la referente», «un consigliere». **Non** è una
@@ -62,7 +72,9 @@ e la fonte dice «il consigliere Guerrini», vince la fonte, e lo scarto si dich
 quello che va corretto: non può essere la prova di sé stessa.
 
 **Due incertezze diverse, due posti diversi.** `trascrizione_incerta` riguarda **la forma udita**:
-il cognome che si sente in due modi. Quando invece è fragile **l'attribuzione** — la voce non è
+il cognome che si sente in due modi — **o una volta sola**. Un cognome pronunciato un'unica volta in
+una trascrizione automatica è il caso più fragile che ci sia, non il più sicuro: niente lo conferma.
+Il flag si alza anche lì. Quando invece è fragile **l'attribuzione** — la voce non è
 etichettata, il ricongiungimento fra nome e cognome poggia su un solo scambio — si alza
 `attribuzione_incerta` e si spiega in `ragione`. Sono cose che un lettore del dato deve poter
 distinguere senza leggere la prosa: un cognome incerto si verifica riascoltando, un'attribuzione
