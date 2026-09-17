@@ -37,7 +37,7 @@ mancanti = 0
 for r in righe:
     if r['fonte'] not in PARLATO: continue
     item = r['documento_id'].replace('A4_', 'V4_').replace('A3_', 'V3_')
-    k = (item, r['titolo_anonimizzato'].strip())
+    k = (item, r['titolo'].strip())
     u = umano.get(k)
     if u is None:
         mancanti += 1

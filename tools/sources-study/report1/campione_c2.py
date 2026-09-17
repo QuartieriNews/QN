@@ -16,7 +16,7 @@ for stato,rs in sorted(per_stato.items()):
 resto=[r for r in rows if r['id'] not in scelte]
 for r in rnd.sample(resto, max(0, 40-len(scelte))): scelte[r['id']]=r
 camp=[scelte[k] for k in sorted(scelte)]
-campi=['id','fonte','documento_id','titolo_anonimizzato','sintesi','tipo','luoghi','municipio','municipio_testo','zona','tier_localizzazione','toponimo_da_verificare','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','qualita','dedup_stato','gemello_id','ragione_dedup','note']
+campi=['id','fonte','documento_id','titolo','sintesi','tipo','luoghi','municipio','municipio_testo','zona','tier_localizzazione','toponimo_da_verificare','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','qualita','dedup_stato','gemello_id','ragione_dedup','note']
 with open(R+'/db/campione_c2.csv','w',newline='',encoding='utf-8') as f:
     w=csv.DictWriter(f,fieldnames=campi,extrasaction='ignore'); w.writeheader(); w.writerows(camp)
 print(len(camp),'notizie nel campione, seed 2026-06-C2')

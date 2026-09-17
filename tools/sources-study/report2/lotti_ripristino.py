@@ -30,8 +30,8 @@ FORMULA_ORG = re.compile(r"\b(un|una|un')\s*(" + ORG + r")\b", re.I)
 # riconoscibile: cercarli a regex da' 534 righe di cui quasi tutte sono prosa normale - "una
 # mostra di fotografia" descrive, non nasconde un titolo. Restano da correggere a mano, e la
 # misura sta in STATO: dichiararlo e' meglio che far leggere mezzo corpus per falsi positivi.
-CAMPI_N = ['titolo_anonimizzato', 'sintesi', 'evidenza_locale']
-CAMPI_D = ['titolo_anonimizzato']
+CAMPI_N = ['titolo', 'sintesi', 'evidenza_locale']
+CAMPI_D = ['titolo']
 
 
 def leggi(nome):

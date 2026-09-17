@@ -7,13 +7,13 @@ S = os.environ['QN_NET']; D = S + '/report1/db'
 # 'sintesi' e 'note' restano fuori: sono la parte lunga e il file deve poter essere caricato.
 # 'evidenza_locale' e 'report_origine' ci sono: senza la pagina un atto non e' verificabile, e
 # senza il rapporto di origine non si distingue una riga del Report 1 da una del Report 2.
-COLONNE = ['id', 'documento_id', 'fonte', 'report_origine', 'titolo_anonimizzato', 'tipo', 'luoghi',
+COLONNE = ['id', 'documento_id', 'fonte', 'report_origine', 'titolo', 'tipo', 'luoghi',
            'municipio', 'municipio_testo', 'zona', 'quartiere', 'quartiere_zu',
            'territorio_dedotto', 'tier_localizzazione', 'toponimo_da_verificare',
            'attribuzione_incerta', 'fuori_perimetro',
            'evidenza_url', 'evidenza_locale', 'data_fatto', 'data_pubblicazione', 'qualita',
            'dedup_stato', 'gemello_id', 'ragione_dedup', 'prima_fonte', 'vicenda_id', 'settimana']
-COL_DOC = ['id', 'fonte', 'tipo', 'url', 'data_pubblicazione', 'titolo_anonimizzato', 'municipi_meta',
+COL_DOC = ['id', 'fonte', 'tipo', 'url', 'data_pubblicazione', 'titolo', 'municipi_meta',
            'caratteri', 'formato_item', 'metodo_estrazione', 'ocr_incerto', 'esito_lettura',
            'settimana', 'report_origine', 'letto_da']
 

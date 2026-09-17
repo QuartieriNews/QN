@@ -26,7 +26,7 @@ for r in righe:
     if r['fonte'] not in PARLATO: continue
     cl = classe(r['gemelli_scritti'])
     it = r['documento_id'].replace('A4_', 'V4_').replace('A3_', 'V3_')
-    inc = incerto.get((it, r['titolo_anonimizzato'][:40]),
+    inc = incerto.get((it, r['titolo'][:40]),
                       (r['toponimo_da_verificare'] or 'no').lower() in ('sì', 'si'))
     c[(cl, 'toponimo incerto' if inc else 'toponimo fermo')] += 1
 tot = sum(c.values())

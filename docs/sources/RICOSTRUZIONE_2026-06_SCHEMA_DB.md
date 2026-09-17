@@ -46,7 +46,7 @@ repository entrano solo gli aggregati e il riferimento alla cartella Drive.
 | `data_pubblicazione` | ISO `AAAA-MM-GG`; vuoto → gruppo "senza data" (§4.1) | sì |
 | `timestamp_pubblicazione` | ISO con ora e fuso quando la fonte la dà (C2 la dà, C1 no): è il primo criterio del tie-break §4.1 | sì |
 | `data_evento_inizio`, `data_evento_fine` | solo blocco Eventi | sì |
-| `titolo_anonimizzato` | titolo della pagina con i nomi di persona sostituiti dal ruolo (DEC-102): il titolo grezzo non lascia lo scratchpad | no |
+| `titolo` | titolo della pagina con i nomi di persona sostituiti dal ruolo (DEC-102): il titolo grezzo non lascia lo scratchpad | no |
 | `municipi_meta` | Municipi dichiarati dalla fonte, separati da `;` | sì |
 | `tematica` | tematica dichiarata dalla fonte | sì |
 | `caratteri` | caratteri del testo estratto | no |
@@ -69,7 +69,7 @@ una riga appartiene sempre a un solo documento (l'unione fra documenti sta in `v
 | `id` | `N<progressivo a 4 cifre>` | no |
 | `documento_id` | `documenti.id` | no |
 | `fonte` | `fonti.codice`, ridondante per la lettura diretta | no |
-| `titolo_anonimizzato` | ≤ 12 parole, senza nomi di persona (DEC-102) | no |
+| `titolo` | ≤ 12 parole, senza nomi di persona (DEC-102) | no |
 | `sintesi` | ≤ 60 parole, senza nomi di persona | no |
 | `tipo` | delibera, mozione, risoluzione, ordine del giorno, interrogazione, sopralluogo, audizione, arresto, sequestro, incendio, incidente, controllo, evento, avviso, altro | no |
 | `luoghi` | toponimi citati, separati da `;`, come compaiono nel testo | sì |
@@ -102,7 +102,7 @@ Vicenda = insieme di notizie candidate che seguono lo stesso fatto nel tempo o f
 | Colonna | Contenuto | Vuoto |
 |---|---|---|
 | `id` | `V<progressivo a 3 cifre>` | no |
-| `titolo_anonimizzato` | ≤ 12 parole, senza nomi di persona | no |
+| `titolo` | ≤ 12 parole, senza nomi di persona | no |
 | `tipo` | come `notizie_candidate.tipo` | no |
 | `municipio`, `zona` | come sopra | sì |
 | `prima_pubblicazione`, `ultima_pubblicazione` | ISO | no |
@@ -176,7 +176,7 @@ Vicenda = insieme di notizie candidate che seguono lo stesso fatto nel tempo o f
   `media` quando uno dei tre è dedotto; `bassa` quando due lo sono. Una notizia il cui fatto è
   solo annunciato (convocazione, ordine del giorno) non supera `media`.
 - Nessun nome di persona in nessuna colonna (DEC-102): ruoli al loro posto. Vale anche per le
-  colonne copiate dalla fonte, `titolo_anonimizzato` in testa: il titolo grezzo della pagina resta
+  colonne copiate dalla fonte, `titolo` in testa: il titolo grezzo della pagina resta
   nello scratchpad e non viene mai caricato. Controllo con `grep` sui nomi presenti nei testi di
   partenza prima di ogni caricamento.
 - Le contraddizioni si dichiarano, non si risolvono: `non verificato` nelle colonne interessate e

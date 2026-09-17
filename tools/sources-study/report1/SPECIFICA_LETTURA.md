@@ -56,9 +56,9 @@ dopo che sono rientrati. Ogni modifica è datata nel registro in fondo.
 Un file `out/<lotto>_notizie.csv` con una riga per **notizia candidata** (zero, una o più per
 item) e queste colonne, nell'ordine:
 
-`documento_id,fonte,titolo_anonimizzato,sintesi,tipo,luoghi,municipio_testo,evidenza_url,evidenza_locale,data_fatto,data_pubblicazione,disponibilita,qualita,toponimo_da_verificare,note`
+`documento_id,fonte,titolo,sintesi,tipo,luoghi,municipio_testo,evidenza_url,evidenza_locale,data_fatto,data_pubblicazione,disponibilita,qualita,toponimo_da_verificare,note`
 
-- `titolo_anonimizzato`: ≤ 12 parole, scritto da te, senza nomi di persona.
+- `titolo`: ≤ 12 parole, scritto da te, senza nomi di persona.
 - `sintesi`: ≤ 60 parole, densa, senza nomi di persona.
 - `tipo`: delibera, mozione, risoluzione, ordine del giorno, interrogazione, sopralluogo,
   audizione, convegno, arresto, sequestro, incendio, incidente, controllo, evento, avviso, altro.

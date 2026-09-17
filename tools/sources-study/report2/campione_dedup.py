@@ -37,7 +37,7 @@ def giorno(r):
     return int(m.group(3)) + 31 * int(m.group(2)) if m else None
 
 def parole(r):
-    testo = (r['titolo_anonimizzato'] or '') + ' ' + (r['luoghi'] or '')
+    testo = (r['titolo'] or '') + ' ' + (r['luoghi'] or '')
     return {w for w in re.findall(r"[a-zA-Zàèéìòù']+", testo.lower()) if len(w) > 5}
 
 # Le coppie non si ricalcolano qui: le scrive `build_db.py` in `coppie_parlato_scritto.csv` mentre
@@ -78,7 +78,7 @@ camp = vicini[:40]
 def riga(r, pref='  '):
     return ('%s%s [%s, %s, %s] %s\n%s   luoghi: %s\n%s   %s'
             % (pref, r['id'], r['fonte'], r['data_fatto'], r['municipio'] or '-',
-               r['titolo_anonimizzato'], pref, r['luoghi'], pref, (r['sintesi'] or '')[:200]))
+               r['titolo'], pref, r['luoghi'], pref, (r['sintesi'] or '')[:200]))
 
 out = ['# Campione per l\'audit della deduplicazione', '',
        'Seme `%s`. Per ogni coppia: **stesso fatto** o **fatti diversi**, piu\' una riga di motivo.' % SEME,

@@ -51,7 +51,7 @@ for r in esse:
     if not top:
         senza_toponimo += 1; continue
     d = data(r['data_fatto']); muns = {m.strip() for m in (r['municipio'] or '').split(';') if m.strip()}
-    chiave = {w for w in norm(r['titolo_anonimizzato']).split() if len(w) > 6}
+    chiave = {w for w in norm(r['titolo']).split() if len(w) > 6}
     hit = None
     for n, mun, da, testo in atti:
         if muns and mun and mun not in muns: continue
@@ -61,7 +61,7 @@ for r in esse:
         hit = n; break
     if hit:
         trovate += 1
-        if len(esempi) < 8: esempi.append((r['id'], r['titolo_anonimizzato'][:58], hit))
+        if len(esempi) < 8: esempi.append((r['id'], r['titolo'][:58], hit))
 
 confrontabili = len(esse) - senza_toponimo
 print('  senza un toponimo cercabile: %d (non misurabili cosi\')' % senza_toponimo)

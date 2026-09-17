@@ -17,7 +17,7 @@ for c in csv.DictReader(open(NET + '/report2/coppie_parlato_scritto.csv', encodi
 def riga(r, pref='  '):
     return ('%s%s [%s, %s, %s] %s\n%s   luoghi: %s\n%s   %s'
             % (pref, r['id'], r['fonte'], r['data_fatto'], r['municipio'] or '-',
-               r['titolo_anonimizzato'], pref, r['luoghi'], pref, (r['sintesi'] or '')[:200]))
+               r['titolo'], pref, r['luoghi'], pref, (r['sintesi'] or '')[:200]))
 
 out = ['# Campione da rigiudicare — accostamenti corretti', '',
        'Le stesse candidate del primo campione, con **i propri** accostamenti: la prima volta ne',

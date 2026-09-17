@@ -14,12 +14,12 @@ PARLATO = {'A3', 'A4'}
 per_doc = collections.defaultdict(set)
 for r in righe:
     if r['fonte'] in PARLATO:
-        per_doc[r['documento_id']].add(r['titolo_anonimizzato'])
+        per_doc[r['documento_id']].add(r['titolo'])
 
 falsi = collections.defaultdict(list)
 for d in docs.values():
     if d['fonte'] in PARLATO:
-        falsi[(d['titolo_anonimizzato'], d['data_pubblicazione'], d['municipi_meta'])].append(d['id'])
+        falsi[(d['titolo'], d['data_pubblicazione'], d['municipi_meta'])].append(d['id'])
 print('regola titolo+data+municipio: %d gruppi (la maggior parte sono sedute diverse)'
       % sum(1 for v in falsi.values() if len(v) > 1))
 
@@ -30,7 +30,7 @@ doppioni = sorted((sorted(v), len(k)) for k, v in gruppi.items() if len(v) > 1)
 print('regola sull\'insieme dei titoli: %d gruppi' % len(doppioni))
 scartati = set()
 for ids, n in doppioni:
-    print('  %s  %d candidate  %s' % (', '.join(ids), n, docs[ids[0]]['titolo_anonimizzato'][:60]))
+    print('  %s  %d candidate  %s' % (', '.join(ids), n, docs[ids[0]]['titolo'][:60]))
     for i in ids[1:]:
         print('     doppione: %s (%s)' % (i, docs[i]['url'].rsplit('/', 1)[-1]))
         scartati.add(i)

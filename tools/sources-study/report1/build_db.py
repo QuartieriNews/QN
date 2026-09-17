@@ -47,7 +47,7 @@ for r in man:
         'id': r['id'], 'fonte': r['fonte'], 'tipo': r.get('tipo', ''), 'url': r['url'],
         'data_pubblicazione': r.get('data_pubblicazione', ''), 'timestamp_pubblicazione': '',
         'data_evento_inizio': r.get('data_evento_inizio', ''), 'data_evento_fine': r.get('data_evento_fine', ''),
-        'titolo_anonimizzato': '', 'municipi_meta': r.get('municipi_meta', ''),
+        'titolo': '', 'municipi_meta': r.get('municipi_meta', ''),
         'tematica': r.get('tematica', ''), 'caratteri': r.get('caratteri', ''),
         'formato_item': 'HTML', 'metodo_estrazione': 'nativo', 'ocr_incerto': '',
         'trascrizione_incerta': '', 'esito_lettura': 'completo',
@@ -88,10 +88,13 @@ for doc_id in sorted(letti):
         doc = documenti.get(doc_id)
         if not doc: print('ORFANA', doc_id); continue
         doc['letto_da'] = lotto
-        if not doc['titolo_anonimizzato']: doc['titolo_anonimizzato'] = r['titolo_anonimizzato']
+        # I file dei lettori portano ancora `titolo_anonimizzato`: la rinomina (DEC-105) vale
+        # per quello che scriviamo, non per quello che ci e' stato consegnato.
+        if not doc['titolo']: doc['titolo'] = r['titolo_anonimizzato']
         # Localisation (schema §2 rule 4): the source's Municipio prevails; a disagreement with the
         # text is recorded as a toponym to verify, never silently resolved.
-        loc = geo.localise(' '.join([r.get('luoghi', ''), r.get('sintesi', ''), r.get('titolo_anonimizzato', '')]))
+        loc = geo.localise(' '.join([r.get('luoghi', ''), r.get('sintesi', ''),
+                                     r.get('titolo_anonimizzato', '')]))
         mun_testo = norm_mun(r.get('municipio_testo', ''))
         mun_meta = norm_mun(doc['municipi_meta'])
         # The text's Municipio is about this news; the source's tag is about the page, and on A1 it
@@ -117,7 +120,7 @@ for doc_id in sorted(letti):
                   or discorde or irrisolto)
         notizie.append({
             'id': '', 'documento_id': doc_id, 'fonte': r['fonte'],
-            'titolo_anonimizzato': r['titolo_anonimizzato'], 'sintesi': r['sintesi'], 'tipo': r['tipo'],
+            'titolo': r['titolo_anonimizzato'], 'sintesi': r['sintesi'], 'tipo': r['tipo'],
             'luoghi': r.get('luoghi', ''), 'municipio': ';'.join(mun_fonte),
             'zona': zona, 'tier_localizzazione': tier,
             # DEC-105: il quartiere d'uso comune e la sua zona urbanistica sono due cose
@@ -243,7 +246,7 @@ if os.path.isdir(R2 + '/out'):
             'id': did, 'fonte': 'A2', 'tipo': 'atto', 'url': meta['url'],
             'data_pubblicazione': iso_it(meta['data']), 'timestamp_pubblicazione': '',
             'data_evento_inizio': '', 'data_evento_fine': '',
-            'titolo_anonimizzato': r.get('oggetto_sintetico', ''),
+            'titolo': r.get('oggetto_sintetico', ''),
             'municipi_meta': meta['municipio'] if meta['municipio'] != 'non indicato' else '',
             'tematica': meta['tipologia'], 'caratteri': meta.get('caratteri', ''),
             'formato_item': fmt, 'metodo_estrazione': 'OCR' if fmt == 'PDF scansione' else 'nativo',
@@ -263,7 +266,7 @@ if os.path.isdir(R2 + '/out'):
         data_fatto = data_del_fatto(meta['tipologia'], r, meta)
         notizie.append({
             'id': '', 'documento_id': did, 'fonte': 'A2',
-            'titolo_anonimizzato': r.get('titolo_candidato', ''), 'sintesi': r.get('contenuto', ''),
+            'titolo': r.get('titolo_candidato', ''), 'sintesi': r.get('contenuto', ''),
             'tipo': tipo, 'luoghi': r.get('luoghi', ''), 'municipio': ';'.join(mun),
             'zona': zona, 'tier_localizzazione': tier,
             'quartiere': loc.get('quartiere', ''), 'quartiere_zu': loc.get('quartiere_zu', ''),
@@ -285,7 +288,7 @@ if os.path.isdir(R2 + '/out'):
     if sconosciuti:
         print('  tipologie senza un esempio letto, portate a "altro":', dict(sconosciuti))
     lunghe = sum(1 for n in notizie[n_r1:] if len(n['sintesi'].split()) > 60)
-    titoloni = sum(1 for n in notizie[n_r1:] if len(n['titolo_anonimizzato'].split()) > 12)
+    titoloni = sum(1 for n in notizie[n_r1:] if len(n['titolo'].split()) > 12)
     print(f'  fuori schema, lasciate intatte: {lunghe} sintesi oltre 60 parole, '
           f'{titoloni} titoli oltre 12 parole')
 
@@ -309,7 +312,7 @@ def item_video(j, meta, lotto):
         'id': did, 'fonte': fonte, 'tipo': 'registrazione', 'url': meta.get('url', ''),
         'data_pubblicazione': meta.get('data_pubblicazione', ''), 'timestamp_pubblicazione': '',
         'data_evento_inizio': '', 'data_evento_fine': '',
-        'titolo_anonimizzato': '%s, %s del %s' % (j.get('territorio', ''), j.get('organo', ''),
+        'titolo': '%s, %s del %s' % (j.get('territorio', ''), j.get('organo', ''),
                                                   j.get('data_seduta', '')),
         'municipi_meta': ';'.join(ROMANI_DA_TERRITORIO.findall(j.get('territorio', '') or '')),
         'tematica': '', 'caratteri': parole, 'formato_item': 'video',
@@ -332,7 +335,7 @@ def item_video(j, meta, lotto):
         tier = loc.get('tier') or ('meta' if mun else 'assente')
         righe.append({
             'id': '', 'documento_id': did, 'fonte': fonte,
-            'titolo_anonimizzato': c.get('titolo', ''), 'sintesi': c.get('sintesi', ''),
+            'titolo': c.get('titolo', ''), 'sintesi': c.get('sintesi', ''),
             'tipo': c.get('tipo', 'altro'), 'luoghi': '; '.join(c.get('luoghi') or []),
             'municipio': ';'.join(mun), 'zona': zona, 'tier_localizzazione': tier,
             'quartiere': loc.get('quartiere', ''), 'quartiere_zu': loc.get('quartiere_zu', ''),
@@ -392,11 +395,12 @@ if os.path.isdir(R2 + '/out_video'):
 # titolo) e non alla sua posizione. Le righe gia' viste tengono il proprio; le nuove prendono il
 # primo numero libero. Il registro si versiona insieme ai dati.
 REGISTRO = R + '/db/registro_id.csv'
-chiave_id = lambda n: (n['documento_id'], (n['titolo_anonimizzato'] or '').strip())
+chiave_id = lambda n: (n['documento_id'], (n['titolo'] or '').strip())
 registro = {}
 if os.path.exists(REGISTRO):
     for r in csv.DictReader(open(REGISTRO, encoding='utf-8')):
-        registro[(r['documento_id'], r['titolo'])] = r['id']
+        # Il registro puo' essere stato scritto prima della rinomina: si accettano entrambi.
+        registro[(r['documento_id'], r.get('titolo') or r.get('titolo_anonimizzato', ''))] = r['id']
 liberi = max([int(v[1:]) for v in registro.values()] or [0])
 nuovi_id = 0
 for n in notizie:
@@ -470,7 +474,7 @@ def stesso_oggetto(a, b):
     misto = (a['fonte'] in PARLATO_FONTI) != (b['fonte'] in PARLATO_FONTI)
     if not misto and TIPO_AFFINE.get(a['tipo'], a['tipo']) != TIPO_AFFINE.get(b['tipo'], b['tipo']):
         return False
-    pa, pb = parole(a['titolo_anonimizzato'] + ' ' + a['luoghi']), parole(b['titolo_anonimizzato'] + ' ' + b['luoghi'])
+    pa, pb = parole(a['titolo'] + ' ' + a['luoghi']), parole(b['titolo'] + ' ' + b['luoghi'])
     if not pa or not pb: return False
     return len(pa & pb) / min(len(pa), len(pb)) >= 0.6
 
@@ -628,7 +632,7 @@ for n in notizie:
     vid = capo['vicenda_id'] or f'V{len(vicende) + 1:03d}'
     if not capo['vicenda_id']:
         capo['vicenda_id'] = vid
-        vicende.append({'id': vid, 'titolo_anonimizzato': capo['titolo_anonimizzato'], 'tipo': capo['tipo'],
+        vicende.append({'id': vid, 'titolo': capo['titolo'], 'tipo': capo['tipo'],
                         'municipio': capo['municipio'], 'zona': capo['zona'],
                         'quartiere': capo.get('quartiere', ''), 'quartiere_zu': capo.get('quartiere_zu', ''),
                         'prima_pubblicazione': capo['data_pubblicazione'], 'ultima_pubblicazione': capo['data_pubblicazione'],
@@ -732,9 +736,9 @@ print('celle Municipio×settimana senza notizie:', sum(1 for r in terr_righe if 
 
 print('tabelle scritte in report1/db/:')
 scrivi('fonti', fonti, ['codice','nome','blocco','ente','url_elenco','base_url','formato','item_giugno','paginazione_completa','data_lettura','report','note'])
-scrivi('documenti', list(documenti.values()), ['id','fonte','tipo','url','data_pubblicazione','timestamp_pubblicazione','data_evento_inizio','data_evento_fine','titolo_anonimizzato','municipi_meta','tematica','caratteri','formato_item','metodo_estrazione','ocr_incerto','trascrizione_incerta','esito_lettura','settimana','report_origine','letto_da'])
-scrivi('notizie_candidate', notizie, ['id','documento_id','fonte','titolo_anonimizzato','sintesi','tipo','luoghi','municipio','municipio_testo','zona','quartiere','quartiere_zu','territorio_dedotto','tier_localizzazione','toponimo_da_verificare','attribuzione_incerta','fuori_perimetro','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','disponibilita','qualita','dedup_stato','gemello_id','ragione_dedup','gemelli_scritti','gemelli_scritti_blocco','prima_fonte','vicenda_id','integra_gemello_id','campi_integrati','settimana','report_origine','verifica_seconda_ai','note'])
-scrivi('vicende', vicende, ['id','titolo_anonimizzato','tipo','municipio','zona','quartiere','quartiere_zu','prima_pubblicazione','ultima_pubblicazione','n_notizie','fonti','confidenza','solo_report2','stato'])
+scrivi('documenti', list(documenti.values()), ['id','fonte','tipo','url','data_pubblicazione','timestamp_pubblicazione','data_evento_inizio','data_evento_fine','titolo','municipi_meta','tematica','caratteri','formato_item','metodo_estrazione','ocr_incerto','trascrizione_incerta','esito_lettura','settimana','report_origine','letto_da'])
+scrivi('notizie_candidate', notizie, ['id','documento_id','fonte','titolo','sintesi','tipo','luoghi','municipio','municipio_testo','zona','quartiere','quartiere_zu','territorio_dedotto','tier_localizzazione','toponimo_da_verificare','attribuzione_incerta','fuori_perimetro','evidenza_url','evidenza_locale','data_fatto','data_pubblicazione','disponibilita','qualita','dedup_stato','gemello_id','ragione_dedup','gemelli_scritti','gemelli_scritti_blocco','prima_fonte','vicenda_id','integra_gemello_id','campi_integrati','settimana','report_origine','verifica_seconda_ai','note'])
+scrivi('vicende', vicende, ['id','titolo','tipo','municipio','zona','quartiere','quartiere_zu','prima_pubblicazione','ultima_pubblicazione','n_notizie','fonti','confidenza','solo_report2','stato'])
 scrivi('territori', terr_righe, ['municipio','settimana','n_documenti','n_notizie','n_notizie_alta','n_notizie_media','n_notizie_bassa','fonti_presenti','mediana_giorni_pubblicazione','lacuna'])
 for blocco, c in campioni.items():
     righe = [n for n in notizie if n['id'] in c['ids']]
