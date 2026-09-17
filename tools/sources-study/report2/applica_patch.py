@@ -43,7 +43,23 @@ def main():
         per_tab[r['tabella']].append(r)
 
     fuori = [r for r in patch if r['esito'] == 'fuori_seduta']
-    applicati = mancanti = 0
+    applicati = mancanti = spostati = 0
+    # Un patch puo' sbagliare la tabella: l'identificativo e' univoco fra le due, quindi la riga
+    # si ritrova invece di perderla. Si dichiara, perche' e' un errore che vale la pena vedere.
+    indici = {}
+    for tab, nome in TABELLE.items():
+        indici[tab] = {r['id'] for r in csv.DictReader(open(DB + '/' + nome, encoding='utf-8'))}
+    for p in patch:
+        if p['riga'] not in indici.get(p['tabella'], set()):
+            altra = next((k for k in TABELLE if p['riga'] in indici[k]), None)
+            if altra:
+                print('tabella corretta: %s dichiarata %s, e\' in %s (%s)'
+                      % (p['riga'], p['tabella'], altra, p['_file']))
+                p['tabella'] = altra
+                spostati += 1
+    per_tab = collections.defaultdict(list)
+    for r in patch:
+        per_tab[r['tabella']].append(r)
     for tab, elenco in per_tab.items():
         percorso = DB + '/' + TABELLE[tab]
         righe = list(csv.DictReader(open(percorso, encoding='utf-8')))
@@ -67,6 +83,13 @@ def main():
             # I primi patch non avevano la colonna del flag: la ragione lo dice a parole.
             incerta = (p.get('trascrizione_incerta') or '').strip().lower() in ('sì', 'si') \
                 or bool(re.search(r'trascri\w*\s+incert|forma udita|oscilla|mal trascritt', nota, re.I))
+            if p['esito'] == 'fuori_seduta':
+                # DEC-105 §2: il materiale fuori seduta non resta nei file, nemmeno riassunto.
+                for c in ('titolo', 'titolo_anonimizzato', 'sintesi'):
+                    if c in campi:
+                        r[c] = ''
+                if 'fuori_perimetro' in campi:
+                    r['fuori_perimetro'] = 'sì'
             if (p.get('attribuzione_incerta') or '').strip().lower() in ('sì', 'si') \
                     and 'attribuzione_incerta' in campi:
                 r['attribuzione_incerta'] = 'sì'
@@ -83,7 +106,8 @@ def main():
         print('%s: %d righe riscritte' % (TABELLE[tab], len(righe)))
 
     print('patch: %s' % dict(esiti))
-    print('campi sostituiti: %d, righe non trovate: %d' % (applicati, mancanti))
+    print('campi sostituiti: %d, righe non trovate: %d, tabella corretta: %d'
+          % (applicati, mancanti, spostati))
     if fuori:
         print('da escludere perche fuori seduta: %d' % len(fuori))
         for r in fuori:
