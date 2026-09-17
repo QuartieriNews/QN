@@ -215,3 +215,37 @@ nominati portano a territori diversi, si scrivono **tutti** i valori separati da
 ne sceglie uno. Se il luogo non basta a decidere, `municipio` e `quartiere` restano
 `non verificato` e il toponimo va in `toponimo_da_verificare`. Forzare un valore unico su un
 caso a cavallo è l'errore che questa regola esiste per evitare.
+
+## 4. Regole aggiunte durante la terza passata
+
+**Quanto dev'essere corto un elenco perché il collettivo si sciolga.** Non è una soglia di
+conteggio: è la fonte che decide. Il collettivo si scioglie quando la fonte **nomina tutti**
+i componenti di cui parla — «quattro musicisti», «cinque comici», i firmatari di un atto —
+perché lì il collettivo è solo un modo di riassumere un elenco che la fonte ha già scritto.
+Resta collettivo quando la fonte stessa non li elenca («una ventina di titoli di compagnie
+diverse», «gli attori del corso di perfezionamento»): scrivere i nomi che si trovano altrove
+non completerebbe l'elenco, lo trasformerebbe in un elenco parziale presentato come intero.
+Un numero fisso avrebbe sciolto elenchi incompleti e tenuto insieme elenchi completi.
+
+**La zona urbanistica è posizionale.** `quartiere_zu` ha una posizione per ogni quartiere di
+`quartiere`, vuote comprese: `;20D;20A;` su quattro quartieri significa che il primo e il
+quarto non hanno zona urbanistica. Comprimere i vuoti attribuirebbe la zona a un altro
+quartiere.
+
+**Corrispondenza Municipio/quartiere.** Il Municipio della fonte non si riscrive (regola 4
+dello schema), ma quando non è fra quelli del quartiere la riga esce `toponimo_da_verificare`.
+Stesso trattamento quando il quartiere è stato riconosciuto solo dentro il nome di una strada
+(«via di Ponte Salario» non colloca il fatto nel rione Ponte). Quando il nome sta dentro un
+nome più lungo che è a sua volta un quartiere («Monti» dentro «Monti Tiburtini», «Ostiense»
+dentro «Fonte Ostiense»), vince il più lungo e il più corto non si conta.
+
+**Una passata di riscontro può rivedere un campo già lavorato**, ma solo se porta un valore
+nuovo e lo dichiara. Un `invariato` senza valore significa «il riscontro non ha trovato
+niente»: il campo resta come la passata precedente l'ha lasciato, e di quella riga valgono
+solo la ragione e i flag. Due letture indipendenti che divergono restano un conflitto e
+fermano tutto.
+
+**Dove il riscontro sugli atti non è praticabile.** Gli atti del Municipio X sono pubblicati
+già anonimizzati — firmatari resi con «(OMISSIS)», firme senza nome. Per quel Municipio
+l'assenza di un nome negli atti non è una prova che il nome non ci sia: è una proprietà della
+fonte, e va dichiarata come tale invece di essere letta come conferma.

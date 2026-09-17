@@ -48,7 +48,11 @@ def quartieri(text, dettaglio=False):
     t=f" {norm(text)} "
     trovati={}
     for k in QKEYS:
-        sp=[(m.start(),m.end()) for m in re.finditer(r"(?<= )"+re.escape(k)+r"(?= )",t)]
+        # str.find invece di una regex per chiave: sono 440 chiavi per ogni testo, e il conto si
+        # fa su tutto il corpus. La semantica e' la stessa del vecchio `f" {k} " in t`.
+        sp=[]; i=t.find(' '+k+' ')
+        while i!=-1:
+            sp.append((i+1,i+1+len(k))); i=t.find(' '+k+' ',i+1)
         if sp: trovati[k]=sp
     out=set(); odonimo=set()
     for k,sp in trovati.items():

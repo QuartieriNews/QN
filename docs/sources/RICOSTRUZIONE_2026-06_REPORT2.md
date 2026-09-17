@@ -562,6 +562,13 @@ impossibili (`139.06.2026`, `44/06/2026`), timbri datati 2006, 2008, 2020, 2025 
 dei votanti» in presenza di astenuti. Un intero strato di testo cifrato con uno scorrimento di tre
 lettere. Due atti identici con lo stesso protocollo pubblicati due volte.
 
+**E un difetto che si vede solo quando si cerca un nome.** Gli atti del **Municipio X** sono
+pubblicati già anonimizzati: i firmatari resi con «(OMISSIS)», le firme senza nome — «f.to La
+Presidente del Consiglio». Per quel Municipio l'assenza di un nome nell'atto non dice niente sul
+fatto: è una proprietà della fonte. Chi verifica un nome sugli atti, come abbiamo fatto noi
+rimettendoli, lì non ha un riscontro possibile, e leggere quel vuoto come conferma sarebbe
+l'errore. Gli altri Municipi i nomi li scrivono.
+
 **Nella pubblicazione delle registrazioni** — difetti di chi pubblica. Su 274 item censiti al
 momento della misura, quattro sono **due sedute pubblicate due volte**; altri cinque sono **spezzoni
 consecutivi della stessa seduta** pubblicati come registrazioni distinte. Sono due difetti diversi e
@@ -750,6 +757,18 @@ stato **respinto**: chi leggesse la sola trascrizione registrerebbe l'opposto di
 successo, senza alcun segnale che qualcosa non torna. È il motivo per cui in questo studio un voto va
 sempre riscontrato sul verbale o sull'atto prima di essere scritto — e per cui un conteggio di voti
 preso da una trascrizione automatica, in qualunque pipeline, non è un dato.
+
+**E sbaglia i nomi in modo che si vede solo confrontando.** Nella stessa registrazione lo stesso
+assessore è «l'assessore Grant» a 12:27 e «l'assessore grande» a 15:30: la seconda forma non è
+marcata come dubbia, è una parola italiana comune, e da sola non dà alcun segnale. La differenza
+l'ha fatta un'altra fonte della stessa seduta — il verbale n. 33 del Consiglio del Municipio VII del
+18 giugno, che scrive «Partecipa alla seduta l'Assessore Fabrizio GRANT» e attribuisce a lui la
+replica sul punto in discussione. Da qui una regola operativa che vale oltre questo caso: **un nome
+sentito una volta sola non si scrive come accertato**; si cerca il riscontro nelle altre fonti della
+stessa seduta, e se non c'è, resta dichiarato incerto. Vale anche al contrario: in un caso le due
+fonti della stessa seduta danno due cognomi diversi (Paschio all'audio, Fassio nello scritto), è
+stata scelta la forma scritta e l'incertezza è rimasta alzata, perché la scelta fra le due l'ha
+fatta chi leggeva.
 
 Sulle didascalie YouTube la confidenza per parola **vale zero su ogni parola**: è un campo
 compilato a zero, non una misura, e chi lo usasse come filtro scarterebbe tutto.

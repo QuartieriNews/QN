@@ -5319,3 +5319,51 @@ un altro, e un'introduzione attribuita a «realtà del territorio» che per quel
 un critico. Non sono errori di anonimizzazione, sono errori di lettura che l'anonimizzazione
 copriva. Ai lettori della seconda passata ho chiesto di segnalarli invece di correggerli di
 nascosto.
+
+## 132. Terza passata: il riscontro sui nomi incerti, e tre difetti del territorio
+
+**Il caso «Grant»/«grande» è chiuso, e il modo conta più del nome.** La stessa registrazione dava il
+cognome in due forme a tre minuti di distanza, nessuna delle due marcata come dubbia — «grande» è
+una parola italiana comune, e da sola non fa sospettare niente. A scioglierlo è stata un'altra fonte
+della **stessa seduta**: il verbale n. 33 del Consiglio del Municipio VII del 18 giugno scrive
+«Partecipa alla seduta l'Assessore Fabrizio GRANT» e assegna a lui la replica sul punto in
+discussione. Da qui la regola: un nome sentito una volta sola non si scrive come accertato. Nel caso
+opposto — audio «Paschio», scritto «Fassio» — la forma scritta ha vinto ma l'incertezza è rimasta
+alzata, perché la scelta fra le due l'ha fatta chi leggeva.
+
+**Il database si contraddiceva da solo** su N3050: titolo «Grant», sintesi «Grande». Una riga che
+non torna con sé stessa è il segnale più economico che esista, e nessun controllo automatico lo
+cercava.
+
+**Una passata di riscontro non è un conflitto.** `patch_incerti` torna apposta su 31 campi già
+lavorati, e il guardiano dei conflitti — che serve a fermare due letture indipendenti che si pestano
+i piedi — avrebbe fermato la catena su una revisione voluta. La distinzione che ho scritto:
+la revisione è **dichiarata in anticipo**, il conflitto no. E vale solo quando porta un valore: un
+`invariato` senza valore è un riscontro che non ha trovato niente, non un ritorno indietro. Quattro
+nomi già ripristinati con la loro prova sarebbero spariti confondendo le due cose.
+
+**Tre difetti del territorio, trovati rileggendo il database finito invece di rifare il calcolo.**
+Un controllo che ricalcola con lo stesso codice dice sempre di sì.
+1. `quartiere_zu` perdeva l'allineamento: i codici si univano con `;` e uno `.strip(';')` di troppo
+   toglieva i vuoti in testa e in coda, così su «Ponte;Salario» la zona di Salario finiva attribuita
+   a Ponte. Ora la posizione è il legame, vuoti compresi.
+2. Un nome dentro un nome più lungo veniva contato due volte: «Monti» dentro «Monti Tiburtini»,
+   «Borghesiana» dentro «Valle Borghesiana», «Ostiense» dentro «Fonte Ostiense». Vince il più lungo.
+3. La corrispondenza fra Municipio e quartiere non era verificata affatto. Il Municipio della fonte
+   non si riscrive, ma le righe in cui non corrisponde — e quelle in cui il quartiere è riconosciuto
+   solo dentro il nome di una strada, «via di Ponte Salario» — ora escono marcate da verificare.
+
+**Gli accenti resi con l'apostrofo**, un terzo del corpus, si correggono solo dove la forma è certa.
+La misura ha insegnato qualcosa che una regola generale avrebbe rovinato: nel residuo l'apostrofo
+diritto fa spesso da **virgoletta di chiusura** («terra'», «assessora'», «umberto'», «prego'»), e
+«vocale + apostrofo → accento» avrebbe inventato accenti su parole giuste. Le forme si vagliano a
+mano sull'elenco di quelle davvero presenti.
+
+**Il Municipio X pubblica gli atti già anonimizzati** — «(OMISSIS)» al posto dei firmatari, firme
+senza nome. Per quel Municipio il riscontro di un nome sugli atti non è praticabile, e leggere quel
+vuoto come conferma sarebbe l'errore.
+
+**La soglia che un lettore ha chiesto per i collettivi non è un numero.** «Quanto dev'essere corto
+l'elenco perché il collettivo si sciolga» si risolve guardando la fonte: si scioglie quando la fonte
+**nomina tutti** quelli di cui parla, resta collettivo quando è la fonte stessa a non elencarli. Un
+numero fisso avrebbe sciolto elenchi incompleti presentandoli come interi.
