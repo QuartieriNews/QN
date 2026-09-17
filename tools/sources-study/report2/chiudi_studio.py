@@ -14,6 +14,9 @@ PASSI = [
     # build_db ricostruisce il database dai lotti di lettura, quindi una modifica fatta
     # direttamente sui CSV sparirebbe alla rigenerazione successiva.
     ('i nomi ripristinati', 'report2/applica_patch.py'),
+    # Gli accenti resi con l'apostrofo arrivano dai lettori e si rifanno a ogni rigenerazione:
+    # vanno rimessi qui dentro, dopo le patch, o tornano puntualmente nel file consegnato.
+    ('gli accenti', 'report2/accenti.py'),
     ('la risposta e la banda', 'report2/risposta.py'),
     ('i numeri del rapporto', 'report2/verifica_numeri_rapporto.py'),
     ('i toponimi incerti', 'report2/audit_toponimi.py'),
