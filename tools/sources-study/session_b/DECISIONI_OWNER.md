@@ -1,5 +1,11 @@
 # Decisioni editoriali da porre all'owner
 
+**Tutte chiuse il 17 settembre 2026 dalla DEC-105** (`decisions/DEC-105-named-participants.md`),
+che supersede in parte la DEC-102: niente anonimizzazione automatica delle persone di cui parla
+la notizia. Le voci qui sotto restano come sono state scritte — sono il ragionamento che ha
+portato alla decisione, non la decisione — e ognuna porta in testa come si chiude.
+La specifica operativa che ne discende è `tools/sources-study/report2/SPECIFICA_NOMI_E_TERRITORIO.md`.
+
 Si accumulano qui man mano che emergono dalla lettura e partono **raggruppate**, un solo
 messaggio per consegna (nota di fattibilità §9.6). Ognuna porta esempi reali e la **scelta di
 default** che applico da sola se l'owner non risponde: il canale di notifica push verso di lui
@@ -11,6 +17,10 @@ Stato: `aperta` finché l'owner non risponde; `applicata` quando il default è g
 ---
 
 ## D1 — Nomi di persona dentro toponimi e titoli di opere (Report 1)
+
+**Chiusa (DEC-105).** Il default va oltre: non solo toponimi e titoli, ma anche i nomi delle
+persone in quanto persone si conservano quando sono pertinenti al fatto. Registi, attori,
+relatori e amministratori tornano con il proprio nome.
 
 Stato: **aperta**, default già applicato.
 
@@ -43,6 +53,9 @@ in quanto persona. Le occorrenze trovate sono tutte toponimi o titoli.
 ---
 
 ## D2 — I confini di DEC-102: URL, organizzazioni, autori delle opere
+
+**Chiusa (DEC-105).** Tutte e quattro le scelte restano, e cade il loro limite: le persone
+presenti al fatto — che D2.c teneva al ruolo — si nominano come le organizzazioni e gli autori.
 
 Stato: **aperta**, default già applicato. Nasce da quattro casi isolati dal lettore dei lotti
 L17–L18, che li ha dichiarati invece di deciderli in silenzio.
@@ -93,6 +106,10 @@ o sono annotati riga per riga.
 
 ## D3 — Quando la persona *è* la notizia: intitolazioni e commemorazioni
 
+**Chiusa (DEC-105).** La distinzione non serve più: il nome resta sia quando la persona è
+l'oggetto della dedica sia quando è coinvolta nel fatto. Resta il corollario sull'evidenza —
+non si accorcia mai la frase di evidenza.
+
 Stato: **aperta**, default già applicato. Nasce dal lettore dei lotti L02–L03, che ha segnalato
 i casi in cui applicare DEC-102 alla lettera **costa la notizia**.
 
@@ -126,6 +143,9 @@ annotate una per una nei file dei problemi, e la sostituzione è una passata sui
 
 ## D4 — Ditta individuale il cui nome è il nome di una persona
 
+**Chiusa (DEC-105), in senso opposto al default.** Le ditte individuali sono nominate
+esplicitamente fra ciò che si conserva: il richiedente del P.A.M.A. torna con il suo nome.
+
 Stato: **aperta**, default applicato. Nasce dal lettore degli atti B01–B03, che ha isolato il caso
 invece di risolverlo in silenzio.
 
@@ -151,6 +171,11 @@ giornale di quartiere, non tengono un registro di chi presenta pratiche.
 
 ## D5 — il numero civico di una sede pubblica (aperta, 16 settembre)
 
+**Chiusa (DEC-105) per conseguenza**, non per menzione diretta: un'omissione richiede «una
+ragione concreta legata al contenuto», e il civico di una sede pubblica non ne ha nessuna.
+Resta escluso il civico che individua un'abitazione o il recapito di un privato — lì la ragione
+concreta c'è. È la linea che questa voce raccomandava.
+
 **Il problema.** La regola di ri-identificazione vieta i numeri civici, perché un civico più una
 via individuano un'abitazione e quindi una persona. Tre lettori diversi, indipendentemente, hanno
 segnalato lo stesso effetto collaterale: applicata alla lettera, la regola toglie il civico anche a
@@ -175,6 +200,11 @@ esercitare riga per riga. È un baratto fra precisione e verificabilità, e sta 
 Fino alla decisione i lettori continuano ad applicare il divieto senza eccezioni, dichiarandolo.
 
 ## D6 — Il territorio degli atti `CEN_`
+
+**Chiusa (DEC-105): strada 2, e allargata.** Si deduce dal toponimo dichiarando la deduzione
+(`territorio_dedotto`), e non solo per gli atti `CEN_`: da ogni luogo citato si ricavano
+Municipio **e** quartiere, con il quartiere d'uso comune distinto dalla zona urbanistica, e i
+casi a cavallo restano espliciti.
 
 **Aperta il 16 settembre 2026.**
 
@@ -203,6 +233,11 @@ pubblicato, non una scelta tecnica, e non la prendo io.
 dati che poi andrebbero disfatti.
 
 ## D7 — La registrazione che continua dopo la fine della seduta
+
+**Chiusa (DEC-105) sul perimetro; la segnalazione esterna non si apre per ora.** Regola: entra
+solo ciò che sta dentro la seduta formalmente aperta, sospensioni escluse per intero, usando
+apertura, sospensione, ripresa e chiusura come riferimenti. **«Fuori verbale» non sospende la
+seduta**: quel passaggio è dentro il perimetro e si tratta come il resto, nomi compresi.
 
 **Aperta il 16 settembre 2026. Non è una decisione sui nostri file: quelli sono già a posto.**
 
