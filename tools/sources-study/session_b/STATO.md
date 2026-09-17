@@ -5222,3 +5222,53 @@ classe di errore che dovrebbe trovare.**
 La regola che resta, per qualunque consegna futura fatta con questo strumento: il conteggio dei byte
 è il filtro veloce durante il caricamento; **la consegna si chiude solo con il confronto del
 contenuto su tutti i file**, e il confronto lo fa un programma.
+
+## 130. L'owner revoca l'anonimizzazione, e mezzo studio va riletto (2026-09-17 09:10Z)
+
+L'owner ha deciso: **niente anonimizzazione automatica delle persone di cui parla la notizia**.
+Assessori, consiglieri, funzionari, cittadini, rappresentanti di comitati, professionisti e
+imprese — ditte individuali comprese — si nominano quando sono pertinenti al fatto, e i nomi già
+sostituiti vanno **ripristinati verificandoli sulle fonti**. Un'omissione ora richiede una ragione
+concreta legata al contenuto; «è un nome di persona» non lo è più.
+
+**Dove va scritta una cosa così.** La DEC-102 nel suo testo non vietava i nomi: dice che i dati
+delle fonti non si ridistribuiscono come dataset. Il divieto era l'**interpretazione operativa**
+che lo studio le aveva costruito sopra. Quindi non si riscrive la DEC-102 — le voci DECIDED non si
+riscrivono mai — ma si aggiunge la **DEC-105**, che la supersede in quella parte e porta i due
+puntatori che il `decisions/README.md` impone. Il nucleo della DEC-102 resta: i dati per item
+stanno su Drive, non nel repository.
+
+Con la stessa voce si chiudono **tutte e sette** le decisioni aperte, non tre. D1–D4 cadono perché
+il default che difendevano è rovesciato. La **D5 si chiude per conseguenza e non per menzione**:
+se un'omissione richiede una ragione concreta, il civico di una sede pubblica non ne ha nessuna,
+quello di un'abitazione sì. È la linea che la voce raccomandava, ma vale dire che l'owner non l'ha
+nominata: l'ho dedotta dalla regola generale e l'ho dichiarato.
+
+**Quanto costa.** Le righe con una formula al posto di un nome sono **681**: A3 272, E2 147,
+A4 128, A2 88, E3 28, A1 17, C4 1. Il 18% delle candidate, concentrato dove la gente parla. Tutte
+e 681 hanno la fonte **ancora su disco** (4,4 GB nello scratchpad): atti in `A2_text`,
+registrazioni RomaTV dal manifest, caption YouTube, testi in `report1/texts`. Nessuna va
+riscaricata. `lotti_ripristino.py` costruisce venti lotti da 35 righe tenendo insieme le righe
+dello stesso documento, così un file letto una volta serve più righe.
+
+**Il patch invece della scrittura diretta.** Due lettori in parallelo che scrivono sullo stesso CSV
+lo corrompono. Ognuno consegna un `patch_R__.csv` con `riga, campo, valore_nuovo, esito, ragione`,
+e l'applicazione è un passo solo, centrale e rivedibile.
+
+**Il territorio, che è codice e non rilettura.** Il modello collassava i 440 quartieri del
+gazetteer nelle 91 zone editoriali: il quartiere d'uso comune spariva. Ora escono separati
+`quartiere`, `quartiere_zu` (vuoto dove la zona urbanistica non esiste, e non è un difetto) e
+`municipio`, più `territorio_dedotto`. Se il testo dichiara un Municipio e il gazetteer ne deduce
+un altro restano **entrambi**: forzare un valore unico su un caso a cavallo è l'errore che la
+regola esiste per evitare.
+
+**La D7 cambia di segno in un punto.** Il perimetro è la seduta formalmente aperta, sospensioni
+escluse per intero — questo conferma quello che i lettori già facevano. Ma **«fuori verbale» non
+sospende la seduta**: quel passaggio è dentro, e ora si tratta come il resto, nomi compresi. È il
+caso del consigliere che diceva «anche se la registrazione c'è, fuori verbale» in una seduta di
+cui il verbale non esiste. Nessuna segnalazione esterna, per ora.
+
+**Quello che resta**: applicare i patch; rinominare `titolo_anonimizzato` in `titolo`, che oggi è
+il nome di una regola che non c'è più — ma dopo i lettori, che stanno leggendo quella colonna;
+rigenerare i numeri con `chiudi_studio.py`; rivedere le parti del rapporto che i nomi cambiano; e
+rifare la consegna su Drive, con `verifica_drive.py` a chiuderla.
