@@ -38,9 +38,24 @@ for f in ('report1/build_db.py', 'report2/risposta.py', 'report2/novita_meccanic
           'report2/doppioni_documenti.py', 'report2/magneti_dedup.py',
           'report2/verifica_numeri_rapporto.py', 'report2/testo_documento.py',
           'report2/cerca_negli_atti.py', 'report2/record_dichiarato.py',
-          'report2/link_verbali_video.py'):
+          'report2/link_verbali_video.py',
+          # Il ripristino dei nomi (DEC-105) e' dentro la catena che produce il database, non una
+          # correzione a valle: senza questi il congelato non si rifa'.
+          'geo_lookup.py', 'report2/applica_patch.py', 'report2/accenti.py',
+          'report2/lotti_ripristino.py', 'report2/verifica_territori.py',
+          'report2/campione_residuo.py', 'report2/riconcilia_consegna.py'):
     p = REPO + '/' + f
     if os.path.exists(p): shutil.copy(p, dest + '/programmi/' + os.path.basename(p))
+
+# I patch sono il dato di ingresso del ripristino: il database senza di loro non si ricostruisce,
+# e la ragione riga per riga e' l'unica prova di perche' un nome c'e' o non c'e'.
+os.makedirs(dest + '/ripristino', exist_ok=True)
+import glob
+patch = sorted(glob.glob(NET + '/report2/ripristino/patch_*.csv')) + \
+    sorted(glob.glob(NET + '/report2/ripristino/misura_residuo.csv'))
+for f in patch:
+    shutil.copy(f, dest + '/ripristino/' + os.path.basename(f))
+print('patch del ripristino congelati: %d' % len(patch))
 
 with open(dest + '/COME_RIFARE_I_CONTI.md', 'w', encoding='utf-8') as fh:
     fh.write('# Lo stato che ha prodotto i numeri del Report 2\n\n')
@@ -50,7 +65,11 @@ with open(dest + '/COME_RIFARE_I_CONTI.md', 'w', encoding='utf-8') as fh:
              % subprocess.run(['git', '-C', '/home/user/QN', 'rev-parse', 'HEAD'],
                               capture_output=True, text=True).stdout.strip())
     fh.write('I numeri calcolati in questo stato stanno in `numeri.txt`, prodotti dai programmi\n'
-             'qui accanto e non riscritti a mano.\n')
+             'qui accanto e non riscritti a mano.\n\n')
+    fh.write('`ripristino/` contiene i patch della passata DEC-105, con la ragione riga per riga:\n'
+             'sono il dato di ingresso di `applica_patch.py` e la prova di perche\' un nome c\'e\'\n'
+             'o non c\'e\'. Il database si ricostruisce da `build_db.py` e da quelli, in questo\n'
+             'ordine: build_db, applica_patch, accenti.\n')
 
 with open(dest + '/numeri.txt', 'w', encoding='utf-8') as fh:
     # `risposta.py` per primo: e' il numero principale, ed e' l'unico che legge i file dell'audit.
