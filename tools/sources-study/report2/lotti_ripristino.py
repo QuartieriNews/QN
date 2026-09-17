@@ -26,6 +26,10 @@ ORG = (r"fondazione|associazione|cooperativa|comitato|consorzio|testata|emittent
        r"societ[àa]|impresa|ditta|studio|agenzia|editrice|casa editrice|galleria|"
        r"scuola di musica|centro culturale|libreria")
 FORMULA_ORG = re.compile(r"\b(un|una|un')\s*(" + ORG + r")\b", re.I)
+# I titoli perifrasati esistono (un lettore ne ha rimessi parecchi), ma non hanno una forma
+# riconoscibile: cercarli a regex da' 534 righe di cui quasi tutte sono prosa normale - "una
+# mostra di fotografia" descrive, non nasconde un titolo. Restano da correggere a mano, e la
+# misura sta in STATO: dichiararlo e' meglio che far leggere mezzo corpus per falsi positivi.
 CAMPI_N = ['titolo_anonimizzato', 'sintesi', 'evidenza_locale']
 CAMPI_D = ['titolo_anonimizzato']
 

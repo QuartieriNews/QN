@@ -40,10 +40,24 @@ Due registrazioni della stessa seduta sono due fonti dello stesso fatto: se il n
 sola delle due, vale, e si dichiara in `note` da quale. Resta vietato prenderlo da un'altra seduta,
 da un altro atto o da quello che si sa del Municipio.
 
+**Non si aggiunge quello che la fonte non dice.** Sostituendo i nomi, i lettori precedenti hanno
+spesso inventato l'attributo che li rimpiazzava: «il regista americano» per chi la fonte dice
+soltanto essere un regista, «l'attrice» per chi presenta e non recita, «un cantautore romano» dove
+la fonte scrive «cantante, autore e produttore». Sono **qualifiche e nazionalità che la fonte non
+dà**, e alcune sono false. Ripristinando, l'attributo non verificabile **cade**, e lo si dichiara.
+
+Attenzione al rischio speculare del ripristino: **il ruolo dedotto da un'altra pagina**. La stessa
+persona è regista in una scheda e semplice ospite in un'altra. Ogni fatto resta alla sua fonte.
+
 **Anche le organizzazioni erano state perifrasate.** Nessuna regola lo chiedeva, ma i lettori hanno
 reso «Fondazione Piccolo America» come «una fondazione cinematografica romana», «Witch Post» come
 «un duo indie-pop». La DEC-105 nomina le imprese fra ciò che si conserva, e un'organizzazione senza
 nome non si può né cercare né verificare: **si rimettono**, con la stessa verifica sulla fonte.
+
+Lo stesso vale per **titoli, rassegne e sedi**, che la §1 già proteggeva e che sono stati
+perifrasati lo stesso: «una trilogia documentaria» al posto del titolo, «la rassegna estiva di
+cinema all'aperto» al posto del suo nome, «il teatro all'aperto di largo Marcello Mastroianni 1» al
+posto del teatro che quel nome ce l'ha. Senza nome non si verificano: si rimettono.
 
 **Che cosa è una formula da correggere.** È una formula quella che sta al posto di **una persona
 che ha agito**: «il presidente», «il direttore», «la referente», «un consigliere». **Non** è una
@@ -72,7 +86,9 @@ e la fonte dice «il consigliere Guerrini», vince la fonte, e lo scarto si dich
 quello che va corretto: non può essere la prova di sé stessa.
 
 **Due incertezze diverse, due posti diversi.** `trascrizione_incerta` riguarda **la forma udita**:
-il cognome che si sente in due modi — **o una volta sola**. Un cognome pronunciato un'unica volta in
+il cognome che la fonte dà in forme divergenti — **o una volta sola**. Vale anche su fonte scritta:
+una pagina che scrive «Samar Yazbek» e poco sotto «Yazbeck» rende la forma incerta esattamente come
+un audio. Si tiene la forma con cui la fonte presenta la persona e si alza il flag. Un cognome pronunciato un'unica volta in
 una trascrizione automatica è il caso più fragile che ci sia, non il più sicuro: niente lo conferma.
 Il flag si alza anche lì. Quando invece è fragile **l'attribuzione** — la voce non è
 etichettata, il ricongiungimento fra nome e cognome poggia su un solo scambio — si alza
@@ -94,6 +110,15 @@ il ruolo con la ragione in `note`.
 sedi, nomi in intitolazioni e commemorazioni, denominazioni di organizzazioni, URL delle
 pagine pubbliche. La colonna si chiama ora `titolo`: `titolo_anonimizzato` era il nome di una
 regola che non c'è più.
+
+**I collettivi si sciolgono quando la fonte li ha sciolti.** «I tre musicisti in scena», «sette
+interpreti»: se la fonte più sotto elenca i nomi e l'elenco è breve e funzionale, si scrivono. Se
+invece è la fonte stessa a raccontare per collettivo, il collettivo resta: non è una formula, è il
+modo in cui quel fatto viene detto. In entrambi i casi si dichiara la scelta.
+
+**Le apposizioni in coda a un elenco.** «Tizio, Caio, rappresentante del comitato»: la qualifica al
+singolare dopo due nomi non dice a chi si riferisce. Quando può valere per più di un nome si alza
+`attribuzione_incerta`; quando segue senza ambiguità l'ultimo, basta dichiararlo.
 
 ## 2. Il confine della seduta
 

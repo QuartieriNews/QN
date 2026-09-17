@@ -5272,3 +5272,50 @@ cui il verbale non esiste. Nessuna segnalazione esterna, per ora.
 il nome di una regola che non c'è più — ma dopo i lettori, che stanno leggendo quella colonna;
 rigenerare i numeri con `chiudi_studio.py`; rivedere le parti del rapporto che i nomi cambiano; e
 rifare la consegna su Drive, con `verifica_drive.py` a chiuderla.
+
+## 131. La prima passata è chiusa, e tre scoperte che non cercavo (2026-09-17 11:05Z)
+
+**681 righe, 613 nomi rimessi, 69 lasciati con una ragione concreta, zero fuori seduta.** La prima
+passata di ripristino è finita. Ma la parte interessante non sono i numeri.
+
+**L'anonimizzazione non toglieva soltanto: inventava.** Sostituendo un nome, i lettori precedenti
+hanno spesso costruito l'attributo che lo rimpiazzava — «il regista americano» per chi la fonte dice
+solo essere un regista, «l'attrice» per una che *presenta* e non recita, «un cantautore romano» dove
+la fonte scrive «cantante, autore e produttore romano». Sono qualifiche e nazionalità che nessuna
+fonte dà, e **alcune sono false**. Un lettore ne ha fatte cadere decine, dichiarandole una per una.
+La regola ora è scritta: ripristinando, l'attributo non verificabile cade.
+
+Il rischio speculare, che vale la pena tenere in mente: **il ruolo dedotto da un'altra pagina**. La
+stessa persona è regista in una scheda e semplice ospite in un'altra. Ogni fatto resta alla sua
+fonte.
+
+**Il perimetro era stretto due volte.** Cercavo formule al posto di *persone*; i lettori avevano
+perifrasato anche le **organizzazioni** («una fondazione cinematografica romana» per Fondazione
+Piccolo America) e i **titoli** («la rassegna estiva di cinema all'aperto» per «Il Cinema in
+Piazza»), che nessuna regola aveva mai chiesto di togliere. Le organizzazioni sono entrate nel
+costruttore: 124 righe. I titoli **no**, e la ragione va dichiarata invece che nascosta: cercarli a
+regex dà 534 righe di cui quasi tutte sono prosa normale — «una mostra di fotografia» descrive, non
+nasconde un titolo — e l'articolo determinativo non separa niente (526 su 534). Restano da
+correggere a mano. Far leggere mezzo corpus per falsi positivi sarebbe stato peggio del difetto.
+
+**Un errore mio, da non ripetere.** Rigenerando i lotti ho sovrascritto quattro file mentre un
+lettore ci stava lavorando: il costruttore cancella tutti i lotti del suo prefisso prima di
+riscriverli, e non mi ero chiesto chi li stesse leggendo. Il danno è limitato perché **i patch sono
+chiavi (riga, campo) e non posizioni in un lotto**: nessun dato si corrompe, cambia solo chi lavora
+che cosa, e la passata finale ricostruisce dal database e mostra quello che resta. Ma la regola è
+semplice e me la scrivo: **non si rigenera un lotto mentre qualcuno lo tiene aperto**. `ESCLUDI_LOTTI`
+serviva proprio a questo e l'ho usato per il contenuto, non per i nomi dei file.
+
+**Undici regole nate leggendo davvero.** La specifica è cresciuta da 78 a 174 righe, e nessuna delle
+aggiunte l'ho pensata a tavolino: sono tutte punti in cui un lettore ha dovuto decidere da solo e ha
+detto che stava decidendo. Le due che spostano più righe: che cosa conta come formula (una *persona*
+che ha agito sì, un *organo* come «la presidenza» no), e la separazione fra `trascrizione_incerta`
+— la forma del nome — e `attribuzione_incerta` — a chi attribuire il passaggio. Erano schiacciate in
+un flag solo, e si verificano in modi opposti: una riascoltando, l'altra ricostruendo chi parlava.
+
+**Quello che il ripristino sta facendo riemergere.** Due righe finora hanno una **sintesi che non
+regge sulla fonte**: un microfono attribuito al presidente di un comitato che la fonte attribuisce a
+un altro, e un'introduzione attribuita a «realtà del territorio» che per quella data la fonte dà a
+un critico. Non sono errori di anonimizzazione, sono errori di lettura che l'anonimizzazione
+copriva. Ai lettori della seconda passata ho chiesto di segnalarli invece di correggerli di
+nascosto.
