@@ -10,6 +10,10 @@ NET = os.environ['QN_NET']
 REPO = '/home/user/QN/tools/sources-study'
 PASSI = [
     ('il database', 'report1/build_db.py'),
+    # Il ripristino dei nomi (DEC-105) e' un passo della catena, non una correzione a valle:
+    # build_db ricostruisce il database dai lotti di lettura, quindi una modifica fatta
+    # direttamente sui CSV sparirebbe alla rigenerazione successiva.
+    ('i nomi ripristinati', 'report2/applica_patch.py'),
     ('la risposta e la banda', 'report2/risposta.py'),
     ('i numeri del rapporto', 'report2/verifica_numeri_rapporto.py'),
     ('i toponimi incerti', 'report2/audit_toponimi.py'),

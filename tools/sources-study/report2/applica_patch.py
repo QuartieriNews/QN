@@ -7,6 +7,9 @@ NET = os.environ['QN_NET']
 DB = NET + '/report1/db'
 PATCH = NET + '/report2/ripristino'
 TABELLE = {'notizie': 'notizie_candidate.csv', 'documenti': 'documenti.csv'}
+# I patch sono stati scritti quando la colonna si chiamava ancora `titolo_anonimizzato`.
+# Il nome cambia (DEC-105), i patch no: la corrispondenza sta qui e non nei dati.
+ALIAS = {'titolo_anonimizzato': 'titolo'}
 
 # La sostituzione lascia residui di spaziatura ("Alfonsi , con"): il lettore corregge il nome,
 # la punteggiatura la sistema una regola, non una rilettura.
@@ -47,11 +50,14 @@ def main():
         campi = list(righe[0])
         indice = {r['id']: r for r in righe}
         for p in elenco:
+            campo = p['campo'] if p['campo'] in campi else ALIAS.get(p['campo'], p['campo'])
+            if campo not in campi:
+                print('colonna assente:', p['campo'], p['_file']); mancanti += 1; continue
             r = indice.get(p['riga'])
             if r is None:
                 print('riga assente:', p['riga'], p['_file']); mancanti += 1; continue
             if p['esito'] == 'ripristinato' and p.get('valore_nuovo'):
-                r[p['campo']] = ripulisci(p['valore_nuovo']); applicati += 1
+                r[campo] = ripulisci(p['valore_nuovo']); applicati += 1
             # La ragione si conserva sempre, non solo quando il nome resta fuori: un'attribuzione
             # fatta con un dubbio dichiarato deve portarsi dietro il dubbio, o il dubbio sparisce.
             nota = (p.get('ragione') or '').strip()
