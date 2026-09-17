@@ -1067,6 +1067,13 @@ regista, «l'attrice» per una che *presenta* e non recita — e alcune di quell
 Un difetto di riservatezza produce reticenza; questo produceva **affermazioni sbagliate**, ed è
 peggio. Ripristinando, l'attributo che la fonte non dà cade.
 
+**Una cosa che la DEC-105 non cambia, e conviene dirlo.** I nomi tornano **nei dati** — nelle
+notizie, nelle sintesi, nelle evidenze — perché lì il nome è parte del fatto. Gli esempi di *questo
+rapporto* restano al ruolo: qui il fatto è che un verbale racconta una seduta diversa da quella
+avvenuta, non chi presiedeva; il nome non aggiungerebbe niente alla dimostrazione e attribuirebbe un
+difetto della fonte a una persona. Dove invece il nome è il punto — l'assessore di cui la
+trascrizione sbaglia il cognome — è scritto.
+
 **Il territorio.** Dal luogo citato si ricavano ora due attribuzioni distinte e verificate fra loro:
 il Municipio e il **quartiere d'uso comune**, tenuto separato dalla **zona urbanistica**. Una
 deduzione dal gazetteer si dichiara come deduzione; i casi a cavallo di più territori restano tutti,
