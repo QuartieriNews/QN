@@ -84,11 +84,17 @@ def formule_in(riga, campi):
 
 
 def gia_fatte():
-    """(riga, campo) gia' chiusi da un patch consegnato: una passata non rifa' il lavoro fatto."""
+    """(riga, campo) da non riassegnare: quelli gia' chiusi da un patch, piu' quelli affidati a un
+    lotto ancora in lavorazione. Due lettori sulla stessa riga producono due patch discordi."""
     out = set()
     for f in glob.glob(FUORI + '/patch_*.csv'):
         for r in csv.DictReader(open(f, encoding='utf-8')):
             out.add((r['riga'], r['campo']))
+    for lotto in [x.strip() for x in os.environ.get('ESCLUDI_LOTTI', '').split(',') if x.strip()]:
+        percorso = '%s/%s.csv' % (FUORI, lotto)
+        if os.path.exists(percorso):
+            for r in csv.DictReader(open(percorso, encoding='utf-8')):
+                out.add((r['riga'], r['campo']))
     return out
 
 
