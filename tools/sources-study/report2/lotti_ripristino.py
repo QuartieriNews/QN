@@ -74,14 +74,27 @@ def sorgenti(documenti):
     return p
 
 
+# L'owner ha allargato il perimetro a titoli, eventi, rassegne e opere (17 settembre), ma con un
+# limite: non si sostituisce una descrizione corretta con un titolo ipotizzato. Sono quindi
+# *candidati da verificare*, non perifrasi accertate, e viaggiano in una classe loro.
+OPERA = (r"rassegna|festival|trilogia|documentario|cortometraggio|lungometraggio|spettacolo|"
+         r"commedia|tragedia|mostra|retrospettiva|installazione|concerto|recital|"
+         r"laboratorio|reading|ciclo di incontri|arena")
+FORMULA_OPERA = re.compile(r"\b(un|una|un'|il|lo|la|l')\s*(" + OPERA + r")\b", re.I)
+CLASSE = os.environ.get('CLASSE', 'persone')
+
+
 def formule_in(riga, campi):
     """Ogni campo e ogni occorrenza. La prima versione si fermava alla prima formula trovata:
     le successive nello stesso campo non entravano in lavorazione e restavano nel dato."""
     out = []
     for c in campi:
         testo = riga.get(c) or ''
-        trovate = [m.group(0) for m in FORMULA.finditer(testo)]
-        trovate += [m.group(0) for m in FORMULA_ORG.finditer(testo)]
+        if CLASSE == 'titoli':
+            trovate = [m.group(0) for m in FORMULA_OPERA.finditer(testo)]
+        else:
+            trovate = [m.group(0) for m in FORMULA.finditer(testo)]
+            trovate += [m.group(0) for m in FORMULA_ORG.finditer(testo)]
         if trovate:
             out.append((c, trovate))
     return out
