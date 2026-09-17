@@ -37,11 +37,28 @@ def zones(text):
         if f" {k} " in t:
             for z in INDEX[k]: hits.setdefault(z,set()).add(k)
     return hits
-def quartieri(text):
-    t=f" {norm(text)} "; out=set()
+# Un nome di quartiere puo' comparire dentro il nome di una strada. Due casi diversi: "via dei
+# Monti Tiburtini" contiene "Monti", che li' non e' il rione (match piu' lungo vince); "parco della
+# Caffarella" invece il quartiere lo indica davvero. Il primo si toglie, il secondo si tiene e si
+# segnala, perche' decidere da soli quale odonimo "vale" sarebbe una scelta editoriale.
+ODONIMO=re.compile(r"(?:^| )(?:via|viale|via di|piazza|piazzale|largo|vicolo|lungotevere|corso|"
+                   r"ponte|circonvallazione|stazione|galleria|salita|clivo|borgo|passeggiata)"
+                   r"(?: di| del| della| dello| dei| delle| degli| dell| d| a| al| alla)*\s+$")
+def quartieri(text, dettaglio=False):
+    t=f" {norm(text)} "
+    trovati={}
     for k in QKEYS:
-        if f" {k} " in t: out|=QUART[k]
-    return out
+        sp=[(m.start(),m.end()) for m in re.finditer(r"(?<= )"+re.escape(k)+r"(?= )",t)]
+        if sp: trovati[k]=sp
+    out=set(); odonimo=set()
+    for k,sp in trovati.items():
+        # occorrenze non contenute dentro il match di un nome piu' lungo
+        libere=[s for s in sp if not any(k2!=k and any(a<=s[0] and s[1]<=b for a,b in sp2)
+                                         for k2,sp2 in trovati.items())]
+        if not libere: continue
+        out|=QUART[k]
+        if all(ODONIMO.search(t[:s[0]]) for s in libere): odonimo|=QUART[k]
+    return (out,odonimo) if dettaglio else out
 def municipi_di(qid):
     """I Municipi di un quartiere: quello principale piu' quelli che attraversa."""
     n=QINFO[qid]; out={n['municipality_code']} if n.get('municipality_code') else set()
@@ -57,9 +74,12 @@ def localise(text):
     if len(mun)==1: mun_det=next(iter(mun))
     elif zone: mun_det=ZMUN.get(zone) or ''
     elif len(mun)>1: mun_det='multi:'+'/'.join(sorted(mun,key=ROM.index))
-    qh=quartieri(text)
+    qh,q_odo=quartieri(text,dettaglio=True)
     # Il quartiere non si sceglie: se il testo ne nomina piu' d'uno restano tutti (DEC-105 §3).
     quart=';'.join(QINFO[q]['name_display'] for q in sorted(qh))
+    # Posizionale: la zona urbanistica sta nella stessa posizione del suo quartiere. Togliere i
+    # vuoti (uno .strip(';') di troppo) faceva scivolare i codici su un quartiere diverso, cioe'
+    # attribuiva a Ponte la zona di Salario senza che niente lo dicesse.
     quart_zu=';'.join((QINFO[q].get('zu_code') or '') for q in sorted(qh))
     mun_gaz=set()
     for q in qh: mun_gaz|=municipi_di(q)
@@ -75,7 +95,11 @@ def localise(text):
         dedotto=''
     return {'toponimo':topo,'municipio':mun_det,'zona':zone or '','zone_hits':';'.join(sorted(zh)),
             'tier':tier,'mun_mentions':'/'.join(sorted(mun,key=ROM.index)),
-            'quartiere':quart,'quartiere_zu':quart_zu.strip(';') if quart_zu.strip(';') else '',
+            'quartiere':quart,'quartiere_zu':quart_zu if quart_zu.strip(';') else '',
+            # I Municipi che il gazetteer assegna ai quartieri trovati: servono a chi scrive il
+            # database per verificare la corrispondenza geografica (DEC-105 §3), non si pubblicano.
+            'quartiere_mun':';'.join(sorted(mun_gaz,key=ROM.index)),
+            'quartiere_odonimo':';'.join(QINFO[q]['name_display'] for q in sorted(q_odo)),
             'territorio_dedotto':dedotto}
 if __name__=='__main__':
     import csv

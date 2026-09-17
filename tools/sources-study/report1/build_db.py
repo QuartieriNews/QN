@@ -31,6 +31,16 @@ def norm_mun(valore):
         if t in ROMANI and t not in out: out.append(t)
     return out
 
+def geo_da_verificare(mun_fonte, loc):
+    """DEC-105: il Municipio e il quartiere si ricavano dal luogo citato «verificando la
+    corrispondenza geografica». Qui non si corregge niente - la fonte resta quella che e' - ma
+    i due casi in cui la corrispondenza non regge diventano visibili invece di sparire:
+    il Municipio dichiarato non e' fra quelli del quartiere, e il quartiere e' stato riconosciuto
+    solo dentro il nome di una strada."""
+    mun_q = {m for m in (loc.get('quartiere_mun') or '').split(';') if m}
+    discorde = bool(mun_fonte and mun_q and not (set(mun_fonte) & mun_q))
+    return discorde or bool(loc.get('quartiere_odonimo'))
+
 def settimana(iso):
     """Week of June 2026 by publication date, Europe/Rome (schema §1.2). W2-W4 = 8-28 June."""
     if not iso or not re.match(r'\d{4}-\d{2}-\d{2}', iso[:10]): return ''
@@ -117,7 +127,7 @@ for doc_id in sorted(letti):
         if tier == 'text_contains' and not zona and not mun_fonte: tier = 'ambiguous'
         irrisolto = bool(r.get('luoghi', '').strip()) and not zona and not mun_fonte
         topo_v = (r.get('toponimo_da_verificare', '').strip().lower() in ('sì', 'si')
-                  or discorde or irrisolto)
+                  or discorde or irrisolto or geo_da_verificare(mun_fonte, loc))
         notizie.append({
             'id': '', 'documento_id': doc_id, 'fonte': r['fonte'],
             'titolo': r['titolo_anonimizzato'], 'sintesi': r['sintesi'], 'tipo': r['tipo'],
@@ -271,7 +281,8 @@ if os.path.isdir(R2 + '/out'):
             'zona': zona, 'tier_localizzazione': tier,
             'quartiere': loc.get('quartiere', ''), 'quartiere_zu': loc.get('quartiere_zu', ''),
             'territorio_dedotto': loc.get('territorio_dedotto', ''),
-            'toponimo_da_verificare': 'sì' if (r.get('luoghi', '').strip() and not zona and not mun) else 'no',
+            'toponimo_da_verificare': 'sì' if ((r.get('luoghi', '').strip() and not zona and not mun)
+                                              or geo_da_verificare(mun, loc)) else 'no',
             'evidenza_url': meta['url'], 'evidenza_locale': r.get('evidenza_pagina', ''),
             'data_fatto': data_fatto, 'data_pubblicazione': iso_it(meta['data']),
             'disponibilita': '', 'qualita': (r.get('qualita') or 'media').strip(),
@@ -340,7 +351,8 @@ def item_video(j, meta, lotto):
             'municipio': ';'.join(mun), 'zona': zona, 'tier_localizzazione': tier,
             'quartiere': loc.get('quartiere', ''), 'quartiere_zu': loc.get('quartiere_zu', ''),
             'territorio_dedotto': loc.get('territorio_dedotto', ''),
-            'toponimo_da_verificare': c.get('toponimo_da_verificare', 'no'),
+            'toponimo_da_verificare': ('sì' if (c.get('toponimo_da_verificare', 'no') in ('sì', 'si')
+                                               or geo_da_verificare(mun, loc)) else 'no'),
             'evidenza_url': meta.get('url', ''), 'evidenza_locale': ev[0] if ev else '',
             'data_fatto': j.get('data_seduta', ''), 'data_pubblicazione': meta.get('data_pubblicazione', ''),
             'disponibilita': '', 'qualita': (c.get('qualita') or 'media').strip(),
