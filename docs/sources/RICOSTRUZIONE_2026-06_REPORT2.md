@@ -1054,8 +1054,12 @@ nome di persona non è una ragione. Con la stessa decisione valgono quanto i nom
 **organizzazioni, gli eventi, le rassegne e le opere**, con il limite che una descrizione corretta
 non si sostituisce mai con un titolo ipotizzato.
 
-**Che cosa ha comportato sui dati.** Non un ritocco: una rilettura. 956 campi lavorati contro le
-fonti già scaricate, 865 nomi rimessi, 87 lasciati con la ragione per cui la fonte non li dà. Il
+**Che cosa ha comportato sui dati.** Non un ritocco: una rilettura. **1.598 campi lavorati** contro
+le fonti già scaricate in sei passate — 1.265 sostituiti (1.252 nomi rimessi e 13 correzioni di
+contenuto), 332 lasciati con la ragione per cui la fonte non li dà, uno escluso perché fuori dalla
+seduta aperta. Le righe toccate sono 1.358 su 3.529. Restano dichiarati 126 dubbi sulla forma di un
+nome e 35 su chi attribuire un passaggio: sono due cose diverse e si verificano in modi opposti,
+una riascoltando e l'altra ricostruendo chi parlava. Il
 prezzo della riservatezza descritto più sopra — la titolare del banco di mercato di cui non si
 poteva scrivere l'attribuzione — non è più un prezzo: quel fatto ora è attribuibile e contestabile,
 che è la condizione perché sia una notizia.
