@@ -16,7 +16,10 @@ RUOLI = (r"consiglier[ae]|assessor[ae]|funzionari[oa]|dirigente|referente|relato
          r"attor[ei]|attrice|cantautor[ei]|cantautrice|cantante|regista|artista|"
          r"drammaturg[oa]|curator[ae]|moderator[ae]|scrittor[ei]|scrittrice|musicista|"
          r"ditta individuale|professionista|avvocat[oa]|architett[oa]|ingegner[ea]|"
-         r"present(?:atore|atrice)|direttor[ei]|direttrice")
+         r"present(?:atore|atrice)|direttor[ei]|direttrice|"
+         r"rapper|dj|fotograf[oa]|illustrator[ei]|illustratrice|coreograf[oa]|scenograf[oa]|"
+         r"docente|ricercator[ei]|ricercatrice|giornalista|conduttor[ei]|conduttrice|"
+         r"tecnic[oa]|geometra|perito|comandante|capogruppo|vicepresidente")
 FORMULA = re.compile(r"\b(un|una|un'|il|lo|la|l')\s*(" + RUOLI + r")\b", re.I)
 # Anche le organizzazioni erano state perifrasate ("una fondazione cinematografica romana",
 # "un duo indie-pop", "una testata online"), benche' nessuna regola lo chiedesse. La DEC-105 le
@@ -25,7 +28,11 @@ ORG = (r"fondazione|associazione|cooperativa|comitato|consorzio|testata|emittent
        r"compagnia|band|duo|trio|quartetto|orchestra|coro|collettivo|"
        r"societ[àa]|impresa|ditta|studio|agenzia|editrice|casa editrice|galleria|"
        r"scuola di musica|centro culturale|libreria")
-FORMULA_ORG = re.compile(r"\b(un|una|un')\s*(" + ORG + r")\b", re.I)
+ORG += (r"|operator[ei]|gestore|concessionari[oa]|appaltatore|affidatari[oa]|"
+        r"societ[àa] in house|societ[àa] partecipata|municipalizzata")
+# L'articolo determinativo era escluso e nascondeva "la societa' idrica" per Acea, "il gestore"
+# per chi ha l'appalto: un'organizzazione si perifrasa con il determinativo quanto con l'altro.
+FORMULA_ORG = re.compile(r"\b(un|una|un'|il|lo|la|l')\s*(" + ORG + r")\b", re.I)
 # I titoli perifrasati esistono (un lettore ne ha rimessi parecchi), ma non hanno una forma
 # riconoscibile: cercarli a regex da' 534 righe di cui quasi tutte sono prosa normale - "una
 # mostra di fotografia" descrive, non nasconde un titolo. Restano da correggere a mano, e la
@@ -90,11 +97,12 @@ def formule_in(riga, campi):
     out = []
     for c in campi:
         testo = riga.get(c) or ''
-        if CLASSE == 'titoli':
-            trovate = [m.group(0) for m in FORMULA_OPERA.finditer(testo)]
-        else:
-            trovate = [m.group(0) for m in FORMULA.finditer(testo)]
+        trovate = []
+        if CLASSE in ('persone', 'tutte'):
+            trovate += [m.group(0) for m in FORMULA.finditer(testo)]
             trovate += [m.group(0) for m in FORMULA_ORG.finditer(testo)]
+        if CLASSE in ('titoli', 'tutte'):
+            trovate += [m.group(0) for m in FORMULA_OPERA.finditer(testo)]
         if trovate:
             out.append((c, trovate))
     return out
