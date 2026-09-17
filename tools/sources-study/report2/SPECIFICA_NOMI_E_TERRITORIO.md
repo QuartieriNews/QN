@@ -35,6 +35,21 @@ Due registrazioni della stessa seduta sono due fonti dello stesso fatto: se il n
 sola delle due, vale, e si dichiara in `note` da quale. Resta vietato prenderlo da un'altra seduta,
 da un altro atto o da quello che si sa del Municipio.
 
+**Quando la fonte dà solo il nome di battesimo.** In commissione ci si chiama per nome e l'appello
+elenca i cognomi: spesso non c'è modo di ricongiungerli dentro la stessa fonte. «Il consigliere
+Andrea» **conta come ripristino**, non come identificazione insufficiente: è quello che la fonte
+dice, ed è più di «un consigliere». Si dichiara che il cognome non c'è. Toglierlo richiederebbe una
+ragione concreta, e «è solo il nome di battesimo» non lo è.
+
+**Il genere lo detta la fonte, non la formula.** Dove la formula anonimizzata dice «una consigliera»
+e la fonte dice «il consigliere Guerrini», vince la fonte, e lo scarto si dichiara. La formula è
+quello che va corretto: non può essere la prova di sé stessa.
+
+**Il minutaggio dell'evidenza si corregge.** Se `evidenza_locale` punta a un blocco che non contiene
+il passaggio, si scrive quello giusto e si dichiara lo scarto. La frase dell'evidenza non si
+accorcia mai; il puntatore invece va tenuto giusto, perché è con quello che un altro verifica la
+notizia, e un puntatore sbagliato disfa il metodo.
+
 **Verifica sulla fonte.** Un nome ripristinato va **riletto sulla fonte**, non ricostruito a
 memoria né dedotto dal ruolo. Se la fonte è una trascrizione e il nome è incerto, si scrive
 la forma udita e si alza `trascrizione_incerta`; se la fonte non permette di stabilirlo, resta
@@ -59,6 +74,16 @@ chiusura**. Si segnano i minutaggi e si usano quelli.
 presidente: se la seduta è aperta, quel passaggio è dentro il perimetro e si tratta come tutto
 il resto, nomi compresi. Vale anche per formule equivalenti («questo non mettetelo a verbale»,
 «a telecamere spente» detto a telecamere accese).
+
+**La ripresa può non essere dichiarata a parole.** Capita che il presidente sospenda e che nessuno
+annunci la ripresa, mentre la seduta riprende di fatto: si dà il benvenuto a un ospite, si dà la
+parola, si approva un verbale, si dichiara la chiusura. In quel caso **i lavori si considerano
+ripresi dal primo atto formale che li riprende**, e lo si scrive. Leggere la regola alla lettera
+butterebbe fuori l'intera registrazione, che non è quello che la regola vuole: il perimetro esclude
+ciò che seduta non è, non la seduta che nessuno ha riaperto a voce.
+
+Attenzione a non confondere il tema con l'atto: «lavori sospesi del cantiere», «piattaforma
+sospesa», «direttiva sospesa» sono argomenti di discussione, non sospensioni della seduta.
 
 Il materiale fuori seduta non entra nei file, nemmeno anonimizzato, e non si riproduce nei
 log: se ne dichiara solo l'esistenza, il minutaggio e la durata.
