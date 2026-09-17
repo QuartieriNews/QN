@@ -78,13 +78,15 @@ def main():
     fuori = DB + '/campione_territori.csv'
     with open(fuori, 'w', newline='', encoding='utf-8') as f:
         w = csv.DictWriter(f, fieldnames=['id', 'fonte', 'titolo', 'luoghi', 'municipio',
-                                          'quartiere', 'quartiere_zu', 'territorio_dedotto'],
+                                          'quartiere', 'quartiere_zu', 'territorio_dedotto',
+                                          'toponimo_da_verificare'],
                            extrasaction='ignore')
         w.writeheader(); w.writerows(campione)
     print('\ncampione da controllare a mano: %s (%d righe, seme fisso)' % (fuori, n))
     for r in campione[:8]:
-        print('  %-6s %-28s | %s | %s (%s)' % (r['id'], (r.get('luoghi') or '')[:28],
-              r.get('municipio'), r.get('quartiere'), r.get('territorio_dedotto')))
+        print('  %-6s %-28s | %-4s | %s (%s)%s' % (r['id'], (r.get('luoghi') or '')[:28],
+              r.get('municipio'), r.get('quartiere'), r.get('territorio_dedotto'),
+              '  DA VERIFICARE' if (r.get('toponimo_da_verificare') or '').lower() in ('sì', 'si') else ''))
     print('\ni dieci quartieri piu' + "'" + ' ricorrenti: %s' % [q for q, _ in quartieri.most_common(10)])
     return 1 if (ignoti or zu_disallineati) else 0
 
