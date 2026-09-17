@@ -46,7 +46,11 @@ def confronta(cartella_parti, testi, id_di=None):
             i = t.find(atteso)
             while i != -1:
                 coda = t[i + len(atteso):i + len(atteso) + 200]
-                if id_di is None or ('"id":"%s"' % id_di.get(nome, '\x00')) in coda:
+                # L'id, e non `"id":"..."`: nelle trascrizioni dei sottoagenti la risposta e'
+                # una stringa JSON dentro un'altra, con le virgolette sfuggite, e la forma
+                # letterale non si trova. L'id da solo e' gia' un legame forte: trentatre
+                # caratteri unici subito dopo il contenuto.
+                if id_di is None or id_di.get(nome, '\x00') in coda:
                     trovato = True
                     break
                 i = t.find(atteso, i + 1)
