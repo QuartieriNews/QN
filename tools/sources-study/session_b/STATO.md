@@ -5367,3 +5367,40 @@ vuoto come conferma sarebbe l'errore.
 l'elenco perché il collettivo si sciolga» si risolve guardando la fonte: si scioglie quando la fonte
 **nomina tutti** quelli di cui parla, resta collettivo quando è la fonte stessa a non elencarli. Un
 numero fisso avrebbe sciolto elenchi incompleti presentandoli come interi.
+
+## 133. Il residuo misurato, e perché cambia la conclusione
+
+Cinquanta righe a caso, stratificate per fonte, lette a mano contro la fonte: **32 su 50 hanno
+ancora un nome che la fonte dà e il testo non scrive** — 64%, intervallo al 95% fra 50 e 76%. Sulle
+3.529 righe sono fra 1.800 e 2.700. Zero righe non verificabili: tutte le fonti erano su disco e
+coprivano il passaggio, quindi il numero non è indebolito da sostituzioni di comodo.
+
+**La distinzione che conta più del numero.** Diciannove righe su cinquanta hanno una **perifrasi**
+(«il progettista» per l'architetto Promontorio, «la ditta manutentrice» per la ditta Paravia, «una
+villa comunale» per Villa Lazzaroni, «il romanzo» per «Le notti bianche»); tredici sono
+**omissioni**, dove nel campo non resta nessuna formula ma un buco, e spesso è la riga stessa a
+dichiararlo. Un rilevatore di formule trova le prime e **per costruzione** non vede le seconde.
+
+Da cui la conclusione che va scritta nel rapporto: **un'anonimizzazione a tappeto non si disfa con un
+rilevatore**. Costa quanto la lettura che l'ha prodotta. Le quattro passate di oggi — 1.575 campi
+lavorati, 1.239 sostituiti — hanno preso la parte con la formula; il resto va letto riga per riga, e
+a ritmo osservato (213 righe in 42 minuti di lettore) sono circa undici ore-lettore per il corpus.
+
+**Tre cose che la misura ha trovato e che non erano nel mandato.**
+1. **Un ripristino può fermarsi a metà**: in N2210 la nota cita come prova «un incontro tra il
+   consigliere Di Russo e il presidente Tomassetti», nel campo «Di Russo» c'è e «il presidente del
+   Municipio» è rimasto. Si cerca a costo zero — righe la cui `note` nomina qualcuno che la
+   `sintesi` non contiene: sul corpus intero ne escono 451 candidate, con falsi positivi (le note
+   citano la fonte, e la fonte nomina anche chi non c'entra), ma è un elenco, non una stima.
+2. **Il flag `trascrizione_incerta` può mancare** dove la stessa registrazione dà due forme del
+   cognome (N3171: Fannunza ×3, Fanunzi ×1). Nessun conteggio di formule lo vede.
+3. **Le schede evento hanno residui seriali**: E2/E3 danno 7 residui su 9, e lo stesso difetto si
+   ripete su ogni scheda della stessa rassegna — con incoerenze fra righe gemelle (N0665 scrive «a
+   cura di Spinoff», N0743 e N0824, stessa rassegna e stessa fonte, no). Lì conviene una passata
+   **per rassegna**, non riga per riga: è il punto in cui un'ora di lettura rende di più.
+
+**Una cosa che il campione non può dire.** È stratificato per fonte, e le quote tornano entro mezza
+riga; ma il residuo non varia per fonte, varia per **tipo di riga**: gli avvisi tabellari sono quasi
+tutti puliti perché i nomi stanno in colonna, i verbali e il parlato quasi tutti sporchi. Un campione
+stratificato per tipo di documento darebbe una cifra diversa e altrettanto corretta. Sta scritto nel
+rapporto, perché è il limite della misura e non un dettaglio.

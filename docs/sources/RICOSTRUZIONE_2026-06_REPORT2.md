@@ -1060,6 +1060,44 @@ prezzo della riservatezza descritto più sopra — la titolare del banco di merc
 poteva scrivere l'attribuzione — non è più un prezzo: quel fatto ora è attribuibile e contestabile,
 che è la condizione perché sia una notizia.
 
+**Quanto ne resta fuori, misurato invece che stimato.** Un rilevatore a espressioni regolari trova
+quello che sa cercare: allargarlo trova sempre qualcosa in più, e «la regex non trova più niente» non
+è mai la prova di aver finito. La chiusura quindi non è un conteggio del rilevatore ma **cinquanta
+righe estratte a caso, stratificate per fonte, lette a mano contro la fonte**. Il risultato:
+
+| | righe su 50 |
+|---|---|
+| pulite | 17 |
+| un nome di persona che la fonte dà e il testo non scrive | 21 |
+| idem, un'organizzazione | 8 |
+| idem, un titolo | 3 |
+| un'affermazione che la fonte non sostiene | 1 |
+| fonte non verificabile | 0 |
+
+**Trentadue righe su cinquanta, il 64%**, intervallo al 95% fra il 50 e il 76%: sulle 3.529 righe
+sono fra 1.800 e 2.700. Con cinquanta righe l'intervallo è largo ventisei punti — dice che il residuo
+è largamente maggioritario, non a che punto esatto stia; per dimezzarlo servirebbero duecento righe.
+
+La cifra va letta con la distinzione che la misura tiene separata, perché cambia la natura del
+lavoro che resta: **diciannove righe su cinquanta (38%) hanno una perifrasi** — una formula di ruolo
+al posto di un nome che la fonte scrive, «il progettista» per l'architetto, «la ditta manutentrice»
+per la ditta, «una villa comunale» per Villa Lazzaroni. **Tredici (26%) sono omissioni**: nel campo
+non è rimasta nessuna formula, è rimasto un buco, e spesso la riga lo dichiara da sé («il nome del
+direttore invitato è omesso»). Un rilevatore di formule le prime le può trovare; le seconde **per
+costruzione** non le vede, perché non c'è niente da trovare.
+
+Da qui la conclusione che conta per chiunque erediti questo lavoro: **un'anonimizzazione applicata a
+tappeto non si disfa con un rilevatore.** Rimetterla a posto costa quanto la lettura che l'ha
+prodotta — riga per riga, contro la fonte — e nessuna scorciatoia meccanica accorcia quella spesa.
+Quello che una passata a rilevatore ottiene è la parte con la formula; il resto va letto.
+
+E due difetti che la misura ha trovato per strada, entrambi invisibili a un conteggio di formule:
+**un ripristino può fermarsi a metà** — in una riga la nota cita come prova «un incontro tra il
+consigliere Di Russo e il presidente Tomassetti», nel campo «Di Russo» c'è e «il presidente del
+Municipio» è rimasto — e **il flag della trascrizione incerta può mancare** su un nome che la stessa
+registrazione rende in due forme. Il primo si cerca a costo zero: le righe la cui nota nomina
+qualcuno che la sintesi non contiene.
+
 **Il difetto che la rilettura ha scoperto**, e che è la cosa più importante di questa sezione: la
 mascheratura non toglieva soltanto, **inventava**. Sostituendo un nome, i lettori costruivano
 l'attributo che lo rimpiazzava — «il regista americano» per chi la fonte dice solo essere un
