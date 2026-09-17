@@ -51,6 +51,16 @@ print('notizie compatte:')
 scrivi('notizie_compatte', n, COLONNE)
 for fonte in sorted({r['fonte'] for r in n}):
     scrivi('notizie_compatte_' + fonte, [r for r in n if r['fonte'] == fonte], COLONNE)
+# Le sintesi e le ragioni restano fuori dai compatti perche' li' pesano troppo, ma non possono
+# restare **solo** qui: lo scratchpad muore con il contenitore, e il ripristino dei nomi (DEC-105)
+# vive quasi tutto dentro `sintesi`. Una consegna che porta lo schema e non il testo non consegna il
+# lavoro. Quindi un secondo insieme di file, per fonte, con il testo e la ragione riga per riga.
+t = list(csv.DictReader(open(D + '/notizie_candidate.csv', encoding='utf-8')))
+COL_TESTO = ['id', 'fonte', 'titolo', 'sintesi', 'note']
+print('testo delle notizie (sintesi e ragioni del ripristino):')
+for fonte in sorted({r['fonte'] for r in t}):
+    scrivi('notizie_testo_' + fonte, [r for r in t if r['fonte'] == fonte], COL_TESTO)
+
 d = accorcia(list(csv.DictReader(open(D + '/documenti.csv', encoding='utf-8'))), 'url')
 print('documenti compatti:')
 scrivi('documenti_compatti', d, COL_DOC)
