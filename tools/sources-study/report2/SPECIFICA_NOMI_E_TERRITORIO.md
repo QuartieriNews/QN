@@ -96,7 +96,11 @@ etichettata, il ricongiungimento fra nome e cognome poggia su un solo scambio �
 distinguere senza leggere la prosa: un cognome incerto si verifica riascoltando, un'attribuzione
 incerta si verifica ricostruendo chi parlava.
 
-**Il minutaggio dell'evidenza si corregge.** Se `evidenza_locale` punta a un blocco che non contiene
+**Il minutaggio dell'evidenza si corregge.** I blocchi non hanno la stessa grana in tutte le fonti —
+cinque minuti in una registrazione RomaTV, una decina di secondi in una caption YouTube — quindi
+«contenere il passaggio» non vuol dire la stessa cosa dappertutto, e un campo che riassume dieci
+minuti non può avere un puntatore esatto. La regola è stretta: si corregge **solo** quando il blocco
+indicato non contiene *nessuna parte* del passaggio. Se `evidenza_locale` punta a un blocco che non contiene
 il passaggio, si scrive quello giusto e si dichiara lo scarto. La frase dell'evidenza non si
 accorcia mai; il puntatore invece va tenuto giusto, perché è con quello che un altro verifica la
 notizia, e un puntatore sbagliato disfa il metodo.
@@ -110,6 +114,19 @@ il ruolo con la ragione in `note`.
 sedi, nomi in intitolazioni e commemorazioni, denominazioni di organizzazioni, URL delle
 pagine pubbliche. La colonna si chiama ora `titolo`: `titolo_anonimizzato` era il nome di una
 regola che non c'è più.
+
+**Un campo può avere esiti diversi.** In una stessa frase una formula si ripristina e un'altra no:
+l'esito della riga dice quello che è successo *in prevalenza*, e `formule_residue` elenca quelle che
+restano, con il perché. Senza, chi legge il patch crede che il campo sia chiuso quando non lo è —
+ed è lo stesso difetto, in piccolo, che il costruttore aveva in grande.
+
+**Fin dove arriva «la stessa fonte».** L'appello di una seduta e il dibattito della stessa seduta
+sono la stessa fonte: se all'appello c'è «Aulita» e in aula la chiamano «Barbara», scrivere «la
+consigliera Barbara Aulita» è lettura, e si dichiara. Non lo è ricostruire un'identità per
+concatenazione — «si parla dell'amministrazione Falconi» più «c'è un Falconi all'appello» quindi «il
+presidente è Falconi»: lì la fonte non dice chi presiede, lo dice il ragionamento. Il confine è se
+la fonte **afferma** l'identità o se la si ricava mettendo insieme due cose che la fonte tiene
+separate.
 
 **I collettivi si sciolgono quando la fonte li ha sciolti.** «I tre musicisti in scena», «sette
 interpreti»: se la fonte più sotto elenca i nomi e l'elenco è breve e funzionale, si scrivono. Se
