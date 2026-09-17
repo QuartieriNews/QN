@@ -1040,6 +1040,17 @@ pertinente al fatto quanto lo sia mai stato qualcuno. Il caso resta in questa pa
 misura di che cosa costi una regola di riservatezza vale anche dopo che la regola è cambiata: è il
 conto che andrebbe rifatto ogni volta che se ne adotta una.
 
+**Un limite del riconoscimento dei quartieri, trovato leggendo il campione e non corretto.** Il
+nome di un quartiere può stare dentro il nome di un'istituzione: «Accademia di Belle Arti» fa
+attribuire la riga a **Belle Arti**, che è un quartiere vero e non è quello del fatto — il museo di
+cui parla la riga sta in centro. La regola del match più lungo non lo prende, perché «Accademia di
+Belle Arti» non è a sua volta un quartiere, e la regola dell'odonimo nemmeno, perché «accademia» non
+è un tipo di strada. Si risolverebbe trattando i nomi di istituzione come si trattano quelli di
+strada — segnalare, non togliere, perché «Teatro Tor Bella Monaca» il quartiere lo indica davvero —
+ma vorrebbe dire rigenerare il database e rifare la consegna, e non vale il prezzo adesso. Sta
+scritto qui perché chi userà questi dati lo sappia: **l'attribuzione del quartiere è una deduzione
+dichiarata, non una misura**, e le righe marcate `toponimo_da_verificare` sono il 28%.
+
 ## 8. Le decisioni dell'owner, e che cosa hanno cambiato
 
 Il 17 settembre l'owner ha sciolto tutte e sette le decisioni aperte con una voce sola, la
