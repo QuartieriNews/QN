@@ -2,7 +2,7 @@
 
 > **Governance:** every item in this file is a **candidate for independent review by Claude + OpenAI**. Nothing here authorizes implementation in production. Council outcome should be one of: `APPROVE`, `PILOT`, `DEFER`, `REJECT`.
 
-Last updated: 2026-09-17
+Last updated: 2026-09-18
 
 ## QN-TC-001 — GPT-6 Astra as OpenAI reviewer / automation agent
 
@@ -334,6 +334,39 @@ Treat **n8n >=2.39.6 stable** (or a later stable release containing the patch) a
 - https://github.com/n8n-io/n8n/security/advisories/GHSA-9rhv-fhr8-7q5r
 - https://github.com/n8n-io/n8n/releases/tag/n8n%402.39.6
 - https://github.com/n8n-io/n8n/security/advisories/GHSA-7gjv-rcf8-x5qc
+
+---
+
+## QN-TC-013 — Claude Code 2.1.274–2.1.276 tighten MCP/plugin security and introduce a new tool-surface governance risk
+
+**Status:** NEW — CANDIDATE FOR SECURITY BASELINE UPDATE / COUNCIL REVIEW  
+**Area:** security, MCP, plugins/skills, permissions, supply chain, reliability  
+**Impact:** security **high**; architecture **low**; reliability **medium**; speed **low**; cost **negligible**
+
+### What changed
+Anthropic released Claude Code 2.1.274 on 2026-09-17, followed later that day by 2.1.275 and by 2.1.276 on 2026-09-18. The relevant changes extend the hardening already tracked in QN-TC-009:
+
+1. **2.1.274** fixes MCP connection/login error paths that could display secrets resolved from `${VAR}` placeholders in MCP configuration, tightens Bash permission checks for special shell-variable cases, refuses certain nested shell expansions in worktree-isolated sessions, and makes configured MCP startup/tool-call timeouts behave more predictably.
+2. **2.1.275** stops npm plugin installation scripts from executing during fetch (`npm pack --ignore-scripts`) and adds integrity verification. It also fixes passwords/tokens embedded in Git/SSH/marketplace URLs appearing in plugin/marketplace messages and logs.
+3. **2.1.275** also introduces automatic syncing of claude.ai-enabled skills and plugins into signed-in terminal sessions, unless `syncClaudeAiSkills: false` and `syncClaudeAiPlugins: false` are set. For a governed autonomous QN environment, this is a new source of **tool-surface drift**: capabilities could change because of an account-level setting even when the repository did not change.
+4. **2.1.276** fixes a 2.1.275 regression that could make every request fail with HTTP 400 when `ANTHROPIC_BASE_URL` points to a proxy/gateway.
+
+### Why it matters for QN
+QN is explicitly evaluating Claude→MCP→n8n/GitHub write-capable workflows. Secret redaction, stricter shell permission enforcement and safer plugin installation directly reduce credential and supply-chain risk. Just as importantly, the new account-to-terminal plugin/skill sync means the QN agent's available tools can expand outside the normal repository change/review path unless we deliberately control that behavior.
+
+### Expected benefit
+A safer baseline for autonomous MCP work, lower chance of secrets leaking through MCP/plugin diagnostics, reduced risk from npm plugin install scripts, and more predictable long-running MCP behavior. Disabling uncontrolled account sync would also make the QN agent environment more reproducible and auditable.
+
+### Risks / unknowns
+Version upgrades do not remove the need for sandboxing and least privilege. Disabling skill/plugin sync may make interactive developer sessions slightly less convenient. Conversely, leaving it enabled in autonomous/project-controlled sessions creates configuration drift and may broaden agent capabilities without Council review. The 2.1.275 gateway regression also shows why QN should test a candidate version before treating it as a baseline.
+
+### Proposed action
+Council should consider **superseding the Claude Code pilot floor from >=2.1.273 to >=2.1.276** (or a later tested release). For automated/project-controlled QN sessions, propose setting `syncClaudeAiSkills: false` and `syncClaudeAiPlugins: false` unless a Council-approved allowlist/process explicitly permits account-synced capabilities. Add staging regression tests for: (1) MCP config secrets never appear in errors/login descriptions, (2) shell permission edge cases still prompt/deny correctly, (3) plugin installation does not execute npm lifecycle scripts and integrity checks pass, and (4) the exact available plugin/skill surface is reproducible from approved configuration. This remains a Council candidate; do not change production autonomy solely from this alert.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.274
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.275
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.276
 
 ---
 
