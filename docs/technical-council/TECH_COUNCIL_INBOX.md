@@ -2,7 +2,7 @@
 
 > **Governance:** every item in this file is a **candidate for independent review by Claude + OpenAI**. Nothing here authorizes implementation in production. Council outcome should be one of: `APPROVE`, `PILOT`, `DEFER`, `REJECT`.
 
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 
 ## QN-TC-001 — GPT-6 Astra as OpenAI reviewer / automation agent
 
@@ -367,6 +367,37 @@ Council should consider **superseding the Claude Code pilot floor from >=2.1.273
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.274
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.275
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.276
+
+---
+
+## QN-TC-014 — Plugin4Shell makes coding-agent plugin provenance an explicit QN security gate
+
+**Status:** NEW — HIGH-PRIORITY SUPPLY-CHAIN GOVERNANCE / COUNCIL REVIEW  
+**Area:** security, coding agents, plugins/skills, supply chain, provenance  
+**Impact:** security **very high**; architecture **low**; speed **low**; cost **negligible**
+
+### What changed
+On 2026-09-17 AIR Security publicly disclosed **Plugin4Shell**, a plugin supply-chain vulnerability affecting Claude Code, OpenAI Codex, GitHub Copilot and Gemini CLI. The affected agents could request a marketplace-pinned commit SHA but fail to verify that the checked-out working tree actually resolved to that commit. On Git hosts that permit a branch name to look like a 40-character SHA (including Bitbucket and self-hosted Git), a repository owner or attacker controlling a plugin repository could make the checkout resolve to different code while the plugin still appeared pinned. Because plugin auto-update can happen in the background, an already trusted plugin could be swapped without a new install prompt.
+
+AIR reports the issue fixed in **Claude Code 2.1.179** and **OpenAI Codex 0.146.0**. At disclosure, AIR reported no GitHub Copilot fix and said the deprecated Gemini CLI would not receive one. GitHub itself rejects SHA-shaped branch names, so the specific branch-name path is not available to GitHub-hosted plugin repositories; that reduces, but does not eliminate, general plugin supply-chain risk.
+
+### Why it matters for QN
+QN is considering Claude/Codex plugins, skills, MCP integrations and eventually autonomous write-capable sessions with access to GitHub and n8n. A malicious plugin inherits the agent's effective access. The disclosure therefore changes the governance question from “is the plugin pinned?” to “can we prove which code was materialized and do we control the source and update path?”. QN's currently proposed Claude baseline is already newer than the disclosed patch floor, but provenance still needs to be an explicit Council gate rather than an assumption.
+
+### Expected benefit
+A reproducible and auditable tool surface; lower risk that a compromised or malicious plugin repository silently inherits QN filesystem, GitHub, n8n or credential access; clearer security criteria before enabling autonomous plugin use.
+
+### Risks / unknowns
+The vendor patches close the disclosed ref-resolution bug, not every plugin supply-chain threat. A compromised maintainer can still publish malicious code, and an approved plugin can become risky through later updates or dependencies. Restricting sources can also reduce convenience and the range of community plugins available to agents.
+
+### Proposed action
+Before any autonomous QN session is allowed to load plugins or marketplace skills, ask the Council to approve a **plugin provenance gate**: (1) require a Council-tested Claude Code build at least as new as **2.1.278** and Codex **>=0.146.0**; (2) allow only Council-approved plugin marketplaces/repositories, preferring GitHub-hosted sources and rejecting arbitrary Bitbucket/self-hosted marketplaces unless separately audited; (3) record the declared pinned commit and the actually resolved installed commit and fail closed on mismatch; (4) inventory plugin/skill source and version before and after updates; (5) keep auto-update only where provenance verification can be logged, otherwise disable it for autonomous QN sessions; and (6) do not introduce unpatched Copilot/Gemini-CLI plugin paths into the QN workflow. Keep the QN-TC-013 proposal to disable uncontrolled account-to-terminal skill/plugin sync in governed sessions. This is a Council candidate, not authorization to alter production.
+
+### Evidence
+- https://www.air.security/blog-posts/plugin4shell
+- https://thehackernews.com/2026/09/plugin4shell-lets-repository-owners.html
+- https://github.com/openai/codex/releases/tag/rust-v0.146.0
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.278
 
 ---
 
