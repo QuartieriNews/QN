@@ -2,7 +2,7 @@
 
 > **Governance:** every item in this file is a **candidate for independent review by Claude + OpenAI**. Nothing here authorizes implementation in production. Council outcome should be one of: `APPROVE`, `PILOT`, `DEFER`, `REJECT`.
 
-Last updated: 2026-09-19
+Last updated: 2026-09-25
 
 ## QN-TC-001 — GPT-6 Astra as OpenAI reviewer / automation agent
 
@@ -398,6 +398,58 @@ Before any autonomous QN session is allowed to load plugins or marketplace skill
 - https://thehackernews.com/2026/09/plugin4shell-lets-repository-owners.html
 - https://github.com/openai/codex/releases/tag/rust-v0.146.0
 - https://github.com/anthropics/claude-code/releases/tag/v2.1.278
+
+---
+
+## QN-TC-022 — Agent conversation-history integrity
+
+**Status:** CANDIDATE — council review required  
+**Area:** security, agent state, workflow governance  
+**Impact:** architecture **medium**; security **very high**; cost **low**; speed **low-medium**
+
+### What changed
+Darktrace published research on 2026-09-24 showing that several agentic coding tools accept locally stored conversation history without cryptographic validation that every historical turn is authentic. The finding covers Claude Code, OpenAI Codex, AWS Kiro-CLI and Pi.
+
+### Why it matters for QN
+QN is evaluating long-running and resumable coding-agent workflows. Historical conversation content should therefore be treated as context, not as proof that a sensitive action was previously approved.
+
+### Expected benefit
+A clearer authorization boundary and lower reliance on mutable local agent state.
+
+### Risks / unknowns
+There is not yet a complete user-side authenticity mechanism for historical turns across these tools. Fresh sessions can also reduce continuity and increase token/time cost.
+
+### Proposed action
+Ask Claude and OpenAI to independently review a fresh-session rule for higher-trust QN work: derive authority from runtime policy and explicit approval, avoid moving mutable local transcripts into a higher-trust context, and keep durable task state in reviewed repository artifacts. Revisit when providers ship verifiable history-integrity controls.
+
+### Evidence
+- https://www.darktrace.com/blog/hijacking-agentic-harnesses-to-attack-an-organization
+
+---
+
+## QN-TC-023 — Claude Code cloud sessions as a remote builder workflow
+
+**Status:** CANDIDATE FOR PILOT — council review required  
+**Area:** workflow, mobile supervision, parallel development, speed  
+**Impact:** architecture **low**; security **medium**; cost **low-medium**; speed **medium-high**
+
+### What changed
+Anthropic now documents Claude Code cloud sessions across browser, mobile, desktop and terminal. Sessions continue running after the laptop is closed, can be checked or steered from another device, and can run independently in parallel. Hosted sessions use isolated virtual machines and work from pushed repository/branch state.
+
+### Why it matters for QN
+This directly supports the desired QN development model of launching long-running builder work and supervising it from a phone without maintaining a custom always-on development machine.
+
+### Expected benefit
+Less manual coordination, easier mobile supervision and parallel execution, and branch/PR-based review of remote work.
+
+### Risks / unknowns
+Parallel sessions consume shared Claude usage limits faster. Cloud work begins from pushed repository state, so local-only context is not automatically present. The workflow also depends on GitHub and correct repository configuration.
+
+### Proposed action
+After independent Claude + OpenAI confirmation, run two bounded non-production QN tasks in cloud sessions and measure elapsed time, manual interventions, usage consumption and whether mobile supervision meaningfully reduces coordination effort. Do not change the default workflow based on the alert alone.
+
+### Evidence
+- https://code.claude.com/docs/en/claude-code-on-the-web
 
 ---
 
