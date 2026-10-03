@@ -453,6 +453,453 @@ After independent Claude + OpenAI confirmation, run two bounded non-production Q
 
 ---
 
+## QN-TC-024 — Claude Code exact model governance
+
+**Status:** CANDIDATE — COUNCIL REVIEW  \
+**Area:** model governance, security, reproducibility  \
+**Impact:** security **high**; architecture **low-medium**; cost **negligible**; speed **neutral**
+
+### What changed
+Claude Code 2.1.283 added exact model matching and explicit denied-model controls, plus `/doctor prompt-audit` and safer handling of partially invalid managed sandbox settings.
+
+### Why it matters for QN
+QN can enforce the rule that a newly released Claude model does not enter unattended workflows merely because an alias/default moved.
+
+### Expected benefit
+Reproducible model behavior and a technical gate around Council-approved models.
+
+### Risks / unknowns
+Exact pinning can delay useful upgrades and requires a deliberate release process.
+
+### Proposed action
+Council should test exact model pinning and deny-lists in staging and require a deliberate model change record before changing builder/reviewer models.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.283
+
+---
+
+## QN-TC-025 — Codex 0.157.0 network-policy hardening
+
+**Status:** SUPERSEDED AS VERSION FLOOR BY LATER CODEX CANDIDATES; SECURITY TESTS RETAINED  \
+**Area:** security, MCP, network policy  \
+**Impact:** security **high**; architecture **low**; cost **negligible**; speed **neutral**
+
+### What changed
+Codex 0.157.0 extended network-policy enforcement across redirects and already-open HTTP/WebSocket connections, tightened MCP-local paths and OAuth endpoint handling, and improved credential redaction.
+
+### Why it matters for QN
+A reviewer that is allowed to reach only approved services should not escape the allowlist through redirects or persistent connections.
+
+### Expected benefit
+Stronger least-privilege network boundaries for Claude-builder/OpenAI-reviewer separation.
+
+### Risks / unknowns
+Incorrect policy configuration can block legitimate review traffic.
+
+### Proposed action
+Keep redirect, live-connection revocation and MCP-boundary checks in the Codex staging regression pack, but use the newest Council-approved Codex build as the actual floor.
+
+### Evidence
+- https://github.com/openai/codex/releases/tag/rust-v0.157.0
+
+---
+
+## QN-TC-026 — n8n Agent verification can suppress real write tools
+
+**Status:** CANDIDATE FOR STAGING PILOT  \
+**Area:** n8n, agent verification, safety, debugging  \
+**Impact:** security **high**; speed **medium-high**; architecture **low-medium**; cost **low**
+
+### What changed
+The n8n 2.41 line added verification behavior that can replace Agent tool executions with pinned/fixture results so the Agent receives a simulated result while the real write tool is not invoked. It also added targeted node execution and richer verification evidence.
+
+### Why it matters for QN
+QN can test publishing/database Agent logic without necessarily performing the real external write.
+
+### Expected benefit
+Safer pre-flight testing and faster debugging of AI-operated workflows.
+
+### Risks / unknowns
+Simulated write verification and live single-node execution are different privilege levels; the latter can use real credentials and services.
+
+### Proposed action
+In staging, prove that a simulated write produces no external call. Test live single-node execution only with a harmless read-only node and staging credentials.
+
+### Evidence
+- https://github.com/n8n-io/n8n/releases/tag/n8n%402.41.0
+- https://github.com/n8n-io/n8n/releases/tag/n8n%402.41.2
+
+---
+
+## QN-TC-027 — Re-run GPT-6 Sol/Luna visual and computer-use evaluations
+
+**Status:** CANDIDATE — BENCHMARK CORRECTION  \
+**Area:** model evaluation, computer use, quality  \
+**Impact:** quality **medium-high**; architecture **none**; cost **low**; speed **low**
+
+### What changed
+On 2026-09-25 OpenAI fixed an image-encoding bug that degraded image understanding in GPT-6 Sol and Luna, including visual tasks in Codex and computer use.
+
+### Why it matters for QN
+Any QN benchmark run before the fix on screenshots, browser UI or n8n visual tasks may understate Sol/Luna quality.
+
+### Expected benefit
+Avoids making routing decisions from a known-bad evaluation window.
+
+### Risks / unknowns
+The fix does not imply Sol/Luna are automatically good enough for QN.
+
+### Proposed action
+Retain text/coding results but re-run only the affected visual/browser/computer-use cases before Council decides model routing.
+
+### Evidence
+- https://developers.openai.com/api/docs/changelog
+
+---
+
+## QN-TC-028 — Expiring OpenAI keys and service-account key governance
+
+**Status:** CANDIDATE — EXTENDED BY QN-TC-040  \
+**Area:** credentials, security, operations  \
+**Impact:** security **high**; architecture **low**; cost **negligible**; speed **neutral**
+
+### What changed
+OpenAI added project-key expiration, organization/project maximum key lifetimes and key-governance controls that can require service-account-owned keys or block new key creation.
+
+### Why it matters for QN
+Unattended automation should not depend on personal, indefinite OpenAI credentials.
+
+### Expected benefit
+Smaller credential blast radius, cleaner auditing and easier revocation.
+
+### Risks / unknowns
+Poor rotation can cause outages; these controls do not protect GitHub/n8n credentials.
+
+### Proposed action
+Pilot a dedicated QN service account with expiring credentials and tested rotation. Prefer QN-TC-040 workload identity where supported.
+
+### Evidence
+- https://developers.openai.com/api/docs/guides/production-best-practices
+
+---
+
+## QN-TC-029 — Claude Sonnet 5.5 as a possible default builder tier
+
+**Status:** CANDIDATE FOR BENCHMARK  \
+**Area:** model routing, builder cost/speed  \
+**Impact:** cost **high positive potential**; speed **high positive potential**; architecture **medium**; security **low**
+
+### What changed
+Anthropic released Claude Sonnet 5.5 and Claude Code 2.1.284, with Sonnet 5.5 becoming the Sonnet default and a 1M context option.
+
+### Why it matters for QN
+QN may be able to use Sonnet for routine development while reserving Opus for hard architecture/debugging work.
+
+### Expected benefit
+Lower builder cost and faster throughput if QN-specific quality holds.
+
+### Risks / unknowns
+Vendor benchmarks may not predict QN outcomes; a changed default must not bypass model governance.
+
+### Proposed action
+Benchmark Sonnet 5.5 against the current builder on identical QN tasks; keep explicit model pinning.
+
+### Evidence
+- https://www.anthropic.com/claude-sonnet-5-5
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.284
+
+---
+
+## QN-TC-030 — Codex 0.158.0 reviewer hardening
+
+**Status:** SUPERSEDED AS VERSION FLOOR BY LATER CODEX CANDIDATES  \
+**Area:** security, reviewer isolation, computer/browser use  \
+**Impact:** security **high**; architecture **low**; cost **negligible**; speed **neutral**
+
+### What changed
+Codex 0.158.0 strengthened elevated-terminal approvals, sandbox and Git metadata protections, MCP/exec-server authentication and Guardian handling for computer/browser use.
+
+### Why it matters for QN
+The independent reviewer needs strong isolation while still being able to inspect code and browser behavior.
+
+### Expected benefit
+Lower chance that review activity crosses into unintended write authority.
+
+### Risks / unknowns
+Security still depends on policy and credential scope, not version alone.
+
+### Proposed action
+Retain browser, sandbox, MCP and write-denial tests in the reviewer regression pack; use the latest Council-approved Codex version.
+
+### Evidence
+- https://github.com/openai/codex/releases/tag/rust-v0.158.0
+
+---
+
+## QN-TC-031 — GPT-6.1 Sol resets the OpenAI reviewer benchmark
+
+**Status:** CANDIDATE FOR BENCHMARK  \
+**Area:** model routing, cost, coding, computer use  \
+**Impact:** cost **high positive potential**; quality **medium-high**; speed **medium-high**; architecture **low**
+
+### What changed
+OpenAI released GPT-6.1 Sol on 2026-09-29 at $2/M input, $0.10/M cached input and $10/M output, positioned for complex coding, professional work and computer use and supporting multi-agent workflows in beta.
+
+### Why it matters for QN
+The normal OpenAI reviewer may no longer need Astra for every difficult task.
+
+### Expected benefit
+Potentially much lower review cost while retaining near-frontier quality on QN tasks.
+
+### Risks / unknowns
+Vendor benchmark results need QN-specific validation.
+
+### Proposed action
+Benchmark GPT-6.1 Sol versus Astra on QN code review, browser/n8n checks and factual review; keep model IDs pinned.
+
+### Evidence
+- https://openai.com/index/introducing-gpt-6-1-sol/
+- https://developers.openai.com/api/docs/changelog
+
+---
+
+## QN-TC-032 — Agents API + computer use / Codex cloud can reduce custom orchestration
+
+**Status:** CANDIDATE FOR BOUNDED STAGING PILOT  \
+**Area:** agent infrastructure, cloud execution, browser/computer use  \
+**Impact:** architecture **medium-high**; speed **high positive potential**; security **configuration-dependent**; cost **to measure**
+
+### What changed
+OpenAI's DevDay 2026 launch added computer use to the Agents API along with multi-agent capability, tool search/calling and context compaction, and expanded Codex cloud environments for remote work.
+
+### Why it matters for QN
+Some reviewer/browser orchestration that QN might otherwise build itself can be provided as managed infrastructure.
+
+### Expected benefit
+Less glue code, easier remote execution and faster iteration.
+
+### Risks / unknowns
+Greater provider lock-in and a larger action surface; it must not erase Claude/OpenAI separation.
+
+### Proposed action
+Run one harmless browser/debug task in staging with read/test/comment-only permissions and compare it with the current process.
+
+### Evidence
+- https://openai.com/index/devday-2026-recap/
+
+---
+
+## QN-TC-033 — n8n 2.41 stable line unlocks the Agent-verification pilot
+
+**Status:** CANDIDATE FOR STAGING PILOT; CURRENT PATCH FLOOR SHOULD TRACK LATEST STABLE 2.41.x  \
+**Area:** n8n, verification, safety  \
+**Impact:** security **high positive**; speed **high positive**; architecture **low-medium**; cost **neutral**
+
+### What changed
+n8n 2.41.3 became stable, making the Agent-write verification capabilities tracked in QN-TC-026 available on the stable line.
+
+### Why it matters for QN
+The earlier reason to defer the verification pilot — pre-release status — was removed.
+
+### Expected benefit
+A safer staging gate for workflows that will eventually publish or mutate data.
+
+### Risks / unknowns
+Live node execution remains materially more privileged than simulated verification.
+
+### Proposed action
+Verify the actual QN Cloud version and use the newest stable 2.41.x patch available before any staging pilot.
+
+### Evidence
+- https://github.com/n8n-io/n8n/releases/tag/n8n%402.41.3
+
+---
+
+## QN-TC-034 — Claude Code provider controls improve, but managed-settings readability must fail closed
+
+**Status:** CANDIDATE — SECURITY BASELINE RULE  \
+**Area:** provider governance, managed settings, security  \
+**Impact:** security **very high**; architecture **low**; cost **negligible**; speed **neutral**
+
+### What changed
+Claude Code 2.1.285 added provider allowlisting and WebFetch controls, while documenting a case where unreadable managed settings can lead to a warning and continued startup without those policies.
+
+### Why it matters for QN
+An unattended builder must never silently start outside its intended policy envelope.
+
+### Expected benefit
+Tighter provider/network governance when combined with an external startup check.
+
+### Risks / unknowns
+Fail-open startup behavior can nullify managed settings if not detected.
+
+### Proposed action
+Add a QN pre-flight that verifies required managed settings are readable/applied and refuses to start otherwise.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.285
+
+---
+
+## QN-TC-035 — Codex 0.159.2 reviewer floor and model/version separation
+
+**Status:** SUPERSEDED AS VERSION FLOOR BY QN-TC-038; GOVERNANCE RULE RETAINED  \
+**Area:** reviewer versioning, model governance, security  \
+**Impact:** security **high**; architecture **low**; cost **model-dependent**; speed **neutral**
+
+### What changed
+Codex 0.159.x tightened filesystem/credential boundaries and changed the default model to GPT-6.1 Sol.
+
+### Why it matters for QN
+Updating the Codex harness can implicitly change model behavior if the model is not separately pinned.
+
+### Expected benefit
+Clear separation between harness-version approval and model approval.
+
+### Risks / unknowns
+Silent default-model movement can invalidate prior evaluations.
+
+### Proposed action
+Always pin the reviewer model independently of the Codex version and test commit/push/merge/n8n-write denials.
+
+### Evidence
+- https://github.com/openai/codex/releases/tag/rust-v0.159.2
+
+---
+
+## QN-TC-036 — Claude Code 2.1.286 remote/unattended governance and model-fallback drift
+
+**Status:** SUPERSEDED AS VERSION FLOOR BY LATER CLAUDE CODE CANDIDATES; TESTS RETAINED  \
+**Area:** remote sessions, credentials, model governance  \
+**Impact:** security **high**; reliability **medium-high**; architecture **low**; cost **negligible**
+
+### What changed
+Claude Code 2.1.286 improved remote-session revocation and secret redaction, restricted plugin dependency sources, and added fallback behavior when a selected model is refused.
+
+### Why it matters for QN
+Remote control becomes safer, but alias/default fallback can create unapproved model drift.
+
+### Expected benefit
+Better remote-session control and diagnostics.
+
+### Risks / unknowns
+Fallback can silently alter the effective model if QN relies on aliases/defaults.
+
+### Proposed action
+Use exact model IDs and regression-test model refusal, remote revocation and fake-secret redaction.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.286
+
+---
+
+## QN-TC-037 — Claude Code 2.1.287 Mods and MCP permission fixes
+
+**Status:** SUPERSEDED AS VERSION FLOOR BY QN-TC-039; MOD GOVERNANCE RULE RETAINED  \
+**Area:** plugins/mods, MCP, supply chain, observability  \
+**Impact:** security **very high**; architecture **medium**; speed **medium positive**; cost **low**
+
+### What changed
+Claude Code 2.1.287 introduced Claude Mods and fixed an organization permission-ceiling issue for specially named MCP tools, duplicate MCP-call cases and additional telemetry/remote-session issues.
+
+### Why it matters for QN
+Mods are more privileged than ordinary prompt text and can change builder behavior deeply.
+
+### Expected benefit
+Potentially useful local checks, with stronger MCP behavior.
+
+### Risks / unknowns
+Mods enlarge the supply-chain and behavior-drift surface.
+
+### Proposed action
+Keep Mods disabled by default for governed QN sessions. Any future Mod must be individually reviewed, pinned and tested.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.287
+
+---
+
+## QN-TC-038 — Codex 0.160.0 Guardian can include earlier instructions and agent handoffs
+
+**Status:** CANDIDATE — CURRENT CODEX STABLE FLOOR  \
+**Area:** reviewer context, handoffs, authorization integrity  \
+**Impact:** security **medium-high**; architecture **low-medium**; reliability **medium positive**; cost **low**
+
+### What changed
+Codex 0.160.0 added opt-in Guardian review capabilities that can retrieve earlier user instructions and include agent-handoff context, plus reconnect/subagent reliability fixes.
+
+### Why it matters for QN
+The reviewer can check whether a builder respected the original assignment, not only the final diff.
+
+### Expected benefit
+Fewer requirements lost in handoffs and better intent-aware review.
+
+### Risks / unknowns
+Historical context is mutable state and must never itself authorize privileged action.
+
+### Proposed action
+Test a deliberately poisoned history and verify that runtime policy/current authorization remains authoritative.
+
+### Evidence
+- https://github.com/openai/codex/releases/tag/rust-v0.160.0
+
+---
+
+## QN-TC-039 — Claude Code 2.1.288 closes fail-open and duplicate-write paths
+
+**Status:** NEW — HIGH-PRIORITY SECURITY/RELIABILITY CANDIDATE  \
+**Area:** MCP, hooks, unattended sessions, model policy, destructive commands  \
+**Impact:** security **very high**; reliability **high**; architecture **low**; cost **negligible**; speed **medium positive**
+
+### What changed
+Claude Code 2.1.288 (2026-10-02) fixes several issues directly relevant to QN autonomy: MCP tool calls could run twice when a remote result exceeded 16 MB or could not be parsed; `PreToolUse` and `PermissionRequest` hooks could be skipped when matching failed or tool input could not be serialized, and now block the call; dangerous `rm` inside `bash -c`/ `sh -c` could run without the expected prompt in some allow/bypass modes; restarted cloud sessions could restore a model outside the organization's enforced model list; and unattended retry watchdogs could retry for hours after stream failures. It also adds an MCP re-authentication prompt when a server requests broader OAuth scope during a call.
+
+### Why it matters for QN
+QN's planned Claude→MCP→n8n/GitHub path contains write-capable tools, hooks and long-running cloud/headless sessions. Duplicate execution and skipped permission hooks are exactly the failure modes that could turn a transient parser/tool error into a duplicated external write or a bypassed control.
+
+### Expected benefit
+Stronger fail-closed behavior, lower duplicate-write risk, safer unattended recovery and more reliable model-policy enforcement.
+
+### Risks / unknowns
+The fixes reduce known failure modes but do not make writes idempotent by themselves. QN still needs application-level idempotency and least-privilege credentials.
+
+### Proposed action
+Ask Claude + OpenAI to independently review **Claude Code >=2.1.288** as the new candidate floor. In staging, test: (1) a remote MCP result that is oversized/unparseable does not duplicate a write, (2) malformed/unserializable hook input blocks rather than proceeds, (3) dangerous nested-shell deletion prompts/blocks correctly, (4) a restarted cloud session cannot restore a disallowed model, and (5) unattended retries stop after the documented limit. Do not widen production permissions based on the version alone.
+
+### Evidence
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.288
+
+---
+
+## QN-TC-040 — OpenAI workload identity federation + API IP allowlists can remove long-lived keys from trusted automation
+
+**Status:** NEW — HIGH-PRIORITY SECURITY ARCHITECTURE CANDIDATE  \
+**Area:** credentials, API security, Codex automation, CI/CD  \
+**Impact:** security **very high**; architecture **low-medium**; cost **low**; speed **neutral**
+
+### What changed
+OpenAI now documents **workload identity federation (WIF)** for the API and Codex. Trusted workloads can present short-lived OIDC/SPIFFE identities (and, for the API, X.509 identities) and exchange them for short-lived OpenAI access tokens, instead of storing a long-lived OpenAI API key. Supported identity sources include GitHub Actions, AWS, Azure, Google Cloud, Kubernetes, Oracle Cloud and SPIFFE; Codex WIF is currently beta for managed workspaces. Separately, the OpenAI API changelog records **IP allowlisting** as a new platform feature on 2026-10-01, restricting API access to configured IP addresses/ranges.
+
+### Why it matters for QN
+QN-TC-028 reduced key lifetime but still assumed a stored secret. WIF can remove that secret entirely for supported automated workloads, especially GitHub Actions/Codex CI. IP allowlists add another boundary for workloads with fixed outbound addresses.
+
+### Expected benefit
+Much smaller credential-theft blast radius, cleaner workload identity/auditing and stronger defense in depth for autonomous reviewer/CI jobs.
+
+### Risks / unknowns
+Bad identity mappings or IP rules can cause outages. Over-broad OIDC claim matching weakens the benefit. n8n Cloud should not be placed behind an OpenAI IP allowlist unless its outbound egress can be proven stable/fixed; otherwise QN could lock out its own workflows.
+
+### Proposed action
+After independent Council confirmation, run a non-production pilot with a dedicated QN service account and **GitHub Actions OIDC → short-lived OpenAI token**, using exact claim matching and minimum permissions. Separately test IP allowlisting only from an environment with verified fixed egress. Do not migrate n8n Cloud credentials until QN proves the runtime can supply a supported workload identity or stable egress. If the pilot succeeds, prefer WIF over rotating long-lived API keys where supported.
+
+### Evidence
+- https://developers.openai.com/api/docs/guides/workload-identity-federation
+- https://developers.openai.com/api/docs/changelog
+- https://developers.openai.com/api/docs/guides/production-best-practices
+
+---
+
 # Council review checklist
 
 For each candidate, Claude and OpenAI should independently answer:
