@@ -71,6 +71,9 @@ SEAT = re.compile(r"\b(sede (del|della) (municipio|commissione|consiglio)|aula c
                   r"via dei cerchi|piazza del campidoglio|palazzo senatorio)\b")
 
 
+STOPWORDS = set('di del della dei degli delle dell da dal dalla in nel nella a al alla ai e ed il la le lo i gli un una per con su sul sulla tra fra che non si roma municipio via viale piazza largo'.split()) | set('i ii iii iv v vi vii viii ix x xi xii xiii xiv xv'.split())
+
+
 def _sentences(text):
     return [s for s in re.split(r'(?<=[.;!?])\s+', text or '') if s.strip()]
 
@@ -340,9 +343,19 @@ def run(pkg: Path, out: Path, ids=None):
     for r in rows:
         if want and r['id'] not in want:
             continue
-        sib = [{'id': o['id'], 'documento_id': o['documento_id'], 'fonte': o['fonte'],
-                'titolo': o['titolo'], 'luoghi': o['luoghi']}
-               for o in by_v.get(r['vicenda_id'], []) if o['id'] != r['id']][:12]
+        # Same vicenda_id often means only the same sitting: rank siblings by
+        # shared place words and say which ones share nothing (reviewers' note).
+        own = set(norm(r['luoghi'] + ' ' + r['titolo']).split()) - STOPWORDS
+        sib = []
+        for o in by_v.get(r['vicenda_id'], []):
+            if o['id'] == r['id']:
+                continue
+            shared = sorted(own & (set(norm(o['luoghi'] + ' ' + o['titolo']).split()) - STOPWORDS))
+            sib.append({'id': o['id'], 'documento_id': o['documento_id'], 'fonte': o['fonte'],
+                        'titolo': o['titolo'], 'luoghi': o['luoghi'], 'parole_in_comune': shared,
+                        'stesso_documento': o['documento_id'] == r['documento_id']})
+        sib.sort(key=lambda x: -len(x['parole_in_comune']))
+        sib = sib[:12]
         ev = s1.evidence(r, sib)
         pr = s1.propose(r, ev)
         ev_lines.append(json.dumps({'id': r['id'], **ev, 'proposta': pr}, ensure_ascii=False))

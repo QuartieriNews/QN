@@ -16,6 +16,7 @@ CLI (JSON on stdout):
   qngeo.py incrocio "viale palmiro togliatti" "via prenestina"
   qngeo.py punto 41.89 12.47
   qngeo.py localita "quarticciolo"
+  qngeo.py cerca "coubertin"
   qngeo.py pagine
 """
 from __future__ import annotations
@@ -372,6 +373,16 @@ class Atlas:
         step = max(1, len(pts) // limit)
         return pts[::step]
 
+    def cerca(self, words, limit=25):
+        """Street keys containing every given word (any order): for names the
+        text abbreviates or spells differently (Pederzini, Coubertin/Pietro de
+        Coubertin, Braccianese). A list of candidates, never a resolution."""
+        ws = [noart(w) or w for w in norm(words).split()]
+        ws = [w for w in ws if w not in STREET_PREFIXES]
+        hits = [k for k in self.roads if all(any(t.startswith(w[:max(4, len(w) - 2)]) for t in k.split()) for w in ws)]
+        hits.sort(key=lambda k: (len(k), k))
+        return [{'chiave': k, 'municipi': self.roads[k]['municipi']} for k in hits[:limit]]
+
     def civico(self, key_or_name, num):
         k = norm(key_or_name)
         found = self.civics.get((k, int(num))) or self.civics.get((noart(k), int(num)))
@@ -489,6 +500,7 @@ def main(argv=None):
     i = sub.add_parser('incrocio'); i.add_argument('via_a'); i.add_argument('via_b')
     p = sub.add_parser('punto'); p.add_argument('lat', type=float); p.add_argument('lon', type=float)
     l = sub.add_parser('localita'); l.add_argument('nome')
+    c2 = sub.add_parser('cerca'); c2.add_argument('parole')
     sub.add_parser('pagine')
     a = ap.parse_args(argv)
     at = atlas(str(package_root(a.pkg)))
@@ -505,6 +517,8 @@ def main(argv=None):
         out = at.punto(a.lat, a.lon)
     elif a.cmd == 'localita':
         out = at.localita(a.nome)
+    elif a.cmd == 'cerca':
+        out = at.cerca(a.parole)
     else:
         out = [{'slug': k, 'nome': p['name_display'], 'attiva': p['is_page'],
                 'municipio': p['primary_municipality']} for k, p in sorted(at.pages.items())]

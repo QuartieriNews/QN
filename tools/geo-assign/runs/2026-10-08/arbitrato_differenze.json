@@ -1,0 +1,129 @@
+{
+ "nota": "Arbitrato NON cieco del builder sulle 31 differenze del campione, eseguito dopo il congelamento delle decisioni cieche (sha256 7da2cab98274c0396e46336ec4e6a8599863195a27be6d4f44c552c4f014233a). Categorie: nuovo = la decisione cieca e' preferibile (correzione proposta del riferimento); storico = il riferimento e' preferibile; storico_richiamo = il riferimento ha una prova che il processo cieco non ha recuperato; aperto = serve una regola o una decisione sul raccordo QN.",
+ "casi": {
+  "N0026": {
+   "esito_arbitrato": "storico",
+   "ragione": "Monte del Grano è il Quadraro: la zona 10A Don Bosco porta a Cinecittà, ma la località ha una voce QN propria"
+  },
+  "N0049": {
+   "esito_arbitrato": "aperto",
+   "ragione": "tratto Salaria-Nomentana della circonvallazione: estremo di confine, Nomentano o no"
+  },
+  "N0070": {
+   "esito_arbitrato": "aperto",
+   "ragione": "open day allo sportello anagrafico: sede dell'evento o recapito? regola mancante"
+  },
+  "N0311": {
+   "esito_arbitrato": "aperto",
+   "ragione": "come N0070"
+  },
+  "N0370": {
+   "esito_arbitrato": "aperto",
+   "ragione": "viale Pico della Mirandola in zona 11E (Ardeatino o Montagnola nella tabella cross); la fonte Culture Roma dice Montagnola"
+  },
+  "N0388": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "sede scolastica trovata negli elenchi del Municipio IX dallo storico, non dalla ricerca cieca"
+  },
+  "N0407": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "mozione per tutte le piazze del Municipio X: l'indirizzo è la sede della seduta"
+  },
+  "N0425": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "delibera capitolina per tutte le scuole dell'infanzia: via Portuense 579 è il recapito del Municipio"
+  },
+  "N0525": {
+   "esito_arbitrato": "aperto",
+   "ragione": "\"fra Trionfale e Pineta Sacchetti\": il titolo dice Trionfale, il testo pone un'alternativa"
+  },
+  "N0843": {
+   "esito_arbitrato": "storico",
+   "ragione": "la fonte comunale colloca il parco a Torrevecchia; la zona 18C va a Montespaccato solo per la tabella cross"
+  },
+  "N1427": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "via Antonino Parato è tutta in zona 19E Trionfale, Municipio XIV; lo storico Prati non ha sostegno nella motivazione"
+  },
+  "N1459": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "indirizzo della sede trovato dallo storico"
+  },
+  "N1529": {
+   "esito_arbitrato": "storico",
+   "ragione": "otto strade nominate in tre-quattro pagine sono sedi effettive: M, non T"
+  },
+  "N1897": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "il parco ha una sede nota allo storico; la ricerca cieca non l'ha trovata"
+  },
+  "N1981": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "atto municipale della stessa vicenda indica il contesto La Storta"
+  },
+  "N2049": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "ex dazio collocato dallo storico nel parco dell'Appia Antica"
+  },
+  "N2052": {
+   "esito_arbitrato": "aperto",
+   "ragione": "viale Leonardo da Vinci: zona 11C Garbatella contro la lettura storica San Paolo; sede del CSM non riscontrata"
+  },
+  "N2101": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "civici della vicenda collegata (Flaminia Nuova 276-295) non usati dal revisore cieco"
+  },
+  "N2127": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "il casale della Torricella collocato dallo storico sul lato Nuovo Salario"
+  },
+  "N2147": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "fatto puntuale con strada illeggibile: I, non T (manuale par. 10: T richiede una ragione di portata)"
+  },
+  "N2265": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "il programma comunale identifica il parco della banda: pista concreta (D con candidate) invece di T di ripiego"
+  },
+  "N2307": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "verifica su tutte le concessioni del Municipio II: i due parchi sono eccezione ed esempio"
+  },
+  "N2407": {
+   "esito_arbitrato": "aperto",
+   "ragione": "Porta Asinaria: zona Celio -> Centro Storico, rione Monti -> Esquilino-Termini, uso comune San Giovanni"
+  },
+  "N2454": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "via Niccolini a Monteverde, confermata dall'incrocio con via Alberto Mario; lo storico aveva un omonimo all'Infernetto"
+  },
+  "N2474": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "stesso intervento dell'atto N1252 (via Ardeatina 1655): legame non trovato dal revisore cieco"
+  },
+  "N2558": {
+   "esito_arbitrato": "aperto",
+   "ragione": "stanziamento municipale con tre sedi di cui una nota: T (storico) o D sedi_parziali (nuovo)"
+  },
+  "N2652": {
+   "esito_arbitrato": "aperto",
+   "ragione": "come N2407 per il tratto delle Mura fino a viale Carlo Felice"
+  },
+  "N2749": {
+   "esito_arbitrato": "aperto",
+   "ragione": "norma per il \"centro storico\" in senso urbanistico: pagina Centro Storico o T"
+  },
+  "N2897": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "incrocio Ardeatina/via della Fotografia calcolato in zona 11G: M per un confine è un'alternativa, non due sedi"
+  },
+  "N3290": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "il conteggio del testo (due nel XI, uno nel VII, una piazza del centro) esclude Villa Mercede"
+  },
+  "N3303": {
+   "esito_arbitrato": "aperto",
+   "ragione": "via dei Cerchi sul confine Ripa/Campitelli: manca la regola per le strade di confine"
+  }
+ }
+}

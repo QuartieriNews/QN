@@ -27,12 +27,28 @@ python3 strumenti/qngeo.py civico "via cassia" 472
 python3 strumenti/qngeo.py incrocio "viale palmiro togliatti" "via prenestina"
 python3 strumenti/qngeo.py punto 41.8949 12.5747
 python3 strumenti/qngeo.py localita "quarticciolo"
+python3 strumenti/qngeo.py cerca "coubertin"      # chiavi che contengono le parole: nomi abbreviati o scritti diversamente
 python3 strumenti/qngeo.py pagine
 ```
 
 La copia offline dei civici è piccola: «non nella copia offline» non significa
 che il civico non esista (§8). Un punto può dare `discordanza: true` fra zona
 urbanistica e suddivisione toponomastica: allora leggi entrambe e motiva la scelta.
+
+Quando le prove geografiche non concordano, vale quest'ordine (dal manuale §8 e
+§10, caso N3129; la prova cieca del 2026-10-08 ha mostrato che senza un ordine
+scritto i revisori scelgono in modo diverso):
+
+1. località nominata nella scheda o in una fonte che descrive la sede, e presente
+   nella tabella QN (Quadraro, Torrevecchia, Tor Marancia...);
+2. rione che contiene il punto;
+3. zona urbanistica con una sola pagina;
+4. `campioni_vertici` della strada dentro una zona a più pagine;
+5. quartiere toponomastico ampio (Collatino, Ardeatino): solo come ultimo indizio.
+
+Una zona raccordata da `zone_qn_cross.json` (lo dice `fonte_raccordo`) è una
+configurazione di progetto, non una prova: se una località nominata la
+contraddice, prevale la località e la discordanza va in `nota_geografia`.
 
 ## Procedura per ogni scheda
 
@@ -74,6 +90,19 @@ urbanistica e suddivisione toponomastica: allora leggi entrambe e motiva la scel
      solo alcune sedi note resta D: le sedi note vanno in `candidate`;
    - `I` il testo non contiene identificativi sufficienti (dì cosa manca);
    - `F` luogo riconosciuto ma senza pagina QN attiva o fuori Roma.
+   Casi frequenti, già decisi dal manuale:
+   - un atto che nomina più strade o sedi su cui interviene (es. un programma di
+     manutenzione di otto strade) è M sulle pagine delle strade identificate: le
+     strade nominate sono sedi effettive, non esempi (§10); se alcune non si
+     identificano, D `sedi_parziali` con le note in `candidate`;
+   - una strada che corre sul confine fra due pagine, senza tratto, è D
+     `raccordo_qn_da_verificare` o `senza_tratto_o_civico` (§10: «un'unica via
+     con due possibili quartieri, senza il tratto, produce D»);
+   - un luogo indicato «fra A e B» è un'alternativa, non due sedi.
+   Le schede di `stessa_vicenda` sono ordinate per parole di luogo in comune:
+   quelle senza parole in comune sono quasi sempre solo la stessa seduta. Un
+   indirizzo preso da un'altra scheda vale solo con corrispondenza documentata
+   (stesso atto, progetto o sede) e va dichiarato come `campo: "vicenda Nxxxx"`.
 6. **Pagine e candidate.** `pagine` contiene solo assegnazioni confermate.
    Tutte le piste non confermate vanno in `candidate`.
 
