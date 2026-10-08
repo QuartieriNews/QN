@@ -1,0 +1,41 @@
+# Assegnazione geografica QN — processo in quattro fasi
+
+Strumenti per assegnare le schede (notizie, atti, video) alle pagine-quartiere QN
+secondo il «Metodo QN» preparato con Codex l'8 ottobre 2026 (pacchetto
+`Metodo_QN_per_Claude_Code_2026-10-08`, non ridistribuito qui: contiene testi delle
+fonti, DEC-102). Il rapporto che spiega perché il processo è fatto così e cosa ha
+misurato è `docs/sources/GEO_ASSEGNAZIONE_2026-10.md`.
+
+Solo libreria standard di Python 3.10+, nessuna rete. Ogni comando legge il
+pacchetto da `--pkg` o dalla variabile `QN_PKG`; nessuno scrive nel pacchetto.
+
+| Fase | Comando | Cosa produce | Cosa NON fa |
+|---|---|---|---|
+| 0 Riproduzione | `python scripts/verify_package.py` e `python scripts/replay_historical.py --out DIR` (nel pacchetto) | le 3.529 decisioni archiviate ricostruite, 0 differenze per ID e per cella | non misura l'accuratezza: rigioca decisioni già prese |
+| 1 Evidenze | `stage1.py --out DIR` | `evidenze.jsonl` (menzioni con campo, forma, ruolo-indizio, risoluzione GIS e identificativi) e `proposte.jsonl` (esito proposto, motivi, priorità) | non decide; non legge benchmark né storico |
+| 2 Lettura contestuale | `pacchetti.py` crea un'area di lavoro cieca e i lotti; il revisore segue `PROTOCOLLO_REVISIONE.md`, usa `qngeo.py`, scrive `decisioni.jsonl`; `valida.py` lo controlla | decisioni con fatto, ruoli dei luoghi, risoluzione ripetibile, riscontri | non vede esiti storici |
+| 3 Conteggio e confronto | `aggregate_qn.py` del pacchetto (file completo) o `confronta.py` (campione) | matrice blocco × pagina, conteggi, differenze per ID | non corregge nulla per avvicinarsi ai totali |
+
+`qngeo.py` è lo strumento cartografico offline (stradario, zone urbanistiche,
+suddivisioni toponomastiche, civici salvati):
+
+```text
+qngeo.py strada "via raffaele aversa" --mun IX
+qngeo.py incrocio "viale palmiro togliatti" "via prenestina"
+qngeo.py civico "via cassia" 472
+qngeo.py punto 41.8949 12.5747
+qngeo.py localita "quarticciolo"
+```
+
+`zone_qn_cross.json` è la tabella di raccordo zona urbanistica → pagina QN per le
+45 zone che `urban_mapped.json` lascia senza pagina: è la tabella `cross` del
+codice storico, resa un file versionato. Una voce con più pagine è
+un'ambiguità, non un'assegnazione multipla.
+
+`campione.py` estrae il campione di controllo (seed fisso, stratificato per
+fonte, esclusi i casi didattici): le regole della fase 1 si mettono a punto solo
+sulle altre schede. `runs/2026-10-08/` contiene gli ID del campione e i
+risultati aggregati della prova, senza testi delle fonti.
+
+Test: `python3 tools/geo-assign/test_geo_assign.py` (con `QN_PKG` impostato
+esegue anche i controlli sui casi didattici).
