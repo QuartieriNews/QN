@@ -27,10 +27,38 @@ qngeo.py punto 41.8949 12.5747
 qngeo.py localita "quarticciolo"
 ```
 
+## Dubbi → decisione dell'owner → regola (DEC-106)
+
+```text
+dubbi.py --evidenze DIR/evidenze.jsonl --out coda_dubbi.csv --semi runs/2026-10-08/semi_dubbi.json
+# l'owner compila la colonna "decisione" (Excel, separatore ;)
+applica_decisioni.py --coda coda_dubbi.csv --prova     # controlla senza scrivere
+applica_decisioni.py --coda coda_dubbi.csv             # scrive regole_geografiche.json
+dubbi.py ...                                           # la coda si accorcia
+```
+
+`dubbi.py` raggruppa per luogo tutti i punti in cui la geografia è incerta: zone
+urbanistiche senza pagina o con fonti in disaccordo (ZONA), luogo nominato contro la
+pagina della via (LUOGO), strade brevi su più pagine (STRADA), località instradate
+a pagine non attive (SENZA), strade lunghe (TRATTO, di norma «dipende dal tratto»).
+Valori della colonna `decisione`: uno slug; `slug1+slug2` (entrambe, solo dopo
+DEC-107, con `--consenti-confine`); `tratto`; `nessuna`; `ok` (accetta la
+proposta); `ignora` (falso allarme); vuoto = aperto.
+
+Ogni decisione diventa una regola numerata in `regole_geografiche.json`, che
+`qngeo.py` e `stage1.py` applicano e citano (`R-0001`). Precedenza: gazetteer
+(`zu_code`, tabella dell'owner) > regola dell'owner > `urban_mapped.json` >
+`zone_qn_cross.json`. Una decisione che sposta una località (es. rione Monti) non
+diventa regola: finisce in `modifiche_gazetteer.csv`, da applicare nella tabella e
+rigenerare il gazetteer. La coda contiene titoli delle fonti: resta fuori dal
+repository (DEC-102); qui si versionano solo le regole.
+
 `zone_qn_cross.json` è la tabella di raccordo zona urbanistica → pagina QN per le
 45 zone che `urban_mapped.json` lascia senza pagina: è la tabella `cross` del
 codice storico, resa un file versionato. Una voce con più pagine è
-un'ambiguità, non un'assegnazione multipla.
+un'ambiguità, non un'assegnazione multipla. Fino al 9 ottobre la tabella prevaleva
+anche sul gazetteer: per 11E (Tor Marancia) e 13A (Malafede) aggiungeva una seconda
+pagina che la tabella dell'owner non prevede. Ora il gazetteer viene prima.
 
 `campione.py` estrae il campione di controllo (seed fisso, stratificato per
 fonte, esclusi i casi didattici): le regole della fase 1 si mettono a punto solo

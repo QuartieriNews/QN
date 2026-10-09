@@ -232,3 +232,50 @@ Per il corpus intero, le decisioni devono coprire tutti i 3.529 ID. Poi:
 python $QN_PKG/scripts/aggregate_qn.py --assignments decisioni.jsonl --out risultati_claude \
     --compare $QN_PKG/benchmark/assegnazioni_2026-09-19.jsonl
 ```
+
+## 7 Dopo le risposte dell'owner (9 ottobre)
+
+Decisioni registrate in `decisions/DEC-106` (decisa) e `decisions/DEC-107` (aperta).
+
+- **Portata separata dal luogo (DEC-106).** Ogni decisione ha ora `livello_portata`
+  (`quartiere`, `municipio`, `citta`) oltre alle pagine.
+  - L'open day di uno sportello tiene la pagina dello sportello e ha livello municipale.
+  - La sede di una seduta dà il livello ma non la pagina (raccomandazione del builder,
+    da confermare).
+  - Le norme sul centro storico urbanistico sono notizie cittadine.
+
+  Sul corpus intero, la fase 1 propone così 53 servizi (pagina + Municipio), 85 sedute
+  (solo Municipio) e 17 norme sul centro storico (città). Il validatore richiede il
+  campo; le decisioni cieche dell'8 ottobre sono anteriori e si validano con
+  `--senza-livello`.
+- **Un errore trovato nel raccordo.** Confrontando le tre fonti zona → pagina, la
+  tabella `cross` storica prevaleva sul gazetteer e aggiungeva Montagnola alla zona
+  11E (Tor Marancia) e Giardino di Roma alla 13A (Malafede). La tabella dell'owner
+  dice Ardeatino e Acilia. Ora il gazetteer prevale: il caso Tor Marancia si chiude
+  con la tabella dell'owner, senza bisogno di una regola.
+- **La coda dei dubbi (`dubbi.py`).** Prima versione sul corpus del 19 settembre:
+  269 dubbi, che coinvolgono 333 schede diverse tra quelle mostrate come esempio.
+
+  | Tipo | Dubbi | Con proposta del builder | Schede coinvolte |
+  |---|---:|---:|---:|
+  | ZONA | 47 | 31 | 1.927 |
+  | LUOGO | 24 | 21 | 29 |
+  | STRADA (≤ 1,5 km) | 91 | 83 | 199 |
+  | SENZA pagina attiva | 11 | 11 | 33 |
+  | TRATTO (strade lunghe) | 96 | 96 («tratto») | 497 |
+
+  Le schede di righe diverse si sovrappongono. Il lavoro vero per l'owner è nelle zone
+  senza proposta e nelle righe LUOGO e STRADA; le altre si chiudono in blocco con `ok`.
+  - Cinque righe vengono dall'arbitrato della prova cieca: Monte del Grano, Parco
+    Commendone, Porta Asinaria, Casale Ceribelli e il rione Monti (quest'ultimo è un
+    cambio della tabella, non una regola).
+  - Tre zone (7G, 8A, 10I) hanno candidate di un altro Municipio e sono segnalate.
+- **Convergenza.** Ogni decisione chiude il suo dubbio; rieseguire `dubbi.py` dà il
+  numero residuo. Sulla copia di prova sei decisioni simulate hanno portato la coda da
+  269 a 263. Non sono applicate al file reale: le regole le scrive solo l'owner.
+- **Doppia assegnazione ai confini (DEC-107, aperta).** Lo strumento la supporta
+  (`slug1+slug2`, regola `doppia_confine`, presenze contate a parte), ma
+  `applica_decisioni.py` la rifiuta finché la decisione non è presa.
+- **Rete.** Il Geoportale (`geoportale.comune.roma.it`) va consentito nelle
+  impostazioni dell'ambiente; finché non lo è, i civici restano quelli della copia
+  offline.

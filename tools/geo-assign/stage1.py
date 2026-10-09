@@ -64,9 +64,15 @@ TRACT = re.compile(r"\b(?:tra|fra|da)\s+(?:via|viale|piazza|piazzale|largo|porta
                    r"\b(?:e|a|fino a)\s+(?:via|viale|piazza|piazzale|largo|porta|ponte|corso)\b")
 CROSS = re.compile(r"\b(incrocio|angolo|all'altezza|altezza di|intersezione|crocevia|"
                    r"(?:tra|fra) via\b[^.;]{0,40}\be via)\b")
-ORGAN = re.compile(r"\b(convocat[oaie]|seduta|ordine del giorno|giunta (municipale|capitolina)|consiglio (municipale|straordinario)|"
-                   r"aula consiliare|sala consiliare|sportello|presentazione delle domande|prenotazion[ei]|"
-                   r"preiscrizion[ei]|iscrizion[ei]|bando|avviso pubblico|graduatori[ae])\b")
+# DEC-106: a sitting's seat gives a level, not a page; a service used at an
+# address (desk open day, in-person enrolment) gives both.
+SITTING = re.compile(r"\b(convocat[oaie]|seduta|ordine del giorno|giunta (municipale|capitolina)|"
+                     r"consiglio (municipale|straordinario)|aula consiliare|sala consiliare)\b")
+SERVICE = re.compile(r"\b(sportell[oi]|open day|identity point|presentazione delle domande|prenotazion[ei]|"
+                     r"preiscrizion[ei]|iscrizion[ei]|domande)\b")
+ORGAN = re.compile(SITTING.pattern + "|" + SERVICE.pattern + r"|\b(bando|avviso pubblico|graduatori[ae])\b")
+CITY = re.compile(r"\b(capitolin[oaie]|cittadin[oaie]|tutta (la )?citta|intera citta|roma capitale|regional[ei]|"
+                  r"centro storico unesco|citta storica)\b")
 SEAT = re.compile(r"\b(sede (del|della) (municipio|commissione|consiglio)|aula consiliare|"
                   r"via dei cerchi|piazza del campidoglio|palazzo senatorio)\b")
 
@@ -149,6 +155,16 @@ class Stage1:
         for field in ('titolo', 'sintesi'):
             mentions += self.streets(r[field], field, municipi)
             mentions += self.localities(r[field], field)
+        # Owner rules on named places (venues, monuments, parks): decided once,
+        # reused everywhere, always cited by rule id.
+        for rule in self.at.rules:
+            if rule['tipo'] != 'luogo':
+                continue
+            for field in ('luoghi', 'titolo', 'sintesi'):
+                if f" {rule['chiave']} " in f" {norm(r[field])} ":
+                    mentions.append({'tipo': 'luogo_regola', 'campo': field, 'testo': rule['chiave'],
+                                     'norm': rule['chiave'], 'pagine': rule['pagine'], 'regola': rule['id'],
+                                     'modo': rule['modo'], 'scartata': None})
         # Record-level coreference: "via Aversa" in the title and "via Raffaele
         # Aversa" in the summary are one street; the short form must not open
         # a second, wrong candidate (case N2863).
@@ -232,7 +248,7 @@ class Stage1:
         active = self.at.active
         precise, alternatives, inactive, notes = [], [], set(), []
         for m in ev['menzioni']:
-            if m['tipo'] == 'localita':
+            if m['tipo'] in ('localita', 'luogo_regola'):
                 if m['scartata']:
                     continue
                 ps = set(m['pagine'])
@@ -256,6 +272,10 @@ class Stage1:
                     inactive.add('zona senza pagina: ' + ', '.join(res['zone_senza_pagina']))
                 continue
             ps = set(res.get('pagine_nel_municipio') or res['pagine'])
+            if (res.get('regola') or {}).get('modo') == 'doppia_confine':
+                # Owner rule: a place on the boundary belongs to both pages.
+                precise.append(({**m, 'confine': True}, set(res['pagine']) & active))
+                continue
             if not ps & active:
                 inactive.update(ps)
                 continue
@@ -275,13 +295,24 @@ class Stage1:
             priority = 'alta'
             reasons.append('localita del gazetteer nel nome della strada con pagina diversa: scegliere il raccordo')
         weak_only = bool(precise) and all(m.get('supporto') == 'debole' for m, _ in precise)
-        organ_title = bool(ORGAN.search(norm(r['titolo'])))
-        if organ_title and cues['organo_o_sportello'] and not MULTI.search(norm(r['titolo'])):
-            # Convocations, desks, applications: the address is where the organ
-            # meets or where to apply, not the place of a local fact.
-            return {'id': r['id'], 'esito_proposto': 'T?', 'pagine_proposte': [],
+        title = norm(r['titolo'])
+        if SITTING.search(title) and not MULTI.search(title):
+            # Convocations and sittings: the address is the organ's seat.
+            return {'id': r['id'], 'esito_proposto': 'T?', 'pagine_proposte': [], 'livello_proposto': 'municipio',
                     'candidate': sorted(pages), 'priorita_revisione': 'alta',
-                    'ragioni': ['funzionamento di un organo o di uno sportello: indirizzo come recapito, verificare se esiste un luogo del fatto']}
+                    'ragioni': ['seduta o convocazione: la sede istituzionale da il livello municipale, non una pagina (DEC-106)']}
+        if SERVICE.search(title) and len(pages) == 1 and not MULTI.search(title):
+            return {'id': r['id'], 'esito_proposto': 'U', 'pagine_proposte': sorted(pages), 'livello_proposto': 'municipio',
+                    'candidate': [], 'priorita_revisione': 'alta',
+                    'ragioni': ['servizio fruito nel luogo: pagina dello sportello e livello municipale (DEC-106); '
+                                'verificare che non sia solo un recapito']}
+        full = norm(r['titolo'] + ' ' + r['sintesi'] + ' ' + r['luoghi'])
+        if re.search(r'\b(centr[oi] storic[oi]|citta storica)\b', full) and re.search(
+                r'\b(norm[ae]|disciplin[ae]|regolament[oi]|delibera|variante|piano|liberalizzazion[ei]|contingentat[ei])\b', full):
+            return {'id': r['id'], 'esito_proposto': 'T?', 'pagine_proposte': [], 'livello_proposto': 'citta',
+                    'candidate': sorted(pages), 'priorita_revisione': 'alta',
+                    'ragioni': ['norma sul centro storico in senso urbanistico: notizia cittadina (DEC-106); '
+                                'verificare che non sia un intervento in un luogo preciso']}
         if len(pages) == 1:
             alt_out = [a for a in alternatives if a[1] and not a[1] & pages]
             esito, pagine = 'U', sorted(pages)
@@ -322,7 +353,11 @@ class Stage1:
             reasons.append('nessun luogo riconosciuto dal codice: leggere (sede da cercare, T, I)')
             priority = 'alta'
         cand = sorted(set().union(*[a[1] for a in alternatives]) - set(pagine)) if alternatives else []
-        return {'id': r['id'], 'esito_proposto': esito, 'pagine_proposte': pagine,
+        if esito.startswith('T'):
+            level = 'citta' if CITY.search(norm(r['titolo'] + ' ' + r['sintesi'])) else 'municipio'
+        else:
+            level = 'quartiere'
+        return {'id': r['id'], 'esito_proposto': esito, 'pagine_proposte': pagine, 'livello_proposto': level,
                 'candidate': cand, 'ragioni': reasons, 'priorita_revisione': priority}
 
 

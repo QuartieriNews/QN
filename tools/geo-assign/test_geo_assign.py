@@ -50,6 +50,14 @@ check('T-valida: D needs a known doubt type', any('tipo_dubbio' in p for p in va
 check('T-valida: T needs a reason of scope', any('portata' in p for p in valida.check({**good, 'esito': 'T', 'pagine': []}, active)))
 two = {**good, 'esito': 'M', 'pagine': ['centocelle', 'nomentano']}
 check('T-valida: M needs two effective places', any('M richiede' in p or 'nomentano' in p for p in valida.check(two, active)))
+check('T-valida DEC-106: level of scope required from now on', any('livello_portata' in p for p in valida.check(good, active, require_level=True)))
+check('T-valida DEC-106: a desk open day keeps its page and a municipal level',
+      valida.check({**good, 'livello_portata': 'municipio'}, active, require_level=True) == [])
+check('T-valida DEC-106: T cannot be of neighbourhood scope',
+      any('contraddizione' in p for p in valida.check({**good, 'esito': 'T', 'pagine': [], 'portata': 'x', 'livello_portata': 'quartiere'}, active)))
+edge = {**two, 'luoghi': [{'testo': 'via dei cerchi', 'ruolo': 'intervento', 'usato': True,
+                                         'risoluzione': {'pagine': ['centocelle', 'nomentano'], 'regola': 'R-0003'}}]}
+check('T-valida: a cited boundary rule allows M on one place', valida.check(edge, active) == [], valida.check(edge, active))
 
 # ---- package-backed (teaching cases only)
 pkg = os.environ.get('QN_PKG')
@@ -81,9 +89,72 @@ if pkg and (Path(pkg) / 'cartografia' / 'road_index.json').is_file():
     ev, p = run('N2150')
     check('N2150 long road without tract is proposed D, pages left as candidates',
           p['esito_proposto'] == 'D' and not p['pagine_proposte'] and p['candidate'], p)
+    ev, p = run('N0311')
+    check('DEC-106: desk open day keeps the desk page with a municipal level',
+          p['esito_proposto'] == 'U' and p['pagine_proposte'] == ['torre-angela'] and p['livello_proposto'] == 'municipio', p)
+    ev, p = run('N0308')
+    check('DEC-106: a council convocation gives the level, not the seat page',
+          p['esito_proposto'] == 'T?' and not p['pagine_proposte'] and p['livello_proposto'] == 'municipio', p)
+    ev, p = run('N2749')
+    check('DEC-106: a norm on the centro storico is city news', p['esito_proposto'] == 'T?' and p['livello_proposto'] == 'citta', p)
     ev, p = run('N1870')
     check('N1870 service of the whole Municipio is never auto-assigned without review',
           p['esito_proposto'] != 'U' or p['priorita_revisione'] == 'alta', p)
+    # ---- owner rules loop (temporary rules file: the real one is never touched)
+    import csv
+    import subprocess
+    import tempfile
+    tmp = Path(tempfile.mkdtemp())
+    rules = tmp / 'regole.json'
+    rules.write_text(json.dumps({'regole': [], 'chiusi': []}))
+    queue = tmp / 'coda.csv'
+    cols = ['id_dubbio', 'tipo', 'luogo', 'municipio', 'opzioni', 'proposta', 'base_proposta', 'schede', 'esempi',
+            'si_applica_in', 'tipo_regola', 'chiave', 'decisione', 'note']
+    base = dict.fromkeys(cols, '')
+
+    def write_queue(items):
+        with queue.open('w', encoding='utf-8-sig', newline='') as h:
+            w = csv.DictWriter(h, fieldnames=cols, delimiter=';')
+            w.writeheader()
+            w.writerows({**base, **it} for it in items)
+
+    def apply(extra=()):
+        extra = list(extra)
+        env = {**os.environ, 'QN_REGOLE': str(rules)}
+        return subprocess.run([sys.executable, str(HERE / 'applica_decisioni.py'), '--coda', str(queue), '--data', '2026-10-09']
+                              + extra,
+                              env=env, capture_output=True, text=True)
+
+    write_queue([{'id_dubbio': 'Z-11E', 'tipo_regola': 'zona', 'chiave': '11E', 'si_applica_in': 'regole_geografiche',
+                  'opzioni': 'ardeatino+montagnola', 'decisione': 'montagnola'}])
+    res = apply()
+    check('a zone rule contradicting the gazetteer zu_code is refused', res.returncode == 1 and 'gazetteer' in res.stdout, res.stdout)
+    write_queue([{'id_dubbio': 'L-monte-del-grano', 'tipo_regola': 'luogo', 'chiave': 'monte del grano',
+                  'si_applica_in': 'regole_geografiche', 'proposta': 'tuscolano-quadraro', 'decisione': 'ok'},
+                 {'id_dubbio': 'S-via-dei-cerchi', 'tipo_regola': 'strada', 'chiave': 'via dei cerchi',
+                  'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico+testaccio'},
+                 {'id_dubbio': 'G-monti', 'tipo_regola': 'localita', 'chiave': 'monti',
+                  'si_applica_in': 'gazetteer (tabella owner)', 'decisione': 'centro-storico'},
+                 {'id_dubbio': 'L-falso', 'decisione': 'ignora'}])
+    res = apply()
+    check('DEC-107 open: a two-page decision is refused without --consenti-confine',
+          res.returncode == 1 and 'DEC-107' in res.stdout, res.stdout)
+    res = apply(['--consenti-confine'])
+    stored = json.loads(rules.read_text())
+    check('owner decisions become cited rules, a false alarm is closed',
+          res.returncode == 0 and [r['modo'] for r in stored['regole']] == ['unica', 'doppia_confine']
+          and stored['chiusi'][0]['dubbio'] == 'L-falso', res.stdout + res.stderr)
+    check('a locality -> page change goes to the gazetteer table, never to a rule',
+          (tmp / 'modifiche_gazetteer.csv').is_file() and all(r['dubbio'] != 'G-monti' for r in stored['regole']))
+    check('a decided doubt is not applied twice', json.loads(apply(['--consenti-confine']).stdout)['regole_nuove'] == 0)
+    os.environ['QN_REGOLE'] = str(rules)
+    s1r = stage1.Stage1(Path(pkg))
+    ev = s1r.evidence(rows['N3303'], [])
+    p = s1r.propose(rows['N3303'], ev)
+    check('a boundary rule assigns both pages of via dei Cerchi', set(p['pagine_proposte']) == {'centro-storico', 'testaccio'}, p)
+    ev = s1r.evidence(rows['N0026'], [])
+    check('a place rule is read as evidence and cited', any(m.get('regola') == 'R-0001' for m in ev['menzioni']))
+    del os.environ['QN_REGOLE']
 else:
     print('SKIP package-backed checks (set QN_PKG to the Metodo_QN package)')
 

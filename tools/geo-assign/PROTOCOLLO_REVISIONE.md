@@ -79,7 +79,23 @@ contraddice, prevale la località e la discordanza va in `nota_geografia`.
    località (anche verso una pagina non attiva) quella voce prevale sulla zona
    urbanistica ampia (§10, caso N3129). Non ridisegnare la geografia: se un
    raccordo ti sembra discutibile, segnalalo in `nota_geografia`.
-5. **Esito** (§10):
+5. **Livello di portata** (DEC-106): separato dal luogo. Ogni decisione dice
+   `livello_portata`: `quartiere`, `municipio` o `citta`. Una notizia di
+   quartiere è anche una notizia del Municipio: non si sceglie fra le due.
+   - Un servizio fruito in un luogo (open day dello sportello, iscrizioni in
+     presenza, apertura straordinaria) ha la pagina dello sportello **e**
+     `livello_portata: municipio`. Lo sportello qui è `sede_evento`.
+   - La sede di una seduta o di una convocazione resta `sede_istituzionale`:
+     nessuno ci va per il fatto, quindi niente pagina, solo il livello.
+   - Una norma sul «centro storico» in senso urbanistico è `citta` (T): vale
+     per la città storica, non per la sola pagina Centro Storico.
+6. **Regole dell'owner.** Se `evidenze_codice` cita una regola (`R-0001`…), è
+   una decisione dell'owner su quel luogo: applicala e citane l'id nella
+   `risoluzione`. Una regola `doppia_confine` assegna entrambe le pagine a un
+   luogo sul confine: è M anche con un solo luogo. Se pensi che una regola sia
+   sbagliata, applicala lo stesso e scrivi perché in `nota_geografia`: si
+   riapre come dubbio nella coda, non nella singola scheda.
+7. **Esito** (§10):
    - `U` una sola pagina attiva pertinente (anche con molti indirizzi);
    - `M` più pagine **effettivamente** interessate (più sedi reali), non alternative;
    - `T` portata municipale, sovramunicipale o cittadina: scrivi in `portata`
@@ -103,7 +119,7 @@ contraddice, prevale la località e la discordanza va in `nota_geografia`.
    quelle senza parole in comune sono quasi sempre solo la stessa seduta. Un
    indirizzo preso da un'altra scheda vale solo con corrispondenza documentata
    (stesso atto, progetto o sede) e va dichiarato come `campo: "vicenda Nxxxx"`.
-6. **Pagine e candidate.** `pagine` contiene solo assegnazioni confermate.
+8. **Pagine e candidate.** `pagine` contiene solo assegnazioni confermate.
    Tutte le piste non confermate vanno in `candidate`.
 
 `tipo_dubbio` ammessi: `senza_tratto_o_civico`, `raccordo_qn_da_verificare`,
@@ -119,8 +135,10 @@ contraddice, prevale la località e la discordanza va in `nota_geografia`.
              "ruolo": "intervento", "usato": true,
              "risoluzione": {"metodo": "civico|incrocio|strada|localita|sede|documento_collegato",
                              "query": "qngeo.py strada \"via x\" --mun V",
-                             "pagine": ["slug"], "riferimento": "chiave stradario / zona / id civico / URL"}}],
+                             "pagine": ["slug"], "riferimento": "chiave stradario / zona / id civico / URL",
+                             "regola": "R-0000 se applicata"}}],
  "riscontri": [{"url": "https://...", "passaggio": "frase che sostiene il dato", "consultato": "2026-10-08"}],
+ "livello_portata": "quartiere|municipio|citta",
  "portata": "", "tipo_dubbio": "", "verifica_necessaria": "",
  "territori_senza_pagina": [], "nota_geografia": "",
  "confidenza": "alta|media|bassa",

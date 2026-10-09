@@ -7,7 +7,8 @@ Structural rules come from 02_ISTRUZIONI and aggregate_qn.py (cardinality,
 active pages); the traceability rules are this process's own
 (PROTOCOLLO_REVISIONE.md): every assigned page must follow from a place
 marked as used with an effective role and a resolution that names it.
-Exit 1 with one line per problem; exit 0 prints a summary.
+Since DEC-106 every decision states livello_portata (quartiere, municipio,
+citta) besides its pages. Exit 1 with one line per problem; exit 0 prints a summary.
 """
 import argparse
 import collections
@@ -23,11 +24,12 @@ STATUSES = {'U', 'M', 'T', 'D', 'I', 'F'}
 EFFECTIVE = {'intervento', 'sede_evento', 'tratto', 'territorio_destinatari', 'alternativa_di_progetto'}
 ROLES = EFFECTIVE | {'sede_istituzionale', 'provenienza', 'confronto_o_esempio', 'nome_di_opera',
                      'contesto', 'ipotesi_incerta'}
+LEVELS = {'quartiere', 'municipio', 'citta'}
 DOUBTS = {'senza_tratto_o_civico', 'raccordo_qn_da_verificare', 'sedi_parziali', 'sede_da_riscontrare',
           'trascrizione_dubbia', 'sede_non_indicata', 'riferimenti_discordanti'}
 
 
-def check(d, active):
+def check(d, active, require_level=False):
     p = []
     e, pages = d.get('esito'), d.get('pagine')
     if e not in STATUSES:
@@ -56,8 +58,15 @@ def check(d, active):
             p.append(f"pagina {pg} senza un luogo effettivo usato che la risolva")
     if e == 'M':
         used = [l for l in luoghi if l.get('usato') and l.get('ruolo') in EFFECTIVE]
-        if len(used) < 2:
-            p.append('M richiede almeno due luoghi effettivi')
+        boundary = any((l.get('risoluzione') or {}).get('regola') for l in used)
+        if len(used) < 2 and not boundary:
+            p.append('M richiede almeno due luoghi effettivi (o una regola di confine citata)')
+    level = d.get('livello_portata')
+    if level is not None or require_level:
+        if level not in LEVELS:
+            p.append(f"livello_portata non ammesso: {level!r}")
+        elif e == 'T' and level == 'quartiere':
+            p.append('T con livello_portata quartiere: contraddizione')
     if e == 'D':
         if d.get('tipo_dubbio') not in DOUBTS:
             p.append(f"tipo_dubbio non ammesso: {d.get('tipo_dubbio')!r}")
@@ -76,6 +85,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('decisioni')
     ap.add_argument('--pkg')
+    ap.add_argument('--senza-livello', action='store_true',
+                    help='decisioni anteriori a DEC-106 (prova cieca del 2026-10-08): livello_portata non richiesto')
     a = ap.parse_args()
     gaz = _read(package_root(a.pkg) / 'input' / 'gazetteer_qn.json')
     active = {z['publication_zone_id'] for z in gaz['publication_zones'] if z['is_page']}
@@ -92,7 +103,7 @@ def main():
             problems.append(f"{d.get('id')}: ID ripetuto")
         seen.add(d.get('id'))
         count[d.get('esito')] += 1
-        problems += [f"{d.get('id')}: {x}" for x in check(d, active)]
+        problems += [f"{d.get('id')}: {x}" for x in check(d, active, require_level=not a.senza_livello)]
     if problems:
         print('\n'.join(problems))
         sys.exit(1)

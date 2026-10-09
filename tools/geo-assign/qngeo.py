@@ -164,15 +164,32 @@ class Atlas:
                 'municipi': [ROMAN[i] for i in _lit(r['municipi']) if 0 < i < len(ROMAN)],
                 'zones': _lit(r['zones']), 'unmapped': _lit(r['unmapped_zones']),
                 '_geom': r['geometry']}
-        cross = _read(Path(__file__).resolve().parent / 'zone_qn_cross.json')['zone']
+        here = Path(__file__).resolve().parent
+        cross = _read(here / 'zone_qn_cross.json')['zone']
+        self.rules = load_rules(rules_path())
+        rule_zone = {r['chiave'].upper(): r for r in self.rules if r['tipo'] == 'zona'}
+        self._build_localities()
         self.zone_pages = {}            # code_zu -> (pages, source)
         self.urban = []
         for f in _read(carto / 'urban_mapped.json'):
             props = _lit(f['properties'])
             code = str(props['code_zu']).upper()
             own = props.get('qn_pages') or []
-            self.zone_pages[code] = (own, 'urban_mapped') if own and code not in cross else \
-                (cross[code], 'zone_qn_cross.json') if code in cross else ([], 'nessuna')
+            gz = sorted(self.zu_pages.get(code, ()))
+            # The owner's table (gazetteer zu_code) wins over everything
+            # (AGENTS.md hierarchy); then an owner rule; then the historical
+            # derivations. The cross table once overrode the gazetteer for 11E
+            # and 13A: that order was the error.
+            if gz:
+                self.zone_pages[code] = (gz, 'gazetteer zu_code')
+            elif code in rule_zone:
+                self.zone_pages[code] = (rule_zone[code]['pagine'], 'regola ' + rule_zone[code]['id'])
+            elif own:
+                self.zone_pages[code] = (own, 'urban_mapped')
+            elif code in cross:
+                self.zone_pages[code] = (cross[code], 'zone_qn_cross.json')
+            else:
+                self.zone_pages[code] = ([], 'nessuna')
             self.urban.append(Area(props, _lit(f['geometry'])))
         self.topo = [Area(f['properties'], f['geometry'])
                      for f in _read(carto / 'topo.geojson')['features']]
@@ -192,7 +209,6 @@ class Atlas:
                                            'coord': it['coordinates'][:2],
                                            'layer': 'DIPCUL:GeoromaCiviciLocator'})
         self._strada_cache = {}
-        self._build_localities()
         self._build_street_trie()
 
     # ------------------------------------------------ gazetteer localities
@@ -237,7 +253,9 @@ class Atlas:
                 variants[v][key] = min(level, variants[v].get(key, level))
         for k in self.roads:
             add(k, k, 0)
-            add(noart(k), k, 0)
+            # Dropping articles is a normalisation, not the name: "via Bruno"
+            # (for via dei Bruno) must not swallow "via Bruno Cirino".
+            add(noart(k), k, 0 if noart(k) == k else 1)
             w = k.split()
             if w[0] in {'via', 'viale', 'piazza', 'piazzale'}:
                 alt = {'via': 'viale', 'viale': 'via', 'piazza': 'piazzale', 'piazzale': 'piazza'}[w[0]]
@@ -359,6 +377,15 @@ class Atlas:
         out = {'chiave': key, 'nome': r['name'], 'municipi': r['municipi'], 'zone': detail,
                'zone_senza_pagina': unresolved, 'pagine': sorted(pages),
                'layer': 'DIPPC:stradario_municipio x DIPPC:rc_zone_urbanistiche (+ DIPSER:SuddivisioniToponomastica)'}
+        rule = next((x for x in self.rules if x['tipo'] == 'strada' and x['chiave'] == key), None)
+        if rule:
+            # An owner rule on this street: 'unica' and 'doppia_confine' fix the
+            # pages; 'tratto' keeps them as alternatives until the text gives the stretch.
+            out['regola'] = {'id': rule['id'], 'modo': rule['modo']}
+            if rule['modo'] in ('unica', 'doppia_confine'):
+                out['pagine_geometria'] = out['pagine']
+                out['pagine'] = sorted(rule['pagine'])
+            return out
         if municipi and len(pages) > 1:
             kept = sorted(p for p in pages if self.page_mun[p] & set(municipi))
             if kept and len(kept) < len(pages):
@@ -470,6 +497,30 @@ class Atlas:
             out.append(self.punto(y, x))
         return {'strade': [key_a, key_b], 'trovato': True, 'esatto': exact, 'punti': out,
                 'pagine': sorted({p for o in out for p in o['pagine']})}
+
+
+RULE_TYPES = {'zona', 'strada', 'luogo'}
+
+
+def rules_path() -> Path:
+    return Path(os.environ.get('QN_REGOLE') or Path(__file__).resolve().parent / 'regole_geografiche.json')
+
+
+RULE_MODES = {'unica', 'doppia_confine', 'tratto', 'senza_pagina'}
+
+
+def load_rules(path: Path):
+    """Owner rules (regole_geografiche.json). Each one comes from a decided
+    doubt of the queue (dubbi.py) and names it; a malformed rule stops the run
+    rather than being skipped."""
+    if not path.is_file():
+        return []
+    rules = _read(path).get('regole', [])
+    for r in rules:
+        missing = [k for k in ('id', 'tipo', 'chiave', 'pagine', 'modo', 'deciso_da', 'data', 'dubbio') if k not in r]
+        if missing or r['tipo'] not in RULE_TYPES or r['modo'] not in RULE_MODES:
+            raise SystemExit(f"regola non valida: {r.get('id')} {missing or (r.get('tipo'), r.get('modo'))}")
+    return rules
 
 
 def _ascii(s):

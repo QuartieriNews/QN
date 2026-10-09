@@ -1,0 +1,25 @@
+{
+  "_nota": "Dubbi emersi dalla lettura (arbitrato della prova cieca del 2026-10-08) che nessun pattern testuale trova, perche' il luogo e' nominato da una fonte esterna. dubbi.py li aggiunge alla coda con --semi.",
+  "dubbi": [
+    {"id_dubbio": "L-monte-del-grano", "luogo": "Mausoleo di Monte del Grano (piazza dei Tribuni)", "municipio": "VII",
+     "opzioni": "cinecitta+tuscolano-quadraro", "proposta": "tuscolano-quadraro",
+     "base_proposta": "uso comune: il monumento e' 'al Quadraro'; la zona urbanistica 10A Don Bosco porta a cinecitta",
+     "esempi_id": ["N0026", "N1921"], "si_applica_in": "regole_geografiche", "tipo_regola": "luogo", "chiave": "monte del grano"},
+    {"id_dubbio": "L-parco-commendone", "luogo": "Parco Commendone (via Decio Azzolino)", "municipio": "XIII",
+     "opzioni": "montespaccato+torrevecchia", "proposta": "torrevecchia",
+     "base_proposta": "la fonte comunale lo colloca a Torrevecchia; la zona 18C Fogaccia va a montespaccato solo per la tabella cross",
+     "esempi_id": ["N0843"], "si_applica_in": "regole_geografiche", "tipo_regola": "luogo", "chiave": "parco commendone"},
+    {"id_dubbio": "L-porta-asinaria", "luogo": "Porta Asinaria e Mura fino a viale Carlo Felice", "municipio": "I",
+     "opzioni": "centro-storico+esquilino-termini+san-giovanni", "proposta": "",
+     "base_proposta": "zona 1G Celio -> centro-storico; rione Monti -> esquilino-termini; uso comune: Porta San Giovanni",
+     "esempi_id": ["N2407", "N2652"], "si_applica_in": "regole_geografiche", "tipo_regola": "luogo", "chiave": "porta asinaria"},
+    {"id_dubbio": "L-casale-ceribelli", "luogo": "Centro sociale Casale Ceribelli (viale Pico della Mirandola)", "municipio": "VIII",
+     "opzioni": "ardeatino+montagnola", "proposta": "",
+     "base_proposta": "il gazetteer manda la zona 11E Tor Marancia ad ardeatino; Culture Roma descrive la sede come Montagnola",
+     "esempi_id": ["N0370"], "si_applica_in": "regole_geografiche", "tipo_regola": "luogo", "chiave": "casale ceribelli"},
+    {"id_dubbio": "G-monti", "luogo": "rione Monti (Laterano, Mercati di Traiano, Porta Asinaria per rione)", "municipio": "I",
+     "opzioni": "centro-storico+esquilino-termini", "proposta": "",
+     "base_proposta": "la tabella del gazetteer instrada Monti a esquilino-termini: un cambio si fa nella tabella dell'owner e si rigenera il gazetteer, non con una regola",
+     "esempi_id": ["N2407", "N2652"], "si_applica_in": "gazetteer (tabella owner)", "tipo_regola": "localita", "chiave": "monti"}
+  ]
+}
