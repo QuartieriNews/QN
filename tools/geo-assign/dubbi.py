@@ -220,8 +220,8 @@ def build(pkg, evidence, seeds=None):
 
     # Seeds: doubts found by reading (blind test arbitration), where the
     # place is named only by an outside source, so no text pattern finds it.
-    if seeds:
-        for sd in json.loads(Path(seeds).read_text(encoding='utf-8'))['dubbi']:
+    for seed_file in seeds or []:
+        for sd in json.loads(Path(seed_file).read_text(encoding='utf-8'))['dubbi']:
             out.append({'tipo': 'LUOGO', 'schede': len(sd.get('esempi_id', [])), 'esempi': example(sd.get('esempi_id', [])),
                         **{k: v for k, v in sd.items() if k != 'esempi_id'}})
     out = [r for r in out if r['id_dubbio'] not in decided]
@@ -238,7 +238,7 @@ def main():
     ap.add_argument('--pkg')
     ap.add_argument('--evidenze', required=True)
     ap.add_argument('--out', required=True, type=Path)
-    ap.add_argument('--semi', help='JSON of seeded doubts (runs/.../semi_dubbi.json)')
+    ap.add_argument('--semi', nargs='*', help='JSON files of seeded doubts (runs/*/semi_dubbi.json)')
     a = ap.parse_args()
     rows = build(package_root(a.pkg), load_ev(a.evidenze), a.semi)
     with a.out.open('w', encoding='utf-8-sig', newline='') as h:

@@ -30,7 +30,7 @@ qngeo.py localita "quarticciolo"
 ## Dubbi → decisione dell'owner → regola (DEC-106)
 
 ```text
-dubbi.py --evidenze DIR/evidenze.jsonl --out coda_dubbi.csv --semi runs/2026-10-08/semi_dubbi.json
+dubbi.py --evidenze DIR/evidenze.jsonl --out coda_dubbi.csv --semi runs/*/semi_dubbi.json
 # l'owner compila la colonna "decisione" (Excel, separatore ;)
 applica_decisioni.py --coda coda_dubbi.csv --prova     # controlla senza scrivere
 applica_decisioni.py --coda coda_dubbi.csv             # scrive regole_geografiche.json
@@ -64,6 +64,12 @@ codice storico, resa un file versionato. Una voce con più pagine è
 un'ambiguità, non un'assegnazione multipla. Fino al 9 ottobre la tabella prevaleva
 anche sul gazetteer: per 11E (Tor Marancia) e 13A (Malafede) aggiungeva una seconda
 pagina che la tabella dell'owner non prevede. Ora il gazetteer viene prima.
+
+`tabella_giugno.py` compone la tabella di giugno 2026 (89 pagine x blocchi, con i
+contenuti di ogni cella): riferimento del 19 settembre con le correzioni di
+`runs/2026-10-09/correzioni_giugno.json`, cronaca di giugno riletta per intero, eventi
+Facebook della raccolta dell'owner come stima dichiarata. Il foglio con i contenuti va
+su Drive; qui restano i conteggi (`runs/2026-10-09/matrice_giugno_conteggi.csv`).
 
 `campione.py` estrae il campione di controllo (seed fisso, stratificato per
 fonte, esclusi i casi didattici): le regole della fase 1 si mettono a punto solo

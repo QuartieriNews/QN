@@ -1,0 +1,90 @@
+﻿pagina;slug;municipio;Amministrazione propri;Amministrazione fatti (min);Amministrazione del Municipio;Amministrazione con ripiego Municipio;Cronaca propri;Cronaca del Municipio;Cronaca con ripiego Municipio;Eventi propri;Eventi fatti (min);Eventi del Municipio;Eventi con ripiego Municipio;Eventi Facebook propri;Conversazione;Soglia Amministrazione >=5;Soglia Cronaca >=1;Soglia Eventi >=10 (giugno + FB);Soglie con ripiego
+Acilia;acilia;X;31;19;13;157;2;0;13;0;0;5;31;0;ND;sì;sì;no;sì
+Alessandrino;alessandrino;V;25;23;28;220;2;0;16;0;0;4;71;3;ND;sì;sì;no;sì
+Appia Antica;appia-antica;VII/VIII;37;24;45;353;1;0;9;22;12;5;126;3;ND;sì;sì;sì;sì
+Appio Latino;appio-latino;VII;11;10;16;148;0;0;4;20;18;4;73;3;ND;sì;no;sì;sì
+Ardeatino;ardeatino;VIII;13;10;29;242;0;0;6;3;3;3;77;2;ND;sì;no;no;sì
+Aurelio;aurelio;XIII;14;13;26;63;1;0;4;11;5;5;34;3;ND;sì;sì;sì;sì
+Balduina;balduina;XIV;12;11;8;79;1;0;9;28;16;3;49;1;ND;sì;sì;sì;sì
+Boccea;boccea;XIII;16;15;26;63;2;0;4;3;3;5;34;8;ND;sì;sì;sì;sì
+Borghesiana;borghesiana;VI;11;10;11;69;4;0;18;1;1;4;51;1;ND;sì;sì;no;sì
+Bravetta;bravetta;XII;22;16;17;123;0;0;1;3;3;2;20;0;ND;sì;no;no;sì
+Bufalotta;bufalotta;III;37;24;65;250;0;0;3;13;6;1;21;0;ND;sì;no;sì;sì
+Casal Lumbroso;casal-lumbroso;XII;7;5;17;123;0;0;1;0;0;2;20;0;ND;sì;no;no;sì
+Casal Palocco;casal-palocco;X;4;4;13;157;0;0;13;0;0;5;31;0;ND;no;no;no;sì
+Casalotti;casalotti;XIII;7;6;26;63;1;0;4;2;2;5;34;0;ND;sì;sì;no;sì
+Cassia;cassia;XV;46;33;39;226;1;0;8;4;4;6;29;0;ND;sì;sì;no;sì
+Castel di Leva;castel-di-leva;IX;28;19;61;228;0;0;3;3;3;2;48;0;ND;sì;no;no;sì
+Centocelle;centocelle;V;75;57;28;220;9;0;16;9;8;4;71;3;ND;sì;sì;sì;sì
+Centro Storico;centro-storico;I;93;72;63;326;5;1;29;67;56;3;174;42;ND;sì;sì;sì;sì
+Cesano;cesano;XV;20;17;39;226;0;0;8;4;4;6;29;0;ND;sì;no;no;sì
+Cinecittà;cinecitta;VII;20;14;16;148;1;0;4;6;4;4;73;1;ND;sì;sì;no;sì
+Colle Prenestino;colle-prenestino;VI;5;5;11;69;0;0;18;1;1;4;51;0;ND;sì;no;no;sì
+Colli Aniene;colli-aniene;IV;3;3;5;25;0;0;5;0;0;3;41;0;ND;no;no;no;sì
+Colli Portuensi;colli-portuensi;XII;14;9;17;123;0;0;1;0;0;2;20;4;ND;sì;no;no;sì
+Corviale;corviale;XI;34;26;22;135;0;0;2;5;5;4;52;0;ND;sì;no;no;sì
+Dragona-Dragoncello;dragona-dragoncello;X;1;1;13;157;0;0;13;0;0;5;31;0;ND;no;no;no;sì
+EUR;eur;VIII/IX;50;36;90;413;3;0;6;21;11;3;102;3;ND;sì;sì;sì;sì
+Esquilino-Termini;esquilino-termini;I;54;43;63;326;18;1;29;31;21;3;174;26;ND;sì;sì;sì;sì
+Fidene-Settebagni;fidene-settebagni;III;22;17;65;250;1;0;3;1;1;1;21;0;ND;sì;sì;no;sì
+Garbatella;garbatella;VIII;35;24;29;242;0;0;6;15;10;3;77;8;ND;sì;no;sì;sì
+Giardino di Roma;giardino-di-roma;X;7;3;13;157;0;0;13;0;0;5;31;0;ND;sì;no;no;sì
+Infernetto;infernetto;X;7;7;13;157;0;0;13;1;1;5;31;0;ND;sì;no;no;sì
+La Giustiniana;la-giustiniana;XV;13;13;39;226;0;0;8;1;1;6;29;0;ND;sì;no;no;sì
+La Rustica;la-rustica;V;17;17;28;220;0;0;16;1;1;4;71;0;ND;sì;no;no;sì
+La Storta;la-storta;XV;68;42;39;226;0;0;8;5;5;6;29;0;ND;sì;no;no;sì
+Laurentino;laurentino;IX;53;32;61;228;0;0;3;9;8;2;48;5;ND;sì;no;sì;sì
+Lunghezza;lunghezza;VI;5;5;11;69;1;0;18;1;1;4;51;0;ND;sì;sì;no;sì
+Magliana;magliana;XI;14;14;22;135;0;0;2;4;4;4;52;0;ND;sì;no;no;sì
+Marcigliana;marcigliana;III;1;1;65;250;0;0;3;0;0;1;21;0;ND;no;no;no;sì
+Marconi;marconi;XI;22;21;22;135;1;0;2;30;19;4;52;2;ND;sì;sì;sì;sì
+Massimina;massimina;XII;5;5;17;123;0;0;1;2;2;2;20;0;ND;sì;no;no;sì
+Montagnola;montagnola;VIII;46;31;29;242;0;0;6;1;1;3;77;0;ND;sì;no;no;sì
+Monte Mario;monte-mario;XIV;30;30;8;79;3;0;9;6;6;3;49;1;ND;sì;sì;no;sì
+Montesacro;montesacro;III;123;92;65;250;1;0;3;6;6;1;21;2;ND;sì;sì;no;sì
+Montespaccato;montespaccato;XIII;5;4;26;63;1;0;4;8;6;5;34;0;ND;sì;sì;no;sì
+Monteverde;monteverde;XII;53;34;17;123;1;0;1;13;13;2;20;2;ND;sì;sì;sì;sì
+Morena;morena;VII;9;6;16;148;0;0;4;1;1;4;73;2;ND;sì;no;no;sì
+Muratella;muratella;XI;2;2;22;135;0;0;2;1;1;4;52;0;ND;no;no;no;sì
+Nomentano;nomentano;II;49;41;51;215;3;0;7;6;6;1;128;3;ND;sì;sì;no;sì
+Olgiata;olgiata;XV;8;5;39;226;0;0;8;0;0;6;29;0;ND;sì;no;no;sì
+Ostia;ostia;X;103;43;13;157;11;0;13;25;14;5;31;1;ND;sì;sì;sì;sì
+Ostiense-San Paolo;ostiense-san-paolo;VIII;53;34;29;242;2;0;6;13;13;3;77;3;ND;sì;sì;sì;sì
+Ottavia;ottavia;XIV;5;5;8;79;1;0;9;1;1;3;49;0;ND;sì;sì;no;sì
+Parioli-Flaminio;parioli-flaminio;II;72;63;51;215;1;0;7;64;40;1;128;11;ND;sì;sì;sì;sì
+Pietralata;pietralata;IV;7;7;5;25;3;0;5;2;2;3;41;17;ND;sì;sì;sì;sì
+Pigneto-Torpignattara;pigneto-torpignattara;V;33;32;28;220;2;0;16;55;38;4;71;1;ND;sì;sì;sì;sì
+Pisana;pisana;XI/XII;14;13;39;244;0;0;3;0;0;4;70;0;ND;sì;no;no;sì
+Ponte Galeria;ponte-galeria;XI;17;12;22;135;1;0;2;1;1;4;52;0;ND;sì;sì;no;sì
+Ponte di Nona;ponte-di-nona;VI;7;5;11;69;5;0;18;2;2;4;51;0;ND;sì;sì;no;sì
+Portuense;portuense;XI;17;15;22;135;1;0;2;7;6;4;52;2;ND;sì;sì;no;sì
+Prati;prati;I;86;61;63;326;4;1;29;10;10;3;174;10;ND;sì;sì;sì;sì
+Prenestino;prenestino;V;35;31;28;220;1;0;16;1;1;4;71;0;ND;sì;sì;no;sì
+Prima Porta;prima-porta;XV;36;28;39;226;0;0;8;3;3;6;29;0;ND;sì;no;no;sì
+Primavalle;primavalle;XIV;30;26;8;79;7;0;9;2;2;3;49;0;ND;sì;sì;no;sì
+Rebibbia;rebibbia;IV;3;3;5;25;0;0;5;6;6;3;41;0;ND;no;no;no;sì
+Roma Nord;roma-nord;XV;23;23;39;226;6;0;8;6;5;6;29;1;ND;sì;sì;no;sì
+Romanina;romanina;VII;5;5;16;148;0;0;4;14;12;4;73;2;ND;sì;no;sì;sì
+San Basilio;san-basilio;IV;3;3;5;25;0;0;5;1;1;3;41;1;ND;no;no;no;sì
+San Giovanni;san-giovanni;VII;29;22;16;148;1;0;4;1;1;4;73;0;ND;sì;sì;no;sì
+San Lorenzo;san-lorenzo;II;25;19;51;215;2;0;7;56;49;1;128;3;ND;sì;sì;sì;sì
+Selva Candida;selva-candida;XIV;6;6;8;79;0;0;9;0;0;3;49;0;ND;sì;no;no;sì
+Settecamini;settecamini;IV;1;1;5;25;0;0;5;0;0;3;41;0;ND;no;no;no;sì
+Spinaceto;spinaceto;IX;12;11;61;228;0;0;3;9;7;2;48;0;ND;sì;no;no;sì
+Talenti;talenti;III;26;26;65;250;1;0;3;0;0;1;21;0;ND;sì;sì;no;sì
+Testaccio;testaccio;I;39;29;63;326;1;1;29;25;19;3;174;12;ND;sì;sì;sì;sì
+Tor Bella Monaca;tor-bella-monaca;VI;3;3;11;69;6;0;18;39;25;4;51;0;ND;no;sì;sì;sì
+Tor Cervara;tor-cervara;IV;2;2;5;25;2;0;5;29;14;3;41;0;ND;no;sì;sì;sì
+Tor Sapienza;tor-sapienza;V;11;11;28;220;3;0;16;0;0;4;71;0;ND;sì;sì;no;sì
+Tor Vergata;tor-vergata;VI;16;16;11;69;1;0;18;0;0;4;51;0;ND;sì;sì;no;sì
+Torraccia;torraccia;IV;2;2;5;25;0;0;5;0;0;3;41;0;ND;no;no;no;sì
+Torre Angela;torre-angela;VI;16;16;11;69;2;0;18;3;2;4;51;0;ND;sì;sì;no;sì
+Torrevecchia;torrevecchia;XIII/XIV;4;3;34;137;0;0;12;9;4;5;71;0;ND;no;no;no;sì
+Torrino;torrino;IX;27;24;61;228;0;0;3;4;4;2;48;0;ND;sì;no;no;sì
+Trastevere;trastevere;I;17;15;63;326;2;1;29;47;29;3;174;8;ND;sì;sì;sì;sì
+Trieste-Salario;trieste-salario;II;47;41;51;215;2;0;7;3;3;1;128;3;ND;sì;sì;no;sì
+Trigoria;trigoria;IX;8;7;61;228;0;0;3;0;0;2;48;0;ND;sì;no;no;sì
+Tuscolano;tuscolano;VII;18;12;16;148;1;0;4;7;6;4;73;4;ND;sì;sì;sì;sì
+Tuscolano-Quadraro;tuscolano-quadraro;V/VII;10;9;44;357;0;0;20;1;1;6;141;2;ND;sì;no;no;sì
+Vigna Clara;vigna-clara;XV;1;1;39;226;2;0;8;0;0;6;29;0;ND;no;sì;no;sì
+Vitinia;vitinia;IX;1;1;61;228;0;0;3;1;1;2;48;0;ND;no;no;no;sì

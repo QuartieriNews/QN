@@ -297,3 +297,55 @@ Decisioni registrate in `decisions/DEC-106` (decisa) e `decisions/DEC-107` (aper
   studio storico aveva già scaricato i civici che gli servivano. Il valore è per i
   contenuti nuovi. Con `QN_RETE=0` gli strumenti restano offline, per rigiocare una
   prova cieca nelle stesse condizioni.
+
+## 8 Tabella di giugno 2026 (9 ottobre)
+
+Scelte dell'owner del 9 ottobre:
+- eventi Facebook stimati dalla sua raccolta 20 settembre–20 ottobre;
+- Conversazione non disponibile;
+- atti e video restano sull'8–28 giugno, senza spese;
+- Cronaca solo da fonti ufficiali.
+
+Il programma è `tools/geo-assign/tabella_giugno.py`. I conteggi per pagina sono in
+`runs/2026-10-09/matrice_giugno_conteggi.csv`. Il foglio con i contenuti è su Drive, in
+`Fonti 2026-06/`.
+
+**Cronaca.** I 109 comunicati di giugno (Questura 79, Carabinieri 20, Vigili del Fuoco 8,
+Polizia Locale 2) ora sono leggibili tutti, contro i 22 di settembre: il limite era la rete
+dell'ambiente, non le fonti. Divisi in fatti, danno 196 schede:
+
+| Esito | Schede |
+|---|---:|
+| Una pagina (U) | 107 |
+| Più pagine (M) | 9 |
+| Portata municipale o cittadina (T) | 15 |
+| Dubbio (D) | 36 |
+| Insufficiente (I) | 10 |
+| Fuori Roma (F) | 19 |
+
+Procura e Guardia di Finanza non hanno comunicati su Roma a giugno. Le presenze di
+cronaca nelle pagine passano da 25 a 134.
+
+**Eventi Facebook (stima).** Sui 258 URL della raccolta:
+- 153 sono collocati dal civico ufficiale del Geoportale;
+- 105 sono stati rivisti da due lettori;
+- 209 presenze cadono nella finestra.
+
+La raccolta è manuale e non esaustiva.
+
+**Soglie di DEC-014** sui conteggi propri del mese (quindi indicative):
+
+| Soglia | Pagine che la superano |
+|---|---:|
+| Amministrazione ≥ 5 | 75 su 89 |
+| Cronaca ≥ 1 | 48 su 89 |
+| Eventi ≥ 10 (giugno + Facebook) | 27 su 89 |
+| Tutte e tre | 20 su 89 |
+
+Con il ripiego sul Municipio (DEC-006, aperta, mostrato e non deciso) tutte le 89 pagine
+superano le tre soglie.
+
+**Raccordi da decidere.** I lettori hanno segnalato otto nuovi raccordi zona/località →
+pagina (Quarticciolo, Tor Bella Monaca, Ponte di Nona, Porta Portese, Casa del Jazz,
+Isola Tiberina, Laterano/Celio, «zona Esposizione»). Sono in
+`runs/2026-10-09/semi_dubbi.json` e la coda sale a 274 dubbi.

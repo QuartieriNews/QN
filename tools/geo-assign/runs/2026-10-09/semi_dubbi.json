@@ -1,0 +1,101 @@
+{
+ "_nota": "Dubbi di raccordo segnalati dai lettori della cronaca di giugno e degli eventi Facebook (9 ottobre 2026). Si aggiungono alla coda con dubbi.py --semi; solo luoghi e pagine, nessun testo delle fonti. La Sapienza non e' qui: e' gia' nella coda come Z-3X.",
+ "dubbi": [
+  {
+   "id_dubbio": "L-quarticciolo",
+   "luogo": "Quarticciolo (via Trani, via Cerignola, via Manfredonia)",
+   "municipio": "V",
+   "opzioni": "alessandrino+centocelle",
+   "proposta": "centocelle",
+   "base_proposta": "la tabella QN manda il Quarticciolo a centocelle; le sue vie stanno nella zona 7B, che la tabella cross manda ad alessandrino",
+   "esempi_id": [],
+   "si_applica_in": "regole_geografiche",
+   "tipo_regola": "luogo",
+   "chiave": "quarticciolo"
+  },
+  {
+   "id_dubbio": "L-tor-bella-monaca-8f",
+   "luogo": "Tor Bella Monaca, via dell'Archeologia (Ferro di Cavallo)",
+   "municipio": "VI",
+   "opzioni": "tor-bella-monaca+torre-angela",
+   "proposta": "tor-bella-monaca",
+   "base_proposta": "la localita' ha una pagina propria ma nessun codice di zona; via dell'Archeologia sta nella zona 8F, che va a torre-angela",
+   "esempi_id": [],
+   "si_applica_in": "regole_geografiche",
+   "tipo_regola": "strada",
+   "chiave": "via dell archeologia"
+  },
+  {
+   "id_dubbio": "L-ponte-di-nona-8e",
+   "luogo": "Ponte di Nona (via Capitini, via Luthuli, via Beata Chiara Bosatta)",
+   "municipio": "VI",
+   "opzioni": "lunghezza+ponte-di-nona",
+   "proposta": "ponte-di-nona",
+   "base_proposta": "le vie del quartiere stanno nella zona 8E, che va a lunghezza",
+   "esempi_id": [],
+   "si_applica_in": "regole_geografiche",
+   "tipo_regola": "zona",
+   "chiave": "8E"
+  },
+  {
+   "id_dubbio": "L-porta-portese",
+   "luogo": "«quartiere Porta Portese» usato dai comunicati",
+   "municipio": "XII",
+   "opzioni": "marconi+monteverde+portuense",
+   "proposta": "",
+   "base_proposta": "la tabella QN manda Porta Portese a monteverde, le vie citate stanno a Marconi e Portuense",
+   "esempi_id": [],
+   "si_applica_in": "gazetteer (tabella owner)",
+   "tipo_regola": "localita",
+   "chiave": "porta portese"
+  },
+  {
+   "id_dubbio": "L-casa-del-jazz",
+   "luogo": "Casa del Jazz (viale di Porta Ardeatina)",
+   "municipio": "VIII",
+   "opzioni": "ostiense-san-paolo+testaccio",
+   "proposta": "",
+   "base_proposta": "zona 1C Aventino -> testaccio per la tabella cross; quartiere toponomastico Ostiense",
+   "esempi_id": [],
+   "si_applica_in": "regole_geografiche",
+   "tipo_regola": "luogo",
+   "chiave": "casa del jazz"
+  },
+  {
+   "id_dubbio": "L-isola-tiberina",
+   "luogo": "Isola Tiberina (rione Ripa)",
+   "municipio": "I",
+   "opzioni": "centro-storico+testaccio+trastevere",
+   "proposta": "",
+   "base_proposta": "il rione Ripa va a testaccio nella tabella QN",
+   "esempi_id": [],
+   "si_applica_in": "regole_geografiche",
+   "tipo_regola": "luogo",
+   "chiave": "isola tiberina"
+  },
+  {
+   "id_dubbio": "L-laterano-celio",
+   "luogo": "San Giovanni in Laterano e Santo Stefano Rotondo (rione Monti / zona 1G Celio)",
+   "municipio": "I",
+   "opzioni": "centro-storico+esquilino-termini+san-giovanni",
+   "proposta": "",
+   "base_proposta": "rione Monti -> esquilino-termini, zona 1G Celio -> centro-storico; uso comune San Giovanni",
+   "esempi_id": [],
+   "si_applica_in": "regole_geografiche",
+   "tipo_regola": "luogo",
+   "chiave": "laterano"
+  },
+  {
+   "id_dubbio": "G-esposizione",
+   "luogo": "«zona Esposizione» come nome dell'EUR",
+   "municipio": "IX",
+   "opzioni": "eur",
+   "proposta": "eur",
+   "base_proposta": "nome d'uso assente dalla tabella QN: proposta di alias",
+   "esempi_id": [],
+   "si_applica_in": "gazetteer (tabella owner)",
+   "tipo_regola": "localita",
+   "chiave": "esposizione"
+  }
+ ]
+}
