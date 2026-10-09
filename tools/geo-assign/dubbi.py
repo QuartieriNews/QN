@@ -80,6 +80,9 @@ def build(pkg, evidence, seeds=None):
             if m['tipo'] == 'localita' and not m.get('scartata') and not set(m['pagine']) & at.active:
                 inactive_hits[m['norm']].add(i)
             if m['tipo'] == 'strada' and len(m['chiavi']) == 1 and m.get('risoluzione'):
+                pc = m.get('punto_civico') or {}
+                if pc.get('trovato') and len({p for pt in pc['punti'] for p in pt['pagine']}) == 1:
+                    continue        # the civic point settles this mention: no doubt about the street
                 res = m['risoluzione'][0]
                 for z in res['zone']:
                     zone_hits[str(z['code_zu']).upper()].add(i)

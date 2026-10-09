@@ -276,6 +276,24 @@ Decisioni registrate in `decisions/DEC-106` (decisa) e `decisions/DEC-107` (aper
 - **Doppia assegnazione ai confini (DEC-107, aperta).** Lo strumento la supporta
   (`slug1+slug2`, regola `doppia_confine`, presenze contate a parte), ma
   `applica_decisioni.py` la rifiuta finché la decisione non è presa.
-- **Rete.** Il Geoportale (`geoportale.comune.roma.it`) va consentito nelle
-  impostazioni dell'ambiente; finché non lo è, i civici restano quelli della copia
-  offline.
+- **Rete aperta (Full) e civici dal Geoportale.** `qngeo.py civico` interroga dal vivo
+  `DIPCUL:GeoromaCiviciLocator` quando la copia offline non ha il numero, con una cache
+  locale. Ogni punto conserva `ID_CIVICO`, query e data di lettura.
+  - Gestisce l'apostrofo, che lo stradario e il registro dei civici scrivono in modo
+    diverso, e i nomi diversi della stessa strada («piazza Campidoglio» / «piazza del
+    Campidoglio»).
+  - Quando il numero non esiste nel registro usa il civico più vicino sullo stesso
+    lato, dichiarandolo come approssimazione.
+
+  Sul corpus, delle 481 citazioni di un civico:
+
+  | Esito | Citazioni |
+  |---|---:|
+  | Punto ufficiale, una sola pagina | 425 |
+  | Punto ufficiale, due pagine (confine o fonti in disaccordo) | 18 |
+  | Senza punto | 38 |
+
+  Il guadagno su questo corpus è piccolo (31 punti in più, 29 approssimati), perché lo
+  studio storico aveva già scaricato i civici che gli servivano. Il valore è per i
+  contenuti nuovi. Con `QN_RETE=0` gli strumenti restano offline, per rigiocare una
+  prova cieca nelle stesse condizioni.

@@ -60,6 +60,10 @@ edge = {**two, 'luoghi': [{'testo': 'via dei cerchi', 'ruolo': 'intervento', 'us
 check('T-valida: a cited boundary rule allows M on one place', valida.check(edge, active) == [], valida.check(edge, active))
 
 # ---- package-backed (teaching cases only)
+# Deterministic: no live WFS and an empty civic cache during the tests.
+import tempfile as _tf
+os.environ['QN_RETE'] = '0'
+os.environ['QN_CACHE'] = str(Path(_tf.mkdtemp()) / 'civici.json')
 pkg = os.environ.get('QN_PKG')
 if pkg and (Path(pkg) / 'cartografia' / 'road_index.json').is_file():
     import stage1

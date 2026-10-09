@@ -53,6 +53,11 @@ diventa regola: finisce in `modifiche_gazetteer.csv`, da applicare nella tabella
 rigenerare il gazetteer. La coda contiene titoli delle fonti: resta fuori dal
 repository (DEC-102); qui si versionano solo le regole.
 
+Civici: `qngeo.py civico` usa prima la copia offline, poi il servizio WFS del
+Geoportale (`DIPCUL:GeoromaCiviciLocator`), con cache in `~/.cache/qn-geo/` (o
+`QN_CACHE`). `QN_RETE=0` spegne la rete: serve per rigiocare una prova nelle stesse
+condizioni, ed è impostato dai test.
+
 `zone_qn_cross.json` è la tabella di raccordo zona urbanistica → pagina QN per le
 45 zone che `urban_mapped.json` lascia senza pagina: è la tabella `cross` del
 codice storico, resa un file versionato. Una voce con più pagine è

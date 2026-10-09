@@ -179,6 +179,11 @@ Verificato il 14 settembre: l'egress dell'ambiente Claude Code blocca `comune.ro
 `questure.poliziadistato.it`, `facebook.com` e `quartierinews.app.n8n.cloud`; la ricerca
 web e Drive funzionano. I risultati del motore di ricerca non valgono come accesso.
 
+**Dal 9 ottobre 2026 l'ambiente QN ha accesso di rete Full** (qualunque dominio; scelta
+dell'owner, verificata con il Geoportale di Roma, ASL Roma 1 e Wikipedia). L'elenco qui
+sotto resta come registro dei domini che lo studio usa, e come configurazione da
+ripristinare se l'ambiente torna a un elenco Custom.
+
 **Domini da consentire nell'ambiente** (politica di rete personalizzata; documentazione:
 https://code.claude.com/docs/en/claude-code-on-the-web; la modifica vale per le sessioni
 avviate dopo):

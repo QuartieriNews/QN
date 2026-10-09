@@ -411,13 +411,25 @@ class Atlas:
         return [{'chiave': k, 'municipi': self.roads[k]['municipi']} for k in hits[:limit]]
 
     def civico(self, key_or_name, num):
+        """A civic number as an official point: the offline copy first, then
+        the live WFS (DIPCUL:GeoromaCiviciLocator), cached. Every point keeps
+        its ID_CIVICO, the query and the date it was read (Metodo QN par. 9)."""
         k = norm(key_or_name)
         found = self.civics.get((k, int(num))) or self.civics.get((noart(k), int(num)))
+        source = 'copia offline (cartografia/)'
+        if not found:
+            live = wfs_civico(key_or_name, int(num))
+            if live is None:
+                return {'query': [key_or_name, num], 'trovato': False,
+                        'nota': 'civico assente dalla copia offline e WFS non raggiungibile (QN_RETE=0 o rete chiusa)'}
+            found, source = live['punti'], f"WFS {live['letto']} {live['url']}"
         if not found:
             return {'query': [key_or_name, num], 'trovato': False,
-                    'nota': 'civico assente dalla copia offline: serve DIPCUL:GeoromaCiviciLocator (rete)'}
-        res = {'query': [key_or_name, num], 'trovato': True, 'punti': []}
-        for c in found:
+                    'nota': 'civico non presente nel GeoromaCiviciLocator: verificare nome o numero (non prova che non esista)'}
+        res = {'query': [key_or_name, num], 'trovato': True, 'fonte': source, 'punti': []}
+        # The plain number first; lettered variants (12/A) only when it is missing.
+        plain = [c for c in found if not c.get('lettera')] or found
+        for c in plain:
             res['punti'].append({**c, **self.punto(c['coord'][1], c['coord'][0])})
         return res
 
@@ -521,6 +533,77 @@ def load_rules(path: Path):
         if missing or r['tipo'] not in RULE_TYPES or r['modo'] not in RULE_MODES:
             raise SystemExit(f"regola non valida: {r.get('id')} {missing or (r.get('tipo'), r.get('modo'))}")
     return rules
+
+
+WFS = ('https://geoportale.comune.roma.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature'
+       '&typeName=DIPCUL:GeoromaCiviciLocator&outputFormat=application/json&srsName=EPSG:4326&maxFeatures=20&CQL_FILTER=')
+
+
+def _cache_path() -> Path:
+    return Path(os.environ.get('QN_CACHE') or Path.home() / '.cache' / 'qn-geo' / 'civici_wfs.json')
+
+
+def wfs_civico(toponimo: str, num: int):
+    """Live civic lookup, cached on disk. None when the network is off by
+    choice (QN_RETE=0, e.g. to replay a blind run offline) or unreachable."""
+    path = _cache_path()
+    cache = json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
+    key = f"{toponimo.upper()}|{num}"
+    if key in cache:
+        return cache[key]
+    if os.environ.get('QN_RETE', '1') == '0':
+        return None
+    import datetime
+    import ssl
+    import urllib.parse
+    import urllib.request
+    # The stradario writes "DELL' IDROSCALO", the civic register "DELL'IDROSCALO".
+    name = re.sub(r"'\s+", "'", toponimo.upper())
+    bundle = os.environ.get('SSL_CERT_FILE') or ('/root/.ccr/ca-bundle.crt' if Path('/root/.ccr/ca-bundle.crt').is_file() else None)
+    ctx = ssl.create_default_context(cafile=bundle) if bundle else ssl.create_default_context()
+
+    def get(cql):
+        url = WFS + urllib.parse.quote(cql)
+        with urllib.request.urlopen(url, timeout=40, context=ctx) as r:
+            return url, json.load(r).get('features', [])
+    q = name.replace("'", "''")
+    try:
+        url, feats = get(f"TOPONIMO='{q}' AND NUMERO_CIVICO={int(num)}")
+        near = None
+        if not feats:
+            # The two registers can name the same street differently ("PIAZZA
+            # CAMPIDOGLIO" / "PIAZZA DEL CAMPIDOGLIO"): retry on the longest
+            # distinctive word, keep only names with every word of ours.
+            words = [w for w in norm(name).split() if w not in STREET_PREFIXES and not ARTICLES.fullmatch(w)]
+            if words:
+                longest = max(words, key=len).upper()
+                url2, cand = get(f"TOPONIMO LIKE '%{longest}%' AND NUMERO_CIVICO BETWEEN {max(1, num - 12)} AND {num + 12}")
+                cand = [f for f in cand if set(words) <= set(norm(f['properties']['TOPONIMO']).split())
+                        and norm(f['properties']['TOPONIMO']).split()[0] == norm(name).split()[0]]
+                if len({f['properties']['TOPONIMO'] for f in cand}) == 1:
+                    q = cand[0]['properties']['TOPONIMO'].replace("'", "''")
+                    exact = [f for f in cand if f['properties']['NUMERO_CIVICO'] == num]
+                    if exact:
+                        url, feats = url2, exact
+        if not feats:
+            # The number is not in the register (a typo, a year, a gate without
+            # number): take the closest existing civic on the same side, and say so.
+            url, around = get(f"TOPONIMO='{q}' AND NUMERO_CIVICO BETWEEN {max(1, num - 12)} AND {num + 12}")
+            same = sorted((f for f in around if f['properties']['NUMERO_CIVICO'] % 2 == num % 2),
+                          key=lambda f: (abs(f['properties']['NUMERO_CIVICO'] - num), bool(f['properties'].get('LETTERA'))))
+            if same:
+                near = same[0]['properties']['NUMERO_CIVICO']
+                feats = [f for f in same if f['properties']['NUMERO_CIVICO'] == near]
+    except (OSError, ValueError):
+        return None
+    pts = [{'id_civico': f['properties'].get('ID_CIVICO'), 'lettera': f['properties'].get('LETTERA'),
+            'municipio_civico': f['properties'].get('NUMERO_ROMANO'), 'coord': f['geometry']['coordinates'][:2],
+            'layer': 'DIPCUL:GeoromaCiviciLocator',
+            **({'approssimato': f'civico {num} assente, usato {near} sullo stesso lato'} if near else {})} for f in feats]
+    cache[key] = {'punti': pts, 'letto': datetime.date.today().isoformat(), 'url': url}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(cache, ensure_ascii=False), encoding='utf-8')
+    return cache[key]
 
 
 def _ascii(s):
