@@ -168,6 +168,22 @@ ogni notizia le testate trovate nelle due passate sono unite.
   passata inversa (27 con nessuna, 15 con una, 3 con due, 1 con tre) e non sono in
   tabella.
 
+**Verifica sulle 154 notizie viste su una sola testata aperta.** Il numero è gonfiato dal
+modo di contare: le notizie dei giornali sono contate solo fra le sei testate aperte.
+
+- **Il campione:** 43 di queste notizie, estratte in proporzione alle testate con seed
+  20261010, cercate su 20 domini con 54 ricerche
+  (`tools/cronaca-prova/runs/2026-10-10/verifica_testata_unica.json`).
+- **L'esito:** 37 su 43 (86%) sono uscite anche su altre testate, 20 con corrispondenza
+  certa. Il totale per notizia diventa: 1 testata 6, 2 testate 24, 3 testate 5, 4 testate
+  4, 5 o più 4.
+- **Chi le riprende:** RomaToday ne ha 34 su 43. Seguono Il Messaggero (8), Fanpage (6),
+  Leggo (5) e ANSA (3).
+
+Le notizie davvero di una sola testata sono quindi una minoranza: circa il 14%,
+fra il 4% e il 24% con l'incertezza del campione. La cronaca locale circola fra le
+testate quasi quanto quella nazionale. RomaToday è il nodo che la riprende quasi tutta.
+
 Il dettaglio della sola passata in avanti, senza unire le testate trovate dalla passata
 inversa:
 

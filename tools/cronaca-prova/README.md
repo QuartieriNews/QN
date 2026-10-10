@@ -18,6 +18,7 @@ conteggi (`runs/`).
 | 4 Lettura | un agente per lotto, con `ISTRUZIONI_AVANTI.md` o `ISTRUZIONI_INVERSO.md` | avanti: quali testate hanno ripreso ogni fatto ufficiale (ricerca web, solo titoli e URL); inversa: fatti di cronaca romana sulle testate aperte e confronto con i fatti ufficiali | nessun articolo aperto; la ricerca web ha un tetto per turno e non vede tre testate |
 | 5 Conti | `compila.py DIR MATRICE.csv` | `riepilogo.json` (conteggi, scenari sulle pagine) e righe per fatto per Drive | una riga senza ricerche proprie non conta come cercata |
 | 6 Foglio | `foglio.py DIR` | `cronaca_testate.xlsx` da caricare su Drive | — |
+| 7 Verifica (facoltativa) | un agente per lotto, con `ISTRUZIONI_TESTATA_UNICA.md` | per un campione delle notizie viste su una sola testata aperta, se sono uscite anche altrove | come il passo 4 |
 
 `MATRICE.csv` è `tools/geo-assign/runs/2026-10-09/matrice_giugno_conteggi.csv`.
 
