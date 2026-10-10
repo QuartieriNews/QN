@@ -69,13 +69,15 @@ with tempfile.TemporaryDirectory() as d:
         {"id": "B", "ricerche": ["q"], "testate": [], "nota": ""},
         {"id": "C", "ricerche": [], "testate": [t("RomaToday", "probabile")], "nota": "copiato da un'altra ricerca"},
     ], jsonl=True)
-    scrivi(f"{d}/censimento/candidati.json", [{"sid": s, "titolo": "Carabinieri a Ostia", "link": "l"} for s in ("S1", "S2", "S3")])
+    scrivi(f"{d}/censimento/candidati.json", [{"sid": s, "titolo": "Carabinieri a Ostia", "link": "l"} for s in ("S1", "S2", "S3", "S4")])
     scrivi(f"{d}/inverso/fatti_1.jsonl", [
         {"fid": "P1-001", "sid": ["S1"], "testate": ["Il Faro Online"], "data": "2026-06-03", "tipo": "arresto", "fatto": "x",
          "luogo": "Ostia", "pagina_qn": "ostia", "livello": "quartiere", "ufficiale": None, "corrispondenza": None},
         {"fid": "P1-002", "sid": ["S2"], "testate": ["Il Faro Online", "Roma Daily News"], "data": "2026-06-03",
          "tipo": "furto", "fatto": "y", "luogo": None, "pagina_qn": "acilia", "livello": "quartiere", "ufficiale": None,
          "corrispondenza": None},
+        {"fid": "P1-003", "sid": ["S4"], "testate": ["Il Tempo"], "data": "2026-06-02", "tipo": "arresto", "fatto": "z",
+         "luogo": None, "pagina_qn": "centocelle", "livello": "quartiere", "ufficiale": "B", "corrispondenza": "certa"},
     ], jsonl=True)
     scrivi(f"{d}/inverso/scarti_1.jsonl", [{"sid": "S3", "classe": "non_cronaca"}], jsonl=True)
     with open(f"{d}/matrice.csv", "w", encoding="utf-8-sig") as f:
@@ -93,6 +95,10 @@ with tempfile.TemporaryDirectory() as d:
           sc["A_ufficiali_pubbliche"]["pagine_con_almeno_uno"] == 1
           and sc["B_piu_testate_aperte_dopo_conferma_massimo"]["pagine_con_almeno_uno"] == 3
           and sc["C_piu_fatti_su_due_testate_aperte"]["pagine_con_almeno_uno"] == 2)
+    nu = R["notizie_uniche"]
+    check("compila: notizie uniche con le testate delle due passate unite",
+          nu["totale"] == 5 and nu["ufficiali_cercati"] == {"1": 1, "2": 1}
+          and nu["ufficiali_non_cercati"] == {"0": 1} and nu["solo_testate_aperte"] == {"1": 1, "2": 1})
     check("compila: il riepilogo non contiene link né titoli",
           "http" not in json.dumps(R) and "Carabinieri a Ostia" not in json.dumps(R))
 

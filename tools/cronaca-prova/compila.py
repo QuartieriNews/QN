@@ -114,6 +114,26 @@ def inversa(base, attive, pagine_uff, presenze_uff):
     return R, righe
 
 
+def notizie_uniche(base):
+    """Una riga per notizia: i fatti ufficiali (testate dalle due passate, unite) più i fatti
+    trovati solo sulle testate aperte. I fatti ufficiali senza ricerca restano a parte:
+    il loro conteggio di testate è incompleto."""
+    facts = [f["id"] for p in sorted(glob.glob(f"{base}/avanti/lotto_*.json")) for f in json.load(open(p))]
+    res = {r["id"]: r for p in sorted(glob.glob(f"{base}/avanti/risultati_*.jsonl")) for r in jl(p) if cercato(r)}
+    inv = [x for p in sorted(glob.glob(f"{base}/inverso/fatti_*.jsonl")) for x in jl(p)]
+    uscite = {i: set(testate(res[i])) if i in res else set() for i in facts}
+    for x in inv:
+        if x.get("ufficiale") in uscite:
+            uscite[x["ufficiale"]] |= set(x["testate"])
+    fascia = lambda n: str(n) if n < 5 else "5+"
+    conta = lambda ns: {k: v for k, v in sorted(collections.Counter(fascia(n) for n in ns).items())}
+    solo = [len(set(x["testate"])) for x in inv if not x.get("ufficiale")]
+    return {"totale": len(facts) + len(solo),
+            "ufficiali_cercati": conta(len(uscite[i]) for i in facts if i in res),
+            "ufficiali_non_cercati": conta(len(uscite[i]) for i in facts if i not in res),
+            "solo_testate_aperte": conta(solo)}
+
+
 def main(base, matrice):
     rows = list(csv.DictReader(open(matrice, encoding="utf-8-sig"), delimiter=";"))
     attive = {r["slug"] for r in rows}
@@ -124,7 +144,7 @@ def main(base, matrice):
     ri["scenari"]["A_ufficiali_pubbliche"]["fatti"] = ra["fatti_ufficiali_roma"]
     cens = {os.path.basename(p)[:-5]: len(json.load(open(p))) for p in sorted(glob.glob(f"{base}/censimento/*.json"))
             if not p.endswith("candidati.json")}
-    R = {"censimento_titoli_del_mese": cens, "avanti": ra, "inversa": ri}
+    R = {"censimento_titoli_del_mese": cens, "notizie_uniche": notizie_uniche(base), "avanti": ra, "inversa": ri}
     for nome, obj in (("riepilogo", R), ("righe_avanti", righe_a), ("righe_inverso", righe_i)):
         with open(f"{base}/{nome}.json", "w") as f:
             json.dump(obj, f, ensure_ascii=False, indent=1)

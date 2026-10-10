@@ -143,7 +143,33 @@ Il lavoro è stato fatto da agenti, uno per lotto. Il builder ha controllato a c
 otto righe della passata in avanti. Nessuna revisione umana completa: i numeri sono stime da
 confermare, non conteggi certificati.
 
-### 4.2 Quante testate riprendono un fatto ufficiale
+### 4.2 Notizie uniche e numero di testate
+
+A giugno le notizie uniche di cronaca nel Comune di Roma sono **387**: 177 dalle fonti
+ufficiali e 210 trovate solo sulle testate aperte. Per 341 di queste il numero di testate
+è stato contato: i 131 fatti ufficiali cercati e le 210 notizie delle testate aperte. Per
+ogni notizia le testate trovate nelle due passate sono unite.
+
+| Su quante testate | Notizie ufficiali | Notizie solo dei giornali | Totale |
+|---|---|---|---|
+| nessuna (solo la fonte ufficiale) | 40 | — | 40 |
+| 1 | 32 | 154 | 186 |
+| 2 | 27 | 43 | 70 |
+| 3 | 15 | 11 | 26 |
+| 4 | 11 | 1 | 12 |
+| 5 o più | 6 | 1 | 7 |
+| **totale** | **131** | **210** | **341** |
+
+- **Notizie ufficiali:** le testate sono cercate fra una ventina di testate.
+- **Notizie solo dei giornali:** le testate sono contate solo fra le sei aperte. Il conto
+  è quindi un minimo: la stessa notizia può essere anche su RomaToday o sul Messaggero.
+- **Il massimo:** 10 testate, per l'operazione della Digos del 16 giugno.
+- **Fatti ufficiali senza ricerca:** sono 46. Per loro le testate vengono solo dalla
+  passata inversa (27 con nessuna, 15 con una, 3 con due, 1 con tre) e non sono in
+  tabella.
+
+Il dettaglio della sola passata in avanti, senza unire le testate trovate dalla passata
+inversa:
 
 | Testate che riportano il fatto | Fatti (corrispondenza certa o probabile) | Fatti (solo certa) |
 |---|---|---|
