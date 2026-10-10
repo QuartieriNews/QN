@@ -1,0 +1,380 @@
+# Cronaca: processo, regole, problemi da risolvere — ottobre 2026
+
+Richiesta dell'owner (10 ottobre 2026): «immaginare un processo per farlo, delle regole e
+poi provare a vedere se preso un mese dell'anno, quanti nuovi articoli arriveremmo a
+produrre con una tabella che abbia il numero delle notizie trovate, e su quanti e quali
+giornali erano riportate. Poi bisogna capire che processo seguire per assicurare all'AI
+l'accesso alle fonti […] Insomma iniziare sul definire tutti i problemi da risolvere con
+delle possibili soluzioni.»
+
+Questo documento è un'analisi del builder, non una decisione. Ciò che cambia il perimetro
+deciso è raccolto in §7 come `OWNER_DECISION_REQUIRED` e nella bozza
+`decisions/DEC-108-press-in-cronaca.md` (OPEN). Le righe per fatto, con titoli e link
+delle testate, stanno nel foglio `cronaca_giugno_2026_testate.xlsx`, da caricare su Drive
+(`QN Hub / 20 Packages / Fonti 2026-06`). Qui restano procedure e conteggi (DEC-102,
+DEC-104).
+
+## 1 Che cosa è già deciso
+
+- **Perimetro delle fonti.** La pipeline Cronaca della baseline (v0.6 §2.D) parte dalle sei
+  fonti ufficiali di sicurezza e giustizia: Questura/Polizia di Stato, Carabinieri,
+  Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza. Le testate giornalistiche
+  non sono una fonte prevista. Il 9 ottobre l'owner ha confermato «Solo fonti ufficiali» per
+  la tabella di giugno. Questa analisi misura le testate perché l'owner lo ha chiesto, ma
+  il loro uso è una scelta ancora aperta (DEC-108).
+- **Nomi.** DEC-016, opzione B: i nomi presenti nelle fonti ufficiali si riproducono in
+  automatico, con verifica della seconda AI. Minori, vittime, testimoni, familiari e dati
+  sensibili vanno in coda manuale. La capacità «nomi» resta spenta fino al parere legale
+  (baseline §4.1).
+- **Pubblicazione.** Pubblicazione automatica con doppio controllo AI (DEC-015). Correzioni
+  dirette con tracciabilità interna (DEC-020). Golden set Cronaca di 30 comunicati e gate
+  G0 prima di cablare la pubblicazione (baseline §2.D).
+- **Obiettivo.** Almeno 1 contenuto di Cronaca per ognuna delle 89 pagine (DEC-014), con il
+  ripiego della pagina sottile ancora da definire (DEC-006, OPEN).
+- **Geografia.** Il protocollo di assegnazione e i livelli di portata quartiere, municipio e
+  città valgono anche per la cronaca (DEC-106).
+
+## 2 Il processo proposto
+
+Ogni fase ha un'uscita verificabile. Le fasi 1, 2 e 4 sono già state eseguite a mano su
+giugno 2026 per la tabella del 9 ottobre. La fase 3 è stata provata in questa analisi,
+sui titoli delle testate (§4).
+
+| Fase | Che cosa fa | Uscita | Chi o che cosa |
+|---|---|---|---|
+| 1 Raccolta | legge le fonti ammesse dai canali ammessi (§5): pagine ufficiali, feed, liste stampa; se DEC-108 lo consente, i titoli delle testate come segnale | comunicato o segnale grezzo, con URL e data | adattatore per fonte |
+| 2 Scheda di fatto | divide il comunicato in fatti: un comunicato con sette arresti dà sette schede | scheda: fatto, data del fatto, luoghi, persone (flag), `case_status`, fonte | AI, con controllo sulla fonte |
+| 3 Fusione | riconosce lo stesso fatto fra fonti diverse e fra giorni diversi (aggiornamenti) | `fatto_id` unico e catena di aggiornamenti | regole di confronto più AI |
+| 4 Geografia | applica il protocollo di assegnazione, con il luogo del fatto (non la sede del reparto che opera) | esito U/M/T/D/I/F, pagine, livello | `stage1.py`, revisore, regole dell'owner |
+| 5 Filtro editoriale | decide se il fatto è pubblicabile e dove (§3); instrada i casi sensibili | pubblicabile / coda / escluso, con motivo | AI e regole |
+| 6 Verifica | controlla ogni affermazione contro la fonte primaria; per i fatti scoperti dalla stampa vale la regola di conferma (§3 R-C02) | esito della verifica | seconda AI (DEC-015) |
+| 7 Redazione | scrive la notizia breve in parole proprie, dai fatti verificati, con fonte e link | testo L1, titolo, fonte citata | AI |
+| 8 Pubblicazione e vita | pubblica; aggiorna `case_status` quando arrivano sviluppi; gestisce rettifiche e richieste di deindicizzazione | versione pubblicata, storico interno | publisher, coda (DEC-020) |
+
+La fase 3 è nuova rispetto alla baseline. Senza di essa lo stesso arresto, letto nel
+comunicato della Questura e in tre testate, produrrebbe quattro notizie.
+
+## 3 Regole editoriali proposte
+
+Sono proposte del builder. Diventano regole quando l'owner le adotta, e alcune
+(segnate ⚖) solo dopo il parere legale (D12).
+
+- **R-C01 · Un fatto, una scheda.** Il fatto è l'unità: un evento con luogo, data e
+  protagonisti. Un'operazione su più luoghi è un fatto con più luoghi (esito M). Un
+  comunicato di riepilogo produce tante schede quanti sono i fatti riconoscibili. Gli
+  aggiornamenti successivi (convalida, scarcerazione, sentenza) si agganciano al fatto,
+  non ne creano uno nuovo.
+- **R-C02 · Fonte primaria e conferma.** Ogni notizia pubblicata ha una fonte
+  primaria citata con link. Fonte primaria: un ente ufficiale (comunicato, nota alla
+  stampa) oppure, se DEC-108 lo ammette, una testata citata come tale. Un fatto scoperto
+  solo dalla stampa si pubblica (a) dopo conferma ufficiale, oppure (b) se è riportato da
+  almeno due testate indipendenti e attribuito («secondo Abitare a Roma e Roma Daily News…»). Due
+  articoli della stessa agenzia ripresa da più siti contano come una sola fonte.
+- **R-C03 · Parole proprie, nessuna ripresa.** QN scrive dai fatti, non riassume
+  l'articolo di un altro. Niente frasi, titoli o foto delle testate. Il link
+  all'articolo è ammesso come riferimento; un estratto non lo è finché il legale non si
+  è espresso (art. 43-bis e art. 101 l. 633/1941, §6 P-07). ⚖
+- **R-C04 · Presunzione di innocenza.** Si scrive «arrestato», «denunciato», «indagato»,
+  mai «il ladro» o «lo spacciatore» per una persona non condannata. `case_status` è
+  visibile e aggiornato. Gli sviluppi favorevoli all'interessato (scarcerazione,
+  archiviazione, assoluzione) si pubblicano con la stessa evidenza. ⚖
+- **R-C05 · Persone.** Si applica DEC-016. Per nessuna fonte, ufficiale o di stampa: nomi o
+  dettagli che identificano minori (anche come autori), vittime di reati sessuali,
+  persone coinvolte in suicidi o tentati suicidi, dati sanitari. Questi casi vanno
+  sempre in coda manuale. Un nome letto solo su una testata non si riproduce in
+  automatico: DEC-016 copre solo le fonti ufficiali. ⚖
+- **R-C06 · Luogo del fatto.** Il luogo è quello dove il fatto è avvenuto, non quello
+  della caserma o del commissariato che ha operato né la residenza dell'arrestato. «Zona
+  Tuscolana» senza altri elementi vale come strada lunga e dà D (protocollo, casi
+  frequenti).
+- **R-C07 · Soglia di pubblicazione.** Va su una pagina-quartiere un fatto localizzato
+  che tocca chi ci vive: reati con luogo, incidenti con feriti o chiusure, incendi,
+  crolli, controlli con esiti, sgomberi, soccorsi rilevanti. Vanno a livello città
+  (T) le operazioni senza luogo, i servizi e le campagne. Fuori dal Comune (F): esclusi.
+  I fatti senza esito e senza luogo (un controllo «a campione» senza risultati) non si
+  pubblicano.
+- **R-C08 · Tempestività.** Si pubblica entro 48 ore dalla fonte primaria. Un fatto più
+  vecchio di 7 giorni entra solo come sviluppo di un fatto già pubblicato. La Questura
+  pubblica spesso riepiloghi giorni dopo i fatti: la data visibile è quella del fatto,
+  non quella del comunicato.
+- **R-C09 · Equilibrio della pagina.** La cronaca non deve diventare la voce dominante di
+  un quartiere. Proposta: nella pagina, al massimo un fatto di cronaca ogni N contenuti
+  degli altri blocchi; per un numero eccessivo, un riepilogo settimanale per quartiere.
+  Il valore di N è da fissare con l'owner dopo il primo mese.
+- **R-C10 · Immagini.** Nessuna foto di persone né foto prese dalle testate. Immagine
+  generata (mappa del luogo) o nessuna immagine: è la decisione ancora aperta di baseline §2.D.
+- **R-C11 · Rettifica e deindicizzazione.** Le richieste si gestiscono con DEC-020. Le
+  richieste di deindicizzazione da parte di chi è stato prosciolto o assolto hanno una
+  procedura scritta e un tempo massimo di risposta. ⚖
+
+## 4 La prova su giugno 2026
+
+### 4.1 Come è stata fatta
+
+Mese: giugno 2026. È lo stesso della tabella del 9 ottobre: i fatti ufficiali erano già
+divisi in schede e assegnati alle pagine. Due passate, entrambe senza aprire articoli.
+Strumenti e istruzioni di lettura: `tools/cronaca-prova/`. Conteggi:
+`tools/cronaca-prova/runs/2026-10-10/riepilogo.json`.
+
+- **In avanti, dai fatti ufficiali alle testate.**
+  - I fatti: i 177 nel Comune di Roma pubblicati a giugno da Questura, Carabinieri, Vigili
+    del Fuoco e Polizia Locale (le 196 schede meno le 19 fuori Roma).
+  - La ricerca: per ogni fatto, al massimo due ricerche web limitate a 20 domini di
+    testate. Il confronto usa solo titolo, URL e riassunto della ricerca.
+  - Corrispondenza `certa`: tipo, luogo, due dettagli e data compatibili. Altrimenti
+    `probabile`.
+  - Copertura: 131 fatti cercati, con 170 ricerche. Restano senza ricerca 46 fatti (35
+    della Questura), per il tetto di ricerche del turno.
+  - Limiti: la ricerca non vede Corriere, Repubblica e Rai News. RomaToday e Il
+    Messaggero non mettono la data nell'URL, quindi le loro corrispondenze restano per
+    lo più `probabile`.
+- **Inversa, dalle testate aperte ai fatti.**
+  - Il censimento: tutti i titoli di giugno delle sei testate che non escludono gli
+    agenti AI, 5.030 in tutto (Dire 1.212, Roma Daily News 1.158, Il Tempo 1.107,
+    Abitare a Roma 776, Il Faro Online 702, VignaClaraBlog 75).
+  - Il filtro: per sezione o parola chiave, 659 candidati.
+  - La lettura dei titoli: 387 sono cronaca nel Comune di Roma e formano 272 fatti. Gli
+    altri sono 128 fuori Roma, 119 non cronaca e 25 cronaca giudiziaria su fatti
+    precedenti.
+  - Il confronto: ogni fatto è stato confrontato con i fatti ufficiali dei giorni
+    vicini, con la pagina QN presa dal luogo nel titolo (`qngeo.py`, senza rete).
+
+Il lavoro è stato fatto da agenti, uno per lotto. Il builder ha controllato a campione
+otto righe della passata in avanti. Nessuna revisione umana completa: i numeri sono stime da
+confermare, non conteggi certificati.
+
+### 4.2 Quante testate riprendono un fatto ufficiale
+
+| Testate che riportano il fatto | Fatti (corrispondenza certa o probabile) | Fatti (solo certa) |
+|---|---|---|
+| nessuna | 42 | 79 |
+| 1 | 33 | 39 |
+| 2 | 30 | 10 |
+| 3 | 14 | 2 |
+| 4 o più | 12 | 1 |
+| **fatti cercati** | **131** | **131** |
+
+Quasi sette fatti ufficiali su dieci (89 su 131) compaiono su almeno una testata, con
+2,2 testate in media. Con la sola corrispondenza certa sono 52. La ripresa cambia molto
+per fonte:
+
+| Fonte | Cercati | Ripresi |
+|---|---|---|
+| Carabinieri | 16 | 15 |
+| Polizia Locale | 8 | 8 |
+| Questura | 101 | 65 |
+| Vigili del Fuoco | 6 | 1 |
+
+Per esito geografico: U 53/78, D 17/25, T 10/12, M 5/8, I 4/8.
+
+### 4.3 Quali testate
+
+| Testata | Fatti ufficiali ripresi (certa o probabile / certa) | Fatti di cronaca romana a giugno (censimento) | …di cui senza fatto ufficiale corrispondente |
+|---|---|---|---|
+| RomaToday | 60 / 18 | non censibile | — |
+| Abitare a Roma | 58 / 16 | 234 | 175 |
+| Il Messaggero | 16 / 1 | non censibile | — |
+| ANSA | 12 / 12 | non censibile | — |
+| Fanpage | 9 / 2 | non censibile | — |
+| Il Faro Online | 9 / 7 | 46 | 40 |
+| RomaIT | 7 / 1 | — | — |
+| Roma Daily News | 4 / 0 | 56 | 45 |
+| Agenzia Nova | 4 / 0 | non censibile | — |
+| LaPresse, Adnkronos | 3 / 3, 3 / 0 | — | — |
+| Il Tempo | 2 / 2 | 11 | 9 |
+| Dire | 2 / 1 | 7 | 5 |
+| Leggo, Sky TG24, Affaritaliani | 2 ciascuna | — | — |
+| VignaClaraBlog | 1 / 1 | 11 | 8 |
+| il Giornale, il Fatto Quotidiano | 1 ciascuna | — | — |
+| Corriere Roma, Repubblica Roma, Rai News | non visibili alla ricerca | — | — |
+
+Due fonti dominano la cronaca romana: RomaToday fra le testate chiuse agli agenti AI,
+Abitare a Roma fra quelle aperte. Riprendono un numero simile di fatti ufficiali (60 e 58).
+
+### 4.4 Quello che le fonti ufficiali pubbliche non dicono
+
+Dei 272 fatti di cronaca romana sulle sei testate aperte, 62 corrispondono a un fatto
+ufficiale (49 con certezza). **210, il 77%, non hanno un fatto corrispondente sui siti
+ufficiali.** Il conto riguarda solo sei testate, perché le testate chiuse non si possono
+censire, quindi è un minimo.
+
+- **Per tipo:** furti 29, controlli 27, aggressioni 26, incidenti 24, rapine 18, incendi
+  16, sequestri 14, droga 12, morti 11, altro 33.
+- **Per geografia:** 138 a livello di quartiere con una pagina, 11 di municipio, 25 di
+  città, 36 dubbi (strade lunghe, luoghi non chiari).
+- **Per numero di testate:** 56 sono riportati da almeno due delle sei testate aperte.
+- **Ente citato nel titolo:** in 45 casi il titolo nomina Carabinieri, Polizia o un altro
+  ente. Probabilmente vengono da comunicazioni ufficiali mandate ai giornalisti e non
+  pubblicate sul web: le liste stampa di §5.3.
+- **Morti:** gli 11 casi della categoria vanno tutti in coda (R-C05).
+
+Dati da verificare emersi dalla prova:
+
+- CR-C1_074-3 (Ponte di Nona, comunicato del 3 giugno) compare su ANSA e Abitare a Roma
+  con data 7 febbraio 2026.
+- CR-C2_093-1 riguarda una truffa del 21 aprile, con l'arresto avvenuto a Napoli.
+
+La data del comunicato non è sempre la data del fatto (R-C08).
+
+### 4.5 Quanti articoli in un mese
+
+Un fatto produce un articolo. «Presenze» sono gli articoli sommati sulle pagine (un fatto
+M conta su più pagine). L'obiettivo di DEC-014 è almeno 1 fatto di cronaca per ciascuna
+delle 89 pagine.
+
+| Scenario (DEC-108) | Fatti a giugno | Presenze sulle pagine | Pagine con almeno 1 |
+|---|---|---|---|
+| A · fonti ufficiali pubbliche, come la tabella del 9 ottobre | 177 | 134 | 48 |
+| A + liste stampa degli enti | non misurabile da fuori; indizio: 45 fatti della stampa citano un ente | — | — |
+| B · testate aperte come segnale, pubblicate solo dopo conferma | fino a 177 + 210 = 387 | fino a 134 + 138 = 272 | fino a 62 |
+| C · in più i fatti su due testate aperte, senza conferma | 177 + 56 = 233 | 134 + 43 = 177 | 54 |
+| testate chiuse (RomaToday, Il Messaggero, Corriere…) | non misurabili senza licenza | — | — |
+
+Il limite superiore di B dipende da quanti fatti un ente conferma, e oggi non si sa.
+
+Che cosa dicono questi numeri:
+
+- **Il volume.** Le testate aperte più che raddoppiano il numero di fatti, ma le pagine
+  raggiunte passano solo da 48 a 62. La cronaca si concentra dove già c'è: Ostia, Esquilino e
+  Centro hanno già comunicati ufficiali.
+- **L'obiettivo di DEC-014.** In nessuno scenario misurato tutte le 89 pagine hanno un
+  fatto di cronaca a giugno: ne restano almeno 27 a zero. Il ripiego della pagina
+  sottile (DEC-006) serve comunque. Per decidere conviene misurare tre mesi, non uno.
+- **La concentrazione.** Abitare a Roma da sola porta 175 dei 210 fatti in più.
+  Dipendere da una testata di zona è un rischio: copertura diseguale fra i Municipi,
+  rapporto commerciale con un concorrente (P-19).
+
+## 5 Accesso dell'AI alle fonti
+
+### 5.1 Principio
+
+QN non aggira nessuna barriera. Non supera paywall, non usa account in automatico
+(DEC-102). Non dichiara un user agent finto, non usa proxy residenziali per
+cambiare indirizzo, non risolve captcha e non usa browser automatizzati travestiti da
+persone. Rispetta il robots.txt e le riserve di estrazione di testo e dati (TDM)
+anche quando sono rivolte ad agenti con un altro nome. Un canale chiuso resta chiuso:
+si cerca un canale aperto o una licenza. Non è solo prudenza: l'elusione delle misure
+tecniche di protezione è vietata (artt. 102-quater e 171-ter l. 633/1941), e una
+riserva TDM espressa esclude l'estrazione per fini commerciali (art. 70-quater, dalla
+direttiva UE 2019/790 art. 4). Sono punti da confermare nel parere legale, non pareri.
+
+### 5.2 Che cosa si vede oggi (sondaggio del 9–10 ottobre 2026)
+
+Sondaggio sulla pagina della sezione romana o di cronaca e sul robots.txt di ogni
+testata, con un user agent dichiarato. I dati grezzi sono su Drive.
+
+| Testata | Esclude gli agenti AI nel robots.txt | Riserva TDM dichiarata | Abbonamento o paywall | Barriera osservata | Canale lecito per un agente AI oggi |
+|---|---|---|---|---|---|
+| RomaToday | sì (ClaudeBot, GPTBot, anthropic-ai e altri) | sì (TDMRep) | sì | — | nessuno senza licenza; solo titolo e link da un motore di ricerca |
+| Il Messaggero | sì | — | sì | — | come sopra |
+| Corriere della Sera Roma | sì | sì | sì | rifiutato anche dal motore di ricerca dell'agente | nessuno |
+| la Repubblica Roma | sì (anthropic-ai, GPTBot, CCBot) | — | sì | rifiutato dal motore di ricerca dell'agente | nessuno |
+| Leggo | sì | — | sì | — | titolo e link da motore di ricerca |
+| ANSA | sì | — | in parte | — | titolo e link; abbonamento d'agenzia |
+| Agenzia Nova | sì; `Content-Signal: ai-train=no`, dichiarato riserva ex art. 4 dir. 2019/790 | sì | — | 403 (Cloudflare) | abbonamento d'agenzia |
+| Today.it | sì | sì | sì | — | nessuno senza licenza |
+| Fanpage | — | — | — | 403 a ogni richiesta | nessuno |
+| Il Tempo | no | no | in parte | — | sitemap giornaliere |
+| Dire | no | no | in parte | — | API pubblica del sito, feed Roma |
+| Roma Daily News | no | no | no | API esclusa dal robots.txt | sitemap |
+| Il Faro Online | no | no | no | API esclusa dal robots.txt | sitemap |
+| Abitare a Roma | no | no | no | — | API pubblica del sito |
+| VignaClaraBlog | no | no | no | — | API pubblica del sito |
+| Il Corriere della Città | no | no | no | — | inattivo a giugno (1 articolo) |
+
+Altri canali provati:
+
+- Google News RSS: escluso dal robots.txt per tutti i robot (`Disallow: /`) e per nome agli
+  agenti AI. Non usato.
+- GDELT, indice aperto di notizie: da questo ambiente risponde 429 (troppe richieste da un
+  indirizzo condiviso). Non usato.
+- La ricerca web dell'agente restituisce titolo, URL e un breve riassunto, ma non
+  vede corriere.it, repubblica.it e rainews.it. Ha anche un tetto di ricerche per
+  turno.
+
+Le testate che coprono di più la cronaca romana sono chiuse agli agenti AI. Le aperte
+sono testate piccole o di zona. Il quadro dell'accesso si legge quindi testata per
+testata, non in blocco.
+
+### 5.3 Canali di accesso possibili, dal più pulito
+
+1. **Liste stampa degli enti ufficiali.** Questura, Comando provinciale dei Carabinieri,
+   Vigili del Fuoco, Polizia Locale e Procura mandano note e comunicati ai giornalisti per
+   email, e il sito pubblico ne mostra solo una parte. L'accesso richiede di solito una
+   testata registrata con un direttore responsabile: la registrazione è già nel percorso
+   legale della baseline (I). È il guadagno più grande e il più lecito: aumenta i fatti
+   ufficiali senza toccare le testate.
+2. **Fonti ufficiali aggiuntive.** Prefettura, Roma Capitale (Polizia Locale per gruppo
+   municipale, protezione civile), Roma Mobilità e Atac per incidenti e chiusure, i 15
+   Municipi. Procura e Guardia di Finanza, a giugno, non avevano comunicati romani
+   leggibili sul web: da verificare se pubblicano altrove.
+3. **Testate aperte, solo metadati.** Titolo, data e link dai canali che il robots.txt
+   ammette (sitemap, feed, API pubblica), come segnale che un fatto esiste. Meglio ancora
+   con un accordo scritto con la testata: costa una lettera, toglie ogni dubbio e può
+   diventare uno scambio (link e citazione in cambio dell'uso).
+4. **Licenze.** Abbonamento a un'agenzia (ANSA, Dire, Nova, Adnkronos, LaPresse: servizi
+   regionali Lazio) con clausola che ammetta il trattamento automatico. Oppure un servizio
+   di rassegna stampa che ha già le licenze degli editori. Da chiedere: prezzo, e se la
+   licenza copre l'uso da parte di un sistema AI.
+5. **Motori e indici di notizie via API.** API di ricerca a pagamento (Bing, Brave, Google
+   Programmable Search) o GDELT da un indirizzo non condiviso. Danno titolo, URL e data,
+   con condizioni d'uso esplicite. Servono a scoprire e a contare, non a scrivere.
+6. **Lettura umana.** L'owner, o un collaboratore, legge le testate in abbonamento e
+   inserisce in coda il fatto con il link (raccolta manuale, DEC-102). L'AI riceve la
+   segnalazione umana, non l'articolo. Le condizioni dell'abbonamento personale vanno
+   lette: spesso escludono l'uso commerciale del contenuto, non la conoscenza del
+   fatto.
+7. **Nessuna delle precedenti.** Si resta sulle fonti ufficiali pubbliche, con il
+   ripiego della pagina sottile (DEC-006).
+
+## 6 Problemi da risolvere e possibili soluzioni
+
+Ogni problema ha un numero, le soluzioni possibili e chi decide. «Builder» vuol dire che
+il problema si risolve costruendo; «owner» che serve una scelta; «legale» che serve il
+parere (D12).
+
+| # | Problema | Soluzioni possibili | Chi |
+|---|---|---|---|
+| P-01 | **Perimetro delle fonti.** La baseline prevede solo fonti ufficiali; la stampa è una scelta aperta. | Le quattro opzioni di DEC-108 (solo ufficiali; stampa come segnale; stampa come fonte citata; contenuti in licenza). | owner |
+| P-02 | **Copertura ufficiale insufficiente e diseguale.** A giugno i fatti ufficiali arrivano a 48 pagine su 89 (§4.5), e l'obiettivo è 1 per pagina. | Liste stampa degli enti (testata registrata); fonti ufficiali aggiuntive (§5.3); stampa come segnale (DEC-108 B); riepilogo municipale come ripiego (DEC-006); obiettivo misurato su tre mesi, non su uno. | owner, builder |
+| P-03 | **Il sito pubblico della Questura è un sottoinsieme, con ritardo.** Molti comunicati sono riepiloghi di più giorni. Alcuni riportano fatti di mesi prima o fuori Roma (§4.4). | Data del fatto distinta da data del comunicato (R-C08); lista stampa per avere le note del giorno; misura del ritardo medio per fonte; controllo della data contro la stampa quando c'è. | builder |
+| P-04 | **Procura e Guardia di Finanza a zero a giugno.** | Verificare dove pubblicano (sito, social, liste stampa); se restano a zero, toglierle dalle sei fonti attese e dirlo. | builder |
+| P-05 | **Paywall.** Le testate maggiori sono in abbonamento. | Mai aggirare. Solo metadati (titolo, link) da canali ammessi; lettura umana con segnalazione (§5.3 n. 6); licenza (n. 4). | owner |
+| P-06 | **Esclusione degli agenti AI e protezioni anti-bot.** Le testate maggiori escludono gli agenti AI nel robots.txt; due rispondono 403 a ogni richiesta; Google News esclude tutti. | Rispettare sempre, anche verso agenti con altro nome; user agent onesto e ritmo lento sulle testate aperte; accordo scritto; licenze o API con condizioni d'uso esplicite. | owner, builder |
+| P-07 | **Diritti sui testi delle testate.** «Riproduzione sistematica di notizie a fine di lucro» è illecita per un periodico (art. 101 l. 633/1941); estratti online soggetti al diritto degli editori (art. 43-bis); riserve TDM (art. 70-quater). | Scrivere dai fatti verificati con parole proprie; solo link alle testate; parere legale su quando una notizia scoperta dalla stampa e confermata altrove resta un uso lecito. | legale |
+| P-08 | **Verifica.** Le testate sbagliano o divergono sui dettagli; un fatto ripreso da cinque siti può avere una sola origine (agenzia o comunicato). | Regola R-C02 (conferma ufficiale, o due fonti indipendenti dove ammesso); riconoscere le riprese d'agenzia; seconda AI sui fatti (DEC-015); `case_status` visibile. | builder, owner |
+| P-09 | **Lo stesso fatto in più fonti e più giorni.** | Fase 3 di fusione: confronto su tipo, luogo, data ±3 giorni, dettagli (età, numero di persone, oggetto); `fatto_id` e catena degli aggiornamenti; in dubbio, coda. | builder |
+| P-10 | **Luogo.** Sede del reparto scambiata per luogo del fatto; «zona Tuscolana»; fatti senza luogo. | Protocollo di assegnazione e livelli (DEC-106); R-C06; esito D quando il luogo è una strada lunga; T per i fatti cittadini. | builder |
+| P-11 | **Persone e casi sensibili.** Minori, vittime, suicidi, dati sanitari; nomi che compaiono solo sulla stampa. | DEC-016 e R-C05; coda manuale; i nomi letti solo sulla stampa non si riproducono in automatico. | legale, owner |
+| P-12 | **Presunzione di innocenza e sviluppi.** Gli enti comunicano meno dopo il d.lgs. 188/2021; arresti poi non convalidati; assoluzioni. | R-C04; aggiornamento di `case_status`; pubblicazione degli sviluppi favorevoli; deindicizzazione su richiesta (R-C11). | legale, builder |
+| P-13 | **Rettifiche.** | DEC-020; procedura con tempi; storico interno delle versioni. | owner |
+| P-14 | **Immagini.** Nessuna fonte lecita chiara per la cronaca. | Mappa generata o nessuna immagine (baseline §2.D, decisione aperta). | owner |
+| P-15 | **Cronaca che domina la pagina.** Un quartiere letto solo attraverso reati e incidenti peggiora la percezione e la fiducia. | R-C09 (tetto e riepilogo); ordine dei blocchi; misura dopo il primo mese. | owner |
+| P-16 | **Costo e tempo.** Ogni fatto richiede lettura, fusione, geografia, scrittura e verifica. | Misurare i minuti per caso nella thin slice; automatizzare fusione e geografia; coda solo per i casi sensibili e i dubbi. | builder |
+| P-17 | **Responsabilità editoriale.** Liste stampa, rettifiche e cronaca richiedono una testata registrata e un direttore responsabile. | Registrazione già prevista nel percorso legale (I); anticiparla se si sceglie A o B. | owner, legale |
+| P-18 | **Misurabilità.** Le testate maggiori non si possono censire da un agente AI; la ricerca web ha un tetto e non vede tre testate. | Misura sulle testate aperte (completa) più campione via ricerca (parziale), dichiarati come tali; un'API di ricerca a pagamento o GDELT da un indirizzo proprio per una misura completa. | builder |
+| P-19 | **Rapporto con le testate locali.** Sono le fonti più ricche e anche concorrenti. | Accordo di citazione e link; scambio di visibilità; nessuna ripresa senza accordo. | owner |
+
+## 7 OWNER_DECISION_REQUIRED
+
+1. **Ruolo della stampa nella Cronaca:** DEC-108, quattro opzioni. Raccomandazione del
+   builder: A subito; B quando ci sono la testata registrata e il permesso scritto delle
+   testate aperte; C e D solo dopo il parere legale.
+2. **Registrazione della testata, da anticipare?** Serve per le liste stampa degli enti
+   (§5.3 n. 1), che sono il canale più ricco e più pulito. Oggi la registrazione sta nel
+   percorso legale (I) della fase 2.
+3. **Regole R-C01…R-C11 (§3):** adottarle, modificarle o rinviarle. Quelle segnate ⚖
+   entrano nel pacchetto per il legale (D12), insieme a tre domande nuove:
+   - art. 101 l. 633/1941: un fatto scoperto dalla stampa e confermato da un ente può
+     diventare una notizia di QN?
+   - art. 43-bis: i link e i titoli delle testate sono ammessi?
+   - le riserve TDM e le esclusioni degli agenti AI vincolano anche un sistema che non
+     usa quei nomi di agente?
+4. **Seconda parte della prova.** Due possibilità:
+   - completare la passata in avanti sui fatti rimasti senza ricerca: basta un tuo
+     messaggio, perché il tetto di ricerche vale per turno;
+   - misurare in modo completo le testate chiuse con un'API di ricerca a pagamento o con
+     GDELT da un indirizzo proprio: costo e canale li decidi tu.
+5. **Esclusioni di principio:** confermare che QN non legge in automatico le testate
+   che escludono gli agenti AI o riservano il TDM, salvo licenza (§5.1). È la posizione
+   tenuta in questa prova.
