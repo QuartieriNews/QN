@@ -20,6 +20,16 @@ conteggi (`runs/`).
 | 6 Foglio | `foglio.py DIR` | `cronaca_testate.xlsx` da caricare su Drive | — |
 | 7 Verifica (facoltativa) | un agente per lotto, con `ISTRUZIONI_TESTATA_UNICA.md` | per un campione delle notizie viste su una sola testata aperta, se sono uscite anche altrove | come il passo 4 |
 
+### Il mese con la regola delle due fonti (DEC-108, MVP)
+
+| Passo | Comando | Che cosa fa | Limiti voluti |
+|---|---|---|---|
+| 8 Fonti ufficiali | `fonti_ufficiali.py DIR [AAAA-MM] [C1…C6]` | elenchi del mese di Questura, Carabinieri, Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza; scarica ogni comunicato e controlla che sia il comunicato | una richiesta ogni 4 s alla Questura e ogni 2 s agli altri; riconosce le pagine di blocco servite con 200; si ferma dopo cinque rifiuti di fila; nessun cambio di indirizzo |
+| 9 Testate chiuse | `gdelt_titoli.py DIR` poi `chiuse_filtro.py DIR GAZETTEER` | titolo, link e ora dai file grezzi di GDELT (indice aperto), poi i candidati alla cronaca romana | nessuna pagina delle testate aperta |
+| 10 Testi aperte | `testi_aperti.py DIR ELENCO` e lettura con `ISTRUZIONI_LUOGHI.md` | testo degli articoli delle testate aperte per le notizie che il titolo non localizza | solo testate senza esclusione degli agenti AI, canali ammessi dal robots.txt |
+| 11 Abbinamento | `prepara_chiuse.py`, un agente per lotto con `ISTRUZIONI_CHIUSE.md`, poi `ISTRUZIONI_FUSIONI.md` | ogni titolo chiuso abbinato a un fatto noto o a un fatto nuovo; doppioni fra lotti fusi | solo titoli |
+| 12 Tabella | `tabella_quartieri.py DIR MATRICE UFFICIALI… -- APERTE…` e `foglio_quartieri.py DIR` | fonti contate per editore; notizie pubblicabili per quartiere; foglio con i quartieri in colonna | le testate dello stesso gruppo valgono una |
+
 `MATRICE.csv` è `tools/geo-assign/runs/2026-10-09/matrice_giugno_conteggi.csv`.
 
 Test: `python3 tools/cronaca-prova/test_cronaca_prova.py` (nessuna rete).
@@ -27,3 +37,8 @@ Test: `python3 tools/cronaca-prova/test_cronaca_prova.py` (nessuna rete).
 `runs/2026-10-10/riepilogo.json` è il risultato della prova su giugno 2026: 177 fatti
 ufficiali, 131 cercati sulle testate; 5.030 titoli censiti sulle testate aperte, 272
 fatti di cronaca romana.
+
+`runs/2026-10-11/` è giugno 2026 con la regola delle due fonti: raccolta ufficiale (109 su 109,
+nessun blocco), copertura di GDELT, abbinamento dei titoli chiusi, tabella per pagina
+(`per_pagina.csv`) e riepilogo (352 fatti pubblicabili, 64 pagine coperte su 89). Solo
+conteggi: il foglio con i fatti e i link è su Drive.

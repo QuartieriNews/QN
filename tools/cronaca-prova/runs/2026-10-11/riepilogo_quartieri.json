@@ -1,0 +1,75 @@
+{
+ "fatti_per_categoria": {
+  "ufficiale": 177,
+  "stampa_due_fonti": 175,
+  "stampa_una_fonte": 27,
+  "chiuse_due_fonti": 22,
+  "chiuse_una_fonte": 74
+ },
+ "pubblicabili": 352,
+ "fatti_per_livello": {
+  "ufficiale": {
+   "con pagina": 116,
+   "citta": 16,
+   "quartiere": 43,
+   "municipio": 2
+  },
+  "stampa_due_fonti": {
+   "citta": 10,
+   "con pagina": 151,
+   "municipio": 4,
+   "dubbio": 10
+  },
+  "stampa_una_fonte": {
+   "dubbio": 4,
+   "con pagina": 20,
+   "citta": 3
+  },
+  "chiuse_due_fonti": {
+   "citta": 3,
+   "con pagina": 14,
+   "dubbio": 5
+  },
+  "chiuse_una_fonte": {
+   "municipio": 6,
+   "citta": 12,
+   "con pagina": 40,
+   "dubbio": 16
+  }
+ },
+ "pagine_coperte": {
+  "solo_ufficiali": 48,
+  "ufficiali_piu_stampa_due_fonti": 64,
+  "se_bastasse_una_fonte": 65,
+  "con_anche_le_chiuse_non_scrivibili": 65
+ },
+ "pagine_attive": 89,
+ "pagine_scoperte": [
+  "ardeatino",
+  "bufalotta",
+  "casal-lumbroso",
+  "casal-palocco",
+  "castel-di-leva",
+  "dragona-dragoncello",
+  "garbatella",
+  "giardino-di-roma",
+  "infernetto",
+  "la-giustiniana",
+  "la-rustica",
+  "la-storta",
+  "marcigliana",
+  "massimina",
+  "montagnola",
+  "morena",
+  "muratella",
+  "olgiata",
+  "pisana",
+  "romanina",
+  "selva-candida",
+  "torraccia",
+  "trigoria",
+  "tuscolano-quadraro",
+  "vitinia"
+ ],
+ "abbinamenti_senza_fatto": 0
+}

@@ -286,6 +286,111 @@ Che cosa dicono questi numeri:
   Dipendere da una testata di zona è un rischio: copertura diseguale fra i Municipi,
   rapporto commerciale con un concorrente (P-19).
 
+### 4.6 Giugno con la regola delle due fonti (11 ottobre)
+
+Dopo la decisione di DEC-108 per l'MVP, l'owner ha chiesto di rifare il mese con il flusso
+deciso, controllando che la raccolta prenda tutto e non si blocchi:
+
+- **regola:** è pubblicabile un fatto ufficiale, oppure un fatto riportato da almeno due
+  editori diversi, di cui almeno una testata aperta da cui si possa scrivere;
+- **risultato voluto:** una tabella con le notizie di giugno per quartiere.
+
+Strumenti: `tools/cronaca-prova/` (passi 8–12 del README). Conteggi:
+`tools/cronaca-prova/runs/2026-10-11/`. Il foglio per quartiere, con i fatti, è su Drive.
+
+**Raccolta ufficiale.** Il raccoglitore ha letto gli elenchi di giugno di tutte e sei le
+fonti e ha scaricato ogni comunicato.
+
+| Fonte | Comunicati | Elenco | Durata |
+|---|---|---|---|
+| Questura | 79 | 33 pagine | 7,5 minuti, una richiesta ogni 4 secondi |
+| Carabinieri | 20 | 151 comunicati nazionali | |
+| Vigili del Fuoco | 8 | | |
+| Polizia Locale | 2 | | |
+| Procura | 0 | | |
+| Guardia di Finanza | 0 | 128 notizie nazionali | |
+
+- **Completezza e blocchi:** 109 comunicati, gli stessi 109 dell'inventario di settembre,
+  URL per URL. Zero rifiuti, zero errori. Ogni pagina è stata controllata: non è una
+  pagina di blocco, ha il testo del comunicato.
+- **Altre categorie della Questura:** il sito ne ha cinque oltre a «I fatti del giorno», ma
+  nessuna con comunicati di giugno.
+- **Errore trovato e corretto:** il parser della Polizia Locale leggeva le notizie in
+  evidenza del portale invece dell'elenco del Corpo. In più la paginazione del sito non
+  funziona: pagina 2 restituisce la pagina 1.
+
+**Testate aperte.**
+- Il censimento resta quello di §4.1: 5.030 titoli e 272 fatti.
+- Dei fatti che il titolo non localizzava (72) sono stati letti 94 articoli. Con il testo:
+  - 23 fatti hanno ora una pagina;
+  - 11 toccano più quartieri e contano su ciascuno;
+  - 7 risultano fuori dal Comune.
+- Due fatti doppi sono stati uniti.
+
+**Testate chiuse, solo titolo, link e ora.**
+- **Fonte:** i file grezzi di GDELT dal 29 maggio al 3 luglio, 3.456 file da 15 minuti,
+  nessuno mancante.
+- **Quanto copre GDELT:** dove si può confrontare con il censimento completo ritrova il 70%
+  degli articoli di Il Tempo e il 77% di Dire. Non copre Abitare a Roma e VignaClaraBlog,
+  che però sono censite per intero.
+- **Il filtro:** 2.023 titoli candidati alla cronaca romana. I principali: RomaToday 546,
+  Il Messaggero 470, Corriere Roma 294, ANSA 237, Repubblica Roma 139.
+- **La lettura dei titoli:**
+  - 1.093 sono cronaca a Roma;
+  - 757 di questi vanno su fatti già noti: 169 ufficiali e 588 delle testate aperte;
+  - 336 formano fatti visti solo sulle testate chiuse: 155 nel periodo, 8 doppi fusi fra
+    finestre vicine, 96 di giugno.
+
+**Risultato.**
+
+| Fatti di giugno a Roma | Numero |
+|---|---|
+| da fonti ufficiali | 177 |
+| dai giornali con almeno due editori, scrivibili | 175 |
+| **pubblicabili in tutto** | **352** |
+| dai giornali con un solo editore (non pubblicati) | 27 |
+| solo testate chiuse, almeno due editori (non scrivibili) | 22 |
+| solo testate chiuse, un editore | 74 |
+
+Fra i 175 fatti dei giornali con almeno due editori:
+- **la seconda fonte:** in 166 viene da una testata chiusa (RomaToday in 149) e solo in 9
+  da un'altra testata aperta;
+- **il livello:** 151 hanno una pagina, gli altri sono di livello città, municipio o
+  dubbi.
+
+**Pagine.**
+- **Copertura:** 48 pagine su 89 hanno almeno un fatto con le sole fonti ufficiali; con la
+  regola delle due fonti diventano **64**.
+- **Presenze:** salgono da 134 a 299.
+- **Pagine coperte solo grazie ai giornali (16):** Laurentino, Appio Latino, Colli Aniene,
+  Bravetta, Colli Portuensi, Magliana, Prima Porta, Spinaceto, Torrino, Cesano, Colle
+  Prenestino, Corviale, Rebibbia, San Basilio, Settecamini, Torrevecchia.
+- **Pagine ancora scoperte (25):** Ardeatino, Bufalotta, Casal Lumbroso, Casal Palocco,
+  Castel di Leva, Dragona-Dragoncello, Garbatella, Giardino di Roma, Infernetto, La
+  Giustiniana, La Rustica, La Storta, Marcigliana, Massimina, Montagnola, Morena,
+  Muratella, Olgiata, Pisana, Romanina, Selva Candida, Torraccia, Trigoria,
+  Tuscolano-Quadraro, Vitinia.
+- **Altre soglie:** se bastasse una fonte le pagine sarebbero 65; contando anche le chiuse
+  non scrivibili, sempre 65.
+- **Lettura:** le pagine scoperte sono quasi tutte periferiche. Sono soprattutto nel sud e
+  nell'ovest (Municipi X 4, VIII 3, IX 3, XV 3, XII 2), più alcune a nord-est e sud-est (III,
+  IV, V, VII). Qui il limite non è la regola delle due fonti: con una fonte sola si
+  coprirebbe una pagina in più. Di quei quartieri a giugno non ha scritto quasi nessuno.
+  Servono il ripiego della pagina sottile (DEC-006) o fonti di altro tipo (comitati,
+  Municipi).
+
+**Qualità e limiti.**
+- **Controllo a campione:** su 10 fatti «due fonti» con una testata chiusa, 9 abbinamenti
+  sono lo stesso fatto. Uno è debole (un automobilista denunciato abbinato a un articolo
+  su cento multe nella ZTL): il margine d'errore è intorno al 10%.
+- **Solo titoli:** abbinamenti e luoghi delle testate chiuse vengono dai titoli e dal
+  testo degli URL.
+- **Copertura di GDELT incompleta:** qualche fatto con due fonti vere è contato con una.
+- **Corriere e Repubblica:** entrano solo tramite GDELT.
+- **Fatti vicini:** le scelte fra due fatti simili negli stessi giorni sono annotate dai
+  lettori.
+- **Dati di dettaglio:** le righe per fatto, con titoli e link, sono nel foglio su Drive.
+
 ## 5 Accesso dell'AI alle fonti
 
 ### 5.1 Principio
