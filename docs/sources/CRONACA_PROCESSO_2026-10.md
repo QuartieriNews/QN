@@ -401,7 +401,10 @@ parere (D12).
 
 1. **Ruolo della stampa nella Cronaca:** DEC-108, quattro opzioni. Raccomandazione del
    builder: A subito; B quando ci sono la testata registrata e il permesso scritto delle
-   testate aperte; C e D solo dopo il parere legale.
+   testate aperte; C e D solo dopo il parere legale. **Deciso dall'owner l'11 ottobre per
+   l'MVP:** opzione C (fatto su due testate, articolo con parole proprie e testate citate)
+   e nomi presi dai giornali con l'opzione B; la posizione per il lancio pubblico resta da
+   decidere (DEC-108).
 2. **Registrazione della testata, da anticipare?** Serve per le liste stampa degli enti
    (§5.3 n. 1), che sono il canale più ricco e più pulito. Oggi la registrazione sta nel
    percorso legale (I) della fase 2.
