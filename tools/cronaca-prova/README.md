@@ -28,7 +28,7 @@ conteggi (`runs/`).
 | 9 Testate chiuse | `gdelt_titoli.py DIR` poi `chiuse_filtro.py DIR GAZETTEER` | titolo, link e ora dai file grezzi di GDELT (indice aperto), poi i candidati alla cronaca romana | nessuna pagina delle testate aperta |
 | 10 Testi aperte | `testi_aperti.py DIR ELENCO` e lettura con `ISTRUZIONI_LUOGHI.md` | testo degli articoli delle testate aperte per le notizie che il titolo non localizza | solo testate senza esclusione degli agenti AI, canali ammessi dal robots.txt |
 | 11 Abbinamento | `prepara_chiuse.py`, un agente per lotto con `ISTRUZIONI_CHIUSE.md`, poi `ISTRUZIONI_FUSIONI.md` | ogni titolo chiuso abbinato a un fatto noto o a un fatto nuovo; doppioni fra lotti fusi | solo titoli |
-| 12 Tabella | `tabella_quartieri.py DIR MATRICE UFFICIALI… -- APERTE…` e `foglio_quartieri.py DIR` | fonti contate per editore; notizie pubblicabili per quartiere; foglio con i quartieri in colonna | le testate dello stesso gruppo valgono una |
+| 12 Tabella | `tabella_quartieri.py DIR MATRICE UFFICIALI… -- APERTE…` (mese da `QN_MESE`) e `foglio_quartieri.py DIR [MESE]` | fonti contate per editore; notizie pubblicabili per quartiere; foglio con i quartieri in colonna | le testate dello stesso gruppo valgono una |
 
 `MATRICE.csv` è `tools/geo-assign/runs/2026-10-09/matrice_giugno_conteggi.csv`.
 

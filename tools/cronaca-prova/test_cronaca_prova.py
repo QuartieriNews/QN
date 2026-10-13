@@ -290,6 +290,15 @@ with tempfile.TemporaryDirectory() as d:
           "P5" not in fatti and fatti["P3"]["categoria"] == "stampa_due_fonti")
     check("tabella_quartieri: un fatto su più pagine conta su ciascuna", fatti["P3"]["pagine"] == ["trieste", "ostia"]
           and R["pagine_scoperte"] == [])
+    # il mese viene da QN_MESE (README passo 12, mese diverso da giugno): i fatti nuovi di luglio entrano, quelli di giugno no
+    os.environ["QN_MESE"] = "2026-07"
+    try:
+        TQ.main(d, f"{d}/matrice.csv", [f"{d}/uff.jsonl"], [f"{d}/aperte.jsonl"])
+    finally:
+        del os.environ["QN_MESE"]
+    cat = {f["id"]: f["categoria"] for f in json.load(open(f"{d}/tabella/fatti.json"))}
+    check("tabella_quartieri: QN_MESE sceglie il mese dei fatti nuovi delle testate chiuse",
+          "N2-002" in cat and "N1-001" not in cat and "N1-002" not in cat)
 
 print("ALL PASS" if not FALLITI else f"{len(FALLITI)} FAILED")
 sys.exit(1 if FALLITI else 0)

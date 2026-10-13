@@ -1,6 +1,7 @@
 """Notizie di cronaca del mese per quartiere, con la regola delle due fonti (DEC-108, MVP).
 
 Uso: tabella_quartieri.py DIR MATRICE.csv SCHEDE_UFFICIALI.jsonl... -- FATTI_APERTE.jsonl...
+     (il mese viene da QN_MESE, di default 2026-06: i fatti nuovi delle testate chiuse fuori dal mese non contano)
 
 Mette insieme tre insiemi di fatti:
 - ufficiali (schede della tabella di giugno): sempre pubblicabili, la fonte è l'ente;
@@ -47,7 +48,8 @@ def categoria(f):
     return "chiuse_due_fonti" if len(f["editori"]) >= 2 else "chiuse_una_fonte"
 
 
-def main(base, matrice, ufficiali, aperte, mese="2026-06"):
+def main(base, matrice, ufficiali, aperte, mese=None):
+    mese = mese or os.environ.get("QN_MESE", "2026-06")
     rows = list(csv.DictReader(open(matrice, encoding="utf-8-sig"), delimiter=";"))
     pagine = [(r["slug"], r["pagina"], r["municipio"]) for r in rows]
     attive = {p for p, _, _ in pagine}
