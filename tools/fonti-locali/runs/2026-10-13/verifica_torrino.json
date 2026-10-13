@@ -1,0 +1,366 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://www.cdqtorrinomezzocammino.it/",
+   "host": "www.cdqtorrinomezzocammino.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.cdqtorrinomezzocammino.it/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.cdqtorrinomezzocammino.it/feed/",
+     "https://www.cdqtorrinomezzocammino.it/comments/feed/"
+    ],
+    "wp_json": "https://www.cdqtorrinomezzocammino.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 6,
+    "ultima_data": "2026-09-09",
+    "date_viste": 6,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.viverein.org/",
+   "host": "www.viverein.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.viverein.org/wp-sitemap.xml",
+     "https://www.viverein.org/sitemap.xml",
+     "https://www.viverein.org/sitemap.html"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.viverein.org/feed/",
+     "https://www.viverein.org/comments/feed/"
+    ],
+    "wp_json": "https://www.viverein.org/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 9,
+    "ultima_data": "2026-10-07",
+    "date_viste": 9,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.casalbrunori.org/",
+   "host": "www.casalbrunori.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.casalbrunori.org/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.casalbrunori.org/feed/",
+     "https://www.casalbrunori.org/comments/feed/"
+    ],
+    "wp_json": "https://www.casalbrunori.org/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-06-06",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.cdqtorrinodecima.it/web/",
+   "host": "www.cdqtorrinodecima.it",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.cdqtorrinodecima.it/web/feed/",
+     "https://www.cdqtorrinodecima.it/web/comments/feed/",
+     "https://www.cdqtorrinodecima.it/web/home/feed/"
+    ],
+    "wp_json": "https://www.cdqtorrinodecima.it/web/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2024-02-23",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.insiemepermezzocammino.it/",
+   "host": "www.insiemepermezzocammino.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.insiemepermezzocammino.it/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://www.insiemepermezzocammino.it/sitemap.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 5,
+    "ultima_data": "2026-08-02",
+    "date_viste": 5,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://urloweb.com/municipi/municipio-ix/",
+   "host": "urloweb.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://urloweb.com/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 228,
+    "ultima_data": "2026-10-13",
+    "date_viste": 228,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.tgeur.it/",
+   "host": "www.tgeur.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://tgeur.it/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://tgeur.it/blog/rss.xml"
+    ],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://tgeur.it/sitemap.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 6,
+    "ultima_data": "2026-10-06",
+    "date_viste": 115,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.odisseaquotidiana.com/",
+   "host": "www.odisseaquotidiana.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.odisseaquotidiana.com/gnews/www.odisseaquotidiana.com.xml",
+     "https://www.odisseaquotidiana.com/sitemaps/sitemap_index_www.odisseaquotidiana.com.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.odisseaquotidiana.com/feed.xml"
+    ],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://www.odisseaquotidiana.com/feed.xml (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 20,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.ostiatv.it/",
+   "host": "www.ostiatv.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "http://www.roma60.it/",
+   "host": "www.roma60.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.roma60.it/feed/",
+     "https://www.roma60.it/comments/feed/",
+     "https://www.roma60.it/home/feed/"
+    ],
+    "wp_json": "https://www.roma60.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}

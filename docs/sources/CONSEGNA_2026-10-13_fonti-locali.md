@@ -17,7 +17,11 @@ conflitto previsto con il lavoro sulla cronaca.
 Perimetro studiato: le 25 pagine senza cronaca a giugno, gli 11 Municipi che le
 contengono, e 15 pagine coperte a giugno con uno o due fatti (Balduina, Cesano, Colle Prenestino, Corviale, Marconi, Ponte Galeria,
 Portuense, Rebibbia, San Basilio, Settecamini, Torrevecchia, Boccea, Bravetta, Colli
-Portuensi, Lunghezza). **Le altre 49 pagine non sono state studiate.**
+Portuensi, Lunghezza), più una terza ondata interrotta dal limite di sessione: Magliana,
+Montespaccato, Prima Porta, Spinaceto, Testaccio, Tor Cervara e Torrino hanno scoperta e
+verifica ma non lo scettico; Talenti, Tor Vergata e Tuscolano hanno la sola scoperta (nel
+JSON risultano fallite). **Le altre 39 pagine non sono state studiate**, e le dieci della
+terza ondata vanno completate.
 
 ## Come è stato fatto
 
@@ -48,7 +52,7 @@ esiti già scritti sono stati riletti a mano dagli agenti, le note lo dicono voc
 
 ## Prossimi passi proposti dal builder
 
-1. **Le altre 49 pagine**, stesso strumento e stesso workflow (`tools/fonti-locali/README.md`
+1. **Le altre 39 pagine, e il completamento delle dieci della terza ondata**, stesso strumento e stesso workflow (`tools/fonti-locali/README.md`
    descrive i passi; gli argomenti sono le voci di `gazetteer.json → publication_zones`
    con `is_page`). Mezz'ora per gruppo di cinque pagine con due agenti alla volta.
 2. **Conteggio per sezione** in `verifica_accesso.py`: oggi l'API WordPress è interrogata

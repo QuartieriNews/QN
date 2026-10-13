@@ -1,0 +1,635 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://www.nuovatorvergata.com/notizie-ed-eventi",
+   "host": "www.nuovatorvergata.com",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.reginapacistorvergata.it/",
+   "host": "www.reginapacistorvergata.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.reginapacistorvergata.it/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.reginapacistorvergata.it/feed/",
+     "https://www.reginapacistorvergata.it/comments/feed/"
+    ],
+    "wp_json": "https://www.reginapacistorvergata.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 20,
+    "ultima_data": "2026-10-11",
+    "date_viste": 20,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://adqfontanacandida.altervista.org/",
+   "host": "adqfontanacandida.altervista.org",
+   "errori": [],
+   "robots": {
+    "stato": 403,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 403,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "nessuno: il sito rifiuta la richiesta"
+  },
+  {
+   "url": "https://retake.org/roma/retakeroma-villa-verde-fontana-candida-villaggio-breda/",
+   "host": "retake.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.retake.org/sitemap_index.xml",
+     "https://retake.org/roma/sitemap_index.xml",
+     "https://retake.org/padova/sitemap_index.xml",
+     "https://retake.org/salerno/sitemap_index.xml",
+     "https://retake.org/palermo/sitemap_index.xml",
+     "https://retake.org/grottaglie/sitemap_index.xml",
+     "https://retake.org/arezzo/sitemap_index.xml",
+     "https://retake.org/servigliano/sitemap_index.xml",
+     "https://retake.org/spoleto/sitemap_index.xml",
+     "https://retake.org/modugno/sitemap_index.xml",
+     "https://retake.org/cagliari/sitemap_index.xml",
+     "https://retake.org/sabina/sitemap_index.xml",
+     "https://retake.org/bari/sitemap_index.xml",
+     "https://retake.org/trevi/sitemap_index.xml",
+     "https://retake.org/conegliano/sitemap_index.xml",
+     "https://retake.org/milano/sitemap_index.xml",
+     "https://retake.org/rovigo/sitemap_index.xml",
+     "https://retake.org/napoli/sitemap_index.xml",
+     "https://retake.org/taranto/sitemap_index.xml",
+     "https://retake.org/torino/sitemap_index.xml",
+     "https://retake.org/firenze/sitemap_index.xml",
+     "https://retake.org/siracusa/sitemap_index.xml",
+     "https://retake.org/monza/sitemap_index.xml",
+     "https://retake.org/bologna/sitemap_index.xml",
+     "https://retake.org/triggiano/sitemap_index.xml",
+     "https://retake.org/trieste/sitemap_index.xml",
+     "https://retake.org/barletta/sitemap_index.xml",
+     "https://retake.org/buccinasco/sitemap_index.xml",
+     "https://retake.org/ceccano/sitemap_index.xml",
+     "https://retake.org/gaeta/sitemap_index.xml",
+     "https://retake.org/lizzano/sitemap_index.xml",
+     "https://retake.org/moladibari/sitemap_index.xml",
+     "https://retake.org/perugia/sitemap_index.xml",
+     "https://retake.org/trani/sitemap_index.xml",
+     "https://retake.org/reggioemilia/sitemap_index.xml",
+     "https://retake.org/stroncone/sitemap_index.xml",
+     "https://retake.org/pescara/sitemap_index.xml",
+     "https://retake.org/maruggio/sitemap_index.xml",
+     "https://retake.org/ravenna/sitemap_index.xml",
+     "https://retake.org/marsica/sitemap_index.xml",
+     "https://retake.org/lecce/sitemap_index.xml",
+     "https://retake.org/vibovalentia/sitemap_index.xml",
+     "https://retake.org/catania/sitemap_index.xml",
+     "https://retake.org/noicattaro/sitemap_index.xml",
+     "https://retake.org/cosenza/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://retake.org/roma/feed/",
+     "https://retake.org/roma/comments/feed/"
+    ],
+    "wp_json": "https://retake.org/roma/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://retake.org/feed (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 7,
+    "ultima_data": "2026-10-06",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.periferiacapitale.org/municipio-vi/",
+   "host": "www.periferiacapitale.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.periferiacapitale.org/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.periferiacapitale.org/feed/",
+     "https://www.periferiacapitale.org/municipio-vi/feed/"
+    ],
+    "wp_json": "https://www.periferiacapitale.org/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 12,
+    "ultima_data": "2026-10-08",
+    "date_viste": 12,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.radiocolonna.it/cronaca/",
+   "host": "www.radiocolonna.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.radiocolonna.it/sitemap.xml",
+     "https://www.radiocolonna.it/sitemap-news.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": "https://www.radiocolonna.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 772,
+    "ultima_data": "2026-10-13",
+    "date_viste": 772,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://ilgiornaledellazio.it/",
+   "host": "ilgiornaledellazio.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://ilgiornaledellazio.it/sitemap.xml",
+     "https://ilgiornaledellazio.it/sitemap.rss"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://ilgiornaledellazio.it/feed/",
+     "https://ilgiornaledellazio.it/comments/feed/",
+     "https://ilgiornaledellazio.it/home/feed/"
+    ],
+    "wp_json": "https://ilgiornaledellazio.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 1270,
+    "ultima_data": "2026-10-13",
+    "date_viste": 1270,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://roma.cityrumors.it/roma-est/notizie-roma-municipio-6",
+   "host": "roma.cityrumors.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://roma.cityrumors.it/sitemap.xml",
+     "https://roma.cityrumors.it/sitemap-news.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://roma.cityrumors.it/feed",
+     "https://roma.cityrumors.it/comments/feed",
+     "https://roma.cityrumors.it/roma-est/notizie-roma-municipio-6/feed"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 293,
+    "ultima_data": "2026-10-13",
+    "date_viste": 293,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://ilovetorpigna.it/",
+   "host": "ilovetorpigna.it",
+   "errori": [
+    "wp-json: stato 404"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://ilovetorpigna.it/sitemap.xml",
+     "https://ilovetorpigna.it/news-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://ilovetorpigna.it/feed/",
+     "https://ilovetorpigna.it/comments/feed/"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://ilovetorpigna.it/feed/ (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2023-05-24",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://lasalitadelquadraro.wordpress.com/",
+   "host": "lasalitadelquadraro.wordpress.com",
+   "errori": [
+    "wp-json: stato 404"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://lasalitadelquadraro.wordpress.com/sitemap.xml",
+     "https://lasalitadelquadraro.wordpress.com/news-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://lasalitadelquadraro.wordpress.com/feed/",
+     "https://lasalitadelquadraro.wordpress.com/comments/feed/"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://lasalitadelquadraro.wordpress.com/feed/ (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-05-04",
+    "date_viste": 15,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://giardinettis.altervista.org/wordpress/",
+   "host": "giardinettis.altervista.org",
+   "errori": [
+    "wp-json: stato 404"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://giardinettis.altervista.org/wordpress/?feed=rss2",
+     "https://giardinettis.altervista.org/wordpress/?feed=comments-rss2"
+    ],
+    "wp_json": "https://giardinettis.altervista.org/wordpress/index.php?rest_route=/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://giardinettis.altervista.org/wordpress/?feed=rss2 (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2008-06-09",
+    "date_viste": 1,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.carteinregola.it/",
+   "host": "www.carteinregola.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.carteinregola.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.carteinregola.it/feed/"
+    ],
+    "wp_json": "https://www.carteinregola.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 36,
+    "ultima_data": "2026-10-09",
+    "date_viste": 36,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.gruppiricercaecologica.it/",
+   "host": "www.gruppiricercaecologica.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.gruppiricercaecologica.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.gruppiricercaecologica.it/feed/",
+     "https://www.gruppiricercaecologica.it/comments/feed/"
+    ],
+    "wp_json": "https://www.gruppiricercaecologica.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-05-12",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://web.uniroma2.it/it/percorso/studenti/sezione/eventi",
+   "host": "web.uniroma2.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 404,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato 404"
+  },
+  {
+   "url": "https://agrpress.it/",
+   "host": "agrpress.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://agrpress.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://agrpress.it/feed/"
+    ],
+    "wp_json": "https://agrpress.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 213,
+    "ultima_data": "2026-10-13",
+    "date_viste": 213,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://lazioeventi.com/",
+   "host": "lazioeventi.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://lazioeventi.com/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://lazioeventi.com/feed",
+     "https://lazioeventi.com/comments/feed"
+    ],
+    "wp_json": "https://lazioeventi.com/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 56,
+    "ultima_data": "2026-10-09",
+    "date_viste": 56,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}

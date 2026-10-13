@@ -1,20 +1,20 @@
 {
- "voci": 51,
- "pagine": 40,
- "pagine_con_usabile": 36,
- "pagine_senza_nulla": 0,
- "fonti_distinte": 431,
- "fonti_trasversali": 106,
+ "voci": 61,
+ "pagine": 50,
+ "pagine_con_usabile": 42,
+ "pagine_senza_nulla": 3,
+ "fonti_distinte": 503,
+ "fonti_trasversali": 116,
  "per_verdetto": {
-  "usabile": 91,
-  "da_verificare": 181,
-  "inattiva": 114,
-  "canale_chiuso": 90,
-  "non_raggiungibile": 49,
-  "fuori_territorio": 73,
-  "solo_metadati": 4
+  "usabile": 107,
+  "da_verificare": 208,
+  "inattiva": 136,
+  "canale_chiuso": 107,
+  "non_raggiungibile": 52,
+  "fuori_territorio": 83,
+  "solo_metadati": 5
  },
- "ricerche_totali": 198,
+ "ricerche_totali": 248,
  "per_pagina": [
   {
    "slug": "ardeatino",
@@ -317,6 +317,21 @@
    "non_raggiungibile": 1
   },
   {
+   "slug": "magliana",
+   "tipo": "pagina",
+   "municipio": "XI",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 14,
+   "usabile": 4,
+   "solo_metadati": 0,
+   "canale_chiuso": 1,
+   "da_verificare": 3,
+   "inattiva": 6,
+   "fuori_territorio": 0,
+   "non_raggiungibile": 0
+  },
+  {
    "slug": "marcigliana",
    "tipo": "pagina",
    "municipio": "III",
@@ -375,6 +390,21 @@
    "inattiva": 2,
    "fuori_territorio": 0,
    "non_raggiungibile": 0
+  },
+  {
+   "slug": "montespaccato",
+   "tipo": "pagina",
+   "municipio": "XIII",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 15,
+   "usabile": 0,
+   "solo_metadati": 1,
+   "canale_chiuso": 5,
+   "da_verificare": 4,
+   "inattiva": 3,
+   "fuori_territorio": 1,
+   "non_raggiungibile": 1
   },
   {
    "slug": "morena",
@@ -467,6 +497,21 @@
    "non_raggiungibile": 0
   },
   {
+   "slug": "prima-porta",
+   "tipo": "pagina",
+   "municipio": "XV",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 11,
+   "usabile": 2,
+   "solo_metadati": 0,
+   "canale_chiuso": 0,
+   "da_verificare": 4,
+   "inattiva": 3,
+   "fuori_territorio": 1,
+   "non_raggiungibile": 1
+  },
+  {
    "slug": "rebibbia",
    "tipo": "pagina",
    "municipio": "IV",
@@ -542,6 +587,81 @@
    "non_raggiungibile": 0
   },
   {
+   "slug": "spinaceto",
+   "tipo": "pagina",
+   "municipio": "IX",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 14,
+   "usabile": 1,
+   "solo_metadati": 0,
+   "canale_chiuso": 1,
+   "da_verificare": 7,
+   "inattiva": 2,
+   "fuori_territorio": 3,
+   "non_raggiungibile": 0
+  },
+  {
+   "slug": "talenti",
+   "tipo": "pagina",
+   "municipio": "III",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 0,
+   "usabile": 0,
+   "solo_metadati": 0,
+   "canale_chiuso": 0,
+   "da_verificare": 0,
+   "inattiva": 0,
+   "fuori_territorio": 0,
+   "non_raggiungibile": 0
+  },
+  {
+   "slug": "testaccio",
+   "tipo": "pagina",
+   "municipio": "I",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 18,
+   "usabile": 2,
+   "solo_metadati": 0,
+   "canale_chiuso": 4,
+   "da_verificare": 6,
+   "inattiva": 3,
+   "fuori_territorio": 2,
+   "non_raggiungibile": 1
+  },
+  {
+   "slug": "tor-cervara",
+   "tipo": "pagina",
+   "municipio": "IV",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 9,
+   "usabile": 3,
+   "solo_metadati": 0,
+   "canale_chiuso": 1,
+   "da_verificare": 2,
+   "inattiva": 2,
+   "fuori_territorio": 1,
+   "non_raggiungibile": 0
+  },
+  {
+   "slug": "tor-vergata",
+   "tipo": "pagina",
+   "municipio": "VI",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 0,
+   "usabile": 0,
+   "solo_metadati": 0,
+   "canale_chiuso": 0,
+   "da_verificare": 0,
+   "inattiva": 0,
+   "fuori_territorio": 0,
+   "non_raggiungibile": 0
+  },
+  {
    "slug": "torraccia",
    "tipo": "pagina",
    "municipio": "IV",
@@ -572,6 +692,21 @@
    "non_raggiungibile": 2
   },
   {
+   "slug": "torrino",
+   "tipo": "pagina",
+   "municipio": "IX",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 15,
+   "usabile": 4,
+   "solo_metadati": 0,
+   "canale_chiuso": 5,
+   "da_verificare": 1,
+   "inattiva": 3,
+   "fuori_territorio": 2,
+   "non_raggiungibile": 0
+  },
+  {
    "slug": "trigoria",
    "tipo": "pagina",
    "municipio": "IX",
@@ -585,6 +720,21 @@
    "inattiva": 1,
    "fuori_territorio": 1,
    "non_raggiungibile": 6
+  },
+  {
+   "slug": "tuscolano",
+   "tipo": "pagina",
+   "municipio": "VII",
+   "fallito": false,
+   "ricerche": 5,
+   "candidate": 0,
+   "usabile": 0,
+   "solo_metadati": 0,
+   "canale_chiuso": 0,
+   "da_verificare": 0,
+   "inattiva": 0,
+   "fuori_territorio": 0,
+   "non_raggiungibile": 0
   },
   {
    "slug": "tuscolano-quadraro",

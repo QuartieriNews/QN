@@ -1,0 +1,363 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://www.santamariajanuacoeli.it/",
+   "host": "www.santamariajanuacoeli.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.santamariajanuacoeli.it/sitemap.xml",
+     "https://www.santamariajanuacoeli.it/sitemap.rss"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.santamariajanuacoeli.it/feed/",
+     "https://www.santamariajanuacoeli.it/comments/feed/"
+    ],
+    "wp_json": "https://www.santamariajanuacoeli.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-01-07",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.montespaccatocalcio.it/ultime-notizie",
+   "host": "www.montespaccatocalcio.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.montespaccatocalcio.it/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://www.montespaccatocalcio.it/sitemap.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2025-12-01",
+    "date_viste": 11,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.asilosavoia.it/",
+   "host": "www.asilosavoia.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://asilosavoia.it/feed/",
+     "https://asilosavoia.it/comments/feed/",
+     "https://asilosavoia.it/pagina-di-esempio/feed/"
+    ],
+    "wp_json": "https://asilosavoia.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 3,
+    "ultima_data": "2026-10-12",
+    "date_viste": 3,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.montespaccato.net/",
+   "host": "www.montespaccato.net",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 503,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato 503"
+  },
+  {
+   "url": "https://roma.cityrumors.it/roma-ovest/municipio-13",
+   "host": "roma.cityrumors.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://roma.cityrumors.it/sitemap.xml",
+     "https://roma.cityrumors.it/sitemap-news.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://roma.cityrumors.it/feed",
+     "https://roma.cityrumors.it/comments/feed",
+     "https://roma.cityrumors.it/roma-ovest/municipio-13/feed"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 293,
+    "ultima_data": "2026-10-13",
+    "date_viste": 293,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.gazzettaregionale.it/tag/montespaccato/1",
+   "host": "www.gazzettaregionale.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [
+     "CCBot"
+    ],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.gazzettaregionale.it/siteMap.jsp",
+     "https://www.gazzettaregionale.it/siteMapNews.jsp"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://www.gazzettaregionale.it/siteMap.jsp (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 2,
+    "ultima_data": "2026-10-13",
+    "date_viste": 178,
+    "marca": "S"
+   },
+   "canale_lecito": "solo titolo, link e data da un motore di ricerca: robots.txt esclude gli agenti AI"
+  },
+  {
+   "url": "https://www.retisolidali.it/",
+   "host": "www.retisolidali.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.retisolidali.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": "https://www.retisolidali.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 66,
+    "ultima_data": "2026-10-12",
+    "date_viste": 66,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.dinamopress.it/",
+   "host": "www.dinamopress.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.dinamopress.it/feed/",
+     "https://www.dinamopress.it/comments/feed/"
+    ],
+    "wp_json": "https://www.dinamopress.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 84,
+    "ultima_data": "2026-10-13",
+    "date_viste": 84,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.bibliotechediroma.it/",
+   "host": "www.bibliotechediroma.it",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://mediaquattro.it/",
+   "host": "mediaquattro.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://mediaquattro.it/sitemap.xml",
+     "https://mediaquattro.it/sitemap.rss"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://mediaquattro.it/feed/",
+     "https://mediaquattro.it/comments/feed/"
+    ],
+    "wp_json": "https://mediaquattro.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 29,
+    "ultima_data": "2026-10-10",
+    "date_viste": 29,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}
