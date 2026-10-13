@@ -1,0 +1,365 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://www.iltabloid.it/",
+   "host": "www.iltabloid.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://iltabloid.it/sitemap_index.xml",
+     "https://iltabloid.it/sitemap-news.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": "https://www.iltabloid.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://www.iltabloid.it/feed (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.ilcaffe.tv/",
+   "host": "www.ilcaffe.tv",
+   "errori": [
+    "wp-json: stato 401"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://ilcaffe.tv/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://ilcaffe.tv/feed",
+     "https://ilcaffe.tv/comments/feed"
+    ],
+    "wp_json": "https://ilcaffe.tv/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://ilcaffe.tv/feed (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.castellinotizie.it/",
+   "host": "www.castellinotizie.it",
+   "errori": [
+    "wp-json: stato 401"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": "https://www.castellinotizie.it/ediapi/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://www.castellinotizie.it/feed/ (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.canaledieci.it/",
+   "host": "www.canaledieci.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://canaledieci.it/sitemap.xml",
+     "https://canaledieci.it/sitemap-news.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://canaledieci.it/feed/",
+     "https://canaledieci.it/comments/feed/",
+     "https://canaledieci.it/home/feed/"
+    ],
+    "wp_json": "https://canaledieci.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 11079,
+    "ultima_data": "2026-10-13",
+    "date_viste": 11079,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.unicampus.it/news/",
+   "host": "www.unicampus.it",
+   "errori": [
+    "wp-json: stato 403"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.unicampus.it/news/?feed=rss2"
+    ],
+    "wp_json": "https://www.unicampus.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://ilclandestinogiornale.radioroma.it/",
+   "host": "ilclandestinogiornale.radioroma.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://ilclandestinogiornale.radioroma.it/feed/",
+     "https://ilclandestinogiornale.radioroma.it/comments/feed/"
+    ],
+    "wp_json": "https://ilclandestinogiornale.radioroma.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 2072,
+    "ultima_data": "2026-10-13",
+    "date_viste": 2072,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.romah24.com/",
+   "host": "www.romah24.com",
+   "errori": [
+    "robots: ",
+    "home: URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   ],
+   "robots": {
+    "stato": null,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": null,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato None"
+  },
+  {
+   "url": "https://www.bibliotechediroma.it/",
+   "host": "www.bibliotechediroma.it",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.romanatura.roma.it/",
+   "host": "www.romanatura.roma.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://romanatura.roma.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://romanatura.roma.it/feed/",
+     "https://romanatura.roma.it/comments/feed/"
+    ],
+    "wp_json": "https://romanatura.roma.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 6,
+    "ultima_data": "2026-10-13",
+    "date_viste": 6,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.ilmamilio.it/",
+   "host": "www.ilmamilio.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.ilmamilio.it/wp/feed/",
+     "https://www.ilmamilio.it/wp/comments/feed/"
+    ],
+    "wp_json": "https://www.ilmamilio.it/wp/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 1594,
+    "ultima_data": "2026-10-13",
+    "date_viste": 1594,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.carteinregola.it/",
+   "canale_lecito": "da verificare: errore ValueError: unknown url type: '//www.carteinregola.it/wp-json/wp/v2/posts?after=2026-07-01T00:00:00&before=2026-10-01T00:00:00&per_page=1&_fields=date'",
+   "attivita": {
+    "marca": "—"
+   },
+   "errori": [
+    "unknown url type: '//www.carteinregola.it/wp-json/wp/v2/posts?after=2026-07-01T00:00:00&before=2026-10-01T00:00:00&per_page=1&_fields=date'"
+   ]
+  }
+ ]
+}

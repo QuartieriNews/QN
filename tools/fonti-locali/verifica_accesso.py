@@ -33,6 +33,7 @@ UA = "QuartieriNews-ricerca/0.1 (censimento fonti locali; solo metadati)"
 AGENTI_AI = ["GPTBot", "ChatGPT-User", "OAI-SearchBot", "ClaudeBot", "Claude-Web", "anthropic-ai",
              "CCBot", "Google-Extended", "PerplexityBot", "Bytespider", "Amazonbot", "Applebot-Extended",
              "cohere-ai", "Meta-ExternalAgent", "FacebookBot", "Diffbot", "ai2bot", "YouBot", "Omgilibot"]
+SOCIAL = ("facebook.com", "instagram.com", "whatsapp.com", "t.me", "linktr.ee")
 _ULTIMA = {}
 
 
@@ -54,7 +55,8 @@ def fetch(url, timeout=20, max_bytes=400_000):
         with urllib.request.urlopen(req, timeout=timeout) as r:
             corpo = r.read(max_bytes)
             cs = r.headers.get_content_charset() or "utf-8"
-            return r.status, dict(r.headers), corpo.decode(cs, "replace")
+            # l'URL finale dopo i redirect, perché un 301 verso un social non è un sito aperto
+            return r.status, dict(r.headers) | {"x-qn-url-finale": r.geturl()}, corpo.decode(cs, "replace")
     except urllib.error.HTTPError as e:
         return e.code, dict(e.headers or {}), ""
     except Exception as e:  # rete, TLS, timeout
@@ -184,6 +186,8 @@ def verifica(url, da, a):
         esito["errori"].append(f"robots: {robots_txt}")
     st, hdr, html = fetch(url if "://" in url else "https://" + url)
     esito["home"] = {"stato": st}
+    finale = urllib.parse.urlsplit(hdr.get("x-qn-url-finale", "")).netloc.lower()
+    esito["home"]["redirect_social"] = any(s in finale for s in SOCIAL) if finale and finale != parti.netloc.lower() else False
     if st == 200:
         esito["home"].update(analizza_home(html, hdr))
     elif st is None:
@@ -249,6 +253,8 @@ def verifica(url, da, a):
 def giudizio(e):
     """Che cosa può fare un agente AI con questa fonte, dal robots.txt e dai segnali TDM."""
     r, h = e["robots"], e["home"]
+    if h.get("redirect_social"):
+        return "canale chiuso agli agenti: la home rimanda a un social, solo raccolta manuale (DEC-102)"
     if r["tutti_esclusi"] or r["esclude_noi"]:
         return "nessuno: robots.txt chiude il sito ai robot"
     if r["agenti_ai_esclusi"]:
@@ -272,7 +278,7 @@ def main(argv=None):
     da, fino = dt.date.fromisoformat(a.da), dt.date.fromisoformat(a.a)
     esiti = []
     for u in a.url:
-        if "facebook.com" in u or "instagram.com" in u or "whatsapp.com" in u or "t.me/" in u:
+        if any(s in u for s in SOCIAL):
             esiti.append({"url": u, "canale_lecito": "canale chiuso agli agenti: solo raccolta manuale (DEC-102)", "attivita": {"marca": "—"}})
             continue
         try:

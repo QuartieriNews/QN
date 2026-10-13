@@ -81,6 +81,12 @@ e2 = va.verifica("https://esempio.it/", dt.date(2026, 7, 1), dt.date(2026, 10, 1
 va.fetch = _fetch
 check("wp-json senza schema risolto sulla base", e2["home"]["wp_json"] == "https://esempio.it/wp-json/")
 
+# un 301 della home verso facebook.com non è un sito aperto: è un canale chiuso (caso cdqgiardinodiroma.it)
+va.fetch = lambda url, **k: (200, {"x-qn-url-finale": "https://www.facebook.com/cdq"}, "<html></html>") if url.rstrip("/") == "https://cdq.it" else (404, {}, "")
+e3 = va.verifica("https://cdq.it/", dt.date(2026, 7, 1), dt.date(2026, 10, 1))
+va.fetch = _fetch
+check("redirect verso un social -> canale chiuso", e3["home"]["redirect_social"] and e3["canale_lecito"].startswith("canale chiuso"))
+
 import tabella  # noqa: E402
 
 VOCI = [
