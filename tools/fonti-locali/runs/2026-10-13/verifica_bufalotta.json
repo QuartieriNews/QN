@@ -1,0 +1,399 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://lucianamiocchi.com/",
+   "host": "lucianamiocchi.com",
+   "errori": [
+    "wp-json: stato 404"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://lucianamiocchi.com/sitemap.xml",
+     "https://lucianamiocchi.com/news-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://lucianamiocchi.com/feed/",
+     "https://lucianamiocchi.com/comments/feed/"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://lucianamiocchi.com/feed/ (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 18,
+    "ultima_data": "2026-10-11",
+    "date_viste": 20,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://porta-di-roma.klepierre.it/eventi-news",
+   "host": "porta-di-roma.klepierre.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://porta-di-roma.klepierre.it/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://porta-di-roma.klepierre.it/sitemap.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 90,
+    "ultima_data": "2026-10-13",
+    "date_viste": 647,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.rodolfobosi.it/",
+   "host": "www.rodolfobosi.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.rodolfobosi.it/sitemap.xml",
+     "https://www.rodolfobosi.it/sitemap.html"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.rodolfobosi.it/feed/",
+     "https://www.rodolfobosi.it/comments/feed/"
+    ],
+    "wp_json": "https://www.rodolfobosi.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 563,
+    "ultima_data": "2026-10-13",
+    "date_viste": 563,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://montesacrotalenti.it/",
+   "host": "montesacrotalenti.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://montesacrotalenti.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://montesacrotalenti.it/feed/",
+     "https://montesacrotalenti.it/comments/feed/"
+    ],
+    "wp_json": "https://montesacrotalenti.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-04-02",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://romah24.com/montesacro/",
+   "host": "romah24.com",
+   "errori": [
+    "robots: ",
+    "home: URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   ],
+   "robots": {
+    "stato": null,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": null,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato None"
+  },
+  {
+   "url": "https://zonaromanord.it/tutti-gli-articoli/",
+   "host": "zonaromanord.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://zonaromanord.it/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://zonaromanord.it/storie/feed/"
+    ],
+    "wp_json": "https://zonaromanord.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 335,
+    "ultima_data": "2026-10-13",
+    "date_viste": 335,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://municipio3.wordpress.com/",
+   "host": "municipio3.wordpress.com",
+   "errori": [
+    "wp-json: stato 404"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://municipio3.wordpress.com/sitemap.xml",
+     "https://municipio3.wordpress.com/news-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://municipio3.wordpress.com/feed/",
+     "https://municipio3.wordpress.com/comments/feed/"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://municipio3.wordpress.com/feed/ (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2018-08-31",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "http://comitatoserpentara.blogspot.com/",
+   "host": "comitatoserpentara.blogspot.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "http://comitatoserpentara.blogspot.com/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "http://comitatoserpentara.blogspot.com/feeds/posts/default",
+     "http://comitatoserpentara.blogspot.com/feeds/posts/default?alt=rss",
+     "https://www.blogger.com/feeds/9133628637371713045/posts/default"
+    ],
+    "wp_json": null,
+    "piattaforma": "blogger"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed http://comitatoserpentara.blogspot.com/feeds/posts/default (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2025-07-19",
+    "date_viste": 51,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.romasette.it/",
+   "host": "www.romasette.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.romasette.it/feed/"
+    ],
+    "wp_json": "https://www.romasette.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 413,
+    "ultima_data": "2026-10-13",
+    "date_viste": 413,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.mondoreale.it/",
+   "host": "www.mondoreale.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.mondoreale.it/feed/",
+     "https://www.mondoreale.it/comments/feed/"
+    ],
+    "wp_json": "https://www.mondoreale.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 2826,
+    "ultima_data": "2026-10-13",
+    "date_viste": 2826,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.radiocolonna.it/",
+   "host": "www.radiocolonna.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.radiocolonna.it/sitemap.xml",
+     "https://www.radiocolonna.it/sitemap-news.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": "https://www.radiocolonna.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 772,
+    "ultima_data": "2026-10-13",
+    "date_viste": 772,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}

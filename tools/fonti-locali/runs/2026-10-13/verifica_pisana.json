@@ -1,0 +1,363 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://cdqpontegaleria.com/",
+   "host": "cdqpontegaleria.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": true,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "non letta: robots.txt esclude",
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "nessuno: robots.txt chiude il sito ai robot"
+  },
+  {
+   "url": "https://www.arvaliastoria.it/",
+   "host": "www.arvaliastoria.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 403,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "nessuno: il sito rifiuta la richiesta"
+  },
+  {
+   "url": "https://www.arvalia.it/",
+   "host": "www.arvalia.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.arvalia.it/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.arvalia.it/feed/",
+     "https://www.arvalia.it/comments/feed/",
+     "https://www.arvalia.it/news-3/feed/"
+    ],
+    "wp_json": "https://www.arvalia.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.ilmarforio.it/",
+   "host": "www.ilmarforio.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.ilmarforio.it/sitemap.xml",
+     "https://www.ilmarforio.it/sitemap.rss"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.ilmarforio.it/feed/",
+     "https://www.ilmarforio.it/comments/feed/"
+    ],
+    "wp_json": "https://www.ilmarforio.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 278,
+    "ultima_data": "2026-10-13",
+    "date_viste": 278,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://di-roma.com/",
+   "host": "di-roma.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.di-roma.com/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.di-roma.com/feed/",
+     "https://www.di-roma.com/comments/feed/"
+    ],
+    "wp_json": "https://www.di-roma.com/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 42,
+    "ultima_data": "2026-10-12",
+    "date_viste": 42,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://quotidianolavoce.it/",
+   "host": "quotidianolavoce.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.quotidianolavoce.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.quotidianolavoce.it/feed/",
+     "https://www.quotidianolavoce.it/comments/feed/",
+     "https://www.quotidianolavoce.it/home-5/feed/"
+    ],
+    "wp_json": "https://www.quotidianolavoce.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 3908,
+    "ultima_data": "2026-10-13",
+    "date_viste": 3908,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.romait.it/",
+   "host": "www.romait.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": true,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 403,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "non letta: robots.txt esclude",
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "nessuno: robots.txt chiude il sito ai robot"
+  },
+  {
+   "url": "https://romanatura.roma.it/riserva-naturale-della-tenuta-dei-massimi/",
+   "host": "romanatura.roma.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://romanatura.roma.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://romanatura.roma.it/feed/",
+     "https://romanatura.roma.it/comments/feed/"
+    ],
+    "wp_json": "https://romanatura.roma.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 6,
+    "ultima_data": "2026-10-09",
+    "date_viste": 6,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.mentinfuga.com/",
+   "host": "www.mentinfuga.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [
+     "GPTBot",
+     "ChatGPT-User",
+     "ClaudeBot",
+     "CCBot",
+     "Google-Extended",
+     "PerplexityBot",
+     "Bytespider"
+    ],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.mentinfuga.com/sitemap.xls"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.mentinfuga.com/feed/"
+    ],
+    "wp_json": "https://www.mentinfuga.com/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 237,
+    "ultima_data": "2026-10-13",
+    "date_viste": 237,
+    "marca": "M"
+   },
+   "canale_lecito": "solo titolo, link e data da un motore di ricerca: robots.txt esclude gli agenti AI"
+  },
+  {
+   "url": "https://www.la-notizia.net/",
+   "host": "www.la-notizia.net",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.la-notizia.net/sitemap.xml",
+     "https://www.la-notizia.net/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.la-notizia.net/feed/"
+    ],
+    "wp_json": "https://www.la-notizia.net/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 1522,
+    "ultima_data": "2026-10-13",
+    "date_viste": 1522,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}

@@ -1,0 +1,440 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://www.viveremunicipio-xiv.it/",
+   "host": "www.viveremunicipio-xiv.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.lacronacadiroma.it/roma-e-dintorni/roma-nord",
+   "host": "www.lacronacadiroma.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.lacronacadiroma.it/sitemap.xml",
+     "https://www.lacronacadiroma.it/news-sitemap.xml",
+     "https://www.lacronacadiroma.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.lacronacadiroma.it/feed",
+     "https://www.lacronacadiroma.it/roma-e-dintorni/roma-nord/feed"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://www.lacronacadiroma.it/feed (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 20,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://zonaromanord.it/",
+   "host": "zonaromanord.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://zonaromanord.it/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://zonaromanord.it/storie/feed/"
+    ],
+    "wp_json": "https://zonaromanord.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 335,
+    "ultima_data": "2026-10-13",
+    "date_viste": 335,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://romaeconomiaurbana.it/municipi/municipio-xiv-monte-mario",
+   "host": "romaeconomiaurbana.it",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://romaeconomiaurbana.it/sitemap.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 8,
+    "ultima_data": "2026-10-13",
+    "date_viste": 123,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.carteinregola.it/dentro-i-municipi-municipio-xiv/",
+   "canale_lecito": "da verificare: errore ValueError: unknown url type: '//www.carteinregola.it/wp-json/wp/v2/posts?after=2026-07-01T00:00:00&before=2026-10-01T00:00:00&per_page=1&_fields=date'",
+   "attivita": {
+    "marca": "—"
+   },
+   "errori": [
+    "unknown url type: '//www.carteinregola.it/wp-json/wp/v2/posts?after=2026-07-01T00:00:00&before=2026-10-01T00:00:00&per_page=1&_fields=date'"
+   ]
+  },
+  {
+   "url": "https://primavalleinrete.wordpress.com/",
+   "host": "primavalleinrete.wordpress.com",
+   "errori": [
+    "wp-json: stato 404"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://primavalleinrete.wordpress.com/sitemap.xml",
+     "https://primavalleinrete.wordpress.com/news-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://primavalleinrete.wordpress.com/feed/",
+     "https://primavalleinrete.wordpress.com/comments/feed/"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://primavalleinrete.wordpress.com/feed/ (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 3,
+    "ultima_data": "2026-09-11",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "http://parrocchiaselvacandida.org/",
+   "host": "parrocchiaselvacandida.org",
+   "errori": [
+    "robots: ",
+    "home: URLError: <urlopen error [Errno -2] Name or service not known>"
+   ],
+   "robots": {
+    "stato": null,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": null,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato None"
+  },
+  {
+   "url": "http://selvacandida.blogspot.com/",
+   "host": "selvacandida.blogspot.com",
+   "errori": [
+    "wp-json: stato 404"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "http://selvacandida.blogspot.com/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "http://selvacandida.blogspot.com/feeds/posts/default",
+     "http://selvacandida.blogspot.com/feeds/posts/default?alt=rss",
+     "https://www.blogger.com/feeds/6605980426841920151/posts/default"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed http://selvacandida.blogspot.com/feeds/posts/default (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2024-08-28",
+    "date_viste": 51,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "http://comitatogenitoriscuolaselvacandida.blogspot.com/",
+   "host": "comitatogenitoriscuolaselvacandida.blogspot.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "http://comitatogenitoriscuolaselvacandida.blogspot.com/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "http://comitatogenitoriscuolaselvacandida.blogspot.com/feeds/posts/default",
+     "http://comitatogenitoriscuolaselvacandida.blogspot.com/feeds/posts/default?alt=rss",
+     "https://www.blogger.com/feeds/3125709222013689924/posts/default"
+    ],
+    "wp_json": null,
+    "piattaforma": "blogger"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap http://comitatogenitoriscuolaselvacandida.blogspot.com/sitemap.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2018-10-23",
+    "date_viste": 1,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.selvacandida.it/",
+   "host": "www.selvacandida.it",
+   "errori": [
+    "robots: ",
+    "home: URLError: <urlopen error Tunnel connection failed: 502 Bad Gateway>"
+   ],
+   "robots": {
+    "stato": null,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": null,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato None"
+  },
+  {
+   "url": "http://comitatottaviaelucchina.it/",
+   "host": "comitatottaviaelucchina.it",
+   "errori": [
+    "robots: ",
+    "home: URLError: <urlopen error [Errno -2] Name or service not known>"
+   ],
+   "robots": {
+    "stato": null,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": null,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato None"
+  },
+  {
+   "url": "https://vengodaprimavalle.it/",
+   "host": "vengodaprimavalle.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://vengodaprimavalle.it/?format=feed&amp;type=rss",
+     "https://vengodaprimavalle.it/?format=feed&amp;type=atom"
+    ],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://vengodaprimavalle.it/?format=feed&amp;type=atom (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 1,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.orticaweb.it/",
+   "host": "www.orticaweb.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.orticaweb.it/sitemap.xml",
+     "https://www.orticaweb.it/sitemap.rss"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.orticaweb.it/feed/"
+    ],
+    "wp_json": "https://www.orticaweb.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 586,
+    "ultima_data": "2026-10-13",
+    "date_viste": 586,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}

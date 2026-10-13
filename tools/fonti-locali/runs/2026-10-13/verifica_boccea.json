@@ -1,0 +1,345 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://www.comitatoacquafredda.it/category/notizie-e-articoli/",
+   "host": "www.comitatoacquafredda.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.comitatoacquafredda.it/feed/",
+     "https://www.comitatoacquafredda.it/comments/feed/",
+     "https://www.comitatoacquafredda.it/category/notizie-e-articoli/feed/"
+    ],
+    "wp_json": "https://www.comitatoacquafredda.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-07",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.igattidivalcannuta.org/",
+   "host": "www.igattidivalcannuta.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.igattidivalcannuta.org/sitemap_index.xml",
+     "https://www.igattidivalcannuta.org/xmlsitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.igattidivalcannuta.org/feed/",
+     "https://www.igattidivalcannuta.org/comments/feed/",
+     "https://www.igattidivalcannuta.org/rsslatest.xml"
+    ],
+    "wp_json": "https://www.igattidivalcannuta.org/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 2,
+    "ultima_data": "2026-09-15",
+    "date_viste": 2,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.7colli.it/zona/xiii-municipio/",
+   "host": "www.7colli.it",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.7colli.it/feed/",
+     "https://www.7colli.it/zona/xiii-municipio/feed/"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 1430,
+    "ultima_data": "2026-10-13",
+    "date_viste": 1430,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.viverevalcannuta.it/",
+   "host": "www.viverevalcannuta.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://viverevalcannuta.it/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://viverevalcannuta.it/sitemap.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-06-05",
+    "date_viste": 2,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://retake.org/roma/",
+   "host": "retake.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.retake.org/sitemap_index.xml",
+     "https://retake.org/roma/sitemap_index.xml",
+     "https://retake.org/padova/sitemap_index.xml",
+     "https://retake.org/salerno/sitemap_index.xml",
+     "https://retake.org/palermo/sitemap_index.xml",
+     "https://retake.org/grottaglie/sitemap_index.xml",
+     "https://retake.org/arezzo/sitemap_index.xml",
+     "https://retake.org/servigliano/sitemap_index.xml",
+     "https://retake.org/spoleto/sitemap_index.xml",
+     "https://retake.org/modugno/sitemap_index.xml",
+     "https://retake.org/cagliari/sitemap_index.xml",
+     "https://retake.org/sabina/sitemap_index.xml",
+     "https://retake.org/bari/sitemap_index.xml",
+     "https://retake.org/trevi/sitemap_index.xml",
+     "https://retake.org/conegliano/sitemap_index.xml",
+     "https://retake.org/milano/sitemap_index.xml",
+     "https://retake.org/rovigo/sitemap_index.xml",
+     "https://retake.org/napoli/sitemap_index.xml",
+     "https://retake.org/taranto/sitemap_index.xml",
+     "https://retake.org/torino/sitemap_index.xml",
+     "https://retake.org/firenze/sitemap_index.xml",
+     "https://retake.org/siracusa/sitemap_index.xml",
+     "https://retake.org/monza/sitemap_index.xml",
+     "https://retake.org/bologna/sitemap_index.xml",
+     "https://retake.org/triggiano/sitemap_index.xml",
+     "https://retake.org/trieste/sitemap_index.xml",
+     "https://retake.org/barletta/sitemap_index.xml",
+     "https://retake.org/buccinasco/sitemap_index.xml",
+     "https://retake.org/ceccano/sitemap_index.xml",
+     "https://retake.org/gaeta/sitemap_index.xml",
+     "https://retake.org/lizzano/sitemap_index.xml",
+     "https://retake.org/moladibari/sitemap_index.xml",
+     "https://retake.org/perugia/sitemap_index.xml",
+     "https://retake.org/trani/sitemap_index.xml",
+     "https://retake.org/reggioemilia/sitemap_index.xml",
+     "https://retake.org/stroncone/sitemap_index.xml",
+     "https://retake.org/pescara/sitemap_index.xml",
+     "https://retake.org/maruggio/sitemap_index.xml",
+     "https://retake.org/ravenna/sitemap_index.xml",
+     "https://retake.org/marsica/sitemap_index.xml",
+     "https://retake.org/lecce/sitemap_index.xml",
+     "https://retake.org/vibovalentia/sitemap_index.xml",
+     "https://retake.org/catania/sitemap_index.xml",
+     "https://retake.org/noicattaro/sitemap_index.xml",
+     "https://retake.org/cosenza/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://retake.org/roma/feed/",
+     "https://retake.org/roma/comments/feed/"
+    ],
+    "wp_json": "https://retake.org/roma/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://retake.org/feed (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 7,
+    "ultima_data": "2026-10-06",
+    "date_viste": 10,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.carteinregola.it/",
+   "canale_lecito": "da verificare: errore ValueError: unknown url type: '//www.carteinregola.it/wp-json/wp/v2/posts?after=2026-07-01T00:00:00&before=2026-10-01T00:00:00&per_page=1&_fields=date'",
+   "attivita": {
+    "marca": "—"
+   },
+   "errori": [
+    "unknown url type: '//www.carteinregola.it/wp-json/wp/v2/posts?after=2026-07-01T00:00:00&before=2026-10-01T00:00:00&per_page=1&_fields=date'"
+   ]
+  },
+  {
+   "url": "https://www.lacronacadiroma.it/cronaca/",
+   "host": "www.lacronacadiroma.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.lacronacadiroma.it/sitemap.xml",
+     "https://www.lacronacadiroma.it/news-sitemap.xml",
+     "https://www.lacronacadiroma.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.lacronacadiroma.it/feed",
+     "https://www.lacronacadiroma.it/cronaca/feed"
+    ],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://www.lacronacadiroma.it/feed (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 20,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.radiocolonna.it/",
+   "host": "www.radiocolonna.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.radiocolonna.it/sitemap.xml",
+     "https://www.radiocolonna.it/sitemap-news.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": "https://www.radiocolonna.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 772,
+    "ultima_data": "2026-10-13",
+    "date_viste": 772,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://romeartweek.com/it/municipi/municipio-13/",
+   "host": "romeartweek.com",
+   "errori": [
+    "wp-json: stato 401"
+   ],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://romeartweek.com/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "sitemap https://romeartweek.com/sitemap_index.xml (lastmod: limite inferiore, include pagine non notizie)",
+    "conteggio_finestra": 5,
+    "ultima_data": "2026-10-10",
+    "date_viste": 13,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}
