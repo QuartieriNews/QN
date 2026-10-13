@@ -1,0 +1,399 @@
+{
+ "finestra": [
+  "2026-07-01",
+  "2026-10-01"
+ ],
+ "fonti": [
+  {
+   "url": "https://caragarbatella.it/news/ostiense/",
+   "host": "caragarbatella.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://caragarbatella.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://caragarbatella.it/feed/",
+     "https://caragarbatella.it/news/ostiense/feed/"
+    ],
+    "wp_json": "https://caragarbatella.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 25,
+    "ultima_data": "2026-10-13",
+    "date_viste": 25,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://caragarbatella.it/news/san-paolo/",
+   "host": "caragarbatella.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://caragarbatella.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://caragarbatella.it/feed/",
+     "https://caragarbatella.it/news/san-paolo/feed/"
+    ],
+    "wp_json": "https://caragarbatella.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 25,
+    "ultima_data": "2026-10-13",
+    "date_viste": 25,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://urloweb.com/category/municipi/municipio-viii/",
+   "host": "urloweb.com",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://urloweb.com/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 228,
+    "ultima_data": "2026-10-13",
+    "date_viste": 228,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.sanpaoloostiense.it/",
+   "host": "www.sanpaoloostiense.it",
+   "errori": [
+    "robots: ",
+    "home: URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   ],
+   "robots": {
+    "stato": null,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": null,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato None"
+  },
+  {
+   "url": "https://www.industriefluviali.it/",
+   "host": "www.industriefluviali.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://www.industriefluviali.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://www.industriefluviali.it/feed/",
+     "https://www.industriefluviali.it/comments/feed/"
+    ],
+    "wp_json": "https://www.industriefluviali.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-04-13",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.basilicasanpaolo.org/",
+   "host": "www.basilicasanpaolo.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://basilicasanpaolo.org/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": "https://basilicasanpaolo.org/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-04-01",
+    "date_viste": 0,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.bibliotechediroma.it/",
+   "host": "www.bibliotechediroma.it",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://www.aamod.it/",
+   "host": "www.aamod.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://aamod.it/wp-sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://aamod.it/feed/",
+     "https://aamod.it/comments/feed/"
+    ],
+    "wp_json": "https://aamod.it/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 3,
+    "ultima_data": "2026-09-10",
+    "date_viste": 3,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "http://www.romanotizie.it/municipio8.html",
+   "host": "www.romanotizie.it",
+   "errori": [],
+   "robots": {
+    "stato": 404,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 404,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": null,
+    "conteggio_finestra": null,
+    "ultima_data": null,
+    "date_viste": 0,
+    "marca": "—"
+   },
+   "canale_lecito": "da verificare: home con stato 404"
+  },
+  {
+   "url": "https://goldtv.it/cronaca/",
+   "host": "goldtv.it",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://goldtv.it/sitemap_index.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://goldtv.it/feed/",
+     "https://goldtv.it/comments/feed/",
+     "https://goldtv.it/sezioni/cronaca/feed/"
+    ],
+    "wp_json": null,
+    "piattaforma": "altro"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "feed https://goldtv.it/feed/ (solo gli ultimi item: limite inferiore)",
+    "conteggio_finestra": 0,
+    "ultima_data": "2026-10-13",
+    "date_viste": 25,
+    "marca": "S"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  },
+  {
+   "url": "https://blog.urbanfile.org/category/roma/",
+   "host": "blog.urbanfile.org",
+   "errori": [],
+   "robots": {
+    "stato": 200,
+    "agenti_ai_esclusi": [],
+    "tutti_esclusi": false,
+    "sitemap": [
+     "https://blog.urbanfile.org/index.php/sitemap.xml"
+    ],
+    "esclude_noi": false
+   },
+   "home": {
+    "stato": 200,
+    "redirect_social": false,
+    "tdm_header": null,
+    "content_signal": null,
+    "tdm_meta": null,
+    "noai_meta": false,
+    "feed": [
+     "https://blog.urbanfile.org/feed/",
+     "https://blog.urbanfile.org/comments/feed/",
+     "https://blog.urbanfile.org/category/roma/feed/"
+    ],
+    "wp_json": "https://blog.urbanfile.org/wp-json/",
+    "piattaforma": "wordpress"
+   },
+   "tdmrep_wellknown": false,
+   "attivita": {
+    "metodo": "API WordPress (X-WP-Total nella finestra)",
+    "conteggio_finestra": 230,
+    "ultima_data": "2026-10-13",
+    "date_viste": 230,
+    "marca": "M"
+   },
+   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+  }
+ ]
+}
