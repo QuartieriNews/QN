@@ -14,9 +14,8 @@ conflitto previsto con il lavoro sulla cronaca.
 | Gli esiti: candidate, verdetti, motivi, note di scoperta per voce; esito dello strumento per voce | `tools/fonti-locali/runs/2026-10-13/fonti_pagine.json`, `verifica_<slug>.json`, `riepilogo.json` |
 | La decisione aperta: comitati e parrocchie come fonte primaria o come testata nella regola delle due fonti | `decisions/DEC-109-fonti-associative-nella-cronaca.md` (OPEN) |
 
-Perimetro studiato: le 25 pagine senza cronaca a giugno, i Municipi che le contengono (§4
-del rapporto dice quanti sono arrivati in tempo), e 15 pagine coperte a giugno con uno o
-due fatti (Balduina, Cesano, Colle Prenestino, Corviale, Marconi, Ponte Galeria,
+Perimetro studiato: le 25 pagine senza cronaca a giugno, gli 11 Municipi che le
+contengono, e 15 pagine coperte a giugno con uno o due fatti (Balduina, Cesano, Colle Prenestino, Corviale, Marconi, Ponte Galeria,
 Portuense, Rebibbia, San Basilio, Settecamini, Torrevecchia, Boccea, Bravetta, Colli
 Portuensi, Lunghezza). **Le altre 49 pagine non sono state studiate.**
 
