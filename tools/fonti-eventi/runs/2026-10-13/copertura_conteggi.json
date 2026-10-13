@@ -1,0 +1,41 @@
+{
+ "eventi_estratti": 281,
+ "fonti_con_eventi": 60,
+ "pagine": {
+  "solo_in_evidenza": 23,
+  "pagina_non_utile": 7,
+  "nessun_evento": 16,
+  "agenda_leggibile": 47
+ },
+ "romatoday_finestra": 108,
+ "trovati_alla_fonte": 33,
+ "trovati_per_rilevanza": {
+  "cittadino_in_quartiere": 12,
+  "quartiere": 11,
+  "centro_citta": 10
+ },
+ "totale_per_rilevanza": {
+  "cittadino_in_quartiere": 22,
+  "non_pertinente": 3,
+  "centro_citta": 27,
+  "quartiere": 56
+ },
+ "non_trovati_motivi": {
+  "fonte con sito: evento non visibile nella pagina letta": 18,
+  "fonte non nel registro (luogo assente o generico)": 37,
+  "fonte con canale da_trovare": 7,
+  "fonte scartare": 4,
+  "fonte da_verificare": 7,
+  "fonte con canale sito_chiuso": 1,
+  "fonte solo Facebook (serve Apify)": 1
+ },
+ "estratti_non_presenti_su_romatoday_circa": 248,
+ "zone_con_eventi_estratti": 19,
+ "eventi_estratti_in_pagine_sotto_soglia": 16,
+ "pagine_sotto_soglia_con_eventi_estratti": [
+  "montagnola",
+  "nomentano",
+  "ponte-galeria",
+  "trieste-salario"
+ ]
+}

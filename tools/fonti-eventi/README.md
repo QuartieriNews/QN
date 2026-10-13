@@ -18,6 +18,9 @@ Drive, `QN Hub / 20 Packages / Fonti 2026-06` (DEC-102, DEC-104).
 | 6 Registro | `registro.py RISOLTI.json MATRICE.csv DIR` | unione per pagina Facebook, dominio e nome; canale di lettura; pagine sotto la soglia degli eventi | — |
 | 7 Verifica | `verifica_canali.py DIR/registro.json VERIFICHE.json`, poi di nuovo `registro.py RISOLTI.json VERIFICHE.json MATRICE.csv DIR` | robots.txt di ogni sito (ammesso, esclude gli agenti AI, vietato) e formato dell'agenda (feed, ICS, API WordPress, dati Event, HTML) | una richiesta alla volta per host; l'agenda si apre solo se il robots.txt la ammette; i social mai |
 
+| 8 Agende | `leggi_agende.py DIR/registro.json DIR/agende` | testo visibile e blocchi JSON-LD Event della pagina dell'agenda di ogni fonte con canale «sito» | robots.txt ricontrollato; una pagina per fonte, senza seguire link |
+| 9 Eventi alla fonte | un agente per lotto di agende, poi un agente che confronta con l'elenco di RomaToday | eventi della finestra letti alla fonte; quanti eventi di RomaToday QN trova da solo | solo i testi salvati; RomaToday mai aperto |
+
 `robots.py` legge il robots.txt secondo RFC 9309, con i caratteri jolly che `urllib.robotparser`
 ignora; un sito che esclude gli agenti AI per nome conta come chiuso anche se ammette gli altri
 robot (`CRONACA_PROCESSO_2026-10.md` §5.1).

@@ -5,7 +5,7 @@ Uso: python3 tools/fonti-eventi/test_fonti_eventi.py
 import os, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import comune_eventi, meetup_roma, registro, robots, romatoday_metadati, verifica_canali  # noqa: E402
+import comune_eventi, leggi_agende, meetup_roma, registro, robots, romatoday_metadati, verifica_canali  # noqa: E402
 
 FALLITI = []
 
@@ -82,6 +82,13 @@ check("verifica: feed e API WordPress riconosciuti",
       verifica_canali.formato('<link type="application/rss+xml" href="/feed"><link rel="https://api.w.org/">') == ["feed", "wp_api"])
 check("verifica: dati Event schema.org", verifica_canali.formato('{"@type": "TheaterEvent"}') == ["jsonld_event"])
 check("verifica: solo HTML", verifica_canali.formato("<html></html>") == ["html"])
+
+# --- agende: testo visibile e blocchi Event, script e stili tolti
+tt, ld = leggi_agende.testo_e_eventi('<script>var x=1</script><style>a{}</style><p>Sabato &amp; domenica</p>'
+                                     '<script type="application/ld+json">{"@type":"Event","name":"Concerto"}</script>'
+                                     '<script type="application/ld+json">{"@type":"Organization"}</script>')
+check("agende: testo senza script né stili", tt == "Sabato & domenica")
+check("agende: solo i JSON-LD con un Event", len(ld) == 1 and "Concerto" in ld[0])
 
 # --- registro: doppioni per Facebook, dominio e nome; decisione più forte; canale
 RIS = {"fonti": [

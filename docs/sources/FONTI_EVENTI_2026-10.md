@@ -157,7 +157,52 @@ apposta.
 - **Facebook manca ancora.** Gli organizzatori dei 297 eventi raccolti su Facebook il 13 ottobre
   entreranno quando Apify li avrà estratti.
 
-## 4 Che cosa resta all'owner
+## 4 Prima lettura alla fonte (13 ottobre, una sola istantanea)
+
+**Come è stata fatta:**
+1. le 94 fonti da tenere con canale «sito» sono state lette una volta ciascuna, alla pagina
+   dell'agenda o alla home, con `leggi_agende.py`: 93 lette;
+2. otto agenti hanno estratto gli eventi della finestra 13–31 ottobre dai soli testi salvati;
+3. un agente ha confrontato quegli eventi con i 109 eventi di RomaToday nella stessa finestra.
+   Ne ha confrontati 108; uno è rimasto fuori.
+
+Conteggi: `tools/fonti-eventi/runs/2026-10-13/copertura_conteggi.json`.
+
+| Misura | Valore |
+|---|---|
+| Pagine con un'agenda datata leggibile | 47 |
+| Pagine con pochi eventi in evidenza | 23 |
+| Pagine senza eventi | 16 |
+| Pagine non utili | 7 |
+| Eventi della finestra letti alla fonte | 281, da 60 fonti |
+| Eventi di RomaToday trovati alla fonte | **33 su 108 (31%)**: 11 di quartiere, 12 cittadini in un luogo di quartiere, 10 del centro |
+| Eventi letti alla fonte che RomaToday non ha | circa 248 |
+| Zone dei 281 eventi | 19 |
+| Eventi in pagine sotto la soglia | 16, in 4 pagine |
+
+**Perché mancano i 75 eventi di RomaToday non trovati:**
+
+| Motivo | Eventi |
+|---|---|
+| Il luogo non è nel registro (luogo non nel titolo, o generico) | 37 |
+| La fonte ha un sito, ma la pagina letta (spesso la home) non mostrava l'evento | 18 |
+| La fonte è da verificare | 7 |
+| La fonte ha un sito non raggiunto | 7 |
+| La fonte è stata scartata | 4 |
+| La fonte ha un sito chiuso | 1 |
+| La fonte è solo su Facebook | 1 |
+
+**Lettura.**
+- **Più eventi di RomaToday, e diversi.** Leggere alla fonte dà molti più eventi di quanti
+  RomaToday ne mostri, ma non gli stessi: un terzo dei suoi.
+- **Dove sono i buchi.** Mancano soprattutto organizzatori non ancora nel registro e agende
+  lette dalla home. Non dipendono dai canali chiusi.
+- **La periferia resta scoperta.** I 281 eventi stanno nel centro e nel semicentro, come le fonti
+  che RomaToday ha fatto scoprire. Fra i 281, i 51 dei cinema sono in gran parte proiezioni.
+- **Le 84 fonti solo Facebook non sono ancora lette**, soprattutto biblioteche e comitati di
+  periferia: aspettano Apify.
+
+## 5 Che cosa resta all'owner
 
 1. **Apify.** Collegamento con un connettore o un token dedicato, con tetto di spesa per run.
    Budget della prova comparativa, circa 9–10 $: oltre il piano gratuito.
