@@ -306,7 +306,7 @@
     "esclude_noi": false
    },
    "home": {
-    "stato": 200,
+    "stato": 500,
     "redirect_social": false,
     "tdm_header": null,
     "content_signal": null,
@@ -324,7 +324,7 @@
     "date_viste": 0,
     "marca": "—"
    },
-   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+   "canale_lecito": "da verificare: home con stato 500"
   },
   {
    "url": "http://www.roma60.it/",

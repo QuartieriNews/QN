@@ -55,19 +55,15 @@
     "esclude_noi": false
    },
    "home": {
-    "stato": 200,
+    "stato": 503,
     "redirect_social": false,
     "tdm_header": null,
     "content_signal": null,
     "tdm_meta": null,
     "noai_meta": false,
-    "feed": [
-     "http://tg-talenti.blogspot.com/feeds/posts/default",
-     "http://tg-talenti.blogspot.com/feeds/posts/default?alt=rss",
-     "https://www.blogger.com/feeds/6179166872960788584/posts/default"
-    ],
+    "feed": [],
     "wp_json": null,
-    "piattaforma": "blogger"
+    "piattaforma": "altro"
    },
    "tdmrep_wellknown": false,
    "attivita": {
@@ -77,7 +73,7 @@
     "date_viste": 0,
     "marca": "—"
    },
-   "canale_lecito": "aperto: lettura ammessa dal robots.txt, nessuna riserva TDM vista"
+   "canale_lecito": "da verificare: home con stato 503"
   },
   {
    "url": "http://comitatosalviamotalenti.blogspot.com/",
