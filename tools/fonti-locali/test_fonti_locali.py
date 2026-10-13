@@ -74,6 +74,28 @@ check("giudizio: `*` chiuso -> nessuno", va.giudizio({**base, "robots": {**base[
 e = va.verifica("https://esempio.it", dt.date(2026, 7, 1), dt.date(2026, 10, 1))
 check("rete spenta: nessuna lettura, esito completo", e["robots"]["stato"] is None and e["attivita"]["marca"] == "—" and e["canale_lecito"].startswith("da verificare"))
 
+import tabella  # noqa: E402
+
+VOCI = [
+    {"slug": "p1", "tipo": "pagina", "pagina": "P1", "municipio": "X", "ricerche": 4, "fonti": [
+        {"nome": "CdQ A", "url": "https://a.it/", "tipo": "comitato_di_quartiere", "canale": "sito", "blocchi": ["cronaca"], "territorio": "quartiere", "territorio_note": "A", "verdetto": "usabile", "motivo": "ok", "canale_lecito": "aperto", "conteggio_finestra": 7, "marca": "M", "ultima_data": "2026-09-30", "piattaforma": "wordpress", "feed_o_api": True, "quota_locale_stimata": "tutte"},
+        {"nome": "Blog Z", "url": "https://www.z.it", "tipo": "blog_locale", "canale": "sito", "blocchi": ["cronaca"], "territorio": "zona", "territorio_note": "litorale", "verdetto": "solo_metadati", "motivo": "robots", "canale_lecito": "solo titolo", "conteggio_finestra": None, "marca": "—", "ultima_data": None, "piattaforma": "altro", "feed_o_api": False, "quota_locale_stimata": "?"}]},
+    {"slug": "p2", "tipo": "pagina", "pagina": "P2", "municipio": "X", "ricerche": 5, "fonti": [
+        {"nome": "Blog Z", "url": "https://z.it/", "tipo": "blog_locale", "canale": "sito", "blocchi": ["cronaca"], "territorio": "zona", "territorio_note": "litorale", "verdetto": "usabile", "motivo": "ok", "canale_lecito": "aperto", "conteggio_finestra": 3, "marca": "S", "ultima_data": "2026-08-01", "piattaforma": "altro", "feed_o_api": True, "quota_locale_stimata": "1 su 4"}]},
+    {"slug": "p3", "tipo": "pagina", "pagina": "P3", "municipio": "IX", "fallito": True},
+    {"slug": "municipio-x", "tipo": "municipio", "pagina": "Municipio X", "municipio": "X", "ricerche": 3, "fonti": []},
+]
+rp = tabella.riepilogo(VOCI)
+check("tabella: pagine e Municipi contati a parte", rp["pagine"] == 3 and rp["voci"] == 4)
+check("tabella: pagine con almeno una fonte usabile", rp["pagine_con_usabile"] == 2)
+check("tabella: la stessa fonte con www e senza è una", rp["fonti_distinte"] == 2 and rp["fonti_trasversali"] == 1)
+check("tabella: conteggio per verdetto", rp["per_verdetto"] == {"usabile": 2, "solo_metadati": 1})
+check("tabella: agente fallito segnalato", any(p["fallito"] for p in rp["per_pagina"] if p["slug"] == "p3"))
+md = tabella.md_pagine(VOCI, rp, "pagina")
+check("tabella md: una riga per pagina, fallito marcato", md.count("\n| ") == 3 and "*agente fallito*" in md)
+mdf = tabella.md_fonti(VOCI)
+check("tabella md fonti: fonte trasversale elencata una volta con due pagine", mdf.count("Blog Z") == 1 and "p1, p2" in mdf)
+
 falliti = [n for n, ok in CHECKS if not ok]
 print(f"{len(CHECKS) - len(falliti)}/{len(CHECKS)} checks; " + ("ALL PASS" if not falliti else "FAILED: " + ", ".join(falliti)))
 sys.exit(1 if falliti else 0)
