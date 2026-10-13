@@ -9,7 +9,10 @@ regole, decisioni e stato del progetto non si ripetono.
 
 1. Leggere `CONSEGNA_2026-10-13.md` §0–§1, poi `CRONACA_PROCESSO_2026-10.md` §4.6–4.7 e
    `tools/cronaca-prova/README.md`.
-2. Branch `claude/ecstatic-shannon-mjzxvq` (ultimo commit `70aa0e2` per i conteggi; questa nota è il commit successivo), PR #15 non toccata.
+2. Branch `claude/ecstatic-shannon-mjzxvq`, PR #15 non toccata. Commit di questa sessione:
+   `504e6e7` (mese da `QN_MESE`), `d5e9cc0` (README), `70aa0e2` (conteggi e §4.7), `f8aa7bb`
+   (questa nota), `b48478e` (pagina «temporaneamente non disponibile», Carabinieri rilanciati) e
+   il commit che aggiorna questa riga.
 3. I dati di settembre sono su Drive, `QN Hub / 20 Packages / Fonti 2026-09`
    (id `1Dk7PcPk27t4V0dqytpM9_H4gbdXvP5B1`), con un `README_Fonti_2026-09.md` che elenca i file.
 4. Per finire la misura serve il pacchetto «Metodo QN» (`QN_PKG`): l'owner lo carica nella nuova
