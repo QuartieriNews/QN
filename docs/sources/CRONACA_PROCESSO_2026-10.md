@@ -391,6 +391,77 @@ Fra i 175 fatti dei giornali con almeno due editori:
   lettori.
 - **Dati di dettaglio:** le righe per fatto, con titoli e link, sono nel foglio su Drive.
 
+### 4.7 Settembre 2026: raccolta ripetuta, lettura rinviata (13 ottobre)
+
+L'owner ha chiesto di ripetere su settembre la misura di §4.6 (passi 8–12 del README di
+`tools/cronaca-prova`), con `QN_MESE=2026-09` e la finestra 1–30 settembre. La raccolta
+(passi 8–9 e censimento delle testate aperte) è stata fatta per intero e senza blocchi; la
+lettura dei titoli e l'abbinamento (passi 10–12) non sono stati fatti, perché il pacchetto
+«Metodo QN» (`QN_PKG`), che assegna la pagina QN alle notizie, non è su Drive in
+`QN Hub / 20 Packages / Fonti 2026-06` né nell'ambiente. Senza di esso nessun fatto di
+settembre ha una pagina, e la tabella per quartiere non si può comporre. Conteggi:
+`tools/cronaca-prova/runs/2026-09/`. Titoli, link e testi: Drive, `Fonti 2026-09`.
+
+**Raccolta ufficiale.** Lo stesso raccoglitore di giugno, sui sei elenchi di settembre.
+
+| Fonte | Giugno | Settembre | Elenco | Durata |
+|---|---|---|---|---|
+| Questura | 79 | 81 | 13 pagine | 6,8 minuti, una richiesta ogni 4 secondi |
+| Carabinieri | 20 | 8 (6 scaricati, 2 rifiutati) | 80 comunicati nazionali | |
+| Vigili del Fuoco | 8 | 6 | | |
+| Polizia Locale | 2 | 0 | | |
+| Procura | 0 | 0 | | |
+| Guardia di Finanza | 0 | 5 | 113 notizie nazionali | |
+| **Totale** | **109** | **100** | | |
+
+- **Completezza e blocchi:** 98 comunicati scaricati, 2 rifiutati, 0 errori.
+  Ogni pagina è stata controllata: non è una pagina di blocco, ha il testo del comunicato.
+  I due rifiuti sono comunicati dei Carabinieri la cui pagina contiene 74 caratteri («testo troppo corto»): non una pagina di blocco, da leggere a mano. La Guardia di Finanza, che a giugno non aveva comunicati romani, ne ha 5 a settembre; la Polizia Locale nessuno; i Carabinieri 8 contro 20.
+- **Giorni con almeno un comunicato:** 30 su 30.
+
+**Testate aperte (censimento, passi 1–2).**
+
+| Testata | Titoli giugno | Titoli settembre | Candidati cronaca settembre |
+|---|---|---|---|
+| Abitare a Roma | 776 | 779 | 306 |
+| VignaClaraBlog | 75 | 111 | 12 |
+| Dire | 1.212 | 1.227 | 31 |
+| Roma Daily News | 1.158 | 1.247 | 127 |
+| Il Faro Online | 702 | 1.040 | 234 |
+| Il Tempo | 1.107 | 697 | 35 |
+| **Totale** | **5.030** | **5.101** | **745** |
+
+I candidati sono il risultato del filtro largo (`filtro.py`): la classe vera (cronaca a Roma,
+fuori Roma, non cronaca) la dà la lettura, non eseguita. A giugno dai 5.030 titoli il filtro e
+la lettura avevano dato 272 fatti di cronaca romana.
+
+**Testate chiuse, solo titolo, link e ora.**
+- **Fonte:** i file grezzi di GDELT dal 29 agosto al 3 ottobre, 3.456 file da 15 minuti,
+  0 mancanti; 72.807 righe delle testate seguite.
+- **Quanto copre GDELT** a settembre, contro il censimento completo delle testate aperte:
+  Il Tempo 539 su 697 (77%), Dire 977 su 1.227 (80%), Il Faro Online 187 su 1.040 (18%), Roma Daily News 53 su 1.247 (4%); Abitare a Roma e VignaClaraBlog non compaiono in GDELT, ma sono censite per intero. Per Il Tempo GDELT ha più indirizzi (737) del censimento dalle sitemap giornaliere (697): a settembre le sitemap di Il Tempo non sono complete.
+- **Il filtro:** 2.009 titoli candidati alla cronaca romana nella finestra, 1.704 con
+  data di settembre. I principali: RomaToday 529, Il Messaggero 458, Corriere della Sera Roma 290, ANSA 218, la Repubblica Roma 138. A giugno erano 2.023.
+- **La lettura dei titoli** (ISTRUZIONI_CHIUSE, FUSIONI, LUOGHI) non è stata fatta: vedi sopra.
+
+**Confronto giugno/settembre, per quanto si può dire senza la lettura.**
+
+| | Giugno | Settembre |
+|---|---|---|
+| comunicati ufficiali | 109 | 100 |
+| titoli delle sei testate aperte | 5.030 | 5.101 |
+| candidati cronaca sulle aperte (filtro) | 659 | 745 |
+| titoli chiusi candidati (GDELT + filtro) | 2.023 | 2.009 |
+| fatti pubblicabili | 352 | non misurato |
+| pagine coperte | 64 / 89 | non misurato |
+| pagine scoperte | 25 | non misurato |
+
+- **Fatti pubblicabili, pagine coperte e scoperte** di settembre si misurano solo dopo la
+  lettura con `QN_PKG`: la raccolta è pronta su Drive e i lotti si preparano con gli stessi
+  comandi di giugno. Il giudizio sulle 25 pagine scoperte resta quello di §4.6, da confermare
+  su tre mesi.
+- **Che cosa dice già la raccolta:** le fonti ufficiali danno 100 comunicati contro 109 (Questura 81 contro 79, Carabinieri 8 contro 20, Guardia di Finanza 5 contro 0); le testate aperte producono lo stesso volume (5.101 titoli contro 5.030) con più candidati al filtro (745 contro 659, per la crescita di Il Faro Online e Roma Daily News); le testate chiuse danno lo stesso ordine di grandezza (2.009 candidati contro 2.023). La materia prima di settembre non è più povera di quella di giugno; se la lettura confermasse le stesse proporzioni, i fatti pubblicabili sarebbero dell'ordine dei 350 e le pagine coperte intorno ai due terzi. È un'attesa, non una misura.
+
 ## 5 Accesso dell'AI alle fonti
 
 ### 5.1 Principio

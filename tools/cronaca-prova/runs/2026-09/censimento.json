@@ -1,0 +1,90 @@
+{
+ "mese": "2026-09",
+ "titoli_per_testata": {
+  "abitarearoma": {
+   "titoli": 779,
+   "giorni": 30
+  },
+  "vignaclarablog": {
+   "titoli": 111,
+   "giorni": 27
+  },
+  "dire": {
+   "titoli": 1227,
+   "giorni": 30
+  },
+  "romadailynews": {
+   "titoli": 1247,
+   "giorni": 30
+  },
+  "ilfaroonline": {
+   "titoli": 1040,
+   "giorni": 30
+  },
+  "iltempo": {
+   "titoli": 697,
+   "giorni": 22
+  }
+ },
+ "titoli_totali": 5101,
+ "candidati_cronaca": 745,
+ "candidati_per_testata": [
+  [
+   "Abitare a Roma",
+   306
+  ],
+  [
+   "Il Faro Online",
+   234
+  ],
+  [
+   "Roma Daily News",
+   127
+  ],
+  [
+   "Il Tempo",
+   35
+  ],
+  [
+   "Dire",
+   31
+  ],
+  [
+   "VignaClaraBlog",
+   12
+  ]
+ ],
+ "candidati_per_giorno": {
+  "2026-09-01": 21,
+  "2026-09-02": 31,
+  "2026-09-03": 28,
+  "2026-09-04": 27,
+  "2026-09-05": 26,
+  "2026-09-06": 22,
+  "2026-09-07": 29,
+  "2026-09-08": 20,
+  "2026-09-09": 19,
+  "2026-09-10": 31,
+  "2026-09-11": 42,
+  "2026-09-12": 28,
+  "2026-09-13": 8,
+  "2026-09-14": 30,
+  "2026-09-15": 20,
+  "2026-09-16": 37,
+  "2026-09-17": 21,
+  "2026-09-18": 30,
+  "2026-09-19": 29,
+  "2026-09-20": 8,
+  "2026-09-21": 22,
+  "2026-09-22": 30,
+  "2026-09-23": 37,
+  "2026-09-24": 19,
+  "2026-09-25": 23,
+  "2026-09-26": 17,
+  "2026-09-27": 16,
+  "2026-09-28": 25,
+  "2026-09-29": 20,
+  "2026-09-30": 29
+ },
+ "nota": "lettura dei titoli (ISTRUZIONI_INVERSO) non eseguita: manca il pacchetto Metodo QN (QN_PKG)"
+}
