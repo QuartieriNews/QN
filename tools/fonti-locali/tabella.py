@@ -61,8 +61,10 @@ def md_pagine(voci, rp, tipo):
     return "\n".join(righe)
 
 
-def md_fonti(voci, verdetti_voluti=("usabile", "solo_metadati")):
-    righe = ["| Fonte | Tipo | Canale | Territorio | Pagine | Verdetto | Post lug–set | Ultima data | Canale lecito / motivo |", "|---|---|---|---|---|---|---|---|---|"]
+def md_fonti(voci, verdetti_voluti=("usabile", "solo_metadati"), con_motivo=True):
+    """Una riga per fonte distinta; con_motivo=False dà la tabella compatta (il motivo resta nel JSON)."""
+    righe = ["| Fonte | Tipo | Canale | Territorio | Pagine | Verdetto | Post lug–set | Ultima data |" + (" Canale lecito / motivo |" if con_motivo else ""),
+             "|---|---|---|---|---|---|---|---|" + ("---|" if con_motivo else "")]
     viste = {}
     for v in voci:
         for f in v.get("fonti", []):
@@ -76,7 +78,8 @@ def md_fonti(voci, verdetti_voluti=("usabile", "solo_metadati")):
     for f in sorted(viste.values(), key=lambda x: (x["verdetto"], x["nome"].lower())):
         cont = f"{f['conteggio_finestra']} ({f['marca']})" if f.get("conteggio_finestra") is not None else f.get("marca", "—")
         motivo = (f.get("motivo") or "").replace("|", "/")
-        righe.append(f"| [{f['nome']}]({f['url']}) | {f['tipo']} | {f['canale']} | {f['territorio']}: {f['territorio_note'].replace('|', '/')} | {', '.join(f['pagine'])} | {f['verdetto']} | {cont} | {f.get('ultima_data') or '—'} | {motivo} |")
+        terr = f"{f['territorio']}: {f['territorio_note'].replace('|', '/')}" if con_motivo else f["territorio"]
+        righe.append(f"| [{f['nome']}]({f['url']}) | {f['tipo']} | {f['canale']} | {terr} | {', '.join(f['pagine'])} | {f['verdetto']} | {cont} | {f.get('ultima_data') or '—'} |" + (f" {motivo} |" if con_motivo else ""))
     return "\n".join(righe)
 
 
@@ -89,7 +92,9 @@ def main(argv):
         print("### Per pagina\n\n" + md_pagine(voci, rp, "pagina"))
         print("\n### Per Municipio\n\n" + md_pagine(voci, rp, "municipio"))
         print("\n### Fonti usabili o con i soli metadati\n\n" + md_fonti(voci))
-        print("\n### Fonti social, da verificare o scartate\n\n" + md_fonti(voci, ("canale_chiuso", "da_verificare", "inattiva", "fuori_territorio", "non_raggiungibile")))
+        print("\n### Fonti da verificare\n\n" + md_fonti(voci, ("da_verificare",), con_motivo=False))
+        print("\n### Canali social, per la raccolta manuale\n\n" + md_fonti(voci, ("canale_chiuso",), con_motivo=False))
+        print("\n### Scartate: inattive, fuori territorio, non raggiungibili\n\n" + md_fonti(voci, ("inattiva", "fuori_territorio", "non_raggiungibile"), con_motivo=False))
     print(json.dumps({k: v for k, v in rp.items() if k != "per_pagina"}, ensure_ascii=False), file=sys.stderr)
 
 
