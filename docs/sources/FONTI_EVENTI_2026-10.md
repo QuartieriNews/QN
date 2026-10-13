@@ -202,6 +202,20 @@ Conteggi: `tools/fonti-eventi/runs/2026-10-13/copertura_conteggi.json`.
 - **Le 84 fonti solo Facebook non sono ancora lette**, soprattutto biblioteche e comitati di
   periferia: aspettano Apify.
 
+**Seconda passata.**
+- **Agende vere.** 46 pagine erano la home o mostravano solo eventi in evidenza. Per 29 di
+  queste `leggi_agende.py` (`link_agenda`) ha trovato il link dell'agenda dello stesso sito,
+  ammesso dal robots.txt.
+- **Eventi in più.** Le 29 agende danno 96 eventi da 8 fonti, 90 nuovi: in tutto **358 eventi
+  della finestra letti alla fonte**.
+- **RomaToday.** Gli eventi trovati salgono di 2, a **35 su 108 (32%)**. Il buco grosso resta
+  quello degli organizzatori fuori dal registro.
+- **Teatri in Comune.** Il risultato più utile è l'agenda della rete Teatri in Comune: porta i
+  programmi dei teatri di Ostia, del Quarticciolo e di Tor Bella Monaca, cioè periferia che
+  RomaToday non aveva fatto emergere.
+- **Tournée fuori Roma.** Le agende delle compagnie elencano anche date fuori Roma (Tuscania,
+  Priolo, Paesi Bassi). L'assegnazione della zona deve scartarle.
+
 ## 5 Che cosa resta all'owner
 
 1. **Apify.** Collegamento con un connettore o un token dedicato, con tetto di spesa per run.

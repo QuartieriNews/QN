@@ -37,5 +37,15 @@
   "nomentano",
   "ponte-galeria",
   "trieste-salario"
- ]
+ ],
+ "seconda_passata": {
+  "agende_vere_trovate_dalla_home": 29,
+  "su_fonti_lette_dalla_home_o_in_evidenza": 46,
+  "eventi_letti": 96,
+  "eventi_nuovi_rispetto_alla_prima_passata": 90,
+  "romatoday_trovati_in_piu": 2,
+  "romatoday_trovati_totale": 35,
+  "romatoday_confrontati": 108,
+  "eventi_alla_fonte_unici_totale": 358
+ }
 }
