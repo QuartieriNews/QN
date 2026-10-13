@@ -1171,9 +1171,14 @@ alla finestra successiva, non cancellate.
   automatico: nessuna lettura umana. Per ogni voce le note di scoperta in
   `fonti_pagine.json` elencano che cosa è stato cercato senza trovare e le ricerche
   consigliate per il secondo passaggio.
-- **Le altre 49 pagine** non sono state studiate: con quattro CPU ogni workflow fa girare
-  due agenti alla volta e un gruppo di cinque pagine vale mezz'ora. Stesso strumento,
-  stessi argomenti (`tools/fonti-locali/README.md`).
+- **Tutte le 89 pagine e gli 11 Municipi** sono stati studiati in quattro ondate fra le
+  16:26 e le 20:58, con un'interruzione di tre ore per il limite di sessione. Con quattro
+  CPU ogni workflow fa girare due agenti alla volta: un gruppo di cinque pagine vale
+  mezz'ora. Per ripetere lo studio su un'altra finestra: stesso strumento, stessi
+  argomenti (`tools/fonti-locali/README.md`).
+- **La pagina di lettura** (`tools/fonti-locali/rapporto_html.py`) ricostruisce dagli
+  stessi esiti numeri, grafici e tabelle ordinabili, per chi legge meglio i numeri del
+  testo.
 
 ## 8 Candidate per il registro fonti
 

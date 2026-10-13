@@ -17,11 +17,10 @@ conflitto previsto con il lavoro sulla cronaca.
 Perimetro studiato: le 25 pagine senza cronaca a giugno, gli 11 Municipi che le
 contengono, e 15 pagine coperte a giugno con uno o due fatti (Balduina, Cesano, Colle Prenestino, Corviale, Marconi, Ponte Galeria,
 Portuense, Rebibbia, San Basilio, Settecamini, Torrevecchia, Boccea, Bravetta, Colli
-Portuensi, Lunghezza), più una terza ondata interrotta dal limite di sessione: Magliana,
-Montespaccato, Prima Porta, Spinaceto, Testaccio, Tor Cervara e Torrino hanno scoperta e
-verifica ma non lo scettico; Talenti, Tor Vergata e Tuscolano hanno la sola scoperta (nel
-JSON risultano fallite). **Le altre 39 pagine non sono state studiate**, e le dieci della
-terza ondata vanno completate.
+Portuensi, Lunghezza), poi **tutte le altre 49 pagine** in una terza e quarta ondata
+(20:22–20:58, dopo tre ore di fermo per il limite di sessione; la terza ondata è stata
+ripresa con gli agenti in cache, e ogni voce ha i tre passi). **Studio completo: 89
+pagine e 11 Municipi, 100 voci.**
 
 ## Come è stato fatto
 
