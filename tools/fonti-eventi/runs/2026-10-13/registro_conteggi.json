@@ -1,0 +1,123 @@
+{
+ "data": "2026-10-13",
+ "ingressi": {
+  "luoghi_romatoday_candidati": 139,
+  "schede_comune": 51,
+  "pagine_facebook_curate": 220
+ },
+ "registro_righe": 370,
+ "decisione": {
+  "tenere": 193,
+  "da_verificare": 39,
+  "scartare": 138
+ },
+ "origine": {
+  "pagine_fb": 216,
+  "comune": 21,
+  "romatoday": 115,
+  "romatoday+comune": 14,
+  "comune+pagine_fb": 3,
+  "romatoday+pagine_fb": 1
+ },
+ "tenere": {
+  "canale": {
+   "facebook": 84,
+   "sito": 94,
+   "sito_chiuso": 2,
+   "da_trovare": 12,
+   "nessuno": 1
+  },
+  "formato_sito": {
+   "feed,wp_api": 39,
+   "html": 34,
+   "feed": 4,
+   "wp_api": 12,
+   "feed,wp_api,jsonld_event": 4,
+   "wp_api,jsonld_event": 1
+  },
+  "robots": {
+   "nessun_sito": 82,
+   "ammesso": 95,
+   "vietato": 1,
+   "errore": 14,
+   "bloccato_403": 1
+  },
+  "tipo": {
+   "biblioteca": 40,
+   "comitato_quartiere": 30,
+   "museo": 28,
+   "teatro": 24,
+   "associazione": 11,
+   "istituzione": 10,
+   "centro_culturale": 10,
+   "galleria": 9,
+   "club_musica": 6,
+   "istituzione_cultura": 6,
+   "associazione_locale": 5,
+   "mercato_fiera": 3,
+   "altro": 3,
+   "sport_arena": 2,
+   "cinema": 2,
+   "ente_nazionale_o_regionale": 2,
+   "libreria": 1,
+   "municipio_o_ente_locale": 1
+  },
+  "con_zona": 169,
+  "zone_distinte": 53,
+  "in_pagine_sotto_soglia_eventi": 53
+ },
+ "pagine_sotto_soglia_eventi": 62,
+ "pagine_sotto_soglia_con_almeno_una_fonte": 32,
+ "pagine_sotto_soglia_senza_fonti": [
+  "bravetta",
+  "casal-lumbroso",
+  "casal-palocco",
+  "cassia",
+  "castel-di-leva",
+  "cesano",
+  "colle-prenestino",
+  "giardino-di-roma",
+  "infernetto",
+  "la-giustiniana",
+  "la-rustica",
+  "la-storta",
+  "magliana",
+  "marcigliana",
+  "massimina",
+  "montespaccato",
+  "morena",
+  "olgiata",
+  "ottavia",
+  "pisana",
+  "ponte-di-nona",
+  "portuense",
+  "roma-nord",
+  "tor-vergata",
+  "torraccia",
+  "torre-angela",
+  "trigoria",
+  "tuscolano-quadraro",
+  "vigna-clara",
+  "vitinia"
+ ],
+ "pagine_facebook": {
+  "tenere": 86,
+  "da_verificare": 15,
+  "scartare": 119
+ },
+ "scartare_per_tipo": {
+  "tematico_non_locale": 41,
+  "politico": 26,
+  "comitato_quartiere": 21,
+  "ente_nazionale_o_regionale": 16,
+  "associazione_locale": 14,
+  "luogo_pubblico": 7,
+  "altro": 4,
+  "locale_commerciale": 3,
+  "sport_arena": 2,
+  "mercato_fiera": 1,
+  "profilo_personale_probabile": 1,
+  "istituzione": 1,
+  "associazione": 1
+ }
+}

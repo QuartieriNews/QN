@@ -1,0 +1,39 @@
+{
+ "finestra": "2026-10-13/2026-10-31",
+ "comune": {
+  "schede_lette_dal_2026-09-13": 51,
+  "nella_finestra": 32,
+  "pubblicate_ultimi_7_giorni": 19,
+  "di_queste_non_concluse": 16,
+  "di_quartiere_fra_le_16": 4
+ },
+ "meetup": {
+  "pagine_ammesse_lette": 26,
+  "eventi_di_roma": 27,
+  "nella_finestra": 24,
+  "settimana_19_25": 5,
+  "rilevanti_settimana_19_25": 2,
+  "dubbi_settimana_19_25": 1
+ },
+ "romatoday": {
+  "link": 324,
+  "passati": 113,
+  "fuori_roma": 33,
+  "senza_data": 85,
+  "dopo_il_31": 1,
+  "nella_finestra_link": 116,
+  "nella_finestra_eventi": 109,
+  "gia_sul_comune": 11,
+  "gia_su_meetup": 0,
+  "nuovi": 98,
+  "rilevanti_quartiere": 49,
+  "rilevanti_cittadini_in_quartiere": 21,
+  "centro_o_diffusi": 23,
+  "promozioni": 3,
+  "incerti": 2,
+  "rilevanti_con_zona": 50,
+  "rilevanti_in_pagine_sotto_soglia": 10,
+  "pagine_sotto_soglia_toccate": 9,
+  "correzioni_del_secondo_controllo": 49
+ }
+}

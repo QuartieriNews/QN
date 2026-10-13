@@ -110,7 +110,52 @@ QN legge loro: siti, pagine Facebook (DEC-102), newsletter.
 
 Un sito che esclude gli agenti AI per nome conta come chiuso (§5.1).
 
-<!-- REGISTRO -->
+**Risultato** (conteggi in `tools/fonti-eventi/runs/2026-10-13/registro_conteggi.json`; il
+registro con nomi e link è su Drive, «Registro fonti eventi — 13 ottobre 2026»):
+
+| | Fonti |
+|---|---|
+| Righe del registro, doppioni uniti (stessa pagina Facebook, stesso dominio o stesso nome) | 370 |
+| Da tenere | 193 |
+| Da verificare | 39 |
+| Da scartare | 138 |
+
+**Le 193 da tenere.**
+- **Canale:**
+  - sito ammesso dal robots.txt: 94;
+  - pagina Facebook: 84;
+  - sito che nega l'accesso (un robots.txt «vietato», un 403): 2;
+  - sito non raggiunto da questo ambiente, o che risponde con un errore, senza social: 12;
+  - nessun canale: 1.
+- **Formato dei 94 siti:** 60 offrono un formato leggibile da una macchina (feed, API
+  WordPress, dati schema.org Event); 34 sono solo HTML.
+- **Tipo:** biblioteche 40, comitati di quartiere 30, musei 28, teatri 24, poi associazioni,
+  istituzioni, centri culturali, gallerie e club.
+- **Zona:** 169 hanno una zona QN, in 53 zone. 53 stanno in pagine oggi sotto la soglia dei 10
+  eventi.
+
+**Pagine sotto la soglia.** Delle 62, 32 hanno almeno una fonte nel registro. Le altre 30 non
+ne hanno nessuna (elenco nel file dei conteggi). Sono soprattutto periferia: litorale,
+quadrante nord-ovest e quadrante est. Lì servono Municipi, parrocchie e comitati cercati
+apposta.
+
+**Pagine Facebook curate dall'owner (220).**
+- 86 da tenere;
+- 15 da verificare;
+- 119 da scartare: 41 tematiche non locali, 26 politiche, 16 enti nazionali o regionali, e
+  comitati fermi da anni, comitati genitori di una scuola o comitati su un solo tema. L'attività
+  delle pagine viene dalla prova del 16 settembre.
+
+**Limiti.**
+- **Che cosa è stato verificato.** Nomi, zone e siti vengono dagli assistenti, con al più
+  dieci ricerche web ciascuno. Ogni sito è stato verificato da `verifica_canali.py`; i social
+  no.
+- **Siti non raggiunti.** 14 siti, quasi tutti di enti noti (anche statali, `beniculturali.it`),
+  non rispondono da questo ambiente: risposta 000 dal proxy. Non sono chiusi; vanno
+  ricontrollati da una rete italiana.
+- **Righe rimaste fuori.** 70 righe di RomaToday senza luogo non hanno dato fonti.
+- **Facebook manca ancora.** Gli organizzatori dei 297 eventi raccolti su Facebook il 13 ottobre
+  entreranno quando Apify li avrà estratti.
 
 ## 4 Che cosa resta all'owner
 

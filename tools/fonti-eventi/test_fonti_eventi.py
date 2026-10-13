@@ -93,7 +93,7 @@ RIS = {"fonti": [
      "decisione": "tenere", "motivo": "programma", "certezza": "alta"}],
     "pagine": [{"riga": 3, "url": "https://facebook.com/TeatroDiRoma", "nome": "Teatro di Roma", "tipo": "istituzione_cultura",
                 "zona_qn": "", "municipio": "", "post_nel_periodo": 2, "eventi_campione": 1, "decisione": "tenere", "motivo": "x"},
-               {"riga": 4, "url": "https://www.facebook.com/100066949447787", "nome": "Profilo", "tipo": "profilo_personale_probabile",
+               {"riga": 4, "url": "https://www.facebook.com/100000000000001", "nome": "Profilo", "tipo": "profilo_personale_probabile",
                 "zona_qn": "", "municipio": "", "post_nel_periodo": -1, "eventi_campione": -1, "decisione": "scartare", "motivo": "y"}]}
 u = registro.unisci(RIS, {"S001": {"robots": "ammesso", "http": 200, "formato": ["html"]}}, {"ostiense-san-paolo"})
 check("registro: stesso dominio e stessa pagina Facebook diventano una riga", len(u) == 2)

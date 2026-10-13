@@ -22,4 +22,6 @@ Drive, `QN Hub / 20 Packages / Fonti 2026-06` (DEC-102, DEC-104).
 ignora; un sito che esclude gli agenti AI per nome conta come chiuso anche se ammette gli altri
 robot (`CRONACA_PROCESSO_2026-10.md` §5.1).
 
+Conteggi della prova del 13 ottobre: `runs/2026-10-13/` (aggregatori e registro; nessun nome).
+
 Controlli: `python3 tools/fonti-eventi/test_fonti_eventi.py` (nessuna rete, dati sintetici).
