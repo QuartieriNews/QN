@@ -42,3 +42,9 @@ fatti di cronaca romana.
 nessun blocco), copertura di GDELT, abbinamento dei titoli chiusi, tabella per pagina
 (`per_pagina.csv`) e riepilogo (352 fatti pubblicabili, 64 pagine coperte su 89). Solo
 conteggi: il foglio con i fatti e i link è su Drive.
+
+`runs/2026-09/` è settembre 2026, raccolta soltanto (passi 1–2 e 8–9, 13 ottobre): comunicati
+ufficiali per fonte, file GDELT letti e copertura delle testate aperte, titoli candidati delle
+testate chiuse, censimento e candidati delle testate aperte. La lettura dei titoli e la tabella
+per quartiere (passi 10–12) non sono state fatte perché mancava il pacchetto «Metodo QN»
+(`QN_PKG`): `CRONACA_PROCESSO_2026-10.md` §4.7. Titoli e link su Drive, `Fonti 2026-09`.
