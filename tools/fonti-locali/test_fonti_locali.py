@@ -74,6 +74,13 @@ check("giudizio: `*` chiuso -> nessuno", va.giudizio({**base, "robots": {**base[
 e = va.verifica("https://esempio.it", dt.date(2026, 7, 1), dt.date(2026, 10, 1))
 check("rete spenta: nessuna lettura, esito completo", e["robots"]["stato"] is None and e["attivita"]["marca"] == "—" and e["canale_lecito"].startswith("da verificare"))
 
+# API WordPress dichiarata senza schema (`//host/wp-json/`): va risolta sulla base, non passata com'è
+_fetch = va.fetch
+va.fetch = lambda url, **k: (200, {}, '<link rel="https://api.w.org/" href="//esempio.it/wp-json/">') if url.rstrip("/") == "https://esempio.it" else (404, {}, "")
+e2 = va.verifica("https://esempio.it/", dt.date(2026, 7, 1), dt.date(2026, 10, 1))
+va.fetch = _fetch
+check("wp-json senza schema risolto sulla base", e2["home"]["wp_json"] == "https://esempio.it/wp-json/")
+
 import tabella  # noqa: E402
 
 VOCI = [

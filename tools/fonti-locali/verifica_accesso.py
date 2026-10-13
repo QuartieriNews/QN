@@ -191,8 +191,10 @@ def verifica(url, da, a):
         esito["home"].update(analizza_home("", {}))
     else:
         esito["home"].update(analizza_home("", hdr))
-    # i feed dichiarati possono essere relativi o senza schema (`//host/rss`)
+    # feed e API dichiarati possono essere relativi o senza schema (`//host/rss`, `//host/wp-json/`)
     esito["home"]["feed"] = [urllib.parse.urljoin(base, f) for f in esito["home"]["feed"]]
+    if esito["home"]["wp_json"]:
+        esito["home"]["wp_json"] = urllib.parse.urljoin(base, esito["home"]["wp_json"])
     st, _, well = fetch(urllib.parse.urljoin(base, "/.well-known/tdmrep.json"))
     esito["tdmrep_wellknown"] = st == 200 and well.lstrip().startswith(("{", "["))
 
