@@ -89,6 +89,10 @@ tt, ld = leggi_agende.testo_e_eventi('<script>var x=1</script><style>a{}</style>
                                      '<script type="application/ld+json">{"@type":"Organization"}</script>')
 check("agende: testo senza script né stili", tt == "Sabato & domenica")
 check("agende: solo i JSON-LD con un Event", len(ld) == 1 and "Concerto" in ld[0])
+HOME = ('<a href="/chi-siamo">Chi siamo</a><a href="/programma-2026/">Stagione</a><a href="https://altro.it/eventi">x</a>'
+        '<a href="/">Home</a><a href="/news">Tutti gli <b>appuntamenti</b></a>')
+check("agende: dalla home i link d'agenda dello stesso sito, per percorso o per testo",
+      leggi_agende.link_agenda(HOME, "https://teatro.it/") == ["https://teatro.it/programma-2026/", "https://teatro.it/news"])
 
 # --- registro: doppioni per Facebook, dominio e nome; decisione più forte; canale
 RIS = {"fonti": [
