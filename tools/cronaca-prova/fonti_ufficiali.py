@@ -18,7 +18,8 @@ import datetime as dt, html, json, os, re, sys, time, urllib.parse, urllib.reque
 UA = "QuartieriNews-ricerca/0.1 (raccolta comunicati ufficiali; contatto nel sito del progetto)"
 RITMO = {"questure.poliziadistato.it": 4.0}  # secondi fra due richieste allo stesso host
 RITMO_BASE = 2.0
-BLOCCO = re.compile(r"accesso negato|access denied|forbidden|captcha|cf-chl|attention required", re.I)
+BLOCCO = re.compile(r"accesso negato|access denied|forbidden|captcha|cf-chl|attention required|"
+                    r"sistema .{0,20}temporaneamente non disponibile", re.I)  # anche il «temporaneamente non disponibile» dei Carabinieri (settembre)
 MESI = {m: i for i, m in enumerate(["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio",
                                     "agosto", "settembre", "ottobre", "novembre", "dicembre"], 1)}
 

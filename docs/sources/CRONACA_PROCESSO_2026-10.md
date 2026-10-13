@@ -407,16 +407,23 @@ settembre ha una pagina, e la tabella per quartiere non si può comporre. Conteg
 | Fonte | Giugno | Settembre | Elenco | Durata |
 |---|---|---|---|---|
 | Questura | 79 | 81 | 13 pagine | 6,8 minuti, una richiesta ogni 4 secondi |
-| Carabinieri | 20 | 8 (6 scaricati, 2 rifiutati) | 80 comunicati nazionali | |
+| Carabinieri | 20 | 19 | 164 comunicati nazionali | |
 | Vigili del Fuoco | 8 | 6 | | |
 | Polizia Locale | 2 | 0 | | |
 | Procura | 0 | 0 | | |
 | Guardia di Finanza | 0 | 5 | 113 notizie nazionali | |
-| **Totale** | **109** | **100** | | |
+| **Totale** | **109** | **111** | | |
 
-- **Completezza e blocchi:** 98 comunicati scaricati, 2 rifiutati, 0 errori.
-  Ogni pagina è stata controllata: non è una pagina di blocco, ha il testo del comunicato.
-  I due rifiuti sono comunicati dei Carabinieri la cui pagina contiene 74 caratteri («testo troppo corto»): non una pagina di blocco, da leggere a mano. La Guardia di Finanza, che a giugno non aveva comunicati romani, ne ha 5 a settembre; la Polizia Locale nessuno; i Carabinieri 8 contro 20.
+- **Completezza e blocchi:** 111 comunicati scaricati, 0 rifiutati, 0 errori. Ogni pagina è
+  stata controllata: non è una pagina di blocco, ha il testo del comunicato. La Guardia di
+  Finanza, che a giugno non aveva comunicati romani, ne ha 5 a settembre; la Polizia Locale
+  nessuno.
+- **Errore trovato e corretto:** nella prima passata il sito dei Carabinieri ha servito, con
+  codice 200, la pagina «Il sistema è temporaneamente non disponibile» per una pagina di elenco e
+  per due comunicati. Il raccoglitore non la riconosceva: l'elenco si è fermato a 5 pagine (80
+  comunicati nazionali, 8 romani) e i due comunicati sono risultati «testo troppo corto». Ora
+  quella pagina vale come rifiuto temporaneo (ritentativo con attesa, poi rifiuto dichiarato); la
+  seconda passata ha letto 9 pagine, 164 comunicati nazionali, 19 romani, tutti scaricati.
 - **Giorni con almeno un comunicato:** 30 su 30.
 
 **Testate aperte (censimento, passi 1–2).**
@@ -448,7 +455,7 @@ la lettura avevano dato 272 fatti di cronaca romana.
 
 | | Giugno | Settembre |
 |---|---|---|
-| comunicati ufficiali | 109 | 100 |
+| comunicati ufficiali | 109 | 111 |
 | titoli delle sei testate aperte | 5.030 | 5.101 |
 | candidati cronaca sulle aperte (filtro) | 659 | 745 |
 | titoli chiusi candidati (GDELT + filtro) | 2.023 | 2.009 |
@@ -460,7 +467,7 @@ la lettura avevano dato 272 fatti di cronaca romana.
   lettura con `QN_PKG`: la raccolta è pronta su Drive e i lotti si preparano con gli stessi
   comandi di giugno. Il giudizio sulle 25 pagine scoperte resta quello di §4.6, da confermare
   su tre mesi.
-- **Che cosa dice già la raccolta:** le fonti ufficiali danno 100 comunicati contro 109 (Questura 81 contro 79, Carabinieri 8 contro 20, Guardia di Finanza 5 contro 0); le testate aperte producono lo stesso volume (5.101 titoli contro 5.030) con più candidati al filtro (745 contro 659, per la crescita di Il Faro Online e Roma Daily News); le testate chiuse danno lo stesso ordine di grandezza (2.009 candidati contro 2.023). La materia prima di settembre non è più povera di quella di giugno; se la lettura confermasse le stesse proporzioni, i fatti pubblicabili sarebbero dell'ordine dei 350 e le pagine coperte intorno ai due terzi. È un'attesa, non una misura.
+- **Che cosa dice già la raccolta:** le fonti ufficiali danno 111 comunicati contro 109 (Questura 81 contro 79, Carabinieri 19 contro 20, Vigili del Fuoco 6 contro 8, Guardia di Finanza 5 contro 0); le testate aperte producono lo stesso volume (5.101 titoli contro 5.030) con più candidati al filtro (745 contro 659, per la crescita di Il Faro Online e Roma Daily News); le testate chiuse danno lo stesso ordine di grandezza (2.009 candidati contro 2.023). La materia prima di settembre non è più povera di quella di giugno; se la lettura confermasse le stesse proporzioni, i fatti pubblicabili sarebbero dell'ordine dei 350 e le pagine coperte intorno ai due terzi. È un'attesa, non una misura.
 
 ## 5 Accesso dell'AI alle fonti
 

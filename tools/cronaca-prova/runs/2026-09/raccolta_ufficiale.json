@@ -13,14 +13,14 @@
   "C2": {
    "errori": [],
    "elenco": {
-    "pagine": 5,
-    "comunicati_nazionali": 80
+    "pagine": 9,
+    "comunicati_nazionali": 164
    },
-   "comunicati_del_mese": 8,
-   "scaricati": 6,
-   "rifiutati": 2,
+   "comunicati_del_mese": 19,
+   "scaricati": 19,
+   "rifiutati": 0,
    "errori_scaricamento": 0,
-   "secondi": 38
+   "secondi": 138
   },
   "C3": {
    "errori": [],
@@ -62,12 +62,10 @@
    "secondi": 53
   }
  },
- "comunicati_scaricati": 98,
- "comunicati_rifiutati": 2,
+ "comunicati_scaricati": 111,
+ "comunicati_rifiutati": 0,
  "comunicati_in_errore": 0,
- "con_nota": {
-  "testo troppo corto": 2
- },
+ "con_nota": {},
  "giorni_con_almeno_un_comunicato": 30,
  "confronto_giugno": {
   "C1": {
@@ -76,7 +74,7 @@
   },
   "C2": {
    "giugno": 20,
-   "settembre": 8
+   "settembre": 19
   },
   "C3": {
    "giugno": 0,

@@ -26,7 +26,7 @@ regole, decisioni e stato del progetto non si ripetono.
 
 | Passo | Strumento | Esito |
 |---|---|---|
-| 1 Fonti ufficiali | `fonti_ufficiali.py DIR 2026-09` | 100 comunicati (Questura 81, Carabinieri 8, Vigili del Fuoco 6, Guardia di Finanza 5), 2 rifiuti, 0 errori |
+| 1 Fonti ufficiali | `fonti_ufficiali.py DIR 2026-09` | 111 comunicati (Questura 81, Carabinieri 19, Vigili del Fuoco 6, Guardia di Finanza 5), 0 rifiuti, 0 errori; i Carabinieri rilanciati dopo una pagina «temporaneamente non disponibile» |
 | 2 Testate chiuse | `gdelt_titoli.py DIR 2026-08-29 2026-10-03` + `chiuse_filtro.py` | 3.456 file GDELT, 0 mancanti; 2.009 titoli candidati (1.704 di settembre) |
 | 3 Testate aperte | `QN_MESE=2026-09 censimento.py DIR` + `filtro.py DIR` | 5.101 titoli, 745 candidati alla cronaca romana |
 
@@ -45,6 +45,9 @@ caso.
   si può dire senza la lettura (fatti pubblicabili e pagine coperte/scoperte restano «non misurato»).
 - `tabella_quartieri.py` legge il mese da `QN_MESE` (prima era fisso a giugno), con test; README
   passo 12 aggiornato.
+- `fonti_ufficiali.py` riconosce la pagina «Il sistema è temporaneamente non disponibile» servita
+  con 200 (Carabinieri) come rifiuto temporaneo, con test: prima troncava l'elenco in silenzio
+  (§4.7, «errore trovato e corretto»).
 
 **Su Drive (`Fonti 2026-09`) e in chat.** Dal connettore della sessione sono stati caricati il
 `README_Fonti_2026-09.md` e `ufficiali_rapporto.json`. Tutto il resto (inventario e testi dei
@@ -57,7 +60,7 @@ troppo grande per il connettore: **l'owner lo carica nella cartella**. I titoli 
 
 | Misura | Giugno | Settembre |
 |---|---|---|
-| comunicati ufficiali (Questura, Carabinieri, VVF, Polizia Locale) | 109 | 100 (Questura 81, Carabinieri 8, Vigili del Fuoco 6, Guardia di Finanza 5) |
+| comunicati ufficiali (Questura, Carabinieri, VVF, Polizia Locale) | 109 | 111 (Questura 81, Carabinieri 19, Vigili del Fuoco 6, Guardia di Finanza 5) |
 | titoli delle sei testate aperte | 5.030 | 5.101 |
 | candidati cronaca sulle aperte dopo il filtro | 659 | 745 |
 | titoli chiusi candidati (GDELT + filtro) | 2.023 | 2.009 |
@@ -65,12 +68,12 @@ troppo grande per il connettore: **l'owner lo carica nella cartella**. I titoli 
 | fatti pubblicabili | 352 | non misurato |
 | pagine coperte | 64 / 89 | non misurato |
 
-le fonti ufficiali danno 100 comunicati contro 109 (Questura 81 contro 79, Carabinieri 8 contro 20, Guardia di Finanza 5 contro 0); le testate aperte producono lo stesso volume (5.101 titoli contro 5.030) con più candidati al filtro (745 contro 659, per la crescita di Il Faro Online e Roma Daily News); le testate chiuse danno lo stesso ordine di grandezza (2.009 candidati contro 2.023). La materia prima di settembre non è più povera di quella di giugno; se la lettura confermasse le stesse proporzioni, i fatti pubblicabili sarebbero dell'ordine dei 350 e le pagine coperte intorno ai due terzi. È un'attesa, non una misura.
+le fonti ufficiali danno 111 comunicati contro 109 (Questura 81 contro 79, Carabinieri 19 contro 20, Vigili del Fuoco 6 contro 8, Guardia di Finanza 5 contro 0); le testate aperte producono lo stesso volume (5.101 titoli contro 5.030) con più candidati al filtro (745 contro 659, per la crescita di Il Faro Online e Roma Daily News); le testate chiuse danno lo stesso ordine di grandezza (2.009 candidati contro 2.023). La materia prima di settembre non è più povera di quella di giugno; se la lettura confermasse le stesse proporzioni, i fatti pubblicabili sarebbero dell'ordine dei 350 e le pagine coperte intorno ai due terzi. È un'attesa, non una misura.
 
 ## 3 Da dove riprendere
 
 1. **Con `QN_PKG` disponibile**, nell'ordine di giugno:
-   - schede ufficiali di settembre: lettura dei 100 comunicati (testi su Drive) con il
+   - schede ufficiali di settembre: lettura dei 111 comunicati (testi su Drive) con il
      protocollo di `tools/geo-assign/PROTOCOLLO_REVISIONE.md` e `qngeo.py`, nel formato delle
      `schede_lotto_*.jsonl` di giugno (id `CR-C1_001-1`…, `fatto`, `esito`, `livello_portata`,
      `pagine`, `luoghi_testo`, `fuori_roma`);

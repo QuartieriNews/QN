@@ -156,6 +156,11 @@ check("fonti_ufficiali: Polizia Locale dall'elenco della struttura, non dalle no
 
 ok, nota, _ = F.valida("<html><title>Accesso negato | Polizia di Stato</title><body>Accesso negato</body></html>", {})
 check("fonti_ufficiali: la pagina «Accesso negato» servita con 200 non vale come comunicato", not ok and "blocco" in nota)
+ok, nota, _ = F.valida("<html><body><p>Il sistema è temporaneamente non disponibile ci scusiamo per il disagio...</p></body></html>", {})
+check("fonti_ufficiali: la pagina «sistema temporaneamente non disponibile» servita con 200 è un rifiuto, non un comunicato",
+      not ok and "blocco" in nota)
+check("fonti_ufficiali: un elenco servito come «non disponibile» non vale come elenco vuoto (si ritenta, poi è un rifiuto)",
+      F.BLOCCO.search("Il sistema è temporaneamente non disponibile ci scusiamo") is not None)
 ok, nota, _ = F.valida("<p>" + "testo del comunicato " * 60 + "</p>", {"titolo": "Arresto a Centocelle"})
 check("fonti_ufficiali: testo lungo senza il titolo resta valido ma annotato", ok and nota)
 
