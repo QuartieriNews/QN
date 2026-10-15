@@ -2,10 +2,12 @@
 """Offline QN geography: streets, civics, intersections, points -> QN pages.
 
 Standard library only. Reads the cartography and gazetteer of the
-"Metodo QN" package (path in --pkg or QN_PKG); never writes there, never
-calls the network. Every answer carries the identifiers it rests on (road
-key, zone code, toponymic subdivision, coordinates) so that a decision can
-cite the query instead of "Geoportale" in general (Metodo QN §9, §13).
+"Metodo QN" package (path in --pkg or QN_PKG) and never writes there. One
+command touches the network: `civico`, for a number missing from the offline
+copy, queries the Geoportale WFS (cached in QN_CACHE; QN_RETE=0 forbids the
+call). Every answer carries the identifiers it rests on (road key, zone code,
+toponymic subdivision, coordinates) so that a decision can cite the query
+instead of "Geoportale" in general (Metodo QN §9, §13).
 
 Two questions stay separate (Metodo QN §5): where a place is (zones,
 subdivisions, point) and which QN page that place maps to (gazetteer).
@@ -427,6 +429,10 @@ class Atlas:
             if rule['modo'] in ('unica', 'doppia_confine'):
                 out['pagine_geometria'] = out['pagine']
                 out['pagine'] = sorted(rule['pagine'])
+            elif rule['modo'] == 'senza_pagina':
+                # The owner decided "nessuna": the geometry stays for audit only.
+                out['pagine_geometria'] = out['pagine']
+                out['pagine'] = []
             return out
         if municipi and len(pages) > 1:
             kept = sorted(p for p in pages if self.page_mun[p] & set(municipi))
@@ -552,10 +558,12 @@ class Atlas:
                 if p:
                     pts.append(p)
         exact = bool(pts)
+        gap = None
         if not pts:
             best = _closest_approach(sa, sb)
             if best and best[0] <= tol_m:
                 pts = [best[1]]
+                gap = round(best[0], 1)
         if not pts:
             return {'strade': [key_a, key_b], 'trovato': False,
                     'nota': 'le due strade non si toccano nella copia dello stradario'}
@@ -574,6 +582,7 @@ class Atlas:
             y = sum(p[1] for p in c) / len(c)
             out.append(self.punto(y, x))
         return {'strade': [key_a, key_b], 'trovato': True, 'esatto': exact, 'punti': out,
+                **({'distanza_m': gap} if gap is not None else {}),
                 'pagine': sorted({p for o in out for p in o['pagine']})}
 
 

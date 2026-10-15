@@ -51,16 +51,35 @@ def _mention(m):
         pc = m.get('punto_civico') or {}
         # The marks a reader must see travel with the point: an approximated
         # number (§7) and a boundary case (DEC-107) are cautions, not evidence.
-        d['civico_punti'] = [{'id_civico': p['id_civico'], 'pagine': p['pagine'], 'base': p['base'],
-                              **({'approssimato': p['approssimato']} if p.get('approssimato') else {}),
-                              **({'confine': p['confine']} if p.get('confine') else {})}
-                             for p in pc.get('punti', [])] if pc.get('trovato') else 'non trovato (copia offline, cache, WFS)'
+        d['civico_punti'] = [_point(p) for p in pc.get('punti', [])] if pc.get('trovato') else 'non trovato (copia offline, cache, WFS)'
         if pc.get('trovato'):
             d['civico_fonte'] = pc.get('fonte')
     d['strada'] = [{'chiave': r['chiave'], 'municipi': r['municipi'], 'pagine': r['pagine'],
                     'pagine_nel_municipio': r.get('pagine_nel_municipio'),
                     'zone': [(z['code_zu'], z['nome'], z['frazione'], z['pagine']) for z in r['zone']],
-                    'zone_senza_pagina': r['zone_senza_pagina']} for r in m.get('risoluzione', [])]
+                    'zone_senza_pagina': r['zone_senza_pagina'],
+                    # An owner rule decided these pages: the reader cites it (DEC-106).
+                    **({'regola': r['regola'], 'pagine_geometria': r.get('pagine_geometria')} if r.get('regola') else {})}
+                   for r in m.get('risoluzione', [])]
+    return d
+
+
+def _point(p):
+    """A classified point as the reader sees it: pages and basis, plus every
+    caution that must travel with it (approximated number, boundary, the two
+    cartographies when they disagree: protocol, "leggi entrambe")."""
+    d = {'pagine': p['pagine'], 'base': p['base']}
+    if 'id_civico' in p:
+        d['id_civico'] = p['id_civico']
+    else:
+        d['lat'], d['lon'] = round(p['lat'], 6), round(p['lon'], 6)
+    for k in ('approssimato', 'confine'):
+        if p.get(k):
+            d[k] = p[k]
+    if p.get('discordanza'):
+        d['discordanza'] = True
+        d['zona_urbanistica'] = [(z['code_zu'], z['nome'], z['pagine']) for z in p.get('zona_urbanistica', [])]
+        d['suddivisione'] = [(t['tipo'], t['nome']) for t in p.get('suddivisione', [])]
     return d
 
 
@@ -70,9 +89,8 @@ def packet(row, ev):
                 'municipi_contesto': ev['municipi_contesto'],
                 'menzioni': [_mention(m) for m in ev['menzioni']],
                 'incroci': [{'strade': x['strade'], 'pagine': x['pagine'], 'esatto': x['esatto'],
-                             'punti': [{'lat': round(p['lat'], 6), 'lon': round(p['lon'], 6), 'pagine': p['pagine'],
-                                        'base': p['base'], **({'confine': p['confine']} if p.get('confine') else {})}
-                                       for p in x['punti']]} for x in ev['incroci']],
+                             **({'distanza_m': x['distanza_m']} if x.get('distanza_m') is not None else {}),
+                             'punti': [_point(p) for p in x['punti']]} for x in ev['incroci']],
                 'luoghi_non_spiegati': ev['luoghi_non_risolti'],
                 'indizi': ev['indizi'],
                 'stessa_vicenda': ev['stessa_vicenda'],
@@ -108,13 +126,20 @@ def main():
     for f in ('qngeo.py', 'zone_qn_cross.json', 'valida.py', 'PROTOCOLLO_REVISIONE.md'):
         shutil.copy2(here / f, tools / f)
     # The owner rules qngeo.py applies (DEC-106) must be the ones stage 1 used:
-    # rules_path() looks beside qngeo.py unless QN_REGOLE says otherwise.
-    shutil.copy2(rules_path(), tools / 'regole_geografiche.json')
+    # stage1.py leaves a copy beside evidenze.jsonl; without it, the current
+    # file is copied and the packet says so. rules_path() looks beside qngeo.py.
+    snapshot = Path(a.evidenze).resolve().parent / 'regole_geografiche.json'
+    rules_src = snapshot if snapshot.is_file() else rules_path()
+    if rules_src.is_file():
+        shutil.copy2(rules_src, tools / 'regole_geografiche.json')
+    else:
+        (tools / 'regole_geografiche.json').write_text(json.dumps({'regole': [], 'chiusi': []}), encoding='utf-8')
     batches = [ids[i::a.lotti] for i in range(a.lotti)]
     for n, batch in enumerate(batches, 1):
         (out / f'lotto_{n}.jsonl').write_text(''.join(json.dumps(packet(rows[i], evs[i]), ensure_ascii=False) + '\n'
                                                      for i in batch), encoding='utf-8')
-    print(json.dumps({'lotti': [len(b) for b in batches], 'out': str(out)}))
+    print(json.dumps({'lotti': [len(b) for b in batches], 'out': str(out),
+                      'regole': 'istantanea della fase 1' if rules_src == snapshot else 'file corrente (nessuna istantanea con le evidenze)'}))
 
 
 if __name__ == '__main__':

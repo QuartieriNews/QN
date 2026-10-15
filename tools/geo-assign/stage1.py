@@ -26,7 +26,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from qngeo import Atlas, STREET_PREFIXES, norm, package_root, _ascii  # noqa: E402
+from qngeo import Atlas, STREET_PREFIXES, norm, package_root, rules_path, _ascii  # noqa: E402
 
 # Ambiguous locality names: a word, a person, a street part or a page name that
 # is also a common noun. They count only with a locality cue in front of them
@@ -287,15 +287,26 @@ class Stage1:
                 if near - ps:
                     alternatives.append((m, ps | near, 'civico a pochi metri dal confine fra pagine (DEC-107 aperta)'))
                     continue
+                if any(pt.get('discordanza') for pt in pc['punti']):
+                    # Zone and toponymic subdivision disagree: the reader reads both (protocol).
+                    alternatives.append((m, ps | near, 'cartografie discordanti sul punto del civico: leggere entrambe'))
+                    continue
                 if len(ps) == 1:
                     precise.append((m, ps))
+                    continue
+                if len(ps) > 1:
+                    # Official points of the same number on several pages (letters,
+                    # duplicates of the register): a doubt, not the whole street.
+                    alternatives.append((m, ps, 'punti ufficiali del civico su piu pagine: verificare'))
                     continue
             if len(m['chiavi']) > 1:
                 alternatives.append((m, set(), 'omonimia: piu strade con lo stesso nome'))
                 continue
             res = m['risoluzione'][0] if m['risoluzione'] else None
             if not res or not res['pagine']:
-                if res and res['zone_senza_pagina']:
+                if res and (res.get('regola') or {}).get('modo') == 'senza_pagina':
+                    inactive.add(f"regola {res['regola']['id']}: strada senza pagina per decisione dell'owner")
+                elif res and res['zone_senza_pagina']:
                     inactive.add('zona senza pagina: ' + ', '.join(res['zone_senza_pagina']))
                 continue
             ps = set(res.get('pagine_nel_municipio') or res['pagine'])
@@ -313,15 +324,21 @@ class Stage1:
                 alternatives.append((m, ps, 'strada su piu pagine senza tratto'))
         for x in ev['incroci']:
             near = {p for pt in x['punti'] for p in (pt.get('confine') or {}).get('pagine_vicine', [])}
+            label = {'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}
             if near - set(x['pagine']):
-                alternatives.append(({'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}, set(x['pagine']) | near,
-                                     'incrocio sul confine fra pagine (DEC-107 aperta)'))
+                alternatives.append((label, set(x['pagine']) | near, 'incrocio sul confine fra pagine (DEC-107 aperta)'))
+            elif not x.get('esatto', True):
+                # The roads do not touch in the stradario copy: a midpoint within
+                # tolerance is a lead, not a fact (protocol: never invent).
+                alternatives.append((label, set(x['pagine']),
+                                     f"incrocio non esatto: strade a {x.get('distanza_m', '?')} m nello stradario"))
+            elif any(pt.get('discordanza') for pt in x['punti']):
+                alternatives.append((label, set(x['pagine']), 'cartografie discordanti sul punto di incrocio: leggere entrambe'))
             elif len(x['pagine']) == 1:
-                precise.append(({'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}, set(x['pagine'])))
+                precise.append((label, set(x['pagine'])))
             elif x['pagine']:
                 # Roads meeting more than once, on different pages: candidates, D not M.
-                alternatives.append(({'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}, set(x['pagine']),
-                                     'incrocio in piu punti su pagine diverse: scegliere dal contesto'))
+                alternatives.append((label, set(x['pagine']), 'incrocio in piu punti su pagine diverse: scegliere dal contesto'))
         pages = set().union(*[p for _, p in precise]) if precise else set()
         title_pages = set().union(*[p for m, p in precise if 'titolo' in m.get('campi', [])]) if precise else set()
         cues = ev['indizi']
@@ -432,6 +449,11 @@ def run(pkg: Path, out: Path, ids=None):
         prop_lines.append(json.dumps(pr, ensure_ascii=False))
     (out / 'evidenze.jsonl').write_text('\n'.join(ev_lines) + '\n', encoding='utf-8')
     (out / 'proposte.jsonl').write_text('\n'.join(prop_lines) + '\n', encoding='utf-8')
+    # The owner rules these evidences were built with travel with them, so a
+    # packet made later cites the same rules and not the current file (DEC-106).
+    rp = rules_path()
+    (out / 'regole_geografiche.json').write_text(
+        rp.read_text(encoding='utf-8') if rp.is_file() else json.dumps({'regole': [], 'chiusi': []}), encoding='utf-8')
     return len(prop_lines)
 
 

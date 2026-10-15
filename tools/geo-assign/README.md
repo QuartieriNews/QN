@@ -46,7 +46,9 @@ DEC-107, con `--consenti-confine`); `tratto`; `nessuna`; `ok` (accetta la
 proposta); `ignora` (falso allarme); vuoto = aperto.
 
 Ogni decisione diventa una regola numerata in `regole_geografiche.json`, che
-`qngeo.py` e `stage1.py` applicano e citano (`R-0001`). Precedenza: gazetteer
+`qngeo.py` e `stage1.py` applicano e citano (`R-0001`); `stage1.py` ne lascia
+una copia accanto a `evidenze.jsonl` e `pacchetti.py` porta quella copia, non il
+file corrente, nell'area cieca. Precedenza: gazetteer
 (`zu_code`, tabella dell'owner) > regola dell'owner > `urban_mapped.json` >
 `zone_qn_cross.json`. Una decisione che sposta una località (es. rione Monti) non
 diventa regola: finisce in `modifiche_gazetteer.csv`, da applicare nella tabella e

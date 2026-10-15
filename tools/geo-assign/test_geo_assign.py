@@ -105,6 +105,21 @@ check('DEC-107: a civic on the boundary is D with both pages as candidates', p['
 xing = {'strade': ['via a', 'via b'], 'pagine': ['ovest'], 'esatto': True, 'punti': [{'lat': 0, 'lon': 0, 'pagine': ['ovest'], 'base': 'b', 'confine': {'metri': 2.0, 'pagine_vicine': ['est']}}]}
 p = s1.propose(row, {**ev, 'menzioni': [], 'incroci': [xing]})
 check('DEC-107: a crossing on the boundary is D, not U', p['esito_proposto'] == 'D' and p['candidate'] == ['est', 'ovest'], p)
+civ['punto_civico'] = {'trovato': True, 'punti': [{'pagine': ['ovest'], 'discordanza': True}]}
+p = s1.propose(row, {**ev, 'menzioni': [civ]})
+check('a civic whose cartographies disagree is a doubt to read, not a U', p['esito_proposto'] == 'D' and p['candidate'] == ['ovest'], p)
+civ['punto_civico'] = {'trovato': True, 'punti': [{'pagine': ['ovest']}, {'pagine': ['est']}]}
+p = s1.propose(row, {**ev, 'menzioni': [civ]})
+check('exact civic points on two pages are D with both candidates, not the whole street',
+      p['esito_proposto'] == 'D' and p['candidate'] == ['est', 'ovest'], p)
+civ['punto_civico'] = {}
+civ['risoluzione'] = [{'pagine': [], 'pagine_geometria': ['ovest'], 'zone_senza_pagina': [], 'regola': {'id': 'R-0007', 'modo': 'senza_pagina'}}]
+p = s1.propose(row, {**ev, 'menzioni': [civ]})
+check('an owner rule senza_pagina is applied and cited, never a U', p['esito_proposto'] != 'U' and any('R-0007' in r for r in p['ragioni']), p)
+xing3 = {'strade': ['via a', 'via b'], 'pagine': ['ovest'], 'esatto': False, 'distanza_m': 42.0,
+         'punti': [{'lat': 0, 'lon': 0, 'pagine': ['ovest'], 'base': 'b'}]}
+p = s1.propose(row, {**ev, 'menzioni': [], 'incroci': [xing3]})
+check('a crossing the stradario does not contain is a lead (D), not a U', p['esito_proposto'] == 'D' and p['candidate'] == ['ovest'] and '42.0 m' in p['ragioni'][0], p)
 xing2 = {'strade': ['via a', 'via b'], 'pagine': ['est', 'ovest'], 'esatto': True,
          'punti': [{'lat': 0, 'lon': 0, 'pagine': ['ovest'], 'base': 'b'}, {'lat': 1, 'lon': 1, 'pagine': ['est'], 'base': 'b'}]}
 p = s1.propose(row, {**ev, 'menzioni': [], 'incroci': [xing2]})
@@ -116,6 +131,17 @@ pm = pacchetti._mention({'tipo': 'luogo_regola', 'testo': 'monte del grano', 'ca
                          'pagine': ['tuscolano-quadraro'], 'regola': 'R-0001', 'modo': 'unica'})
 check('DEC-106: a place-rule mention is serialised with its rule, no street keys',
       pm.get('regola') == 'R-0001' and pm.get('pagine_regola') == ['tuscolano-quadraro'] and 'chiavi_stradario' not in pm, pm)
+sm = pacchetti._mention({'tipo': 'strada', 'testo': 'via dei cerchi', 'campi': ['luoghi'], 'supporto': 'forte', 'chiavi': ['via dei cerchi'],
+                         'civico': 5, 'punto_civico': {'trovato': True, 'fonte': 'copia offline', 'punti': [
+                             {'id_civico': 1, 'pagine': ['centro-storico'], 'base': 'b', 'discordanza': True,
+                              'zona_urbanistica': [{'code_zu': '1X', 'nome': 'Z', 'pagine': ['centro-storico']}],
+                              'suddivisione': [{'tipo': 'Rione', 'nome': 'Ripa'}]}]},
+                         'risoluzione': [{'chiave': 'via dei cerchi', 'municipi': ['I'], 'pagine': ['centro-storico', 'testaccio'],
+                                          'pagine_geometria': ['centro-storico'], 'zone': [], 'zone_senza_pagina': [],
+                                          'regola': {'id': 'R-0003', 'modo': 'doppia_confine'}}]})
+check('DEC-106: the street rule id and the two cartographies of a discordant point reach the reader',
+      sm['strada'][0].get('regola') == {'id': 'R-0003', 'modo': 'doppia_confine'} and sm['strada'][0]['pagine_geometria'] == ['centro-storico']
+      and sm['civico_punti'][0]['discordanza'] and sm['civico_punti'][0]['suddivisione'] == [('Rione', 'Ripa')], sm)
 fake = Path(_tf.mkdtemp())
 (fake / 'cartografia').mkdir(); (fake / 'cartografia' / 'road_index.json').write_text('[]')
 (fake / 'cartografia' / 'marker_v1').write_text('1')
@@ -143,6 +169,21 @@ check('packets: a retry rebuilds the blind copy and drops packets of the previou
 check('DEC-106: the owner rules travel with the tools of the blind workspace',
       (out / 'strumenti' / 'regole_geografiche.json').is_file()
       and (out / 'strumenti' / 'regole_geografiche.json').read_bytes() == (HERE / 'regole_geografiche.json').read_bytes())
+snap = {'regole': [{'id': 'R-9999', 'tipo': 'zona', 'chiave': '1A', 'pagine': ['x'], 'modo': 'unica', 'deciso_da': 'o', 'data': 'd', 'dubbio': 'q'}], 'chiusi': []}
+(work / 'regole_geografiche.json').write_text(json.dumps(snap))
+r3 = packets(1)
+check('DEC-106: the rules snapshot left by stage 1 wins over the current file',
+      r3.returncode == 0 and json.loads((out / 'strumenti' / 'regole_geografiche.json').read_text()) == snap
+      and 'istantanea' in r3.stdout, r3.stdout + r3.stderr)
+# qngeo: a street rule senza_pagina empties the pages and keeps the geometry for audit
+atl2 = qngeo.Atlas.__new__(qngeo.Atlas)
+atl2.roads = {'via x': {'key': 'via x', 'name': 'VIA X', 'municipi': ['I'], 'zones': [{'code': '1A', 'name': 'Z', 'fraction': 1.0}]}}
+atl2.zone_pages = {'1A': (['ovest'], 'test')}
+atl2.rules = [{'id': 'R-0007', 'tipo': 'strada', 'chiave': 'via x', 'pagine': [], 'modo': 'senza_pagina', 'deciso_da': 'o', 'data': 'd', 'dubbio': 'q'}]
+atl2.page_mun, atl2._strada_cache = {}, {}
+r = atl2.strada('via x')
+check('qngeo applies a senza_pagina rule: no pages, geometry kept, rule cited',
+      r['pagine'] == [] and r['pagine_geometria'] == ['ovest'] and r['regola']['id'] == 'R-0007', r)
 
 active = {'centocelle', 'nomentano'}
 good = {'id': 'X', 'esito': 'U', 'pagine': ['centocelle'], 'fatto': 'f', 'motivo': 'm', 'confidenza': 'alta',
