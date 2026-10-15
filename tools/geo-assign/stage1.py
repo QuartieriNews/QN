@@ -26,7 +26,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from qngeo import Atlas, STREET_PREFIXES, norm, package_root, rules_path, _ascii  # noqa: E402
+from qngeo import Atlas, STREET_PREFIXES, norm, package_root, _ascii  # noqa: E402
 
 # Ambiguous locality names: a word, a person, a street part or a page name that
 # is also a common noun. They count only with a locality cue in front of them
@@ -62,7 +62,8 @@ MULTI = re.compile(r"\b(due|tre|quattro|cinque|sei|sette|otto|nove|dieci|diverse
                    r"tour|in giro per|tappe|rassegna diffusa|diffus[oa])\b")
 TRACT = re.compile(r"\b(?:tra|fra|da)\s+(?:via|viale|piazza|piazzale|largo|porta|ponte|corso)\b[^.;]{0,60}?"
                    r"\b(?:e|a|fino a)\s+(?:via|viale|piazza|piazzale|largo|porta|ponte|corso)\b")
-CROSS = re.compile(r"\b(incrocio|angolo|all'altezza|altezza di|intersezione|crocevia|"
+# Applied to norm()ed text, where the apostrophe is a space: "all altezza".
+CROSS = re.compile(r"\b(incrocio|angolo|all altezza|altezza (?:di|del|della|dello|dei|delle)|intersezione|crocevia|"
                    r"(?:tra|fra) via\b[^.;]{0,40}\be via)\b")
 # DEC-106: a sitting's seat gives a level, not a page; a service used at an
 # address (desk open day, in-person enrolment) gives both.
@@ -268,13 +269,21 @@ class Stage1:
                 if m['scartata']:
                     continue
                 ps = set(m['pagine'])
-                if not ps & active:
+                if m['tipo'] == 'luogo_regola' and m.get('modo') == 'senza_pagina':
+                    # The owner decided "nessuna" for this place: recognised, no page, cited.
+                    inactive.add(f"regola {m['regola']}: luogo senza pagina per decisione dell'owner")
+                elif not ps & active:
                     inactive.update(ps)
                 elif m['tipo'] == 'localita' and len(ps & active) > 1:
                     # gazetteer resolution.on_ambiguous: never pick, never merge
                     alternatives.append((m, ps & active, 'alias del gazetteer su piu pagine (ambiguous_alias): serve il contesto'))
                 else:
                     precise.append((m, ps & active))
+                continue
+            res = m['risoluzione'][0] if m['risoluzione'] else None
+            if res and (res.get('regola') or {}).get('modo') == 'senza_pagina':
+                # The owner's "nessuna" on the street comes before any civic point.
+                inactive.add(f"regola {res['regola']['id']}: strada senza pagina per decisione dell'owner")
                 continue
             pc = m.get('punto_civico') or {}
             if pc.get('trovato'):
@@ -302,11 +311,8 @@ class Stage1:
             if len(m['chiavi']) > 1:
                 alternatives.append((m, set(), 'omonimia: piu strade con lo stesso nome'))
                 continue
-            res = m['risoluzione'][0] if m['risoluzione'] else None
             if not res or not res['pagine']:
-                if res and (res.get('regola') or {}).get('modo') == 'senza_pagina':
-                    inactive.add(f"regola {res['regola']['id']}: strada senza pagina per decisione dell'owner")
-                elif res and res['zone_senza_pagina']:
+                if res and res['zone_senza_pagina']:
                     inactive.add('zona senza pagina: ' + ', '.join(res['zone_senza_pagina']))
                 continue
             ps = set(res.get('pagine_nel_municipio') or res['pagine'])
@@ -451,9 +457,7 @@ def run(pkg: Path, out: Path, ids=None):
     (out / 'proposte.jsonl').write_text('\n'.join(prop_lines) + '\n', encoding='utf-8')
     # The owner rules these evidences were built with travel with them, so a
     # packet made later cites the same rules and not the current file (DEC-106).
-    rp = rules_path()
-    (out / 'regole_geografiche.json').write_text(
-        rp.read_text(encoding='utf-8') if rp.is_file() else json.dumps({'regole': [], 'chiusi': []}), encoding='utf-8')
+    (out / 'regole_geografiche.json').write_text(s1.at.rules_text, encoding='utf-8')
     return len(prop_lines)
 
 

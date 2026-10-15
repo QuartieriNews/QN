@@ -78,7 +78,8 @@ def _point(p):
             d[k] = p[k]
     if p.get('discordanza'):
         d['discordanza'] = True
-        d['zona_urbanistica'] = [(z['code_zu'], z['nome'], z['pagine']) for z in p.get('zona_urbanistica', [])]
+        d['zona_urbanistica'] = [(z['code_zu'], z['nome'], z['pagine'], z.get('fonte_raccordo'))
+                                 for z in p.get('zona_urbanistica', [])]
         d['suddivisione'] = [(t['tipo'], t['nome']) for t in p.get('suddivisione', [])]
     return d
 

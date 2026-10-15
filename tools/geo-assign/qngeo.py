@@ -211,6 +211,10 @@ class Atlas:
         here = Path(__file__).resolve().parent
         cross = _read(here / 'zone_qn_cross.json')['zone']
         self.rules = load_rules(rules_path())
+        # The exact text the rules were read from: stage 1 writes it beside its
+        # evidence so a packet cites these rules, not a file edited meanwhile.
+        self.rules_text = rules_path().read_text(encoding='utf-8') if rules_path().is_file() \
+            else json.dumps({'regole': [], 'chiusi': []})
         rule_zone = {r['chiave'].upper(): r for r in self.rules if r['tipo'] == 'zona'}
         self._build_localities()
         self.zone_pages = {}            # code_zu -> (pages, source)
@@ -371,7 +375,9 @@ class Atlas:
             civic = None
             m = re.match(r'\s*,?\s*(?:n\.?\s*|numero\s+|civico\s+|civ\.\s*)?(\d{1,5})(?![\d/.]*\s*(?:euro|anni|metri|mq|%|gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre))',
                          _ascii(text)[toks[end - 1][2]:])
-            if m and not re.match(r'\s*\d{4}\s*[-–]', _ascii(text)[toks[end - 1][2]:]):
+            # "via Roma, 2026-2027" or "via Roma, 12/05/2026": a date, not a number.
+            after = _ascii(text)[toks[end - 1][2]:]
+            if m and not re.match(r'\s*,?\s*(?:\d{4}\s*[-–/]|\d{1,2}[/.]\d{1,2}[/.]\d{2,4})', after):
                 civic = int(m.group(1))
             hits.append({'testo': text[toks[i][1]:toks[end - 1][2]], 'variante': var,
                          'livello_normalizzazione': best, 'chiavi': narrowed,

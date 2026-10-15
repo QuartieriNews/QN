@@ -116,6 +116,15 @@ civ['punto_civico'] = {}
 civ['risoluzione'] = [{'pagine': [], 'pagine_geometria': ['ovest'], 'zone_senza_pagina': [], 'regola': {'id': 'R-0007', 'modo': 'senza_pagina'}}]
 p = s1.propose(row, {**ev, 'menzioni': [civ]})
 check('an owner rule senza_pagina is applied and cited, never a U', p['esito_proposto'] != 'U' and any('R-0007' in r for r in p['ragioni']), p)
+civ['punto_civico'] = {'trovato': True, 'punti': [{'pagine': ['ovest']}]}
+p = s1.propose(row, {**ev, 'menzioni': [civ]})
+check('senza_pagina on the street comes before a found civic point', p['esito_proposto'] != 'U' and any('R-0007' in r for r in p['ragioni']), p)
+lr = {'tipo': 'luogo_regola', 'scartata': None, 'pagine': [], 'regola': 'R-0008', 'modo': 'senza_pagina', 'campi': ['titolo'], 'supporto': 'forte'}
+p = s1.propose(row, {**ev, 'menzioni': [lr]})
+check('a place rule senza_pagina is recognised and cited, not "nessun luogo riconosciuto"',
+      p['esito_proposto'] == 'F?' and any('R-0008' in r for r in p['ragioni']), p)
+check('"all\'altezza" survives normalisation in the crossing cue',
+      stage1.CROSS.search(qngeo.norm("via A all'altezza della via B")) and stage1.CROSS.search(qngeo.norm('via A altezza di via B')))
 xing3 = {'strade': ['via a', 'via b'], 'pagine': ['ovest'], 'esatto': False, 'distanza_m': 42.0,
          'punti': [{'lat': 0, 'lon': 0, 'pagine': ['ovest'], 'base': 'b'}]}
 p = s1.propose(row, {**ev, 'menzioni': [], 'incroci': [xing3]})
@@ -142,6 +151,9 @@ sm = pacchetti._mention({'tipo': 'strada', 'testo': 'via dei cerchi', 'campi': [
 check('DEC-106: the street rule id and the two cartographies of a discordant point reach the reader',
       sm['strada'][0].get('regola') == {'id': 'R-0003', 'modo': 'doppia_confine'} and sm['strada'][0]['pagine_geometria'] == ['centro-storico']
       and sm['civico_punti'][0]['discordanza'] and sm['civico_punti'][0]['suddivisione'] == [('Rione', 'Ripa')], sm)
+sm2 = pacchetti._point({'pagine': ['a'], 'base': 'b', 'lat': 41.9, 'lon': 12.5, 'discordanza': True,
+                        'zona_urbanistica': [{'code_zu': '1X', 'nome': 'Z', 'pagine': ['a'], 'fonte_raccordo': 'zone_qn_cross.json'}], 'suddivisione': []})
+check('the source of each zone -> page link reaches the reader of a discordant point', sm2['zona_urbanistica'][0][3] == 'zone_qn_cross.json', sm2)
 fake = Path(_tf.mkdtemp())
 (fake / 'cartografia').mkdir(); (fake / 'cartografia' / 'road_index.json').write_text('[]')
 (fake / 'cartografia' / 'marker_v1').write_text('1')
@@ -184,6 +196,10 @@ atl2.page_mun, atl2._strada_cache = {}, {}
 r = atl2.strada('via x')
 check('qngeo applies a senza_pagina rule: no pages, geometry kept, rule cited',
       r['pagine'] == [] and r['pagine_geometria'] == ['ovest'] and r['regola']['id'] == 'R-0007', r)
+atl2._build_street_trie()
+hits = atl2.match_streets('via x, 2026-2027') + atl2.match_streets('via x, 12/05/2026')
+check('a year or a date after the street name is not a civic number', hits and all(h['civico'] is None for h in hits), hits)
+check('a plain civic number after a comma is still read', atl2.match_streets('via x, 17')[0]['civico'] == 17)
 
 active = {'centocelle', 'nomentano'}
 good = {'id': 'X', 'esito': 'U', 'pagine': ['centocelle'], 'fatto': 'f', 'motivo': 'm', 'confidenza': 'alta',
