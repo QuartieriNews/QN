@@ -8,7 +8,12 @@ NET = os.environ['QN_NET']
 REPO = '/home/user/QN/tools/sources-study'
 oggi = datetime.date.today().isoformat()
 dest = NET + '/report2/consegna_' + oggi
-os.makedirs(dest, exist_ok=True)
+if os.path.exists(dest):   # una fotografia non si sovrappone a una precedente: o si rifà da zero o ci si ferma
+    if '--force' in sys.argv:
+        shutil.rmtree(dest)
+    else:
+        sys.exit('congela_consegna: %s esiste gia\'; usa --force per rifare la fotografia da zero' % dest)
+os.makedirs(dest)
 
 DA_COPIARE = [
     'report1/db/notizie_candidate.csv', 'report1/db/documenti.csv', 'report1/db/fonti.csv',

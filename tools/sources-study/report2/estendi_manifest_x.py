@@ -22,7 +22,8 @@ def settimana(d):
     lo studio non numera: si dichiara 0 invece di inventare un numero."""
     m = re.match(r'(\d{2})/(\d{2})/(\d{4})', d or '')
     if not m: return ''
-    g = int(m.group(1))
+    g, mese, anno = int(m.group(1)), int(m.group(2)), int(m.group(3))
+    if (anno, mese) != (2026, 6): return '0'   # fuori giugno 2026: fuori perimetro, qualunque sia il giorno
     return str((g - 8) // 7 + 1) if 8 <= g <= 28 else '0'
 
 nuovi = []

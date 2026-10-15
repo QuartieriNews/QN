@@ -18,7 +18,7 @@ def norm(s):
     s = unicodedata.normalize('NFKD', s.lower())
     return re.sub(r'\s+', ' ', ''.join(c for c in s if not unicodedata.combining(c)))
 
-atti = sorted(os.listdir(NET + '/A2_text'))
+atti = sorted(f for f in os.listdir(NET + '/A2_text') if f.endswith('.txt'))   # solo i testi estratti
 trovati = collections.defaultdict(set)
 for f in atti:
     t = norm(open(NET + '/A2_text/' + f, encoding='utf-8', errors='replace').read())
