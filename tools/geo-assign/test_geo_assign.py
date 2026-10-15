@@ -376,6 +376,16 @@ try:
 except SystemExit as e:
     corr_ok = 'ripetuta' in str(e)
 check('tabella: two corrections for one id are an error', corr_ok and len(tg.check_corrections([{'id': 'N1', 'esito': 'U', 'livello_portata': 'quartiere'}])) == 1)
+bad_outcomes = 0
+for e in ('', 'UM', None):
+    try:
+        tg.check_corrections([{'id': 'N1', 'esito': e, 'livello_portata': 'quartiere'}])
+    except SystemExit:
+        bad_outcomes += 1
+check('tabella: an empty or multi-letter outcome in a correction is refused', bad_outcomes == 3)
+check('tabella: the source code is matched exactly, never as a prefix',
+      tg.source_code('C1') == 'C1' and tg.source_code('C1 Questura') == 'C1' and tg.source_code('C10') not in tg.OFFICIAL_CRONACA
+      and tg.source_code('') == '')
 try:
     tg.check_level({'id': 'F1', 'esito': 'T'}, 'd'); lv_ok = False
 except SystemExit as e:

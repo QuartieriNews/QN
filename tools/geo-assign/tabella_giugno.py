@@ -39,8 +39,14 @@ from qngeo import _read, fuori_dal_repository, package_root  # noqa: E402
 ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV']
 GATE = {'Amministrazione': 5, 'Cronaca': 1, 'Eventi': 10}
 BLOCKS = ('Amministrazione', 'Cronaca', 'Eventi')
-OFFICIAL_CRONACA = ('C1', 'C2', 'C4', 'C5')      # Questura, Carabinieri, Vigili del Fuoco, Polizia Locale
+OFFICIAL_CRONACA = {'C1', 'C2', 'C4', 'C5'}      # Questura, Carabinieri, Vigili del Fuoco, Polizia Locale
 LEVELS = {'quartiere', 'municipio', 'citta'}
+OUTCOMES = {'U', 'M', 'T', 'D', 'I', 'F'}
+
+
+def source_code(fonte):
+    """The source code of a record ('C1' from 'C1' or 'C1 Questura'): exact, never a prefix."""
+    return str(fonte or '').strip().split()[0] if str(fonte or '').strip() else ''
 
 
 def jl(pattern):
@@ -81,7 +87,7 @@ def check_corrections(corr_list):
     for c in corr_list:
         if c['id'] in out:
             raise SystemExit(f"correzione ripetuta per {c['id']}")
-        if c['esito'] not in 'UMTDIF' or c.get('livello_portata') not in LEVELS:
+        if c.get('esito') not in OUTCOMES or c.get('livello_portata') not in LEVELS:
             raise SystemExit(f"correzione {c['id']}: esito o livello_portata non ammessi")
         out[c['id']] = c
     return out
@@ -149,9 +155,9 @@ def items(a):
         raise SystemExit(f"correzioni non applicabili (id assenti, C* o non in_stock): {stale}")
     # 2. Cronaca reread in full: official sources only (owner, 9 October).
     cron = jl(a.cronaca)
-    bad = sorted({s['fonte'] for s in cron if not str(s['fonte']).startswith(OFFICIAL_CRONACA)})
+    bad = sorted({str(s['fonte']) for s in cron if source_code(s['fonte']) not in OFFICIAL_CRONACA})
     if bad:
-        raise SystemExit(f"Cronaca solo da fonti ufficiali {OFFICIAL_CRONACA}: trovate {bad}")
+        raise SystemExit(f"Cronaca solo da fonti ufficiali {sorted(OFFICIAL_CRONACA)}: trovate {bad}")
     for s in cron:
         lv = s.get('livello_portata') or ('quartiere' if s['esito'] in 'UM' else 'municipio')
         rows.append({'id': s['id'], 'blocco': 'Cronaca', 'fonte': s['fonte'], 'esito': s['esito'], 'pagine': sorted(s['pagine']),
