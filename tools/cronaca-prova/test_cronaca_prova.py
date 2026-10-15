@@ -2,7 +2,7 @@
 
 Uso: python3 tools/cronaca-prova/test_cronaca_prova.py
 """
-import json, os, sys, tempfile
+import glob, json, os, sys, tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import compila, filtro, prepara_lotti  # noqa: E402
@@ -101,6 +101,30 @@ with tempfile.TemporaryDirectory() as d:
           and nu["ufficiali_non_cercati"] == {"0": 1} and nu["solo_testate_aperte"] == {"1": 1, "2": 1})
     check("compila: il riepilogo non contiene link né titoli",
           "http" not in json.dumps(R) and "Carabinieri a Ostia" not in json.dumps(R))
+
+    def fallisce(parola, path, obj, jsonl=False):
+        scrivi(path, obj, jsonl=jsonl)
+        try:
+            compila.main(d, f"{d}/matrice.csv"); esito = False
+        except SystemExit as e:
+            esito = parola in str(e)
+        os.remove(path)
+        return esito
+    check("compila: un lotto avanti letto due volte ferma la compilazione",
+          fallisce("ripetuti", f"{d}/avanti/risultati_2.jsonl", [{"id": "A", "ricerche": ["q"], "testate": [], "nota": ""}], True))
+    check("compila: un risultato con id fuori dai lotti ferma la compilazione",
+          fallisce("nessun lotto", f"{d}/avanti/risultati_2.jsonl", [{"id": "Z", "ricerche": ["q"], "testate": [], "nota": ""}], True))
+    check("compila: un sid che non è fra i candidati ferma la compilazione",
+          fallisce("candidati", f"{d}/inverso/scarti_2.jsonl", [{"sid": "S9", "classe": "non_cronaca"}], True))
+    check("compila: un sid classificato due volte ferma la compilazione",
+          fallisce("ripetuti", f"{d}/inverso/scarti_2.jsonl", [{"sid": "S3", "classe": "giudiziaria"}], True))
+    os.rename(f"{d}/inverso/scarti_1.jsonl", f"{d}/scarti_via")
+    try:
+        compila.main(d, f"{d}/matrice.csv"); manc = False
+    except SystemExit as e:
+        manc = "senza esito" in str(e)
+    os.rename(f"{d}/scarti_via", f"{d}/inverso/scarti_1.jsonl")
+    check("compila: un candidato senza esito ferma la compilazione", manc)
 
 # --- fonti_ufficiali: elenchi per fonte su pagine sintetiche, riconoscimento dei blocchi
 import fonti_ufficiali as F  # noqa: E402
@@ -350,6 +374,16 @@ check("chiuse_filtro: cambio d'ora: le 23:30 UTC del 31 ottobre sono già il 1°
       K.giorno_locale("20261031233000") == "2026-11-01" and K.giorno_locale("20260630223000") == "2026-07-01"
       and K.giorno_locale("20261031225900") == "2026-10-31")
 
+# --- prepara_chiuse: senza candidati nessun lotto, non un errore
+import prepara_chiuse as PC  # noqa: E402
+
+with tempfile.TemporaryDirectory() as d:
+    scrivi(f"{d}/chiuse/candidati.json", [])
+    scrivi(f"{d}/uff.jsonl", [], jsonl=True)
+    scrivi(f"{d}/aperte.jsonl", [], jsonl=True)
+    check("prepara_chiuse: con candidati.json vuoto non scrive lotti e torna 0",
+          PC.main(d, "/pkg", [f"{d}/uff.jsonl"], [f"{d}/aperte.jsonl"]) == 0 and not glob.glob(f"{d}/chiuse/lotto_*.json"))
+
 # --- tabella_quartieri: regola delle due fonti per editore, fusioni, mese
 import tabella_quartieri as TQ  # noqa: E402
 
@@ -399,6 +433,29 @@ with tempfile.TemporaryDirectory() as d:
     check("tabella_quartieri: pagine coperte (ufficiali 1, pubblicabili 2)",
           R["pagine_coperte"]["solo_ufficiali"] == 1 and R["pagine_coperte"]["ufficiali_piu_stampa_due_fonti"] == 2
           and R["pagine_scoperte"] == ["ostia", "trieste"])
+    check("tabella_quartieri: la seconda fonte di P1 viene solo da una chiusa; l'abbinamento al fatto fuori mese è contato",
+          R["seconda_fonte"] == {"anche_da_aperte": 0, "solo_da_chiuse": 1} and R["abbinamenti_a_fatti_esclusi"] == 1)
+
+    def rifiuta(parola, righe):
+        scrivi(f"{d}/chiuse/abbinamenti_2.jsonl", righe, jsonl=True)
+        try:
+            TQ.main(d, f"{d}/matrice.csv", [f"{d}/uff.jsonl"], [f"{d}/aperte.jsonl"]); esito = False
+        except SystemExit as e:
+            esito = parola in str(e)
+        os.remove(f"{d}/chiuse/abbinamenti_2.jsonl")
+        return esito
+    check("tabella_quartieri: un cid ignoto negli abbinamenti ferma la tabella",
+          rifiuta("ignoti", [{"cid": "K9", "classe": "cronaca_roma", "fatto": "P1"}]))
+    check("tabella_quartieri: un cid abbinato due volte (lotto letto due volte) ferma la tabella",
+          rifiuta("ripetuti", [{"cid": "K1", "classe": "cronaca_roma", "fatto": "P1"}]))
+    orig = [json.loads(l) for l in open(f"{d}/chiuse/abbinamenti_1.jsonl", encoding="utf-8")]
+    scrivi(f"{d}/chiuse/abbinamenti_1.jsonl", orig[:-1] + [{"cid": "K6", "classe": "cronaca_roma", "fatto": "X-999"}], jsonl=True)
+    try:
+        TQ.main(d, f"{d}/matrice.csv", [f"{d}/uff.jsonl"], [f"{d}/aperte.jsonl"]); ign = False
+    except SystemExit as e:
+        ign = "ignoto" in str(e)
+    scrivi(f"{d}/chiuse/abbinamenti_1.jsonl", orig, jsonl=True)
+    check("tabella_quartieri: un abbinamento a un fatto ignoto ferma la tabella (uno a un fatto escluso no, sopra)", ign)
     # doppione fra fatti delle testate aperte e fatto su più pagine
     scrivi(f"{d}/aperte.jsonl", [ap("P1", ["Abitare a Roma"], "prati"), ap("P2", ["Il Tempo"], "ostia"),
                                  ap("P3", ["Roma Daily News"], "trieste"), ap("P4", ["Dire"], None, uff="CR-1"),

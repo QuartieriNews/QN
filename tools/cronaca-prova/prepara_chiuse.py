@@ -19,6 +19,9 @@ def jl(paths):
 def main(base, pkg, ufficiali, aperte):
     day = dt.date.fromisoformat
     titoli = json.load(open(f"{base}/chiuse/candidati.json"))
+    if not titoli:   # mese povero o filtro stretto: nessun lotto, non un errore
+        print("nessun titolo candidato: nessun lotto")
+        return 0
     aperti = jl(aperte)
     testate_di = {}
     for x in aperti:

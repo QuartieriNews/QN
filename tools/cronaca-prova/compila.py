@@ -44,9 +44,28 @@ def presenze(xs):
     return sum(len(str(x["pagina_qn"]).split("+")) for x in xs if x.get("pagina_qn"))
 
 
+def ripetuti(xs):
+    return sorted({x for x in xs if xs.count(x) > 1})
+
+
+def carica_avanti(base):
+    """Fatti dei lotti e risultati dei lettori; un lotto letto due volte o un id ignoto fermano
+    la compilazione invece di sovrascriversi in silenzio (ISTRUZIONI_AVANTI.md, AGENTS.md)."""
+    lotti = [f for p in sorted(glob.glob(f"{base}/avanti/lotto_*.json")) for f in json.load(open(p))]
+    if ripetuti([f["id"] for f in lotti]):
+        sys.exit(f"compila: id ripetuti nei lotti avanti: {ripetuti([f['id'] for f in lotti])}")
+    facts = {f["id"]: f for f in lotti}
+    ris = [r for p in sorted(glob.glob(f"{base}/avanti/risultati_*.jsonl")) for r in jl(p)]
+    if ripetuti([r["id"] for r in ris]):
+        sys.exit(f"compila: risultati ripetuti (lotto letto due volte?): {ripetuti([r['id'] for r in ris])}")
+    ignoti = sorted(r["id"] for r in ris if r["id"] not in facts)
+    if ignoti:
+        sys.exit(f"compila: risultati per id che non sono in nessun lotto: {ignoti}")
+    return facts, {r["id"]: r for r in ris if cercato(r)}
+
+
 def avanti(base):
-    facts = {f["id"]: f for p in sorted(glob.glob(f"{base}/avanti/lotto_*.json")) for f in json.load(open(p))}
-    res = {r["id"]: r for p in sorted(glob.glob(f"{base}/avanti/risultati_*.jsonl")) for r in jl(p) if cercato(r)}
+    facts, res = carica_avanti(base)
     R = {"fatti_ufficiali_roma": len(facts), "fatti_cercati": len(res),
          "ricerche": sum(len(r["ricerche"]) for r in res.values()),
          "non_cercati_per_fonte": dict(collections.Counter(f["fonte"] for i, f in facts.items() if i not in res))}
@@ -82,6 +101,16 @@ def inversa(base, attive, pagine_uff, presenze_uff):
     cand = {c["sid"]: c for c in json.load(open(f"{base}/censimento/candidati.json"))}
     fatti = [x for p in sorted(glob.glob(f"{base}/inverso/fatti_*.jsonl")) for x in jl(p)]
     scarti = [x for p in sorted(glob.glob(f"{base}/inverso/scarti_*.jsonl")) for x in jl(p)]
+    # ogni sid esattamente una volta, in uno dei due file (ISTRUZIONI_INVERSO.md): doppioni, sid ignoti e
+    # sid mancanti fermano la compilazione
+    sids = [s for x in fatti for s in x["sid"]] + [x["sid"] for x in scarti]
+    if ripetuti(sids) or ripetuti([x["fid"] for x in fatti]):
+        sys.exit(f"compila: sid o fid ripetuti nella passata inversa (lotto letto due volte?): "
+                 f"{ripetuti(sids) + ripetuti([x['fid'] for x in fatti])}")
+    if [s for s in sids if s not in cand]:
+        sys.exit(f"compila: sid che non sono fra i candidati: {sorted(s for s in sids if s not in cand)}")
+    if set(cand) - set(sids):
+        sys.exit(f"compila: candidati senza esito nella passata inversa: {sorted(set(cand) - set(sids))[:20]}")
     solo = [x for x in fatti if not x.get("ufficiale")]
     due = [x for x in solo if len(set(x["testate"])) >= 2]
     tit = lambda x: " ".join(cand[s]["titolo"] for s in x["sid"] if s in cand)
@@ -118,8 +147,8 @@ def notizie_uniche(base):
     """Una riga per notizia: i fatti ufficiali (testate dalle due passate, unite) più i fatti
     trovati solo sulle testate aperte. I fatti ufficiali senza ricerca restano a parte:
     il loro conteggio di testate è incompleto."""
-    facts = [f["id"] for p in sorted(glob.glob(f"{base}/avanti/lotto_*.json")) for f in json.load(open(p))]
-    res = {r["id"]: r for p in sorted(glob.glob(f"{base}/avanti/risultati_*.jsonl")) for r in jl(p) if cercato(r)}
+    facts, res = carica_avanti(base)
+    facts = list(facts)
     inv = [x for p in sorted(glob.glob(f"{base}/inverso/fatti_*.jsonl")) for x in jl(p)]
     uscite = {i: set(testate(res[i])) if i in res else set() for i in facts}
     for x in inv:

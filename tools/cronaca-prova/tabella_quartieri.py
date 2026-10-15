@@ -17,7 +17,11 @@ RomaToday e Today.it, Il Tempo e il Giornale) valgono una. Categorie:
   chiuse_due_fonti         solo testate chiuse, almeno due editori: segnale, non scrivibile
   chiuse_una_fonte         solo testate chiuse, un editore
 Scrive DIR/tabella/fatti.json (per Drive), DIR/tabella/per_pagina.csv e DIR/tabella/riepilogo.json
-(solo conteggi: si possono versionare).
+(solo conteggi: si possono versionare; `seconda_fonte` dice da dove viene la seconda fonte dei
+fatti «stampa_due_fonti», `abbinamenti_a_fatti_esclusi` quanti abbinamenti puntano a un fatto noto
+ma fuori tabella: fuori mese, fuori Roma, non cronaca).
+Gli abbinamenti devono citare `cid` noti, una volta sola, e fatti noti (ISTRUZIONI_CHIUSE.md):
+altrimenti il programma si ferma.
 """
 import collections, csv, glob, json, os, sys
 
@@ -57,8 +61,9 @@ def main(base, matrice, ufficiali, aperte, mese=None):
     abb = jl(sorted(glob.glob(f"{base}/chiuse/abbinamenti_*.jsonl")))
     nuovi = jl(sorted(glob.glob(f"{base}/chiuse/nuovi_*.jsonl")))
     luoghi = {x["fid"]: x for x in jl(glob.glob(f"{base}/luoghi/luoghi_esito.jsonl"))}
-    fatti = {}
+    fatti, noti = {}, set()   # noti: ogni id che un abbinamento può citare, anche se escluso dalla tabella
     for s in jl(ufficiali):
+        noti.add(s["id"])
         if s["fuori_roma"]:
             continue
         fatti[s["id"]] = {"id": s["id"], "origine": "ufficiale", "data": s["data_fatto"] or s["data_pubblicazione"],
@@ -72,6 +77,7 @@ def main(base, matrice, ufficiali, aperte, mese=None):
                 if os.path.exists(f"{base}/luoghi/pagine_multiple.json") else {})
     rimandati = []
     for x in jl(aperte):
+        noti.add(x["fid"])
         testate = set(x["testate"])
         if x["fid"] in fus_aperte:
             rimandati.append((fus_aperte[x["fid"]], testate))
@@ -99,21 +105,28 @@ def main(base, matrice, ufficiali, aperte, mese=None):
     # fatti nuovi doppi fra lotti vicini (stesso fatto ai bordi delle finestre): DIR/chiuse/fusioni.json
     fusioni = json.load(open(f"{base}/chiuse/fusioni.json")) if os.path.exists(f"{base}/chiuse/fusioni.json") else {}
     for n in nuovi:
+        noti.add(n["nid"])
         if n["nid"] in fusioni or not str(n.get("data", "")).startswith(mese):
             continue
         fatti[n["nid"]] = {"id": n["nid"], "origine": "chiuse", "data": n["data"], "fatto": n["fatto"],
                            "livello": n["livello"], "pagine": pagine_di(n.get("pagina_qn")), "ufficiale": False,
                            "aperte": set(), "chiuse": set(), "editori": set(), "link": []}
-    non_trovati = 0
+    cids = [a["cid"] for a in abb]
+    doppi = sorted({c for c in cids if cids.count(c) > 1})
+    if doppi:
+        sys.exit(f"tabella_quartieri: cid ripetuti negli abbinamenti (lotto letto due volte?): {doppi}")
+    if [c for c in cids if c not in chiuse]:
+        sys.exit(f"tabella_quartieri: cid ignoti negli abbinamenti: {sorted(c for c in cids if c not in chiuse)}")
+    esclusi = 0
     for a in abb:
         if a.get("classe") != "cronaca_roma" or not a.get("fatto"):
             continue
         dest = fusioni.get(a["fatto"], fus_aperte.get(a["fatto"], a["fatto"]))
-        f, c = fatti.get(dest), chiuse.get(a["cid"])
-        if not c:
-            non_trovati += 1
-            continue
-        if not f:  # fatto nuovo fuori dal mese (lotti di bordo) o non trovato
+        f, c = fatti.get(dest), chiuse[a["cid"]]
+        if not f:
+            if dest not in noti:
+                sys.exit(f"tabella_quartieri: l'abbinamento {a['cid']} cita un fatto ignoto: {a['fatto']}")
+            esclusi += 1   # fatto noto ma fuori tabella: fuori mese (lotti di bordo), fuori Roma, non cronaca
             continue
         f["chiuse"].add(c["testata"])
         f["editori"].add(c["editore"])
@@ -148,7 +161,11 @@ def main(base, matrice, ufficiali, aperte, mese=None):
                             "con_anche_le_chiuse_non_scrivibili": len(coperte(PUBBLICABILI + ("chiuse_due_fonti",)))},
          "pagine_attive": len(attive),
          "pagine_scoperte": [p for p, _, _ in pagine if p not in set(coperte(PUBBLICABILI))],
-         "abbinamenti_senza_fatto": non_trovati}
+         "seconda_fonte": {"anche_da_aperte": sum(1 for f in fatti.values() if f["categoria"] == "stampa_due_fonti"
+                                                  and len({EDITORE_APERTE.get(t, t) for t in f["aperte"]}) >= 2),
+                           "solo_da_chiuse": sum(1 for f in fatti.values() if f["categoria"] == "stampa_due_fonti"
+                                                 and len({EDITORE_APERTE.get(t, t) for t in f["aperte"]}) < 2)},
+         "abbinamenti_a_fatti_esclusi": esclusi}
     json.dump(R, open(f"{base}/tabella/riepilogo.json", "w"), ensure_ascii=False, indent=1)
     out = [{**{k: v for k, v in f.items() if k not in ("aperte", "chiuse", "editori")},
             "aperte": sorted(f["aperte"]), "chiuse": sorted(f["chiuse"]), "editori": sorted(f["editori"])}

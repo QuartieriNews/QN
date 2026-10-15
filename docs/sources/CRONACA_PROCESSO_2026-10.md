@@ -354,7 +354,8 @@ fonti e ha scaricato ogni comunicato.
 
 Fra i 175 fatti dei giornali con almeno due editori:
 - **la seconda fonte:** in 166 viene da una testata chiusa (RomaToday in 149) e solo in 9
-  da un'altra testata aperta;
+  da un'altra testata aperta (misura presa dal foglio dei fatti su Drive l'11 ottobre, non
+  da un file versionato; dal 15 ottobre `riepilogo.json` la scrive come `seconda_fonte`);
 - **il livello:** 151 hanno una pagina, gli altri sono di livello città, municipio o
   dubbi.
 
@@ -380,8 +381,8 @@ Fra i 175 fatti dei giornali con almeno due editori:
   Municipi).
 
 **Qualità e limiti.**
-- **Controllo a campione:** su 10 fatti «due fonti» con una testata chiusa, 9 abbinamenti
-  sono lo stesso fatto. Uno è debole (un automobilista denunciato abbinato a un articolo
+- **Controllo a campione (manuale, non calcolato dai run):** su 10 fatti «due fonti» con
+  una testata chiusa, 9 abbinamenti sono lo stesso fatto. Uno è debole (un automobilista denunciato abbinato a un articolo
   su cento multe nella ZTL): il margine d'errore è intorno al 10%.
 - **Solo titoli:** abbinamenti e luoghi delle testate chiuse vengono dai titoli e dal
   testo degli URL.
