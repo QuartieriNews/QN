@@ -49,11 +49,12 @@ def wordpress(site):
     cats, page = {}, 1
     while page <= 30:
         u = f"https://{site}/wp-json/wp/v2/categories?per_page=100&page={page}&_fields=id,slug"
-        arr = _lista(get(u)[0], u)
-        if not arr:
-            break
+        b, h = get(u)
+        arr = _lista(b, u)
         cats.update({c["id"]: c["slug"] for c in arr})
-        if len(arr) < 100:
+        # il totale delle pagine viene dall'intestazione: chiedere la pagina oltre
+        # l'ultima e' un errore dell'API, non la fine dell'elenco
+        if not arr or page >= int(h.get("x-wp-totalpages") or 1):
             break
         page += 1
     nxt = f"{ANNO}-{int(M) + 1:02d}" if M != "12" else f"{int(ANNO) + 1}-01"

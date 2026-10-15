@@ -64,7 +64,12 @@ def _ripristina(tit_path, letti):
         for line in f:
             if not line.strip():
                 continue
-            if json.loads(line).get("file") in letti:
+            try:
+                riga = json.loads(line)
+            except ValueError:          # riga troncata da una caduta a meta' scrittura
+                scartate += 1
+                continue
+            if riga.get("file") in letti:
                 tenute.append(line)
             else:
                 scartate += 1

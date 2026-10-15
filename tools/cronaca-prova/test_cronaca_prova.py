@@ -217,6 +217,10 @@ with tempfile.TemporaryDirectory() as d:
     rest = [json.loads(l) for l in open(tit, encoding="utf-8")]
     check("gdelt_titoli: alla ripresa le righe di un file non registrato come letto vengono scartate (niente doppioni)",
           scartate == 2 and [r["file"] for r in rest] == ["A.zip"] and not [f for f in os.listdir(d) if f.endswith(".tmp")])
+    with open(tit, "a", encoding="utf-8") as f:
+        f.write('{"link": "d", "file": "A.z')          # caduta a meta' scrittura
+    check("gdelt_titoli: una riga troncata da una caduta non blocca la ripresa, viene scartata",
+          G._ripristina(tit, {"A.zip"}) == 1 and [json.loads(l)["link"] for l in open(tit, encoding="utf-8")] == ["a"])
     G._salva_registro(f"{d}/registro.json", {"letti": ["A.zip"], "mancanti": {}})
     check("gdelt_titoli: il registro è scritto per intero e sostituito",
           json.load(open(f"{d}/registro.json"))["letti"] == ["A.zip"] and not [f for f in os.listdir(d) if f.endswith(".tmp")])
@@ -236,7 +240,17 @@ except C.Censimento as e:
     sm_err = "post-sitemap" in str(e)
 C.get = lambda url, tries=3: ("[]", {"x-wp-totalpages": "1"})
 vuoto = C.wordpress("abitarearoma.it")
+chiamate = []
+def _get_cento(url, tries=3):
+    chiamate.append(url)
+    if "categories" in url:
+        return (json.dumps([{"id": i, "slug": f"c{i}"} for i in range(100)]), {"x-wp-totalpages": "1"})
+    return ("[]", {"x-wp-totalpages": "1"})
+C.get = _get_cento
+C.wordpress("abitarearoma.it")
 C.get = _get
+check("censimento: con esattamente 100 categorie non si chiede la pagina 2 (errore dell'API, non fine elenco)",
+      sum("categories" in u for u in chiamate) == 1)
 check("censimento: HTML servito con 200 al posto dell'API o della sitemap è un errore esplicito", wp_err and sm_err)
 check("censimento: una lista JSON vuota è un mese senza articoli, non un errore", vuoto == [])
 
