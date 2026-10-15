@@ -9,3 +9,11 @@ council/sessions/
 
 # Installed by `npm ci` for the workflow-safety suite only (DEC-011).
 node_modules/
+
+# Doubt queue of tools/geo-assign and its by-products: they carry source titles
+# (DEC-102). dubbi.py refuses to write them inside the repository; this is the net.
+coda_dubbi*.csv
+coda_dubbi*.json
+modifiche_gazetteer.csv
+tools/geo-assign/*.lock
+tools/geo-assign/*.tmp

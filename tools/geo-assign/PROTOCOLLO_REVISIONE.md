@@ -87,14 +87,20 @@ contraddice, prevale la località e la discordanza va in `nota_geografia`.
      `livello_portata: municipio`. Lo sportello qui è `sede_evento`.
    - La sede di una seduta o di una convocazione resta `sede_istituzionale`:
      nessuno ci va per il fatto, quindi niente pagina, solo il livello.
+     **Questa clausola è una raccomandazione del builder, non ancora confermata
+     dall'owner (DEC-106, «Recommendation recorded with the decision»).** Applicala
+     come regola di lavoro e scrivi in `nota_geografia` «sede di seduta: DEC-106
+     da confermare», così le decisioni si ritrovano se l'owner deciderà altrimenti.
    - Una norma sul «centro storico» in senso urbanistico è `citta` (T): vale
      per la città storica, non per la sola pagina Centro Storico.
 6. **Regole dell'owner.** Se `evidenze_codice` cita una regola (`R-0001`…), è
    una decisione dell'owner su quel luogo: applicala e citane l'id nella
    `risoluzione`. Una regola `doppia_confine` assegna entrambe le pagine a un
    luogo sul confine: è M anche con un solo luogo. Se pensi che una regola sia
-   sbagliata, applicala lo stesso e scrivi perché in `nota_geografia`: si
-   riapre come dubbio nella coda, non nella singola scheda.
+   sbagliata, applicala lo stesso e scrivi perché in `nota_geografia`, citando
+   l'id (`R-0012: ...`): il builder passa le decisioni a `dubbi.py --decisioni`,
+   che riapre la regola nella coda come riga `C-R-0012`; l'owner la conferma o
+   la sostituisce. La singola scheda non cambia la regola.
 7. **Esito** (§10):
    - `U` una sola pagina attiva pertinente (anche con molti indirizzi);
    - `M` più pagine **effettivamente** interessate (più sedi reali), non alternative;

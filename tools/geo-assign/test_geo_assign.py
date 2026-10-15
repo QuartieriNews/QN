@@ -203,8 +203,13 @@ check('a plain civic number after a comma is still read', atl2.match_streets('vi
 
 active = {'centocelle', 'nomentano'}
 good = {'id': 'X', 'esito': 'U', 'pagine': ['centocelle'], 'fatto': 'f', 'motivo': 'm', 'confidenza': 'alta',
-        'luoghi': [{'testo': 'via x', 'ruolo': 'intervento', 'usato': True, 'risoluzione': {'pagine': ['centocelle']}}]}
+        'luoghi': [{'testo': 'via x', 'ruolo': 'intervento', 'usato': True,
+                    'risoluzione': {'metodo': 'strada', 'query': 'qngeo.py strada "via x"', 'pagine': ['centocelle']}}]}
 check('T-valida: well-formed U passes', valida.check(good, active) == [], valida.check(good, active))
+check('T-valida: a decision without id is refused', valida.check({**good, 'id': ''}, active) == ['id mancante'])
+check('T-valida: an id outside the package is reported', any('pacchetto' in p for p in valida.check(good, active, ids={'N0001'})))
+check('T-valida: a resolution without method or reference is not repeatable',
+      any('ripetibile' in p for p in valida.check({**good, 'luoghi': [{**good['luoghi'][0], 'risoluzione': {'pagine': ['centocelle']}}]}, active)))
 check('T-valida: U page must follow from a used effective place',
       any('senza un luogo effettivo' in p for p in valida.check({**good, 'luoghi': [{**good['luoghi'][0], 'ruolo': 'provenienza'}]}, active)))
 check('T-valida: D with pages rejected', any('cardinalita' in p for p in valida.check({**good, 'esito': 'D', 'tipo_dubbio': 'sede_da_riscontrare', 'verifica_necessaria': 'v'}, active)))
@@ -218,8 +223,106 @@ check('T-valida DEC-106: a desk open day keeps its page and a municipal level',
 check('T-valida DEC-106: T cannot be of neighbourhood scope',
       any('contraddizione' in p for p in valida.check({**good, 'esito': 'T', 'pagine': [], 'portata': 'x', 'livello_portata': 'quartiere'}, active)))
 edge = {**two, 'luoghi': [{'testo': 'via dei cerchi', 'ruolo': 'intervento', 'usato': True,
-                                         'risoluzione': {'pagine': ['centocelle', 'nomentano'], 'regola': 'R-0003'}}]}
-check('T-valida: a cited boundary rule allows M on one place', valida.check(edge, active) == [], valida.check(edge, active))
+                           'risoluzione': {'metodo': 'strada', 'pagine': ['centocelle', 'nomentano'], 'regola': 'R-0003'}}]}
+boundary_rules = {'R-0003': {'modo': 'doppia_confine', 'pagine': ['centocelle', 'nomentano']}}
+check('T-valida: a cited boundary rule allows M on one place', valida.check(edge, active, rules=boundary_rules) == [],
+      valida.check(edge, active, rules=boundary_rules))
+check('T-valida: a cited rule that is not doppia_confine does not make M of one place',
+      any('M richiede' in p for p in valida.check(edge, active, rules={'R-0003': {'modo': 'unica', 'pagine': ['centocelle']}})))
+check('T-valida: a cited rule missing from the snapshot is reported', any('non presente' in p for p in valida.check(edge, active)))
+
+# ---- owner rules loop on a minimal package (pure): applica_decisioni.py reads only the gazetteer
+import csv
+import subprocess
+import tempfile
+fpkg = Path(tempfile.mkdtemp())
+(fpkg / 'cartografia').mkdir(); (fpkg / 'cartografia' / 'road_index.json').write_text('[]')
+(fpkg / 'input').mkdir()
+(fpkg / 'input' / 'gazetteer_qn.json').write_text(json.dumps({
+    'publication_zones': [{'publication_zone_id': p, 'is_page': p != 'agro-romano', 'name_display': p.title(),
+                           'primary_municipality': 'I', 'spans_municipalities': ''}
+                          for p in ('centro-storico', 'testaccio', 'tuscolano-quadraro', 'esquilino-termini', 'ardeatino', 'montagnola', 'agro-romano')],
+    'neighbourhoods': [{'name_display': 'Monti', 'aliases': 'rione Monti', 'publication_zone_id': 'esquilino-termini', 'zu_code': '1A',
+                        'neighbourhood_id': 'monti', 'municipality_code': 'I', 'spans_municipalities': ''},
+                       {'name_display': 'Tor Marancia', 'aliases': '', 'publication_zone_id': 'ardeatino', 'zu_code': '11E',
+                        'neighbourhood_id': 'tor-marancia', 'municipality_code': 'VIII', 'spans_municipalities': ''},
+                       {'name_display': 'Corcolle', 'aliases': '', 'publication_zone_id': 'agro-romano', 'zu_code': '',
+                        'neighbourhood_id': 'corcolle', 'municipality_code': 'VI', 'spans_municipalities': ''}]}))
+tmp = Path(tempfile.mkdtemp())
+rules = tmp / 'regole.json'
+rules.write_text(json.dumps({'regole': [], 'chiusi': []}))
+queue = tmp / 'coda.csv'
+cols = ['id_dubbio', 'tipo', 'luogo', 'municipio', 'opzioni', 'proposta', 'base_proposta', 'schede', 'esempi',
+        'si_applica_in', 'tipo_regola', 'chiave', 'decisione', 'note']
+base = dict.fromkeys(cols, '')
+
+
+def write_queue(items):
+    with queue.open('w', encoding='utf-8-sig', newline='') as h:
+        w = csv.DictWriter(h, fieldnames=cols, delimiter=';')
+        w.writeheader()
+        w.writerows({**base, **it} for it in items)
+
+
+def apply(extra=()):
+    env = {**os.environ, 'QN_REGOLE': str(rules), 'QN_PKG': str(fpkg)}
+    return subprocess.run([sys.executable, str(HERE / 'applica_decisioni.py'), '--coda', str(queue), '--data', '2026-10-09'] + list(extra),
+                          env=env, capture_output=True, text=True)
+
+
+write_queue([{'id_dubbio': 'Z-11E', 'tipo_regola': 'zona', 'chiave': '11E', 'si_applica_in': 'regole_geografiche',
+              'opzioni': 'ardeatino+montagnola', 'decisione': 'montagnola'}])
+res = apply()
+check('a zone rule contradicting the gazetteer zu_code is refused', res.returncode == 1 and 'gazetteer' in res.stdout, res.stdout + res.stderr)
+write_queue([{'id_dubbio': 'L-monte-del-grano', 'tipo_regola': 'luogo', 'chiave': 'Monte del Grano',
+              'si_applica_in': 'regole_geografiche', 'proposta': 'tuscolano-quadraro', 'decisione': 'ok'},
+             {'id_dubbio': 'S-via-dei-cerchi', 'tipo_regola': 'strada', 'chiave': 'via dei cerchi',
+              'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico+testaccio'},
+             {'id_dubbio': 'G-monti', 'tipo_regola': 'localita', 'chiave': 'monti',
+              'si_applica_in': 'gazetteer (tabella owner)', 'proposta': 'centro-storico', 'decisione': 'ok'},
+             {'id_dubbio': 'G-tor-marancia', 'tipo_regola': 'localita', 'chiave': 'tor marancia',
+              'si_applica_in': 'gazetteer (tabella owner)', 'proposta': 'ardeatino', 'decisione': 'ok'},
+             {'id_dubbio': 'N-corcolle', 'tipo_regola': 'localita', 'chiave': 'corcolle',
+              'si_applica_in': 'gazetteer (tabella owner)', 'proposta': 'nessuna', 'decisione': 'ok'},
+             {'id_dubbio': 'L-falso', 'decisione': 'ignora'}])
+res = apply()
+check('DEC-107 open: a two-page decision is refused without --consenti-confine',
+      res.returncode == 1 and 'DEC-107' in res.stdout, res.stdout + res.stderr)
+res = apply(['--consenti-confine'])
+stored = json.loads(rules.read_text())
+check('owner decisions become cited rules, a false alarm is closed',
+      res.returncode == 0 and [r['modo'] for r in stored['regole']] == ['unica', 'doppia_confine']
+      and any(c['dubbio'] == 'L-falso' for c in stored['chiusi']), res.stdout + res.stderr)
+gazfile = tmp / 'modifiche_gazetteer.csv'
+gazrows = list(csv.DictReader(gazfile.open(encoding='utf-8-sig'), delimiter=';')) if gazfile.is_file() else []
+check('a locality -> page change goes to the gazetteer table, never to a rule',
+      [r['dubbio'] for r in gazrows] == ['G-monti'] and gazrows[0]['oggi'] == 'esquilino-termini'
+      and all(r['dubbio'] != 'G-monti' for r in stored['regole']), gazrows)
+check('a gazetteer row that matches the table (page or inactive) is closed, not forwarded',
+      {c['dubbio'] for c in stored['chiusi']} >= {'G-tor-marancia', 'N-corcolle'}, stored['chiusi'])
+check('a decided doubt is not applied twice', json.loads(apply(['--consenti-confine']).stdout)['regole_nuove'] == 0)
+check('the rules file is replaced atomically, no temporaries left', not list(tmp.glob('*.tmp')) and json.loads(rules.read_text()))
+write_queue([{'id_dubbio': 'D1', 'tipo_regola': 'luogo', 'chiave': 'parco commendone', 'si_applica_in': 'regole_geografiche', 'decisione': 'montagnola'},
+             {'id_dubbio': 'D1', 'tipo_regola': 'luogo', 'chiave': 'parco commendone', 'si_applica_in': 'regole_geografiche', 'decisione': 'ardeatino'}])
+res = apply()
+check('the same doubt twice with different decisions is an error, not two rules', res.returncode == 1 and 'duplicate' in res.stdout, res.stdout)
+write_queue([{'id_dubbio': 'L-campo', 'tipo_regola': 'luogo', 'chiave': 'Campo de’ Fiori', 'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico'},
+             {'id_dubbio': 'L-campo-2', 'tipo_regola': 'luogo', 'chiave': "Campo de' Fiori", 'si_applica_in': 'regole_geografiche', 'decisione': 'testaccio'}])
+res = apply()
+check('two doubts on the same normalised key cannot both become rules', res.returncode == 1 and 'esiste gia' in res.stdout, res.stdout)
+write_queue([{'id_dubbio': 'Z-1A', 'tipo_regola': 'zona', 'chiave': '1A', 'si_applica_in': 'regole_geografiche', 'opzioni': 'centro-storico', 'decisione': 'tratto'}])
+res = apply()
+check("'tratto' is refused for anything but a street", res.returncode == 1 and 'tratto' in res.stdout, res.stdout)
+# a contested rule is replaced, the old one stays as history and is no longer loaded
+write_queue([{'id_dubbio': 'C-R-0001', 'tipo_regola': 'luogo', 'chiave': 'monte del grano', 'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico'}])
+res = apply()
+stored = json.loads(rules.read_text())
+check('a contested rule is replaced by the owner and kept as history',
+      res.returncode == 0 and stored['regole'][0].get('sostituita_da') == 'R-0003' and stored['regole'][-1]['sostituisce'] == 'R-0001'
+      and [r['id'] for r in qngeo.load_rules(rules)] == ['R-0002', 'R-0003'], res.stdout + res.stderr)
+import dubbi
+check('the doubt queue refuses to be written inside the repository', not dubbi.fuori_dal_repository(HERE / 'coda_dubbi.csv')
+      and dubbi.fuori_dal_repository(tmp / 'coda_dubbi.csv'))
 
 # ---- package-backed (teaching cases only)
 # Deterministic: no live WFS and an empty civic cache during the tests.
@@ -266,54 +369,14 @@ if pkg and (Path(pkg) / 'cartografia' / 'road_index.json').is_file():
     ev, p = run('N1870')
     check('N1870 service of the whole Municipio is never auto-assigned without review',
           p['esito_proposto'] != 'U' or p['priorita_revisione'] == 'alta', p)
-    # ---- owner rules loop (temporary rules file: the real one is never touched)
-    import csv
-    import subprocess
-    import tempfile
-    tmp = Path(tempfile.mkdtemp())
-    rules = tmp / 'regole.json'
-    rules.write_text(json.dumps({'regole': [], 'chiusi': []}))
-    queue = tmp / 'coda.csv'
-    cols = ['id_dubbio', 'tipo', 'luogo', 'municipio', 'opzioni', 'proposta', 'base_proposta', 'schede', 'esempi',
-            'si_applica_in', 'tipo_regola', 'chiave', 'decisione', 'note']
-    base = dict.fromkeys(cols, '')
-
-    def write_queue(items):
-        with queue.open('w', encoding='utf-8-sig', newline='') as h:
-            w = csv.DictWriter(h, fieldnames=cols, delimiter=';')
-            w.writeheader()
-            w.writerows({**base, **it} for it in items)
-
-    def apply(extra=()):
-        extra = list(extra)
-        env = {**os.environ, 'QN_REGOLE': str(rules)}
-        return subprocess.run([sys.executable, str(HERE / 'applica_decisioni.py'), '--coda', str(queue), '--data', '2026-10-09']
-                              + extra,
-                              env=env, capture_output=True, text=True)
-
-    write_queue([{'id_dubbio': 'Z-11E', 'tipo_regola': 'zona', 'chiave': '11E', 'si_applica_in': 'regole_geografiche',
-                  'opzioni': 'ardeatino+montagnola', 'decisione': 'montagnola'}])
-    res = apply()
-    check('a zone rule contradicting the gazetteer zu_code is refused', res.returncode == 1 and 'gazetteer' in res.stdout, res.stdout)
-    write_queue([{'id_dubbio': 'L-monte-del-grano', 'tipo_regola': 'luogo', 'chiave': 'monte del grano',
-                  'si_applica_in': 'regole_geografiche', 'proposta': 'tuscolano-quadraro', 'decisione': 'ok'},
-                 {'id_dubbio': 'S-via-dei-cerchi', 'tipo_regola': 'strada', 'chiave': 'via dei cerchi',
-                  'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico+testaccio'},
-                 {'id_dubbio': 'G-monti', 'tipo_regola': 'localita', 'chiave': 'monti',
-                  'si_applica_in': 'gazetteer (tabella owner)', 'decisione': 'centro-storico'},
-                 {'id_dubbio': 'L-falso', 'decisione': 'ignora'}])
-    res = apply()
-    check('DEC-107 open: a two-page decision is refused without --consenti-confine',
-          res.returncode == 1 and 'DEC-107' in res.stdout, res.stdout)
-    res = apply(['--consenti-confine'])
-    stored = json.loads(rules.read_text())
-    check('owner decisions become cited rules, a false alarm is closed',
-          res.returncode == 0 and [r['modo'] for r in stored['regole']] == ['unica', 'doppia_confine']
-          and stored['chiusi'][0]['dubbio'] == 'L-falso', res.stdout + res.stderr)
-    check('a locality -> page change goes to the gazetteer table, never to a rule',
-          (tmp / 'modifiche_gazetteer.csv').is_file() and all(r['dubbio'] != 'G-monti' for r in stored['regole']))
-    check('a decided doubt is not applied twice', json.loads(apply(['--consenti-confine']).stdout)['regole_nuove'] == 0)
-    os.environ['QN_REGOLE'] = str(rules)
+    # ---- the rules written above (pure section) are read by stage 1 on the real package
+    pkg_rules = Path(tempfile.mkdtemp()) / 'regole.json'
+    pkg_rules.write_text(json.dumps({'regole': [
+        {'id': 'R-0001', 'tipo': 'luogo', 'chiave': 'monte del grano', 'pagine': ['tuscolano-quadraro'], 'modo': 'unica',
+         'motivo': 't', 'deciso_da': 'owner', 'data': '2026-10-09', 'dubbio': 'L-monte-del-grano'},
+        {'id': 'R-0002', 'tipo': 'strada', 'chiave': 'via dei cerchi', 'pagine': ['centro-storico', 'testaccio'], 'modo': 'doppia_confine',
+         'motivo': 't', 'deciso_da': 'owner', 'data': '2026-10-09', 'dubbio': 'S-via-dei-cerchi'}], 'chiusi': []}))
+    os.environ['QN_REGOLE'] = str(pkg_rules)
     s1r = stage1.Stage1(Path(pkg))
     ev = s1r.evidence(rows['N3303'], [])
     p = s1r.propose(rows['N3303'], ev)

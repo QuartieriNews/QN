@@ -16,15 +16,20 @@ the 'decisione' column) and appends to regole_geografiche.json:
   (empty)         still open                   -> skipped
 
 A decision that belongs to the gazetteer (the owner's table, which wins over
-every other file per AGENTS.md) never becomes a rule: it is written to
+every other file per AGENTS.md) never becomes a rule: when it matches what the
+table already resolves it closes the doubt, otherwise it is written to
 modifiche_gazetteer.csv next to the queue, to be applied in the table and the
 gazetteer rebuilt. A zone rule that contradicts the gazetteer's zu_code is
-refused for the same reason. --prova checks everything and writes nothing.
+refused for the same reason. A row C-R-nnnn (a rule contested in stage 2,
+listed by dubbi.py --decisioni) replaces rule R-nnnn: the old rule stays in the
+file as history, marked sostituita_da. --prova checks everything and writes
+nothing.
 """
 import argparse
 import csv
 import datetime
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -33,18 +38,21 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from qngeo import _read, norm, package_root, rules_path  # noqa: E402
 
+CONTESTED = 'C-'
 
 
 def parse(dec, row, active):
     d = dec.strip().lower()
     if d == 'ok':
-        d = (row['proposta'] or '').strip().lower()
+        d = (row.get('proposta') or '').strip().lower()
         if not d:
             raise ValueError('ok senza proposta: scrivere la pagina')
     if d == 'ignora':
         return 'ignora', []
     if d == 'tratto':
-        return 'tratto', [p for p in row['opzioni'].split('+') if p in active]
+        if (row.get('tipo_regola') or '') != 'strada':
+            raise ValueError("'tratto' vale solo per una strada (README: TRATTO = strade lunghe)")
+        return 'tratto', [p for p in (row.get('opzioni') or '').split('+') if p in active]
     if d == 'nessuna':
         return 'senza_pagina', []
     pages = [p.strip() for p in d.split('+') if p.strip()]
@@ -52,6 +60,34 @@ def parse(dec, row, active):
     if bad:
         raise ValueError(f'pagine non attive o inesistenti: {bad}')
     return ('unica' if len(pages) == 1 else 'doppia_confine'), sorted(pages)
+
+
+def gazetteer_index(gaz):
+    """What the owner's table resolves today: alias -> pages, zu_code -> pages."""
+    import re
+    alias, zu = {}, {}
+    for n in gaz['neighbourhoods']:
+        for a in [n['name_display']] + [x for x in re.split(r'[;|]', n.get('aliases') or '') if x.strip()]:
+            if norm(a):
+                alias.setdefault(norm(a), set()).add(n['publication_zone_id'])
+        for c in (n['zu_code'] or '').replace(';', ' ').split():
+            zu.setdefault(c.upper(), set()).add(n['publication_zone_id'])
+    for z in gaz['publication_zones']:
+        alias.setdefault(norm(z['name_display']), set()).add(z['publication_zone_id'])
+    return alias, zu
+
+
+def table_says(row, alias, zu, active):
+    """Pages the gazetteer resolves the row's key to, for a row that belongs to the table."""
+    if (row.get('tipo_regola') or '') == 'zona':
+        return zu.get((row.get('chiave') or '').upper(), set())
+    return alias.get(norm(row.get('chiave') or ''), set())
+
+
+def write_atomic(path: Path, text: str):
+    tmp = path.with_suffix(path.suffix + f'.{os.getpid()}.tmp')
+    tmp.write_text(text, encoding='utf-8')
+    os.replace(tmp, path)
 
 
 def main():
@@ -65,62 +101,108 @@ def main():
     a = ap.parse_args()
     gaz = _read(package_root(a.pkg) / 'input' / 'gazetteer_qn.json')
     active = {z['publication_zone_id'] for z in gaz['publication_zones'] if z['is_page']}
-    zu = {}
-    for n in gaz['neighbourhoods']:
-        for c in (n['zu_code'] or '').replace(';', ' ').split():
-            zu.setdefault(c.upper(), set()).add(n['publication_zone_id'])
+    alias, zu = gazetteer_index(gaz)
     RULES = rules_path()
+    # One writer at a time: the file is the memory of every applied decision.
+    lock = RULES.with_suffix(RULES.suffix + '.lock')
+    try:
+        import fcntl
+    except ImportError:
+        fcntl = None
+    with lock.open('a+') as lf:
+        if fcntl:
+            fcntl.flock(lf, fcntl.LOCK_EX)
+        try:
+            run(a, active, alias, zu, RULES)
+        finally:
+            if fcntl:
+                fcntl.flock(lf, fcntl.LOCK_UN)
+
+
+def run(a, active, alias, zu, RULES):
     store = json.loads(RULES.read_text(encoding='utf-8'))
     rules, closed = store['regole'], store.setdefault('chiusi', [])
     known = {r['dubbio'] for r in rules} | {c['dubbio'] for c in closed}
+    by_id = {r['id']: r for r in rules}
+    live_keys = {(r['tipo'], r['chiave']): r['id'] for r in rules if not r.get('sostituita_da')}
     nxt = max([int(r['id'].split('-')[1]) for r in rules] or [0]) + 1
-    added, closed_now, gaz_changes, errors = [], [], [], []
+    added, closed_now, gaz_changes, errors, replaced = [], [], [], [], {}
+    seen_rows = {}
     with a.coda.open(encoding='utf-8-sig', newline='') as h:
         for row in csv.DictReader(h, delimiter=';'):
+            did = (row.get('id_dubbio') or '').strip()
             dec = (row.get('decisione') or '').strip()
-            if not dec or row['id_dubbio'] in known:
+            if not did or not dec or did in known:
                 continue
+            # The same doubt twice in one queue: identical rows are one, different ones an error.
+            if did in seen_rows:
+                if seen_rows[did] != dec.lower():
+                    errors.append(f"{did}: righe duplicate con decisioni diverse ({seen_rows[did]!r}, {dec!r})")
+                continue
+            seen_rows[did] = dec.lower()
             try:
                 modo, pages = parse(dec, row, active)
             except ValueError as exc:
-                errors.append(f"{row['id_dubbio']}: {exc}")
+                errors.append(f"{did}: {exc}")
                 continue
             if modo == 'doppia_confine' and not a.consenti_confine:
-                errors.append(f"{row['id_dubbio']}: doppia assegnazione sospesa finche' DEC-107 e' aperta "
+                errors.append(f"{did}: doppia assegnazione sospesa finche' DEC-107 e' aperta "
                               f"(--consenti-confine dopo la decisione)")
                 continue
-            reason = (row.get('note') or '').strip() or f"decisione owner sulla coda dubbi ({row['base_proposta'][:160]})"
+            reason = (row.get('note') or '').strip() or f"decisione owner sulla coda dubbi ({(row.get('base_proposta') or '')[:160]})"
             if modo == 'ignora':
-                closed_now.append({'dubbio': row['id_dubbio'], 'motivo': reason, 'deciso_da': 'owner', 'data': a.data})
+                closed_now.append({'dubbio': did, 'motivo': reason, 'deciso_da': 'owner', 'data': a.data})
                 continue
-            if row['si_applica_in'].startswith('gazetteer') and (
-                    modo == 'senza_pagina' or '+'.join(pages) == (row['proposta'] or '').strip().lower()):
-                # Confirms what the owner's table already says: close it, no rule.
-                closed_now.append({'dubbio': row['id_dubbio'], 'motivo': 'confermata la tabella del gazetteer',
-                                   'deciso_da': 'owner', 'data': a.data})
+            if (row.get('si_applica_in') or '').startswith('gazetteer'):
+                # Compared with what the table resolves today, never with the queue's proposal.
+                current = table_says(row, alias, zu, active)
+                same = (not (current & active)) if modo == 'senza_pagina' else (set(pages) == current)
+                if same:
+                    closed_now.append({'dubbio': did, 'motivo': 'confermata la tabella del gazetteer',
+                                       'deciso_da': 'owner', 'data': a.data})
+                else:
+                    gaz_changes.append({'dubbio': did, 'localita': row.get('chiave') or '', 'decisione': dec,
+                                        'pagine': '+'.join(pages), 'oggi': '+'.join(sorted(current)) or '-', 'note': reason})
                 continue
-            if row['si_applica_in'].startswith('gazetteer'):
-                gaz_changes.append({'dubbio': row['id_dubbio'], 'localita': row['chiave'], 'decisione': dec,
-                                    'pagine': '+'.join(pages), 'note': reason})
+            kind, key = row.get('tipo_regola') or '', row.get('chiave') or ''
+            if kind not in ('zona', 'strada', 'luogo'):
+                errors.append(f"{did}: tipo_regola {kind!r} non ammesso per una regola")
                 continue
-            kind, key = row['tipo_regola'], row['chiave']
             if kind == 'zona' and key.upper() in zu and set(pages) != zu[key.upper()]:
-                errors.append(f"{row['id_dubbio']}: contraddice il gazetteer (zu_code {key} -> {sorted(zu[key.upper()])}); "
+                errors.append(f"{did}: contraddice il gazetteer (zu_code {key} -> {sorted(zu[key.upper()])}); "
                               f"cambiare la tabella dell'owner, non una regola")
                 continue
-            if kind == 'luogo':
-                key = norm(key)
-            added.append({'id': f'R-{nxt:04d}', 'tipo': kind, 'chiave': key, 'pagine': pages, 'modo': modo,
-                          'motivo': reason, 'deciso_da': 'owner', 'data': a.data, 'dubbio': row['id_dubbio']})
+            key = key.upper() if kind == 'zona' else norm(key)
+            old = None
+            if did.startswith(CONTESTED):
+                old = by_id.get(did[len(CONTESTED):])
+                if not old or old.get('sostituita_da'):
+                    errors.append(f"{did}: la regola contestata non esiste o e' gia' stata sostituita")
+                    continue
+            holder = live_keys.get((kind, key))
+            if holder and holder != (old or {}).get('id'):
+                errors.append(f"{did}: esiste gia' la regola {holder} per {kind} {key!r}: contestarla (riga C-{holder}), non duplicarla")
+                continue
+            rid = f'R-{nxt:04d}'
+            rule = {'id': rid, 'tipo': kind, 'chiave': key, 'pagine': pages, 'modo': modo,
+                    'motivo': reason, 'deciso_da': 'owner', 'data': a.data, 'dubbio': did}
+            if old:
+                rule['sostituisce'] = old['id']
+                replaced[old['id']] = rid
+            added.append(rule)
+            live_keys[(kind, key)] = rid
             nxt += 1
-    report = {'regole_nuove': len(added), 'chiusi_nuovi': len(closed_now),
+    report = {'regole_nuove': len(added), 'regole_sostituite': len(replaced), 'chiusi_nuovi': len(closed_now),
               'modifiche_gazetteer': len(gaz_changes), 'errori': errors}
     if errors or a.prova:
         print(json.dumps(report, ensure_ascii=False, indent=1))
         sys.exit(1 if errors else 0)
+    for r in rules:
+        if r['id'] in replaced:
+            r['sostituita_da'] = replaced[r['id']]
     rules.extend(added)
     closed.extend(closed_now)
-    RULES.write_text(json.dumps(store, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
+    write_atomic(RULES, json.dumps(store, ensure_ascii=False, indent=1) + '\n')
     if gaz_changes:
         out = a.coda.with_name('modifiche_gazetteer.csv')
         with out.open('w', encoding='utf-8-sig', newline='') as h:

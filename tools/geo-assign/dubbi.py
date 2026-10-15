@@ -20,6 +20,10 @@ DEC-102) and a JSON twin. Doubt kinds:
   TRATTO    long street on several pages: the default is "depends on the
             stretch"; listed so frequent ones can get a rule
   SENZA     QN locality routed to an inactive page (Agro Romano)
+  C-R-nnnn  a rule a stage-2 reviewer contested in nota_geografia (--decisioni):
+            the owner confirms it (ignora) or replaces it
+
+The queue carries source titles, so --out must be outside the repository.
 """
 import argparse
 import collections
@@ -35,6 +39,17 @@ from qngeo import ROMAN as ROMAN_N, _metres, _segments, norm, package_root, rule
 from stage1 import Stage1  # noqa: E402
 
 SHORT_M = 1500
+REPO = Path(__file__).resolve().parents[2]
+RULE_ID = re.compile(r'\bR-\d{4}\b')
+
+
+def fuori_dal_repository(path: Path) -> bool:
+    """The queue carries source titles (DEC-102): it never lands in the worktree."""
+    try:
+        Path(path).resolve().relative_to(REPO)
+    except ValueError:
+        return True
+    return False
 COLUMNS = ['id_dubbio', 'tipo', 'luogo', 'municipio', 'opzioni', 'proposta', 'base_proposta',
            'schede', 'esempi', 'si_applica_in', 'tipo_regola', 'chiave', 'decisione', 'note']
 HELP = ("decisione: uno slug (es. cinecitta) = una pagina; slug1+slug2 = entrambe "
@@ -51,15 +66,17 @@ def load_ev(path):
     return [json.loads(l) for l in Path(path).read_text(encoding='utf-8').splitlines() if l.strip()]
 
 
-def build(pkg, evidence, seeds=None):
+def build(pkg, evidence, seeds=None, decisions=None):
     s1 = Stage1(pkg)
     at = s1.at
     rows = {json.loads(l)['id']: json.loads(l) for l in (pkg / 'input' / 'schede_input.jsonl').read_text(encoding='utf-8-sig').splitlines() if l.strip()}
     decided_streets = {r['chiave'] for r in at.rules if r['tipo'] == 'strada'}
     decided_places = {r['chiave'] for r in at.rules if r['tipo'] == 'luogo'}
     rules_file = rules_path()
-    closed = {c['dubbio'] for c in json.loads(rules_file.read_text(encoding='utf-8')).get('chiusi', [])} if rules_file.is_file() else set()
-    decided = closed | {r['dubbio'] for r in at.rules}
+    store = json.loads(rules_file.read_text(encoding='utf-8')) if rules_file.is_file() else {}
+    closed = {c['dubbio'] for c in store.get('chiusi', [])}
+    # Every rule ever written, replaced ones included: their doubt stays decided.
+    decided = closed | {r['dubbio'] for r in store.get('regole', [])}
     cross = json.loads((Path(__file__).resolve().parent / 'zone_qn_cross.json').read_text())['zone']
     out = []
 
@@ -224,6 +241,23 @@ def build(pkg, evidence, seeds=None):
         for sd in json.loads(Path(seed_file).read_text(encoding='utf-8'))['dubbi']:
             out.append({'tipo': 'LUOGO', 'schede': len(sd.get('esempi_id', [])), 'esempi': example(sd.get('esempi_id', [])),
                         **{k: v for k, v in sd.items() if k != 'esempi_id'}})
+    # Contested rules: a stage-2 decision that cites R-nnnn in nota_geografia
+    # reopens it for the owner (protocol §6); the rule stays applied meanwhile.
+    contested = collections.defaultdict(list)
+    for d in decisions or []:
+        for rid in RULE_ID.findall(d.get('nota_geografia') or ''):
+            contested[rid].append((d.get('id'), (d.get('nota_geografia') or '')[:100]))
+    kind_of = {'zona': 'ZONA', 'strada': 'STRADA', 'luogo': 'LUOGO'}
+    for r in at.rules:
+        if r['id'] not in contested:
+            continue
+        ids = [i for i, _ in contested[r['id']] if i in rows]
+        out.append({'id_dubbio': f"C-{r['id']}", 'tipo': kind_of[r['tipo']],
+                    'luogo': f"regola {r['id']} contestata in fase 2: {r['tipo']} {r['chiave']} -> {'+'.join(r['pagine']) or 'nessuna'} ({r['modo']})",
+                    'municipio': '', 'opzioni': '+'.join(r['pagine']) or '-', 'proposta': '',
+                    'base_proposta': 'contestata: ' + ' | '.join(f"{i}: {n}" for i, n in contested[r['id']]),
+                    'schede': len(ids), 'esempi': example(ids), 'si_applica_in': 'regole_geografiche',
+                    'tipo_regola': r['tipo'], 'chiave': r['chiave']})
     out = [r for r in out if r['id_dubbio'] not in decided]
     order = {'ZONA': 0, 'LUOGO': 1, 'STRADA': 2, 'SENZA': 3, 'TRATTO': 4}
     out.sort(key=lambda r: (order[r['tipo']], -r['schede'], r['id_dubbio']))
@@ -239,8 +273,12 @@ def main():
     ap.add_argument('--evidenze', required=True)
     ap.add_argument('--out', required=True, type=Path)
     ap.add_argument('--semi', nargs='*', help='JSON files of seeded doubts (runs/*/semi_dubbi.json)')
+    ap.add_argument('--decisioni', nargs='*', help='stage-2 decisioni.jsonl: rules contested in nota_geografia reopen')
     a = ap.parse_args()
-    rows = build(package_root(a.pkg), load_ev(a.evidenze), a.semi)
+    if not fuori_dal_repository(a.out):
+        raise SystemExit('la coda contiene titoli delle fonti: --out deve stare fuori dal repository (DEC-102)')
+    decisions = [d for f in (a.decisioni or []) for d in load_ev(f)]
+    rows = build(package_root(a.pkg), load_ev(a.evidenze), a.semi, decisions)
     with a.out.open('w', encoding='utf-8-sig', newline='') as h:
         w = csv.DictWriter(h, fieldnames=COLUMNS, delimiter=';')
         w.writeheader()

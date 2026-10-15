@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from qngeo import _read, package_root  # noqa: E402
+from qngeo import _read, load_rules, package_root, rules_path  # noqa: E402
 
 STATUSES = {'U', 'M', 'T', 'D', 'I', 'F'}
 EFFECTIVE = {'intervento', 'sede_evento', 'tratto', 'territorio_destinatari', 'alternativa_di_progetto'}
@@ -29,8 +29,15 @@ DOUBTS = {'senza_tratto_o_civico', 'raccordo_qn_da_verificare', 'sedi_parziali',
           'trascrizione_dubbia', 'sede_non_indicata', 'riferimenti_discordanti'}
 
 
-def check(d, active, require_level=False):
+def check(d, active, require_level=False, rules=None, ids=None):
+    """Problems of one decision. `rules` maps rule id -> rule (the snapshot the
+    reviewer worked with); `ids` is the set of record ids of the package."""
     p = []
+    rules = rules or {}
+    if not isinstance(d.get('id'), str) or not d['id'].strip():
+        return ['id mancante']
+    if ids is not None and d['id'] not in ids:
+        p.append('id non presente fra le schede del pacchetto')
     e, pages = d.get('esito'), d.get('pagine')
     if e not in STATUSES:
         return [f"esito {e!r} non ammesso"]
@@ -51,16 +58,26 @@ def check(d, active, require_level=False):
     supported = collections.defaultdict(list)
     for l in luoghi:
         if l.get('usato') and l.get('ruolo') in EFFECTIVE:
-            for pg in (l.get('risoluzione') or {}).get('pagine', []):
+            ris = l.get('risoluzione') or {}
+            if ris.get('pagine'):
+                # Repeatable or it is not a resolution (protocol: "risoluzione ripetibile").
+                if not str(ris.get('metodo') or '').strip() or not any(
+                        str(ris.get(k) or '').strip() for k in ('query', 'riferimento', 'regola')):
+                    p.append(f"risoluzione non ripetibile per {l.get('testo')!r}: servono metodo e query, riferimento o regola")
+            if ris.get('regola') and ris['regola'] not in rules:
+                p.append(f"regola {ris['regola']} citata ma non presente in regole_geografiche.json")
+            for pg in ris.get('pagine', []):
                 supported[pg].append(l.get('testo'))
     for pg in pages:
         if pg not in supported:
             p.append(f"pagina {pg} senza un luogo effettivo usato che la risolva")
     if e == 'M':
         used = [l for l in luoghi if l.get('usato') and l.get('ruolo') in EFFECTIVE]
-        boundary = any((l.get('risoluzione') or {}).get('regola') for l in used)
+        # Only a cited doppia_confine rule with these very pages makes M of one place.
+        boundary = any(rules.get((l.get('risoluzione') or {}).get('regola'), {}).get('modo') == 'doppia_confine'
+                       and set(rules[(l.get('risoluzione') or {})['regola']]['pagine']) == set(pages) for l in used)
         if len(used) < 2 and not boundary:
-            p.append('M richiede almeno due luoghi effettivi (o una regola di confine citata)')
+            p.append('M richiede almeno due luoghi effettivi (o una regola doppia_confine citata con le stesse pagine)')
     level = d.get('livello_portata')
     if level is not None or require_level:
         if level not in LEVELS:
@@ -88,8 +105,11 @@ def main():
     ap.add_argument('--senza-livello', action='store_true',
                     help='decisioni anteriori a DEC-106 (prova cieca del 2026-10-08): livello_portata non richiesto')
     a = ap.parse_args()
-    gaz = _read(package_root(a.pkg) / 'input' / 'gazetteer_qn.json')
+    pkg = package_root(a.pkg)
+    gaz = _read(pkg / 'input' / 'gazetteer_qn.json')
     active = {z['publication_zone_id'] for z in gaz['publication_zones'] if z['is_page']}
+    ids = {json.loads(l)['id'] for l in (pkg / 'input' / 'schede_input.jsonl').read_text(encoding='utf-8-sig').splitlines() if l.strip()}
+    rules = {r['id']: r for r in load_rules(rules_path())}
     seen, problems, count = set(), [], collections.Counter()
     for n, line in enumerate(Path(a.decisioni).read_text(encoding='utf-8').splitlines(), 1):
         if not line.strip():
@@ -103,7 +123,7 @@ def main():
             problems.append(f"{d.get('id')}: ID ripetuto")
         seen.add(d.get('id'))
         count[d.get('esito')] += 1
-        problems += [f"{d.get('id')}: {x}" for x in check(d, active, require_level=not a.senza_livello)]
+        problems += [f"{d.get('id')}: {x}" for x in check(d, active, require_level=not a.senza_livello, rules=rules, ids=ids)]
     if problems:
         print('\n'.join(problems))
         sys.exit(1)

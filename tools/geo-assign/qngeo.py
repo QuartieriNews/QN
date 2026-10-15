@@ -613,7 +613,9 @@ def load_rules(path: Path):
         missing = [k for k in ('id', 'tipo', 'chiave', 'pagine', 'modo', 'deciso_da', 'data', 'dubbio') if k not in r]
         if missing or r['tipo'] not in RULE_TYPES or r['modo'] not in RULE_MODES:
             raise SystemExit(f"regola non valida: {r.get('id')} {missing or (r.get('tipo'), r.get('modo'))}")
-    return rules
+    # A rule the owner replaced after a contestation (applica_decisioni.py, row
+    # C-R-nnnn) stays in the file as history and is no longer applied.
+    return [r for r in rules if not r.get('sostituita_da')]
 
 
 WFS = ('https://geoportale.comune.roma.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature'
