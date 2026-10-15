@@ -55,8 +55,11 @@ repository (DEC-102); qui si versionano solo le regole.
 
 Civici: `qngeo.py civico` usa prima la copia offline, poi il servizio WFS del
 Geoportale (`DIPCUL:GeoromaCiviciLocator`), con cache in `~/.cache/qn-geo/` (o
-`QN_CACHE`). `QN_RETE=0` spegne la rete: serve per rigiocare una prova nelle stesse
-condizioni, ed è impostato dai test.
+`QN_CACHE`). `QN_RETE=0` spegne le chiamate di rete, non la cache: la cache è
+l'istantanea dei punti già letti, e con essa una prova si rigioca nelle stesse
+condizioni; per un replay senza civici dal vivo si punta `QN_CACHE` a un file vuoto,
+come fanno i test. La cache si scrive con lock e sostituzione atomica: più lotti in
+parallelo possono condividerla.
 
 `zone_qn_cross.json` è la tabella di raccordo zona urbanistica → pagina QN per le
 45 zone che `urban_mapped.json` lascia senza pagina: è la tabella `cross` del
@@ -73,7 +76,11 @@ su Drive; qui restano i conteggi (`runs/2026-10-09/matrice_giugno_conteggi.csv`)
 
 `campione.py` estrae il campione di controllo (seed fisso, stratificato per
 fonte, esclusi i casi didattici): le regole della fase 1 si mettono a punto solo
-sulle altre schede. `runs/2026-10-08/` contiene gli ID del campione e i
+sulle altre schede. Ogni nuova misura cieca usa un seed nuovo: il campione
+dell'8 ottobre è stato visto durante le correzioni e vale solo come replay.
+Un punto (civico o incrocio) a meno di 15 m dal confine della sua zona porta il
+campo `confine` con le pagine al di là della linea: la fase 1 lo tratta come
+candidato, non come prova precisa (DEC-107 aperta). `runs/2026-10-08/` contiene gli ID del campione e i
 risultati aggregati della prova, senza testi delle fonti.
 
 Test: `python3 tools/geo-assign/test_geo_assign.py` (con `QN_PKG` impostato

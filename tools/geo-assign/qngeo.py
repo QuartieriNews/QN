@@ -149,6 +149,40 @@ def _metres(a, b):
     return math.hypot((a[0] - b[0]) * kx, (a[1] - b[1]) * 110540)
 
 
+BOUNDARY_M = 15
+
+
+def _boundary_distance_m(x, y, polys):
+    """Metres from (x, y) to the nearest edge of the given rings (outer and
+    holes). Ray casting answers inside/outside; it says nothing about a point
+    sitting on, or a few metres from, the line between two zones. That case is
+    reported, never settled by the parity of the edge (DEC-107 open)."""
+    best = None
+    for poly in polys:
+        for ring in poly:
+            for a, b in zip(ring, ring[1:]):
+                d, _ = _pt_seg((x, y), a, b)
+                if best is None or d < best:
+                    best = d
+    return best
+
+
+def _closest_approach(sa, sb):
+    """Closest (distance in metres, midpoint) between the vertices of either
+    polyline and the segments of the other. Symmetric by construction: the
+    side street that stops short of the main road is found whichever of the
+    two is asked first."""
+    best = None
+    for segs_v, segs_s in ((sa, sb), (sb, sa)):
+        for a1, a2 in segs_v:
+            for v in (a1, a2):
+                for b1, b2 in segs_s:
+                    d, c = _pt_seg(v, b1, b2)
+                    if best is None or d < best[0]:
+                        best = (d, ((v[0] + c[0]) / 2, (v[1] + c[1]) / 2))
+    return best
+
+
 # ---------------------------------------------------------------- the atlas
 class Atlas:
     def __init__(self, pkg: Path):
@@ -365,7 +399,7 @@ class Atlas:
                     verts = self._vertices(key)
                 sub = collections.Counter()
                 for x, y in verts:
-                    pt = self.punto(y, x)
+                    pt = self.punto(y, x, confine=False)
                     if any(str(u['code_zu']).upper() == code for u in pt['zona_urbanistica']):
                         sub.update(pt['pagine'] if len(pt['pagine']) == 1 else ['?'])
                 item['campioni_vertici'] = dict(sub)
@@ -433,7 +467,10 @@ class Atlas:
             res['punti'].append({**c, **self.punto(c['coord'][1], c['coord'][0])})
         return res
 
-    def punto(self, lat, lon):
+    def punto(self, lat, lon, confine=True):
+        """Zones, subdivisions and pages of a point. `confine=False` skips the
+        boundary check: the vertex sampling of a street classifies dozens of
+        points per road and reads only their pages."""
         x, y = float(lon), float(lat)
         urb = [a.props for a in self.urban if a.contains(x, y)]
         top = [a.props for a in self.topo if a.contains(x, y)]
@@ -455,14 +492,41 @@ class Atlas:
             pages, basis = via_topo, 'suddivisione toponomastica -> gazetteer'
         else:
             pages, basis = via_topo | via_zone, 'piu pagine possibili: serve contesto'
-        return {'lat': y, 'lon': x,
-                'zona_urbanistica': [{'code_zu': u.get('code_zu'), 'nome': u.get('denominazione'),
-                                      'pagine': self.zone_pages[str(u.get('code_zu')).upper()][0],
-                                      'fonte_raccordo': self.zone_pages[str(u.get('code_zu')).upper()][1]} for u in urb],
-                'suddivisione': [{'tipo': t['TIPOLOGIA'], 'nome': t['DESCRIZIONE'],
-                                  'codice': t.get('CODICE_SUDDIVISIONE')} for t in top],
-                'pagine': sorted(pages), 'base': basis,
-                'discordanza': bool(via_topo and via_zone and not (via_topo & via_zone))}
+        out = {'lat': y, 'lon': x,
+               'zona_urbanistica': [{'code_zu': u.get('code_zu'), 'nome': u.get('denominazione'),
+                                     'pagine': self.zone_pages[str(u.get('code_zu')).upper()][0],
+                                     'fonte_raccordo': self.zone_pages[str(u.get('code_zu')).upper()][1]} for u in urb],
+               'suddivisione': [{'tipo': t['TIPOLOGIA'], 'nome': t['DESCRIZIONE'],
+                                 'codice': t.get('CODICE_SUDDIVISIONE')} for t in top],
+               'pagine': sorted(pages), 'base': basis,
+               'discordanza': bool(via_topo and via_zone and not (via_topo & via_zone))}
+        near = self._confine(x, y, pages) if confine else None
+        if near:
+            out['confine'] = near
+        return out
+
+    def _confine(self, x, y, pages):
+        """A point within BOUNDARY_M of the edge of its urban zone: the pages
+        of the zones across that edge are reported as neighbours, so the
+        reader sees a boundary case instead of a page chosen by the parity of
+        a ring (DEC-107)."""
+        dist = None
+        for a in self.urban:
+            if a.contains(x, y):
+                d = _boundary_distance_m(x, y, a.polys)
+                if d is not None and (dist is None or d < dist):
+                    dist = d
+        if dist is None or dist > BOUNDARY_M:
+            return None
+        step = 2 * BOUNDARY_M
+        dx, dy = step / (111320 * math.cos(math.radians(41.9))), step / 110540
+        across = set()
+        for ox, oy in ((dx, 0), (-dx, 0), (0, dy), (0, -dy), (dx, dy), (-dx, dy), (dx, -dy), (-dx, -dy)):
+            for a in self.urban:
+                if a.contains(x + ox, y + oy):
+                    across |= set(self.zone_pages.get(str(a.props.get('code_zu', '')).upper(), ([], ''))[0])
+        across -= set(pages)
+        return {'metri': round(dist, 1), 'pagine_vicine': sorted(across)}
 
     @lru_cache(maxsize=4096)
     def _geom(self, key):
@@ -481,13 +545,7 @@ class Atlas:
                     pts.append(p)
         exact = bool(pts)
         if not pts:
-            best = None
-            for a1, a2 in sa:
-                for v in (a1, a2):
-                    for b1, b2 in sb:
-                        d, c = _pt_seg(v, b1, b2)
-                        if best is None or d < best[0]:
-                            best = (d, ((v[0] + c[0]) / 2, (v[1] + c[1]) / 2))
+            best = _closest_approach(sa, sb)
             if best and best[0] <= tol_m:
                 pts = [best[1]]
         if not pts:
@@ -544,10 +602,14 @@ def _cache_path() -> Path:
 
 
 def wfs_civico(toponimo: str, num: int):
-    """Live civic lookup, cached on disk. None when the network is off by
-    choice (QN_RETE=0, e.g. to replay a blind run offline) or unreachable."""
+    """Live civic lookup, cached on disk (QN_CACHE). The cache is read first
+    in every mode: it is the snapshot that lets a run be replayed with the
+    points it saw, and each entry says when and from which query it was read.
+    QN_RETE=0 forbids the call, not the snapshot: with it, a civic missing
+    from the cache returns None. A replay with no civics at all points
+    QN_CACHE at an empty file, as the tests do."""
     path = _cache_path()
-    cache = json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
+    cache = _cache_read(path)
     key = f"{toponimo.upper()}|{num}"
     if key in cache:
         return cache[key]
@@ -600,10 +662,37 @@ def wfs_civico(toponimo: str, num: int):
             'municipio_civico': f['properties'].get('NUMERO_ROMANO'), 'coord': f['geometry']['coordinates'][:2],
             'layer': 'DIPCUL:GeoromaCiviciLocator',
             **({'approssimato': f'civico {num} assente, usato {near} sullo stesso lato'} if near else {})} for f in feats]
-    cache[key] = {'punti': pts, 'letto': datetime.date.today().isoformat(), 'url': url}
+    entry = {'punti': pts, 'letto': datetime.date.today().isoformat(), 'url': url}
+    _cache_put(path, key, entry)
+    return entry
+
+
+def _cache_read(path: Path):
+    return json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
+
+
+def _cache_put(path: Path, key: str, entry):
+    """Read-merge-write under an exclusive lock, then an atomic replace: six
+    reviewers share one cache file, and a lookup must neither drop another
+    process's entry nor leave a half-written file for the next json.loads."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(cache, ensure_ascii=False), encoding='utf-8')
-    return cache[key]
+    lock = path.with_suffix(path.suffix + '.lock')
+    try:
+        import fcntl
+    except ImportError:          # not POSIX: no lock, still atomic
+        fcntl = None
+    with lock.open('a+') as lf:
+        if fcntl:
+            fcntl.flock(lf, fcntl.LOCK_EX)
+        try:
+            cache = _cache_read(path)
+            cache[key] = entry
+            tmp = path.with_suffix(path.suffix + f'.{os.getpid()}.tmp')
+            tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding='utf-8')
+            os.replace(tmp, path)
+        finally:
+            if fcntl:
+                fcntl.flock(lf, fcntl.LOCK_UN)
 
 
 def _ascii(s):

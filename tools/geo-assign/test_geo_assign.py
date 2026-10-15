@@ -39,6 +39,96 @@ check('parallel segments do not intersect', qngeo._seg_intersection((0, 0), (1, 
 cache = json.loads((HERE / 'zone_qn_cross.json').read_text())
 check('cross table is versioned with provenance', cache.get('_versione') and cache.get('_provenienza'))
 
+# Codex review of PR #15, lotto 1 (15 October): boundary, crossings, cache, coreference, packets.
+import tempfile as _tf
+_deg = 0.0001                     # about 8 m east-west, 11 m north-south at Rome
+check('boundary distance is zero on the edge and grows inside',
+      qngeo._boundary_distance_m(0, 2, [[[(0, 0), (4, 0), (4, 4), (0, 4), (0, 0)]]]) == 0
+      and qngeo._boundary_distance_m(2 * _deg, 2 * _deg, [[[(0, 0), (4 * _deg, 0), (4 * _deg, 4 * _deg), (0, 4 * _deg), (0, 0)]]]) > 10)
+# two zones side by side: the point 4 m from the shared edge is a boundary case
+atl = qngeo.Atlas.__new__(qngeo.Atlas)
+west = {'type': 'Polygon', 'coordinates': [[[12.5, 41.9], [12.501, 41.9], [12.501, 41.901], [12.5, 41.901], [12.5, 41.9]]]}
+east = {'type': 'Polygon', 'coordinates': [[[12.501, 41.9], [12.502, 41.9], [12.502, 41.901], [12.501, 41.901], [12.501, 41.9]]]}
+atl.urban = [qngeo.Area({'code_zu': '1A'}, west), qngeo.Area({'code_zu': '1B'}, east)]
+atl.topo, atl.loc = [], {}
+atl.zone_pages = {'1A': (['ovest'], 'test'), '1B': (['est'], 'test')}
+pt = atl.punto(41.9005, 12.50095)
+check('DEC-107: a point a few metres from the zone edge reports the pages across it',
+      pt['pagine'] == ['ovest'] and pt.get('confine', {}).get('pagine_vicine') == ['est'] and pt['confine']['metri'] < 15, pt)
+check('a point well inside its zone carries no boundary mark', 'confine' not in atl.punto(41.9005, 12.5005))
+# a side street stopping 10 m short of a long road: found whichever order is asked
+longroad = [((12.50, 41.90), (12.52, 41.90))]
+side = [((12.51, 41.9001), (12.51, 41.902))]
+d1, d2 = qngeo._closest_approach(longroad, side), qngeo._closest_approach(side, longroad)
+check('crossing fallback is symmetric', d1 and d2 and abs(d1[0] - d2[0]) < 1e-6 and d1[0] < 15, (d1, d2))
+# cache: two writers, both entries survive, file always parseable
+cpath = Path(_tf.mkdtemp()) / 'civici.json'
+qngeo._cache_put(cpath, 'A|1', {'punti': []})
+qngeo._cache_put(cpath, 'B|2', {'punti': []})
+check('cache writes merge and replace atomically', set(json.loads(cpath.read_text())) == {'A|1', 'B|2'} and not list(cpath.parent.glob('*.tmp')))
+import stage1
+m1 = {'variante': 'via aversa', 'livello_normalizzazione': 2, 'chiavi': ['via aversa']}
+m2 = {'variante': 'via raffaele aversa', 'livello_normalizzazione': 0, 'chiavi': ['via raffaele aversa']}
+m3 = {'variante': 'via giuseppe aversa', 'livello_normalizzazione': 0, 'chiavi': ['via giuseppe aversa']}
+stage1.coreference([m1, m2])
+check('a short form with one compatible full name is resolved', m1.get('coreferenza') == 'via raffaele aversa')
+m1 = {'variante': 'via aversa', 'livello_normalizzazione': 2, 'chiavi': ['via aversa']}
+stage1.coreference([m1, m2, m3])
+check('two compatible full names stay an ambiguity, never the last one met',
+      'coreferenza' not in m1 and m1.get('coreferenza_ambigua') == ['via giuseppe aversa', 'via raffaele aversa'], m1)
+# proposal: ambiguous alias, approximated civic and boundary point are candidates, not evidence
+s1 = stage1.Stage1.__new__(stage1.Stage1)
+s1.at = type('A', (), {'active': {'ovest', 'est', 'nord'}})()
+row = {'id': 'T1', 'titolo': 'Lavori in corso', 'sintesi': '', 'luoghi': ''}
+cues = {'portata': [], 'multisede': [], 'tratto': [], 'sede_istituzionale': [], 'organo_o_sportello': [], 'municipi_nominati': []}
+ev = {'menzioni': [{'tipo': 'localita', 'scartata': None, 'pagine': ['ovest', 'est'], 'campi': ['titolo'], 'supporto': 'forte'}],
+      'incroci': [], 'indizi': cues, 'luoghi_non_risolti': []}
+p = s1.propose(row, ev)
+check('gazetteer on_ambiguous: an alias on two pages is D with both as candidates, not M',
+      p['esito_proposto'] == 'D' and p['pagine_proposte'] == [] and p['candidate'] == ['est', 'ovest'], p)
+civ = {'tipo': 'strada', 'scartata': None, 'campi': ['luoghi'], 'supporto': 'forte', 'chiavi': ['via x'], 'civico': 10,
+       'risoluzione': [{'pagine': ['ovest'], 'zone_senza_pagina': []}],
+       'punto_civico': {'trovato': True, 'punti': [{'pagine': ['ovest'], 'approssimato': 'civico 10 assente, usato 12 sullo stesso lato'}]}}
+p = s1.propose(row, {**ev, 'menzioni': [civ]})
+check('an approximated civic never makes a U on its own', p['esito_proposto'] == 'D' and p['candidate'] == ['ovest'], p)
+civ['punto_civico'] = {'trovato': True, 'punti': [{'pagine': ['ovest'], 'confine': {'metri': 4.0, 'pagine_vicine': ['est']}}]}
+p = s1.propose(row, {**ev, 'menzioni': [civ]})
+check('DEC-107: a civic on the boundary is D with both pages as candidates', p['esito_proposto'] == 'D' and p['candidate'] == ['est', 'ovest'], p)
+xing = {'strade': ['via a', 'via b'], 'pagine': ['ovest'], 'esatto': True, 'punti': [{'lat': 0, 'lon': 0, 'pagine': ['ovest'], 'base': 'b', 'confine': {'metri': 2.0, 'pagine_vicine': ['est']}}]}
+p = s1.propose(row, {**ev, 'menzioni': [], 'incroci': [xing]})
+check('DEC-107: a crossing on the boundary is D, not U', p['esito_proposto'] == 'D' and p['candidate'] == ['est', 'ovest'], p)
+# packets: a place rule serialises, and the workspace is rebuilt on retry
+import pacchetti
+import subprocess
+pm = pacchetti._mention({'tipo': 'luogo_regola', 'testo': 'monte del grano', 'campi': ['titolo'], 'supporto': 'forte',
+                         'pagine': ['tuscolano-quadraro'], 'regola': 'R-0001', 'modo': 'unica'})
+check('DEC-106: a place-rule mention is serialised with its rule, no street keys',
+      pm.get('regola') == 'R-0001' and pm.get('pagine_regola') == ['tuscolano-quadraro'] and 'chiavi_stradario' not in pm, pm)
+fake = Path(_tf.mkdtemp())
+(fake / 'cartografia').mkdir(); (fake / 'cartografia' / 'road_index.json').write_text('[]')
+(fake / 'cartografia' / 'marker_v1').write_text('1')
+(fake / 'input').mkdir()
+frow = {k: '' for k in pacchetti.FIELDS}; frow['id'] = 'N1'
+(fake / 'input' / 'schede_input.jsonl').write_text(json.dumps(frow) + '\n')
+fev = {'id': 'N1', 'municipi_contesto': [], 'menzioni': [], 'incroci': [], 'luoghi_non_risolti': [], 'indizi': {},
+       'stessa_vicenda': [], 'proposta': {}}
+work = Path(_tf.mkdtemp())
+(work / 'ev.jsonl').write_text(json.dumps(fev) + '\n')
+(work / 'ids.json').write_text(json.dumps({'ids': ['N1']}))
+out = work / 'cieco'
+
+def packets(lotti):
+    return subprocess.run([sys.executable, str(HERE / 'pacchetti.py'), '--pkg', str(fake), '--evidenze', str(work / 'ev.jsonl'),
+                           '--ids-file', str(work / 'ids.json'), '--lotti', str(lotti), '--out', str(out)],
+                          capture_output=True, text=True)
+r1 = packets(3)
+(fake / 'cartografia' / 'marker_v1').unlink(); (fake / 'cartografia' / 'marker_v2').write_text('2')
+r2 = packets(1)
+check('packets: a retry rebuilds the blind copy and drops packets of the previous batch count',
+      r1.returncode == 0 and r2.returncode == 0 and sorted(f.name for f in out.glob('lotto_*.jsonl')) == ['lotto_1.jsonl']
+      and (out / 'pkg' / 'cartografia' / 'marker_v2').is_file() and not (out / 'pkg' / 'cartografia' / 'marker_v1').exists(),
+      r1.stderr + r2.stderr)
+
 active = {'centocelle', 'nomentano'}
 good = {'id': 'X', 'esito': 'U', 'pagine': ['centocelle'], 'fatto': 'f', 'motivo': 'm', 'confidenza': 'alta',
         'luoghi': [{'testo': 'via x', 'ruolo': 'intervento', 'usato': True, 'risoluzione': {'pagine': ['centocelle']}}]}

@@ -1,5 +1,5 @@
 {
- "nota": "Arbitrato NON cieco del builder sulle 31 differenze del campione, eseguito dopo il congelamento delle decisioni cieche (sha256 7da2cab98274c0396e46336ec4e6a8599863195a27be6d4f44c552c4f014233a). Categorie: nuovo = la decisione cieca e' preferibile (correzione proposta del riferimento); storico = il riferimento e' preferibile; storico_richiamo = il riferimento ha una prova che il processo cieco non ha recuperato; aperto = serve una regola o una decisione sul raccordo QN.",
+ "nota": "Arbitrato NON cieco del builder sulle 31 differenze del campione, eseguito dopo il congelamento delle decisioni cieche (sha256 7da2cab98274c0396e46336ec4e6a8599863195a27be6d4f44c552c4f014233a). Categorie: nuovo = la decisione cieca e' preferibile (correzione proposta del riferimento); storico = il riferimento e' preferibile; storico_richiamo = il riferimento ha una prova che il processo cieco non ha recuperato; aperto = serve una regola o una decisione sul raccordo QN. Limite (revisione del 15 ottobre): i casi storico_richiamo riportano la conclusione, non il riferimento ripetibile della prova (URL, interrogazione qngeo.py, documento_id); contano come attribuiti allo storico senza prova verificabile finche' il riferimento non e' aggiunto.",
  "casi": {
   "N0026": {
    "esito_arbitrato": "storico",

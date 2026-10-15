@@ -131,7 +131,11 @@ Effetto sulla matrice, limitatamente al campione:
 
 - **Correzioni giustificate:** spostano circa 5 presenze su 115 (circa 4%) e cambiano pagina in 2 schede.
 - **Perdite di richiamo:** valgono 8 presenze. Non sono errori di giudizio: indicano dove il processo
-  deve recuperare le prove che lo storico aveva (§5).
+  deve recuperare le prove che lo storico aveva (§5). **Limite (revisione del 15 ottobre):** per questi
+  8 casi l'arbitrato registra la conclusione («sede trovata dallo storico») ma non il riferimento
+  ripetibile (URL, interrogazione `qngeo.py`, `documento_id` dell'atto collegato). Finché il riferimento
+  non è riportato, contano come differenze attribuite allo storico senza prova verificabile, non come
+  richiamo perso misurato. Il prossimo arbitrato registra il riferimento per ogni caso (§6).
 
 Non estrapolo questi numeri a una nuova matrice: 126 schede non bastano. Mostrano però dove i
 risultati si spostano.
@@ -213,17 +217,23 @@ Il builder non decide nessuno di questi punti.
 
 ## 6 Come rieseguire
 
+Una nuova misura cieca parte da un campione nuovo: il codice e il protocollo sono stati corretti dopo
+aver visto le differenze del campione dell'8 ottobre, quindi rigiocare `campione_test.json` con seed
+20261008 è un replay storico non cieco, utile solo per confrontare le versioni del codice sulle stesse
+schede. Ogni arbitrato delle differenze registra il riferimento ripetibile della prova (URL,
+interrogazione `qngeo.py` o `documento_id`), mai il testo della fonte (DEC-102).
+
 ```text
 export QN_PKG=/percorso/Metodo_QN_per_Claude_Code_2026-10-08
 python $QN_PKG/scripts/verify_package.py
 python $QN_PKG/scripts/replay_historical.py --out risultati_reference_nuovo
+python tools/geo-assign/campione.py --n 120 --seed <SEED NUOVO> > campione_nuovo.json
 python tools/geo-assign/stage1.py --out /tmp/fase1
 python tools/geo-assign/pacchetti.py --evidenze /tmp/fase1/evidenze.jsonl \
-    --ids-file tools/geo-assign/runs/2026-10-08/campione_test.json --lotti 6 --out /tmp/cieco
+    --ids-file campione_nuovo.json --lotti 6 --out /tmp/cieco
 # revisione: un revisore per lotto, con PROTOCOLLO_REVISIONE.md; poi
 python tools/geo-assign/valida.py decisioni.jsonl
-python tools/geo-assign/confronta.py --assegnazioni decisioni.jsonl \
-    --ids-file tools/geo-assign/runs/2026-10-08/campione_test.json
+python tools/geo-assign/confronta.py --assegnazioni decisioni.jsonl --ids-file campione_nuovo.json
 ```
 
 Per il corpus intero, le decisioni devono coprire tutti i 3.529 ID. Poi:
@@ -295,8 +305,10 @@ Decisioni registrate in `decisions/DEC-106` (decisa) e `decisions/DEC-107` (aper
 
   Il guadagno su questo corpus è piccolo (31 punti in più, 29 approssimati), perché lo
   studio storico aveva già scaricato i civici che gli servivano. Il valore è per i
-  contenuti nuovi. Con `QN_RETE=0` gli strumenti restano offline, per rigiocare una
-  prova cieca nelle stesse condizioni.
+  contenuti nuovi. Con `QN_RETE=0` gli strumenti non chiamano la rete ma leggono la
+  cache (`QN_CACHE`), che è l'istantanea dei punti visti: così una prova si rigioca
+  nelle stesse condizioni. Per un replay senza nessun civico dal vivo si punta
+  `QN_CACHE` a un file vuoto, come fanno i test.
 
 ## 8 Tabella di giugno 2026 (9 ottobre)
 

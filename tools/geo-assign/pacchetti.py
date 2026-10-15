@@ -32,17 +32,31 @@ def _mention(m):
     if m['tipo'] == 'localita':
         d['pagine_gazetteer'] = m['pagine']
         return d
+    if m['tipo'] == 'luogo_regola':
+        # An owner rule on a named place (DEC-106): pages, rule id and mode, no street keys.
+        d['pagine_regola'] = m['pagine']
+        d['regola'] = m['regola']
+        d['modo'] = m['modo']
+        return d
     d['chiavi_stradario'] = m['chiavi']
     if m.get('coreferenza'):
         d['coreferenza'] = m['coreferenza']
+    if m.get('coreferenza_ambigua'):
+        d['coreferenza_ambigua'] = m['coreferenza_ambigua']
     if m.get('livello_normalizzazione'):
         d['normalizzazione'] = {1: 'via/viale o piazza/piazzale scambiati',
                                 2: 'iniziale o solo cognome: forma debole'}[m['livello_normalizzazione']]
     if m.get('civico'):
         d['civico'] = m['civico']
         pc = m.get('punto_civico') or {}
-        d['civico_offline'] = [{'id_civico': p['id_civico'], 'pagine': p['pagine'], 'base': p['base']}
-                               for p in pc.get('punti', [])] if pc.get('trovato') else 'non nella copia offline'
+        # The marks a reader must see travel with the point: an approximated
+        # number (§7) and a boundary case (DEC-107) are cautions, not evidence.
+        d['civico_punti'] = [{'id_civico': p['id_civico'], 'pagine': p['pagine'], 'base': p['base'],
+                              **({'approssimato': p['approssimato']} if p.get('approssimato') else {}),
+                              **({'confine': p['confine']} if p.get('confine') else {})}
+                             for p in pc.get('punti', [])] if pc.get('trovato') else 'non trovato (copia offline, cache, WFS)'
+        if pc.get('trovato'):
+            d['civico_fonte'] = pc.get('fonte')
     d['strada'] = [{'chiave': r['chiave'], 'municipi': r['municipi'], 'pagine': r['pagine'],
                     'pagine_nel_municipio': r.get('pagine_nel_municipio'),
                     'zone': [(z['code_zu'], z['nome'], z['frazione'], z['pagine']) for z in r['zone']],
@@ -57,7 +71,8 @@ def packet(row, ev):
                 'menzioni': [_mention(m) for m in ev['menzioni']],
                 'incroci': [{'strade': x['strade'], 'pagine': x['pagine'], 'esatto': x['esatto'],
                              'punti': [{'lat': round(p['lat'], 6), 'lon': round(p['lon'], 6), 'pagine': p['pagine'],
-                                        'base': p['base']} for p in x['punti']]} for x in ev['incroci']],
+                                        'base': p['base'], **({'confine': p['confine']} if p.get('confine') else {})}
+                                       for p in x['punti']]} for x in ev['incroci']],
                 'luoghi_non_spiegati': ev['luoghi_non_risolti'],
                 'indizi': ev['indizi'],
                 'stessa_vicenda': ev['stessa_vicenda'],
@@ -78,9 +93,15 @@ def main():
     evs = {json.loads(l)['id']: json.loads(l) for l in Path(a.evidenze).read_text(encoding='utf-8').splitlines() if l.strip()}
     out = a.out
     blind = out / 'pkg'
+    # Rebuilt from scratch on every run: a retry after a package update must
+    # not leave old input/ or cartografia/ beside new packets, nor packets of
+    # a previous batch count (AGENTS.md: idempotency under retry).
     for sub in ('input', 'cartografia'):
-        if not (blind / sub).exists():
-            shutil.copytree(pkg / sub, blind / sub)
+        if (blind / sub).exists():
+            shutil.rmtree(blind / sub)
+        shutil.copytree(pkg / sub, blind / sub)
+    for stale in out.glob('lotto_*.jsonl'):
+        stale.unlink()
     here = Path(__file__).resolve().parent
     tools = out / 'strumenti'
     tools.mkdir(parents=True, exist_ok=True)

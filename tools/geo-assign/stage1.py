@@ -84,6 +84,30 @@ def _sentences(text):
     return [s for s in re.split(r'(?<=[.;!?])\s+', text or '') if s.strip()]
 
 
+def coreference(streets):
+    """Resolve a short street form to the one full name of the same record
+    that contains it. Two compatible full names are an ambiguity to keep
+    (`coreferenza_ambigua`), never the last one met (Metodo QN §7)."""
+    for m in streets:
+        if m['livello_normalizzazione'] == 0 and len(m['chiavi']) == 1 and len(m['chiavi'][0].split()) > 2:
+            continue
+        short = set(m['variante'].split()) - {'via', 'viale', 'piazza', 'piazzale', 'largo'}
+        if not short:
+            continue
+        full = set()
+        for o in streets:
+            if o is m:
+                continue
+            for k in o['chiavi']:
+                if len(k.split()) > len(m['variante'].split()) and short <= set(k.split()) and k not in m['chiavi']:
+                    full.add(k)
+        if len(full) == 1:
+            m['coreferenza'] = full.pop()
+        elif full:
+            m['coreferenza_ambigua'] = sorted(full)
+    return streets
+
+
 class Stage1:
     def __init__(self, pkg: Path):
         self.pkg = pkg
@@ -169,16 +193,8 @@ class Stage1:
         # Aversa" in the summary are one street; the short form must not open
         # a second, wrong candidate (case N2863).
         streets = [m for m in mentions if m['tipo'] == 'strada']
+        coreference(streets)
         for m in streets:
-            if m['livello_normalizzazione'] == 0 and len(m['chiavi']) == 1 and len(m['chiavi'][0].split()) > 2:
-                continue
-            short = set(m['variante'].split()) - {'via', 'viale', 'piazza', 'piazzale', 'largo'}
-            for o in streets:
-                if o is m or not short:
-                    continue
-                for k in o['chiavi']:
-                    if len(k.split()) > len(m['variante'].split()) and short <= set(k.split()) and k not in m['chiavi']:
-                        m['coreferenza'] = k
             if m.get('coreferenza'):
                 m['chiavi'] = [m['coreferenza']]
                 m['risoluzione'] = [self.at.strada(m['coreferenza'], municipi)]
@@ -252,14 +268,25 @@ class Stage1:
                 if m['scartata']:
                     continue
                 ps = set(m['pagine'])
-                if ps & active:
-                    precise.append((m, ps & active))
-                else:
+                if not ps & active:
                     inactive.update(ps)
+                elif m['tipo'] == 'localita' and len(ps & active) > 1:
+                    # gazetteer resolution.on_ambiguous: never pick, never merge
+                    alternatives.append((m, ps & active, 'alias del gazetteer su piu pagine (ambiguous_alias): serve il contesto'))
+                else:
+                    precise.append((m, ps & active))
                 continue
             pc = m.get('punto_civico') or {}
             if pc.get('trovato'):
                 ps = {p for pt in pc['punti'] for p in pt['pagine']}
+                near = {p for pt in pc['punti'] for p in (pt.get('confine') or {}).get('pagine_vicine', [])}
+                if any(pt.get('approssimato') for pt in pc['punti']):
+                    # The register has no such number: a neighbour was used and said so (§7).
+                    alternatives.append((m, ps | near, 'civico assente dal registro, punto approssimato: verificare il numero'))
+                    continue
+                if near - ps:
+                    alternatives.append((m, ps | near, 'civico a pochi metri dal confine fra pagine (DEC-107 aperta)'))
+                    continue
                 if len(ps) == 1:
                     precise.append((m, ps))
                     continue
@@ -285,7 +312,11 @@ class Stage1:
             else:
                 alternatives.append((m, ps, 'strada su piu pagine senza tratto'))
         for x in ev['incroci']:
-            if len(x['pagine']) == 1:
+            near = {p for pt in x['punti'] for p in (pt.get('confine') or {}).get('pagine_vicine', [])}
+            if near - set(x['pagine']):
+                alternatives.append(({'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}, set(x['pagine']) | near,
+                                     'incrocio sul confine fra pagine (DEC-107 aperta)'))
+            elif len(x['pagine']) == 1:
                 precise.append(({'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}, set(x['pagine'])))
         pages = set().union(*[p for _, p in precise]) if precise else set()
         title_pages = set().union(*[p for m, p in precise if 'titolo' in m.get('campi', [])]) if precise else set()
