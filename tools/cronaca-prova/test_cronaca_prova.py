@@ -259,6 +259,11 @@ except C.Censimento as e:
     sm_err = "post-sitemap" in str(e)
 C.get = lambda url, tries=3: ("[]", {"x-wp-totalpages": "1"})
 vuoto = C.wordpress("abitarearoma.it")
+giorni = []
+C.get = lambda url, tries=3: (giorni.append(url.split("/")[-2]) or "<loc>https://www.iltempo.it/roma/2026/06/15/news/x-1</loc>", {})
+C.iltempo()
+check("censimento: iltempo chiede solo i giorni che il mese ha (giugno: 30), non 31",
+      sorted(set(giorni)) == [f"2026-06-{d:02d}" for d in range(1, 31)])
 chiamate = []
 def _get_cento(url, tries=3):
     chiamate.append(url)
@@ -311,6 +316,16 @@ with tempfile.TemporaryDirectory() as d:
           sorted(o["link"].rsplit("/", 1)[1] for o in out) == ["a.html", "b.html"])
     check("chiuse_filtro: editore per testata",
           {o["testata"]: o["editore"] for o in out} == {"ANSA": "ANSA", "RomaToday": "Citynews"})
+    scrivi(f"{d}/gdelt/titoli.jsonl", [
+        g("ansa.it", "https://www.ansa.it/sito/notizie/n1.html", "Rapina a Centocelle", "20260630223000"),  # 1° luglio a Roma
+        g("ansa.it", "https://www.ansa.it/sito/notizie/n2.html", "Rapina a Centocelle", "20260531220000"),  # 1° giugno a Roma
+        g("ansa.it", "https://www.ansa.it/sito/notizie/n3.html", "Rapina a Centocelle", "20260703230000")], jsonl=True)  # 4 luglio: fuori
+    out = K.main(d, f"{d}/gaz.json")
+    check("chiuse_filtro: la data è il giorno di Roma, non quello UTC di GDELT, e DAL/AL valgono su quello",
+          [(o["data"], o["ora"]) for o in out] == [("2026-06-01", "20260531220000"), ("2026-07-01", "20260630223000")])
+check("chiuse_filtro: cambio d'ora: le 23:30 UTC del 31 ottobre sono già il 1° novembre a Roma (+1), le 23:30 UTC del 30 giugno il 1° luglio (+2)",
+      K.giorno_locale("20261031233000") == "2026-11-01" and K.giorno_locale("20260630223000") == "2026-07-01"
+      and K.giorno_locale("20261031225900") == "2026-10-31")
 
 # --- tabella_quartieri: regola delle due fonti per editore, fusioni, mese
 import tabella_quartieri as TQ  # noqa: E402

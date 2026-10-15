@@ -25,7 +25,7 @@ conteggi (`runs/`).
 | Passo | Comando | Che cosa fa | Limiti voluti |
 |---|---|---|---|
 | 8 Fonti ufficiali | `fonti_ufficiali.py DIR [AAAA-MM] [C1…C6]` | elenchi del mese di Questura, Carabinieri, Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza; scarica ogni comunicato e controlla che sia il comunicato | una richiesta ogni 4 s alla Questura e ogni 2 s agli altri; riconosce le pagine di blocco servite con 200; si ferma dopo cinque rifiuti di fila; nessun cambio di indirizzo |
-| 9 Testate chiuse | `gdelt_titoli.py DIR` poi `chiuse_filtro.py DIR GAZETTEER` | titolo, link e ora dai file grezzi di GDELT (indice aperto), poi i candidati alla cronaca romana | nessuna pagina delle testate aperta |
+| 9 Testate chiuse | `gdelt_titoli.py DIR` poi `chiuse_filtro.py DIR GAZETTEER` | titolo, link e ora dai file grezzi di GDELT (indice aperto; ora in UTC, data nel giorno di Roma), poi i candidati alla cronaca romana | nessuna pagina delle testate aperta |
 | 10 Testi aperte | `testi_aperti.py DIR ELENCO` e lettura con `ISTRUZIONI_LUOGHI.md` | testo degli articoli delle testate aperte per le notizie che il titolo non localizza | solo testate senza esclusione degli agenti AI, canali ammessi dal robots.txt |
 | 11 Abbinamento | `prepara_chiuse.py`, un agente per lotto con `ISTRUZIONI_CHIUSE.md`, poi `ISTRUZIONI_FUSIONI.md` | ogni titolo chiuso abbinato a un fatto noto o a un fatto nuovo; doppioni fra lotti fusi | solo titoli |
 | 12 Tabella | `tabella_quartieri.py DIR MATRICE UFFICIALI… -- APERTE…` (mese da `QN_MESE`) e `foglio_quartieri.py DIR [MESE]` | fonti contate per editore; notizie pubblicabili per quartiere; foglio con i quartieri in colonna | le testate dello stesso gruppo valgono una |

@@ -7,7 +7,7 @@ la esclude, l'API pubblica di WordPress. Solo metadati: data, link, titolo (o lo
 dell'URL), categorie. Nessun testo degli articoli. Ritmo di una richiesta al secondo,
 user agent dichiarato. Metodo e limiti: docs/sources/CRONACA_PROCESSO_2026-10.md §4-5.
 """
-import html, json, os, re, sys, time, urllib.request
+import calendar, html, json, os, re, sys, time, urllib.request
 
 UA = "QuartieriNews-ricerca/0.1 (misura copertura cronaca; solo metadati)"
 MESE = os.environ.get("QN_MESE", "2026-06")
@@ -95,7 +95,8 @@ def sitemap(site):
 def iltempo():
     """Sitemap giornaliere (Arc XP); la sezione è il primo segmento dell'URL."""
     out = []
-    for d in range(1, 32):
+    anno, mese = (int(x) for x in MESE.split("-"))
+    for d in range(1, calendar.monthrange(anno, mese)[1] + 1):   # solo i giorni che il mese ha
         day = f"{MESE}-{d:02d}"
         urls = []
         for n in ("sitemap", "sitemap2", "sitemap3", "sitemap4"):

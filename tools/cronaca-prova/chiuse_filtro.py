@@ -7,9 +7,11 @@ Legge DIR/gdelt/titoli.jsonl (gdelt_titoli.py). Tiene le testate senza censiment
 romana per sezione dell'URL (le pagine romane delle testate nazionali) o, per le testate
 nazionali, per nome di Roma o di un quartiere del gazetteer nel titolo; poi le parole chiave
 di filtro.py. Il filtro è largo: decide la lettura (ISTRUZIONI_CHIUSE.md).
-Scrive DIR/chiuse/candidati.json con editore, data, ora, titolo e link.
+Scrive DIR/chiuse/candidati.json con editore, data, ora, titolo e link. L'ora è quella di GDELT
+(UTC); la data, e il confronto con DAL/AL, sono il giorno di Roma (Europe/Rome).
 """
-import html, json, os, re, sys, unicodedata
+import datetime as dt, html, json, os, re, sys, unicodedata
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from filtro import KW, norm  # noqa: E402
@@ -59,6 +61,15 @@ def luoghi_romani(gazetteer):
     return re.compile(r"\b(" + "|".join(sorted(map(re.escape, nomi), key=len, reverse=True)) + r")\b")
 
 
+ROMA = ZoneInfo("Europe/Rome")
+
+
+def giorno_locale(ora):
+    """Da «AAAAMMGGhhmmss» di GDELT (UTC) al giorno di Roma: un titolo delle 22:30 UTC del 30
+    giugno è del 1° luglio (AGENTS.md, fuso orario e ora legale)."""
+    return dt.datetime.strptime(ora, "%Y%m%d%H%M%S").replace(tzinfo=dt.timezone.utc).astimezone(ROMA).date().isoformat()
+
+
 def main(base, gazetteer, dal="2026-05-29", al="2026-07-03"):
     roma = luoghi_romani(gazetteer)
     visti, out = set(), []
@@ -67,7 +78,7 @@ def main(base, gazetteer, dal="2026-05-29", al="2026-07-03"):
         t = r["testata"]
         if t in APERTE or r["link"] in visti:
             continue
-        data = f"{r['ora'][:4]}-{r['ora'][4:6]}-{r['ora'][6:8]}"
+        data = giorno_locale(r["ora"])
         if not dal <= data <= al:
             continue
         visti.add(r["link"])
