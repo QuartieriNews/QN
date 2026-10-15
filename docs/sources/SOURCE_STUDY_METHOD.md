@@ -130,9 +130,9 @@ con questi campi obbligatori:
 I dati per item (una riga per item con URL, date, tag, flag, formato, esito della
 deduplicazione) sono un dataset di fonte e **non entrano nel repository pubblico** (DEC-104,
 regola 2; DEC-102: i dati di fonte non sono ridistribuiti come dataset). Stanno su Drive in
-`QN Hub / 20 Packages / Fonti 2026-06/` (un CSV per fonte, senza nomi di persona né testi
-integrali: URL, date, Municipio, zona, tema, flag toponimo, flag nomi presenti, formato,
-gemello e ragione). Nel repository entrano solo gli aggregati e le metriche (conteggi per
+`QN Hub / 20 Packages / Fonti 2026-06/` (un CSV per fonte, senza testi integrali: URL, date,
+Municipio, zona, tema, flag toponimo, flag nomi presenti, formato, gemello e ragione; i nomi
+delle persone secondo DEC-105, cioè scritti quando sono pertinenti al fatto). Nel repository entrano solo gli aggregati e le metriche (conteggi per
 fonte, Municipio, zona, tema e formato; quote; intervalli di dedup) e il riferimento alla
 cartella Drive. Residuo per l'owner: confermare questa collocazione o indicarne un'altra.
 

@@ -201,6 +201,8 @@ Fino alla decisione i lettori continuano ad applicare il divieto senza eccezioni
 
 ## D6 — Il territorio degli atti `CEN_`
 
+Norma che ne è uscita: `decisions/DEC-105-named-participants.md`, «Consequence for territory»; qui resta il ragionamento.
+
 **Chiusa (DEC-105): strada 2, e allargata.** Si deduce dal toponimo dichiarando la deduzione
 (`territorio_dedotto`), e non solo per gli atti `CEN_`: da ogni luogo citato si ricavano
 Municipio **e** quartiere, con il quartiere d'uso comune distinto dalla zona urbanistica, e i
@@ -233,6 +235,8 @@ pubblicato, non una scelta tecnica, e non la prendo io.
 dati che poi andrebbero disfatti.
 
 ## D7 — La registrazione che continua dopo la fine della seduta
+
+Norma che ne è uscita: `decisions/DEC-105-named-participants.md`, confine 2, «The session boundary (D7)»; qui resta il ragionamento.
 
 **Chiusa (DEC-105) sul perimetro; la segnalazione esterna non si apre per ora.** Regola: entra
 solo ciò che sta dentro la seduta formalmente aperta, sospensioni escluse per intero, usando
@@ -306,6 +310,8 @@ consensi privacy di ospiti chiamati per nome, telefonate e messaggistica. I sei 
 guardato apposta danno 3/10, 3/10, 0/10, 4/10, 5/10, 7/10: su sessanta item cercati, **ventidue
 trovati**. Non e' piu' un elenco di casi, e' una **quota**: circa un terzo delle registrazioni che
 qualcuno ha guardato apposta contiene parlato che nessuno intendeva pubblicare.
+
+*Rettifica del 15 ottobre 2026, senza riscrivere il blocco:* i due numeri contano cose diverse. Ventuno sono i casi noti alle 16:05Z; ventidue è la somma dei sei lotti guardati apposta (3+3+0+4+5+7 su sessanta item), un conteggio per lotto che include item già fra i ventuno.
 
 Ventuno casi su 332 registrazioni lette, ma soprattutto **22 su 60 cercati**, cambiano la natura della
 decisione:
