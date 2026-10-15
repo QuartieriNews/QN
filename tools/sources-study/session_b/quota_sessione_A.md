@@ -1,5 +1,7 @@
 # Letture della pagina Utilizzo (fornite dall'owner) e contatori di sessione
 
+> *Documento storico, non normativo (15 ottobre 2026): le regole in vigore stanno in `decisions/` e nelle specifiche di `tools/sources-study/`; qui restano il contesto, gli esiti e il ragionamento del momento.*
+
 ## Prima del lotto (screenshot inviato alle 18:50 ora italiana circa)
 - Piano: Max (20x). "Fresh week. 2% of your weekly limit used."
 - Sessione corrente (finestra di 5 ore): 40% usato, reset alle 20:20 ora italiana (18:20 UTC)

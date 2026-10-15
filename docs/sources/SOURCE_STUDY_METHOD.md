@@ -134,7 +134,7 @@ regola 2; DEC-102: i dati di fonte non sono ridistribuiti come dataset). Stanno 
 Municipio, zona, tema, flag toponimo, flag nomi presenti, formato, gemello e ragione; i nomi
 delle persone secondo DEC-105, cioè scritti quando sono pertinenti al fatto). Nel repository entrano solo gli aggregati e le metriche (conteggi per
 fonte, Municipio, zona, tema e formato; quote; intervalli di dedup) e il riferimento alla
-cartella Drive. Residuo per l'owner: confermare questa collocazione o indicarne un'altra.
+cartella Drive. Collocazione confermata dall'owner il 15 ottobre 2026 (DEC-109: inventari senza testi nel repository, dati con i testi su Drive).
 
 **Nota del 15 ottobre 2026 (inventari in `handoff_data/`).** Gli inventari per item di
 `tools/sources-study/handoff_data/` stanno nel repository per DEC-109 (decisione dell'owner
