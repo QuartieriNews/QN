@@ -221,6 +221,10 @@ with tempfile.TemporaryDirectory() as d:
         f.write('{"link": "d", "file": "A.z')          # caduta a meta' scrittura
     check("gdelt_titoli: una riga troncata da una caduta non blocca la ripresa, viene scartata",
           G._ripristina(tit, {"A.zip"}) == 1 and [json.loads(l)["link"] for l in open(tit, encoding="utf-8")] == ["a"])
+    with open(tit, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"link": "legacy", "ora": "20260601000000"}) + "\n")   # riga della versione precedente
+    check("gdelt_titoli: le righe senza campo file (formato precedente) restano alla ripresa",
+          G._ripristina(tit, {"A.zip"}) == 0 and [json.loads(l)["link"] for l in open(tit, encoding="utf-8")] == ["a", "legacy"])
     G._salva_registro(f"{d}/registro.json", {"letti": ["A.zip"], "mancanti": {}})
     check("gdelt_titoli: il registro è scritto per intero e sostituito",
           json.load(open(f"{d}/registro.json"))["letti"] == ["A.zip"] and not [f for f in os.listdir(d) if f.endswith(".tmp")])

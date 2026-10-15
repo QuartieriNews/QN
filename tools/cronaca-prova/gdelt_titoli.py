@@ -55,8 +55,10 @@ def _salva_registro(reg_path, reg):
 
 
 def _ripristina(tit_path, letti):
-    """Alla ripresa tiene solo le righe dei file registrati come letti: una
-    caduta fra la scrittura delle righe e il checkpoint non lascia doppioni."""
+    """Alla ripresa scarta le righe di un file non registrato come letto (una
+    caduta fra la scrittura delle righe e il checkpoint) e le righe troncate.
+    Le righe senza campo `file`, scritte dalla versione precedente del
+    programma, non si possono attribuire e restano: il registro le copre."""
     if not os.path.exists(tit_path):
         return 0
     tenute, scartate = [], 0
@@ -69,7 +71,7 @@ def _ripristina(tit_path, letti):
             except ValueError:          # riga troncata da una caduta a meta' scrittura
                 scartate += 1
                 continue
-            if riga.get("file") in letti:
+            if "file" not in riga or riga["file"] in letti:
                 tenute.append(line)
             else:
                 scartate += 1
