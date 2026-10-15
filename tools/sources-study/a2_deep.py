@@ -1,3 +1,4 @@
+import sys
 import time
 import json,re,html,os,random,csv,requests,fitz
 os.environ.setdefault('REQUESTS_CA_BUNDLE','/root/.ccr/ca-bundle.crt')
@@ -15,7 +16,7 @@ def key(a):
 os.makedirs('A2_deep',exist_ok=True)
 picks=[]
 # DDS 10
-dds=sorted(load('DDS'),key=key); random.seed('2026-06-DDS'); picks+=[('DDS',a) for a in random.sample(dds,10)]
+dds=sorted(load('DDS'),key=key); random.seed('2026-06-DDS'); picks+=[('DDS',a) for a in random.sample(dds,min(10,len(dds)))]
 # central candidates: territorial in object or proposed by a Municipio structure
 from geo_lookup import localise
 cand=[]
@@ -24,14 +25,15 @@ for c in ('GCD','AY','AZ','ACD','GCM'):
         L=localise(clean(a.get('oggetto'))); org=clean(a.get('dscStrOrg'))
         if L['municipio'] or L['zona'] or 'MUNICIPIO' in org.upper(): cand.append((c,a,L,org))
 print('candidati centrali',len(cand),{c:sum(1 for x in cand if x[0]==c) for c in ('GCD','AY','AZ','ACD','GCM')})
-cs=sorted(cand,key=lambda x:(x[0],)+key(x[1])); random.seed('2026-06-centrali'); picks+=[(c,a) for c,a,L,org in random.sample(cs,5)]
+cs=sorted(cand,key=lambda x:(x[0],)+key(x[1])); random.seed('2026-06-centrali'); picks+=[(c,a) for c,a,L,org in random.sample(cs,min(5,len(cs)))]
 for c in ('CPC','CPV'):
-    lst=sorted(load(c),key=key); random.seed('2026-06-'+c); picks+=[(c,a) for a in random.sample(lst,5)]
+    lst=sorted(load(c),key=key); random.seed('2026-06-'+c); picks+=[(c,a) for a in random.sample(lst,min(5,len(lst)))]
 # SO: the 2 with territory + 1 seeded; CID 1; MCD 1; OCD 1
 so=load('SO'); so_t=[a for a in so if localise(clean(a.get('oggetto')))['municipio'] or localise(clean(a.get('oggetto')))['zona']]
-random.seed('2026-06-SO'); picks+=[('SO',a) for a in so_t]+[('SO',random.choice([a for a in so if a not in so_t]))]
-random.seed('2026-06-CID'); picks+=[('CID',random.choice(load('CID')))]
+random.seed('2026-06-SO'); resto_so=[a for a in so if a not in so_t]; picks+=[('SO',a) for a in so_t]+([('SO',random.choice(resto_so))] if resto_so else [])
+random.seed('2026-06-CID'); cid=load('CID'); picks+=[('CID',random.choice(cid))] if cid else []
 picks+=[('MCD',load('MCD')[0]),('OCD',load('OCD')[0])]
+if not picks: sys.exit('a2_deep: nessun atto da campionare: elenchi vuoti')
 rows=[]
 for i,(c,a) in enumerate(picks):
     u=B+(a.get('urlFile') or ''); f=f'A2_deep/{i:02d}_{c}.pdf'

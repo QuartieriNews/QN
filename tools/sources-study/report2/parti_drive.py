@@ -9,6 +9,8 @@ LIMITE = int(os.environ.get('LIMITE_PARTE', 54000))
 def parti(sorgente, destinazione, prefisso):
     with open(sorgente, newline='', encoding='utf-8') as f:
         righe = list(csv.reader(f))
+    if not righe:
+        sys.exit('parti_drive: %s e\' vuoto o non e\' un CSV' % sorgente)
     intestazione, corpo = righe[0], righe[1:]
 
     def serializza(rs):

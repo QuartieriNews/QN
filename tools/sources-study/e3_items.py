@@ -6,6 +6,7 @@ os.makedirs('E3_items',exist_ok=True)
 rows={}
 for r in csv.DictReader(open('E3_listing.tsv'),delimiter='\t'):
     rows.setdefault(r['url'],r)
+falliti=[]
 log=open('e3_items.log','a'); print('june items',len(rows),file=log,flush=True)
 out=csv.writer(open('E3_all_text.tsv','w',newline=''),delimiter='\t'); out.writerow(['url','date','title','tematica','meta_municipio','meta_periodo','meta_data','meta_struttura','meta_tematica','text'])
 for k,(u,r) in enumerate(rows.items()):
@@ -17,6 +18,7 @@ for k,(u,r) in enumerate(rows.items()):
                 rr=requests.get(u,headers=H,timeout=90)
                 if rr.status_code==200: d=rr.text; open(f,'w',encoding='utf-8').write(d); break
             except Exception: time.sleep(3)
+        if not d: falliti.append(u); print('FETCH FAILED',u,file=log,flush=True)   # non e' un item vuoto: e' un fetch mancato
     if 'Ã' in d and 'charset' not in d[:2000].lower():
         try: d=d.encode('latin-1').decode('utf-8')
         except (UnicodeEncodeError,UnicodeDecodeError): pass
@@ -33,3 +35,6 @@ for k,(u,r) in enumerate(rows.items()):
     out.writerow([u,r['date'],r['title'],r['tematica'],meta('municipio'),meta('periodo'),meta('data'),meta('struttura'),meta('tematica').replace('§',';'),t])
     if (k+1)%25==0: print(k+1,file=log,flush=True)
 print('DONE',file=log,flush=True)
+if falliti:
+    print(f'DONE WITH {len(falliti)} FETCH FAILURES: censimento incompleto',file=log,flush=True)
+    import sys; sys.exit(1)

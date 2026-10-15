@@ -9,6 +9,7 @@ for r in csv.DictReader(open('A1_news.tsv'),delimiter='\t'):
 ids={}
 for r in csv.DictReader(open('A1_ids.tsv'),delimiter='\t'):
     if r['date'].startswith('2026-06'): ids.setdefault(r['url'],r)
+falliti=[]
 log=open('a1_items.log','a'); print('news',len(news),'ids',len(ids),file=log,flush=True)
 out=csv.writer(open('A1_june_text.tsv','w',newline=''),delimiter='\t'); out.writerow(['kind','url','date','title','tematica','municipi','mun_filter','text','estrattore','meta_municipio'])
 for kind,coll in (('news',news),('ids',ids)):
@@ -22,6 +23,7 @@ for kind,coll in (('news',news),('ids',ids)):
                     rr=requests.get(u,headers=H,timeout=90)
                     if rr.status_code==200: d=rr.text; open(f,'w',encoding='utf-8').write(d); break
                 except Exception: time.sleep(3)
+            if not d: falliti.append(u); print('FETCH FAILED',u,file=log,flush=True)   # non e' un item vuoto: e' un fetch mancato
         # pagine servite senza charset: requests le decodifica come ISO-8859-1 -> ripara il mojibake
         if 'Ã' in d and 'charset' not in d[:2000].lower():
             try: d=d.encode('latin-1').decode('utf-8')
@@ -41,3 +43,6 @@ for kind,coll in (('news',news),('ids',ids)):
         out.writerow([kind,u,r['date'],r['title'],tem,r.get('municipi','') or meta_mun,r['mun_filter'],t,'article' if ma else 'h2','sì' if mm else 'no'])
         if (k+1)%25==0: print(kind,k+1,file=log,flush=True)
 print('DONE',file=log,flush=True)
+if falliti:
+    print(f'DONE WITH {len(falliti)} FETCH FAILURES: censimento incompleto',file=log,flush=True)
+    import sys; sys.exit(1)

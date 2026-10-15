@@ -81,7 +81,9 @@ if __name__ == '__main__':
         sys.exit(__doc__ or 'uso: verifica_drive.py <cartella_parti> <cartella_tracce> ...')
     # Solo i registri di **questo** caricamento: `drive_caricati.txt` senza suffisso e' quello
     # della consegna precedente, e per i dieci nomi che si ripetono darebbe l'id del file vecchio.
-    registri = glob.glob(os.path.dirname(sys.argv[1].rstrip('/')) + '/drive_caricati[2_]*.txt')
+    cartella = os.path.dirname(sys.argv[1].rstrip('/'))
+    registri = sorted(p for p in glob.glob(cartella + '/drive_caricati*.txt')
+                      if os.path.basename(p) != 'drive_caricati.txt')   # quello senza suffisso e' il caricamento storico
     if not registri:   # senza registro si controlla solo il contenuto, e lo si dice
         print('ATTENZIONE: nessun registro drive_caricati*.txt: verifica sul solo contenuto, senza id di caricamento')
         id_di = None

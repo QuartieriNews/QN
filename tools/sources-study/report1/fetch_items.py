@@ -21,7 +21,9 @@ for i,r in enumerate(rows):
     seen.add(u)
     slug=re.sub(r'[^A-Za-z0-9]+','_',u.rstrip('/').split('/')[-1])[:120] or f'item{i}'
     f=f'{out}/{slug}.html'
-    if os.path.exists(f) and os.path.getsize(f)>500: skip+=1; continue
+    if os.path.exists(f) and os.path.getsize(f)>500:
+        if not rifiuto(open(f,encoding='utf-8',errors='replace').read()): skip+=1; continue
+        os.remove(f); say(f'CACHE RIFIUTATA, riscarico {u}')   # una pagina di blocco in cache non e' un item
     d=''
     for t in range(3):
         try:
@@ -39,3 +41,4 @@ for i,r in enumerate(rows):
     time.sleep(delay)
 say(f'DONE {fonte}: {ok} scaricati, {err} falliti, {skip} gia presenti, {len(seen)} url unici')
 print(f'DONE {fonte}: {ok} ok, {err} falliti, {skip} skip')
+sys.exit(1 if err else 0)   # item irrecuperati: raccolta incompleta, dichiarata con il codice di uscita

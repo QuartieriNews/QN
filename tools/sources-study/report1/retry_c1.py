@@ -18,7 +18,9 @@ for r in rows:
     u=r['url'].strip()
     slug=re.sub(r'[^A-Za-z0-9]+','_',u.rstrip('/').split('/')[-1])[:120]
     f=f'{S}/C1_items/{slug}.html'
-    if os.path.exists(f) and os.path.getsize(f)>500: continue
+    if os.path.exists(f) and os.path.getsize(f)>500:
+        if not rifiuto(open(f,encoding='utf-8',errors='replace').read()): continue
+        os.remove(f); say(f'CACHE RIFIUTATA, ritento {slug[:50]}')
     try:
         rr=requests.get(u,headers=H,timeout=90)
         bad=rifiuto(rr.text) if rr.status_code==200 else f'HTTP {rr.status_code}'
@@ -34,3 +36,4 @@ for r in rows:
         say(f'OK {slug[:50]}')
     time.sleep(90)
 say(f'FINE {time.strftime("%H:%M:%S")}: {ok} recuperate, {blocchi} rifiutate')
+sys.exit(1 if blocchi else 0)

@@ -3,8 +3,9 @@
 Una scheda per fonte, compilata secondo `docs/sources/SOURCE_STUDY_METHOD.md` (M-0.3). Nel
 repository stanno solo aggregati e metriche; i dati per item e il campione di originali
 stanno su Drive, `QN Hub / 20 Packages / Fonti 2026-06/` (metodo §4.2, DEC-104: loop di
-sviluppo AI con i campioni fuori dal repository). Nessun nome di persona, nessun testo
-integrale. Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (mancante).
+sviluppo AI con i campioni fuori dal repository). Nessun testo integrale e nessun dato per item
+nel repository; nei dati su Drive i nomi delle persone seguono DEC-105 (scritti quando sono
+pertinenti al fatto; fino al 17 settembre 2026 la regola era «nessun nome di persona»). Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (mancante).
 
 Stato: **livello 1 compilato** (A1, A2, C1–C6, E1, E2) con le letture del 15 settembre 2026,
 10:24–11:06 Europe/Rome; evidenze e URL nel rapporto intermedio
@@ -126,7 +127,7 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `quota_municipio` | 27,8% (M) |
 | `duplicati` | 0 certi, 1 dubbio (con C2) su 79: 0–1,3% (M, intero mese) |
 | `contributo_unico` | 98,7–100% (M) |
-| `estrazione` | testo ottenuto sì (79/79), leggibile; nomi di persona nel 62% (euristica) |
+| `estrazione` | testo ottenuto sì (79/79), leggibile; nomi di persona nel 62% (euristica). Lettura del 15 settembre; alla raccolta del Report 1 (17–18 settembre) 67 comunicati su 79 erano serviti come pagina «Accesso negato» con codice 200: 12 leggibili (`RICOSTRUZIONE_2026-06_REPORT1.md` §4), valore che prevale |
 | `costo_item` | 0,00 €; 1–3 s per pagina (M) |
 | `intervento_umano` | 1–2 min per item (S) |
 | `raccomandazione` | usare; cambierebbe se la licenza BY-NC-ND fosse confermata per i testi (L11) |
@@ -155,7 +156,7 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `quota_municipio` | 30,0% (M) |
 | `duplicati` | 0 certi, 1 dubbio (con C1) su 20: 0–5% (M) |
 | `contributo_unico` | 95–100% (M) |
-| `estrazione` | testo ottenuto sì (20/20), leggibile; timestamp completo di pubblicazione disponibile; nomi nel 70% |
+| `estrazione` | testo ottenuto sì (20/20), leggibile; timestamp completo di pubblicazione disponibile; nomi nel 70%. Lettura del 15 settembre dalle pagine di elenco; alla raccolta del Report 1 l'URL del singolo comunicato rimandava alla pagina-vetrina: 0 leggibili (`RICOSTRUZIONE_2026-06_REPORT1.md` §4), valore che prevale |
 | `costo_item` | 0,00 €; 1–3 s per pagina (M) |
 | `intervento_umano` | 1–2 min per item (S) |
 | `raccomandazione` | integrare; cambierebbe con un volume o una localizzazione maggiori |

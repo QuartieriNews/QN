@@ -1,3 +1,4 @@
+import sys
 # Quanto della novita' che misuriamo e' la convenzione di verbalizzazione dell'organo?
 # L'ipotesi viene da un lettore: fra organi diversi il fattore non e' l'oggetto della seduta ma
 # **come quell'organo verbalizza** — ci sono organi quasi stenografici e organi il cui verbale
@@ -12,7 +13,11 @@
 import csv, collections, json, glob, os, re, statistics
 
 NET = os.environ['QN_NET']
-atti = list(csv.DictReader(open(NET + '/report2/snapshot/confronto_atti.csv', encoding='utf-8')))
+# lo stato corrente della pipeline; uno snapshot congelato solo se chiesto con --snapshot
+_atti_csv = NET + ('/report2/snapshot/confronto_atti.csv' if '--snapshot' in sys.argv else '/report2/confronto_atti.csv')
+if not os.path.exists(_atti_csv):
+    sys.exit('convenzione_organo: %s non esiste (rigenera il confronto o usa --snapshot)' % _atti_csv)
+atti = list(csv.DictReader(open(_atti_csv, encoding='utf-8')))
 verbali = collections.Counter(r['municipio'] for r in atti if r['tipologia'] == 'MMV')
 tutti = collections.Counter(r['municipio'] for r in atti)
 

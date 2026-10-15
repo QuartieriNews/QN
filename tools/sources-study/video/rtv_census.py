@@ -6,12 +6,18 @@ H={'Accept':'application/json','Content-Type':'application/json','Origin':'https
 CATS=['Municipio I','Municipio II','Municipio III','Municipio IV','Municipio V','Municipio VI','Municipio VII','Municipio VIII','Municipio IX','Municipio X','Municipio XI','Municipio XII','Municipio XIII','Municipio XIV','Municipio XV','Commissioni Capitoline','Assemblee Capitoline']
 os.makedirs('rtv/cat',exist_ok=True)
 summary={}; nreq=0
+incompleti=[]
 for cat in CATS:
     page=1; items=[]; total=None
     while True:
         body={"page":page,"pageSize":100,"filters":{"discriminator":None,"catalog":[cat]},"sortBy":[{"sortField":"ReferenceDate","direction":"Descending"}],"includeAggregations":False}
-        r=requests.post(B,json=body,headers=H,timeout=180); nreq+=1
-        if r.status_code!=200: print(cat,'HTTP',r.status_code,r.text[:200]); break
+        r=None
+        for tentativo in range(3):   # errori transitori: tre tentativi con attesa crescente
+            r=requests.post(B,json=body,headers=H,timeout=180); nreq+=1
+            if r.status_code==200: break
+            time.sleep(5*(tentativo+1))
+        if r.status_code!=200:
+            print(cat,'HTTP',r.status_code,r.text[:200],'-> catalogo incompleto'); incompleti.append(cat); break
         d=r.json()['data']
         if total is None: total=d.get('totalCount')
         its=d.get('items') or []
@@ -26,3 +32,5 @@ for cat in CATS:
     print(cat, summary[cat], flush=True)
 print('requests', nreq)
 json.dump(summary,open('rtv/census_summary.json','w'),ensure_ascii=False,indent=1)
+if incompleti:
+    print('CATALOGHI INCOMPLETI:',incompleti); import sys; sys.exit(1)
