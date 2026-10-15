@@ -326,6 +326,16 @@ write_queue([{'id_dubbio': 'D2', 'tipo_regola': 'luogo', 'chiave': 'parco a', 's
              {'id_dubbio': 'D2', 'tipo_regola': 'luogo', 'chiave': 'parco b', 'si_applica_in': 'regole_geografiche', 'decisione': 'montagnola'}])
 res = apply()
 check('the same doubt with the same decision but another key is an error, not a silent pick', res.returncode == 1 and 'non coincidono' in res.stdout, res.stdout)
+write_queue([{'id_dubbio': 'D3', 'tipo_regola': 'luogo', 'chiave': 'parco c', 'si_applica_in': 'regole_geografiche', 'proposta': 'montagnola', 'decisione': 'ok'},
+             {'id_dubbio': 'D3', 'tipo_regola': 'luogo', 'chiave': 'parco c', 'si_applica_in': 'regole_geografiche', 'proposta': 'ardeatino', 'decisione': 'ok'}])
+res = apply()
+check("two 'ok' rows of one doubt with different proposals are an error", res.returncode == 1 and 'non coincidono' in res.stdout, res.stdout)
+write_queue([{'id_dubbio': 'S-vuota', 'tipo_regola': 'strada', 'chiave': 'via vuota', 'si_applica_in': 'regole_geografiche', 'decisione': '+'}])
+res = apply(['--consenti-confine'])
+check('a decision with no pages is refused, never a boundary rule', res.returncode == 1 and 'senza pagine' in res.stdout, res.stdout)
+write_queue([{'id_dubbio': 'C-R-0002', 'tipo_regola': 'strada', 'chiave': 'via dei cerchi', 'si_applica_in': 'gazetteer (tabella owner)', 'decisione': 'testaccio'}])
+res = apply()
+check('a contestation row routed to the gazetteer is refused before any closing', res.returncode == 1 and 'contestata si sostituisce' in res.stdout, res.stdout)
 # a contested rule is replaced, the old one stays as history and is no longer loaded
 write_queue([{'id_dubbio': 'C-R-0001', 'tipo_regola': 'luogo', 'chiave': 'parco commendone', 'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico'}])
 res = apply()

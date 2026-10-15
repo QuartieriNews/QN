@@ -56,6 +56,8 @@ def parse(dec, row, active):
     if d == 'nessuna':
         return 'senza_pagina', []
     pages = [p.strip() for p in d.split('+') if p.strip()]
+    if not pages:
+        raise ValueError(f'decisione senza pagine: {dec!r}')
     bad = [p for p in pages if p not in active]
     if bad:
         raise ValueError(f'pagine non attive o inesistenti: {bad}')
@@ -141,18 +143,22 @@ def run(a, active, alias, zu, RULES):
             dec = (row.get('decisione') or '').strip()
             if not did or not dec or did in known:
                 continue
-            # The same doubt twice in one queue: rows identical in decision and
-            # immutable fields are one; any other repetition is an error.
-            shape = (dec.lower(),) + tuple((row.get(k) or '').strip().lower() for k in IMMUTABLE)
-            if did in seen_rows:
-                if seen_rows[did] != shape:
-                    errors.append(f"{did}: righe duplicate che non coincidono (decisione, tipo, chiave o destinazione)")
-                continue
-            seen_rows[did] = shape
             try:
                 modo, pages = parse(dec, row, active)
             except ValueError as exc:
                 errors.append(f"{did}: {exc}")
+                continue
+            # The same doubt twice in one queue: rows with the same outcome (mode
+            # and pages, after 'ok' and 'tratto' are resolved) and the same
+            # immutable fields are one; any other repetition is an error.
+            shape = (modo, tuple(pages)) + tuple((row.get(k) or '').strip().lower() for k in IMMUTABLE)
+            if did in seen_rows:
+                if seen_rows[did] != shape:
+                    errors.append(f"{did}: righe duplicate che non coincidono (esito, tipo, chiave o destinazione)")
+                continue
+            seen_rows[did] = shape
+            if did.startswith(CONTESTED) and not (row.get('si_applica_in') or '').startswith('regole_geografiche'):
+                errors.append(f"{did}: una regola contestata si sostituisce in regole_geografiche, non nel gazetteer")
                 continue
             if modo == 'doppia_confine' and not a.consenti_confine:
                 errors.append(f"{did}: doppia assegnazione sospesa finche' DEC-107 e' aperta "

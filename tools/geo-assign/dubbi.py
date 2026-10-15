@@ -35,7 +35,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from qngeo import ROMAN as ROMAN_N, _metres, _segments, norm, package_root, rules_path  # noqa: E402
+from qngeo import ROMAN as ROMAN_N, _metres, _segments, norm, package_root  # noqa: E402
 from stage1 import Stage1  # noqa: E402
 
 SHORT_M = 1500
@@ -72,8 +72,8 @@ def build(pkg, evidence, seeds=None, decisions=None):
     rows = {json.loads(l)['id']: json.loads(l) for l in (pkg / 'input' / 'schede_input.jsonl').read_text(encoding='utf-8-sig').splitlines() if l.strip()}
     decided_streets = {r['chiave'] for r in at.rules if r['tipo'] == 'strada'}
     decided_places = {r['chiave'] for r in at.rules if r['tipo'] == 'luogo'}
-    rules_file = rules_path()
-    store = json.loads(rules_file.read_text(encoding='utf-8')) if rules_file.is_file() else {}
+    # Same bytes as the rules stage 1 applied: no second read of the file.
+    store = json.loads(at.rules_text)
     closed = {c['dubbio'] for c in store.get('chiusi', [])}
     # Every rule ever written, replaced ones included: their doubt stays decided.
     decided = closed | {r['dubbio'] for r in store.get('regole', [])}
