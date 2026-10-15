@@ -6,6 +6,8 @@
 # Uso: python3 confronta_scaricato.py <file_del_risultato_di_download> <cartella_originali>
 import base64, difflib, json, os, sys
 
+if len(sys.argv) != 3:
+    sys.exit('uso: confronta_scaricato.py RISULTATO.json CARTELLA_PARTI')
 risultato, cartella = sys.argv[1], sys.argv[2].rstrip('/')
 j = json.load(open(risultato, encoding='utf-8'))
 dati = base64.b64decode(j['content'])

@@ -24,8 +24,9 @@ DEC-104).
   il loro uso era allora una scelta aperta (DEC-108, decisa l'11 ottobre: §4.5–4.6).
 - **Nomi.** DEC-016, opzione B: i nomi presenti nelle fonti ufficiali si riproducono in
   automatico, con verifica della seconda AI. Minori, vittime, testimoni, familiari e dati
-  sensibili vanno in coda manuale. La capacità «nomi» resta spenta fino al parere legale
-  (baseline §4.1).
+  sensibili vanno in coda manuale. Nella baseline la capacità «nomi» resta spenta fino al
+  parere legale (§4.1); l'11 ottobre DEC-108 ha deciso per l'MVP l'opzione B anche per i
+  nomi presi dai giornali (§7), con l'attivazione operativa che resta legata al parere.
 - **Pubblicazione.** Pubblicazione automatica con doppio controllo AI (DEC-015). Correzioni
   dirette con tracciabilità interna (DEC-020). Golden set Cronaca di 30 comunicati e gate
   G0 prima di cablare la pubblicazione (baseline §2.D).

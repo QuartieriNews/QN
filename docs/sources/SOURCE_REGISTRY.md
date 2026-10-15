@@ -1,8 +1,9 @@
 # Registro fonti — template (S2-01)
 
 Una scheda per fonte, compilata secondo `docs/sources/SOURCE_STUDY_METHOD.md` (M-0.3). Nel
-repository stanno solo aggregati e metriche; i dati per item e il campione di originali
-stanno su Drive, `QN Hub / 20 Packages / Fonti 2026-06/` (metodo §4.2, DEC-104: loop di
+repository stanno aggregati e metriche, più gli inventari per item senza testi di
+`tools/sources-study/handoff_data/` (DEC-109, metodo §4.2); i dati con i testi e il campione
+di originali stanno su Drive, `QN Hub / 20 Packages / Fonti 2026-06/` (metodo §4.2, DEC-104: loop di
 sviluppo AI con i campioni fuori dal repository). Nessun testo integrale e nessun dato per item
 nel repository; nei dati su Drive i nomi delle persone seguono DEC-105 (scritti quando sono
 pertinenti al fatto; fino al 17 settembre 2026 la regola era «nessun nome di persona»). Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (mancante).

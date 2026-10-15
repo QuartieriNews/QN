@@ -12,12 +12,16 @@ for cat in CATS:
     while True:
         body={"page":page,"pageSize":100,"filters":{"discriminator":None,"catalog":[cat]},"sortBy":[{"sortField":"ReferenceDate","direction":"Descending"}],"includeAggregations":False}
         r=None
-        for tentativo in range(3):   # errori transitori: tre tentativi con attesa crescente
-            r=requests.post(B,json=body,headers=H,timeout=180); nreq+=1
-            if r.status_code==200: break
+        for tentativo in range(3):   # errori transitori (HTTP o rete): tre tentativi con attesa crescente
+            try:
+                r=requests.post(B,json=body,headers=H,timeout=180); nreq+=1
+                if r.status_code==200: break
+                print(cat,'HTTP',r.status_code,r.text[:200])
+            except requests.RequestException as e:
+                r=None; print(cat,'RETE',type(e).__name__)
             time.sleep(5*(tentativo+1))
-        if r.status_code!=200:
-            print(cat,'HTTP',r.status_code,r.text[:200],'-> catalogo incompleto'); incompleti.append(cat); break
+        if r is None or r.status_code!=200:
+            print(cat,'-> catalogo incompleto'); incompleti.append(cat); break
         d=r.json()['data']
         if total is None: total=d.get('totalCount')
         its=d.get('items') or []

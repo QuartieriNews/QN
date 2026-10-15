@@ -24,4 +24,6 @@ non entrano comunque.
 
 Uso tipico: copiare la cartella nello scratchpad della sessione e lanciare gli
 script da lì; `rtv_audio.py` riprende dai segmenti già scaricati se la cartella
-`<out>_segs/` esiste.
+`<out>_segs/` esiste. `geo_lookup.py` cerca `gazetteer/gazetteer.json` nel repository
+(variabile `QN_REPO_ROOT`, altrimenti due cartelle sopra il file) o una copia accanto a sé:
+nello scratchpad va copiato (HANDOFF §4, passo 0).

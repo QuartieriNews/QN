@@ -16,7 +16,7 @@ def remux(segdir, key):
     r = subprocess.run([FF, '-hide_banner', '-loglevel', 'error', '-y', '-protocol_whitelist', 'file,crypto',
                         '-allowed_extensions', 'ALL', '-i', pl, '-c', 'copy', out], capture_output=True, text=True)
     if r.returncode != 0:
-        raise SystemExit('remux fallito su %s: %s' % (segdir, r.stderr[:300]))
+        raise RuntimeError('remux fallito su %s: %s' % (segdir, r.stderr[:300]))
     return out
 
 def durata(path):
@@ -40,9 +40,9 @@ def comprimi(src, destdir):
             args += ['-i', src, '-ac', '1', '-ar', '16000', '-b:a', '32k', out]
             r = subprocess.run(args, capture_output=True, text=True)
             if r.returncode != 0:
-                raise SystemExit('compressione fallita su %s: %s' % (src, r.stderr[:300]))
+                raise RuntimeError('compressione fallita su %s: %s' % (src, r.stderr[:300]))
         if os.path.getsize(out) > LIMITE_BYTE:
-            raise SystemExit('%s supera il limite dell API: %d byte' % (out, os.path.getsize(out)))
+            raise RuntimeError('%s supera il limite dell API: %d byte' % (out, os.path.getsize(out)))
         parti.append({'file': out, 'byte': os.path.getsize(out),
                       'durata_s': round(min(PARTE_S, d - i * PARTE_S), 1)})
     return {'sorgente': src, 'durata_s': round(d, 1), 'parti': parti}

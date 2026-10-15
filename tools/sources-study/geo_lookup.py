@@ -4,8 +4,9 @@ regex. Returns per text: toponym flag, municipio (roman), zone id, tier."""
 import json,re,unicodedata,sys,os
 # il gazetteer e' nel repository: QN_REPO_ROOT se impostato, altrimenti due cartelle sopra questo file
 _ROOT=os.environ.get('QN_REPO_ROOT') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..'))
-_GAZ=os.path.join(_ROOT,'gazetteer','gazetteer.json')
-if not os.path.exists(_GAZ): sys.exit(f'geo_lookup: gazetteer non trovato in {_GAZ} (imposta QN_REPO_ROOT)')
+_QUI=os.path.dirname(os.path.abspath(__file__))
+_GAZ=next((p for p in (os.path.join(_ROOT,'gazetteer','gazetteer.json'), os.path.join(_QUI,'gazetteer.json')) if os.path.exists(p)), None)
+if not _GAZ: sys.exit('geo_lookup: gazetteer non trovato: imposta QN_REPO_ROOT o copia gazetteer/gazetteer.json accanto a questo file (HANDOFF §4, passo 0)')
 G=json.load(open(_GAZ,encoding='utf-8'))
 ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV']
 def norm(s):

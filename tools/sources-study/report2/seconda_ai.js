@@ -15,7 +15,11 @@ const MODEL = 'gpt-5.3-codex';
 const ENDPOINT = 'https://api.openai.com/v1/responses';
 
 const arg = (n, d) => { const i = process.argv.indexOf('--' + n); return i === -1 ? d : process.argv[i + 1]; };
-const casi = JSON.parse(fs.readFileSync(arg('input'), 'utf8'));
+if (!arg('input')) { console.error('uso: seconda_ai.js --input casi.json --out esito.md [--dry-run] [--max-casi N] [--max-evidenza N] [--max-input N]'); process.exit(2); }
+let casi;
+try { casi = JSON.parse(fs.readFileSync(arg('input'), 'utf8')); }
+catch (e) { console.error(`--input ${arg('input')}: ${e.code === 'ENOENT' ? 'file mancante' : 'JSON non valido: ' + e.message}`); process.exit(2); }
+if (!Array.isArray(casi)) { console.error('--input: atteso un array JSON di casi'); process.exit(2); }
 const out = arg('out');
 const dryRun = process.argv.includes('--dry-run');
 // Limiti chiusi (AGENTS.md, costo): oltre la soglia ci si ferma, non si spende.

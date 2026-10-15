@@ -100,6 +100,8 @@ le fonti ufficiali danno 111 comunicati contro 109 (Questura 81 contro 79, Carab
 
 - Rete: user agent `QuartieriNews-ricerca/0.1`, una richiesta al secondo (una ogni 4 alla Questura),
   solo canali ammessi dal robots.txt; testate chiuse solo come titolo, link e ora dall'indice GDELT.
-- Test prima di ogni commit: `test_guards.py` (ALL PASS, 37), `test_parse_duration.js` (ALL PASS),
-  `test_cronaca_prova.py` (ALL PASS). Nessuna PR aperta.
+- Test eseguiti in questa sessione prima di ogni commit: `test_guards.py` (ALL PASS, 37), `test_parse_duration.js`
+  (ALL PASS), `test_cronaca_prova.py` (ALL PASS); le altre suite di AGENTS.md (`test_council.js`,
+  `test_lane_gate.js`, `test_workflow_safety.js`) non sono state eseguite il 13 ottobre e sono
+  state eseguite il 15 ottobre nella revisione della PR #15, tutte ALL PASS. Nessuna PR aperta.
 - Nel repository nessun dato per item, quindi nessun testo, titolo, link o nome preso dalle fonti; i nomi delle persone nei dati su Drive seguono DEC-105.

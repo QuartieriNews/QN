@@ -22,10 +22,10 @@ def parti(sorgente, destinazione, prefisso):
 
     testa = serializza([intestazione])
     blocchi, corrente = [], []
-    for r in corpo:
+    for n_riga, r in enumerate(corpo, start=2):
         if len(testa.encode()) + len(serializza([r]).encode()) > LIMITE:
             sys.exit('parti_drive: la riga %d da sola supera il limite di %d byte (%d): nessuna parte scritta'
-                     % (corpo.index(r) + 2, LIMITE, len(testa.encode()) + len(serializza([r]).encode())))
+                     % (n_riga, LIMITE, len(testa.encode()) + len(serializza([r]).encode())))
         prova = corrente + [r]
         if corrente and len(testa.encode()) + len(serializza(prova).encode()) > LIMITE:
             blocchi.append(corrente)

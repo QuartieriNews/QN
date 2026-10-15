@@ -73,7 +73,7 @@ restano: gli item si ritrovano dall'URL o dal `guid`.
 
 ## 4. Sequenza operativa
 0. Setup (10 minuti): `export QN_NET=<tuo scratchpad>/net` (percorso dal tuo system prompt); `mkdir -p $QN_NET
-   && cp -r tools/sources-study/* $QN_NET/`; `mkdir -p $QN_NET/deliver $QN_NET/video/deliver_video`; copia i CSV
+   && cp -r tools/sources-study/* $QN_NET/ && cp gazetteer/gazetteer.json $QN_NET/` (geo_lookup.py lo cerca nel repository, con `QN_REPO_ROOT`, o accanto a sé); `mkdir -p $QN_NET/deliver $QN_NET/video/deliver_video`; copia i CSV
    di `handoff_data/` che iniziano per A1, A2, C, E, DDSxA1 in `$QN_NET/deliver/` e quelli che iniziano per A3,
    A4 in `$QN_NET/video/deliver_video/`; `apt-get install -y tesseract-ocr tesseract-ocr-ita`;
    `pip install pymupdf imageio-ffmpeg yt-dlp requests`.
