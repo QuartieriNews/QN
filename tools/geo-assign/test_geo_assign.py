@@ -352,6 +352,44 @@ check('the doubt queue refuses to be written inside the repository', not dubbi.f
       and dubbi.fuori_dal_repository(tmp / 'coda_dubbi.csv'))
 check('rules and their text come from one read', qngeo.rules_from_text(qngeo.rules_text(rules)) == qngeo.load_rules(rules))
 
+# ---- tabella_giugno.py helpers (pure): Codex review of PR #15, lotto 3
+import tabella_giugno as tg
+tdir = Path(tempfile.mkdtemp())
+(tdir / 'lotto_1.jsonl').write_text('{"id": "CR-1", "fonte": "C1"}\n')
+(tdir / 'lotto_2.jsonl').write_text('{"id": "CR-1", "fonte": "C1"}\n')
+try:
+    tg.jl(str(tdir / 'lotto_*.jsonl')); dup_ok = False
+except SystemExit as e:
+    dup_ok = 'ripetuto' in str(e)
+try:
+    tg.jl(str(tdir / 'nessuno_*.jsonl')); empty_ok = False
+except SystemExit as e:
+    empty_ok = 'nessun file' in str(e)
+check('tabella: a repeated id across lots and an empty glob are errors, not double presences', dup_ok and empty_ok)
+try:
+    tg.by_id(['{"id": "N1"}', '{"id": "N1"}'], 'x'); byid_ok = False
+except SystemExit:
+    byid_ok = True
+check('tabella: a repeated id in the reference is an error, not the last copy', byid_ok)
+try:
+    tg.check_corrections([{'id': 'N1', 'esito': 'U', 'livello_portata': 'quartiere'}, {'id': 'N1', 'esito': 'T', 'livello_portata': 'citta'}]); corr_ok = False
+except SystemExit as e:
+    corr_ok = 'ripetuta' in str(e)
+check('tabella: two corrections for one id are an error', corr_ok and len(tg.check_corrections([{'id': 'N1', 'esito': 'U', 'livello_portata': 'quartiere'}])) == 1)
+try:
+    tg.check_level({'id': 'F1', 'esito': 'T'}, 'd'); lv_ok = False
+except SystemExit as e:
+    lv_ok = 'livello_portata' in str(e)
+try:
+    tg.check_level({'id': 'F2', 'esito': 'T', 'livello_portata': 'quartiere'}, 'd'); lv_ok2 = False
+except SystemExit:
+    lv_ok2 = True
+check('DEC-106: a Facebook decision without livello_portata, or T with quartiere, is refused', lv_ok and lv_ok2
+      and tg.check_level({'id': 'F3', 'esito': 'U', 'livello_portata': 'quartiere'}, 'd') == 'quartiere')
+check('tabella: a title that looks like a formula is written as text', tg.cell('=HYPERLINK("x")') == "'=HYPERLINK(\"x\")"
+      and tg.cell('+39') == "'+39" and tg.cell('Via Roma') == 'Via Roma' and tg.cell(3) == 3)
+check('tabella: the contents sheet refuses a folder inside the repository', not qngeo.fuori_dal_repository(HERE / 'runs') and qngeo.fuori_dal_repository(tdir))
+
 # ---- package-backed (teaching cases only)
 # Deterministic: no live WFS and an empty civic cache during the tests.
 import tempfile as _tf

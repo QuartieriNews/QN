@@ -17,3 +17,5 @@ coda_dubbi*.json
 modifiche_gazetteer.csv
 tools/geo-assign/*.lock
 tools/geo-assign/*.tmp
+tools/geo-assign/**/*.xlsx
+tabella_giugno_2026.xlsx

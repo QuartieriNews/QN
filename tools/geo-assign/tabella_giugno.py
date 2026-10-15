@@ -15,32 +15,93 @@ Sources, as the owner chose on 9 October 2026:
 - Conversazione: ND (not collected), never zero.
 
 Writes DIR/tabella_giugno_2026.xlsx (per-item contents: goes to Drive, not to
-the repository, DEC-102) and DIR/matrice_giugno_conteggi.csv (counts only).
-Counts are records and page presences, not certified facts; the dedup
-interval shows how many distinct facts the doubtful twins could leave.
+the repository, DEC-102: DIR must be outside the worktree) and the counts-only
+matrix, DIR/matrice_giugno_conteggi.csv or the path given with --matrice (the
+one file of the two that may be versioned). Counts are records and page
+presences, not certified facts; the dedup interval shows how many distinct
+facts the doubtful twins could leave.
 """
 import argparse
 import collections
 import csv
 import glob
+import io
 import json
+import os
 import re
 import sys
 from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from qngeo import _read, package_root  # noqa: E402
+from qngeo import _read, fuori_dal_repository, package_root  # noqa: E402
 
 ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV']
 GATE = {'Amministrazione': 5, 'Cronaca': 1, 'Eventi': 10}
+BLOCKS = ('Amministrazione', 'Cronaca', 'Eventi')
+OFFICIAL_CRONACA = ('C1', 'C2', 'C4', 'C5')      # Questura, Carabinieri, Vigili del Fuoco, Polizia Locale
+LEVELS = {'quartiere', 'municipio', 'citta'}
 
 
 def jl(pattern):
-    out = []
-    for f in sorted(glob.glob(pattern)):
-        out += [json.loads(l) for l in Path(f).read_text(encoding='utf-8').splitlines() if l.strip()]
+    """Records of every file matching the glob. A duplicate id across files is
+    an error, not two presences (a retry can leave two lots behind)."""
+    out, seen = [], {}
+    files = sorted(glob.glob(pattern))
+    if not files:
+        raise SystemExit(f'nessun file per {pattern!r}')
+    for f in files:
+        for l in Path(f).read_text(encoding='utf-8').splitlines():
+            if not l.strip():
+                continue
+            r = json.loads(l)
+            if r['id'] in seen:
+                raise SystemExit(f"id {r['id']} ripetuto: {seen[r['id']]} e {f}")
+            seen[r['id']] = f
+            out.append(r)
     return out
+
+
+def by_id(lines, what):
+    """id -> record, refusing a repeated id instead of keeping the last copy."""
+    out = {}
+    for l in lines:
+        if not l.strip():
+            continue
+        r = json.loads(l)
+        if r['id'] in out:
+            raise SystemExit(f"id {r['id']} ripetuto in {what}")
+        out[r['id']] = r
+    return out
+
+
+def check_corrections(corr_list):
+    """The corrections file: one entry per id, every entry well formed."""
+    out = {}
+    for c in corr_list:
+        if c['id'] in out:
+            raise SystemExit(f"correzione ripetuta per {c['id']}")
+        if c['esito'] not in 'UMTDIF' or c.get('livello_portata') not in LEVELS:
+            raise SystemExit(f"correzione {c['id']}: esito o livello_portata non ammessi")
+        out[c['id']] = c
+    return out
+
+
+def check_level(d, what):
+    """DEC-106: a decision states its livello_portata; no default is invented."""
+    lv = d.get('livello_portata')
+    if lv not in LEVELS:
+        raise SystemExit(f"{what} {d.get('id')}: livello_portata mancante o non ammesso ({lv!r})")
+    if d.get('esito') == 'T' and lv == 'quartiere':
+        raise SystemExit(f"{what} {d.get('id')}: T con livello_portata quartiere")
+    return lv
+
+
+def cell(v):
+    """A value from the sources as text in a spreadsheet cell, never a formula."""
+    if isinstance(v, str) and v[:1] in ('=', '+', '-', '@'):
+        return "'" + v
+    return v
 
 
 def muns(text):
@@ -53,24 +114,28 @@ def load(a):
     pages = {z['publication_zone_id']: z for z in gaz['publication_zones'] if z['is_page']}
     page_mun = {k: muns(z['primary_municipality'] + ';' + z['spans_municipalities']) or {z['primary_municipality']}
                 for k, z in pages.items()}
-    inp = {json.loads(l)['id']: json.loads(l) for l in (pkg / 'input' / 'schede_input.jsonl').read_text(encoding='utf-8-sig').splitlines() if l.strip()}
-    ref = {json.loads(l)['id']: json.loads(l) for l in (pkg / 'benchmark' / 'assegnazioni_2026-09-19.jsonl').read_text(encoding='utf-8').splitlines() if l.strip()}
-    corr = {c['id']: c for c in json.loads(Path(a.correzioni).read_text(encoding='utf-8'))['correzioni']}
+    inp = by_id((pkg / 'input' / 'schede_input.jsonl').read_text(encoding='utf-8-sig').splitlines(), 'schede_input.jsonl')
+    ref = by_id((pkg / 'benchmark' / 'assegnazioni_2026-09-19.jsonl').read_text(encoding='utf-8').splitlines(), 'assegnazioni_2026-09-19.jsonl')
+    corr = check_corrections(json.loads(Path(a.correzioni).read_text(encoding='utf-8'))['correzioni'])
     return pkg, pages, page_mun, inp, ref, corr
 
 
 def items(a):
     pkg, pages, page_mun, inp, ref, corr = load(a)
     rows = []
+    applied = set()
     # 1. Reference records (Amministrazione, official Eventi), C* replaced by the reread.
     for i, r in inp.items():
         if r['in_stock'] != 1 or r['fonte'].startswith('C'):
             continue
+        if r['blocco_editoriale_proposto'] not in BLOCKS:
+            raise SystemExit(f"{i}: blocco {r['blocco_editoriale_proposto']!r} non ammesso ({', '.join(BLOCKS)})")
         d = dict(ref[i])
         level = 'quartiere' if d['esito'] in 'UM' else ''
         if i in corr:
             d.update({k: corr[i][k] for k in ('esito', 'pagine')})
             level = corr[i]['livello_portata']
+            applied.add(i)
         if d['esito'] == 'T' and not level:
             level = 'municipio' if muns(r['municipio']) else 'citta'
         rows.append({'id': i, 'blocco': r['blocco_editoriale_proposto'], 'fonte': r['fonte'], 'esito': d['esito'],
@@ -78,8 +143,16 @@ def items(a):
                      'titolo': r['titolo'], 'data': r['data_fatto'] or r['data_pubblicazione'], 'url': r['url_fonte'],
                      'motivo': d['motivo'], 'gemello': r['gemello_id'] if r['dedup_stato'] == 'dubbio' else '',
                      'periodo': 'giugno 2026', 'corretta': i in corr})
-    # 2. Cronaca reread in full.
-    for s in jl(a.cronaca):
+    # Every correction names a record it could change; a stale id is an error, not a silent no-op.
+    stale = sorted(set(corr) - applied)
+    if stale:
+        raise SystemExit(f"correzioni non applicabili (id assenti, C* o non in_stock): {stale}")
+    # 2. Cronaca reread in full: official sources only (owner, 9 October).
+    cron = jl(a.cronaca)
+    bad = sorted({s['fonte'] for s in cron if not str(s['fonte']).startswith(OFFICIAL_CRONACA)})
+    if bad:
+        raise SystemExit(f"Cronaca solo da fonti ufficiali {OFFICIAL_CRONACA}: trovate {bad}")
+    for s in cron:
         lv = s.get('livello_portata') or ('quartiere' if s['esito'] in 'UM' else 'municipio')
         rows.append({'id': s['id'], 'blocco': 'Cronaca', 'fonte': s['fonte'], 'esito': s['esito'], 'pagine': sorted(s['pagine']),
                      'livello': lv, 'municipi': sorted(muns(s.get('municipio', ''))), 'titolo': s['titolo'],
@@ -93,10 +166,10 @@ def items(a):
             c['trovato'] and c['pagine'] == e['proposta']['pagine_proposte'] for c in e['civici'])
         if e['id'] in dec:
             d = dec[e['id']]
-            esito, pg, motivo, lv = d['esito'], sorted(d['pagine']), d['motivo'], d.get('livello_portata', 'quartiere')
+            esito, pg, motivo, lv = d['esito'], sorted(d['pagine']), d['motivo'], check_level(d, 'decisione Facebook')
         elif not civic_ok:
             # Never count an unreviewed uncertain proposal as an assignment.
-            esito, pg, motivo, lv = 'D', [], 'non ancora rivisto: proposta del codice incerta', 'quartiere'
+            esito, pg, motivo, lv = 'D', [], 'non ancora rivisto: proposta del codice incerta', ''
         else:
             esito, pg, lv = 'U', e['proposta']['pagine_proposte'], 'quartiere'
             motivo = 'civico ufficiale del Geoportale: ' + '; '.join(f"{c['testo']} {c['civico']}" for c in e['civici'] if c['trovato'])
@@ -235,8 +308,9 @@ def write(a, pages, rows, matrix, own, mun_level, city, corr):
     for (p, b), ids in sorted(own.items(), key=lambda kv: (names[kv[0][0]], kv[0][1])):
         for i in ids:
             r = byid[i]
-            wc.append([names[p], page_mun[p], b, i, r['data'], r['titolo'], r['fonte'], r['esito'], ', '.join(names.get(x, x) for x in r['pagine']),
-                       r['periodo'], r['url'], r['motivo'], 'sì' if r['corretta'] else ''])
+            wc.append([cell(x) for x in (names[p], page_mun[p], b, i, r['data'], r['titolo'], r['fonte'], r['esito'],
+                                         ', '.join(names.get(x, x) for x in r['pagine']), r['periodo'], r['url'], r['motivo'],
+                                         'sì' if r['corretta'] else '')])
     wc.freeze_panes = 'A2'
 
     wmu = wb.create_sheet('Notizie dei Municipi')
@@ -244,32 +318,39 @@ def write(a, pages, rows, matrix, own, mun_level, city, corr):
     for (m, b), ids in sorted(mun_level.items(), key=lambda kv: (ROMAN.index(kv[0][0]), kv[0][1])):
         for i in ids:
             r = byid[i]
-            wmu.append([m, b, i, r['data'], r['titolo'], r['fonte'], r['url'], r['motivo']])
+            wmu.append([cell(x) for x in (m, b, i, r['data'], r['titolo'], r['fonte'], r['url'], r['motivo'])])
     for b, ids in sorted(city.items()):
         for i in ids:
             r = byid[i]
-            wmu.append(['città', b, i, r['data'], r['titolo'], r['fonte'], r['url'], r['motivo']])
+            wmu.append([cell(x) for x in ('città', b, i, r['data'], r['titolo'], r['fonte'], r['url'], r['motivo'])])
 
     wd = wb.create_sheet('Non assegnati')
     wd.append(['blocco', 'id', 'esito', 'data', 'titolo', 'fonte', 'periodo', 'link', 'motivo'])
     for r in rows:
         if r['esito'] in ('D', 'I', 'F') or (r['blocco'] == 'Eventi Facebook' and r['periodo'] == 'fuori finestra'):
-            wd.append([r['blocco'], r['id'], r['esito'], r['data'], r['titolo'], r['fonte'], r['periodo'], r['url'], r['motivo']])
+            wd.append([cell(x) for x in (r['blocco'], r['id'], r['esito'], r['data'], r['titolo'], r['fonte'], r['periodo'], r['url'], r['motivo'])])
 
     wk = wb.create_sheet('Correzioni')
     wk.append(['id', 'nuovo esito', 'nuove pagine', 'livello', 'origine', 'ragione'])
     for c in corr.values():
-        wk.append([c['id'], c['esito'], ', '.join(c['pagine']), c['livello_portata'], c['origine'], c['ragione']])
+        wk.append([cell(x) for x in (c['id'], c['esito'], ', '.join(c['pagine']), c['livello_portata'], c['origine'], c['ragione'])])
     for sh in (wc, wmu, wd, wk):
         for c in sh[1]:
             c.font = Font(bold=True)
+    # Both outputs land whole or not at all: a temporary beside the target, then os.replace.
     xlsx = out / 'tabella_giugno_2026.xlsx'
-    wb.save(xlsx)
+    tmp = xlsx.with_suffix(f'.{os.getpid()}.tmp')
+    wb.save(tmp)
+    os.replace(tmp, xlsx)
     num = [c for c in cols if c not in ('pagina',)]
-    with (out / 'matrice_giugno_conteggi.csv').open('w', encoding='utf-8-sig', newline='') as h:
-        w = csv.DictWriter(h, fieldnames=['pagina'] + num, delimiter=';')
-        w.writeheader()
-        w.writerows(matrix)
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=['pagina'] + num, delimiter=';', lineterminator='\r\n')
+    w.writeheader()
+    w.writerows(matrix)
+    matrice = Path(a.matrice) if a.matrice else out / 'matrice_giugno_conteggi.csv'
+    tmp = matrice.with_suffix(f'.{os.getpid()}.tmp')
+    tmp.write_text('\ufeff' + buf.getvalue(), encoding='utf-8', newline='')
+    os.replace(tmp, matrice)
     return xlsx
 
 
@@ -280,15 +361,22 @@ def main():
     ap.add_argument('--eventi-fb', required=True)
     ap.add_argument('--eventi-fb-decisioni', required=True)
     ap.add_argument('--correzioni', required=True)
-    ap.add_argument('--out', required=True)
+    ap.add_argument('--out', required=True, help='cartella del foglio con i contenuti: fuori dal repository (DEC-102)')
+    ap.add_argument('--matrice', help='percorso della matrice dei soli conteggi (default: OUT/matrice_giugno_conteggi.csv)')
     a = ap.parse_args()
+    if not fuori_dal_repository(a.out):
+        raise SystemExit('il foglio contiene titoli e link delle fonti: --out deve stare fuori dal repository (DEC-102); '
+                         'la matrice dei conteggi si versiona con --matrice')
     pages, rows, matrix, own, mun_level, city, corr = build(a)
     xlsx = write(a, pages, rows, matrix, own, mun_level, city, corr)
     summary = collections.Counter()
     for r in matrix:
         for k in ('Soglia Amministrazione >=5', 'Soglia Cronaca >=1', 'Soglia Eventi >=10 (giugno + FB)', 'Soglie con ripiego'):
             summary[(k, r[k])] += 1
-    print(json.dumps({'xlsx': str(xlsx), 'pagine': len(matrix), 'soglie': {f'{k} {v}': n for (k, v), n in sorted(summary.items())}},
+    cron = [r for r in rows if r['blocco'] == 'Cronaca']
+    print(json.dumps({'xlsx': str(xlsx), 'pagine': len(matrix), 'correzioni_applicate': len(corr),
+                      'cronaca': {'schede': len(cron), 'comunicati_unici': len({r['url'] for r in cron})},
+                      'soglie': {f'{k} {v}': n for (k, v), n in sorted(summary.items())}},
                      ensure_ascii=False, indent=1))
 
 

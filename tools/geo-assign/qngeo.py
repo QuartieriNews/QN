@@ -74,6 +74,18 @@ def _read(path: Path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
+REPO = Path(__file__).resolve().parents[2]
+
+
+def fuori_dal_repository(path) -> bool:
+    """Working files with source titles or texts (DEC-102) never land in the worktree."""
+    try:
+        Path(path).resolve().relative_to(REPO)
+    except ValueError:
+        return True
+    return False
+
+
 def _lit(v):
     return ast.literal_eval(v) if isinstance(v, str) else v
 

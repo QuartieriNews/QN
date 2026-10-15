@@ -360,4 +360,8 @@ superano le tre soglie.
 **Raccordi da decidere.** I lettori hanno segnalato otto nuovi raccordi zona/località →
 pagina (Quarticciolo, Tor Bella Monaca, Ponte di Nona, Porta Portese, Casa del Jazz,
 Isola Tiberina, Laterano/Celio, «zona Esposizione»). Sono in
-`runs/2026-10-09/semi_dubbi.json` e la coda sale a 274 dubbi.
+`runs/2026-10-09/semi_dubbi.json`. Il conteggio versionato (`conteggio_dubbi.json`) è della
+passata senza semi: 269 dubbi. La coda consegnata all'owner il 9 ottobre contava 274 righe;
+gli otto semi entrano alla prossima passata, che registra i propri argomenti e il totale
+(rilievo della revisione del 15 ottobre: i due numeri non si ricavano l'uno dall'altro dai
+soli file versionati).

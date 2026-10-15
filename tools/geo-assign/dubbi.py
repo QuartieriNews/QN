@@ -35,21 +35,11 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from qngeo import ROMAN as ROMAN_N, _metres, _segments, norm, package_root  # noqa: E402
+from qngeo import ROMAN as ROMAN_N, _metres, _segments, fuori_dal_repository, norm, package_root  # noqa: E402
 from stage1 import Stage1  # noqa: E402
 
 SHORT_M = 1500
-REPO = Path(__file__).resolve().parents[2]
 RULE_ID = re.compile(r'\bR-\d{4}\b')
-
-
-def fuori_dal_repository(path: Path) -> bool:
-    """The queue carries source titles (DEC-102): it never lands in the worktree."""
-    try:
-        Path(path).resolve().relative_to(REPO)
-    except ValueError:
-        return True
-    return False
 COLUMNS = ['id_dubbio', 'tipo', 'luogo', 'municipio', 'opzioni', 'proposta', 'base_proposta',
            'schede', 'esempi', 'si_applica_in', 'tipo_regola', 'chiave', 'decisione', 'note']
 HELP = ("decisione: uno slug (es. cinecitta) = una pagina; slug1+slug2 = entrambe "
