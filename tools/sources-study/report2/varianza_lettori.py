@@ -10,16 +10,12 @@ righe = list(csv.DictReader(open(NET + '/report1/db/notizie_candidate.csv', enco
 per_id = {r['id']: r for r in righe}
 PARLATO = {'A3', 'A4'}
 
-legami = collections.defaultdict(set)
-for r in righe:
-    g = r['gemello_id']
-    if g and g in per_id and r['dedup_stato'] in ('duplicato', 'dubbio'):
-        legami[r['id']].add((g, r['dedup_stato']))
-        legami[g].add((r['id'], r['dedup_stato']))
-
 def classe(r):
-    stati = {s for (a, s) in legami[r['id']] if per_id[a]['fonte'] not in PARLATO}
-    return 'D' if 'duplicato' in stati else ('U' if 'dubbio' in stati else 'S')
+    """S/U/D dalle colonne `gemelli_scritti` (confronto esaustivo parlato-contro-scritto di
+    build_db.py), come in novita_meccanica.py; la catena `gemello_id` consuma le righe e
+    misura un'altra cosa (novita_meccanica.py, in testa)."""
+    d, u = (int(x) for x in (r.get('gemelli_scritti') or '0/0').split('/'))
+    return 'D' if d else ('U' if u else 'S')
 
 # il giudizio umano sta nei JSON, non nel database
 umano = {}

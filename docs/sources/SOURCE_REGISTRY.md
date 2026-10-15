@@ -421,3 +421,22 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `intervento_umano` | 10–15 minuti per seduta per lettura, confronto con gli atti e verifica dei nomi (S) |
 | `raccomandazione` | fonte candidata per i Municipi I e IX, subordinata alla misura della data di pubblicazione e alla verifica dei nomi; V parziale; nessuna integrazione approvata automaticamente |
 | `drive` | `A4_youtube_giugno2026_censimento.csv` (in due parti), `A4_canali_youtube_stato.csv`, `A4_campione_selezione.csv`, `summary_A4_youtube.json`, `A4_rss_ritardo_pubblicazione_2026-09-15.csv` |
+
+## Canali della prova della Cronaca (DEC-108, ottobre 2026)
+
+DEC-108 ammette la stampa come fonte citata e tocca questo registro: le schede qui sopra restano
+quelle dello studio di settembre; i canali usati dalla prova della Cronaca (`tools/cronaca-prova/`,
+README passi 1, 8 e 9) sono questi. Robots.txt, riserve TDM e barriere osservate, testata per
+testata, stanno nel sondaggio di `CRONACA_PROCESSO_2026-10.md` §5.2; qui il canale e il limite.
+
+| Fonte | Canale usato | Che cosa si prende | Limite |
+|---|---|---|---|
+| C1–C6 (Questura, Carabinieri, Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza) | pagine di elenco e comunicati (`fonti_ufficiali.py`) | comunicato intero, nella cartella di lavoro | una richiesta ogni 4 s alla Questura, ogni 2 s agli altri; pagine di blocco servite con 200 contate come rifiuto; stop dopo cinque rifiuti di fila |
+| Abitare a Roma, VignaClaraBlog, Dire | API pubblica WordPress del sito (`censimento.py`) | titolo, data, categorie, link | una richiesta al secondo, user agent dichiarato; solo metadati |
+| Roma Daily News, Il Faro Online | sitemap (l'API è esclusa dal robots.txt) | titolo, data, link | come sopra |
+| Il Tempo | sitemap giornaliere | titolo, data, sezione, link | come sopra; solo i giorni del mese |
+| Testate che escludono gli agenti AI (RomaToday, Il Messaggero, Corriere Roma, Repubblica Roma, Leggo, ANSA, Agenzia Nova, Today.it e le altre di §5.2) | file grezzi di GDELT, indice aperto (`gdelt_titoli.py`) | titolo, link e ora dall'indice; la pagina dell'articolo non si apre mai | i file da 15 minuti si scaricano uno a uno; l'API di ricerca di GDELT non si usa |
+| Testi degli articoli delle testate aperte | pagina dell'articolo (`testi_aperti.py`) | testo, nella cartella di lavoro | solo per le notizie che il titolo non localizza; tetto `QN_MAX_TESTI` per esecuzione |
+
+Nel repository restano i conteggi (`tools/cronaca-prova/runs/`); titoli, testi e link per item
+stanno nella cartella di lavoro e su Drive (DEC-102, DEC-104).

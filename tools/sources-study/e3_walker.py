@@ -18,6 +18,7 @@ for p in range(1,160):
                 if r.status_code==200 and 'List-title' in r.text: d=r.text; open(f,'w',encoding='utf-8').write(d); break
             except Exception: pass
             time.sleep(3)
+        if not d: print('page',p,'FETCH FAILED -> stop, censimento incompleto',file=log,flush=True); stop=True; break
     items=re.findall(r'<div class="Grid-cell List-content">\s*<p class="List-category">(.*?)</p>\s*<p class="List-date">([^<]*)</p>\s*<p class="List-title">\s*<a href="([^"]*)">(.*?)</a>',d,flags=re.S)
     if not items: print('page',p,'NO ITEMS',file=log,flush=True); break
     dates=[]
@@ -31,3 +32,4 @@ for p in range(1,160):
 with open('E3_listing.tsv','w',newline='') as fh:
     w=csv.DictWriter(fh,fieldnames=['page','date','title','url','tematica'],delimiter='\t'); w.writeheader(); w.writerows(rows)
 print('DONE',len(rows),file=log,flush=True)
+import sys; sys.exit(1 if stop else 0)

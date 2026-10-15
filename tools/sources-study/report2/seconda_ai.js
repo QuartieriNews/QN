@@ -18,6 +18,15 @@ const arg = (n, d) => { const i = process.argv.indexOf('--' + n); return i === -
 const casi = JSON.parse(fs.readFileSync(arg('input'), 'utf8'));
 const out = arg('out');
 const dryRun = process.argv.includes('--dry-run');
+// Limiti chiusi (AGENTS.md, costo): oltre la soglia ci si ferma, non si spende.
+const MAX_CASI = Number(arg('max-casi', 60));
+const MAX_EVIDENZA = Number(arg('max-evidenza', 6000));      // caratteri per caso
+const MAX_INPUT = Number(arg('max-input', 400000));          // caratteri in tutto
+const MAX_OUTPUT_TOKENS = Number(arg('max-output-tokens', 4000));
+if (casi.length > MAX_CASI) {
+  console.error(`${casi.length} casi: oltre il tetto di ${MAX_CASI} per chiamata (--max-casi). Dividi l'input.`);
+  process.exit(2);
+}
 
 if (!dryRun && !process.env.OPENAI_API_KEY) {
   console.error('OPENAI_API_KEY non impostata: mi rifiuto di chiamare, perche\' una chiave mancante non deve somigliare a una verifica che non ha trovato nulla');
@@ -44,12 +53,19 @@ const blocchi = casi.map(c => {
   const righe = [`--- CASO ${c.id}`,
     `titolo: ${c.titolo}`, `sintesi: ${c.sintesi}`, `tipo dichiarato: ${c.tipo}`,
     `luoghi: ${c.luoghi}`, `data del fatto: ${c.data}`, `qualita dichiarata: ${c.qualita}`];
-  if (c.evidenza) righe.push(`evidenza (trascrizione automatica, puo' contenere errori):\n${c.evidenza}`);
+  if (c.evidenza) {
+    const ev = String(c.evidenza);
+    righe.push(`evidenza (trascrizione automatica, puo' contenere errori${ev.length > MAX_EVIDENZA ? `; troncata a ${MAX_EVIDENZA} caratteri` : ''}):\n${ev.slice(0, MAX_EVIDENZA)}`);
+  }
   else righe.push('evidenza: non allegata (candidata da un atto)');
   return righe.join('\n');
 });
 const input = MANDATO + '\n\n' + blocchi.join('\n\n');
-const body = { model: MODEL, input, reasoning: { effort: 'medium' }, store: false };
+if (input.length > MAX_INPUT) {
+  console.error(`${input.length} caratteri: oltre il tetto di ${MAX_INPUT} per chiamata (--max-input). Dividi l'input o riduci --max-evidenza.`);
+  process.exit(2);
+}
+const body = { model: MODEL, input, reasoning: { effort: 'medium' }, store: false, max_output_tokens: MAX_OUTPUT_TOKENS };
 
 if (dryRun) {
   console.log(`[${casi.length} casi, ${input.length} caratteri]`);

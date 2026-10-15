@@ -12,17 +12,19 @@ def get(url):
             if r.status_code==200: return r.text
         except Exception as e: pass
         time.sleep(3)
-    return ''
+    return None   # fallito: diverso da una pagina vuota
 MUNS=['municipio_'+x for x in ['i','ii','iii','iv','v','vi','vii','viii','ix','x','xi','xii','xiii','xiv','xv']]+['intermunicipale']
 STOP='2026-06-01'
 os.makedirs('A1_pages',exist_ok=True)
 news=csv.writer(open('A1_news.tsv','w',newline=''),delimiter='\t'); news.writerow(['mun_filter','page','date','title','url','tematica','municipi'])
 ids=csv.writer(open('A1_ids.tsv','w',newline=''),delimiter='\t'); ids.writerow(['mun_filter','page','date','title','url'])
-log=open('a1_walker.log','a')
+log=open('a1_walker.log','a'); errori=0
 for mun in MUNS:
     # news
     for p in range(1,200):
-        url=f'https://www.comune.roma.it/web/it/notizie.page?mun={mun}&pagina={p}'; d=get(url); open(f'A1_pages/news_{mun}_{p}.html','w').write(d)
+        url=f'https://www.comune.roma.it/web/it/notizie.page?mun={mun}&pagina={p}'; d=get(url)
+        if d is None: print(mun,'news page',p,'FETCH FAILED -> stop, censimento incompleto',file=log,flush=True); errori+=1; break
+        open(f'A1_pages/news_{mun}_{p}.html','w',encoding='utf-8').write(d)
         items=re.findall(r'<div class="Grid-cell List-content">\s*<p class="List-category">(.*?)</p>\s*<p class="List-date">(.*?)</p>\s*<p class="List-title">\s*<a href="([^"]+)">(.*?)</a>',d,flags=re.S)
         if not items: print(mun,'news page',p,'no items -> stop',file=log,flush=True); break
         dates=[]
@@ -34,7 +36,9 @@ for mun in MUNS:
         if min(dates)<STOP: break
     # informazioni di servizio
     for p in range(1,200):
-        url=f'https://www.comune.roma.it/web/it/informazioni-di-servizio.page?mun={mun}&pagina={p}'; d=get(url); open(f'A1_pages/ids_{mun}_{p}.html','w').write(d)
+        url=f'https://www.comune.roma.it/web/it/informazioni-di-servizio.page?mun={mun}&pagina={p}'; d=get(url)
+        if d is None: print(mun,'ids page',p,'FETCH FAILED -> stop, censimento incompleto',file=log,flush=True); errori+=1; break
+        open(f'A1_pages/ids_{mun}_{p}.html','w',encoding='utf-8').write(d)
         items=re.findall(r'<p class="List-date">(.*?)</p>\s*<p class="List-title">\s*<a href="([^"]*informazione-di-servizio\.page\?contentId=[^"]+)">(.*?)</a>',d,flags=re.S)
         if not items:
             items=[(dt,u,t) for dt,u,t in re.findall(r'(\d{1,2} \w+ \d{4})</[^>]+>\s*(?:<[^>]+>\s*)*<a href="([^"]*informazione-di-servizio\.page\?contentId=[^"]+)"[^>]*>(.*?)</a>',d,flags=re.S)]
@@ -44,4 +48,5 @@ for mun in MUNS:
             di=iso(clean(dt)); dates.append(di); ids.writerow([mun,p,di,clean(t),'https://www.comune.roma.it'+u if u.startswith('/') else u])
         print(mun,'ids p',p,len(items),min(dates),max(dates),file=log,flush=True)
         if min(dates)<STOP: break
-print('DONE',file=log,flush=True)
+print('DONE' if not errori else f'DONE WITH {errori} FETCH FAILURES: censimento incompleto',file=log,flush=True)
+sys.exit(1 if errori else 0)

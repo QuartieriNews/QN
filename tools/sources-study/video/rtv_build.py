@@ -24,8 +24,9 @@ for f in sorted(glob.glob('rtv/cat/*.json')):
         lead=(dt.date.fromisoformat(pub)-dt.date.fromisoformat(sed)).days if sed and pub else ''
         ctype=it.get('contentType')
         route='commission' if ctype=='Commission' else 'vod'
-        rows.append(dict(fonte='A3 RomaTV', territorio=cat, tipo=ctype, organo=organo(it.get('title') or '', ctype, it.get('governmentBody')), titolo=(it.get('title') or '').strip(), descrizione=(it.get('description') or '').strip()[:200], data_seduta=sed, ora_seduta=rd[11:16], data_pubblicazione=pub, ritardo_gg=lead, durata_s=d, durata_hm=(f'{d//3600}:{(d%3600)//60:02d}' if d is not None else ''), guid=it.get('guid'), url=f"https://streaming.comune.roma.it/portal/watch/{route}/{it.get('guid')}", trascrizione_piattaforma='sì' if vtt else 'no', vtt_url=vtt, in_giugno_per='seduta' if rd[:7]=='2026-06' else 'pubblicazione'))
-rows.sort(key=lambda r:(r['territorio'],r['data_seduta'],r['ora_seduta'],r['titolo']))
+        rows.append(dict(fonte='A3 RomaTV', territorio=cat, tipo=ctype, organo=organo(it.get('title') or '', ctype, it.get('governmentBody')), data_seduta=sed, ora_seduta=rd[11:16], data_pubblicazione=pub, ritardo_gg=lead, durata_s=d, durata_hm=(f'{d//3600}:{(d%3600)//60:02d}' if d is not None else ''), guid=it.get('guid'), url=f"https://streaming.comune.roma.it/portal/watch/{route}/{it.get('guid')}", trascrizione_piattaforma='sì' if vtt else 'no', vtt_url=vtt, in_giugno_per='seduta' if rd[:7]=='2026-06' else 'pubblicazione'))
+# titolo e descrizione non si esportano (HANDOFF §2-bis, DEC-104): il titolo serve solo a dedurre l'organo
+rows.sort(key=lambda r:(r['territorio'],r['data_seduta'],r['ora_seduta'],r['guid'] or ''))
 os.makedirs('deliver_video',exist_ok=True)
 with open('deliver_video/A3_romatv_giugno2026_censimento.csv','w',newline='') as fh:
     w=csv.DictWriter(fh,fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
@@ -49,10 +50,10 @@ for M in ['Municipio II','Municipio III','Municipio VIII','Municipio X','Municip
     pref=[r for r in pool if r['organo']=='Commissione municipale'] or pool
     if pref: sel.append(random.choice(pref))
 print('== campione A3')
-for r in sel: print(r['territorio'], r['data_seduta'], r['durata_hm'], r['organo'], '|', r['titolo'][:70], '|', r['guid'])
+for r in sel: print(r['territorio'], r['data_seduta'], r['durata_hm'], r['organo'], '|', r['guid'])
 with open('deliver_video/A3_campione_selezione.csv','w',newline='') as fh:
-    w=csv.DictWriter(fh,fieldnames=['territorio','data_seduta','organo','titolo','durata_hm','url','vtt_url']); w.writeheader()
-    for r in sel: w.writerow({k:r[k] for k in ['territorio','data_seduta','organo','titolo','durata_hm','url','vtt_url']})
+    w=csv.DictWriter(fh,fieldnames=['territorio','data_seduta','organo','durata_hm','url','vtt_url']); w.writeheader()
+    for r in sel: w.writerow({k:r[k] for k in ['territorio','data_seduta','organo','durata_hm','url','vtt_url']})
 os.makedirs('rtv/vtt',exist_ok=True)
 for r in sel:
     f=f"rtv/vtt/{r['guid']}.vtt"

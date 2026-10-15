@@ -512,8 +512,10 @@ Altri canali provati:
 
 - Google News RSS: escluso dal robots.txt per tutti i robot (`Disallow: /`) e per nome agli
   agenti AI. Non usato.
-- GDELT, indice aperto di notizie: da questo ambiente risponde 429 (troppe richieste da un
-  indirizzo condiviso). Non usato.
+- GDELT, indice aperto di notizie: l'API di ricerca (DOC 2.0) da questo ambiente risponde 429
+  (troppe richieste da un indirizzo condiviso) e non è usata. I file grezzi da 15 minuti
+  (export CSV, scaricati uno a uno con ritmo) si leggono e sono la fonte dei titoli delle
+  testate chiuse (§4.6, DEC-108): titolo, link e ora, mai la pagina dell'articolo.
 - La ricerca web dell'agente restituisce titolo, URL e un breve riassunto, ma non
   vede corriere.it, repubblica.it e rainews.it. Ha anche un tetto di ricerche per
   turno.

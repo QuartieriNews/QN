@@ -11,6 +11,7 @@ def q(params):
     p=dict(params); p.update({'hitCountRicerca':1,'firstResult':0})
     for meth in ('post','get'):
         try:
+            time.sleep(1.3)   # Atti Web: una richiesta ogni 1,3 s (HANDOFF §2)
             r=getattr(requests,meth)(U,params=p,headers=H,timeout=90)
             if r.headers.get('content-type','').startswith('application/json') or r.text.lstrip().startswith('{'):
                 return r.json(),None

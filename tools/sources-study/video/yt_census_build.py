@@ -98,12 +98,13 @@ for c in cands:
     if up_iso and sed:
         lead=(dt.date.fromisoformat(up_iso)-dt.date.fromisoformat(sed)).days
     rows.append(dict(fonte='A4 YouTube '+CH.get(c['ch'],(c['ch'],''))[0], canale=CH.get(c['ch'],(c['ch'],''))[1], tab=c['tab'], id=vid, url='https://www.youtube.com/watch?v='+vid,
-        titolo=title, organo=org, data_seduta=sed, data_pubblicazione=up_iso, ritardo_gg=lead if lead is not None else '', durata_s=dur, durata_hm=(f'{dur//3600}:{(dur%3600)//60:02d}' if dur else ''),
+        organo=org, data_seduta=sed, data_pubblicazione=up_iso, ritardo_gg=lead if lead is not None else '', durata_s=dur, durata_hm=(f'{dur//3600}:{(dur%3600)//60:02d}' if dur else ''),
         territorio=('Municipio '+M) if M else 'Roma Capitale (città)', audio='sì' if dur else 'n.d.', sottotitoli_manuali=man_sub, trascrizione_auto_it=auto_it,
-        argomento_descrizione=desc[:300], n_verbali_stessa_data=len(verb), verbale_match=(bv[2]['url'] if bv and bv[1]>0 else ''), verbale_match_oggetto=(bv[2]['oggetto'][:100] if bv and bv[1]>0 else ''), verbale_match_tipo=('link nel verbale' if (bv and bv[1]==99) else ('data e nome' if (bv and bv[1]>0) else ('solo data' if verb else ''))),
-        n_convocazioni_stessa_data=len(conv), convocazione_match=(bc[2]['url'] if bc and bc[1]>0 else ''), convocazione_match_oggetto=(bc[2]['oggetto'][:100] if bc and bc[1]>0 else ''),
+        n_verbali_stessa_data=len(verb), verbale_match=(bv[2]['url'] if bv and bv[1]>0 else ''), verbale_match_tipo=('link nel verbale' if (bv and bv[1]==99) else ('data e nome' if (bv and bv[1]>0) else ('solo data' if verb else ''))),
+        n_convocazioni_stessa_data=len(conv), convocazione_match=(bc[2]['url'] if bc and bc[1]>0 else ''),
         meta_ok='sì' if meta.get('duration') else 'no', live=meta.get('live_status') or ''))
-rows.sort(key=lambda r:(r['territorio'],r['data_seduta'],r['titolo']))
+# titolo, descrizione e oggetti dei verbali non si esportano (HANDOFF §2-bis, DEC-104): servono solo all'abbinamento
+rows.sort(key=lambda r:(r['territorio'],r['data_seduta'],r['id']))
 with open('deliver_video/A4_youtube_giugno2026_censimento.csv','w',newline='') as fh:
     w=csv.DictWriter(fh,fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
 # summary

@@ -136,6 +136,11 @@ gemello e ragione). Nel repository entrano solo gli aggregati e le metriche (con
 fonte, Municipio, zona, tema e formato; quote; intervalli di dedup) e il riferimento alla
 cartella Drive. Residuo per l'owner: confermare questa collocazione o indicarne un'altra.
 
+**Nota del 15 ottobre 2026 (DEC-105).** «Senza nomi di persona» qui sopra era la regola dello
+studio fino al 17 settembre; DEC-105 l'ha superata: nei dati per item su Drive i nomi pertinenti al
+fatto si scrivono (`tools/sources-study/report2/SPECIFICA_NOMI_E_TERRITORIO.md`). Il confine di
+questo paragrafo non cambia: i dati per item non entrano nel repository pubblico.
+
 ### 4.3 Campione per il controllo di Codex e dell'owner
 
 - **Minimo di audit**: 5 item per fonte, con almeno uno per formato incontrato.

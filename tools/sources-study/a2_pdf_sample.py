@@ -14,7 +14,7 @@ out = []
 for i, r in enumerate(sample):
     p = f"A2_pdf_sample/{r['tipologia']}_{r['municipio']}_{i}.pdf"
     if not os.path.exists(p):
-        subprocess.run(['curl', '-sS', '--max-time', '60', '-o', p, r['url']], capture_output=True); time.sleep(0.3)
+        subprocess.run(['curl', '-sS', '--max-time', '60', '-o', p, r['url']], capture_output=True); time.sleep(1.3)   # Atti Web: una richiesta ogni 1,3 s (HANDOFF §2)
     try:
         doc = fitz.open(p); pages = doc.page_count; chars = sum(len(pg.get_text()) for pg in doc); doc.close()
         kind = 'testo' if pages and chars / pages >= 100 else 'scansione'

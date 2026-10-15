@@ -26,10 +26,14 @@ controlli Codex).
   youtube.com (googlevideo.com no); Hugging Face, GitHub releases, PyTorch, alphacephei bloccati (nessun ASR
   locale). Ritmi: YouTube un video al minuto con pause dopo due errori; Atti Web una richiesta ogni 1,3 s;
   RomaTV al massimo 4 scaricamenti in parallelo. Nessun cambio di IP, nessun aggiramento dei controlli.
-- DEC-102: nessun nome di persona negli output committati o caricati; testi integrali, PDF, audio e trascrizioni
-  restano nello scratchpad; dati per item (CSV compatti) su Drive `QN Hub / 20 Packages / Fonti 2026-06/`
-  (id cartella `1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa`) se il connettore Drive è disponibile, altrimenti in
-  `tools/sources-study/session_b/out/` nel repository.
+- DEC-102 e DEC-104: testi integrali, PDF, audio e trascrizioni restano nello scratchpad; dati per item (CSV
+  compatti) su Drive `QN Hub / 20 Packages / Fonti 2026-06/` (id cartella `1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa`).
+  Se il connettore Drive non è disponibile restano nello scratchpad e la consegna si dichiara incompleta
+  con la causa: **mai nel repository** (metodo §4.2). La versione precedente di questo punto indicava
+  `session_b/out/` nel repository come ripiego: era contraria alla regola ed è superata.
+- Nomi delle persone: DEC-105 (17 settembre) supersede la regola «nessun nome di persona» che lo studio aveva
+  costruito sopra la DEC-102: nei dati su Drive i nomi pertinenti al fatto si scrivono
+  (`report2/SPECIFICA_NOMI_E_TERRITORIO.md`); nel repository i dati per item non entrano comunque.
 - Quota: al massimo **2 subagenti Opus in parallelo** oltre alla sessione principale. Alla fine del primo giorno
   pieno chiedi all'owner la sola lettura della pagina Utilizzo e registrala in STATO.md; se il consumo supera
   3 punti settimanali per ora-subagente, un solo flusso (nota §9.5).
@@ -38,7 +42,9 @@ controlli Codex).
 - Ripresa senza presidio: prima di chiudere ogni turno programma un promemoria (`send_later`) o una Routine
   oraria durante i job lunghi; lo stato sta nei file, mai solo nella conversazione.
 - Git: branch `claude/ecstatic-shannon-mjzxvq` (`git pull --rebase` prima di ogni push); prima di ogni commit
-  `cd gazetteer && python ../tests/test_guards.py` e `node tests/test_parse_duration.js`; righe di attribuzione
+  tutte le suite di AGENTS.md: `cd gazetteer && python ../tests/test_guards.py`, `node tests/test_parse_duration.js`,
+  `node tests/test_council.js`, `node tests/test_lane_gate.js`, `node tests/test_workflow_safety.js` (dopo `npm ci`),
+  più `python3 tools/geo-assign/test_geo_assign.py` e `python3 tools/cronaca-prova/test_cronaca_prova.py`; righe di attribuzione
   della tua sessione nei messaggi di commit. Nessuna PR se l'owner non la chiede.
 
 ## 2-bis. Colonne tolte da `handoff_data/` il 15 ottobre 2026 (DEC-104, DEC-105 §1)

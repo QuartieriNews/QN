@@ -1,3 +1,4 @@
+import time
 import json,re,html,os,random,csv,requests,fitz
 os.environ.setdefault('REQUESTS_CA_BUNDLE','/root/.ccr/ca-bundle.crt')
 B='https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/'
@@ -36,6 +37,7 @@ for i,(c,a) in enumerate(picks):
     u=B+(a.get('urlFile') or ''); f=f'A2_deep/{i:02d}_{c}.pdf'
     if not os.path.exists(f):
         try:
+            time.sleep(1.3)   # Atti Web: una richiesta ogni 1,3 s (HANDOFF §2)
             r=requests.get(u,headers=H,timeout=120); open(f,'wb').write(r.content)
         except Exception as e: print('DL ERR',c,e); continue
     try:

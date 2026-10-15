@@ -24,6 +24,9 @@ const mandateFile = arg('mandate');
 const files = args('file');
 const out = arg('out');
 const effort = arg('effort', 'high');
+// Tetti chiusi (AGENTS.md, costo): oltre la soglia il controllo non parte.
+const MAX_INPUT_CHARS = Number(arg('max-input-chars', 1500000));
+const MAX_OUTPUT_TOKENS = Number(arg('max-output-tokens', 30000));
 const dryRun = process.argv.includes('--dry-run');
 
 if (!control || !mandateFile || files.length === 0) {
@@ -41,12 +44,17 @@ for (const f of files) {
   parts.push(`\n\n===== FILE: ${f} =====\n` + fs.readFileSync(f, 'utf8'));
 }
 const input = parts.join('\n');
+if (input.length > MAX_INPUT_CHARS) {
+  console.error(`${input.length} caratteri: oltre il tetto di ${MAX_INPUT_CHARS} per controllo (--max-input-chars). Dividi gli allegati.`);
+  process.exit(2);
+}
 
 const body = {
   model: MODEL,
   input,
   reasoning: { effort },
   store: false,
+  max_output_tokens: MAX_OUTPUT_TOKENS,
 };
 
 if (dryRun) {

@@ -1,8 +1,12 @@
 """Deterministic localisation for the sources study (method §3.3): same key space and
 normalisation as tests/zone_distribution.py (text_contains tier), plus a Municipio mention
 regex. Returns per text: toponym flag, municipio (roman), zone id, tier."""
-import json,re,unicodedata,sys
-G=json.load(open('/home/user/QN/gazetteer/gazetteer.json'))
+import json,re,unicodedata,sys,os
+# il gazetteer e' nel repository: QN_REPO_ROOT se impostato, altrimenti due cartelle sopra questo file
+_ROOT=os.environ.get('QN_REPO_ROOT') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..'))
+_GAZ=os.path.join(_ROOT,'gazetteer','gazetteer.json')
+if not os.path.exists(_GAZ): sys.exit(f'geo_lookup: gazetteer non trovato in {_GAZ} (imposta QN_REPO_ROOT)')
+G=json.load(open(_GAZ,encoding='utf-8'))
 ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV']
 def norm(s):
     if not s: return ""

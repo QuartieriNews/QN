@@ -1,5 +1,7 @@
 # Specifica di lettura delle registrazioni (Report 2, lotto A)
 
+> **Nomi delle persone: regola superata.** Le righe di questa specifica che sostituiscono i nomi con il ruolo valgono per le letture fatte prima del 17 settembre 2026. Da quella data vale DEC-105 e `SPECIFICA_NOMI_E_TERRITORIO.md`: i nomi pertinenti al fatto si scrivono, e la passata di ripristino li ha riportati nei lotti già letti. Il resto della specifica è in vigore.
+
 Deriva dallo schema del lotto A in `lotto_opus5/SPECIFICA.md`, con i marcatori a **10 secondi**
 invece di 30 (HANDOFF §4). **Non si modifica mentre un lotto è in lettura.** Se una regola sembra
 sbagliata, si applica e lo si scrive nel log.

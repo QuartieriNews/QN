@@ -12,7 +12,7 @@ default** che applico da sola se l'owner non risponde: il canale di notifica pus
 non è recapitabile (`STATO.md` §6), quindi una decisione sospesa fermerebbe lo studio, e il
 piano vieta che la sua assenza costi tempo.
 
-Stato: `aperta` finché l'owner non risponde; `applicata` quando il default è già in esercizio.
+Stato: `aperta` finché l'owner non risponde; `applicata` quando il default è già in esercizio; `chiusa dalla DEC-105` per tutte dal 17 settembre 2026.
 
 ---
 
@@ -22,7 +22,7 @@ Stato: `aperta` finché l'owner non risponde; `applicata` quando il default è g
 persone in quanto persone si conservano quando sono pertinenti al fatto. Registi, attori,
 relatori e amministratori tornano con il proprio nome.
 
-Stato: **aperta**, default già applicato.
+Stato: **chiusa dalla DEC-105 il 17 settembre 2026** (era: aperta, default già applicato).
 
 **Il conflitto.** DEC-102 tiene i nomi di persona fuori dagli output, e la specifica di lettura
 impone i toponimi *come compaiono nel testo*, perché è su quelli che lavora il gazetteer. A Roma
@@ -57,7 +57,7 @@ in quanto persona. Le occorrenze trovate sono tutte toponimi o titoli.
 **Chiusa (DEC-105).** Tutte e quattro le scelte restano, e cade il loro limite: le persone
 presenti al fatto — che D2.c teneva al ruolo — si nominano come le organizzazioni e gli autori.
 
-Stato: **aperta**, default già applicato. Nasce da quattro casi isolati dal lettore dei lotti
+Stato: **chiusa dalla DEC-105 il 17 settembre 2026** (era: aperta, default già applicato). Nasce da quattro casi isolati dal lettore dei lotti
 L17–L18, che li ha dichiarati invece di deciderli in silenzio.
 
 ### D2.a — L'URL dell'evidenza contiene a volte un nome di persona nello slug
@@ -110,7 +110,7 @@ o sono annotati riga per riga.
 l'oggetto della dedica sia quando è coinvolta nel fatto. Resta il corollario sull'evidenza —
 non si accorcia mai la frase di evidenza.
 
-Stato: **aperta**, default già applicato. Nasce dal lettore dei lotti L02–L03, che ha segnalato
+Stato: **chiusa dalla DEC-105 il 17 settembre 2026** (era: aperta, default già applicato). Nasce dal lettore dei lotti L02–L03, che ha segnalato
 i casi in cui applicare DEC-102 alla lettera **costa la notizia**.
 
 **Il caso.** Un avviso municipale annuncia una statua dedicata a un attore. La persona non è
@@ -146,7 +146,7 @@ annotate una per una nei file dei problemi, e la sostituzione è una passata sui
 **Chiusa (DEC-105), in senso opposto al default.** Le ditte individuali sono nominate
 esplicitamente fra ciò che si conserva: il richiedente del P.A.M.A. torna con il suo nome.
 
-Stato: **aperta**, default applicato. Nasce dal lettore degli atti B01–B03, che ha isolato il caso
+Stato: **chiusa dalla DEC-105 il 17 settembre 2026** (era: aperta, default applicato). Nasce dal lettore degli atti B01–B03, che ha isolato il caso
 invece di risolverlo in silenzio.
 
 **Il caso.** Un atto municipale riporta la richiesta di un P.A.M.A. da parte di una **ditta

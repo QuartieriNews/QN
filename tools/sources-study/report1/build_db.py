@@ -100,7 +100,7 @@ for doc_id in sorted(letti):
         doc['letto_da'] = lotto
         # I file dei lettori portano ancora `titolo_anonimizzato`: la rinomina (DEC-105) vale
         # per quello che scriviamo, non per quello che ci e' stato consegnato.
-        if not doc['titolo']: doc['titolo'] = r['titolo_anonimizzato']
+        if not doc['titolo']: doc['titolo'] = r.get('titolo') or r.get('titolo_anonimizzato', '')
         # Localisation (schema §2 rule 4): the source's Municipio prevails; a disagreement with the
         # text is recorded as a toponym to verify, never silently resolved.
         loc = geo.localise(' '.join([r.get('luoghi', ''), r.get('sintesi', ''),
@@ -130,7 +130,7 @@ for doc_id in sorted(letti):
                   or discorde or irrisolto or geo_da_verificare(mun_fonte, loc))
         notizie.append({
             'id': '', 'documento_id': doc_id, 'fonte': r['fonte'],
-            'titolo': r['titolo_anonimizzato'], 'sintesi': r['sintesi'], 'tipo': r['tipo'],
+            'titolo': r.get('titolo') or r.get('titolo_anonimizzato', ''), 'sintesi': r['sintesi'], 'tipo': r['tipo'],
             'luoghi': r.get('luoghi', ''), 'municipio': ';'.join(mun_fonte),
             'zona': zona, 'tier_localizzazione': tier,
             # DEC-105: il quartiere d'uso comune e la sua zona urbanistica sono due cose

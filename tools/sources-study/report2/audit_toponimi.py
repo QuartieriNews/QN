@@ -34,7 +34,10 @@ S_inc = c[('S', 'toponimo incerto')]; S_tot = c[('S', 'toponimo incerto')] + c[(
 print('candidate dal parlato: %d' % tot)
 for k in sorted(c): print('  %-34s %d' % (' / '.join(k), c[k]))
 print()
-print('senza alcun gemello scritto: %d, di cui %d (%.1f%%) poggiano su un toponimo dichiarato incerto'
-      % (S_tot, S_inc, 100 * S_inc / S_tot))
-print('quota di novita certa se si scartano quelle righe: %.1f%% invece di %.1f%%'
-      % (100 * (S_tot - S_inc) / tot, 100 * S_tot / tot))
+if not S_tot or not tot:
+    print('senza alcun gemello scritto: %d su %d candidate: quote non definite' % (S_tot, tot))
+else:
+    print('senza alcun gemello scritto: %d, di cui %d (%.1f%%) poggiano su un toponimo dichiarato incerto'
+          % (S_tot, S_inc, 100 * S_inc / S_tot))
+    print('quota di novita certa se si scartano quelle righe: %.1f%% invece di %.1f%%'
+          % (100 * (S_tot - S_inc) / tot, 100 * S_tot / tot))

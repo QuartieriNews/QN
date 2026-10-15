@@ -88,7 +88,9 @@ def main():
               r.get('municipio'), r.get('quartiere'), r.get('territorio_dedotto'),
               '  DA VERIFICARE' if (r.get('toponimo_da_verificare') or '').lower() in ('sì', 'si') else ''))
     print('\ni dieci quartieri piu' + "'" + ' ricorrenti: %s' % [q for q, _ in quartieri.most_common(10)])
-    return 1 if (ignoti or zu_disallineati) else 0
+    # SPECIFICA_NOMI_E_TERRITORIO.md §4: un Municipio fuori da quelli del quartiere senza
+    # `toponimo_da_verificare` e' un difetto, non una nota
+    return 1 if (ignoti or zu_disallineati or mun_incoerenti) else 0
 
 
 if __name__ == '__main__':

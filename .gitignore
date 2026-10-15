@@ -19,3 +19,8 @@ tools/geo-assign/*.lock
 tools/geo-assign/*.tmp
 tools/geo-assign/**/*.xlsx
 tabella_giugno_2026.xlsx
+
+# Fogli di tools/cronaca-prova (foglio.py, foglio_quartieri.py): titoli e link, solo Drive (DEC-102).
+tools/cronaca-prova/**/*.xlsx
+cronaca_testate.xlsx
+cronaca_quartieri*.xlsx

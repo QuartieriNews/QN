@@ -1,5 +1,7 @@
 # Report 2 — specifica di lettura degli atti di Atti Web
 
+> **Nomi delle persone: regola superata.** Le righe di questa specifica che sostituiscono i nomi con il ruolo valgono per le letture fatte prima del 17 settembre 2026. Da quella data vale DEC-105 e `SPECIFICA_NOMI_E_TERRITORIO.md`: i nomi pertinenti al fatto si scrivono, e la passata di ripristino li ha riportati nei lotti già letti. Il resto della specifica è in vigore.
+
 Per i subagenti che classificano gli atti municipali e centrali delle settimane 8–28 giugno 2026.
 Deriva dallo schema del lotto B già collaudato (`tools/sources-study/lotto_opus5/SPECIFICA.md`),
 dallo schema del database (`docs/sources/RICOSTRUZIONE_2026-06_SCHEMA_DB.md`) e dalle decisioni
