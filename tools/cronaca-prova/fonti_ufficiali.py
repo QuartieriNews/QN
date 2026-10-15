@@ -11,7 +11,9 @@ fila sullo stesso ente si ferma e lo scrive, senza cambiare indirizzo né intest
 
 Scrive DIR/ufficiali/inventario.json (un elemento per comunicato: fonte, url, data, titolo,
 stato), DIR/ufficiali/raw/<id>.txt (testo) e DIR/ufficiali/rapporto.json (per fonte: pagine
-di elenco lette, comunicati del mese, scaricati, rifiutati, errori, durata).
+di elenco lette, comunicati del mese, scaricati, rifiutati, errori, durata). Una passata su alcune
+fonti sostituisce le loro voci; se l'elenco di una fonte non si legge, le voci del giro precedente
+restano e il rapporto lo dice (voci_del_giro_precedente).
 """
 import datetime as dt, html, json, os, re, sys, time, urllib.parse, urllib.request
 
@@ -234,18 +236,21 @@ def main(base, mese="2026-06", fonti=None):
     os.makedirs(f"{out}/raw", exist_ok=True)
     c = Cliente()
     fonti = fonti or list(ELENCHI)
-    # una seconda passata su alcune fonti sostituisce solo le loro voci
-    inventario = [v for v in (json.load(open(f"{out}/inventario.json", encoding="utf-8")) if os.path.exists(f"{out}/inventario.json") else [])
-                  if v["fonte"] not in fonti]
+    # una seconda passata su alcune fonti sostituisce solo le loro voci, e solo se ne rilegge l'elenco
+    precedente = json.load(open(f"{out}/inventario.json", encoding="utf-8")) if os.path.exists(f"{out}/inventario.json") else []
+    inventario = [v for v in precedente if v["fonte"] not in fonti]
     rapporto = json.load(open(f"{out}/rapporto.json", encoding="utf-8")) if os.path.exists(f"{out}/rapporto.json") else {}
     for fonte in fonti:
         t0, r = time.time(), {"errori": []}
         try:
             voci, pagine = ELENCHI[fonte](c, mese)
             r["elenco"] = pagine
-        except Exception as e:
-            voci = []
+        except Exception as e:  # elenco non letto: le voci del giro precedente restano (ritentativo senza perdite)
             r["errori"].append(f"elenco: {e}")
+            tenute = [v for v in precedente if v["fonte"] == fonte]
+            r["voci_del_giro_precedente"] = len(tenute)
+            inventario.extend(tenute)
+            voci = []
         r["comunicati_del_mese"] = len(voci)
         for n, v in enumerate(voci, 1):
             v.update(fonte=fonte, id=f"{fonte}_{n:03d}")

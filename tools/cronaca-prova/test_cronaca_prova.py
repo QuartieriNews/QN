@@ -206,6 +206,22 @@ with tempfile.TemporaryDirectory() as d:
           sorted(f for f in os.listdir(u) if f != "raw") == ["inventario.json", "rapporto.json"]
           and json.load(open(os.path.join(u, "rapporto.json"), encoding="utf-8"))["C9"]["comunicati_del_mese"] == 0
           and json.load(open(os.path.join(u, "inventario.json"), encoding="utf-8")) == [])
+    # ritentativo su una fonte: se l'elenco non si legge, le sue voci del giro precedente restano
+    scrivi(os.path.join(u, "inventario.json"), [{"fonte": "C8", "id": "C8_001", "url": "https://x/8", "stato": "ok"},
+                                                {"fonte": "C9", "id": "C9_001", "url": "https://x/9", "stato": "ok"}])
+    def rotto(c, mese):
+        raise RuntimeError("elenco giu'")
+    F.ELENCHI = {"C8": rotto, "C9": lambda c, mese: ([{"url": "https://x/9b", "data": "2026-06-02", "titolo": "t"}], 1)}
+    F.Cliente = lambda: Finto({})
+    try:
+        inv, rap = F.main(d, "2026-06", ["C8", "C9"])
+    finally:
+        F.ELENCHI, F.Cliente = elenchi, cliente
+    check("fonti_ufficiali: elenco non letto al ritentativo: le voci precedenti della fonte restano, il rapporto lo dice",
+          [v["id"] for v in inv if v["fonte"] == "C8"] == ["C8_001"] and rap["C8"]["voci_del_giro_precedente"] == 1
+          and rap["C8"]["errori"] == ["elenco: elenco giu'"])
+    check("fonti_ufficiali: elenco riletto al ritentativo: le voci precedenti della fonte sono sostituite",
+          [v["url"] for v in inv if v["fonte"] == "C9"] == ["https://x/9b"] and "voci_del_giro_precedente" not in rap["C9"])
 
 # --- gdelt_titoli: testate per dominio, righe dal file da 15 minuti
 import gdelt_titoli as G, io, zipfile  # noqa: E402
