@@ -14,24 +14,30 @@ def classe(v):
     return 'D' if d else ('U' if u else 'S')
 
 # il flag sta nei JSON dei lettori, non nella tabella: lo rileggo da li'
-incerto = {}
+incerto = {}; collisioni = []
 for f in glob.glob(S + '/report2/out_video/*.json'):
     try: j = json.load(open(f, encoding='utf-8'))
     except Exception: continue
     for k, c in enumerate(j.get('notizie_candidate') or []):
-        incerto[(j['item_id'], c.get('titolo', '')[:40])] = (c.get('toponimo_da_verificare', 'no') or 'no').lower() in ('sì', 'si')
+        chiave = (j['item_id'], (c.get('titolo') or '').strip())
+        valore = (c.get('toponimo_da_verificare', 'no') or 'no').lower() in ('sì', 'si')
+        if chiave in incerto and incerto[chiave] != valore:
+            collisioni.append(chiave)   # due candidate con lo stesso titolo nello stesso item e flag diverso
+        incerto[chiave] = valore
 
 c = collections.Counter()
 for r in righe:
     if r['fonte'] not in PARLATO: continue
     cl = classe(r['gemelli_scritti'])
     it = r['documento_id'].replace('A4_', 'V4_').replace('A3_', 'V3_')
-    inc = incerto.get((it, r['titolo'][:40]),
+    inc = incerto.get((it, (r['titolo'] or '').strip()),
                       (r['toponimo_da_verificare'] or 'no').lower() in ('sì', 'si'))
     c[(cl, 'toponimo incerto' if inc else 'toponimo fermo')] += 1
 tot = sum(c.values())
 S_inc = c[('S', 'toponimo incerto')]; S_tot = c[('S', 'toponimo incerto')] + c[('S', 'toponimo fermo')]
 print('candidate dal parlato: %d' % tot)
+if collisioni:
+    print('ATTENZIONE: %d coppie item/titolo con flag discordanti fra candidate omonime (vince l\'ultima letta)' % len(collisioni))
 for k in sorted(c): print('  %-34s %d' % (' / '.join(k), c[k]))
 print()
 if not S_tot or not tot:

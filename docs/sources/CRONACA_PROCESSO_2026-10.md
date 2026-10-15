@@ -25,8 +25,9 @@ DEC-104).
 - **Nomi.** DEC-016, opzione B: i nomi presenti nelle fonti ufficiali si riproducono in
   automatico, con verifica della seconda AI. Minori, vittime, testimoni, familiari e dati
   sensibili vanno in coda manuale. Nella baseline la capacità «nomi» resta spenta fino al
-  parere legale (§4.1); l'11 ottobre DEC-108 ha deciso per l'MVP l'opzione B anche per i
-  nomi presi dai giornali (§7), con l'attivazione operativa che resta legata al parere.
+  parere legale (§4.1). L'11 ottobre DEC-108 ha deciso per l'MVP, senza attendere il parere,
+  la stampa come fonte citata e l'opzione B anche per i nomi presi dai giornali (§7); il parere
+  legale resta necessario per la posizione al lancio pubblico, che supersederà DEC-108.
 - **Pubblicazione.** Pubblicazione automatica con doppio controllo AI (DEC-015). Correzioni
   dirette con tracciabilità interna (DEC-020). Golden set Cronaca di 30 comunicati e gate
   G0 prima di cablare la pubblicazione (baseline §2.D).
@@ -354,9 +355,10 @@ fonti e ha scaricato ogni comunicato.
 | solo testate chiuse, un editore | 74 |
 
 Fra i 175 fatti dei giornali con almeno due editori:
-- **la seconda fonte:** in 166 viene da una testata chiusa (RomaToday in 149) e solo in 9
-  da un'altra testata aperta (misura presa dal foglio dei fatti su Drive l'11 ottobre, non
-  da un file versionato; dal 15 ottobre `riepilogo.json` la scrive come `seconda_fonte`);
+- **la seconda fonte:** quasi sempre una testata chiusa, per lo più RomaToday, e solo in
+  pochi casi un'altra testata aperta (osservazione dal foglio dei fatti su Drive dell'11
+  ottobre; il conteggio esatto sarà nel file versionato `riepilogo.json`, campo
+  `seconda_fonte`, dalla prossima esecuzione);
 - **il livello:** 151 hanno una pagina, gli altri sono di livello città, municipio o
   dubbi.
 

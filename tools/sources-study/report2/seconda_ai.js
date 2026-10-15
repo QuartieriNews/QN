@@ -23,10 +23,15 @@ if (!Array.isArray(casi)) { console.error('--input: atteso un array JSON di casi
 const out = arg('out');
 const dryRun = process.argv.includes('--dry-run');
 // Limiti chiusi (AGENTS.md, costo): oltre la soglia ci si ferma, non si spende.
-const MAX_CASI = Number(arg('max-casi', 60));
-const MAX_EVIDENZA = Number(arg('max-evidenza', 6000));      // caratteri per caso
-const MAX_INPUT = Number(arg('max-input', 400000));          // caratteri in tutto
-const MAX_OUTPUT_TOKENS = Number(arg('max-output-tokens', 4000));
+const limite = (nome, predefinito, massimo) => {   // un tetto non numerico o fuori intervallo non e' un tetto: ci si ferma
+  const v = Number(arg(nome, predefinito));
+  if (!Number.isFinite(v) || v <= 0 || v > massimo) { console.error(`--${nome}: atteso un numero fra 1 e ${massimo}, ricevuto ${arg(nome, predefinito)}`); process.exit(2); }
+  return v;
+};
+const MAX_CASI = limite('max-casi', 60, 500);
+const MAX_EVIDENZA = limite('max-evidenza', 6000, 50000);      // caratteri per caso
+const MAX_INPUT = limite('max-input', 400000, 1500000);        // caratteri in tutto
+const MAX_OUTPUT_TOKENS = limite('max-output-tokens', 4000, 30000);
 if (casi.length > MAX_CASI) {
   console.error(`${casi.length} casi: oltre il tetto di ${MAX_CASI} per chiamata (--max-casi). Dividi l'input.`);
   process.exit(2);

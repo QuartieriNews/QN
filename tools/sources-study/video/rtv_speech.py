@@ -25,8 +25,8 @@ def stats(guid):
     dur = secs(it['duration'])
     return {'guid': guid, 'territorio': (it.get('parentNodes') or [''])[0] if isinstance(it.get('parentNodes'), list) else it.get('parentNodes'),
             'data_seduta': it['referenceDate'][:10], 'durata_s': round(dur), 'parole': len(words),
-            'parole_al_minuto': round(len(words) / (dur / 60)) if dur else None, 'conf_media': round(st.mean(conf), 3), 'conf_mediana': round(st.median(conf), 3),
-            'quota_conf_lt_0_7': round(sum(1 for c in conf if c < 0.7) / len(conf), 3), 'quota_conf_lt_0_5': round(sum(1 for c in conf if c < 0.5) / len(conf), 3),
+            'parole_al_minuto': round(len(words) / (dur / 60)) if dur else None, 'conf_media': round(st.mean(conf), 3) if conf else None, 'conf_mediana': round(st.median(conf), 3) if conf else None,
+            'quota_conf_lt_0_7': round(sum(1 for c in conf if c < 0.7) / len(conf), 3) if conf else None, 'quota_conf_lt_0_5': round(sum(1 for c in conf if c < 0.5) / len(conf), 3) if conf else None,
             'ultima_parola_s': round(ts[-1]), 'pause_gt60s_n': len(gaps), 'pause_gt60s_tot_s': round(sum(gaps))}
 if sys.argv[1] == '--all-june':
     guids = [g for g, it in items.items() if it.get('referenceDate', '').startswith('2026-06') and any(t.get('speechToTextTrackSource') for t in it.get('tracks', []))]

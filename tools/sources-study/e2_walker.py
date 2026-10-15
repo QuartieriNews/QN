@@ -14,7 +14,9 @@ for k,it in enumerate(items):
     try:
         if os.path.exists(f) and os.path.getsize(f)>0: d=open(f,encoding='utf-8',errors='replace').read(); code=200
         else:
-            r=requests.get(it['link'],headers=H,timeout=60); code=r.status_code; d=r.text; open(f,'w',encoding='utf-8').write(d)
+            r=requests.get(it['link'],headers=H,timeout=60); code=r.status_code; d=r.text
+            if code==200: open(f,'w',encoding='utf-8').write(d)   # in cache solo le risposte buone: un errore non diventa un successo al ritentativo
+            else: open(f+'.err','w',encoding='utf-8').write(str(code))
     except Exception as e:
         w.writerow([it['id'],it['date'],it['link'],it['title']['rendered'],'|'.join(map(str,it.get('municipio') or [])),'','','','','','','',f'ERR {e}']); out.flush(); falliti+=1; continue
     if code!=200: falliti+=1   # risposta non 200: item mancante, non vuoto

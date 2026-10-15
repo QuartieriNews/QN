@@ -1,3 +1,4 @@
+import sys
 # Collega ogni registrazione ai suoi atti, in modo esatto dove si puo' e dichiarato dove non si puo'.
 # La chiave e' che il valore par2 in base64 dentro verbale_match/convocazione_match del censimento
 # e' l'ultimo segmento del `name` dell'atto: quando c'e', l'abbinamento e' esatto. Quando manca,
@@ -57,6 +58,8 @@ for mf in ('manifest_video.csv', 'manifest_video_rtv.csv'):
             r[campo + '_incoerente'] = ('sì' if atto and mun and atto['municipio'] != mun else 'no')
         righe.append(r)
 
+if not righe:
+    sys.exit('collega_video_atti: nessuna registrazione da collegare (manifest assenti o vuoti)')
 campi = list(righe[0].keys())
 with open(R2 + '/video_atti.csv', 'w', newline='', encoding='utf-8') as f:
     w = csv.DictWriter(f, fieldnames=campi); w.writeheader(); w.writerows(righe)

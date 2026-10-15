@@ -36,6 +36,10 @@ for f_man in (MAN, NET + '/report2/manifest_video_rtv_fuori_finestra.csv'):
         for r in csv.DictReader(open(f_man, encoding='utf-8')):
             vecchie[chiave(r['video_id'])] = r
 usati = {int(r['item_id'].split('_')[1]) for r in vecchie.values()}
+# registro persistente degli id gia' usati: un id resta usato anche se la sua riga sparisce dal manifest
+REGISTRO_ID = NET + '/report2/manifest_video_rtv_ids.txt'
+if os.path.exists(REGISTRO_ID):
+    usati |= {int(x) for x in open(REGISTRO_ID, encoding='utf-8').read().split() if x.isdigit()}
 
 # --- il catalogo: metadati della fonte
 cat = {}
@@ -70,8 +74,7 @@ for t in sorted(os.listdir(V + '/rtv/txt')):
     if vecchia:
         item = vecchia['item_id']
     else:
-        n = 1
-        while n in usati: n += 1
+        n = max(usati, default=0) + 1   # in coda, mai nei buchi: un numero non torna a una registrazione diversa
         usati.add(n); item = 'V3_%03d' % n; nuovi += 1
     terr, rec = cat.get(k, ('', {}))
     m = idx.get(k, {})
@@ -128,3 +131,5 @@ print('identificativi conservati: %d' % (len(righe) - nuovi))
 if persi:
     print('ATTENZIONE: %d righe del manifest precedente non hanno piu\' una trascrizione: %s'
           % (len(persi), ', '.join(sorted(vecchie[k]['item_id'] for k in persi))))
+with open(REGISTRO_ID, 'w', encoding='utf-8') as f:
+    f.write('\n'.join(str(x) for x in sorted(usati)) + '\n')

@@ -4,9 +4,10 @@ Una scheda per fonte, compilata secondo `docs/sources/SOURCE_STUDY_METHOD.md` (M
 repository stanno aggregati e metriche, più gli inventari per item senza testi di
 `tools/sources-study/handoff_data/` (DEC-109, metodo §4.2); i dati con i testi e il campione
 di originali stanno su Drive, `QN Hub / 20 Packages / Fonti 2026-06/` (metodo §4.2, DEC-104: loop di
-sviluppo AI con i campioni fuori dal repository). Nessun testo integrale e nessun dato per item
-nel repository; nei dati su Drive i nomi delle persone seguono DEC-105 (scritti quando sono
-pertinenti al fatto; fino al 17 settembre 2026 la regola era «nessun nome di persona»). Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (mancante).
+sviluppo AI con i campioni fuori dal repository). Nel repository non entrano testi delle fonti:
+gli unici dati per item versionati sono gli inventari senza testi di `handoff_data/` (DEC-109);
+nei dati su Drive i nomi delle persone seguono DEC-105 (scritti quando sono pertinenti al fatto;
+fino al 17 settembre 2026 la regola era «nessun nome di persona»). Ogni numero è marcato **M** (misurato), **S** (stimato) o **—** (mancante).
 
 Stato: **livello 1 compilato** (A1, A2, C1–C6, E1, E2) con le letture del 15 settembre 2026,
 10:24–11:06 Europe/Rome; evidenze e URL nel rapporto intermedio
