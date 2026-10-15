@@ -311,7 +311,7 @@ guardato apposta danno 3/10, 3/10, 0/10, 4/10, 5/10, 7/10: su sessanta item cerc
 trovati**. Non e' piu' un elenco di casi, e' una **quota**: circa un terzo delle registrazioni che
 qualcuno ha guardato apposta contiene parlato che nessuno intendeva pubblicare.
 
-*Rettifica del 15 ottobre 2026, senza riscrivere il blocco:* i due numeri contano cose diverse. Ventuno sono i casi noti alle 16:05Z; ventidue è la somma dei sei lotti guardati apposta (3+3+0+4+5+7 su sessanta item), un conteggio per lotto che include item già fra i ventuno.
+*Rettifica del 15 ottobre 2026, senza riscrivere il blocco:* i due numeri contano cose diverse. Ventuno sono i casi noti alle 16:05Z; ventidue è la somma dei sei lotti guardati apposta (3+3+0+4+5+7 su sessanta item): una quota su un campione, non l'aggiornamento dell'elenco dei ventuno.
 
 Ventuno casi su 332 registrazioni lette, ma soprattutto **22 su 60 cercati**, cambiano la natura della
 decisione:
