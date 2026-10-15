@@ -210,11 +210,10 @@ class Atlas:
                 '_geom': r['geometry']}
         here = Path(__file__).resolve().parent
         cross = _read(here / 'zone_qn_cross.json')['zone']
-        self.rules = load_rules(rules_path())
-        # The exact text the rules were read from: stage 1 writes it beside its
-        # evidence so a packet cites these rules, not a file edited meanwhile.
-        self.rules_text = rules_path().read_text(encoding='utf-8') if rules_path().is_file() \
-            else json.dumps({'regole': [], 'chiusi': []})
+        # One read: the rules applied and the text stage 1 writes beside its
+        # evidence come from the same bytes, so a packet cites exactly these.
+        self.rules_text = rules_text(rules_path())
+        self.rules = rules_from_text(self.rules_text)
         rule_zone = {r['chiave'].upper(): r for r in self.rules if r['tipo'] == 'zona'}
         self._build_localities()
         self.zone_pages = {}            # code_zu -> (pages, source)
@@ -602,13 +601,11 @@ def rules_path() -> Path:
 RULE_MODES = {'unica', 'doppia_confine', 'tratto', 'senza_pagina'}
 
 
-def load_rules(path: Path):
+def rules_from_text(text: str):
     """Owner rules (regole_geografiche.json). Each one comes from a decided
     doubt of the queue (dubbi.py) and names it; a malformed rule stops the run
     rather than being skipped."""
-    if not path.is_file():
-        return []
-    rules = _read(path).get('regole', [])
+    rules = json.loads(text).get('regole', []) if text.strip() else []
     for r in rules:
         missing = [k for k in ('id', 'tipo', 'chiave', 'pagine', 'modo', 'deciso_da', 'data', 'dubbio') if k not in r]
         if missing or r['tipo'] not in RULE_TYPES or r['modo'] not in RULE_MODES:
@@ -616,6 +613,14 @@ def load_rules(path: Path):
     # A rule the owner replaced after a contestation (applica_decisioni.py, row
     # C-R-nnnn) stays in the file as history and is no longer applied.
     return [r for r in rules if not r.get('sostituita_da')]
+
+
+def rules_text(path: Path) -> str:
+    return path.read_text(encoding='utf-8-sig') if path.is_file() else json.dumps({'regole': [], 'chiusi': []})
+
+
+def load_rules(path: Path):
+    return rules_from_text(rules_text(path))
 
 
 WFS = ('https://geoportale.comune.roma.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature'

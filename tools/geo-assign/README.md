@@ -6,8 +6,11 @@ secondo il «Metodo QN» preparato con Codex l'8 ottobre 2026 (pacchetto
 fonti, DEC-102). Il rapporto che spiega perché il processo è fatto così e cosa ha
 misurato è `docs/sources/GEO_ASSEGNAZIONE_2026-10.md`.
 
-Solo libreria standard di Python 3.10+, nessuna rete. Ogni comando legge il
-pacchetto da `--pkg` o dalla variabile `QN_PKG`; nessuno scrive nel pacchetto.
+Solo libreria standard di Python 3.10+. Un solo comando usa la rete: `qngeo.py
+civico`, per un numero assente dalla copia offline, interroga il WFS del
+Geoportale (cache in `QN_CACHE`; `QN_RETE=0` vieta la chiamata). Ogni comando
+legge il pacchetto da `--pkg` o dalla variabile `QN_PKG`; nessuno scrive nel
+pacchetto.
 
 | Fase | Comando | Cosa produce | Cosa NON fa |
 |---|---|---|---|

@@ -230,6 +230,11 @@ check('T-valida: a cited boundary rule allows M on one place', valida.check(edge
 check('T-valida: a cited rule that is not doppia_confine does not make M of one place',
       any('M richiede' in p for p in valida.check(edge, active, rules={'R-0003': {'modo': 'unica', 'pagine': ['centocelle']}})))
 check('T-valida: a cited rule missing from the snapshot is reported', any('non presente' in p for p in valida.check(edge, active)))
+cited = {**good, 'luoghi': [{**good['luoghi'][0], 'risoluzione': {'metodo': 'regola', 'regola': 'R-0009', 'pagine': ['centocelle']}}]}
+check('T-valida: a cited rule must assign the pages the resolution claims',
+      valida.check(cited, active, rules={'R-0009': {'modo': 'unica', 'pagine': ['centocelle']}}) == []
+      and any('assegna' in p for p in valida.check(cited, active, rules={'R-0009': {'modo': 'unica', 'pagine': ['nomentano']}})))
+check('T-valida: a non-string id is a problem, not a crash', valida.check({**good, 'id': []}, active) == ['id mancante'])
 
 # ---- owner rules loop on a minimal package (pure): applica_decisioni.py reads only the gazetteer
 import csv
@@ -313,16 +318,29 @@ check('two doubts on the same normalised key cannot both become rules', res.retu
 write_queue([{'id_dubbio': 'Z-1A', 'tipo_regola': 'zona', 'chiave': '1A', 'si_applica_in': 'regole_geografiche', 'opzioni': 'centro-storico', 'decisione': 'tratto'}])
 res = apply()
 check("'tratto' is refused for anything but a street", res.returncode == 1 and 'tratto' in res.stdout, res.stdout)
+write_queue([{'id_dubbio': 'S-tre', 'tipo_regola': 'strada', 'chiave': 'via tre', 'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico+testaccio+ardeatino'},
+             {'id_dubbio': 'S-due', 'tipo_regola': 'strada', 'chiave': 'via due', 'si_applica_in': 'regole_geografiche', 'decisione': 'testaccio+testaccio'}])
+res = apply(['--consenti-confine'])
+check('DEC-107: a boundary rule has exactly two distinct pages', res.returncode == 1 and 'due pagine' in res.stdout and 'ripetuta' in res.stdout, res.stdout)
+write_queue([{'id_dubbio': 'D2', 'tipo_regola': 'luogo', 'chiave': 'parco a', 'si_applica_in': 'regole_geografiche', 'decisione': 'montagnola'},
+             {'id_dubbio': 'D2', 'tipo_regola': 'luogo', 'chiave': 'parco b', 'si_applica_in': 'regole_geografiche', 'decisione': 'montagnola'}])
+res = apply()
+check('the same doubt with the same decision but another key is an error, not a silent pick', res.returncode == 1 and 'non coincidono' in res.stdout, res.stdout)
 # a contested rule is replaced, the old one stays as history and is no longer loaded
+write_queue([{'id_dubbio': 'C-R-0001', 'tipo_regola': 'luogo', 'chiave': 'parco commendone', 'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico'}])
+res = apply()
+check('a contestation row must name the place of the rule it replaces', res.returncode == 1 and 'la riga dice' in res.stdout, res.stdout)
 write_queue([{'id_dubbio': 'C-R-0001', 'tipo_regola': 'luogo', 'chiave': 'monte del grano', 'si_applica_in': 'regole_geografiche', 'decisione': 'centro-storico'}])
 res = apply()
 stored = json.loads(rules.read_text())
 check('a contested rule is replaced by the owner and kept as history',
       res.returncode == 0 and stored['regole'][0].get('sostituita_da') == 'R-0003' and stored['regole'][-1]['sostituisce'] == 'R-0001'
       and [r['id'] for r in qngeo.load_rules(rules)] == ['R-0002', 'R-0003'], res.stdout + res.stderr)
+check('a run with no gazetteer change removes the stale change list', not gazfile.is_file(), gazfile)
 import dubbi
 check('the doubt queue refuses to be written inside the repository', not dubbi.fuori_dal_repository(HERE / 'coda_dubbi.csv')
       and dubbi.fuori_dal_repository(tmp / 'coda_dubbi.csv'))
+check('rules and their text come from one read', qngeo.rules_from_text(qngeo.rules_text(rules)) == qngeo.load_rules(rules))
 
 # ---- package-backed (teaching cases only)
 # Deterministic: no live WFS and an empty civic cache during the tests.

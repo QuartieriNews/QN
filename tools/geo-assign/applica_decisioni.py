@@ -59,7 +59,14 @@ def parse(dec, row, active):
     bad = [p for p in pages if p not in active]
     if bad:
         raise ValueError(f'pagine non attive o inesistenti: {bad}')
+    if len(set(pages)) != len(pages):
+        raise ValueError(f'pagina ripetuta: {pages}')
+    if len(pages) > 2:
+        raise ValueError(f'una regola di confine ha esattamente due pagine (DEC-107), non {len(pages)}')
     return ('unica' if len(pages) == 1 else 'doppia_confine'), sorted(pages)
+
+
+IMMUTABLE = ('tipo_regola', 'chiave', 'si_applica_in')
 
 
 def gazetteer_index(gaz):
@@ -134,12 +141,14 @@ def run(a, active, alias, zu, RULES):
             dec = (row.get('decisione') or '').strip()
             if not did or not dec or did in known:
                 continue
-            # The same doubt twice in one queue: identical rows are one, different ones an error.
+            # The same doubt twice in one queue: rows identical in decision and
+            # immutable fields are one; any other repetition is an error.
+            shape = (dec.lower(),) + tuple((row.get(k) or '').strip().lower() for k in IMMUTABLE)
             if did in seen_rows:
-                if seen_rows[did] != dec.lower():
-                    errors.append(f"{did}: righe duplicate con decisioni diverse ({seen_rows[did]!r}, {dec!r})")
+                if seen_rows[did] != shape:
+                    errors.append(f"{did}: righe duplicate che non coincidono (decisione, tipo, chiave o destinazione)")
                 continue
-            seen_rows[did] = dec.lower()
+            seen_rows[did] = shape
             try:
                 modo, pages = parse(dec, row, active)
             except ValueError as exc:
@@ -179,6 +188,10 @@ def run(a, active, alias, zu, RULES):
                 if not old or old.get('sostituita_da'):
                     errors.append(f"{did}: la regola contestata non esiste o e' gia' stata sostituita")
                     continue
+                if (kind, key) != (old['tipo'], old['chiave']):
+                    # A replacement rules the same place as the rule it replaces.
+                    errors.append(f"{did}: la riga dice {kind} {key!r} ma la regola {old['id']} e' {old['tipo']} {old['chiave']!r}")
+                    continue
             holder = live_keys.get((kind, key))
             if holder and holder != (old or {}).get('id'):
                 errors.append(f"{did}: esiste gia' la regola {holder} per {kind} {key!r}: contestarla (riga C-{holder}), non duplicarla")
@@ -203,13 +216,19 @@ def run(a, active, alias, zu, RULES):
     rules.extend(added)
     closed.extend(closed_now)
     write_atomic(RULES, json.dumps(store, ensure_ascii=False, indent=1) + '\n')
+    # The gazetteer change list reflects this run only: rewritten, or removed when empty.
+    out = a.coda.with_name('modifiche_gazetteer.csv')
     if gaz_changes:
-        out = a.coda.with_name('modifiche_gazetteer.csv')
-        with out.open('w', encoding='utf-8-sig', newline='') as h:
-            w = csv.DictWriter(h, fieldnames=list(gaz_changes[0]), delimiter=';')
-            w.writeheader()
-            w.writerows(gaz_changes)
+        import io
+        buf = io.StringIO()
+        w = csv.DictWriter(buf, fieldnames=list(gaz_changes[0]), delimiter=';', lineterminator='\r\n')
+        w.writeheader()
+        w.writerows(gaz_changes)
+        write_atomic(out, '\ufeff' + buf.getvalue())
         report['file_modifiche_gazetteer'] = str(out)
+    elif out.is_file():
+        out.unlink()
+        report['file_modifiche_gazetteer'] = 'rimosso: nessuna modifica in questa esecuzione'
     print(json.dumps(report, ensure_ascii=False, indent=1))
 
 

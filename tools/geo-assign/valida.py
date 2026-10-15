@@ -64,8 +64,15 @@ def check(d, active, require_level=False, rules=None, ids=None):
                 if not str(ris.get('metodo') or '').strip() or not any(
                         str(ris.get(k) or '').strip() for k in ('query', 'riferimento', 'regola')):
                     p.append(f"risoluzione non ripetibile per {l.get('testo')!r}: servono metodo e query, riferimento o regola")
-            if ris.get('regola') and ris['regola'] not in rules:
-                p.append(f"regola {ris['regola']} citata ma non presente in regole_geografiche.json")
+            if ris.get('regola'):
+                rule = rules.get(ris['regola'])
+                if not rule:
+                    p.append(f"regola {ris['regola']} citata ma non presente in regole_geografiche.json")
+                else:
+                    # The cited rule decides the pages: a stretch rule allows a subset, the others the same set.
+                    got, want = set(ris.get('pagine') or []), set(rule.get('pagine') or [])
+                    if not (got <= want if rule.get('modo') == 'tratto' else got == want):
+                        p.append(f"regola {ris['regola']} ({rule.get('modo')}) assegna {sorted(want)}, la risoluzione dice {sorted(got)}")
             for pg in ris.get('pagine', []):
                 supported[pg].append(l.get('testo'))
     for pg in pages:
@@ -119,9 +126,12 @@ def main():
         except json.JSONDecodeError as exc:
             problems.append(f"riga {n}: JSON non valido ({exc})")
             continue
-        if d.get('id') in seen:
-            problems.append(f"{d.get('id')}: ID ripetuto")
-        seen.add(d.get('id'))
+        if not isinstance(d.get('id'), str) or not d['id'].strip():
+            problems.append(f"riga {n}: id mancante")
+            continue
+        if d['id'] in seen:
+            problems.append(f"{d['id']}: ID ripetuto")
+        seen.add(d['id'])
         count[d.get('esito')] += 1
         problems += [f"{d.get('id')}: {x}" for x in check(d, active, require_level=not a.senza_livello, rules=rules, ids=ids)]
     if problems:
