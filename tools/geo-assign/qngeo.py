@@ -135,18 +135,26 @@ def _seg_intersection(p, p2, q, q2):
 
 
 def _pt_seg(pt, a, b):
-    dx, dy = b[0] - a[0], b[1] - a[1]
+    """Distance in metres from a point to a segment, and the closest point on
+    it (in degrees). The projection runs in local metres: a degree of
+    longitude is shorter than one of latitude at Rome, so the foot of the
+    perpendicular found in degrees is wrong on oblique segments."""
+    kx, ky = _KX, _KY
+    dx, dy = (b[0] - a[0]) * kx, (b[1] - a[1]) * ky
     L = dx * dx + dy * dy
-    t = 0 if L == 0 else max(0, min(1, ((pt[0] - a[0]) * dx + (pt[1] - a[1]) * dy) / L))
-    c = (a[0] + t * dx, a[1] + t * dy)
+    t = 0 if L == 0 else max(0, min(1, ((pt[0] - a[0]) * kx * dx + (pt[1] - a[1]) * ky * dy) / L))
+    c = (a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1]))
     return _metres(pt, c), c
 
 
+# Equirectangular approximation at Rome's latitude: enough to compare
+# distances of a few hundred metres.
+_KX = 111320 * math.cos(math.radians(41.9))
+_KY = 110540
+
+
 def _metres(a, b):
-    # Equirectangular approximation at Rome's latitude: enough to compare
-    # distances of a few hundred metres; not used for any boundary decision.
-    kx = 111320 * math.cos(math.radians(41.9))
-    return math.hypot((a[0] - b[0]) * kx, (a[1] - b[1]) * 110540)
+    return math.hypot((a[0] - b[0]) * _KX, (a[1] - b[1]) * _KY)
 
 
 BOUNDARY_M = 15
@@ -519,7 +527,7 @@ class Atlas:
         if dist is None or dist > BOUNDARY_M:
             return None
         step = 2 * BOUNDARY_M
-        dx, dy = step / (111320 * math.cos(math.radians(41.9))), step / 110540
+        dx, dy = step / _KX, step / _KY
         across = set()
         for ox, oy in ((dx, 0), (-dx, 0), (0, dy), (0, -dy), (dx, dy), (-dx, dy), (dx, -dy), (-dx, -dy)):
             for a in self.urban:
@@ -668,7 +676,10 @@ def wfs_civico(toponimo: str, num: int):
 
 
 def _cache_read(path: Path):
-    return json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
+    # A missing or empty file is an empty cache: the documented way to replay
+    # without any live civic is to point QN_CACHE at an empty file.
+    text = path.read_text(encoding='utf-8') if path.is_file() else ''
+    return json.loads(text) if text.strip() else {}
 
 
 def _cache_put(path: Path, key: str, entry):

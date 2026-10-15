@@ -318,6 +318,10 @@ class Stage1:
                                      'incrocio sul confine fra pagine (DEC-107 aperta)'))
             elif len(x['pagine']) == 1:
                 precise.append(({'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}, set(x['pagine'])))
+            elif x['pagine']:
+                # Roads meeting more than once, on different pages: candidates, D not M.
+                alternatives.append(({'tipo': 'incrocio', 'testo': ' x '.join(x['strade'])}, set(x['pagine']),
+                                     'incrocio in piu punti su pagine diverse: scegliere dal contesto'))
         pages = set().union(*[p for _, p in precise]) if precise else set()
         title_pages = set().union(*[p for m, p in precise if 'titolo' in m.get('campi', [])]) if precise else set()
         cues = ev['indizi']

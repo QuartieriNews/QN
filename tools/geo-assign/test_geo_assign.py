@@ -61,11 +61,19 @@ longroad = [((12.50, 41.90), (12.52, 41.90))]
 side = [((12.51, 41.9001), (12.51, 41.902))]
 d1, d2 = qngeo._closest_approach(longroad, side), qngeo._closest_approach(side, longroad)
 check('crossing fallback is symmetric', d1 and d2 and abs(d1[0] - d2[0]) < 1e-6 and d1[0] < 15, (d1, d2))
+# oblique segment: the metric distance equals the minimum over a dense sampling of the segment
+_a, _b, _pt = (12.50, 41.90), (12.51, 41.91), (12.5052, 41.9048)
+_d, _c = qngeo._pt_seg(_pt, _a, _b)
+_brute = min(qngeo._metres(_pt, (_a[0] + k / 20000 * (_b[0] - _a[0]), _a[1] + k / 20000 * (_b[1] - _a[1]))) for k in range(20001))
+check('point-segment distance is computed in local metres on oblique segments', abs(_d - _brute) < 0.05, (_d, _brute))
 # cache: two writers, both entries survive, file always parseable
 cpath = Path(_tf.mkdtemp()) / 'civici.json'
 qngeo._cache_put(cpath, 'A|1', {'punti': []})
 qngeo._cache_put(cpath, 'B|2', {'punti': []})
 check('cache writes merge and replace atomically', set(json.loads(cpath.read_text())) == {'A|1', 'B|2'} and not list(cpath.parent.glob('*.tmp')))
+empty = Path(_tf.mkdtemp()) / 'vuota.json'
+empty.write_text('')
+check('an empty cache file is an empty cache, as the README promises', qngeo._cache_read(empty) == {})
 import stage1
 m1 = {'variante': 'via aversa', 'livello_normalizzazione': 2, 'chiavi': ['via aversa']}
 m2 = {'variante': 'via raffaele aversa', 'livello_normalizzazione': 0, 'chiavi': ['via raffaele aversa']}
@@ -97,6 +105,10 @@ check('DEC-107: a civic on the boundary is D with both pages as candidates', p['
 xing = {'strade': ['via a', 'via b'], 'pagine': ['ovest'], 'esatto': True, 'punti': [{'lat': 0, 'lon': 0, 'pagine': ['ovest'], 'base': 'b', 'confine': {'metri': 2.0, 'pagine_vicine': ['est']}}]}
 p = s1.propose(row, {**ev, 'menzioni': [], 'incroci': [xing]})
 check('DEC-107: a crossing on the boundary is D, not U', p['esito_proposto'] == 'D' and p['candidate'] == ['est', 'ovest'], p)
+xing2 = {'strade': ['via a', 'via b'], 'pagine': ['est', 'ovest'], 'esatto': True,
+         'punti': [{'lat': 0, 'lon': 0, 'pagine': ['ovest'], 'base': 'b'}, {'lat': 1, 'lon': 1, 'pagine': ['est'], 'base': 'b'}]}
+p = s1.propose(row, {**ev, 'menzioni': [], 'incroci': [xing2]})
+check('roads meeting twice on two pages give D with both candidates, never ?', p['esito_proposto'] == 'D' and p['candidate'] == ['est', 'ovest'], p)
 # packets: a place rule serialises, and the workspace is rebuilt on retry
 import pacchetti
 import subprocess
@@ -128,6 +140,9 @@ check('packets: a retry rebuilds the blind copy and drops packets of the previou
       r1.returncode == 0 and r2.returncode == 0 and sorted(f.name for f in out.glob('lotto_*.jsonl')) == ['lotto_1.jsonl']
       and (out / 'pkg' / 'cartografia' / 'marker_v2').is_file() and not (out / 'pkg' / 'cartografia' / 'marker_v1').exists(),
       r1.stderr + r2.stderr)
+check('DEC-106: the owner rules travel with the tools of the blind workspace',
+      (out / 'strumenti' / 'regole_geografiche.json').is_file()
+      and (out / 'strumenti' / 'regole_geografiche.json').read_bytes() == (HERE / 'regole_geografiche.json').read_bytes())
 
 active = {'centocelle', 'nomentano'}
 good = {'id': 'X', 'esito': 'U', 'pagine': ['centocelle'], 'fatto': 'f', 'motivo': 'm', 'confidenza': 'alta',

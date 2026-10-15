@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from qngeo import package_root  # noqa: E402
+from qngeo import package_root, rules_path  # noqa: E402
 
 FIELDS = ['id', 'fonte', 'documento_id', 'titolo', 'sintesi', 'luoghi', 'municipio',
           'quartiere', 'municipio_documento', 'data_fatto', 'vicenda_id', 'blocco_editoriale_proposto',
@@ -107,6 +107,9 @@ def main():
     tools.mkdir(parents=True, exist_ok=True)
     for f in ('qngeo.py', 'zone_qn_cross.json', 'valida.py', 'PROTOCOLLO_REVISIONE.md'):
         shutil.copy2(here / f, tools / f)
+    # The owner rules qngeo.py applies (DEC-106) must be the ones stage 1 used:
+    # rules_path() looks beside qngeo.py unless QN_REGOLE says otherwise.
+    shutil.copy2(rules_path(), tools / 'regole_geografiche.json')
     batches = [ids[i::a.lotti] for i in range(a.lotti)]
     for n, batch in enumerate(batches, 1):
         (out / f'lotto_{n}.jsonl').write_text(''.join(json.dumps(packet(rows[i], evs[i]), ensure_ascii=False) + '\n'
