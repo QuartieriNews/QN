@@ -137,11 +137,10 @@ fonte, Municipio, zona, tema e formato; quote; intervalli di dedup) e il riferim
 cartella Drive. Residuo per l'owner: confermare questa collocazione o indicarne un'altra.
 
 **Nota del 15 ottobre 2026 (inventari in `handoff_data/`).** Gli inventari per item di
-`tools/sources-study/handoff_data/` (URL, date, Municipio, zona, tipologia, durate, conteggi ed
-etichette dello studio, senza testi delle fonti, titoli né nomi di persona) stanno nel repository
-per decisione dell'owner nella revisione della PR #15, lotto 3: le colonne con testo sono state
-tolte (`tools/sources-study/HANDOFF.md` §2-bis). È l'unica eccezione a questo paragrafo; i dati
-con i testi restano su Drive.
+`tools/sources-study/handoff_data/` stanno nel repository per DEC-109 (decisione dell'owner
+nella revisione della PR #15, lotto 3), che ne fissa il perimetro: URL, date, identificativi,
+durate, conteggi, toponimi ed etichette dello studio, mai testi, titoli o nomi presi dalle
+fonti. È l'unica eccezione a questo paragrafo; i dati con i testi restano su Drive.
 
 **Nota del 15 ottobre 2026 (DEC-105).** «Senza nomi di persona» qui sopra era la regola dello
 studio fino al 17 settembre; DEC-105 l'ha superata: nei dati per item su Drive i nomi pertinenti al

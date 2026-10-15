@@ -1,5 +1,7 @@
 # Decisioni editoriali da porre all'owner
 
+> *Documento storico, non normativo (15 ottobre 2026): le regole in vigore stanno in `decisions/` e nelle specifiche di `tools/sources-study/`; qui restano il contesto, gli esiti e il ragionamento del momento.*
+
 **Tutte chiuse il 17 settembre 2026 dalla DEC-105** (`decisions/DEC-105-named-participants.md`),
 che supersede in parte la DEC-102: niente anonimizzazione automatica delle persone di cui parla
 la notizia. Le voci qui sotto restano come sono state scritte — sono il ragionamento che ha

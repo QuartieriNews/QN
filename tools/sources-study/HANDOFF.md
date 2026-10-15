@@ -47,7 +47,7 @@ controlli Codex).
   più `python3 tools/geo-assign/test_geo_assign.py` e `python3 tools/cronaca-prova/test_cronaca_prova.py`; righe di attribuzione
   della tua sessione nei messaggi di commit. Nessuna PR se l'owner non la chiede.
 
-## 2-bis. Colonne tolte da `handoff_data/` il 15 ottobre 2026 (DEC-104, DEC-105 §1)
+## 2-bis. Colonne tolte da `handoff_data/` il 15 ottobre 2026 (DEC-104, DEC-105 §1; decisione registrata in DEC-109)
 
 Revisione Codex della PR #15, lotto 3: nove CSV portavano testo per item delle fonti
 (titoli di notizie, atti e video; descrizioni con gli ordini del giorno; in un caso un nome

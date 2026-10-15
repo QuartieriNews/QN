@@ -1,5 +1,7 @@
 # STATO — sessione B (Opus 5), ricostruzione una tantum di giugno 2026
 
+> *Documento storico, non normativo (15 ottobre 2026): le regole in vigore stanno in `decisions/` e nelle specifiche di `tools/sources-study/`; qui restano il contesto, gli esiti e il ragionamento del momento.*
+
 Stato operativo della sessione B. Aggiornato a ogni passo rilevante; la conversazione non è
 stato, questo file sì.
 
