@@ -2,8 +2,8 @@
 
 Strumenti della prova del 10 ottobre 2026 su giugno 2026. Perché è fatta così, che cosa ha
 misurato e quali problemi apre: `docs/sources/CRONACA_PROCESSO_2026-10.md`. Il ruolo
-della stampa nella Cronaca è una decisione aperta (DEC-108): questi strumenti misurano,
-non costruiscono una pipeline.
+della stampa nella Cronaca era allora una decisione aperta, decisa l'11 ottobre per l'MVP
+(DEC-108, stampa come fonte citata): questi strumenti misurano, non costruiscono una pipeline.
 
 Libreria standard di Python 3.10+ (più `openpyxl` per il solo `foglio.py`). Tutto si
 scrive in una cartella di lavoro `DIR` fuori dal repository: titoli e link delle testate

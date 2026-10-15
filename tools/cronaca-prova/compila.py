@@ -12,6 +12,8 @@ import collections, csv, glob, json, os, re, sys, unicodedata
 
 ENTE = re.compile(r"carabinier|polizia|poliziott|questura|commissariat|vigili|pompier|finanza|gdf|agenti|procura|nas\b|militari")
 TUTTE = {"certa", "probabile"}
+PROVE_DATA = {"url", "ricerca", "sconosciuta"}                        # ISTRUZIONI_AVANTI.md, uscita
+CLASSI_INVERSO = {"cronaca_fuori", "cronaca_giudiziaria", "non_cronaca"}  # ISTRUZIONI_INVERSO.md, punto 1
 
 
 def jl(p):
@@ -61,6 +63,11 @@ def carica_avanti(base):
     ignoti = sorted(r["id"] for r in ris if r["id"] not in facts)
     if ignoti:
         sys.exit(f"compila: risultati per id che non sono in nessun lotto: {ignoti}")
+    for r in ris:   # valori fuori contratto si fermano qui, non si perdono nei conteggi
+        for t in r.get("testate", []):
+            if t.get("corrispondenza") not in TUTTE or t.get("prova_data") not in PROVE_DATA:
+                sys.exit(f"compila: risultato {r['id']}: corrispondenza o prova_data fuori contratto "
+                         f"({t.get('corrispondenza')!r}, {t.get('prova_data')!r})")
     return facts, {r["id"]: r for r in ris if cercato(r)}
 
 
@@ -101,6 +108,13 @@ def inversa(base, attive, pagine_uff, presenze_uff, ufficiali=None):
     cand = {c["sid"]: c for c in json.load(open(f"{base}/censimento/candidati.json"))}
     fatti = [x for p in sorted(glob.glob(f"{base}/inverso/fatti_*.jsonl")) for x in jl(p)]
     scarti = [x for p in sorted(glob.glob(f"{base}/inverso/scarti_*.jsonl")) for x in jl(p)]
+    for x in scarti:
+        if x.get("classe") not in CLASSI_INVERSO:
+            sys.exit(f"compila: scarto {x.get('sid')}: classe fuori contratto {x.get('classe')!r}")
+    for x in fatti:   # corrispondenza certa|probabile con un fatto ufficiale, null senza
+        if (x.get("ufficiale") is None) != (x.get("corrispondenza") is None) or x.get("corrispondenza") not in TUTTE | {None}:
+            sys.exit(f"compila: fatto {x.get('fid')}: corrispondenza fuori contratto "
+                     f"({x.get('corrispondenza')!r} con ufficiale {x.get('ufficiale')!r})")
     # ogni sid esattamente una volta, in uno dei due file (ISTRUZIONI_INVERSO.md): doppioni, sid ignoti e
     # sid mancanti fermano la compilazione
     sids = [s for x in fatti for s in x["sid"]] + [x["sid"] for x in scarti]

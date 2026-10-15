@@ -30,6 +30,8 @@ EDITORE_APERTE = {"Abitare a Roma": "Abitare a Roma", "Roma Daily News": "Roma D
                   "Il Faro Online": "Il Faro Online", "VignaClaraBlog": "VignaClaraBlog", "Dire": "Dire",
                   "Il Tempo": "Angelucci"}
 PUBBLICABILI = ("ufficiale", "stampa_due_fonti")
+CLASSI_CHIUSE = {"cronaca_roma", "cronaca_fuori", "giudiziaria", "non_cronaca"}   # ISTRUZIONI_CHIUSE.md
+CORRISPONDENZE = {"certa", "probabile", None}
 CATEGORIE = ("ufficiale", "stampa_due_fonti", "stampa_una_fonte", "chiuse_due_fonti", "chiuse_una_fonte")
 
 
@@ -116,6 +118,10 @@ def main(base, matrice, ufficiali, aperte, mese=None):
         fatti[n["nid"]] = {"id": n["nid"], "origine": "chiuse", "data": n["data"], "fatto": n["fatto"],
                            "livello": n["livello"], "pagine": pagine_di(n.get("pagina_qn")), "ufficiale": False,
                            "aperte": set(), "chiuse": set(), "editori": set(), "link": []}
+    for a in abb:   # un refuso del lettore (es. «cronaca-roma») si ferma qui, non diventa «non cronaca»
+        if a.get("classe") not in CLASSI_CHIUSE or a.get("corrispondenza") not in CORRISPONDENZE:
+            sys.exit(f"tabella_quartieri: abbinamento {a.get('cid')}: classe o corrispondenza fuori contratto "
+                     f"({a.get('classe')!r}, {a.get('corrispondenza')!r})")
     cids = [a["cid"] for a in abb]
     doppi = sorted({c for c in cids if cids.count(c) > 1})
     if doppi:

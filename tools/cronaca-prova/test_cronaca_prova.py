@@ -117,7 +117,7 @@ with tempfile.TemporaryDirectory() as d:
     check("compila: un sid che non è fra i candidati ferma la compilazione",
           fallisce("candidati", f"{d}/inverso/scarti_2.jsonl", [{"sid": "S9", "classe": "non_cronaca"}], True))
     check("compila: un sid classificato due volte ferma la compilazione",
-          fallisce("ripetuti", f"{d}/inverso/scarti_2.jsonl", [{"sid": "S3", "classe": "giudiziaria"}], True))
+          fallisce("ripetuti", f"{d}/inverso/scarti_2.jsonl", [{"sid": "S3", "classe": "cronaca_giudiziaria"}], True))
     os.rename(f"{d}/inverso/scarti_1.jsonl", f"{d}/scarti_via")
     try:
         compila.main(d, f"{d}/matrice.csv"); manc = False
@@ -125,6 +125,18 @@ with tempfile.TemporaryDirectory() as d:
         manc = "senza esito" in str(e)
     os.rename(f"{d}/scarti_via", f"{d}/inverso/scarti_1.jsonl")
     check("compila: un candidato senza esito ferma la compilazione", manc)
+    scrivi(f"{d}/avanti/lotto_2.json", [{"id": "D", "fonte": "Questura di Roma", "pubblicato": "2026-06-02", "fatto": "x",
+                                         "esito": "U", "pagine": ["centocelle"]}])
+    check("compila: una corrispondenza fuori contratto in un risultato avanti ferma la compilazione",
+          fallisce("fuori contratto", f"{d}/avanti/risultati_2.jsonl",
+                   [{"id": "D", "ricerche": ["q"], "testate": [dict(t("RomaToday", "forse"))], "nota": ""}], True))
+    os.remove(f"{d}/avanti/lotto_2.json")
+    check("compila: una classe fuori contratto negli scarti inversi ferma la compilazione",
+          fallisce("classe fuori contratto", f"{d}/inverso/scarti_2.jsonl", [{"sid": "S9", "classe": "boh"}], True))
+    check("compila: una corrispondenza senza fatto ufficiale (o fuori contratto) ferma la compilazione",
+          fallisce("corrispondenza fuori contratto", f"{d}/inverso/fatti_2.jsonl",
+                   [{"fid": "P9-002", "sid": [], "testate": ["Dire"], "data": "2026-06-03", "tipo": "furto", "fatto": "w",
+                     "luogo": None, "pagina_qn": None, "livello": "citta", "ufficiale": None, "corrispondenza": "certa"}], True))
     check("compila: un fatto abbinato a un id ufficiale ignoto ferma la compilazione",
           fallisce("ufficiali ignoti", f"{d}/inverso/fatti_2.jsonl",
                    [{"fid": "P9-001", "sid": [], "testate": ["Dire"], "data": "2026-06-03", "tipo": "furto", "fatto": "w",
@@ -473,6 +485,9 @@ with tempfile.TemporaryDirectory() as d:
           rifiuta_abb("senza abbinamento", orig[:-1]))
     check("tabella_quartieri: un titolo cronaca_roma senza fatto ferma la tabella",
           rifiuta_abb("senza fatto", orig[:-1] + [{"cid": "K6", "classe": "cronaca_roma", "fatto": None}]))
+    check("tabella_quartieri: una classe con refuso («cronaca-roma») o una corrispondenza ignota fermano la tabella",
+          rifiuta_abb("fuori contratto", orig[:-1] + [{"cid": "K6", "classe": "cronaca-roma", "fatto": None}])
+          and rifiuta_abb("fuori contratto", orig[:-1] + [{"cid": "K6", "classe": "cronaca_roma", "fatto": "P1", "corrispondenza": "forse"}]))
     scrivi(f"{d}/aperte.jsonl", [ap("P1", ["Abitare a Roma"], "prati"), ap("P4", ["Dire"], None, uff="CR-9")], jsonl=True)
     try:
         TQ.main(d, f"{d}/matrice.csv", [f"{d}/uff.jsonl"], [f"{d}/aperte.jsonl"]); uff_ign = False
