@@ -11,6 +11,7 @@ import html, json, os, re, sys, time, urllib.parse, urllib.request
 
 UA = "QuartieriNews-ricerca/0.1 (misura copertura cronaca)"
 WP = {"abitarearoma.it", "www.vignaclarablog.it", "www.dire.it"}  # API WordPress ammessa dal robots.txt
+MAX_TESTI = int(os.environ.get("QN_MAX_TESTI", "300"))  # tetto alle richieste per esecuzione (AGENTS.md: costo)
 ultimo = {}
 
 
@@ -45,24 +46,38 @@ def testo(link):
     return pulisci(m.group(0) if m else h)
 
 
+def sids_da_scaricare(voci, cand):
+    """I sid dell'elenco, una volta sola e in ordine, entro il tetto; un sid ignoto è un errore."""
+    sids = list(dict.fromkeys(s for v in voci for s in (v["sid"] if isinstance(v, dict) else [v])))
+    ignoti = [s for s in sids if s not in cand]
+    if ignoti:
+        raise SystemExit(f"sid non presenti fra i candidati: {ignoti[:10]}")
+    if len(sids) > MAX_TESTI:
+        raise SystemExit(f"{len(sids)} testi richiesti, tetto {MAX_TESTI} (QN_MAX_TESTI): dividere l'elenco")
+    return sids
+
+
 def main(base, elenco):
-    cand = {c["sid"]: c for c in json.load(open(f"{base}/censimento/candidati.json"))}
-    voci = json.load(open(elenco))
-    sids = [s for v in voci for s in (v["sid"] if isinstance(v, dict) else [v])]
+    cand = {c["sid"]: c for c in json.load(open(f"{base}/censimento/candidati.json", encoding="utf-8"))}
+    voci = json.load(open(elenco, encoding="utf-8"))
+    sids = sids_da_scaricare(voci, cand)
     os.makedirs(f"{base}/testi", exist_ok=True)
-    esito = {}
+    esito, letti = {}, {}
     for s in sids:
         c = cand[s]
         link = c["link"] if c["link"].startswith("http") else {
             "Roma Daily News": "https://www.romadailynews.it", "Il Faro Online": "https://www.ilfaroonline.it"}.get(c["testata"], "") + c["link"]
         try:
-            t = testo(link)
+            t = letti[link] if link in letti else testo(link)   # lo stesso articolo si scarica una volta
+            letti[link] = t
             ok = len(t) > 400
-            open(f"{base}/testi/{s}.txt", "w").write(t)
+            with open(f"{base}/testi/{s}.txt", "w", encoding="utf-8") as f:
+                f.write(t)
             esito[s] = "ok" if ok else "corto"
         except Exception as e:
             esito[s] = f"errore: {str(e)[:120]}"
-    json.dump(esito, open(f"{base}/testi/esito.json", "w"), ensure_ascii=False, indent=1)
+    with open(f"{base}/testi/esito.json", "w", encoding="utf-8") as f:
+        json.dump(esito, f, ensure_ascii=False, indent=1)
     print({k: sum(1 for v in esito.values() if v.startswith(k)) for k in ("ok", "corto", "errore")})
 
 

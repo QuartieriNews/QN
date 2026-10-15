@@ -55,14 +55,14 @@ def main(base):
     d = os.path.join(base, "censimento")
     out = []
     for k, nome in NOMI.items():
-        rows = json.load(open(f"{d}/{k}.json"))
+        rows = json.load(open(f"{d}/{k}.json", encoding="utf-8"))
         kept = [r for r in rows if keep(k, r)]
         print(k, len(rows), "->", len(kept))
         out += [{"testata": nome, "data": r["data"][:10], "titolo": r["titolo"], "link": r["link"]} for r in kept]
     out.sort(key=lambda r: (r["data"], r["testata"]))
     for i, r in enumerate(out, 1):
         r["sid"] = f"S{i:04d}"
-    with open(f"{d}/candidati.json", "w") as f:
+    with open(f"{d}/candidati.json", "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=0)
     print(len(out), dict(sorted(collections.Counter(r["data"][8:10] for r in out).items())))
     return out

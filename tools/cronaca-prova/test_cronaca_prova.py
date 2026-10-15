@@ -209,7 +209,52 @@ G.scarica = lambda url, tries=4: buf.getvalue()
 righe = G.leggi("https://data.gdeltproject.org/x.zip")
 G.scarica = scarica
 check("gdelt_titoli: solo le testate seguite, con titolo e segnale Roma",
-      len(righe) == 1 and righe[0]["titolo"] == "Furto a Prati" and righe[0]["roma"])
+      len(righe) == 1 and righe[0]["titolo"] == "Furto a Prati" and righe[0]["roma"] and righe[0]["file"] == "x.zip")
+with tempfile.TemporaryDirectory() as d:
+    tit = f"{d}/titoli.jsonl"
+    scrivi(tit, [{"link": "a", "file": "A.zip"}, {"link": "b", "file": "B.zip"}, {"link": "c", "file": "B.zip"}], jsonl=True)
+    scartate = G._ripristina(tit, {"A.zip"})
+    rest = [json.loads(l) for l in open(tit, encoding="utf-8")]
+    check("gdelt_titoli: alla ripresa le righe di un file non registrato come letto vengono scartate (niente doppioni)",
+          scartate == 2 and [r["file"] for r in rest] == ["A.zip"] and not [f for f in os.listdir(d) if f.endswith(".tmp")])
+    G._salva_registro(f"{d}/registro.json", {"letti": ["A.zip"], "mancanti": {}})
+    check("gdelt_titoli: il registro è scritto per intero e sostituito",
+          json.load(open(f"{d}/registro.json"))["letti"] == ["A.zip"] and not [f for f in os.listdir(d) if f.endswith(".tmp")])
+
+# --- censimento: una risposta 200 non interpretabile è un errore, non una testata vuota
+import censimento as C  # noqa: E402
+
+_get = C.get
+C.get = lambda url, tries=3: ("<html>Access denied</html>", {})
+try:
+    C.wordpress("abitarearoma.it"); wp_err = False
+except C.Censimento as e:
+    wp_err = "non interpretabile" in str(e)
+try:
+    C.sitemap("www.romadailynews.it"); sm_err = False
+except C.Censimento as e:
+    sm_err = "post-sitemap" in str(e)
+C.get = lambda url, tries=3: ("[]", {"x-wp-totalpages": "1"})
+vuoto = C.wordpress("abitarearoma.it")
+C.get = _get
+check("censimento: HTML servito con 200 al posto dell'API o della sitemap è un errore esplicito", wp_err and sm_err)
+check("censimento: una lista JSON vuota è un mese senza articoli, non un errore", vuoto == [])
+
+# --- testi_aperti: tetto alle richieste, un sid una volta, sid ignoti rifiutati
+import testi_aperti as T  # noqa: E402
+
+cand = {f"S{i:04d}": {"sid": f"S{i:04d}", "link": "https://x/a", "testata": "Dire"} for i in range(1, 400)}
+check("testi_aperti: un sid ripetuto si scarica una volta",
+      T.sids_da_scaricare([{"sid": ["S0001", "S0002"]}, "S0001"], cand) == ["S0001", "S0002"])
+try:
+    T.sids_da_scaricare([f"S{i:04d}" for i in range(1, 302)], cand); cap_ok = False
+except SystemExit as e:
+    cap_ok = "tetto" in str(e)
+try:
+    T.sids_da_scaricare(["S9999"], cand); ign_ok = False
+except SystemExit as e:
+    ign_ok = "non presenti" in str(e)
+check("testi_aperti: oltre il tetto (QN_MAX_TESTI) e con sid ignoti ci si ferma prima di ogni richiesta", cap_ok and ign_ok)
 
 # --- chiuse_filtro: sezioni romane, nomi di quartiere non ambigui, testate aperte escluse
 import chiuse_filtro as K  # noqa: E402

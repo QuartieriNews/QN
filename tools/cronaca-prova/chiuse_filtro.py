@@ -48,7 +48,7 @@ AMBIGUI = {"italia", "ponte", "certosa", "trieste", "colonna", "ripa", "regola",
 
 
 def luoghi_romani(gazetteer):
-    g = json.load(open(gazetteer))
+    g = json.load(open(gazetteer, encoding="utf-8"))
     nomi = {"roma", "capitale", "campidoglio", "ostia", "fiumicino aeroporto"}
     for n in g["neighbourhoods"]:
         nomi.add(norm(n["name_display"]))
@@ -62,7 +62,7 @@ def luoghi_romani(gazetteer):
 def main(base, gazetteer, dal="2026-05-29", al="2026-07-03"):
     roma = luoghi_romani(gazetteer)
     visti, out = set(), []
-    for line in open(f"{base}/gdelt/titoli.jsonl"):
+    for line in open(f"{base}/gdelt/titoli.jsonl", encoding="utf-8"):
         r = json.loads(line)
         t = r["testata"]
         if t in APERTE or r["link"] in visti:
@@ -85,7 +85,7 @@ def main(base, gazetteer, dal="2026-05-29", al="2026-07-03"):
     for i, x in enumerate(out, 1):
         x["cid"] = f"K{i:05d}"
     os.makedirs(f"{base}/chiuse", exist_ok=True)
-    json.dump(out, open(f"{base}/chiuse/candidati.json", "w"), ensure_ascii=False, indent=0)
+    json.dump(out, open(f"{base}/chiuse/candidati.json", "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     return out
 
 

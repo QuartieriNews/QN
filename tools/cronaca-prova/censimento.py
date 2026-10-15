@@ -14,6 +14,10 @@ MESE = os.environ.get("QN_MESE", "2026-06")
 ANNO, M = MESE.split("-")
 
 
+class Censimento(Exception):
+    """La testata non si è potuta censire: la risposta non è quella attesa."""
+
+
 def get(url, tries=3):
     err = None
     for _ in range(tries):
@@ -22,23 +26,31 @@ def get(url, tries=3):
             req = urllib.request.Request(url, headers={"User-Agent": UA})
             with urllib.request.urlopen(req, timeout=60) as r:
                 return r.read().decode("utf-8", "replace"), {k.lower(): v for k, v in r.headers.items()}
-        except Exception as e:  # rete instabile: si riprova, poi si segnala
+        except Exception as e:  # rete instabile: si riprova, poi è un errore, non una pagina vuota
             err = e
             time.sleep(3)
-    print("ERR", url, err, file=sys.stderr)
-    return "", {}
+    raise Censimento(f"{url}: {err}")
+
+
+def _lista(b, url):
+    """La risposta dell'API deve essere una lista JSON: un HTML di blocco o di errore
+    servito con 200 non è «fine dei dati»."""
+    try:
+        arr = json.loads(b)
+    except ValueError:
+        raise Censimento(f"{url}: risposta non interpretabile (non è JSON)")
+    if not isinstance(arr, list):
+        raise Censimento(f"{url}: risposta non interpretabile (non è una lista)")
+    return arr
 
 
 def wordpress(site):
     """API pubblica di WordPress: solo per siti il cui robots.txt non esclude /wp-json/."""
     cats, page = {}, 1
     while page <= 30:
-        b, _ = get(f"https://{site}/wp-json/wp/v2/categories?per_page=100&page={page}&_fields=id,slug")
-        try:
-            arr = json.loads(b)
-        except ValueError:
-            break
-        if not isinstance(arr, list) or not arr:
+        u = f"https://{site}/wp-json/wp/v2/categories?per_page=100&page={page}&_fields=id,slug"
+        arr = _lista(get(u)[0], u)
+        if not arr:
             break
         cats.update({c["id"]: c["slug"] for c in arr})
         if len(arr) < 100:
@@ -46,14 +58,12 @@ def wordpress(site):
         page += 1
     nxt = f"{ANNO}-{int(M) + 1:02d}" if M != "12" else f"{int(ANNO) + 1}-01"
     out, page = [], 1
-    while True:
-        b, h = get(f"https://{site}/wp-json/wp/v2/posts?after={MESE}-01T00:00:00&before={nxt}-01T00:00:00"
-                   f"&per_page=100&page={page}&_fields=id,date,link,title,categories")
-        try:
-            arr = json.loads(b)
-        except ValueError:
-            break
-        if not isinstance(arr, list) or not arr:
+    while page <= 200:
+        u = (f"https://{site}/wp-json/wp/v2/posts?after={MESE}-01T00:00:00&before={nxt}-01T00:00:00"
+             f"&per_page=100&page={page}&_fields=id,date,link,title,categories")
+        b, h = get(u)
+        arr = _lista(b, u)
+        if not arr:
             break
         out += [{"data": p["date"][:10], "link": p["link"], "titolo": html.unescape(p["title"]["rendered"]),
                  "categorie": [cats.get(c, str(c)) for c in p.get("categories", [])]} for p in arr]
@@ -66,10 +76,12 @@ def wordpress(site):
 def sitemap(site):
     """Sitemap Yoast: tutte le post-sitemap, perché l'ordine per data non è garantito."""
     b, _ = get(f"https://{site}/sitemap_index.xml")
+    mappe = [loc for loc in re.findall(r"<loc>([^<]+)</loc>", b) if "post-sitemap" in loc]
+    if not mappe:
+        raise Censimento(f"{site}: l'indice delle sitemap non elenca post-sitemap (pagina di blocco o formato cambiato)")
     urls = []
-    for loc in re.findall(r"<loc>([^<]+)</loc>", b):
-        if "post-sitemap" in loc:
-            urls += re.findall(r"<loc>([^<]+)</loc>", get(loc)[0])
+    for loc in mappe[:400]:
+        urls += re.findall(r"<loc>([^<]+)</loc>", get(loc)[0])
     out = []
     for u in sorted(set(urls)):
         m = re.search(rf"/({ANNO})/({M})/(\d\d)/([^/]+)", u)
@@ -94,6 +106,8 @@ def iltempo():
             if m and f"{m.group(2)}-{m.group(3)}" == MESE:
                 out.append({"data": f"{m.group(2)}-{m.group(3)}-{m.group(4)}", "link": u,
                             "titolo": re.sub(r"-\d+$", "", m.group(5)).replace("-", " "), "categorie": [m.group(1)]})
+    if not out:
+        raise Censimento("iltempo: nessuna sitemap giornaliera leggibile nel mese")
     return out
 
 
@@ -111,8 +125,21 @@ if __name__ == "__main__":
         sys.exit(__doc__)
     out_dir = os.path.join(sys.argv[1], "censimento")
     os.makedirs(out_dir, exist_ok=True)
+    errori = {}
     for k in sys.argv[2:] or TESTATE:
-        rows = TESTATE[k]()
-        with open(f"{out_dir}/{k}.json", "w") as f:
+        try:
+            rows = TESTATE[k]()
+        except Censimento as e:
+            # la testata fallita resta com'era (nessun file vuoto al posto del precedente)
+            errori[k] = str(e)
+            print("ERR", k, e, file=sys.stderr, flush=True)
+            continue
+        tmp = f"{out_dir}/{k}.json.{os.getpid()}.tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
             json.dump(rows, f, ensure_ascii=False, indent=0)
+        os.replace(tmp, f"{out_dir}/{k}.json")
         print(k, len(rows), flush=True)
+    with open(f"{out_dir}/errori.json", "w", encoding="utf-8") as f:
+        json.dump(errori, f, ensure_ascii=False, indent=1)
+    if errori:
+        sys.exit(f"censimento incompleto: {sorted(errori)}")

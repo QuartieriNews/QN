@@ -226,9 +226,9 @@ def main(base, mese="2026-06", fonti=None):
     c = Cliente()
     fonti = fonti or list(ELENCHI)
     # una seconda passata su alcune fonti sostituisce solo le loro voci
-    inventario = [v for v in (json.load(open(f"{out}/inventario.json")) if os.path.exists(f"{out}/inventario.json") else [])
+    inventario = [v for v in (json.load(open(f"{out}/inventario.json", encoding="utf-8")) if os.path.exists(f"{out}/inventario.json") else [])
                   if v["fonte"] not in fonti]
-    rapporto = json.load(open(f"{out}/rapporto.json")) if os.path.exists(f"{out}/rapporto.json") else {}
+    rapporto = json.load(open(f"{out}/rapporto.json", encoding="utf-8")) if os.path.exists(f"{out}/rapporto.json") else {}
     for fonte in fonti:
         t0, r = time.time(), {"errori": []}
         try:
@@ -245,7 +245,7 @@ def main(base, mese="2026-06", fonti=None):
                 v["stato"] = "ok" if ok else "rifiutato"
                 v["nota"] = nota
                 v["caratteri"] = len(t)
-                with open(f"{out}/raw/{v['id']}.txt", "w") as f:
+                with open(f"{out}/raw/{v['id']}.txt", "w", encoding="utf-8") as f:
                     f.write(t)
             except Rifiuto as e:
                 v["stato"], v["nota"] = "rifiutato", str(e)
@@ -258,8 +258,8 @@ def main(base, mese="2026-06", fonti=None):
                  secondi=round(time.time() - t0))
         rapporto[fonte] = r
         print(fonte, json.dumps(r, ensure_ascii=False), flush=True)
-        json.dump(inventario, open(f"{out}/inventario.json", "w"), ensure_ascii=False, indent=1)
-        json.dump(rapporto, open(f"{out}/rapporto.json", "w"), ensure_ascii=False, indent=1)
+        json.dump(inventario, open(f"{out}/inventario.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        json.dump(rapporto, open(f"{out}/rapporto.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     return inventario, rapporto
 
 

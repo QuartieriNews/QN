@@ -46,8 +46,39 @@ def scarica(url, tries=4):
     raise RuntimeError(f"{url}: {err}")
 
 
+def _salva_registro(reg_path, reg):
+    """Il registro è il checkpoint: scritto intero su un temporaneo e sostituito."""
+    tmp = f"{reg_path}.{os.getpid()}.tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(reg, f)
+    os.replace(tmp, reg_path)
+
+
+def _ripristina(tit_path, letti):
+    """Alla ripresa tiene solo le righe dei file registrati come letti: una
+    caduta fra la scrittura delle righe e il checkpoint non lascia doppioni."""
+    if not os.path.exists(tit_path):
+        return 0
+    tenute, scartate = [], 0
+    with open(tit_path, encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            if json.loads(line).get("file") in letti:
+                tenute.append(line)
+            else:
+                scartate += 1
+    if scartate:
+        tmp = f"{tit_path}.{os.getpid()}.tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.writelines(tenute)
+        os.replace(tmp, tit_path)
+    return scartate
+
+
 def leggi(url):
     righe = []
+    nome = url.rsplit("/", 1)[-1]
     with zipfile.ZipFile(io.BytesIO(scarica(url))) as z:
         testo = z.read(z.namelist()[0]).decode("utf-8", "replace")
     for line in testo.split("\n"):
@@ -60,7 +91,7 @@ def leggi(url):
         m = TITOLO.search(f[26])
         righe.append({"ora": f[1], "testata": t, "dominio": f[3], "link": f[4],
                       "titolo": m.group(1).strip() if m else "",
-                      "roma": "Rome, Lazio" in f[9] or "Roma, Lazio" in f[9]})
+                      "roma": "Rome, Lazio" in f[9] or "Roma, Lazio" in f[9], "file": nome})
     return righe
 
 
@@ -68,8 +99,11 @@ def main(base, dal="2026-05-29", al="2026-07-03"):
     out = os.path.join(base, "gdelt")
     os.makedirs(out, exist_ok=True)
     reg_path, tit_path = f"{out}/registro.json", f"{out}/titoli.jsonl"
-    reg = json.load(open(reg_path)) if os.path.exists(reg_path) else {"letti": [], "mancanti": {}}
+    reg = json.load(open(reg_path, encoding="utf-8")) if os.path.exists(reg_path) else {"letti": [], "mancanti": {}}
     fatti = set(reg["letti"])
+    orfane = _ripristina(tit_path, {u.rsplit("/", 1)[-1] for u in fatti})
+    if orfane:
+        print(orfane, "righe di file non registrati scartate alla ripresa", flush=True)
     a, b = dal.replace("-", ""), (dt.date.fromisoformat(al) + dt.timedelta(days=1)).isoformat().replace("-", "")
     elenco = scarica(ELENCO).decode()
     urls = sorted({l.split()[2] for l in elenco.splitlines()
@@ -77,22 +111,23 @@ def main(base, dal="2026-05-29", al="2026-07-03"):
                    and a <= l.split()[2].rsplit("/", 1)[1][:8] < b})
     todo = [u for u in urls if u not in fatti]
     print(len(urls), "file nel periodo,", len(todo), "da leggere", flush=True)
-    with open(tit_path, "a") as fo, cf.ThreadPoolExecutor(4) as ex:
+    with open(tit_path, "a", encoding="utf-8") as fo, cf.ThreadPoolExecutor(4) as ex:
         futs = {ex.submit(leggi, u): u for u in todo}
         for i, fu in enumerate(cf.as_completed(futs), 1):
             u = futs[fu]
             try:
                 for r in fu.result():
                     fo.write(json.dumps(r, ensure_ascii=False) + "\n")
+                fo.flush()
                 reg["letti"].append(u)
                 reg["mancanti"].pop(u, None)
             except Exception as e:
                 reg["mancanti"][u] = str(e)[:200]
+            # checkpoint per file: le righe sono su disco prima che il file risulti letto
+            _salva_registro(reg_path, reg)
             if i % 100 == 0:
-                fo.flush()
-                json.dump(reg, open(reg_path, "w"))
                 print(i, "letti,", len(reg["mancanti"]), "mancanti", flush=True)
-    json.dump(reg, open(reg_path, "w"))
+    _salva_registro(reg_path, reg)
     print("fine:", len(reg["letti"]), "letti,", len(reg["mancanti"]), "mancanti", flush=True)
 
 
