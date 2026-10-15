@@ -220,6 +220,15 @@ def valida(h, voce):
     return True, "", t
 
 
+def _scrivi_json(path, obj):
+    """Stato scritto intero su un temporaneo e sostituito: un'interruzione non lascia un JSON
+    troncato che blocchi la ripresa (AGENTS.md, idempotenza al ritentativo)."""
+    tmp = f"{path}.{os.getpid()}.tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, path)
+
+
 def main(base, mese="2026-06", fonti=None):
     out = os.path.join(base, "ufficiali")
     os.makedirs(f"{out}/raw", exist_ok=True)
@@ -258,8 +267,8 @@ def main(base, mese="2026-06", fonti=None):
                  secondi=round(time.time() - t0))
         rapporto[fonte] = r
         print(fonte, json.dumps(r, ensure_ascii=False), flush=True)
-        json.dump(inventario, open(f"{out}/inventario.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-        json.dump(rapporto, open(f"{out}/rapporto.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        _scrivi_json(f"{out}/inventario.json", inventario)
+        _scrivi_json(f"{out}/rapporto.json", rapporto)
     return inventario, rapporto
 
 

@@ -192,6 +192,21 @@ check("fonti_ufficiali: dopo cinque rifiuti di fila l'ente viene fermato, senza 
       "questure.poliziadistato.it" in cl.fermi)
 F.time.sleep, F.urllib.request.urlopen = sleep, urlopen
 
+# stato scritto in modo atomico: nessun temporaneo residuo, file leggibili dopo ogni fonte
+with tempfile.TemporaryDirectory() as d:
+    elenchi, cliente = F.ELENCHI, F.Cliente
+    F.ELENCHI = {"C9": lambda c, mese: ([], 1)}
+    F.Cliente = lambda: Finto({})
+    try:
+        inv, rap = F.main(d, "2026-06", ["C9"])
+    finally:
+        F.ELENCHI, F.Cliente = elenchi, cliente
+    u = os.path.join(d, "ufficiali")
+    check("fonti_ufficiali: inventario e rapporto scritti per sostituzione, senza temporanei residui",
+          sorted(f for f in os.listdir(u) if f != "raw") == ["inventario.json", "rapporto.json"]
+          and json.load(open(os.path.join(u, "rapporto.json"), encoding="utf-8"))["C9"]["comunicati_del_mese"] == 0
+          and json.load(open(os.path.join(u, "inventario.json"), encoding="utf-8")) == [])
+
 # --- gdelt_titoli: testate per dominio, righe dal file da 15 minuti
 import gdelt_titoli as G, io, zipfile  # noqa: E402
 
