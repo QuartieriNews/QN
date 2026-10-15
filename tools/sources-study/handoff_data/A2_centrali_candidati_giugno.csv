@@ -1,47 +1,47 @@
-n,tipologia,data,organo_emittente,proponente_struttura,municipio_territorio,luogo,vicenda,possibile_notizia,tempestivita,utilita_lettore
-1,GCD,04/06,Giunta Capitolina,Dip. Programmazione Urbanistica,IV,Pietralata,Print 6-6a Pietralata: opere di urbanizzazione,sì: approvati i progetti delle opere di urbanizzazione di un intervento privato a Pietralata,media,media
-2,GCD,04/06,Giunta Capitolina,Dip. Programmazione Urbanistica,IV,Pietralata,Print 6-6a Pietralata: opere di urbanizzazione,sì (stessa vicenda della n. 1),media,media
-3,GCD,11/06,Giunta Capitolina,Direzione Generale,II,Parioli-Flaminio (dal lookup; da verificare nel PDF),project financing per una concessione di servizi,da verificare: oggetto troncato,—,—
-4,GCD,11/06,Giunta Capitolina,Dip. Patrimonio e Politiche Abitative,VI,"Tor Vergata / Torrenova (via Gonin, via Romagnoli, via della Tenuta di Torrenova)",manutenzione straordinaria coperture ERP,sì: approvati i lavori sui tetti di tre complessi ERP a Torrenova,media (lavori a seguire),alta per i residenti
-5,GCD,11/06,Giunta Capitolina,Dip. Patrimonio e Politiche Abitative,IV,"San Basilio (via Tamburrano, piazza Bozzi)",manutenzione straordinaria coperture ERP,sì: lavori sui tetti ERP a San Basilio,media,alta per i residenti
-6,GCD,11/06,Giunta Capitolina,"Dip. Grandi Eventi, Sport, Turismo",III,Talenti (via di Casal Boccone 195),riqualificazione e gestione di un impianto sportivo in project financing,sì: nuovo gestore e lavori per l'impianto sportivo di via di Casal Boccone,media,alta
-7,GCD,11/06,Giunta Capitolina,Dip. Patrimonio e Politiche Abitative,X,"ex asilo nido ""I Girasoli"" (indirizzo nel PDF)",concessione di un immobile comunale per interesse generale,sì: l'ex asilo nido I Girasoli affidato in concessione,media,media
-8,GCD,18/06,Giunta Capitolina,Dip. Attività Culturali,III,via Monte Ruggero 39,"biblioteca Ennio Flaiano, progetto definitivo PNRR",sì: approvato il progetto per la biblioteca Flaiano,media,alta
-9,GCD,18/06,Giunta Capitolina,Dip. Attività Culturali,XIV,via Federico Borromeo 67,"biblioteca Franco Basaglia, progetto definitivo PNRR",sì,media,alta
-10,GCD,18/06,Giunta Capitolina,Dip. Attività Culturali,V,via Francesco Tovaglieri 237/A,"biblioteca Gianni Rodari, progetto definitivo PNRR",sì,media,alta
-11,GCD,25/06,Giunta Capitolina,Dip. Attuazione Urbanistica,VII,Vermicino / Morena (P.P. zona O n. 37),opere di urbanizzazione primaria del sub-comparto B1 Vermicino,sì: approvate le opere pubbliche del comparto Vermicino,media,media
-12,GCD,30/06,Giunta Capitolina,Dip. Programmazione Urbanistica,IV,Pietralata,strategia territoriale FESR Pietralata,debole: aggiornamento di strategia (contesto della vicenda Pietralata),bassa,bassa
-13,ACD,04/06,Assemblea Capitolina,Dip. Programmazione Urbanistica,VIII,piazzale Caduti della Montagnola,ambito di riqualificazione e recupero edilizio AMA-Montagnola,sì: l'Assemblea approva la rigenerazione del quadrante Montagnola,alta (decisione),alta
-14,ACD,09/06,Assemblea Capitolina,proposta del Municipio IV,IV (organo proponente),—,debito fuori bilancio da sentenza,no (finanziario),—,bassa
-15,ACD,09/06,Assemblea Capitolina,proposta del Municipio XII,XII,Monteverde Vecchio (via G.B. Niccolini),mercato di Monteverde Vecchio: da sede impropria a plateatico attrezzato,sì: il mercato di via Niccolini cambia assetto,alta,alta
-16,ACD,25/06,Assemblea Capitolina,proposta del Municipio VII,VII (organo proponente),—,debito fuori bilancio (interessi moratori su un contratto di servizio),no,—,bassa
-17,ACD,25/06,Assemblea Capitolina,proposta del Municipio VI,VI (organo proponente),—,debito fuori bilancio (interessi moratori),no,—,bassa
-18,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-19,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-20,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-21,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-22,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-23,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-24,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-25,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-26,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-27,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-28,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-29,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-30,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-31,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-32,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-33,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,"rigenerazione AMA-Montagnola (16 ordini del giorno: parcheggi, acqua, verde, partecipazione, bonifica, commercio)","sì, come unica notizia per i 16 documenti: le condizioni poste dall'Assemblea al progetto Montagnola",alta,alta
-34,AY,11/06,Assemblea Capitolina,odg collegato alla proposta 69/2026,X,Ostia,imprese storiche e identità balneare di Ostia,debole: impegno generico,bassa,media
-35,AY,11/06,Assemblea Capitolina,odg collegato alla proposta 69/2026,X,Ostia,infrastrutture e mobilità per Ostia,debole: impegno generico,bassa,media
-36,AY,23/06,Assemblea Capitolina,odg collegato alla proposta 77/2026 (piano parcheggi),II,Lungotevere Flaminio,effetti di un intervento del piano parcheggi sul Lungotevere Flaminio,"sì, insieme alla delibera 77/2026: cosa cambia nel piano parcheggi per il quartiere",media,media
-37,AY,23/06,Assemblea Capitolina,odg collegato alla 77/2026,IV,Pietralata,parcheggi di scambio prima dell'entrata in esercizio dell'impianto sportivo di Pietralata,sì (vicenda Pietralata),media,alta
-38,AY,23/06,Assemblea Capitolina,odg collegato alla 77/2026,IX,"Eur (viale Europa, via delle Tre Fontane)",parcheggio interrato all'Eur nel nuovo PUP,sì,media,media
-39,AZ,18/06,Assemblea Capitolina,mozione,III,Settebagni (slargo davanti a un parco),intitolazione di uno slargo,sì (breve): avviato l'iter per intitolare uno slargo a Settebagni,bassa,media
-40,AZ,18/06,Assemblea Capitolina,mozione,I,"Esquilino (via Carlo Felice, piazza Vittorio, piazza Pepe)",impianti sportivi nelle aree dell'Esquilino,sì: la mozione chiede impianti sportivi all'Esquilino,media,media
-41,AZ,25/06,Assemblea Capitolina,mozione,IX,Torrino Nord (ex Stardust Village),bando per la struttura ex Stardust Village,sì,media,alta
-42,AZ,25/06,Assemblea Capitolina,mozione,X,Ostia – Eur – centro,servizio notturno estivo nel fine settimana (Ostia Saturday Night Line),sì: chiesto il bus notturno estivo per Ostia,alta (estate),alta
-43,AZ,25/06,Assemblea Capitolina,mozione,VIII,viale Marconi / via del Valco San Paolo (incrocio),black point stradale,sì: l'incrocio candidato a black point,media,alta
-44,GCM,24/06,Giunta Capitolina (memoria),Gabinetto del Sindaco,XV / I,Foro Italico e Centro Storico,"evento Vespa 2026, 25–28 giugno",sì ma già annunciato altrove (E2/E3): l'atto aggiunge poco,alta (evento a 1 giorno),media
-45,GCM,24/06,Giunta Capitolina (memoria),Dip. Patrimonio e Politiche Abitative,X,Ostia,sede temporanea del distaccamento dei Vigili del Fuoco di Ostia,sì: cercasi sede temporanea per i Vigili del Fuoco di Ostia,alta,alta
-46,GCM,30/06,Giunta Capitolina (memoria),Dip. Attività Culturali,"I (il lookup dà ""massimina"" perché ""Santa Cecilia"" è un alias di quella zona: falso positivo)",Basilica di Massenzio,interesse pubblico di una rassegna musicale,sì ma già in E2/E3,alta,bassa
+n,tipologia,data,organo_emittente,proponente_struttura,municipio_territorio,luogo,tempestivita,utilita_lettore
+1,GCD,04/06,Giunta Capitolina,Dip. Programmazione Urbanistica,IV,Pietralata,media,media
+2,GCD,04/06,Giunta Capitolina,Dip. Programmazione Urbanistica,IV,Pietralata,media,media
+3,GCD,11/06,Giunta Capitolina,Direzione Generale,II,Parioli-Flaminio (dal lookup; da verificare nel PDF),—,—
+4,GCD,11/06,Giunta Capitolina,Dip. Patrimonio e Politiche Abitative,VI,"Tor Vergata / Torrenova (via Gonin, via Romagnoli, via della Tenuta di Torrenova)",media (lavori a seguire),alta per i residenti
+5,GCD,11/06,Giunta Capitolina,Dip. Patrimonio e Politiche Abitative,IV,"San Basilio (via Tamburrano, piazza Bozzi)",media,alta per i residenti
+6,GCD,11/06,Giunta Capitolina,"Dip. Grandi Eventi, Sport, Turismo",III,Talenti (via di Casal Boccone 195),media,alta
+7,GCD,11/06,Giunta Capitolina,Dip. Patrimonio e Politiche Abitative,X,"ex asilo nido ""I Girasoli"" (indirizzo nel PDF)",media,media
+8,GCD,18/06,Giunta Capitolina,Dip. Attività Culturali,III,via Monte Ruggero 39,media,alta
+9,GCD,18/06,Giunta Capitolina,Dip. Attività Culturali,XIV,via Federico Borromeo 67,media,alta
+10,GCD,18/06,Giunta Capitolina,Dip. Attività Culturali,V,via Francesco Tovaglieri 237/A,media,alta
+11,GCD,25/06,Giunta Capitolina,Dip. Attuazione Urbanistica,VII,Vermicino / Morena (P.P. zona O n. 37),media,media
+12,GCD,30/06,Giunta Capitolina,Dip. Programmazione Urbanistica,IV,Pietralata,bassa,bassa
+13,ACD,04/06,Assemblea Capitolina,Dip. Programmazione Urbanistica,VIII,piazzale Caduti della Montagnola,alta (decisione),alta
+14,ACD,09/06,Assemblea Capitolina,proposta del Municipio IV,IV (organo proponente),—,—,bassa
+15,ACD,09/06,Assemblea Capitolina,proposta del Municipio XII,XII,Monteverde Vecchio (via G.B. Niccolini),alta,alta
+16,ACD,25/06,Assemblea Capitolina,proposta del Municipio VII,VII (organo proponente),—,—,bassa
+17,ACD,25/06,Assemblea Capitolina,proposta del Municipio VI,VI (organo proponente),—,—,bassa
+18,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+19,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+20,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+21,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+22,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+23,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+24,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+25,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+26,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+27,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+28,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+29,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+30,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+31,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+32,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+33,AY,04/06,Assemblea Capitolina,ordine del giorno collegato alla proposta 55/2026,VIII,Montagnola,alta,alta
+34,AY,11/06,Assemblea Capitolina,odg collegato alla proposta 69/2026,X,Ostia,bassa,media
+35,AY,11/06,Assemblea Capitolina,odg collegato alla proposta 69/2026,X,Ostia,bassa,media
+36,AY,23/06,Assemblea Capitolina,odg collegato alla proposta 77/2026 (piano parcheggi),II,Lungotevere Flaminio,media,media
+37,AY,23/06,Assemblea Capitolina,odg collegato alla 77/2026,IV,Pietralata,media,alta
+38,AY,23/06,Assemblea Capitolina,odg collegato alla 77/2026,IX,"Eur (viale Europa, via delle Tre Fontane)",media,media
+39,AZ,18/06,Assemblea Capitolina,mozione,III,Settebagni (slargo davanti a un parco),bassa,media
+40,AZ,18/06,Assemblea Capitolina,mozione,I,"Esquilino (via Carlo Felice, piazza Vittorio, piazza Pepe)",media,media
+41,AZ,25/06,Assemblea Capitolina,mozione,IX,Torrino Nord (ex Stardust Village),media,alta
+42,AZ,25/06,Assemblea Capitolina,mozione,X,Ostia – Eur – centro,alta (estate),alta
+43,AZ,25/06,Assemblea Capitolina,mozione,VIII,viale Marconi / via del Valco San Paolo (incrocio),media,alta
+44,GCM,24/06,Giunta Capitolina (memoria),Gabinetto del Sindaco,XV / I,Foro Italico e Centro Storico,alta (evento a 1 giorno),media
+45,GCM,24/06,Giunta Capitolina (memoria),Dip. Patrimonio e Politiche Abitative,X,Ostia,alta,alta
+46,GCM,30/06,Giunta Capitolina (memoria),Dip. Attività Culturali,"I (il lookup dà ""massimina"" perché ""Santa Cecilia"" è un alias di quella zona: falso positivo)",Basilica di Massenzio,alta,bassa

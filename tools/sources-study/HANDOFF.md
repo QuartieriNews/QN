@@ -41,6 +41,21 @@ controlli Codex).
   `cd gazetteer && python ../tests/test_guards.py` e `node tests/test_parse_duration.js`; righe di attribuzione
   della tua sessione nei messaggi di commit. Nessuna PR se l'owner non la chiede.
 
+## 2-bis. Colonne tolte da `handoff_data/` il 15 ottobre 2026 (DEC-104, DEC-105 §1)
+
+Revisione Codex della PR #15, lotto 3: nove CSV portavano testo per item delle fonti
+(titoli di notizie, atti e video; descrizioni con gli ordini del giorno; in un caso un nome
+di persona dentro un ordine del giorno). Decisione dell'owner: togliere le colonne, senza
+copia su Drive; le versioni complete restano nella storia git (commit `33a12d6` e
+precedenti). Colonne rimosse: `A4_youtube_giugno2026_censimento.csv` (`titolo`,
+`argomento_descrizione`, `verbale_match_oggetto`, `convocazione_match_oggetto`);
+`A3_romatv_giugno2026_censimento.csv` (`titolo`, `descrizione`); `A3_speech_stats_giugno.csv`,
+`A3_campione_selezione.csv` (`titolo`); `A4_campione_selezione.csv` (`titolo`, `tema`);
+`A1xA2_campione60.csv` (`A1_titolo`, `A2_oggetto`); `DDSxA1_campione30.csv` (`A1_titolo`);
+`A2_approfondimento_pdf_campione.csv` (`contenuto`); `A2_centrali_candidati_giugno.csv`
+(`vicenda`, `possibile_notizia`). ID, URL, date, durate, conteggi ed etichette dello studio
+restano: gli item si ritrovano dall'URL o dal `guid`.
+
 ## 3. Stato al passaggio (15 settembre, 20:15 ora italiana)
 - Fatti: censimenti dell'intero mese per tutte le fonti (`handoff_data/`: A1, A2, DDS, centrali, C1–C5, E2, E3,
   A3 RomaTV, A4 YouTube, campioni di audit, confidenze delle 82 trascrizioni RomaTV); lotto di misura su Opus 5
