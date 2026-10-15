@@ -34,20 +34,24 @@ random.seed('2026-06-SO'); resto_so=[a for a in so if a not in so_t]; picks+=[('
 random.seed('2026-06-CID'); cid=load('CID'); picks+=[('CID',random.choice(cid))] if cid else []
 picks+=[('MCD',load('MCD')[0]),('OCD',load('OCD')[0])]
 if not picks: sys.exit('a2_deep: nessun atto da campionare: elenchi vuoti')
-rows=[]
+rows=[]; falliti=0
 for i,(c,a) in enumerate(picks):
     u=B+(a.get('urlFile') or ''); f=f'A2_deep/{i:02d}_{c}.pdf'
     if not os.path.exists(f):
         try:
             time.sleep(1.3)   # Atti Web: una richiesta ogni 1,3 s (HANDOFF §2)
-            r=requests.get(u,headers=H,timeout=120); open(f,'wb').write(r.content)
-        except Exception as e: print('DL ERR',c,e); continue
+            r=requests.get(u,headers=H,timeout=120)
+            if r.status_code!=200: raise RuntimeError(f'HTTP {r.status_code}')   # un corpo di errore non e' un PDF
+            open(f,'wb').write(r.content)
+        except Exception as e: print('DL ERR',c,e); falliti+=1; continue
     try:
-        doc=fitz.open(f); pages=doc.page_count; txt='\n'.join(p.get_text() for p in doc); doc.close()
-    except Exception as e: pages=0; txt=''; print('PDF ERR',c,f,str(e)[:80])
-    open(f.replace('.pdf','.txt'),'w').write(txt)
-    verdict='TESTO' if len(txt.strip())>200 else 'SCANSIONE'
+        doc=fitz.open(f); pages=doc.page_count; txt='\n'.join(p.get_text() for p in doc); doc.close(); errore=False
+    except Exception as e: pages=0; txt=''; errore=True; print('PDF ERR',c,f,str(e)[:80]); falliti+=1
+    open(f.replace('.pdf','.txt'),'w',encoding='utf-8').write(txt)
+    verdict='ERRORE' if errore else ('TESTO' if len(txt.strip())>200 else 'SCANSIONE')   # un PDF illeggibile non e' una scansione
     rows.append({'i':i,'tip':c,'url':u,'data':clean(a.get('dtRpr'))[:10],'struttura':clean(a.get('dscStrOrg'))[:70],'oggetto':clean(a.get('oggetto'))[:220],'pagine':pages,'caratteri':len(txt.strip()),'esito':verdict,'size':os.path.getsize(f)})
     print(i,c,verdict,pages,len(txt.strip()),os.path.getsize(f),'|',rows[-1]['struttura'][:40],'|',rows[-1]['oggetto'][:90],flush=True)
 json.dump(rows,open('A2_deep/pdf_rows.json','w'),ensure_ascii=False,indent=1)
 print('TOTAL PDF',len(rows),'testo',sum(1 for r in rows if r['esito']=='TESTO'))
+if falliti:   # campione incompleto: dichiarato con il codice di uscita (HANDOFF §5)
+    print('FALLITI',falliti); sys.exit(1)

@@ -9,6 +9,8 @@ rows=list(csv.DictReader(open(R+'/manifest_report1.csv',encoding='utf-8')))
 # context switch per item.
 by={}
 for r in rows: by.setdefault(r['fonte'],[]).append(r)
+import glob
+for vecchio in glob.glob(R+'/batches/L*.txt'): os.remove(vecchio)   # rigenerazione pulita: nessun lotto vecchio resta a fianco dei nuovi
 n=0; index=[]; fuori=[]
 for fonte in sorted(by):
     items=sorted(by[fonte],key=lambda r:(r.get('data_pubblicazione') or '', r['id']))

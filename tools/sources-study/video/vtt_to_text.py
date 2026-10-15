@@ -1,5 +1,5 @@
 import sys,re,glob,os
-def convert(path, step=30):
+def convert(path, step=10):   # marcatori a 10 secondi (HANDOFF §4, punto 4)
     lines=open(path,encoding='utf-8',errors='replace').read().splitlines()
     out=[]; last=-step; words=0; cur=None
     for ln in lines:

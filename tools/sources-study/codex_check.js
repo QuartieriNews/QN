@@ -25,8 +25,13 @@ const files = args('file');
 const out = arg('out');
 const effort = arg('effort', 'high');
 // Tetti chiusi (AGENTS.md, costo): oltre la soglia il controllo non parte.
-const MAX_INPUT_CHARS = Number(arg('max-input-chars', 1500000));
-const MAX_OUTPUT_TOKENS = Number(arg('max-output-tokens', 30000));
+const limite = (nome, predefinito, massimo) => {   // un tetto non numerico o fuori intervallo non e' un tetto: ci si ferma
+  const v = Number(arg(nome, predefinito));
+  if (!Number.isInteger(v) || v <= 0 || v > massimo) { console.error(`--${nome}: atteso un intero fra 1 e ${massimo}, ricevuto ${arg(nome, predefinito)}`); process.exit(2); }
+  return v;
+};
+const MAX_INPUT_CHARS = limite('max-input-chars', 1500000, 4000000);
+const MAX_OUTPUT_TOKENS = limite('max-output-tokens', 30000, 100000);
 const dryRun = process.argv.includes('--dry-run');
 
 if (!control || !mandateFile || files.length === 0) {
