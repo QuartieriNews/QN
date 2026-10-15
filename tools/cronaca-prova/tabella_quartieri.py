@@ -20,8 +20,9 @@ Scrive DIR/tabella/fatti.json (per Drive), DIR/tabella/per_pagina.csv e DIR/tabe
 (solo conteggi: si possono versionare; `seconda_fonte` dice da dove viene la seconda fonte dei
 fatti «stampa_due_fonti», `abbinamenti_a_fatti_esclusi` quanti abbinamenti puntano a un fatto noto
 ma fuori tabella: fuori mese, fuori Roma, non cronaca).
-Gli abbinamenti devono citare `cid` noti, una volta sola, e fatti noti (ISTRUZIONI_CHIUSE.md):
-altrimenti il programma si ferma.
+Gli abbinamenti devono coprire ogni `cid` una volta sola e citare fatti noti, e ogni «ufficiale»
+dei fatti delle testate aperte deve essere l'id di una scheda (ISTRUZIONI_CHIUSE.md,
+ISTRUZIONI_INVERSO.md): altrimenti il programma si ferma.
 """
 import collections, csv, glob, json, os, sys
 
@@ -61,9 +62,10 @@ def main(base, matrice, ufficiali, aperte, mese=None):
     abb = jl(sorted(glob.glob(f"{base}/chiuse/abbinamenti_*.jsonl")))
     nuovi = jl(sorted(glob.glob(f"{base}/chiuse/nuovi_*.jsonl")))
     luoghi = {x["fid"]: x for x in jl(glob.glob(f"{base}/luoghi/luoghi_esito.jsonl"))}
-    fatti, noti = {}, set()   # noti: ogni id che un abbinamento può citare, anche se escluso dalla tabella
+    fatti, noti, ids_uff = {}, set(), set()   # noti: ogni id che un abbinamento può citare, anche se escluso
     for s in jl(ufficiali):
         noti.add(s["id"])
+        ids_uff.add(s["id"])
         if s["fuori_roma"]:
             continue
         fatti[s["id"]] = {"id": s["id"], "origine": "ufficiale", "data": s["data_fatto"] or s["data_pubblicazione"],
@@ -82,11 +84,14 @@ def main(base, matrice, ufficiali, aperte, mese=None):
         if x["fid"] in fus_aperte:
             rimandati.append((fus_aperte[x["fid"]], testate))
             continue
-        if x.get("ufficiale") in fatti:
-            f = fatti[x["ufficiale"]]
-            f["aperte"] |= testate
-            f["editori"] |= {EDITORE_APERTE.get(t, t) for t in testate}
-            continue
+        if x.get("ufficiale"):
+            if x["ufficiale"] not in ids_uff:   # ISTRUZIONI_INVERSO.md, punto 3: l'id di una scheda ufficiale
+                sys.exit(f"tabella_quartieri: il fatto {x['fid']} cita un id ufficiale ignoto: {x['ufficiale']}")
+            if x["ufficiale"] in fatti:
+                f = fatti[x["ufficiale"]]
+                f["aperte"] |= testate
+                f["editori"] |= {EDITORE_APERTE.get(t, t) for t in testate}
+            continue   # stesso evento di una scheda ufficiale fuori Roma: escluso con lei
         l = luoghi.get(x["fid"], {})
         livello = l.get("livello") or x.get("livello")
         if livello in ("fuori", "non_cronaca"):
@@ -117,9 +122,14 @@ def main(base, matrice, ufficiali, aperte, mese=None):
         sys.exit(f"tabella_quartieri: cid ripetuti negli abbinamenti (lotto letto due volte?): {doppi}")
     if [c for c in cids if c not in chiuse]:
         sys.exit(f"tabella_quartieri: cid ignoti negli abbinamenti: {sorted(c for c in cids if c not in chiuse)}")
+    if set(chiuse) - set(cids):   # una riga per ogni cid, nessuno escluso (ISTRUZIONI_CHIUSE.md)
+        sys.exit(f"tabella_quartieri: candidati senza abbinamento: {sorted(set(chiuse) - set(cids))[:20]}")
+    senza = sorted(a["cid"] for a in abb if a.get("classe") == "cronaca_roma" and not a.get("fatto"))
+    if senza:   # cronaca romana va a un fatto noto o a un fatto nuovo, mai a nulla
+        sys.exit(f"tabella_quartieri: titoli cronaca_roma senza fatto: {senza}")
     esclusi = 0
     for a in abb:
-        if a.get("classe") != "cronaca_roma" or not a.get("fatto"):
+        if a.get("classe") != "cronaca_roma":
             continue
         dest = fusioni.get(a["fatto"], fus_aperte.get(a["fatto"], a["fatto"]))
         f, c = fatti.get(dest), chiuse[a["cid"]]

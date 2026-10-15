@@ -9,7 +9,7 @@ delle possibili soluzioni.»
 
 Questo documento è un'analisi del builder, non una decisione. Ciò che cambia il perimetro
 deciso è raccolto in §7 come `OWNER_DECISION_REQUIRED` e nella bozza
-`decisions/DEC-108-press-in-cronaca.md` (OPEN). Le righe per fatto, con titoli e link
+`decisions/DEC-108-press-in-cronaca.md` (DECIDED l'11 ottobre per l'MVP, §4.5–4.6). Le righe per fatto, con titoli e link
 delle testate, stanno nel foglio `cronaca_giugno_2026_testate.xlsx`, da caricare su Drive
 (`QN Hub / 20 Packages / Fonti 2026-06`). Qui restano procedure e conteggi (DEC-102,
 DEC-104).
@@ -21,7 +21,7 @@ DEC-104).
   Procura, Vigili del Fuoco, Polizia Locale, Guardia di Finanza. Le testate giornalistiche
   non sono una fonte prevista. Il 9 ottobre l'owner ha confermato «Solo fonti ufficiali» per
   la tabella di giugno. Questa analisi misura le testate perché l'owner lo ha chiesto, ma
-  il loro uso è una scelta ancora aperta (DEC-108).
+  il loro uso era allora una scelta aperta (DEC-108, decisa l'11 ottobre: §4.5–4.6).
 - **Nomi.** DEC-016, opzione B: i nomi presenti nelle fonti ufficiali si riproducono in
   automatico, con verifica della seconda AI. Minori, vittime, testimoni, familiari e dati
   sensibili vanno in coda manuale. La capacità «nomi» resta spenta fino al parere legale

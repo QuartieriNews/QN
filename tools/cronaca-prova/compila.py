@@ -97,7 +97,7 @@ def avanti(base):
     return R, righe
 
 
-def inversa(base, attive, pagine_uff, presenze_uff):
+def inversa(base, attive, pagine_uff, presenze_uff, ufficiali=None):
     cand = {c["sid"]: c for c in json.load(open(f"{base}/censimento/candidati.json"))}
     fatti = [x for p in sorted(glob.glob(f"{base}/inverso/fatti_*.jsonl")) for x in jl(p)]
     scarti = [x for p in sorted(glob.glob(f"{base}/inverso/scarti_*.jsonl")) for x in jl(p)]
@@ -111,6 +111,10 @@ def inversa(base, attive, pagine_uff, presenze_uff):
         sys.exit(f"compila: sid che non sono fra i candidati: {sorted(s for s in sids if s not in cand)}")
     if set(cand) - set(sids):
         sys.exit(f"compila: candidati senza esito nella passata inversa: {sorted(set(cand) - set(sids))[:20]}")
+    # «ufficiale» deve essere l'id di un fatto ufficiale del lotto (ISTRUZIONI_INVERSO.md, punto 3)
+    if ufficiali is not None and {x["ufficiale"] for x in fatti if x.get("ufficiale")} - set(ufficiali):
+        sys.exit(f"compila: fatti abbinati a id ufficiali ignoti: "
+                 f"{sorted({x['ufficiale'] for x in fatti if x.get('ufficiale')} - set(ufficiali))}")
     solo = [x for x in fatti if not x.get("ufficiale")]
     due = [x for x in solo if len(set(x["testate"])) >= 2]
     tit = lambda x: " ".join(cand[s]["titolo"] for s in x["sid"] if s in cand)
@@ -169,7 +173,7 @@ def main(base, matrice):
     pagine_uff = {r["slug"] for r in rows if int(r["Cronaca propri"]) > 0}
     presenze_uff = sum(int(r["Cronaca propri"]) for r in rows)
     ra, righe_a = avanti(base)
-    ri, righe_i = inversa(base, attive, pagine_uff, presenze_uff)
+    ri, righe_i = inversa(base, attive, pagine_uff, presenze_uff, set(carica_avanti(base)[0]))
     ri["scenari"]["A_ufficiali_pubbliche"]["fatti"] = ra["fatti_ufficiali_roma"]
     cens = {os.path.basename(p)[:-5]: len(json.load(open(p))) for p in sorted(glob.glob(f"{base}/censimento/*.json"))
             if not p.endswith("candidati.json")}

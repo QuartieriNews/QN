@@ -125,6 +125,10 @@ with tempfile.TemporaryDirectory() as d:
         manc = "senza esito" in str(e)
     os.rename(f"{d}/scarti_via", f"{d}/inverso/scarti_1.jsonl")
     check("compila: un candidato senza esito ferma la compilazione", manc)
+    check("compila: un fatto abbinato a un id ufficiale ignoto ferma la compilazione",
+          fallisce("ufficiali ignoti", f"{d}/inverso/fatti_2.jsonl",
+                   [{"fid": "P9-001", "sid": [], "testate": ["Dire"], "data": "2026-06-03", "tipo": "furto", "fatto": "w",
+                     "luogo": None, "pagina_qn": None, "livello": "citta", "ufficiale": "Q", "corrispondenza": "certa"}], True))
 
 # --- fonti_ufficiali: elenchi per fonte su pagine sintetiche, riconoscimento dei blocchi
 import fonti_ufficiali as F  # noqa: E402
@@ -456,6 +460,25 @@ with tempfile.TemporaryDirectory() as d:
         ign = "ignoto" in str(e)
     scrivi(f"{d}/chiuse/abbinamenti_1.jsonl", orig, jsonl=True)
     check("tabella_quartieri: un abbinamento a un fatto ignoto ferma la tabella (uno a un fatto escluso no, sopra)", ign)
+
+    def rifiuta_abb(parola, righe):
+        scrivi(f"{d}/chiuse/abbinamenti_1.jsonl", righe, jsonl=True)
+        try:
+            TQ.main(d, f"{d}/matrice.csv", [f"{d}/uff.jsonl"], [f"{d}/aperte.jsonl"]); esito = False
+        except SystemExit as e:
+            esito = parola in str(e)
+        scrivi(f"{d}/chiuse/abbinamenti_1.jsonl", orig, jsonl=True)
+        return esito
+    check("tabella_quartieri: un candidato senza riga di abbinamento ferma la tabella",
+          rifiuta_abb("senza abbinamento", orig[:-1]))
+    check("tabella_quartieri: un titolo cronaca_roma senza fatto ferma la tabella",
+          rifiuta_abb("senza fatto", orig[:-1] + [{"cid": "K6", "classe": "cronaca_roma", "fatto": None}]))
+    scrivi(f"{d}/aperte.jsonl", [ap("P1", ["Abitare a Roma"], "prati"), ap("P4", ["Dire"], None, uff="CR-9")], jsonl=True)
+    try:
+        TQ.main(d, f"{d}/matrice.csv", [f"{d}/uff.jsonl"], [f"{d}/aperte.jsonl"]); uff_ign = False
+    except SystemExit as e:
+        uff_ign = "ufficiale ignoto" in str(e)
+    check("tabella_quartieri: un fatto delle aperte che cita una scheda ufficiale ignota ferma la tabella", uff_ign)
     # doppione fra fatti delle testate aperte e fatto su più pagine
     scrivi(f"{d}/aperte.jsonl", [ap("P1", ["Abitare a Roma"], "prati"), ap("P2", ["Il Tempo"], "ostia"),
                                  ap("P3", ["Roma Daily News"], "trieste"), ap("P4", ["Dire"], None, uff="CR-1"),
