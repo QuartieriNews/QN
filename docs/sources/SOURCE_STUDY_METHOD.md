@@ -252,7 +252,7 @@ le esecuzioni previste per workflow e cadenza, non il numero di notizie.
 
 1. **Registro fonti** (S2-05) con una scheda per fonte e gli aggregati di conteggio; i CSV
    per item su Drive (§4.2).
-2. **Rapporto dello studio** (`docs/sources/SOURCE_STUDY_2026-09.md`): copertura per
+2. **Rapporto dello studio** (previsto come `docs/sources/SOURCE_STUDY_2026-09.md`; consegnato come `SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md`, `FATTIBILITA_RICOSTRUZIONE_2026-06.md`, `RICOSTRUZIONE_2026-06_REPORT1.md` e `RICOSTRUZIONE_2026-06_REPORT2.md`): copertura per
    Municipio e per zona e per argomento; resa dopo la deduplicazione; gap e complessità
    attese; raccomandazione per fonte; costi misurati; i tre scenari; le proposte, i problemi
    residui e le domande circoscritte per l'owner, ciascuna con prove, esempi, alternative,

@@ -7,7 +7,7 @@ S=os.environ['QN_NET']
 fonte, csvname, key, delay = sys.argv[1], sys.argv[2], sys.argv[3], float(sys.argv[4])
 base = sys.argv[5] if len(sys.argv)>5 else ''
 out=f'{S}/{fonte}_items'; os.makedirs(out,exist_ok=True)
-log=open(f'{S}/logs/fetch_{fonte}.log','a')
+os.makedirs(f'{S}/logs',exist_ok=True); log=open(f'{S}/logs/fetch_{fonte}.log','a')
 def say(*a): print(*a,file=log,flush=True)
 from page_checks import rifiuto
 

@@ -8,8 +8,9 @@ STOP=set('della delle dello degli nella nelle sulla sulle quindi anche perché q
 def words(t): return [w for w in re.findall(r"[a-zàèéìòù]{5,}", t.lower()) if w not in STOP]
 def main(vid):
     rows={r['id']:r for r in csv.DictReader(open('deliver_video/A4_youtube_giugno2026_censimento.csv'))}
-    r=rows.get(vid) or {'titolo':'(fuori censimento)','territorio':'','data_seduta':'','durata_hm':''}
-    out={'id':vid,'titolo':r['titolo'],'territorio':r['territorio'],'data_seduta':r['data_seduta'],'durata_hm':r['durata_hm']}
+    r=rows.get(vid) or {'territorio':'','data_seduta':'','durata_hm':''}
+    # il censimento non porta piu' il titolo (HANDOFF §2-bis): l'id e la data identificano la registrazione
+    out={'id':vid,'territorio':r['territorio'],'data_seduta':r['data_seduta'],'durata_hm':r['durata_hm']}
     cap=f'caps/{vid}.it.json3'
     if not os.path.exists(cap): out['trascrizione']='assente'; print(json.dumps(out,ensure_ascii=False)); return
     text,st=convert(cap); open(f'caps/{vid}.it.txt','w').write(text)

@@ -6,7 +6,7 @@
 | Approfondimento | §7: eseguito il 15 settembre pomeriggio su autorizzazione dell'owner (31 PDF, 0 €), conclusioni provvisorie |
 | Cosa corregge | Il rapporto intermedio dichiara "17 tipologie" per A2: le tipologie interrogate il 15 settembre (mattina) sono **16**, 15 con risultati e 1 con errore del portale (§2). Il numero 1.426 è la somma dei 15 codici con risultati e non cambia |
 | Letture | 15 settembre 2026: interrogazioni originali 10:42–10:47; sweep di tutte le tipologie 12:05–12:20; esempi e controlli 12:20–12:40 (Europe/Rome) |
-| Dati per item | Drive `QN Hub / 20 Packages / Fonti 2026-06/`: `A2_DDS_2026-06_items_compact_part1..4.csv`, `A2_centrali_2026-06_items_compact_part1..2.csv` (URL, date, struttura, esiti del lookup; nessun oggetto integrale, nessun nome) |
+| Dati per item | Drive `QN Hub / 20 Packages / Fonti 2026-06/`: `A2_DDS_2026-06_items_compact_part1..4.csv` (nel repository, `tools/sources-study/handoff_data/`, la stessa serie è in due parti, `part1..2`), `A2_centrali_2026-06_items_compact_part1..2.csv` (URL, date, struttura, esiti del lookup; nessun oggetto integrale, nessun nome) |
 | Stato del dato | M = misurato sul portale con URL e ora; S = stimato, con l'ipotesi; — = mancante |
 
 ## 1. Come sono state selezionate le tipologie il 15 settembre (mattina)
@@ -105,7 +105,7 @@ deterministicamente nell'oggetto (lookup del gazetteer più "Municipio N"), su n
 
 Riepilogo: 16 interrogate il 15/09 mattina (15 con risultati, 1 senza); nello sweep 28 codici con
 risultati a giugno e 20 senza; 15 codici entrano nel conteggio di 1.426; 8 codici centrali con
-risultati sono "da decidere" (CPC, ACD, GCD, DDS, GCM, AZ, SO, AY, più CPV: 9 con CPV).
+risultati sono "da decidere" (CPC, ACD, GCD, DDS, GCM, AZ, SO, AY); con CPV, che ha risultati ma è una tipologia a sé, sono 9.
 
 ## 4. Le categorie centrali contengono informazioni per i quartieri? (verifica su esempi reali)
 

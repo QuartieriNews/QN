@@ -9,8 +9,10 @@ Non sono code node della pipeline (`code-nodes/`): non girano in n8n, non hanno
 il pattern one-source/two-contexts e non producono dati di produzione. Girano
 dallo scratchpad della sessione, con il proxy dell'ambiente (`REQUESTS_CA_BUNDLE`)
 e senza credenziali: nessun file contiene chiavi o token. I dati che producono
-restano nello scratchpad e, in forma aggregata e senza nomi di persona, in
-`QN Hub / 20 Packages / Fonti 2026-06/` (DEC-102, DEC-104).
+restano nello scratchpad e, in forma aggregata, in `QN Hub / 20 Packages / Fonti 2026-06/`
+(DEC-102, DEC-104). I nomi delle persone nei dati seguono DEC-105 (si scrivono quando sono
+pertinenti al fatto, `report2/SPECIFICA_NOMI_E_TERRITORIO.md`); nel repository i dati per item
+non entrano comunque.
 
 | Gruppo | File | Cosa fanno |
 |---|---|---|

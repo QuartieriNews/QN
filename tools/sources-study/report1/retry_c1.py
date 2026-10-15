@@ -9,7 +9,7 @@ from page_checks import rifiuto  # the fetcher uses the same rule
 S=os.environ['QN_NET']
 H={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8','Accept-Language':'it-IT,it;q=0.9'}
-log=open(S+'/logs/retry_c1.log','a')
+os.makedirs(S+'/logs',exist_ok=True); log=open(S+'/logs/retry_c1.log','a')
 def say(*a): print(*a,file=log,flush=True)
 rows=list(csv.DictReader(open(S+'/deliver/C1_2026-06_items.csv',encoding='utf-8')))
 ok=blocchi=consecutivi=0

@@ -102,4 +102,4 @@ le fonti ufficiali danno 111 comunicati contro 109 (Questura 81 contro 79, Carab
   solo canali ammessi dal robots.txt; testate chiuse solo come titolo, link e ora dall'indice GDELT.
 - Test prima di ogni commit: `test_guards.py` (ALL PASS, 37), `test_parse_duration.js` (ALL PASS),
   `test_cronaca_prova.py` (ALL PASS). Nessuna PR aperta.
-- Nessun nome di persona nel repository (DEC-105); nessun titolo o link nei conteggi.
+- Nel repository nessun dato per item, quindi nessun testo, titolo, link o nome preso dalle fonti; i nomi delle persone nei dati su Drive seguono DEC-105.

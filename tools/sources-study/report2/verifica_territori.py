@@ -74,7 +74,9 @@ def main():
     # stesse righe, non un campione nuovo a ogni esecuzione.
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 20
     rng = random.Random('territori-2026-09-17')
-    campione = rng.sample([r for r in righe if (r.get('quartiere') or '').strip()], n)
+    popolazione = [r for r in righe if (r.get('quartiere') or '').strip()]
+    n = min(n, len(popolazione))   # un sottoinsieme piccolo non e' un errore: campione piu' corto, dichiarato
+    campione = rng.sample(popolazione, n) if n else []
     fuori = DB + '/campione_territori.csv'
     with open(fuori, 'w', newline='', encoding='utf-8') as f:
         w = csv.DictWriter(f, fieldnames=['id', 'fonte', 'titolo', 'luoghi', 'municipio',

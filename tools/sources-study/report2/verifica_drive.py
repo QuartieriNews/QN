@@ -50,7 +50,7 @@ def confronta(cartella_parti, testi, id_di=None):
                 # una stringa JSON dentro un'altra, con le virgolette sfuggite, e la forma
                 # letterale non si trova. L'id da solo e' gia' un legame forte: trentatre
                 # caratteri unici subito dopo il contenuto.
-                if id_di is None or id_di.get(nome, '\x00') in coda:
+                if id_di is None or (nome in id_di and id_di[nome] in coda):
                     trovato = True
                     break
                 i = t.find(atteso, i + 1)
@@ -82,8 +82,14 @@ if __name__ == '__main__':
     # Solo i registri di **questo** caricamento: `drive_caricati.txt` senza suffisso e' quello
     # della consegna precedente, e per i dieci nomi che si ripetono darebbe l'id del file vecchio.
     registri = glob.glob(os.path.dirname(sys.argv[1].rstrip('/')) + '/drive_caricati[2_]*.txt')
-    id_di = id_caricati(registri)
-    print('id di caricamento noti: %d (da %d registri)' % (len(id_di), len(registri)))
+    if not registri:   # senza registro si controlla solo il contenuto, e lo si dice
+        print('ATTENZIONE: nessun registro drive_caricati*.txt: verifica sul solo contenuto, senza id di caricamento')
+        id_di = None
+    else:
+        id_di = id_caricati(registri)
+        if not id_di:
+            sys.exit('registri di caricamento presenti ma senza id leggibili: impossibile verificare per id')
+        print('id di caricamento noti: %d (da %d registri)' % (len(id_di), len(registri)))
     identici, assenti = confronta(sys.argv[1].rstrip('/'), tracce(sys.argv[2:]), id_di)
     print(f"contenuto identico all'originale: {identici} su {identici + len(assenti)}")
     for nome in assenti:
