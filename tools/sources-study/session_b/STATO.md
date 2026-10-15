@@ -1648,7 +1648,7 @@ voce, perché i moduli non erano arrivati.
 
 Mandato il controllo Codex C3 sulla specifica delle registrazioni, chiedendo esplicitamente di
 cercare «dove questa specifica produce numeri che non reggono». Verdetto in
-`reviews/C3_specifica_video.md`: **non pubblicabile come numero unico** la quota di novità del
+`reviews/C3_specifica_video.md` (rinominato il 15 ottobre `reviews/2026-09-16—c3-specifica-video—CHANGES_REQUESTED.md`): **non pubblicabile come numero unico** la quota di novità del
 parlato. Quattro rilievi bloccanti, tutti fondati.
 
 **1. «Compare negli atti» non era definito.** Se in aula si dice che un cantiere è fermo e l'atto
