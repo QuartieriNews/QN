@@ -29,7 +29,7 @@ controlli Codex).
 - DEC-102 e DEC-104: testi integrali, PDF, audio e trascrizioni restano nello scratchpad; dati per item (CSV
   compatti) su Drive `QN Hub / 20 Packages / Fonti 2026-06/` (id cartella `1JQYkyES0zAGBNtiekXkVgWCS0Ee1RrIa`).
   Se il connettore Drive non è disponibile restano nello scratchpad e la consegna si dichiara incompleta
-  con la causa: **mai nel repository** (metodo §4.2). La versione precedente di questo punto indicava
+  con la causa: **mai nel repository** (metodo §4.2), salvo gli inventari senza testi di `handoff_data/` (DEC-109, §2-bis). La versione precedente di questo punto indicava
   `session_b/out/` nel repository come ripiego: era contraria alla regola ed è superata.
 - Nomi delle persone: DEC-105 (17 settembre) supersede la regola «nessun nome di persona» che lo studio aveva
   costruito sopra la DEC-102: nei dati su Drive i nomi pertinenti al fatto si scrivono
