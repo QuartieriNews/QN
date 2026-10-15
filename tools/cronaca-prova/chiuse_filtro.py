@@ -81,7 +81,6 @@ def main(base, gazetteer, dal="2026-05-29", al="2026-07-03"):
         data = giorno_locale(r["ora"])
         if not dal <= data <= al:
             continue
-        visti.add(r["link"])
         titolo = html.unescape(r["titolo"])
         slug = re.sub(r"[-_/]+", " ", r["link"].split("/", 3)[-1])
         testo = norm(titolo + " " + slug)
@@ -90,6 +89,7 @@ def main(base, gazetteer, dal="2026-05-29", al="2026-07-03"):
             continue
         if not KW.search(testo):
             continue
+        visti.add(r["link"])   # un link una volta sola fra i candidati: un'occorrenza scartata non blocca una buona
         out.append({"testata": NOME.get(t, t), "dominio": t, "editore": EDITORE.get(t, t), "data": data,
                     "ora": r["ora"], "titolo": titolo, "link": r["link"], "sezione_roma": sezione})
     out.sort(key=lambda x: (x["ora"], x["testata"]))

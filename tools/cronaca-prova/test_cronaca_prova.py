@@ -339,6 +339,13 @@ with tempfile.TemporaryDirectory() as d:
     out = K.main(d, f"{d}/gaz.json")
     check("chiuse_filtro: la data è il giorno di Roma, non quello UTC di GDELT, e DAL/AL valgono su quello",
           [(o["data"], o["ora"]) for o in out] == [("2026-06-01", "20260531220000"), ("2026-07-01", "20260630223000")])
+    scrivi(f"{d}/gdelt/titoli.jsonl", [
+        g("ansa.it", "https://www.ansa.it/sito/notizie/m.html", "Titolo senza luogo"),            # stesso link, scartata
+        g("ansa.it", "https://www.ansa.it/sito/notizie/m.html", "Rapina a Centocelle, preso"),    # qualificata
+        g("ansa.it", "https://www.ansa.it/sito/notizie/m.html", "Rapina a Centocelle, preso")], jsonl=True)
+    out = K.main(d, f"{d}/gaz.json")
+    check("chiuse_filtro: un'occorrenza scartata dello stesso link non blocca quella candidata; il link resta uno",
+          [o["link"].rsplit("/", 1)[1] for o in out] == ["m.html"])
 check("chiuse_filtro: cambio d'ora: le 23:30 UTC del 31 ottobre sono già il 1° novembre a Roma (+1), le 23:30 UTC del 30 giugno il 1° luglio (+2)",
       K.giorno_locale("20261031233000") == "2026-11-01" and K.giorno_locale("20260630223000") == "2026-07-01"
       and K.giorno_locale("20261031225900") == "2026-10-31")
