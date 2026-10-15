@@ -243,14 +243,14 @@ vuoto = C.wordpress("abitarearoma.it")
 chiamate = []
 def _get_cento(url, tries=3):
     chiamate.append(url)
-    if "categories" in url:
+    if "/categories?" in url:
         return (json.dumps([{"id": i, "slug": f"c{i}"} for i in range(100)]), {"x-wp-totalpages": "1"})
     return ("[]", {"x-wp-totalpages": "1"})
 C.get = _get_cento
 C.wordpress("abitarearoma.it")
 C.get = _get
 check("censimento: con esattamente 100 categorie non si chiede la pagina 2 (errore dell'API, non fine elenco)",
-      sum("categories" in u for u in chiamate) == 1)
+      sum("/categories?" in u for u in chiamate) == 1)
 check("censimento: HTML servito con 200 al posto dell'API o della sitemap è un errore esplicito", wp_err and sm_err)
 check("censimento: una lista JSON vuota è un mese senza articoli, non un errore", vuoto == [])
 
