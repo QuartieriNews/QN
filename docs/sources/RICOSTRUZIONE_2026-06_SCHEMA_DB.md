@@ -1,6 +1,6 @@
 # Ricostruzione di giugno 2026 — schema del database e regole di collegamento
 
-Stato: **proposto**, in attesa del controllo Codex C1 (nota di fattibilità §9.6, tabella dei
+Stato: **proposto** il 15 settembre 2026, in attesa del controllo Codex C1 (poi eseguito e recepito: `reviews/2026-09-15—ricostruzione-2026-06-schema-db—CHANGES_REQUESTED.md`, `TRIAL_LEDGER.md`); questa intestazione fotografa quello stato (nota di fattibilità §9.6, tabella dei
 controlli). Vale per il Report 1 (fonti testuali, intero mese) e per il Report 2 (atti e video,
 8–28 giugno), che scrivono nelle stesse tabelle: il Report 2 aggiunge righe e riempie campi, non
 cambia lo schema.

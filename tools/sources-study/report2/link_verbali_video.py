@@ -50,7 +50,7 @@ for f in sorted(os.listdir(S + '/A2_text')):
         })
 
 with open(R2 + '/link_verbali_video.csv', 'w', newline='', encoding='utf-8') as fh:
-    w = csv.DictWriter(fh, fieldnames=list(righe[0]))
+    w = csv.DictWriter(fh, fieldnames=['atto', 'municipio', 'tipologia', 'forma', 'guid8', 'item_id', 'data_seduta'])
     w.writeheader(); w.writerows(righe)
 
 vod = [r for r in righe if r['forma'] == 'vod']

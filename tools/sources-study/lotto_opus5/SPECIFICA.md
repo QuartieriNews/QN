@@ -1,5 +1,7 @@
 # Lotto rappresentativo su Opus 5 (studio fonti, Fase 0, metodo M-0.3)
 
+> **Nomi delle persone: regola superata.** Le righe «nessun nome di persona» di questa specifica valgono per le letture fatte prima del 17 settembre 2026. Da quella data vale DEC-105 e `tools/sources-study/report2/SPECIFICA_NOMI_E_TERRITORIO.md`: i nomi pertinenti al fatto si scrivono. Il resto della specifica è in vigore.
+
 Scopo: misurare su Claude Opus 5 quantità di lavoro, tempo, errori e attese su attività già autorizzate dello studio fonti, riutilizzando materiali già raccolti. Perimetro e criteri di qualità identici a quelli usati finora (nota `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md` §6 per le registrazioni; CSV `A2_approfondimento_pdf_campione.csv` per gli atti).
 
 ## Vincoli assoluti

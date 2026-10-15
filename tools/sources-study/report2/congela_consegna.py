@@ -77,6 +77,8 @@ with open(dest + '/numeri.txt', 'w', encoding='utf-8') as fh:
                  'copertura_testi_atti.py', 'doppioni_documenti.py'):
         r = subprocess.run([sys.executable, REPO + '/report2/' + prog],
                            capture_output=True, text=True, env={**os.environ, 'QN_NET': NET})
+        if r.returncode != 0:   # numeri.txt deve venire dai programmi, non da un programma caduto
+            sys.exit('congela_consegna: %s e\' uscito con %d:\n%s' % (prog, r.returncode, (r.stderr or '')[-2000:]))
         fh.write('=== %s\n%s\n' % (prog, r.stdout))
 print('congelati %d file di dati in %s' % (copiati, os.path.basename(dest)))
 print('programmi: %d' % len(os.listdir(dest + '/programmi')))

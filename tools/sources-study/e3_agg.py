@@ -2,7 +2,10 @@ import csv,re,json,collections,random,datetime as dt
 from geo_lookup import localise,zones
 ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV']
 MONTHS={m:i+1 for i,m in enumerate(['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'])}
-rows=list(csv.DictReader(open('E3_june_text.tsv'),delimiter='\t'))
+import sys
+# e3_items.py scrive E3_all_text.tsv (gia' le sole voci trovate per giugno): qui si filtra per data
+rows=[r for r in csv.DictReader(open('E3_all_text.tsv',encoding='utf-8'),delimiter='\t') if (r.get('date') or '').startswith('2026-06')]
+if not rows: sys.exit('e3_agg: nessun item di giugno in E3_all_text.tsv: raccolta vuota o fallita')
 n=len(rows); bym=collections.Counter(); multi=0; inter=0
 for r in rows:
     ms=set(re.findall(r'Municipio ([IVX]+)',r['meta_municipio']))
@@ -16,7 +19,7 @@ json.dump(res,open('deliver/summary_E3.json','w'),ensure_ascii=False,indent=1); 
 with open('deliver/E3_2026-06_items.csv','w',newline='') as fh:
     w=csv.writer(fh); w.writerow(['fonte','url_rel','data_pubblicazione','municipi_meta','struttura','tematica','periodo','municipio_det_testo','zona_det_testo','zona_det_titolo','tier','toponimo'])
     for r in rows: w.writerow(['E3',r['url'].replace('https://www.comune.roma.it/web/it/',''),r['date'],r['muns'],r['meta_struttura'],r['meta_tematica'],r['meta_periodo'],r['municipio'],r['zona'],r['zona_titolo'],r['tier'],'sì' if r['toponimo'] else 'no'])
-random.seed('2026-06-E3'); samp=random.sample(sorted(rows,key=lambda r:(r['date'],r['url'])),5)
+random.seed('2026-06-E3'); samp=random.sample(sorted(rows,key=lambda r:(r['date'],r['url'])),min(5,len(rows)))
 with open('deliver/E3_audit_sample.csv','w',newline='') as fh:
     w=csv.writer(fh); w.writerow(['fonte','seed','url','data','municipi_meta','zona_det_testo']); [w.writerow(['E3','2026-06-E3',r['url'],r['date'],r['muns'],r['zona']]) for r in samp]
 print('E3 AGG DONE')

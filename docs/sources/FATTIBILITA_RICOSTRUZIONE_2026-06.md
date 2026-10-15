@@ -2,9 +2,9 @@
 
 | Campo | Valore |
 |---|---|
-| Stato | **Analisi di fattibilità** su richiesta dell'owner del 15 settembre 2026 (pomeriggio). Nessuna esecuzione del mese completo è autorizzata né avviata: questo documento serve a decidere. |
+| Stato | **Analisi di fattibilità** su richiesta dell'owner del 15 settembre 2026 (pomeriggio); questa tabella fotografa quel momento, gli aggiornamenti sono in §8–§9 e la spesa corrente in `TRIAL_LEDGER.md`. Al 15 settembre pomeriggio nessuna esecuzione del mese completo era autorizzata né avviata: questo documento serve a decidere. |
 | Base | Registro fonti (`SOURCE_REGISTRY.md`), rapporto intermedio (`SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md`), note A2 (`A2_ATTIWEB_TIPOLOGIE.md`) e video (`VIDEO_RICOGNIZIONE_2026-06.md`), più le misure aggiuntive di oggi (§1.3), tutte a costo zero |
-| Tetto prove | 50 € autorizzati; spesi 0,86 € (S); residuo **49,14 €**; oggi 0,00 € |
+| Tetto prove | al 15 settembre pomeriggio: 50 € autorizzati; spesi 0,86 € (S); residuo **49,14 €**; oggi 0,00 € (valori successivi nel ledger) |
 | Convenzioni | **M** misurato, **S** stimato con ipotesi dichiarata, **—** mancante. Prezzi unitari: listini di terze parti raggiunti con la ricerca web il 15 settembre (§4.1), convertiti a 0,92 €/$ (ipotesi prudente, come nel ledger). Nessun prezzo è stato misurato in una prova (T1, T3, T4 ferme) |
 | Vincoli | Chiave OpenAI dell'ambiente non confermata: nessuna chiamata AI (metodo §7, fail-closed); nessun abbonamento né ricarica; Facebook fuori dal perimetro dell'Operator (DEC-102); dati per item su Drive `Fonti 2026-06/`, aggregati nel repository (metodo §4.2) |
 

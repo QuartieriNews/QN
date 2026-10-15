@@ -35,7 +35,7 @@ Per ogni registrazione un file `report2/out_video/<item_id>.json`:
    "qualita":"alta|media|bassa",
    "novita_rispetto_agli_atti":"solo dal parlato|anche negli atti|non verificabile",
    "toponimo_da_verificare":"sì|no"}],
- "scheda_narrativa":"≤ 200 parole, senza nomi di persona",
+ "scheda_narrativa":"≤ 200 parole; nomi delle persone secondo DEC-105",
  "tempo_lettura_s":0}
 ```
 
@@ -63,7 +63,7 @@ verbale o la convocazione la riportano, `non verificabile` quando non si può st
 uscire dai materiali locali. Il controllo documentale si fa **senza rete**, su
 `deliver/A2_2026-06_items.csv` e `deliver/A1_2026-06_items.csv`.
 
-## Riservatezza (DEC-102, vincolante)
+## Riservatezza (DEC-102, vincolante; per i nomi delle persone superata da DEC-105, nota in testa)
 
 Nessun nome di persona nelle colonne, nel titolo, nella sintesi o nella scheda narrativa: al loro
 posto il ruolo. **Un nome non è l'unico modo di identificare una persona**: niente numero civico

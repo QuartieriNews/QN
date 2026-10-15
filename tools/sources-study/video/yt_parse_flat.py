@@ -51,9 +51,11 @@ for r in rows:
 print('oldest approx date per channel/tab:', cov)
 from collections import Counter
 print('june rows', len(june), Counter((r['ch'],r['june_basis']) for r in june))
+if not rows: sys.exit('yt_parse_flat: nessuna riga nei dump yt_flat_*: vuoti o non validi (blocco anti-bot?)')
 with open('yt_all_rows.tsv','w',newline='') as fh:
     w=csv.DictWriter(fh, fieldnames=list(rows[0].keys())+['june_basis'], delimiter='\t'); w.writeheader()
     for r in rows: w.writerow(r)
+if not june: sys.exit('yt_parse_flat: nessun video di giugno nei dump: niente da scrivere')
 with open('yt_june_candidates.tsv','w',newline='') as fh:
     w=csv.DictWriter(fh, fieldnames=list(june[0].keys()), delimiter='\t'); w.writeheader()
     for r in june: w.writerow(r)

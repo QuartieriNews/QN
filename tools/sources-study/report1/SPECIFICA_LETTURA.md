@@ -1,5 +1,7 @@
 # Report 1 — specifica di lettura degli item testuali
 
+> **Nomi delle persone: regola superata.** Le righe «nessun nome di persona» di questa specifica valgono per le letture fatte prima del 17 settembre 2026. Da quella data vale DEC-105 e `tools/sources-study/report2/SPECIFICA_NOMI_E_TERRITORIO.md`: i nomi pertinenti al fatto si scrivono. Il resto della specifica è in vigore.
+
 Per i subagenti che leggono le fonti testuali di giugno 2026 (A1, C1, C2, C4, C5, E2, E3).
 Deriva dallo schema `docs/sources/RICOSTRUZIONE_2026-06_SCHEMA_DB.md`, corretto dopo il
 controllo Codex C1, e dallo stile del lotto già collaudato
