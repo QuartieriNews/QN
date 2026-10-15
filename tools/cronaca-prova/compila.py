@@ -17,7 +17,7 @@ CLASSI_INVERSO = {"cronaca_fuori", "cronaca_giudiziaria", "non_cronaca"}  # ISTR
 
 
 def jl(p):
-    return [json.loads(l) for l in open(p) if l.strip()] if os.path.exists(p) else []
+    return [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()] if os.path.exists(p) else []
 
 
 def norm(s):
@@ -47,13 +47,13 @@ def presenze(xs):
 
 
 def ripetuti(xs):
-    return sorted({x for x in xs if xs.count(x) > 1})
+    return sorted(k for k, v in collections.Counter(xs).items() if v > 1)
 
 
 def carica_avanti(base):
     """Fatti dei lotti e risultati dei lettori; un lotto letto due volte o un id ignoto fermano
     la compilazione invece di sovrascriversi in silenzio (ISTRUZIONI_AVANTI.md, AGENTS.md)."""
-    lotti = [f for p in sorted(glob.glob(f"{base}/avanti/lotto_*.json")) for f in json.load(open(p))]
+    lotti = [f for p in sorted(glob.glob(f"{base}/avanti/lotto_*.json")) for f in json.load(open(p, encoding="utf-8"))]
     if ripetuti([f["id"] for f in lotti]):
         sys.exit(f"compila: id ripetuti nei lotti avanti: {ripetuti([f['id'] for f in lotti])}")
     facts = {f["id"]: f for f in lotti}
@@ -105,7 +105,7 @@ def avanti(base):
 
 
 def inversa(base, attive, pagine_uff, presenze_uff, ufficiali=None):
-    cand = {c["sid"]: c for c in json.load(open(f"{base}/censimento/candidati.json"))}
+    cand = {c["sid"]: c for c in json.load(open(f"{base}/censimento/candidati.json", encoding="utf-8"))}
     fatti = [x for p in sorted(glob.glob(f"{base}/inverso/fatti_*.jsonl")) for x in jl(p)]
     scarti = [x for p in sorted(glob.glob(f"{base}/inverso/scarti_*.jsonl")) for x in jl(p)]
     for x in scarti:
@@ -189,11 +189,11 @@ def main(base, matrice):
     ra, righe_a = avanti(base)
     ri, righe_i = inversa(base, attive, pagine_uff, presenze_uff, set(carica_avanti(base)[0]))
     ri["scenari"]["A_ufficiali_pubbliche"]["fatti"] = ra["fatti_ufficiali_roma"]
-    cens = {os.path.basename(p)[:-5]: len(json.load(open(p))) for p in sorted(glob.glob(f"{base}/censimento/*.json"))
+    cens = {os.path.basename(p)[:-5]: len(json.load(open(p, encoding="utf-8"))) for p in sorted(glob.glob(f"{base}/censimento/*.json"))
             if not p.endswith("candidati.json")}
     R = {"censimento_titoli_del_mese": cens, "notizie_uniche": notizie_uniche(base), "avanti": ra, "inversa": ri}
     for nome, obj in (("riepilogo", R), ("righe_avanti", righe_a), ("righe_inverso", righe_i)):
-        with open(f"{base}/{nome}.json", "w") as f:
+        with open(f"{base}/{nome}.json", "w", encoding="utf-8") as f:
             json.dump(obj, f, ensure_ascii=False, indent=1)
     return R
 

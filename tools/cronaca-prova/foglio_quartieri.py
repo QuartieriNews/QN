@@ -22,8 +22,8 @@ PIENO = PatternFill("solid", fgColor="D4EDDA")
 
 def main(base, mese="giugno 2026"):
     righe = list(csv.DictReader(open(f"{base}/tabella/per_pagina.csv", encoding="utf-8-sig"), delimiter=";"))
-    R = json.load(open(f"{base}/tabella/riepilogo.json"))
-    fatti = json.load(open(f"{base}/tabella/fatti.json"))
+    R = json.load(open(f"{base}/tabella/riepilogo.json", encoding="utf-8"))
+    fatti = json.load(open(f"{base}/tabella/fatti.json", encoding="utf-8"))
     wb = Workbook()
     ws = wb.active
     ws.title = "Leggimi"

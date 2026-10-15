@@ -21,7 +21,7 @@ DECADI = [(1, 10), (11, 20), (21, 31)]
 def fatti_ufficiali(paths):
     out = []
     for p in paths:
-        for line in open(p):
+        for line in open(p, encoding="utf-8"):
             r = json.loads(line)
             if r["fuori_roma"] or r["esito"] == "F":
                 continue
@@ -55,11 +55,11 @@ def main(base, paths):
     for sub in ("avanti", "inverso"):
         os.makedirs(os.path.join(base, sub), exist_ok=True)
     for i, lot in enumerate(lotti_avanti(facts), 1):
-        json.dump(lot, open(f"{base}/avanti/lotto_{i}.json", "w"), ensure_ascii=False, indent=1)
+        json.dump(lot, open(f"{base}/avanti/lotto_{i}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     cand_path = f"{base}/censimento/candidati.json"
     if os.path.exists(cand_path):
-        for i, lot in enumerate(lotti_inversi(json.load(open(cand_path)), facts), 1):
-            json.dump(lot, open(f"{base}/inverso/lotto_{i}.json", "w"), ensure_ascii=False, indent=0)
+        for i, lot in enumerate(lotti_inversi(json.load(open(cand_path, encoding="utf-8")), facts), 1):
+            json.dump(lot, open(f"{base}/inverso/lotto_{i}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     print(len(facts), "fatti ufficiali a Roma")
 
 

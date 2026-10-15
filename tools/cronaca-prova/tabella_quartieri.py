@@ -36,7 +36,7 @@ CATEGORIE = ("ufficiale", "stampa_due_fonti", "stampa_una_fonte", "chiuse_due_fo
 
 
 def jl(paths):
-    return [json.loads(l) for p in paths for l in open(p) if l.strip()]
+    return [json.loads(l) for p in paths for l in open(p, encoding="utf-8") if l.strip()]
 
 
 def pagine_di(v):
@@ -60,7 +60,7 @@ def main(base, matrice, ufficiali, aperte, mese=None):
     rows = list(csv.DictReader(open(matrice, encoding="utf-8-sig"), delimiter=";"))
     pagine = [(r["slug"], r["pagina"], r["municipio"]) for r in rows]
     attive = {p for p, _, _ in pagine}
-    chiuse = {c["cid"]: c for c in json.load(open(f"{base}/chiuse/candidati.json"))}
+    chiuse = {c["cid"]: c for c in json.load(open(f"{base}/chiuse/candidati.json", encoding="utf-8"))}
     abb = jl(sorted(glob.glob(f"{base}/chiuse/abbinamenti_*.jsonl")))
     nuovi = jl(sorted(glob.glob(f"{base}/chiuse/nuovi_*.jsonl")))
     luoghi = {x["fid"]: x for x in jl(glob.glob(f"{base}/luoghi/luoghi_esito.jsonl"))}
@@ -76,8 +76,8 @@ def main(base, matrice, ufficiali, aperte, mese=None):
                           "ufficiale": True, "aperte": set(), "chiuse": set(), "editori": {"ente"}, "link": []}
     # doppioni fra i fatti delle testate aperte (DIR/aperte_fusioni.json) e fatti su più pagine (M) che la
     # rilettura dei testi ha individuato (DIR/luoghi/pagine_multiple.json)
-    fus_aperte = json.load(open(f"{base}/aperte_fusioni.json")) if os.path.exists(f"{base}/aperte_fusioni.json") else {}
-    multiple = (json.load(open(f"{base}/luoghi/pagine_multiple.json"))
+    fus_aperte = json.load(open(f"{base}/aperte_fusioni.json", encoding="utf-8")) if os.path.exists(f"{base}/aperte_fusioni.json") else {}
+    multiple = (json.load(open(f"{base}/luoghi/pagine_multiple.json", encoding="utf-8"))
                 if os.path.exists(f"{base}/luoghi/pagine_multiple.json") else {})
     rimandati = []
     for x in jl(aperte):
@@ -110,7 +110,7 @@ def main(base, matrice, ufficiali, aperte, mese=None):
             fatti[destinazione]["aperte"] |= testate
             fatti[destinazione]["editori"] |= {EDITORE_APERTE.get(t, t) for t in testate}
     # fatti nuovi doppi fra lotti vicini (stesso fatto ai bordi delle finestre): DIR/chiuse/fusioni.json
-    fusioni = json.load(open(f"{base}/chiuse/fusioni.json")) if os.path.exists(f"{base}/chiuse/fusioni.json") else {}
+    fusioni = json.load(open(f"{base}/chiuse/fusioni.json", encoding="utf-8")) if os.path.exists(f"{base}/chiuse/fusioni.json") else {}
     for n in nuovi:
         noti.add(n["nid"])
         if n["nid"] in fusioni or not str(n.get("data", "")).startswith(mese):
@@ -123,7 +123,7 @@ def main(base, matrice, ufficiali, aperte, mese=None):
             sys.exit(f"tabella_quartieri: abbinamento {a.get('cid')}: classe o corrispondenza fuori contratto "
                      f"({a.get('classe')!r}, {a.get('corrispondenza')!r})")
     cids = [a["cid"] for a in abb]
-    doppi = sorted({c for c in cids if cids.count(c) > 1})
+    doppi = sorted(c for c, v in collections.Counter(cids).items() if v > 1)
     if doppi:
         sys.exit(f"tabella_quartieri: cid ripetuti negli abbinamenti (lotto letto due volte?): {doppi}")
     if [c for c in cids if c not in chiuse]:
@@ -182,11 +182,11 @@ def main(base, matrice, ufficiali, aperte, mese=None):
                            "solo_da_chiuse": sum(1 for f in fatti.values() if f["categoria"] == "stampa_due_fonti"
                                                  and len({EDITORE_APERTE.get(t, t) for t in f["aperte"]}) < 2)},
          "abbinamenti_a_fatti_esclusi": esclusi}
-    json.dump(R, open(f"{base}/tabella/riepilogo.json", "w"), ensure_ascii=False, indent=1)
+    json.dump(R, open(f"{base}/tabella/riepilogo.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     out = [{**{k: v for k, v in f.items() if k not in ("aperte", "chiuse", "editori")},
             "aperte": sorted(f["aperte"]), "chiuse": sorted(f["chiuse"]), "editori": sorted(f["editori"])}
            for f in fatti.values()]
-    json.dump(out, open(f"{base}/tabella/fatti.json", "w"), ensure_ascii=False, indent=0)
+    json.dump(out, open(f"{base}/tabella/fatti.json", "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     return R
 
 

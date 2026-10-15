@@ -44,14 +44,14 @@ def main(base):
     for line in LEGGIMI:
         ws.append([line])
     ws["A1"].font = Font(bold=True)
-    foglio(wb, "Ufficiali x testate", json.load(open(f"{base}/righe_avanti.json")),
+    foglio(wb, "Ufficiali x testate", json.load(open(f"{base}/righe_avanti.json", encoding="utf-8")),
            ["id", "fonte", "pubblicato", "esito", "pagine", "fatto", "cercato", "n_testate", "n_testate_certe",
             "testate", "link", "nota"])
-    foglio(wb, "Testate aperte", json.load(open(f"{base}/righe_inverso.json")),
+    foglio(wb, "Testate aperte", json.load(open(f"{base}/righe_inverso.json", encoding="utf-8")),
            ["fid", "data", "tipo", "fatto", "luogo", "pagina_qn", "livello", "n_testate", "testate", "ufficiale",
             "corrispondenza", "titoli", "link"])
     ws = wb.create_sheet("Riepilogo")
-    for parte, valori in json.load(open(f"{base}/riepilogo.json")).items():
+    for parte, valori in json.load(open(f"{base}/riepilogo.json", encoding="utf-8")).items():
         for k, v in valori.items():
             ws.append([parte, k, json.dumps(v, ensure_ascii=False)])
     ws.column_dimensions["B"].width = 40

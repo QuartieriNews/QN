@@ -13,12 +13,12 @@ GIORNI = 3
 
 
 def jl(paths):
-    return [json.loads(l) for p in paths for l in open(p) if l.strip()]
+    return [json.loads(l) for p in paths for l in open(p, encoding="utf-8") if l.strip()]
 
 
 def main(base, pkg, ufficiali, aperte):
     day = dt.date.fromisoformat
-    titoli = json.load(open(f"{base}/chiuse/candidati.json"))
+    titoli = json.load(open(f"{base}/chiuse/candidati.json", encoding="utf-8"))
     if not titoli:   # mese povero o filtro stretto: nessun lotto, non un errore
         print("nessun titolo candidato: nessun lotto")
         return 0
@@ -45,7 +45,7 @@ def main(base, pkg, ufficiali, aperte):
             f_p = [f for f in pr if a - dt.timedelta(days=4) <= day(f["data"]) <= b + dt.timedelta(days=4)]
             lot = {"QN_PKG": pkg, "titoli": [{k: t[k] for k in ("cid", "testata", "editore", "data", "ora", "titolo", "link")}
                                             for t in tit], "fatti": f_u + f_p}
-            json.dump(lot, open(f"{base}/chiuse/lotto_{n}.json", "w"), ensure_ascii=False, indent=0)
+            json.dump(lot, open(f"{base}/chiuse/lotto_{n}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=0)
             print(n, a, b, len(tit), "titoli,", len(f_u), "ufficiali,", len(f_p), "aperte")
         a = b + dt.timedelta(days=1)
     return n
