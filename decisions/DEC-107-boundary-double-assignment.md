@@ -1,6 +1,6 @@
 # DEC-107 — Assigning one content item to two neighbourhood pages at a boundary
 
-Status: OPEN
+Status: DECIDED (16 October 2026): option B, double page at a boundary.
 
 Question: when a place lies exactly where two QN pages meet (a street that *is* the
 boundary, a square or park split between them), should the item be assigned to both
@@ -40,5 +40,17 @@ Impact: B changes counts only where the owner writes a two-page decision; nothin
 changes until then. Blocks: no work — the tools already accept and count the option;
 it blocks only its use in the queue.
 
-Decided by: — · Date: — · Affected: tools/geo-assign (applica_decisioni.py, stage1.py,
-valida.py), matrix reporting.
+Decision (owner, 16 October 2026, review of pull request #15, question put by the builder
+with the three options above): **B, double page at a boundary** — «Sì, doppia pagina ai
+confini». A place whose geometry lies on or across the boundary between two QN pages may be
+assigned to both through an owner rule (`modo: doppia_confine`), with the builder's three
+limits: long streets stay "depends on the stretch"; boundary presences are reported in their
+own column of the matrix; a review after the first month of real pages. Nothing changes until
+the owner writes a two-page decision in the queue.
+
+Follow-up (builder, separate work): remove the block on `doppia_confine` in
+`tools/geo-assign/applica_decisioni.py` and `valida.py`, add the boundary column to the
+matrix, update `PROTOCOLLO_REVISIONE.md` and `GEO_ASSEGNAZIONE_2026-10.md` §6.
+
+Decided by: Owner · Date: 16 October 2026 · Affected: tools/geo-assign (applica_decisioni.py,
+stage1.py, valida.py), matrix reporting, PROTOCOLLO_REVISIONE.md.

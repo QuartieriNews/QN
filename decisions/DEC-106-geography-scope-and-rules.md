@@ -45,9 +45,8 @@ Rule:
 
 Recommendation recorded with the decision (builder): the seat of a sitting or of a
 convocation is not a place where anyone goes for the fact, so it gives a level but no
-page; only services actually used at the address take the page. Not yet confirmed by
-the owner — if the owner wants convocations on the seat's page too, this entry is
-superseded in that clause.
+page; only services actually used at the address take the page. Confirmed by the owner
+on 16 October 2026 (review of pull request #15): the clause stands as written.
 
 Impact: decisions carry one more field; the 126 blind decisions of 8 October predate
 it (`valida.py --senza-livello`). Counts of municipal-level content with a page are

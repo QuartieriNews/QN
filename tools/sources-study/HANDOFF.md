@@ -62,6 +62,19 @@ precedenti). Colonne rimosse: `A4_youtube_giugno2026_censimento.csv` (`titolo`,
 (`vicenda`, `possibile_notizia`). ID, URL, date, durate, conteggi ed etichette dello studio
 restano: gli item si ritrovano dall'URL o dal `guid`.
 
+## 2-ter. Testo derivato dalle fonti che resta nel repository per decisione dell'owner (16 ottobre 2026)
+
+La revisione della PR #15 (lotto 6) ha segnalato quattro file versionati con testo derivato
+dalle fonti. L'owner ha deciso di lasciarli come sono, con questa eccezione dichiarata:
+- `session_b/STATO.md` e `session_b/DECISIONI_OWNER.md`: verbali di sessione, documenti storici
+  non normativi, con citazioni ed esempi che sono il ragionamento dietro DEC-105;
+- `reviews/T4_seconda_ai.md` e `reviews/T4_seconda_ai_larghi.md`: esiti per caso della prova T4
+  (id, esito, campo, motivo), archivio della prova, non review nel senso di DEC-007;
+- `docs/sources/RICOSTRUZIONE_2026-06_REPORT2.md` §§5–8: frasi brevi dalle registrazioni e dai
+  verbali come prove delle conclusioni, e tre nomi pertinenti ai difetti illustrati (DEC-105).
+Nessun altro file versionato può portare testi, titoli o nomi presi dalle fonti (DEC-102,
+DEC-104, DEC-105 confine 1, DEC-109 per gli inventari).
+
 ## 3. Stato al passaggio (15 settembre, 20:15 ora italiana)
 - Fatti: censimenti dell'intero mese per tutte le fonti (`handoff_data/`: A1, A2, DDS, centrali, C1–C5, E2, E3,
   A3 RomaTV, A4 YouTube, campioni di audit, confidenze delle 82 trascrizioni RomaTV); lotto di misura su Opus 5

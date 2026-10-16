@@ -321,3 +321,12 @@ il primo poteva essere un incidente, due sono un **modo in cui la fonte pubblica
 più di quello che intende pubblicare** — e nel secondo caso non è nemmeno «dopo la fine»: è dentro
 la seduta, in una pausa che tutti in aula considerano privata. La raccomandazione non cambia (la
 segnalazione la fa l'owner), ma vale ora per una prassi, non per un item.
+
+## Record di chiusura — residuo dopo il ripristino dei nomi (16 ottobre 2026)
+
+Il ripristino dei nomi (DEC-105) lascia un residuo misurato a campione, descritto in
+`STATO.md` §133 (nomi non ripristinati o resi in due forme). L'owner, interpellato nella
+revisione della PR #15, lo ha accettato così com'è documentato: la consegna è chiusa con quel
+residuo dichiarato; una passata ulteriore di ripristino, se mai, è lavoro separato con il
+pacchetto fuori dal repository.
+
