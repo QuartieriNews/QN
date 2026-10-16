@@ -132,10 +132,18 @@ Effetto sulla matrice, limitatamente al campione:
 - **Correzioni giustificate:** spostano circa 5 presenze su 115 (circa 4%) e cambiano pagina in 2 schede.
 - **Perdite di richiamo:** valgono 8 presenze. Non sono errori di giudizio: indicano dove il processo
   deve recuperare le prove che lo storico aveva (§5). **Limite (revisione del 15 ottobre):** per questi
-  8 casi l'arbitrato registra la conclusione («sede trovata dallo storico») ma non il riferimento
-  ripetibile (URL, interrogazione `qngeo.py`, `documento_id` dell'atto collegato). Finché il riferimento
-  non è riportato, contano come differenze attribuite allo storico senza prova verificabile, non come
-  richiamo perso misurato. Il prossimo arbitrato registra il riferimento per ogni caso (§6).
+  8 casi l'arbitrato registrava la conclusione («sede trovata dallo storico») ma non il riferimento
+  ripetibile (URL, interrogazione `qngeo.py`, `documento_id` dell'atto collegato). **Integrazione del
+  16 ottobre:** ogni caso ha ora in `arbitrato_differenze.json` il campo `riferimento` (documento_id,
+  URL, interrogazioni `qngeo.py` con le pagine ottenute dal pacchetto offline; mai testo della fonte,
+  DEC-102). Esito: 6 riferimenti riproducono la pagina dello storico e contano come richiamo perso
+  misurato (N0388, N1897, N1981, N2049, N2101, N2474; in N1981 e N2474 la prova è il legame fra atti,
+  non la cartografia). Uno la contraddice: N1459, il civico della sede cade in 20F → Cassia mentre lo
+  storico segue la località dichiarata dalla fonte (Valle Muricana → Prima Porta); è un quinto caso da
+  riesaminare, della stessa famiglia di N0026 e N0843 a parti invertite, e non conta come richiamo
+  perso. Uno è parziale: N2127, il parco è a cavallo di due zone (4B → Montesacro, 4E → Bufalotta) e
+  la scelta dello storico poggia sul lato in cui sta il casale (URL), non su un civico interrogabile;
+  resta attribuito allo storico con prova dichiarata, non misurata.
 
 Non estrapolo questi numeri a una nuova matrice: 126 schede non bastano. Mostrano però dove i
 risultati si spostano.
