@@ -22,6 +22,12 @@ def esc(s):
     return html.escape(s or "")
 
 
+def is_web_url(s):
+    """Only http(s) becomes a clickable href; any other scheme is shown as text
+    (review cycle 1, note 5: the registry link column is not trusted input)."""
+    return bool(s) and s.startswith(("http://", "https://"))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--wiki", default="docs/wiki")
@@ -57,7 +63,7 @@ def main():
             sec.append("<ul>")
             for e in threads[q["vicenda"]]:
                 ref = e["riferimento"]
-                link = f' <a href="{esc(ref.split(" ")[0])}" target="_blank" rel="noopener">fonte</a>' if ref.startswith("http") else (f' <span class="ref">{esc(ref)}</span>' if ref else "")
+                link = f' <a href="{esc(ref.split(" ")[0])}" target="_blank" rel="noopener">fonte</a>' if is_web_url(ref) else (f' <span class="ref">{esc(ref)}</span>' if ref else "")
                 sec.append(f'<li><span class="d">{esc(e["data"])}</span> <span class="s">{esc(SRC.get(e["fonte"], e["fonte"]))}</span> {esc(e["titolo"])}{link}</li>')
             sec.append("</ul></details>")
         sec.append('<h3>Luoghi più citati</h3><table><tr><th>luogo</th><th>tipo</th><th>zona</th><th>n</th></tr>')
@@ -67,7 +73,7 @@ def main():
         sec.append("</table>")
         sec.append('<h3>Soggetti registrati</h3><table><tr><th>soggetto</th><th>tipo</th><th>zona</th></tr>')
         for s in sorted(ss, key=lambda s: (s["tipo"], s["nome"])):
-            name = f'<a href="{esc(s["link"])}" target="_blank" rel="noopener">{esc(s["nome"])}</a>' if s.get("link") else esc(s["nome"])
+            name = f'<a href="{esc(s["link"])}" target="_blank" rel="noopener">{esc(s["nome"])}</a>' if is_web_url(s.get("link")) else esc(s["nome"])
             sec.append(f'<tr><td>{name}</td><td>{esc(s["tipo"])}</td><td>{esc(s.get("zona") or "—")}</td></tr>')
         sec.append("</table>")
         sec.append('<details class="chrono"><summary>Cronologia del mese</summary><ul>')

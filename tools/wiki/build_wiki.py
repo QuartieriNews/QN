@@ -20,8 +20,9 @@ Usage:
     python tools/wiki/build_wiki.py --input <folder-with-csv> --out docs/wiki
 
 Rules this build honours:
-- DEC-105: people appear only in a public role; the inputs are already
-  anonymised and nothing here adds names.
+- DEC-105: no automatic anonymisation — names stay as the study's readers kept
+  them (pertinent to the fact, in the public role); this build adds no name and
+  removes none.
 - DEC-109: no source text enters the repository — the diary carries the study's
   own one-line titles and the source URL, never the article body.
 - gazetteer.json wins: a place string is linked to a publication zone only when
@@ -159,7 +160,8 @@ def main():
             "municipio": r.get("municipio", ""), "zona": zona, "luoghi": pids,
             "questione": r.get("vicenda_id") or "", "qualita": r.get("qualita", ""),
             "dedup": r.get("dedup_stato", ""),
-            "riferimento": (r.get("evidenza_url") or "") + ((" " + r["evidenza_locale"]) if r.get("evidenza_locale") else ""),
+            # URL and local evidence, space-separated, no leading space when only one is set (review cycle 1, suite)
+            "riferimento": " ".join(x for x in (r.get("evidenza_url") or "", r.get("evidenza_locale") or "") if x),
         }
         diary.append(e)
         if e["questione"]:

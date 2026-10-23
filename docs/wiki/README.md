@@ -2,7 +2,9 @@
 
 Il wiki è il retrobottega che dà contesto ai blocchi *istituzionale* e *notizie*
 della pagina di quartiere. Non è un quinto blocco e non è una raccolta di schede
-sulle persone (DEC-105: le persone compaiono solo nel ruolo pubblico). Arriva al
+sulle persone: le schede sono luoghi, soggetti e questioni; i nomi delle persone
+restano come li ha tenuti lo studio fonti (DEC-105: nessuna anonimizzazione
+automatica, nomi tenuti quando pertinenti al fatto), il build non ne aggiunge e non ne toglie. Arriva al
 lettore come una riga sotto la notizia: «è la terza seduta saltata in un mese».
 
 Tre pezzi, in quest'ordine di autorità:
