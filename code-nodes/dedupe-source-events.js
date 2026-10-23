@@ -43,7 +43,10 @@ function isEmptyHashedValue(field, value) {
   if (value === null || value === undefined || value === '') return true;
   if (typeof value === 'object') return true;
   if (COORDINATE_FIELDS.has(field)) {
-    const n = typeof value === 'number' ? value : Number(String(value).trim());
+    // String rule first, as in canonicalCoordinate there: a value that trims to
+    // empty stays empty and never becomes Number('') === 0 (PR #19, cycle 1).
+    const n = typeof value === 'number' ? value
+      : (String(value).trim() === '' ? NaN : Number(String(value).trim()));
     return !Number.isFinite(n);
   }
   return String(value).trim() === '';

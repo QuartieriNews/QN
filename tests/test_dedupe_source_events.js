@@ -102,6 +102,8 @@ console.log('Inlined hashed-field count agrees with compute-source-hash.js');
     ev('3', { location: { latitude: 'n/a', longitude: '12.5', name: { x: 1 } }, end_at_utc: 'TBD' }),
     ev('4', { source_image_url: 'not a url', organizer: { name: ' ' }, location: { latitude: -0.0000001 } }),
     ev('5', { event_name: null, source_description: undefined, location: null }),
+    ev('6', { location: { latitude: '   ', longitude: { a: 1 } } }), // PR #19 cycle 1: empty, not 0.000000
+    ev('7', { location: { latitude: [12.5], longitude: ' 12.5 ' } }),
   ];
   for (const c of cases) {
     check(`agree on ${JSON.stringify(c).slice(0, 60)}`, countNonEmptyHashedFields(c), hashNode.countNonEmptyHashedFields(c));
