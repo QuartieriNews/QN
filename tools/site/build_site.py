@@ -72,12 +72,16 @@ def events_block(zone, zones, events, ref, end):
     featured = [le for le in picked if len(le[1].get("reported_by", [])) > 1][:3]
     fid = {le[1]["id"] for le in featured}
     rest = [le for le in picked if le[1]["id"] not in fid]
+    # The collapse threshold counts every date of the venue in the window, featured
+    # ones included, so taking an item into "in evidenza" cannot un-collapse its
+    # venue (review cycle 1, item 4); the featured item itself is listed once, above.
+    dates_per_venue = Counter(le[1].get("venue") or "" for le in picked)
     by_venue = defaultdict(list)
     for le in rest:
         by_venue[le[1].get("venue") or ""].append(le)
     groups, singles = [], []
     for v, les in by_venue.items():
-        if v and len(les) > VENUE_COLLAPSE:
+        if v and dates_per_venue[v] > VENUE_COLLAPSE:
             groups.append((v, les))
         else:
             singles += les
@@ -87,10 +91,10 @@ def events_block(zone, zones, events, ref, end):
 
 
 def li(level, e, zones, zone):
-    tag = ""
-    if level != "zona":
-        zn = zones.get(e["publication_zone_id"], {}).get("name_display") if e["publication_zone_id"] else None
-        tag = f' <span class="tag">{esc(zn or ("Municipio " + e["municipality_code"] if e["municipality_code"] else "Roma"))}</span>'
+    # Every item carries its own zone label, the current zone's items included
+    # (README: "ogni voce porta l'etichetta della propria zona"; review cycle 1, item 3).
+    zn = zones.get(e["publication_zone_id"], {}).get("name_display") if e["publication_zone_id"] else None
+    tag = f' <span class="tag">{esc(zn or ("Municipio " + e["municipality_code"] if e["municipality_code"] else "Roma"))}</span>'
     when = fmt(e["start"]) + (f" – {fmt(e['end'])}" if e["end"] and e["end"] != e["start"] else "")
     where = f' <span class="venue">{esc(e["venue"])}</span>' if e.get("venue") else ""
     link = f'<a href="{esc(e["url"])}" target="_blank" rel="noopener">{esc(e["title"])}</a>' if e.get("url") else esc(e["title"])
@@ -171,7 +175,9 @@ def main():
     ref = data["reference_date"]
     end = (dt.date.fromisoformat(ref) + dt.timedelta(days=WINDOW_DAYS)).isoformat()
     g = json.load(open(a.gazetteer, encoding="utf-8"))
-    zones = {z["publication_zone_id"]: z for z in g["publication_zones"] if z["publication_zone_id"] != "other"}
+    # The pages are the gazetteer's publication zones with is_page = true (spec v2.5
+    # Part I: 89 pages), not "everything but other" (review cycle 1, item 2).
+    zones = {z["publication_zone_id"]: z for z in g["publication_zones"] if z.get("is_page") is True}
     wiki_threads = defaultdict(list)
     if a.wiki and os.path.exists(a.wiki):
         for q in json.load(open(a.wiki, encoding="utf-8"))["questioni"]:

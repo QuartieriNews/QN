@@ -66,9 +66,30 @@ def test_featured_is_multi_channel():
 
 
 def test_non_local_classes_excluded_and_undated_listed():
-    evs = [ev("ad", "za", "V", cls="commercial"), ev("nd", "za", "V", start=None)]
+    # the classes are the real ones of prompts/EDITORIAL_FILTER.md as they occur in the data
+    evs = [ev("ad", "za", "V", cls="promotion"), ev("shop", "za", "V", cls="commercial_routine"),
+           ev("unc", "za", "V", cls="uncertain"), ev("nd", "za", "V", start=None)]
     f, g, s, u, _ = b.events_block("za", ZONES, evs, REF, END)
     assert ids(f, g, s) == [] and [e["id"] for e in u] == ["nd"]
+
+
+def test_every_item_carries_its_zone_label():
+    # README: "ogni voce porta l'etichetta della propria zona" — the current zone's items too (cycle 1, item 3)
+    html_zone = b.li("zona", ev("z1", "za", "V"), ZONES, "za")
+    html_mun = b.li("municipio", ev("m1", "zb", "V"), ZONES, "za")
+    html_city = b.li("città", ev("c1", None, None, "city"), ZONES, "za")
+    assert '<span class="tag">Za</span>' in html_zone, html_zone
+    assert '<span class="tag">Zb</span>' in html_mun, html_mun
+    assert '<span class="tag">Roma</span>' in html_city, html_city
+
+
+def test_featured_item_does_not_uncollapse_its_venue():
+    # 4 dates at one venue, one of them featured: the venue still collapses (cycle 1, item 4)
+    evs = [ev(f"v{i}", "za", "V", venue="Teatro", start=f"2026-10-{14 + i}", rep=("a", "b") if i == 0 else ("a",)) for i in range(4)]
+    f, g, s, u, _ = b.events_block("za", ZONES, evs, REF, END)
+    assert [e["id"] for _, e in f] == ["v0"], f
+    assert [v for v, _ in g] == ["Teatro"] and sorted(e["id"] for _, e in g[0][1]) == ["v1", "v2", "v3"], g
+    assert s == [], s
 
 
 if __name__ == "__main__":
