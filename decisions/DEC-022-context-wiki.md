@@ -1,9 +1,9 @@
 # DEC-022 — Wiki di contesto: schedario, diario e pagine generate
 
-Status: OPEN — OWNER_DECISION_REQUIRED
-Blocks: the merge of pull request #17; keeping `docs/wiki/` and `tools/wiki/` in the
-repository; any extension of the wiki (May 2026, the monthly runs); any pipeline read of
-it. Nothing already on `main` depends on this entry.
+Status: DECIDED (23 October 2026, owner in the builder session, confirmed on the question put by the builder)
+Blocks: nothing since 23 October 2026. While open it blocked the merge of pull request
+#17, keeping `docs/wiki/` and `tools/wiki/` in the repository, any extension of the wiki
+and any pipeline read of it.
 
 Numbering: this entry was opened as DEC-014; it was renumbered on 23 October 2026
 because DEC-014…DEC-021 are the eight owner decisions of 11 September 2026 cited in
@@ -62,5 +62,20 @@ path), `docs/wiki/` (~4 MB of derived data). No pipeline, gazetteer, prompt or
 n8n behaviour changes. The pull request carries the artefacts together with this
 entry so that the owner decides on the real pages; nothing merges before the decision.
 
-Decided by: — · Date: — · Affected: docs/wiki/, tools/wiki/, DEC-109 (reading),
-DEC-105 (applied as decided, no anonymisation added).
+Decision (owner, 23 October 2026). Question 1: **A**, the wiki is kept as proposed,
+in `docs/wiki/` built by `tools/wiki/`, with the two conditions of the recommendation
+(low-coherence threads are split by a reader before the pipeline relies on them; the
+wiki is a back-office for context lines, not a fifth block). Question 2: the one-line
+titles written by the study's readers are the readers' own labels, not source text;
+DEC-109 is honoured as committed. The same decision draws the line for pull request #18:
+the titles of a newspaper's own pages (Roma Today) are source text and leave the
+repository; that dataset stays only in the private preview and on Drive.
+
+Owner's words, put to the owner as a yes/no on the builder's recommendation and
+confirmed: «i titoli riscritti vanno bene, quindi la 17 può passare; i titoli di Roma
+Today no, quindi dalla 18 va tolto il file dei dati, che resta solo nell'anteprima
+privata.»
+
+Decided by: Owner · Date: 23 October 2026 · Affected: docs/wiki/, tools/wiki/,
+DEC-109 (reading recorded, entry unchanged), DEC-105 (applied as decided, no
+anonymisation added), pull request #18 (`tools/site/events_2026-10.json` removed).
