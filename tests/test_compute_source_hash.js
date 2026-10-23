@@ -136,6 +136,11 @@ check('number rounded to six places', hashInputValue('location.latitude', 41.868
 check('integer padded to six places', hashInputValue('location.longitude', 12), '12.000000');
 check('numeric string accepted', hashInputValue('location.latitude', ' 41.8689 '), '41.868900');
 check('non-numeric string -> empty', hashInputValue('location.latitude', 'n/a'), '');
+check('whitespace-only string -> empty, not 0.000000 (cycle-1, item 2)', hashInputValue('location.latitude', '   '), '');
+check('object -> empty, not 0.000000 (cycle-1, item 2)', hashInputValue('location.latitude', { a: 1 }), '');
+check('array -> empty', hashInputValue('location.longitude', [12.5]), '');
+check('whitespace-only coordinate does not count as a non-empty hashed field',
+  countNonEmptyHashedFields(sample({ 'location.latitude': '   ' })), 10);
 check('negative zero normalized', hashInputValue('location.latitude', -0.0000001), '0.000000');
 check('float noise beyond six places does not move the hash',
   computeSourceHash(sample({ 'location.latitude': 41.8689000000001 })), computeSourceHash(sample()));
