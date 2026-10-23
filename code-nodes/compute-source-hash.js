@@ -76,8 +76,14 @@ function canonicalTimestamp(value) {
  *  Numeric strings are accepted (the scraper is not guaranteed to type them);
  *  anything non-finite is empty, like a missing value. */
 function canonicalCoordinate(value) {
-  if (value === null || value === undefined || value === '') return '';
-  const n = typeof value === 'number' ? value : Number(canonicalString(value));
+  if (typeof value !== 'number') {
+    // String rule first: whatever canonicalizes to empty (null, whitespace, a
+    // non-scalar) stays empty and never becomes the number 0 (cycle-1, item 2).
+    const s = canonicalString(value);
+    if (s === '') return '';
+    value = Number(s);
+  }
+  const n = value;
   if (!Number.isFinite(n)) return '';
   const fixed = n.toFixed(6);
   return fixed === '-0.000000' ? '0.000000' : fixed;
