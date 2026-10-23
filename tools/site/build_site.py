@@ -15,8 +15,12 @@ JSON in the shape of spec v2.5 fields (publication_zone_id, municipality_code,
 geo_level, content_type, editorial_class) and the output is static HTML. Whatever
 platform is chosen later consumes the same data and the same rules.
 
-    python tools/site/build_site.py --events tools/site/events_2026-10.json \
+    python tools/site/build_site.py --events <local copy of events_2026-10.json> \
         [--wiki <path to schedario.json>] --out site/
+
+The events file is not in the repository: it carries third-party titles, which
+DEC-109 keeps out (owner, 23 October 2026, DEC-022). It lives on Drive, QN Hub /
+20 Packages / Prototipo sito 2026-10, and in the private preview.
 """
 import argparse
 import datetime as dt
