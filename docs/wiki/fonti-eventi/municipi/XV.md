@@ -1,28 +1,28 @@
 # Municipio XV — fonti eventi (ottobre 2026)
 
-Fonti: 22 · eventi nel mese: 21. Sigle degli aggregatori: FB Facebook, CR culture.roma.it, RT Roma Today, FL lettura diretta. La *quota diretta* è la parte degli eventi della fonte che rimanda al sito dell'organizzatore o è stata letta lì.
+Fonti: 23 · eventi nel mese: 22. Sigle degli aggregatori: FB Facebook, CR culture.roma.it, RT Roma Today, FL lettura diretta. La *quota diretta* è la parte degli eventi della fonte che rimanda al sito dell'organizzatore o è stata letta lì.
 
 ## Cassia `cassia`
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| TEATRO CIAK ROMA SRL | [sito](https://teatrociakroma.it) · [eventi della pagina Facebook](https://www.facebook.com/TeatroCiakRoma/events) | organizzatore | teatro | CR 8 | 100% | — | `S-EV-0768` |
-| Evento sponsorizzato | — | organizzatore | altro | RT 1 | 100% | — | `S-EV-0258` |
+| TEATRO CIAK ROMA SRL | [sito](https://teatrociakroma.it) · [eventi della pagina Facebook](https://www.facebook.com/TeatroCiakRoma/events) | organizzatore | teatro | CR 8 | 100% | — | `S-EV-0865` |
+| Evento sponsorizzato | — | organizzatore | altro | RT 1 | 100% | — | `S-EV-0284` |
 | Le Formiche Lab | [sito](https://www.leformichelab.com/) | luogo | locale_commerciale | RT 1 | 100% | scartare (da_trovare) | `S-FE-0235` |
 
 ## Cesano `cesano`
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| ISOLA PRODUZIONI S.R.L. | [sito](https://isolaproduzioni.it) · [eventi della pagina Facebook](https://www.facebook.com/isolaproduzioni/events) · [Instagram](https://www.instagram.com/isolaproduzioni_) | organizzatore | altro | CR 2 | 100% | — | `S-EV-0388` |
-| Istituto di Istruzione Superiore “Domizia Lucilla” e Teatro Patologico | — | luogo | teatro | RT 1 | 100% | — | `S-EV-0390` |
+| ISOLA PRODUZIONI S.R.L. | [sito](https://isolaproduzioni.it) · [eventi della pagina Facebook](https://www.facebook.com/isolaproduzioni/events) · [Instagram](https://www.instagram.com/isolaproduzioni_) | organizzatore | altro | CR 2 | 100% | — | `S-EV-0439` |
+| Istituto di Istruzione Superiore “Domizia Lucilla” e Teatro Patologico | — | luogo | teatro | RT 1 | 100% | — | `S-EV-0441` |
 
 ## La Giustiniana `la-giustiniana`
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| Locanda Blues | [eventi della pagina Facebook](https://www.facebook.com/liveaidofficial/events) | luogo | altro | FB 1 | 100% | — | `S-EV-0453` |
-| Violatorz | [eventi della pagina Facebook](https://www.facebook.com/violatorz/events) | organizzatore | altro | FB 1 | 100% | — | `S-EV-0966` |
+| Locanda Blues | [eventi della pagina Facebook](https://www.facebook.com/liveaidofficial/events) | luogo | altro | FB 1 | 100% | — | `S-EV-0507` |
+| Violatorz | [eventi della pagina Facebook](https://www.facebook.com/violatorz/events) | organizzatore | altro | FB 1 | 100% | — | `S-EV-1068` |
 | Comitato Genitori Cassia 1694 | [eventi della pagina Facebook](https://www.facebook.com/comitatogenitoricassia1694/events) | soggetto | associazione_locale | — | — | scartare (facebook) | `S-FE-0243` |
 
 ## La Storta `la-storta`
@@ -42,7 +42,7 @@ Fonti: 22 · eventi nel mese: 21. Sigle degli aggregatori: FB Facebook, CR cultu
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| Via Brembio | — | luogo | altro | FB 1 | 100% | — | `S-EV-0858` |
+| Via Brembio | — | luogo | altro | FB 1 | 100% | — | `S-EV-0960` |
 | Biblioteca Galline Bianche | [eventi della pagina Facebook](https://www.facebook.com/bibliotecagallinebianche/events) | soggetto | biblioteca | — | — | tenere (facebook) | `S-FE-0138` |
 | Comitato Mobilità Labaro e Prima Porta | [eventi della pagina Facebook](https://www.facebook.com/comitatolabaroprimaporta/events) | soggetto | comitato_quartiere | — | — | scartare (facebook) | `S-FE-0258` |
 
@@ -50,11 +50,12 @@ Fonti: 22 · eventi nel mese: 21. Sigle degli aggregatori: FB Facebook, CR cultu
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| Foro Italico | [sito](https://tennisandfriends.it) | luogo | altro | RT 1 | 100% | — | `S-EV-0287` |
-| MeeraNilayaacademy | [eventi della pagina Facebook](https://www.facebook.com/MeeraPsicoterapeutaTantraRoma/events) | organizzatore | altro | FB 1 | 0% | — | `S-EV-0479` |
-| Roma ponte Milvio | — | luogo | altro | FB 1 | 0% | — | `S-EV-0669` |
-| Stadio Olimpico | — | luogo | altro | FB 1 | 0% | — | `S-EV-0742` |
-| Tuscania | — | luogo | altro | RT 1 | 0% | — | `S-EV-0831` |
+| Foro Italico | [sito](https://tennisandfriends.it) | luogo | altro | RT 1 | 100% | — | `S-EV-0323` |
+| MeeraNilayaacademy | [eventi della pagina Facebook](https://www.facebook.com/MeeraPsicoterapeutaTantraRoma/events) | organizzatore | altro | FB 1 | 0% | — | `S-EV-0549` |
+| Roma ponte Milvio | — | luogo | altro | FB 1 | 0% | — | `S-EV-0754` |
+| Stadio Olimpico | — | luogo | altro | FB 1 | 0% | — | `S-EV-0835` |
+| Tifoso Bianconero | [pagina Facebook](https://www.facebook.com/people/Tifoso-Bianconero/100063701912030) | organizzatore | altro | FB 1 | 0% | — | `S-EV-0914` |
+| Tuscania | — | luogo | altro | RT 1 | 0% | — | `S-EV-0931` |
 | Foro Italico (Sport e Salute) - evento Tennis & Friends | [sito](https://www.sportesalute.eu/) | soggetto | sport_arena | — | — | scartare (sito) | `S-FE-0260` |
 | Foro Italico (Tennis & Friends) | — | soggetto | sport_arena | — | — | scartare (nessuno) | `S-FE-0261` |
 

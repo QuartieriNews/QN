@@ -4,8 +4,9 @@
 Rules under test, each named in the check label:
 - T-FE-1  DEC-022 / DEC-109: no event title from the workbook reaches the output
           (JSON or pages); only source names, channels and counts.
-- T-FE-2  DEC-105: a Roma Today promoter shaped like a person's name is omitted and
-          counted; an organisation is kept.
+- T-FE-2  DEC-105: no automatic anonymisation — a curator, a promoter or a Facebook
+          organiser under their own name is a subject like any other; a Facebook
+          personal profile keeps the name and drops the profile URL.
 - T-FE-3  identity: the same venue seen in Facebook, culture.roma.it, Roma Today and
           the registry is one entry, with the registry key as id and the spellings as aliases.
 - T-FE-4  gazetteer wins: the zone is the gazetteer publication_zone_id by majority of
@@ -74,7 +75,7 @@ def make_inputs(folder):
         ["https://www.facebook.com/events/1/", TITLE_FB, "False", "105634906151016", "Teatro Vascello", None, 41.88, 12.46, "Via Giacinto Carini 78", None, "Roma",
          "Teatro Vascello", "https://www.facebook.com/teatrovascello", "https://www.teatrovascello.it/spettacoli/serata-jazz; javascript:alert(1)", None],
         ["https://www.facebook.com/events/2/", TITLE_FB + " 2", "False", "105634906151016", "Teatro Vascello Roma", None, 41.88, 12.46, None, None, "Roma",
-         "Jazz Promoter APS", "https://www.facebook.com/jazzpromoter/", "https://www.jazzpromoter.it/eventi/2", "https://www.vivaticket.com/x"],
+         "Jazz Promoter APS; Giulia Conti", "https://www.facebook.com/jazzpromoter/; https://www.facebook.com/profile.php?id=100099", "https://www.jazzpromoter.it/eventi/2", "https://www.vivaticket.com/x"],
     ])
     ch = ["url", "title", "venue", "venueUrl", "address", "municipio", "aCuraDi", "contattiLinks", "social", "ingressoLinks"]
     sheet(wb, "Comune di Roma (culture)", ch, [
@@ -130,9 +131,12 @@ def main():
 
         print("T-FE-2 names of persons")
         names = {e["nome"] for e in s["fonti"]}
-        check("T-FE-2 person-shaped promoter omitted", "Anna Bianchi" in names or "Mario Rossi" in names, False)
-        check("T-FE-2 omitted persons counted (Comune 'a cura di' + Roma Today promoter)", s["promotori_omessi"], 2)
+        check("T-FE-2 curator and promoter under their own name are subjects", {"Anna Bianchi", "Mario Rossi"} <= names, True)
         check("T-FE-2 organisation kept", "OFFICINE CULTURALI SRL" in names, True)
+        gc = [e for e in s["fonti"] if e["nome"] == "Giulia Conti"][0]
+        check("T-FE-2 facebook personal profile: name kept", gc["ruoli"], ["organizzatore"])
+        check("T-FE-2 facebook personal profile: profile url not written", gc["canali"]["facebook"], [])
+        check("T-FE-2 personal profiles counted", s["profili_personali_senza_url"], 1)
 
         print("T-FE-3 identity")
         v = [e for e in s["fonti"] if e["nome"] == "Teatro Vascello"]

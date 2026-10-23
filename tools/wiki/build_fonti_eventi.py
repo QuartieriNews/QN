@@ -34,9 +34,11 @@ Rules this build honours:
   output. A source is a *soggetto* (a venue, an institution, an association, a
   company): its name, address and public channels are the registry, not source text.
   Event-level data stay in the workbook on Drive.
-- DEC-105: names of organisations only; the build adds no person's name. A Roma Today
-  "promotore" that looks like a person's name (two capitalised words, no legal form,
-  no venue word) is kept out of the registry and counted under `promotori_omessi`.
+- DEC-105: no automatic anonymisation. Whoever hosts or organises events is a subject
+  of this registry, a person or an organisation alike (a guide, a promoter, a director
+  working under their own name). The one content reason applied: a Facebook personal
+  profile is not a publication channel, so its URL is not written; the name stays
+  (counted under `profili_personali_senza_url`).
 - gazetteer.json wins: a zone is written only when it is a publication_zone_id of the
   gazetteer; the zone of an event (method 1 or 2 of the October workbook) is
   aggregated per source by majority, never invented.
@@ -89,8 +91,9 @@ def domain(u):
 
 
 def personal_profile(url):
-    """A Facebook personal profile or a people/ page is a person, not a source."""
-    return bool(url) and bool(re.search(r"facebook\.com/(profile\.php|people/)", str(url)))
+    """A Facebook personal profile (profile.php?id=…). A people/ URL is not treated as
+    one: Facebook uses it for pages without a username too."""
+    return bool(url) and "facebook.com/profile.php" in str(url)
 
 
 def name_tokens(name):
@@ -226,6 +229,8 @@ class Registry:
             if not d:
                 return
             url = "https://" + d
+        if kind == "facebook" and personal_profile(url):
+            return   # a private profile is not a publication channel (same rule for every source)
         if kind in ("facebook", "instagram"):
             url = re.sub(r"[?#].*$", "", url).rstrip("/")
         self.entries[k]["canali"][kind][url] += 1
@@ -279,7 +284,7 @@ def build(input_dir, out_dir, gazetteer_path):
 
     # ---- Facebook: venues (location) and organisers --------------------------------------------------
     fh, frows = read_sheet(wb, "Facebook")
-    persone_omesse = [0]
+    profili_personali = [0]
     for r in frows:
         g = lambda key: cell(None, fh, r, key)
         geo = geo_by_url.get(g("url"), {})
@@ -300,10 +305,10 @@ def build(input_dir, out_dir, gazetteer_path):
                 continue
             u = urls[i].strip() if i < len(urls) else ""
             is_page = bool(re.match(r"https?://(?:www\.)?facebook\.com/[A-Za-z0-9._-]+/?$", u or "")) and not personal_profile(u)
-            if looks_like_person(nm) or (personal_profile(u) and not is_page and len(nm.split()) <= 3):
-                persone_omesse[0] += 1
-                continue
             ko = reg.get(nm, ruolo="organizzatore", aggregatore="facebook")
+            if personal_profile(u):
+                profili_personali[0] += 1   # the name stays (DEC-105); a private profile is not a publication channel, so no URL
+                u = ""
             if ko == kv:
                 reg.entries[ko]["ruoli"].add("organizzatore")
             else:
@@ -342,9 +347,7 @@ def build(input_dir, out_dir, gazetteer_path):
             if g("venueUrl"):
                 reg.entries[kv]["canali"]["culture_luogo"] = g("venueUrl")
         ko = None
-        if g("aCuraDi") and looks_like_person(g("aCuraDi")):
-            persone_omesse[0] += 1
-        elif g("aCuraDi"):
+        if g("aCuraDi"):
             ko = reg.get(g("aCuraDi"), ruolo="organizzatore", aggregatore="comune")
             if ko != kv:
                 reg.event(ko, "comune", geo.get("rintracciabile"))
@@ -368,7 +371,6 @@ def build(input_dir, out_dir, gazetteer_path):
 
     # ---- Roma Today: venues from the card, declared promoters, websites ------------------------------
     rh, rrows = read_sheet(wb, "Romatoday → sorgente")
-    promotori_omessi = persone_omesse[0]
     for r in rrows:
         g = lambda key: cell(None, rh, r, key)
         geo = geo_by_url.get(g("link_ufficiale")) or geo_by_url.get(g("url_romatoday")) or {}
@@ -380,13 +382,10 @@ def build(input_dir, out_dir, gazetteer_path):
             reg.event(kv, "romatoday", geo.get("rintracciabile"))
         ko = None
         if g("promotore_dichiarato"):
-            if looks_like_person(g("promotore_dichiarato")):
-                promotori_omessi += 1
-            else:
-                ko = reg.get(g("promotore_dichiarato"), ruolo="organizzatore", aggregatore="romatoday")
-                if ko != kv:
-                    reg.event(ko, "romatoday", geo.get("rintracciabile"))
-                    reg.geo(ko, geo.get("municipio"), geo.get("zona"))
+            ko = reg.get(g("promotore_dichiarato"), ruolo="organizzatore", aggregatore="romatoday")
+            if ko != kv:
+                reg.event(ko, "romatoday", geo.get("rintracciabile"))
+                reg.geo(ko, geo.get("municipio"), geo.get("zona"))
         who = ko or kv
         if who:
             sw = g("sito_web")
@@ -539,9 +538,9 @@ def build(input_dir, out_dir, gazetteer_path):
         "versione": "2026-10.1",
         "fonte_dati": "eventi_unico.xlsx (ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31 ottobre) + registro fonti 13 ott 2026",
         "regole": ["DEC-022: nessun testo delle fonti; qui stanno soggetti, canali e conteggi",
-                   "DEC-105: solo nomi di organizzazioni; i promotori con la forma di un nome di persona sono omessi",
+                   "DEC-105: nessuna anonimizzazione; chi organizza o ospita eventi è un soggetto, persona o organizzazione che sia; di un profilo personale Facebook non si scrive l'URL",
                    "gazetteer vince: la zona è scritta solo se è una publication_zone_id"],
-        "promotori_omessi": promotori_omessi,  # persone omesse: organizzatori Facebook, "a cura di" del Comune, promotori Roma Today
+        "profili_personali_senza_url": profili_personali[0],
         "fonti": out_entries,
         "aggregatori": {s: {"nome": AGGREGATORI[s], "eventi_ott_2026": per_src[s], "con_pagina_qn": geo_ok[s], "fuori_roma": fuori[s],
                             "rintracciabilita": dict(traced[s].most_common())} for s in AGGREGATORI},
@@ -689,7 +688,7 @@ def write_aggregatori(sched, out_dir):
             "Candidati da scorrere, non sentenze.", "", "| tipo · fonti | gruppi |", "|---|---|"]
     for k, n in sched["doppioni"].items():
         out.append(f"| {k} | {n} |")
-    out += ["", f"Promotori omessi dal registro perché hanno la forma di un nome di persona (DEC-105): {sched['promotori_omessi']}.", ""]
+    out += ["", f"Organizzatori che su Facebook compaiono con un profilo personale: {sched['profili_personali_senza_url']} occorrenze; il nome resta nel registro (DEC-105: nessuna anonimizzazione), l'indirizzo del profilo no, perché non è un canale di pubblicazione.", ""]
     open(os.path.join(out_dir, "aggregatori.md"), "w", encoding="utf-8").write("\n".join(out) + "\n")
 
 
@@ -702,7 +701,7 @@ def main():
     s = build(a.input, a.out, a.gazetteer)
     print(f"fonti {len(s['fonti'])} · nel registro {sum(1 for e in s['fonti'] if e['registro'])} · "
           f"con sito {sum(1 for e in s['fonti'] if e['canali']['sito'])} · con pagina QN {sum(1 for e in s['fonti'] if e['zona'])} · "
-          f"promotori omessi {s['promotori_omessi']} → {a.out}")
+          f"profili personali senza url {s['profili_personali_senza_url']} → {a.out}")
 
 
 if __name__ == "__main__":

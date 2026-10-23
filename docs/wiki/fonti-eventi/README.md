@@ -47,8 +47,13 @@ delle fonti (DEC-022, decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 - **Nessun testo delle fonti** (DEC-109, DEC-022): nello schedario entrano nomi di
   organizzazioni, indirizzi, canali e conteggi; mai un titolo o una descrizione di
   evento. Il test `T-FE-1` lo verifica con titoli sentinella.
-- **Nomi di persone** (DEC-105): il build non ne aggiunge. Un promotore di Roma Today
-  con la forma di un nome di persona è omesso e contato (`promotori_omessi`).
+- **Nessuna anonimizzazione** (DEC-105): chi ospita o organizza eventi è un soggetto del
+  registro, persona o organizzazione che sia: una guida, un promoter, un regista o un
+  curatore che lavorano a proprio nome stanno qui come un teatro. L'unica regola di
+  contenuto: di un profilo personale Facebook (`profile.php`) non si scrive l'indirizzo,
+  perché non è un canale di pubblicazione; il nome resta e il caso è contato
+  (`profili_personali_senza_url`). Attori, registi e artisti di un singolo evento non
+  sono fonti: stanno nei dati dell'evento, su Drive.
 - **Il gazetteer vince**: la pagina QN di una fonte è la `publication_zone_id` più
   frequente fra i suoi eventi (metodo 1 o 2 del foglio); una stringa che non è nel
   gazetteer non viene scritta.
@@ -60,8 +65,8 @@ delle fonti (DEC-022, decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 1.465 fonti, di cui 370 dal registro del 13
-ottobre; 650 luoghi e 596 organizzatori; 402 con un sito web; 1.023 con una pagina QN.
+I numeri sono in `INDEX.md`. In sintesi: 1.467 fonti. di cui 370 dal registro del 13
+ottobre; 644 luoghi e 605 organizzatori; 314 con un sito web; 1.024 con una pagina QN.
 Le fonti senza Municipio sono per lo più organizzatori che a ottobre hanno prodotto
 eventi fuori Roma o registrazioni del registro senza geografia.
 

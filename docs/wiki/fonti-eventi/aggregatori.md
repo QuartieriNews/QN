@@ -81,5 +81,5 @@ Gruppi di eventi riconosciuti come lo stesso evento (titolo quasi identico e dat
 | tra fonti · Facebook + Fonte locale | 3 |
 | tra fonti · Fonte locale + Romatoday | 8 |
 
-Promotori omessi dal registro perché hanno la forma di un nome di persona (DEC-105): 116.
+Organizzatori che su Facebook compaiono con un profilo personale: 0 occorrenze; il nome resta nel registro (DEC-105: nessuna anonimizzazione), l'indirizzo del profilo no, perché non è un canale di pubblicazione.
 

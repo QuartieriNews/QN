@@ -18,9 +18,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Ivano Di Maio | [eventi della pagina Facebook](https://www.facebook.com/ivano.di.maio/events) | organizzatore | FB 1 |
 | Kill Joy | [eventi della pagina Facebook](https://www.facebook.com/killjoy.reloaded/events) | luogo | FB 1 |
+| M come Masini-tribute band | [pagina Facebook](https://www.facebook.com/people/M-come-Masini-tribute-band/61572349178967) | organizzatore | FB 1 |
+| Marco Migliarucci | [eventi della pagina Facebook](https://www.facebook.com/marco.migliarucci/events) | organizzatore | FB 1 |
 | Comitato Castel di Guido | [eventi della pagina Facebook](https://www.facebook.com/comitatocdg/events) | soggetto | — |
 | INA-Cecafumo-Comitato | [eventi della pagina Facebook](https://www.facebook.com/Inacecafumocomitato/events) | soggetto | — |
-| M come Masini-tribute band | — | organizzatore | FB 1 |
 
 ## Alessandrino `alessandrino` — Municipio V
 
@@ -31,7 +32,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Hub Music Factory | [eventi della pagina Facebook](https://www.facebook.com/hubmusicfactory/events) | organizzatore | FB 4 |
 | Les Gotique Productions | [eventi della pagina Facebook](https://www.facebook.com/LesGotiqueProduction/events) | organizzatore | FB 2 |
 | CRASHDÏET | [eventi della pagina Facebook](https://www.facebook.com/realcrashdiet/events) | organizzatore | FB 1 |
+| Debs Promotion | [pagina Facebook](https://www.facebook.com/people/Debs-Promotion/61578180725211) | organizzatore | FB 1 |
 | DJ Zipperface | [eventi della pagina Facebook](https://www.facebook.com/DJZipperface/events) | organizzatore | FB 1 |
+| Fabrizio Silentless Marconi | [eventi della pagina Facebook](https://www.facebook.com/fabrizio.j.marconi/events) | organizzatore | FB 1 |
+| Gamevintage market | [pagina Facebook](https://www.facebook.com/people/Gamevintage-market/100089486076177) | organizzatore | FB 1 |
 | HEARTS APART | [eventi della pagina Facebook](https://www.facebook.com/heartsapartband/events) | organizzatore | FB 1 |
 | Instant Lake | [eventi della pagina Facebook](https://www.facebook.com/instantlake/events) | organizzatore | FB 1 |
 | LM Productions | [eventi della pagina Facebook](https://www.facebook.com/lmproductionsevents/events) | organizzatore | FB 1 |
@@ -40,6 +44,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Silentless | [eventi della pagina Facebook](https://www.facebook.com/Silentlessband/events) | organizzatore | FB 1 |
 | Soror Dolorosa | [eventi della pagina Facebook](https://www.facebook.com/sorordolorosaofficial/events) | organizzatore | FB 1 |
 | THE DIRTIEST | [eventi della pagina Facebook](https://www.facebook.com/dirtiest/events) | organizzatore | FB 1 |
+| Valentina Tenebris | [eventi della pagina Facebook](https://www.facebook.com/Valtfolla/events) | organizzatore | FB 1 |
 | Biblioteca Gianni Rodari | [eventi della pagina Facebook](https://www.facebook.com/bibliotecagiannirodariRM/events) | soggetto | — |
 | Comitato Cittadinanza Tor3Teste e V Municipio | [eventi della pagina Facebook](https://www.facebook.com/61583607208400/events) | soggetto | — |
 | Comitato di Quartiere Nuova Tor Tre Teste Attiva | [eventi della pagina Facebook](https://www.facebook.com/61553642282897/events) | soggetto | — |
@@ -55,6 +60,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Ippodromo Capannelle | [pagina letta alla fonte (calendario)](https://ippodromocapannelle.roma.it/eventi-e-spettacoli) · [sito](https://ippodromocapannelle.roma.it) | luogo | FL 3 RT 3 |
 | Gialli Per Caso Cena con Delitto | [eventi della pagina Facebook](https://www.facebook.com/CenaConDelittoGialliPerCaso/events) | organizzatore | FB 3 |
 | Ariadna Naveira | [eventi della pagina Facebook](https://www.facebook.com/ariadna.naveira/events) | organizzatore | FB 1 |
+| Capsularoma | [pagina Facebook](https://www.facebook.com/people/Capsularoma/61591475729151) | organizzatore | FB 1 |
 | Fernando Sanchez | [eventi della pagina Facebook](https://www.facebook.com/FerSanzTango/events) | organizzatore | FB 1 |
 | Giardino Bonfire | [sito](https://bonfiremarket.it) | luogo | RT 1 |
 | Italian Dog Asd | [eventi della pagina Facebook](https://www.facebook.com/italiandog/events) | organizzatore | FB 1 |
@@ -79,6 +85,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Nuovo Teatro Orione | [eventi della pagina Facebook](https://www.facebook.com/orioneroma/events) | luogo | FB 2 |
 | Edarcom Europa Galleria d'Arte Contemporanea | [sito](https://edarcom.it) | luogo | RT 1 |
 | Graffiti - Scuola di Fotografia | [sito](https://graffitiscuola.it) · [eventi della pagina Facebook](https://www.facebook.com/graffiti.scuoladifotografia/events) | luogo, organizzatore | FB 1 |
+| Produzioni Teatro Verdi | [pagina Facebook](https://www.facebook.com/people/Produzioni-Teatro-Verdi/61576184594785) | organizzatore | FB 1 |
 | Via Gennaro Mondaini | — | luogo | FB 2 |
 
 ## Ardeatino `ardeatino` — Municipio VIII
@@ -97,11 +104,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Teatro Ghione | [eventi della pagina Facebook](https://www.facebook.com/GhioneTeatroRoma/events) | luogo, organizzatore | FB 8 |
 | Forum Roma Sport Center | [eventi della pagina Facebook](https://www.facebook.com/ForumRomaSportCenter/events) | luogo | FB 3 |
 | The Royal Family Dance Crew | [eventi della pagina Facebook](https://www.facebook.com/OfficialRoyalFamilyDanceCrew/events) | organizzatore | FB 2 |
+| Alessandra Casale | [eventi della pagina Facebook](https://www.facebook.com/alessandra.casale/events) | organizzatore | FB 1 |
+| Antonio Tartarini | [eventi della pagina Facebook](https://www.facebook.com/antonio.tartarini.5/events) | organizzatore | FB 1 |
 | Asc Danza | [eventi della pagina Facebook](https://www.facebook.com/ascdanza/events) | organizzatore | FB 1 |
 | GMC Defence Services | [sito](https://academy.gmcdefence.net) · [eventi della pagina Facebook](https://www.facebook.com/gmcdefenceteam/events) | organizzatore | FB 1 |
 | GRUPPOANTEPRIMA | [eventi della pagina Facebook](https://www.facebook.com/gruppoanteprima/events) | organizzatore | FB 1 |
 | Io Vergine tu Pesci? I segni dell' amore | [eventi della pagina Facebook](https://www.facebook.com/ioverginetupesci/events) | organizzatore | FB 1 |
 | Lega del Filo d'Oro | [eventi della pagina Facebook](https://www.facebook.com/legadelfilodoro/events) | organizzatore | FB 1 |
+| Livia Bonifazi | [eventi della pagina Facebook](https://www.facebook.com/livia.bonifazi/events) | organizzatore | FB 1 |
 | Los Latinos La Mirada | [eventi della pagina Facebook](https://www.facebook.com/loslatinos.lamirada/events) | organizzatore | FB 1 |
 | Magic Amor ETS | [sito](https://magicamor.org) · [eventi della pagina Facebook](https://www.facebook.com/MagicAmorEts/events) | organizzatore | FB 1 |
 | Mago Lollo | [eventi della pagina Facebook](https://www.facebook.com/magolollo/events) | organizzatore | FB 1 |
@@ -109,6 +119,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Piazza Venezzia, Rome, Italy | [pagina Facebook](https://www.facebook.com/pages/Piazza-Venezzia-Rome-Italy/238543586189135) | luogo | FB 1 |
 | Pierluigi Picconi | [eventi della pagina Facebook](https://www.facebook.com/pierluigi.picconi/events) | organizzatore | FB 1 |
 | Rieti - Park Hotel Villa Potenziani | [pagina Facebook](https://www.facebook.com/pages/Rieti-Park-Hotel-Villa-Potenziani/380880551990407) | luogo | FB 1 |
+| Roberta Kat Cattozzi | [eventi della pagina Facebook](https://www.facebook.com/roberta.cattozzi/events) | organizzatore | FB 1 |
 | Roma, Lazio, Italy | [pagina Facebook](https://www.facebook.com/pages/Roma-Lazio-Italy/160952890767549) | luogo | FB 1 |
 | Scuola Italiana di Tehran "Pietro della Valle" EX-ALLIEVI | [pagina Facebook](https://www.facebook.com/groups/31134662361) | organizzatore | FB 1 |
 | Sogno di Bambino Onlus | [sito](https://sognodibambino.org) · [eventi della pagina Facebook](https://www.facebook.com/sognodibambino/events) | organizzatore | FB 1 |
@@ -117,6 +128,8 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Biblioteca Cornelia | [eventi della pagina Facebook](https://www.facebook.com/bibliocornelia/events) | soggetto | — |
 | Biblioteca Valle Aurelia | [eventi della pagina Facebook](https://www.facebook.com/bibliotecavalleaurelia/events) | soggetto | — |
 | TH Roma - Carpegna Palace Hotel, V. Aurelia, 481, Roma | — | luogo | FB 3 |
+| Antonio Nasca | — | organizzatore | FB 1 |
+| Antonio Tony Cosenza | — | organizzatore | FB 1 |
 | Carmensita Loslatinos | — | organizzatore | FB 1 |
 | Teatro Aurelio | — | luogo | FB 1 |
 | VIA DELLA DIVINA PROVVIDENZA, 90, Roma, Lazio | — | luogo | FB 1 |
@@ -165,6 +178,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Luxna Beer | [eventi della pagina Facebook](https://www.facebook.com/luxnabirra/events) | luogo | FB 1 |
 | Outrun Band | [eventi della pagina Facebook](https://www.facebook.com/outrunbandRM/events) | organizzatore | FB 1 |
 | Comitato di Quartiere Casalotti, Casal Selce, Selva Candida, Selva Nera | [eventi della pagina Facebook](https://www.facebook.com/61553668641240/events) | soggetto | — |
+| Giulia Cheyenne | — | organizzatore | FB 1 |
 
 ## Cassia `cassia` — Municipio XV
 
@@ -198,10 +212,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Charlotte Spettacoli | [eventi della pagina Facebook](https://www.facebook.com/charlottespettacoli/events) | organizzatore | FB 4 |
 | BERTI LIVE | [sito](https://bertilive.com) · [eventi della pagina Facebook](https://www.facebook.com/bertilive/events) | organizzatore | FB 1 |
 | Biblioteca Quarticciolo | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-biblioteca-quarticciolo-2/) · [eventi della pagina Facebook](https://www.facebook.com/bibquarticcioloRM/events) | luogo | CR 1 |
+| Health Pilates Latina | [pagina Facebook](https://www.facebook.com/people/Health-Pilates-Latina/61565874868219) | organizzatore | FB 1 |
+| Simone Mozzato | [eventi della pagina Facebook](https://www.facebook.com/simone.mozzato.9/events) | organizzatore | FB 1 |
+| 𝑩𝑨𝑫 𝑹𝑶𝑴𝑨𝑵𝑪𝑬 - " Tʜᴇ Lᴀᴅʏ Gᴀɢᴀ Sʜᴏᴡ " | [pagina Facebook](https://www.facebook.com/people/%F0%9D%91%A9%F0%9D%91%A8%F0%9D%91%AB-%F0%9D%91%B9%F0%9D%91%B6%F0%9D%91%B4%F0%9D%91%A8%F0%9D%91%B5%F0%9D%91%AA%F0%9D%91%AC-T%CA%9C%E1%B4%87-L%E1%B4%80%E1%B4%85%CA%8F-G%E1%B4%80%C9%A2%E1%B4%80-S%CA%9C%E1%B4%8F%E1%B4%A1-/61551936461008) | organizzatore | FB 1 |
 | Teatro D'Annunzio Latina | — | luogo | FB 3 |
 | C.so della Repubblica 297, Latina, Italy | — | luogo | FB 1 |
 | Libreria aTodomodo | — | luogo | RT 1 |
-| 𝑩𝑨𝑫 𝑹𝑶𝑴𝑨𝑵𝑪𝑬 - " Tʜᴇ Lᴀᴅʏ Gᴀɢᴀ Sʜᴏᴡ " | — | organizzatore | FB 1 |
 
 ## Centro Storico `centro-storico` — Municipio I
 
@@ -218,6 +234,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Museo dell’Ara Pacis | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/museo-dellara-pacis/) · [sito](https://arapacis.it) · [eventi della pagina Facebook](https://www.facebook.com/MuseoAraPacis/events) | luogo | CR 6 RT 2 |
 | Villa Medici - Accademia di Francia a Roma | [pagina letta alla fonte (calendario)](https://villamedici.it//) · [sito](https://villamedici.it) | luogo | FL 8 |
 | Fever | [eventi della pagina Facebook](https://www.facebook.com/feverup/events) | organizzatore | FB 6 |
+| Funseedo Events | [pagina Facebook](https://www.facebook.com/people/Funseedo-Events/61569244920712) | organizzatore | FB 6 |
 | Palazzo Bonaparte Roma | [pagina letta alla fonte (calendario)](https://www.mostrepalazzobonaparte.it/archivio-mostre.php) · [sito](https://mostrepalazzobonaparte.it) | luogo | FB 4 FL 1 RT 1 |
 | Roma, Italia | [eventi della pagina Facebook](https://www.facebook.com/RomaItaliaOfficial/events) | luogo, organizzatore | FB 6 |
 | WelcRome | [eventi della pagina Facebook](https://www.facebook.com/WelcRome/events) | organizzatore | FB 6 |
@@ -262,8 +279,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CTG Vallesina - JESI | [eventi della pagina Facebook](https://www.facebook.com/ctgvallesina/events) | organizzatore | FB 1 |
 | D&C Eventi | [eventi della pagina Facebook](https://www.facebook.com/deceventi/events) | organizzatore | FB 1 |
 | Dainese (Roma) | [eventi della pagina Facebook](https://www.facebook.com/DaineseRoma/events) | organizzatore | FB 1 |
+| Danila Parrucchiere | [pagina Facebook](https://www.facebook.com/people/Danila-Parrucchiere/100063761942534) | organizzatore | FB 1 |
 | Emmeotto Arte Contemporanea | [pagina letta alla fonte (calendario)](https://www.emmeotto.net/events/events.html) · [sito](https://emmeotto.net) | luogo | FL 1 |
 | Enoteca Letteraria, Roma | [eventi della pagina Facebook](https://www.facebook.com/enotecaletterariaroma/events) | luogo | FB 1 |
+| Family Tour | [pagina Facebook](https://www.facebook.com/people/Family-Tour/100064051598857) | organizzatore | FB 1 |
+| Federica Maurizi | [eventi della pagina Facebook](https://www.facebook.com/federica.maurizi.9/events) | organizzatore | FB 1 |
 | Fondazione Primoli | [sito](https://fondazioneprimoli.it) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneprimoli/events) | organizzatore | FB 1 |
 | FONDAZIONE TEATRO DI ROMA | [sito](https://teatrodiroma.net) · [eventi della pagina Facebook](https://www.facebook.com/valleteatro/events) · [Instagram](https://www.instagram.com/fondazioneteatrodiroma) | organizzatore | RT 1 |
 | Galleria Biblioteca Angelica | [sito](https://melaseccapressoffice.it) | luogo | RT 1 |
@@ -275,11 +295,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | I Love Ceramica Gallery | [sito](https://melaseccapressoffice.it) | luogo | RT 1 |
 | Il Margutta | [sito](https://uozzart.com) | luogo | RT 1 |
 | Landesamt für Denkmalpflege Sachsen | [sito](https://museodiromaintrastevere.it) · [eventi della pagina Facebook](https://www.facebook.com/MuseoNapoleonico/events) · [Instagram](http://www.instagram.com/museiincomuneroma) | organizzatore | CR 1 |
+| Lets Go With Linda | [pagina Facebook](https://www.facebook.com/people/Lets-Go-With-Linda/100091991856206) | organizzatore | FB 1 |
 | Museo Leonardo da Vinci - Piazza del Popolo | [eventi della pagina Facebook](https://www.facebook.com/museodavincipiazzadelpopolo/events) | luogo | FB 1 |
 | Mycupoftea | [eventi della pagina Facebook](https://www.facebook.com/mycupoftea.popup/events) | organizzatore | FB 1 |
 | Napoli, Il Salotto Musicale fra '800 e '900 - Copyright 2025 | [eventi della pagina Facebook](https://www.facebook.com/amrds.it/events) | organizzatore | FB 1 |
 | Neocortex | [sito](https://neocortex.it) · [eventi della pagina Facebook](https://www.facebook.com/neuroscience.it/events) | organizzatore | FB 1 |
 | NOSILENCE EVENTI | [sito](https://leterrazzealcolosseo.plateform.app) | organizzatore | RT 1 |
+| Notte & Musica Italia | [pagina Facebook](https://www.facebook.com/people/Notte-Musica-Italia/61592110741586) | organizzatore | FB 1 |
 | Palazzo Firenze | [pagina Facebook](https://www.facebook.com/pages/Palazzo-Firenze/244279369080101) | luogo | FB 1 |
 | Plus Arte Puls | [sito](https://melaseccapressoffice.it) | luogo | RT 1 |
 | PRIMA Insieme per la qualità della vita | [eventi della pagina Facebook](https://www.facebook.com/PRIMAinsiemeperlaqualitadellavita/events) | organizzatore | FB 1 |
@@ -289,6 +311,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Romolo e Remo visite guidate | [eventi della pagina Facebook](https://www.facebook.com/romoloeremovisiteguidate.it/events) | organizzatore | FB 1 |
 | Rosso20sette arte contemporanea | [sito](https://melaseccapressoffice.it) | luogo | RT 1 |
 | Santa Maria del Popolo | [eventi della pagina Facebook](https://www.facebook.com/basilicasantamariadelpopolo/events) | luogo | FB 1 |
+| Scuola Internazionale di Teatro dei Giullari | [pagina Facebook](https://www.facebook.com/people/Scuola-Internazionale-di-Teatro-dei-Giullari/61588877194009) | organizzatore | FB 1 |
 | StraWoman | [sito](https://strawoman.com) · [eventi della pagina Facebook](https://www.facebook.com/StraWoman/events) | organizzatore | FB 1 |
 | Teatro Flavio Vespasiano Rieti | [eventi della pagina Facebook](https://www.facebook.com/100070145146883/events) | luogo | FB 1 |
 | Teatro Tordinona | [sito](https://www.teatrotordinona.it/) | luogo | RT 1 |
@@ -329,9 +352,9 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Galleria L'Attico | — | luogo | RT 1 |
 | Galleria Vittoria | — | luogo | RT 1 |
 | Garum Museo della Cucina | — | luogo | RT 1 |
-| Lets Go With Linda | — | organizzatore | FB 1 |
 | Lucio Ughi | — | organizzatore | FB 1 |
 | Meet at Piazza del Popolo | — | luogo | FB 1 |
+| Michela Maravigna | — | organizzatore | FB 1 |
 | Mike Thomas | — | organizzatore | FB 1 |
 | Milano | — | luogo | FB 1 |
 | Musei Capitolini - Palazzo dei Conservatori | — | luogo | RT 1 |
@@ -340,7 +363,6 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Museo di Roma a Palazzo Braschi | — | luogo | RT 1 |
 | Museo nazionale romano di palazzo Altemps | — | luogo | FB 1 |
 | Nobu Hotel Roma | — | luogo | RT 1 |
-| Notte & Musica Italia | — | organizzatore | FB 1 |
 | Palazzo Altemps | — | luogo | FB 1 |
 | Palazzo Barberini | — | luogo | FB 1 |
 | Palazzo Clementino | — | luogo | RT 1 |
@@ -353,7 +375,6 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Salone Bernini a Palazzo Ripetta, 00186 | — | luogo | FB 1 |
 | Sant'Ivo alla Sapienza | — | luogo | FB 1 |
 | Scuola Elementare Regina Elena | — | luogo | FB 1 |
-| Scuola Internazionale di Teatro dei Giullari | — | organizzatore | FB 1 |
 | St Andrew's Church of Scotland, Rome | — | luogo | FB 1 |
 | St Peters Basilica, Vatican City | — | luogo | FB 1 |
 | Studio 26 | — | luogo | FB 1 |
@@ -383,8 +404,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Margine Operativo | [sito](https://margineoperativo.net) · [eventi della pagina Facebook](https://www.facebook.com/margine.operativo/events) · [Instagram](https://www.instagram.com/margineoperativo) | organizzatore | CR 14 |
+| Balfolk Roma Tuscolana | [pagina Facebook](https://www.facebook.com/people/Balfolk-Roma-Tuscolana/61574798046842) | organizzatore | FB 1 |
 | Biblioteca Casa dei Bimbi | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-casa-dei-bimbi/) · [eventi della pagina Facebook](https://www.facebook.com/BibliotecaCasadeiBimbi/events) | luogo | CR 1 |
 | Mondadori Bookstore Tuscolana Roma (Via Tuscolana 771/771A, Roma, Lazio) | [sito](https://mondadorituscolanaroma.it) · [eventi della pagina Facebook](https://www.facebook.com/mondadorituscolanaroma/events) | organizzatore | FB 1 |
+| TeatroIncanto | [pagina Facebook](https://www.facebook.com/people/TeatroIncanto/61556969855203) | organizzatore | FB 1 |
 | Tomei Cibo Giusto | [eventi della pagina Facebook](https://www.facebook.com/Tomeicibogiusto/events) | organizzatore | FB 1 |
 | Biblioteca Raffaello | [eventi della pagina Facebook](https://www.facebook.com/bibliotecaRaffaello/events) | soggetto | — |
 | Biblioteca Rugantino | [eventi della pagina Facebook](https://www.facebook.com/biblioteca.rugantino/events) | soggetto | — |
@@ -404,6 +427,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CENTRO PILATES Yoga Roma - Ginnastica per il Corpo e per la Mente | [eventi della pagina Facebook](https://www.facebook.com/CentroPILATES.Roma/events) | organizzatore | FB 1 |
 | Colli dell'Aniene, Roma | [pagina Facebook](https://www.facebook.com/pages/Colli-dellAniene-Roma/2555296921208671) | luogo | FB 1 |
 | OPERA E GRANDI COMPOSITORI DI MÚSICA CLASSICA | [pagina Facebook](https://www.facebook.com/groups/1395662270467019) | organizzatore | FB 1 |
+| Raffaele Sorbo | — | organizzatore | FB 1 |
 | viale Ettore Franceschini 144, 00155 Rome, Italy | — | luogo | FB 1 |
 
 ## Colli Portuensi `colli-portuensi` — Municipio XII
@@ -414,9 +438,9 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Functional Training School | [sito](https://functionaltrainingschool.com) · [eventi della pagina Facebook](https://www.facebook.com/FunctionalTrainingSchool/events) | organizzatore | FB 2 |
 | ArtSharing Roma | [sito](https://artsharingroma.it) | luogo | RT 1 |
 | Monteverde Nuovo | [pagina Facebook](https://www.facebook.com/pages/Monteverde-Nuovo/1443693289261141) | luogo | FB 1 |
+| Ottica Candino Dal 1960 | [pagina Facebook](https://www.facebook.com/people/Ottica-Candino-Dal-1960/61576846431253) | organizzatore | FB 1 |
 | Biblioteca Colli Portuensi | [eventi della pagina Facebook](https://www.facebook.com/bibliotecacolliportuensi/events) | soggetto | — |
 | Freetime Sporting club ssd | — | luogo | FB 2 |
-| Ottica Candino Dal 1960 | — | organizzatore | FB 1 |
 
 ## Corviale `corviale` — Municipio XI
 
@@ -440,6 +464,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Palazzo dello Sport (EUR SpA) | [pagina letta alla fonte (calendario)](https://www.eurspa.it/) · [sito](https://eurspa.it) | luogo | FL 7 |
 | Atlantico live | [pagina letta alla fonte (calendario)](https://www.atlanticoliveroma.it/calendario-eventi/) · [sito](https://atlanticoliveroma.it) | luogo | FL 4 RT 2 |
 | Gigi D'Alessio | [eventi della pagina Facebook](https://www.facebook.com/gigidalessioofficial/events) | organizzatore | FB 2 |
+| ASD Gasya Gym | [pagina Facebook](https://www.facebook.com/people/ASD-Gasya-Gym/61594245609841) | organizzatore | FB 1 |
 | Biblioteca Laurentina | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-laurentina/) · [eventi della pagina Facebook](https://www.facebook.com/bibliotecalaurentina/events) | luogo | CR 1 |
 | Fundadores FIC-Religiosas Franciscanas de la Inmaculada Concepción-Perú | [eventi della pagina Facebook](https://www.facebook.com/FICPeru/events) | organizzatore | FB 1 |
 | I Viaggi di Giorgio | [eventi della pagina Facebook](https://www.facebook.com/IViaggidiGiorgio/events) | organizzatore | FB 1 |
@@ -447,6 +472,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Invincible Fest | [eventi della pagina Facebook](https://www.facebook.com/theinvinciblefest/events) | luogo | FB 1 |
 | Laparoscopic | [sito](https://laparoscopic.it) · [eventi della pagina Facebook](https://www.facebook.com/laparoscopic.it/events) | organizzatore | FB 1 |
 | Planetario | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/planetario/) | luogo | CR 1 |
+| Riccardo De Simone | [eventi della pagina Facebook](https://www.facebook.com/remixsperlonga/events) | organizzatore | FB 1 |
 | Teatro Elsa Morante | [sito](https://teatrodiroma.net) · [eventi della pagina Facebook](https://www.facebook.com/biblioteca.elsamorante/events) | luogo | RT 1 |
 | Vivaio Garden Tre Fontane | [sito](https://peperoncinoipsedixit.it) | luogo | RT 1 |
 | Comitato di Quartiere Eur-Ferratella | [eventi della pagina Facebook](https://www.facebook.com/comitatodiquartiere.ferratella/events) | soggetto | — |
@@ -475,6 +501,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Teatro dell'Opera di Roma (Teatro Costanzi) | [pagina letta alla fonte (calendario)](https://www.operaroma.it) · [sito](https://operaroma.it) · [Instagram](https://www.instagram.com/operaroma) | luogo | FL 6 |
 | Teatro dell'Opera | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-dellopera/) · [sito](https://operaroma.it) · [eventi della pagina Facebook](https://www.facebook.com/operaroma/events) | luogo, organizzatore | CR 5 |
 | Charity Café | [sito](https://charitycafe.it) · [eventi della pagina Facebook](https://www.facebook.com/CharityCafeJazzBlues/events) | luogo, organizzatore | FB 3 RT 1 |
+| Fun See Do: Eventi in Italia | [pagina Facebook](https://www.facebook.com/people/Fun-See-Do-Eventi-in-Italia/61561977719938) | organizzatore | FB 4 |
 | Teatro Eliseo | [pagina letta alla fonte (calendario)](https://eliseoteatro.it/) · [sito](https://eliseoteatro.it) | luogo | FL 3 RT 1 |
 | ANEC LAZIO – Associazione Nazionale Esercenti Cinema | [sito](https://aneclazio.com) · [eventi della pagina Facebook](https://www.facebook.com/ANEC.Lazio/events) · [Instagram](https://www.instagram.com/aneclazio) | organizzatore | CR 3 |
 | Rome, Italy | [pagina Facebook](https://www.facebook.com/pages/Rome-Italy/115353315143936) | luogo | FB 3 |
@@ -485,20 +512,23 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Mercato Centrale Roma | [sito](https://app.aloesuite.com) | luogo, organizzatore | RT 2 |
 | Palazzo Brancaccio | [eventi della pagina Facebook](https://www.facebook.com/salonidiPalazzoBrancaccio/events) | luogo | FB 2 |
 | Palazzo Esposizioni Roma | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/palazzo-delle-esposizioni/) · [sito](https://palazzoesposizioniroma.it) · [eventi della pagina Facebook](https://www.facebook.com/PalazzoEsposizioni/events) | luogo | CR 2 |
+| Pranic Healing Italia | [pagina Facebook](https://www.facebook.com/people/Pranic-Healing-Italia/100075739257813) | organizzatore | FB 2 |
 | Sentieri selvaggi | [eventi della pagina Facebook](https://www.facebook.com/sentieriselvaggi/events) | organizzatore | FB 2 |
 | AmarTango Vicky Arenillas | [eventi della pagina Facebook](https://www.facebook.com/AmarTangoVickyArenillas/events) | organizzatore | FB 1 |
 | Auditorium Antonianum | [eventi della pagina Facebook](https://www.facebook.com/AuditoriumAntonianum/events) | luogo | FB 1 |
 | Bookingsmed.com | [eventi della pagina Facebook](https://www.facebook.com/bookingsmed/events) | organizzatore | FB 1 |
 | CARD Italia | [eventi della pagina Facebook](https://www.facebook.com/carditalia/events) | organizzatore | FB 1 |
 | Chiesa Evangelica Metodista | [sito](https://opera-lirica.com) | luogo | RT 1 |
+| Dinner & New Friends events | [pagina Facebook](https://www.facebook.com/people/Dinner-New-Friends-events/61577264561800) | organizzatore | FB 1 |
 | Domino Experience | [eventi della pagina Facebook](https://www.facebook.com/DominoExperienceRiccioneCattolica/events) | organizzatore | FB 1 |
 | DoubleTree by Hilton Rome Monti | [sito](https://dtromemonti.com) · [eventi della pagina Facebook](https://www.facebook.com/DoubleTreeRomeMonti/events) | organizzatore | FB 1 |
 | Eccellenze Ortodontiche - Ortodontisti di alto livello | [eventi della pagina Facebook](https://www.facebook.com/eccellenzeortodontiche.it/events) | organizzatore | FB 1 |
 | Festa delle Stelle | [eventi della pagina Facebook](https://www.facebook.com/festadellestelleworld/events) · [Instagram](http://www.instagram.com/lafestadellestelle) | organizzatore | FB 1 |
-| Grand Ballo Storico a Roma | [sito](https://granballostoricoroma.ru) | organizzatore | FB 1 |
+| Grand Ballo Storico a Roma | [sito](https://granballostoricoroma.ru) · [pagina Facebook](https://www.facebook.com/people/Grand-Ballo-Storico-a-Roma/100076302881969) | organizzatore | FB 1 |
 | Hotel La Griffe Roma | [eventi della pagina Facebook](https://www.facebook.com/hotellagrifferoma/events) | luogo | FB 1 |
 | Le Bestevem | [eventi della pagina Facebook](https://www.facebook.com/LeBestevem/events) | organizzatore | FB 1 |
 | Make Friends events | [eventi della pagina Facebook](https://www.facebook.com/MakeFriendsEvents/events) | organizzatore | FB 1 |
+| Mario Biondi | [eventi della pagina Facebook](https://www.facebook.com/mariobiondiufficiale/events) | organizzatore | FB 1 |
 | MERCATO CENTRALE ROMA TERMINI SRL | [sito](https://app.aloesuite.com) | organizzatore | RT 1 |
 | MiceriumOrtodonzia | [eventi della pagina Facebook](https://www.facebook.com/MiceriumOrtodonzia/events) | organizzatore | FB 1 |
 | OFFICINE CULTURALI | [sito](https://ambrajovinelli.org) · [eventi della pagina Facebook](https://www.facebook.com/AmbraJovinelli/events) · [Instagram](https://www.instagram.com/ambrajovinelli) | organizzatore | RT 1 |
@@ -515,7 +545,6 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Wedding Planners PRO | [sito](https://weddingplannerspro.com) · [eventi della pagina Facebook](https://www.facebook.com/weddingplannerspro/events) | organizzatore | FB 1 |
 | Charity Café Jazz & Blues Club | [sito](https://www.charitycafe.it/) | soggetto | — |
 | Comitato via XX Settembre - Roma | [eventi della pagina Facebook](https://www.facebook.com/100076088320466/events) | soggetto | — |
-| Fun See Do: Eventi in Italia | — | organizzatore | FB 4 |
 | Viale Carlo Felice 25, Roma, Lazio | — | luogo | FB 4 |
 | Casino Dell'aurora Pallavicini | — | luogo | FB 3 |
 | Terme di Traiano, Roma | — | luogo | FB 3 |
@@ -526,7 +555,6 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Via Emanuele Filiberto, 140, Roma | — | luogo | FB 2 |
 | Charity | — | luogo | RT 1 |
 | Cinema Quattro Fontane | — | luogo | RT 1 |
-| Dinner & New Friends events | — | organizzatore | FB 1 |
 | Fiumicino Airport, Roma, Italy | — | luogo | FB 1 |
 | Hyunnart Studio | — | luogo | RT 1 |
 | London, U.K. | — | luogo | FB 1 |
@@ -539,6 +567,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Piazza dell'Esquilino, 1, 00185 Rome, Italy | — | luogo | FB 1 |
 | Piazza Vittorio Emanuele II | — | luogo | FB 1 |
 | Scala Santa Roma | — | luogo | FB 1 |
+| Silvia Mattoni | — | organizzatore | FB 1 |
 | via aureliana 25, roma | — | luogo | FB 1 |
 | MULTI - Le culture e cotture che ci uniscono (Giardini di Piazza Vittorio) | — | soggetto | — |
 | Ottobrata Monticiana (organizzatore non identificato, Rione Monti) | — | soggetto | — |
@@ -549,6 +578,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Borgata Fidene, Roma | [pagina Facebook](https://www.facebook.com/pages/Borgata-Fidene-Roma/410490363109908) | luogo | FB 1 |
+| ilbrancoinascolto | [pagina Facebook](https://www.facebook.com/people/ilbrancoinascolto/61589048077541) | organizzatore | FB 1 |
 | Comitato di Quartiere Castel Giubileo | [eventi della pagina Facebook](https://www.facebook.com/CdQCastelGiubileo/events) | soggetto | — |
 | Comitato di quartiere FIDENE | [eventi della pagina Facebook](https://www.facebook.com/comitatodiquartierefidene/events) | soggetto | — |
 | Comitato di Quartiere VILLA SPADA | [eventi della pagina Facebook](https://www.facebook.com/cdqvillaspada/events) | soggetto | — |
@@ -602,6 +632,8 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Esserecane  - Centro Cinofilo | [sito](https://esserecane.it) · [eventi della pagina Facebook](https://www.facebook.com/EssereCane/events) | organizzatore | FB 2 |
 | Wildfire Store | [eventi della pagina Facebook](https://www.facebook.com/Wildfirestore/events) | organizzatore | FB 2 |
+| Ilaria Zin Giuliani | [eventi della pagina Facebook](https://www.facebook.com/ilaria.giuliani.50/events) | organizzatore | FB 1 |
+| Marco Tribuzio | [eventi della pagina Facebook](https://www.facebook.com/marco.tribuzio/events) | organizzatore | FB 1 |
 | Museo delle carrozze d'epoca | [pagina Facebook](https://www.facebook.com/pages/Museo-delle-carrozze-depoca/1458152811062877) | luogo | FB 1 |
 | Ombre D'Arte, Associazione Culturale | [eventi della pagina Facebook](https://www.facebook.com/OmbreDarte/events) | organizzatore | FB 1 |
 | The Scrum | [eventi della pagina Facebook](https://www.facebook.com/thescrumband/events) | organizzatore | FB 1 |
@@ -715,6 +747,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Luoghi Segreti a Due Passi da Roma | [eventi della pagina Facebook](https://www.facebook.com/luoghisegretiroma/events) | organizzatore | FB 4 |
 | Teatro Verde | [pagina letta alla fonte (calendario)](https://www.teatroverde.it/) · [sito](https://teatroverde.it) | luogo | FL 3 RT 1 |
 | Storie Contemporanee | [sito](https://paolobielli.it) | luogo | RT 3 |
+| ALM - Associazione Laicale Missionaria ETS | [pagina Facebook](https://www.facebook.com/people/ALM-Associazione-Laicale-Missionaria-ETS/100064873683564) | organizzatore | FB 1 |
 | APPasseggio | [eventi della pagina Facebook](https://www.facebook.com/APPasseggio/events) | organizzatore | FB 1 |
 | Associazione IRENE | [sito](https://associazioneirene.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneirene.it/events) | organizzatore | FB 1 |
 | Biblioteca Villino Corsini - Villa Pamphilj | [eventi della pagina Facebook](https://www.facebook.com/BibliotecaVillinoCorsini/events) | organizzatore | FB 1 |
@@ -724,7 +757,6 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Quantum gnosis ATM | [eventi della pagina Facebook](https://www.facebook.com/quantum.gnosis.ATM/events) | organizzatore | FB 1 |
 | STORMI | [Instagram](https://www.instagram.com/stormispazioarte) | luogo | RT 1 |
 | Comitato di quartiere Creazione | [eventi della pagina Facebook](https://www.facebook.com/comitatoCreazioneMonteverde/events) | soggetto | — |
-| ALM - Associazione Laicale Missionaria ETS | — | organizzatore | FB 1 |
 | Stazione Trastevere | — | luogo | FB 1 |
 | Via Andrea Busiri Vici, 00152 Rome, Italy | — | luogo | FB 1 |
 | Villa Pamphili, Roma | — | luogo | FB 1 |
@@ -734,6 +766,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| Il Corpo Guaritore | [pagina Facebook](https://www.facebook.com/people/Il-Corpo-Guaritore/100063672515796) | organizzatore | FB 1 |
 | Morena | [pagina Facebook](https://www.facebook.com/pages/Morena/505832779454536) | luogo | FB 1 |
 
 ## Muratella `muratella` — Municipio XI
@@ -749,7 +782,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Sovrintendenza Capitolina ai Beni Culturali | [pagina letta alla fonte (calendario)](https://www.sovraintendenzaroma.it/servizi_al_cittadino/organizzazione_eventi) · [sito](https://sovraintendenzaroma.it) · [eventi della pagina Facebook](https://www.facebook.com/MuseiVillaTorlonia/events) | luogo, organizzatore | CR 14 FL 11 |
 | Teatro Torlonia | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-torlonia/) · [sito](https://teatrodiroma.net) | luogo | CR 6 RT 1 |
 | Musei di Villa Torlonia - Casina delle Civette | [pagina letta alla fonte (calendario)](https://www.museivillatorlonia.it/it/mostre_ed_eventi/mostre) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/musei-di-villa-torlonia-casina-delle-civette/) · [sito](https://museivillatorlonia.it) | luogo | CR 1 FL 3 |
-| LIBERA. Associazioni, nomi e numeri contro le mafie | [sito](https://extra.libera.it) · [Instagram](https://www.instagram.com/xl_extralibera/X) | organizzatore | CR 3 |
+| LIBERA. Associazioni, nomi e numeri contro le mafie | [sito](https://extra.libera.it) · [pagina Facebook](https://www.facebook.com/people/Libera-Roma/100064595205823) · [Instagram](https://www.instagram.com/xl_extralibera/X) | organizzatore | CR 3 |
 | EuroEventi Production | [eventi della pagina Facebook](https://www.facebook.com/euroeventiprod/events) | organizzatore | FB 2 |
 | Musei di Villa Torlonia - Casino Nobile | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/musei-di-villa-torlonia-casino-nobile/) | luogo | CR 2 |
 | Teatro Italia | [eventi della pagina Facebook](https://www.facebook.com/teatroitalia/events) | luogo | FB 2 |
@@ -766,7 +799,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Pink Floyd Immersion | [eventi della pagina Facebook](https://www.facebook.com/pinkfloydtribute/events) | organizzatore | FB 1 |
 | QUELLI di PIAZZA BOLOGNA | [pagina Facebook](https://www.facebook.com/groups/15040854510) | organizzatore | FB 1 |
 | Scuola Counselling | [sito](https://scuola-counseling.com) · [eventi della pagina Facebook](https://www.facebook.com/scuolacounselingroma/events) | organizzatore | FB 1 |
+| SHAM 69 - Tim V | [pagina Facebook](https://www.facebook.com/people/SHAM-69-Tim-V/100044409674507) | organizzatore | FB 1 |
 | SoundsRock Agency | [eventi della pagina Facebook](https://www.facebook.com/SOUNDSROCKagency/events) | organizzatore | FB 1 |
+| Umberto Principale | [eventi della pagina Facebook](https://www.facebook.com/UmbertoElPrince/events) | organizzatore | FB 1 |
+| Wild Ones - Bon Jovi Tribute | [pagina Facebook](https://www.facebook.com/people/Wild-Ones-Bon-Jovi-Tribute/61576312904777) | organizzatore | FB 1 |
 | Comitato di quartiere Villa Patrizi - Roma | [eventi della pagina Facebook](https://www.facebook.com/100069191892879/events) | soggetto | — |
 | Comitato di quartiere “Cittá del Sole” - Piazza Bologna/Province -Tiburtina | [eventi della pagina Facebook](https://www.facebook.com/100090045496329/events) | soggetto | — |
 | Istituto Culturale Coreano in Italia | [sito](https://italy.korean-culture.org/) | soggetto | — |
@@ -777,12 +813,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Dipendenza della Casina delle Civette – Musei di Villa Torlonia | — | luogo | RT 1 |
 | Juani Ucero Martínez | — | organizzatore | FB 1 |
 | Piazza Bologna, 10 , 00163 Rome, Italy | — | luogo | FB 1 |
-| SHAM 69 - Tim V | — | organizzatore | FB 1 |
 | Via Cupa, 5 | — | luogo | FB 1 |
 | Via Nomentana, 70 | — | luogo | FB 1 |
 | Via Pavia 106, 00161 Rome, Italy | — | luogo | FB 1 |
 | via Ridolfino Venuti 34 A, Roma, Lazio | — | luogo | FB 1 |
-| Wild Ones - Bon Jovi Tribute | — | organizzatore | FB 1 |
 
 ## Olgiata `olgiata` — Municipio XV
 
@@ -800,12 +834,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione culturale Il Triangolo Scaleno | [sito](https://teatridivetro.it) · [eventi della pagina Facebook](https://www.facebook.com/teatridivetro/events) · [Instagram](https://www.instagram.com/teatridivetro) | organizzatore | CR 10 |
 | ASS. AFFABULAZIONE ETS | [sito](https://affabulazionenet.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/assaffabulazione/events) · [Instagram](https://www.instagram.com/associazioneaffabulazione) | organizzatore | CR 9 |
 | Ostia, Lazio, Italy | [pagina Facebook](https://www.facebook.com/pages/Ostia-Lazio-Italy/113750085307162) | luogo | FB 2 |
+| Scout Nautici del Litorale Romano | [pagina Facebook](https://www.facebook.com/people/Scout-Nautici-del-Litorale-Romano/61576563699706) | organizzatore | FB 2 |
 | Castel Fusano | [eventi della pagina Facebook](https://www.facebook.com/castelfusano/events) | organizzatore | FB 1 |
 | UMED OSTIA | [eventi della pagina Facebook](https://www.facebook.com/UmedOstia/events) | organizzatore | FB 1 |
 | Visite Guidate di Roma - The Grand Tour | [sito](https://thegrandtour.it) · [eventi della pagina Facebook](https://www.facebook.com/thegrandtourita/events) | organizzatore | FB 1 |
 | WalkZone | [sito](https://walkzone.online) · [eventi della pagina Facebook](https://www.facebook.com/walkzone.official/events) | organizzatore | FB 1 |
 | Comitato di Quartiere "Ostia Nord 2025" | [eventi della pagina Facebook](https://www.facebook.com/ComitatoDiQuartiereOstiaNord2018/events) | soggetto | — |
-| Scout Nautici del Litorale Romano | — | organizzatore | FB 2 |
 | Bar Della Pineta (Castel Fusano), in Viale Mediterraneo, 85 - Ostia | — | luogo | FB 1 |
 | Lido di Ostia | — | luogo | RT 1 |
 | Ostia (città antica) | — | luogo | FB 1 |
@@ -827,6 +861,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Centro Meditazione Roma | [eventi della pagina Facebook](https://www.facebook.com/CentroMeditazioneRoma/events) | organizzatore | FB 1 |
 | Elegance Cafè jazz club | [eventi della pagina Facebook](https://www.facebook.com/elegancecafejazzclub/events) | luogo, organizzatore | FB 1 |
 | Marco Liotti & Fifty Fifty | [eventi della pagina Facebook](https://www.facebook.com/marcoliottififtyfifty/events) | organizzatore | FB 1 |
+| Massimo Picaro Paradiso | [eventi della pagina Facebook](https://www.facebook.com/picaro.radiogagarin/events) | organizzatore | FB 1 |
 | Roma San Paolo | [pagina Facebook](https://www.facebook.com/pages/Roma-San-Paolo/252225562337094) | luogo | FB 1 |
 | Unique Market | [sito](https://greenmarketfestival.it) | organizzatore | RT 1 |
 | Via Giulio Rocco | [pagina Facebook](https://www.facebook.com/pages/Via-Giulio-Rocco/162363737149802) | luogo | FB 1 |
@@ -856,15 +891,19 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Le Strade del Jazz - Roma | [pagina Facebook](https://www.facebook.com/groups/lestradedeljazz) | organizzatore | FB 2 |
 | Teatro Parioli Costanzo (Il Parioli) | [pagina letta alla fonte (calendario)](https://www.ilparioli.it/) · [sito](https://ilparioli.it) | luogo | FL 2 |
 | Accademia Filarmonica Romana | [eventi della pagina Facebook](https://www.facebook.com/accfilarmonica.romana/events) | organizzatore | FB 1 |
+| Adorazione Eucaristica Italia | [pagina Facebook](https://www.facebook.com/people/Adorazione-Eucaristica-Italia/61590441625556) | organizzatore | FB 1 |
 | Arte Marziale della Consapevolezza - Roma Centro Storico | [eventi della pagina Facebook](https://www.facebook.com/ArteMarzialeDellaConsapevolezzaRomaCentroStorico/events) | organizzatore | FB 1 |
 | Auditorium Parco della Musica | [pagina Facebook](https://www.facebook.com/pages/Auditorium-Parco-della-Musica/1484821428426378) | luogo | FB 1 |
 | Basilica di San Pietro (Saint Peter's Basilica) | [pagina Facebook](https://www.facebook.com/pages/Basilica-di-San-Pietro-Saint-Peters-Basilica/146087168794663) | luogo | FB 1 |
 | Biblioteca Flaminia | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-flaminia/) · [eventi della pagina Facebook](https://www.facebook.com/biblioteca.flaminia/events) | luogo | CR 1 |
 | Biglietti concerti ITALIA | [pagina Facebook](https://www.facebook.com/groups/944380590362634) | organizzatore | FB 1 |
 | Casina di Raffaello | [sito](https://www.casinadiraffaello.it/) | luogo | RT 1 |
+| Fabio Concato | [eventi della pagina Facebook](https://www.facebook.com/fabioconcatoofficial/events) | organizzatore | FB 1 |
 | Galleria Nazionale d'Arte Moderna e Contemporanea | [sito](https://lagallerianazionale.com/) · [eventi della pagina Facebook](https://www.facebook.com/lagallerianazionale/events) · [Instagram](https://www.instagram.com/lagallerianazionale) | luogo | RT 1 |
+| Giulia Damico | [pagina Facebook](https://www.facebook.com/people/Giulia-Damico/pfbid02hhLn9Zu6wYLRydKEG94shL9UTJArg4uZ9R2LRSev9gXSf9RKZAsF61LdKJGh9foWl) | organizzatore | FB 1 |
 | Helikonia eventi | [eventi della pagina Facebook](https://www.facebook.com/helikoniaeventi/events) | organizzatore | FB 1 |
 | Jando Music | [eventi della pagina Facebook](https://www.facebook.com/jandomusiclabel/events) | organizzatore | FB 1 |
+| Mauro Di Maggio | [eventi della pagina Facebook](https://www.facebook.com/maurodimaggioofficial/events) | organizzatore | FB 1 |
 | Museo Carlo Bilotti | [eventi della pagina Facebook](https://www.facebook.com/MuseoCarloBilotti/events) | organizzatore | FB 1 |
 | NoGravity Theatre | [eventi della pagina Facebook](https://www.facebook.com/nogravitytheatre/events) | organizzatore | FB 1 |
 | Pallazzo Dello Sport | [pagina Facebook](https://www.facebook.com/pages/Pallazzo-Dello-Sport/158032857720137) | luogo | FB 1 |
@@ -874,6 +913,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato Villa Glori | [eventi della pagina Facebook](https://www.facebook.com/comitatovillaglori/events) | soggetto | — |
 | Festa del Cinema di Roma | [eventi della pagina Facebook](https://www.facebook.com/romacinemafest/events) | soggetto | — |
 | Festa del Cinema di Roma (Fondazione Cinema per Roma) | [sito](https://www.romacinemafest.it) | soggetto | — |
+| Fabrizio Sodani | — | organizzatore | FB 2 |
 | Centro Islamico Culturale d'Italia - Grande Moschea di Roma | — | luogo | RT 1 |
 | La Galleria Nazionale (Roma, Lazio) | — | luogo | FB 1 |
 | Libreria Notebook-Auditorium Parco della Musica | — | luogo | RT 1 |
@@ -968,6 +1008,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| Flavia Corso | [eventi della pagina Facebook](https://www.facebook.com/flavia.corso/events) | organizzatore | FB 1 |
 | Tacus Arte Integrazione Cultura | [sito](https://tacusaps.wixsite.com) · [eventi della pagina Facebook](https://www.facebook.com/TacusAssociazione/events) | organizzatore | FB 1 |
 | Comitato di Quartiere Castelverde di Roma | [eventi della pagina Facebook](https://www.facebook.com/cdqcastelverderoma/events) | soggetto | — |
 | Carmela Chiara Corso | — | organizzatore | FB 1 |
@@ -980,8 +1021,9 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Culturale Artenova ETS | [sito](https://compagniartenova.it) · [Instagram](https://www.instagram.com/compagnia_artenova) | organizzatore | CR 19 |
 | Boogie Club | [sito](https://boogieclub.it) · [eventi della pagina Facebook](https://www.facebook.com/BoogieClubSRL/events) | luogo, organizzatore | FB 1 |
 | Dive Mode School | [sito](https://divemode.it) · [eventi della pagina Facebook](https://www.facebook.com/divemode.it/events) | organizzatore | FB 1 |
+| Impronte nel Cuore | [pagina Facebook](https://www.facebook.com/people/Impronte-nel-Cuore/61594985082176) | organizzatore | FB 1 |
 | Social PopUp | [eventi della pagina Facebook](https://www.facebook.com/socialpopup/events) | organizzatore | FB 1 |
-| Socioculturale Attività Polivalente di Quartiere ETS (ASAPQ ETS) | [sito](https://romaborgatafestival.it) · [Instagram](https://www.instagram.com/romaborgatafestival) | organizzatore | CR 1 |
+| Socioculturale Attività Polivalente di Quartiere ETS (ASAPQ ETS) | [sito](https://romaborgatafestival.it) · [pagina Facebook](https://www.facebook.com/people/Roma-Borgata-Festival/61575791916260) · [Instagram](https://www.instagram.com/romaborgatafestival) | organizzatore | CR 1 |
 | L'Opificio | — | luogo | FB 1 |
 | Marsa Alam Egipt | — | luogo | FB 1 |
 | Stazione di Villa Bonelli | — | luogo | FB 1 |
@@ -993,10 +1035,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Bellezze di Roma | [sito](https://bellezzediromatour.it) · [eventi della pagina Facebook](https://www.facebook.com/bellezzediroma1/events) | luogo, organizzatore | FB 29 |
 | AR.MA Teatro | [sito](https://www.armateatro.it/) · [pagina Facebook](https://www.facebook.com/events/27816811724664493) | luogo | RT 2 |
+| Francesca Grosso | [eventi della pagina Facebook](https://www.facebook.com/francescagrossoartpag/events) | organizzatore | FB 2 |
 | GUIDE & TREK ENJOY | [eventi della pagina Facebook](https://www.facebook.com/escursionienatura/events) | organizzatore | FB 2 |
 | Museo Nazionale di Castel Sant'Angelo | [pagina letta alla fonte (calendario)](https://direzionemuseiroma.cultura.gov.it/en/category/mostre-en/) · [sito](https://direzionemuseiroma.cultura.gov.it) | luogo | FL 2 |
 | TRAVERSATA delle MARCHE | [eventi della pagina Facebook](https://www.facebook.com/marchelocalguide/events) | organizzatore | FB 2 |
 | Vinoteca Tempere | [sito](https://dgexperience.it) | luogo | RT 2 |
+| Claude Mage | [pagina Facebook](https://www.facebook.com/people/Claude-Mage/100092869964959) | organizzatore | FB 1 |
 | Dott. Pietro Federico - IRMSO | [sito](https://irmso.it) · [eventi della pagina Facebook](https://www.facebook.com/PietroFederico.IRMSO/events) | organizzatore | FB 1 |
 | Duemila Voci | [eventi della pagina Facebook](https://www.facebook.com/duemilavoci/events) | organizzatore | FB 1 |
 | Elia Lisi | [eventi della pagina Facebook](https://www.facebook.com/elia.lisi/events) | organizzatore | FB 1 |
@@ -1004,10 +1048,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Galleria Triphè | [sito](https://triphe.it) | luogo | RT 1 |
 | Granlasco Sail & Charter | [eventi della pagina Facebook](https://www.facebook.com/GranlascoSailCharter/events) | organizzatore | FB 1 |
 | Hot Spaces Queen Tribute Band | [eventi della pagina Facebook](https://www.facebook.com/HOTSPACES/events) | organizzatore | FB 1 |
+| Laura Carlodalatri | [eventi della pagina Facebook](https://www.facebook.com/lauracarlodalatri22481/events) | organizzatore | FB 1 |
 | Mercatini Di Roma | [eventi della pagina Facebook](https://www.facebook.com/mercatinidiroma/events) | organizzatore | FB 1 |
 | Metro Cinecittá | [pagina Facebook](https://www.facebook.com/pages/Metro-Cinecitt%C3%A1/353623904678731) | luogo | FB 1 |
 | Museo d'Arte Contemporanea di Milano | [pagina Facebook](https://www.facebook.com/groups/470030523370699) | organizzatore | FB 1 |
 | Osservatorio di Monte Mario | [pagina Facebook](https://www.facebook.com/pages/Osservatorio-di-Monte-Mario/107930682613170) | luogo | FB 1 |
+| Paola Palaia | [eventi della pagina Facebook](https://www.facebook.com/paola.palaia/events) | organizzatore | FB 1 |
 | Parco Regionale dell'Appia Antica | [eventi della pagina Facebook](https://www.facebook.com/parcoappiaantica/events) | organizzatore | FB 1 |
 | Sala Vittoria Colonna | [pagina Facebook](https://www.facebook.com/pages/Sala-Vittoria-Colonna/344559046093654) | luogo | FB 1 |
 | Società Italiana Allineatori | [eventi della pagina Facebook](https://www.facebook.com/sialignpagina/events) | organizzatore | FB 1 |
@@ -1031,6 +1077,8 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Promu - All For Music | [sito](https://promu.it) · [eventi della pagina Facebook](https://www.facebook.com/promu.pagina/events) | organizzatore | FB 2 |
 | Casale Garibaldi - common at work | [eventi della pagina Facebook](https://www.facebook.com/casalegaribaldi2017/events) | luogo, organizzatore | FB 1 |
 | Shāh māt | [eventi della pagina Facebook](https://www.facebook.com/shahmat.roma/events) | organizzatore | FB 1 |
+| Simone D'Aniello | [pagina Facebook](https://www.facebook.com/people/Simone-DAniello/pfbid0XQqWjpSFcwAKtdG12GKerdkj4QUFKNWK9PxqCsDNWW8ygQsqjiZzG3JVerP9Y9Zdl) | organizzatore | FB 1 |
+| Simone Phènom D'Aniello | [pagina Facebook](https://www.facebook.com/people/Simone-Ph%C3%A8nom-DAniello/100011426281834) | organizzatore | FB 1 |
 | TorpignaGioca | [eventi della pagina Facebook](https://www.facebook.com/torpignagioca/events) | organizzatore | FB 1 |
 | Comitato di Quartiere - Villa Gordiani | [eventi della pagina Facebook](https://www.facebook.com/61578230436982/events) | soggetto | — |
 | Villa Gordiani | — | luogo | FB 1 RT 1 |
@@ -1048,7 +1096,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Cantieri dello Spettacolo E.T.S. | [sito](https://cantieridellospettacolo.it) · [Instagram](https://www.instagram.com/teatrolacasetta) | organizzatore | CR 8 |
+| Cantieri dello Spettacolo E.T.S. | [sito](https://cantieridellospettacolo.it) · [pagina Facebook](https://www.facebook.com/people/Teatro-la-casetta/100057039626820) · [Instagram](https://www.instagram.com/teatrolacasetta) | organizzatore | CR 8 |
 | Biblioteca Franco Basaglia | [eventi della pagina Facebook](https://www.facebook.com/bibliotecafrancobasaglia/events) | soggetto | — |
 | Mercato Primavalle II | — | luogo | RT 1 |
 
@@ -1066,6 +1114,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Foro Italico | [sito](https://tennisandfriends.it) | luogo | RT 1 |
 | MeeraNilayaacademy | [eventi della pagina Facebook](https://www.facebook.com/MeeraPsicoterapeutaTantraRoma/events) | organizzatore | FB 1 |
+| Tifoso Bianconero | [pagina Facebook](https://www.facebook.com/people/Tifoso-Bianconero/100063701912030) | organizzatore | FB 1 |
 | Foro Italico (Sport e Salute) - evento Tennis & Friends | [sito](https://www.sportesalute.eu/) | soggetto | — |
 | Roma ponte Milvio | — | luogo | FB 1 |
 | Stadio Olimpico | — | luogo | FB 1 |
@@ -1096,6 +1145,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | WOD | [eventi della pagina Facebook](https://www.facebook.com/wodconcerts/events) | organizzatore | FB 1 |
 | Giardini di via Sannio | — | luogo | RT 1 |
 | Il Palco APS | — | luogo | RT 1 |
+| Maurizio Pariotti | — | organizzatore | FB 1 |
 | Via Casilina, 75, 00182 Rome, Italy | — | luogo | FB 1 |
 | Sotto Roma APS (Giardini di Via Sannio) | — | soggetto | — |
 
@@ -1106,6 +1156,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Sapienza Università di Roma | [pagina letta alla fonte (calendario)](https://www.uniroma1.it/it/) · [sito](https://uniroma1.it) | luogo | FL 7 RT 1 |
 | PAV snc di Claudia Di Giacomo e Roberta Scaglione | [sito](https://pav-it.eu) · [eventi della pagina Facebook](https://www.facebook.com/PAVsnc/events) · [Instagram](https://www.instagram.com/pavroma) | organizzatore | CR 5 |
 | Savoy Swing Italy | [eventi della pagina Facebook](https://www.facebook.com/SavoySwingItaly/events) | organizzatore | FB 2 |
+| CAFM Centro Anziani Frattocchie di Marino APS | [pagina Facebook](https://www.facebook.com/people/CAFM-Centro-Anziani-Frattocchie-di-Marino-APS/100083408847809) | organizzatore | FB 1 |
 | Cimitero Monumentale del Verano | [pagina Facebook](https://www.facebook.com/pages/Cimitero-Monumentale-del-Verano/125221991471246) | luogo | FB 1 |
 | Febbra Rock | [eventi della pagina Facebook](https://www.facebook.com/febbrarock/events) | organizzatore | FB 1 |
 | Matèria | [pagina letta alla fonte (calendario)](https://www.materiagallery.com/) · [sito](https://materiagallery.com) | luogo | FL 1 |
@@ -1119,9 +1170,9 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Wishlist Roma | [eventi della pagina Facebook](https://www.facebook.com/WishlistClub/events) | luogo | FB 1 |
 | Biblioteca Tullio De Mauro | [eventi della pagina Facebook](https://www.facebook.com/bibliotecatulliodemauro/events) | soggetto | — |
 | via dei Sabelli 88 C, 00185 Rome, Italy | — | luogo | FB 2 |
-| CAFM Centro Anziani Frattocchie di Marino APS | — | organizzatore | FB 1 |
 | Fondazione Pastificio Cerere | — | luogo | RT 1 |
 | Piazzale del Verano, Roma RM, Italia | — | luogo | FB 1 |
+| Simona Mineo | — | organizzatore | FB 1 |
 | Via dei Marrucini 1/1a, 00185 Rome, Italy | — | luogo | FB 1 |
 
 ## Selva Candida `selva-candida` — Municipio XIV
@@ -1154,6 +1205,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Sistema Castelli Romani | [eventi della pagina Facebook](https://www.facebook.com/consorzioSCR/events) | organizzatore | FB 3 |
 | Biblioteca di Albano Laziale | [eventi della pagina Facebook](https://www.facebook.com/bibliotecadialbanolaziale/events) | organizzatore | FB 2 |
+| Anto&Manu Beauty Center | [pagina Facebook](https://www.facebook.com/people/AntoManu-Beauty-Center/61586375864940) | organizzatore | FB 1 |
 | The Bull's Family - Associazione di Volontariato | [eventi della pagina Facebook](https://www.facebook.com/m.thebullsfamily/events) | organizzatore | FB 1 |
 | Via Aurelio Saffi | [pagina Facebook](https://www.facebook.com/pages/Via-Aurelio-Saffi/627963973979127) | luogo | FB 1 |
 | Via Della Marcigliana | [pagina Facebook](https://www.facebook.com/pages/Via-Della-Marcigliana/347480385298772) | luogo | FB 1 |
@@ -1179,6 +1231,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Testaccio | [sito](https://ottavocolle.com) | luogo | RT 2 |
 | Testaccio Estate | [eventi della pagina Facebook](https://www.facebook.com/TestaccioEstate/events) | luogo, organizzatore | FB 1 RT 1 |
 | Alunni del Sole in ricordo di Paolo Morelli | [pagina Facebook](https://www.facebook.com/groups/417014838676109) | organizzatore | FB 1 |
+| Angelo Blasetti | [pagina Facebook](https://www.facebook.com/people/Angelo-Blasetti/pfbid02FPgDoXtfTZzt68cJEp2TiiGhKykWsscwi8SwLa38BiKPWihKKKwMQjnSdi34n23Ml) | organizzatore | FB 1 |
 | Città dell'Altra Economia - CAE | [eventi della pagina Facebook](https://www.facebook.com/cittadellaltraeconomia/events) | organizzatore | FB 1 |
 | Curious to Change | [eventi della pagina Facebook](https://www.facebook.com/curioustochange/events) | organizzatore | FB 1 |
 | En Rico Valantz | [eventi della pagina Facebook](https://www.facebook.com/enrico.valanz/events) | organizzatore | FB 1 |
@@ -1227,10 +1280,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Kollatino Underground ETS | [sito](https://kollatinounderground.eu) · [eventi della pagina Facebook](https://www.facebook.com/kollatino.underground/events) · [Instagram](https://www.instagram.com/kollatinounderground) | organizzatore | CR 10 |
 | Associazione culturale INDEX Muta Imago | [sito](https://index-productions.com) · [eventi della pagina Facebook](https://www.facebook.com/indexproductions/events) · [Instagram](https://www.instagram.com/index_productions) | organizzatore | CR 4 |
 | Biblioteca Borghesiana | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-borghesiana/) · [eventi della pagina Facebook](https://www.facebook.com/bibliotecaborghesiana/events) | luogo | CR 1 |
+| Camera Musicale Romana Project | [pagina Facebook](https://www.facebook.com/people/Camera-Musicale-Romana-Project/61553896650055) | organizzatore | FB 1 |
 | Elvira Maria Iannuzzi | [eventi della pagina Facebook](https://www.facebook.com/elvira.m.iannuzzi/events) | organizzatore | FB 1 |
 | Rupicolandia | [eventi della pagina Facebook](https://www.facebook.com/rupicolandia/events) | organizzatore | FB 1 |
-| Camera Musicale Romana Project | — | organizzatore | FB 1 |
 | Iolanda Lorenzetti | — | organizzatore | FB 1 |
+| Paolo Vanacore | — | organizzatore | FB 1 |
 | Tor Bella Monaca | — | luogo | RT 1 |
 | Via delle rupicole | — | luogo | FB 1 |
 
@@ -1324,11 +1378,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Anna Maria Ferrara Tango | [eventi della pagina Facebook](https://www.facebook.com/annamariaferraratango/events) | organizzatore | FB 1 |
 | Biblioteca Nelson Mandela | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-nelson-mandela/) · [eventi della pagina Facebook](https://www.facebook.com/BibliotecaNelsonMandela/events) | luogo | CR 1 |
 | Galactus Tuscolana | [eventi della pagina Facebook](https://www.facebook.com/galactustuscolana/events) | organizzatore | FB 1 |
+| Kriminal Tango - la vera milonga di classe | [pagina Facebook](https://www.facebook.com/people/Kriminal-Tango-la-vera-milonga-di-classe/100064076407451) | organizzatore | FB 1 |
+| Piter Garba TJ | [pagina Facebook](https://www.facebook.com/people/Piter-Garba-TJ/100078469041876) | organizzatore | FB 1 |
 | Comitato Salute San Policarpo | [eventi della pagina Facebook](https://www.facebook.com/100076164172190/events) | soggetto | — |
 | Via Appia Nuova 901, 00178 Rome, Italy | — | luogo | FB 3 |
 | AAIE Center For Contemporary Art | — | luogo | FB 1 |
+| Antonella Scidà | — | organizzatore | FB 1 |
 | Csoa Spartaco | — | luogo | FB 1 |
-| Kriminal Tango - la vera milonga di classe | — | organizzatore | FB 1 |
 | Rachele Luciani | — | organizzatore | FB 1 |
 | San Giovanni in Laterano | — | luogo | FB 1 |
 | Via Assisi, 33 | — | luogo | FB 1 |
