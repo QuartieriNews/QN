@@ -65,7 +65,7 @@ delle fonti (DEC-022, decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 1.467 fonti. di cui 370 dal registro del 13
+I numeri sono in `INDEX.md`. In sintesi: 1.467 fonti, di cui 370 dal registro del 13
 ottobre; 644 luoghi e 605 organizzatori; 314 con un sito web; 1.024 con una pagina QN.
 Le fonti senza Municipio sono per lo più organizzatori che a ottobre hanno prodotto
 eventi fuori Roma o registrazioni del registro senza geografia.
