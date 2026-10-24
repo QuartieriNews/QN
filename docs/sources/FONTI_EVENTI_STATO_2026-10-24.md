@@ -17,7 +17,9 @@ pagina (titoli, testi di presentazione) stanno su Drive e nell'anteprima privata
 | Censimento di 1.169 pagine Facebook di associazioni | letto al 99,9%: dati di pagina, eventi futuri, post degli ultimi sei mesi, sito, indirizzo geocodificato, verdetto automatico | `censimento-pagine.md` + foglio su Drive |
 | Lettura settimanale dei siti delle fonti | strumento pronto e testato (`tools/fonti/leggi_eventi_siti.py`, T-LS-1..5); prima prova fatta sulle 809 fonti con un sito (§4 bis) | repository |
 | Ricerca uno a uno dei 176 eventi senza fonte | fatta in due passaggi (sito del luogo nel registro, poi ricerca web): 30 fonti dirette trovate, `link_fonte_diretta` compilato | fogli su Drive |
-| Decisioni aperte | DEC-024 (censimento → registro, Facebook come canale), DEC-025 (precedenza fra fonti) | `decisions/` |
+| Decisioni aperte | DEC-023 (wiki fonti eventi), DEC-024 (censimento → registro, Facebook come canale), DEC-025 (precedenza fra fonti), DEC-026 (Roma Today) | `decisions/` |
+| Censimento RUNTS (6.247 enti) | sito, Facebook, email, eventi e verdetto per ente; 955 rientrano (§1 ter) | Drive (`enti_terzo_settore_fonti.xlsx`) |
+| Flusso continuo da A a Z | proposta per fonte, cadenza e passi fino alla home del quartiere | `docs/sources/FLUSSO_EVENTI_A_Z.md` |
 
 ## 1 bis. Fonti mirate per le 58 pagine QN deboli (M, 24 ottobre 2026)
 
@@ -43,6 +45,55 @@ Limiti: le liste ufficiali dei centri anziani esistono solo per cinque Municipi;
 diocesi (parrocchie) e Overpass (OpenStreetMap) non sono raggiungibili dall'ambiente, le
 parrocchie vengono dalla ricerca. Le candidate sono da leggere una volta a mano: la
 ricerca garantisce il nome del quartiere nel titolo, non che la fonte pubblichi eventi.
+
+## 1 ter. Censimento degli enti del terzo settore di Roma (RUNTS, M, 24 ottobre 2026)
+
+6.247 enti iscritti al RUNTS con sede legale a Roma (file dell'owner: nome, codice fiscale,
+sezione, 5x1000). Metodo: una ricerca Google per nome e una per codice fiscale sugli enti
+rimasti senza nulla; un sito vale solo se la home contiene il codice fiscale, o se il dominio
+somiglia al nome e la pagina contiene il nome; la pagina Facebook vale se il sito verificato
+la linka o se Google la restituisce col nome dell'ente nel titolo; poi dati di pagina, eventi
+futuri e post degli ultimi sei mesi via Apify, email dalla home e dalla pagina contatti dei
+siti, indirizzi geocodificati. Esito nel foglio `enti_terzo_settore_fonti.xlsx` su Drive.
+
+| Misura | Enti |
+|---|---|
+| Sito verificato | 2.958 (1.990 per nome, 815 per codice fiscale, 153 indicati dalla pagina Facebook) |
+| Pagina Facebook | 2.632 (1.930 linkate dal sito verificato) |
+| Nessuna presenza web trovata | 2.842 |
+| Email ufficiale | 2.653 (2.044 dal sito, 609 dalla pagina Facebook); più di una 497; PEC a parte 553 |
+| Rientrano come fonti di eventi (almeno due segnali) | 955 (annunci nei post 420, date recenti sul sito 285, calendario sul sito 133, eventi futuri su Facebook 55, enti nazionali da controllare 62); più 56 imprese sociali o servizi con gli stessi segnali |
+| Da verificare (un solo segnale, o sezione eventi senza date) | 1.118; più 92 imprese sociali o servizi |
+| Con pagina QN, fra quelli che rientrano | 536 (Municipio I da solo il 36%) |
+
+Costo Apify: circa 111 dollari (post 54; ricerche Google 24,7; dati di pagina 24,1; eventi 8,6,
+di cui 7,5 per una pagina di biglietteria abbinata per errore a un ente, run fermato e pagina
+esclusa). Dal secondo giro ogni run è partito con un tetto di spesa; il mese si chiude a 137,6
+dollari sul conto dell'organizzazione. Il foglio di confronto da 68 righe allegato al file RUNTS non è stato usato:
+contiene handle inventati.
+
+## 1 quater. Simulazione: se ogni ente facesse un evento nella pagina della sua sede (M)
+
+Base: tutti gli eventi futuri noti al 24 ottobre (1.402, di cui 1.109 con pagina QN). Scenario
+A: più un evento per ogni ente RUNTS che rientra; B: anche per quelli da verificare; C: A più
+le pagine del censimento Facebook che rientrano. Foglio `simulazione_eventi_quartieri.xlsx`.
+
+| Pagine QN (89) per eventi futuri | oggi | A | B | C |
+|---|---|---|---|---|
+| nessuno | 25 | 20 | 19 | 19 |
+| 1-4 | 30 | 28 | 22 | 25 |
+| 5-9 | 8 | 9 | 14 | 11 |
+| 10 o più | 26 | 32 | 34 | 34 |
+
+Lettura: **il buco non si chiude**. Gli enti del terzo settore stanno dove stanno gli altri
+eventi: Municipio I e II, Esquilino, Centro storico, Parioli; la sede è spesso quella legale,
+non il luogo delle attività. Anche nello scenario più largo restano a zero 19 pagine, tutte di
+periferia o di frontiera (Balduina, Boccea, Bufalotta, Casal Lumbroso, Colle Prenestino,
+Dragona-Dragoncello, Giardino di Roma, Infernetto, La Rustica, Morena, Muratella, Olgiata,
+Pisana, Romanina, Tor Bella Monaca, Torraccia, Trigoria, Vigna Clara, Vitinia). Per quelle
+pagine le fonti utili sono quelle mirate del §1 bis (parrocchie, centri anziani, comitati,
+biblioteche, scuole), che non pubblicano calendari leggibili: servono la segnalazione in
+entrata e il contatto diretto (passo L di `FLUSSO_EVENTI_A_Z.md`), non altra lettura automatica.
 
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 

@@ -41,12 +41,15 @@ python tests/test_fonti_eventi_build.py
 La cartella di ingresso contiene `eventi_unico.xlsx` (il foglio degli eventi di
 ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31
 ottobre, con geografia, rintracciabilità e doppioni), `registro_fonti.xlsx` (registro
-fonti versione 2 del 24 ottobre 2026: le 370 voci del 13 ottobre più 445 candidate trovate
-con la ricerca mirata per le 58 pagine QN con meno di cinque eventi futuri, decisione
+fonti versione 3 del 24 ottobre 2026: le 370 voci del 13 ottobre, con le 220 pagine Facebook
+verificate dall'owner portate a «tenere» e la decisione precedente conservata, più 445 candidate
+trovate con la ricerca mirata per le 58 pagine QN con meno di cinque eventi futuri, decisione
 «candidata» finché l'owner non la cambia) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
-luoghi di culture.roma.it) e, facoltativo, `associazioni_fonti.xlsx` (censimento del 24
-ottobre 2026 di 1.169 pagine Facebook di associazioni: dati di pagina e eventi futuri via
-Apify, sito letto, indirizzo geocodificato, verdetto automatico). Stanno su Drive (`QN Hub /
+luoghi di culture.roma.it) e, facoltativi, i due censimenti del 24 ottobre 2026: `associazioni_fonti.xlsx` (1.169 pagine
+Facebook di associazioni) e `enti_terzo_settore_fonti.xlsx` (6.247 enti del terzo settore di Roma
+iscritti al RUNTS); per ciascun soggetto dati di pagina, eventi futuri e post via Apify, sito
+verificato, indirizzo geocodificato, verdetto automatico. Le email dei soggetti stanno solo in
+questi file: il build non le legge e il test verifica che nessun indirizzo arrivi nelle pagine. Stanno su Drive (`QN Hub /
 20 Packages / Fonti 2026-06`) e nell'anteprima privata, non nel repository: portano titoli
 di eventi e testi di presentazione delle pagine, che sono testo delle fonti (DEC-022,
 decisione dell'owner del 23 ottobre 2026 sulla PR 18).
@@ -78,12 +81,12 @@ decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 2.405 fonti, di cui 807 nel registro versione 2
-(370 del 13 ottobre più 445 candidate della ricerca mirata del 24 ottobre) e 598 candidate dal
-censimento delle pagine Facebook (le coincidenze con voci del registro sono fuse); 644 luoghi e
-1.200 organizzatori; 1.047 con un sito web; 1.846 con una pagina QN.
-Le fonti senza Municipio sono per lo più organizzatori che a ottobre hanno prodotto
-eventi fuori Roma o registrazioni del registro senza geografia.
+I numeri sono in `INDEX.md`. In sintesi: 4.309 fonti, di cui 807 nel registro versione 3
+(370 del 13 ottobre, con le 220 pagine verificate dall'owner il 24 ottobre portate a «tenere», più 445
+candidate della ricerca mirata del 24 ottobre), 1.928 candidate dal censimento degli enti del terzo
+settore (RUNTS) e 598 dal censimento delle pagine Facebook (le coincidenze con voci del registro sono
+fuse); 644 luoghi e 3.112 organizzatori; 2.828 con un sito web; 2.802 con una pagina QN;
+323 fusioni proposte da decidere.
 
 La ricerca mirata del 24 ottobre ha dato a 56 delle 58 pagine QN deboli almeno tre fonti
 da controllare (parrocchie, centri sociali anziani dagli elenchi ufficiali dei Municipi,

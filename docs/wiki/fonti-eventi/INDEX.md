@@ -2,28 +2,28 @@
 
 Pagine generate da `fonti_eventi.json`; non modificare a mano, rigenerare con `tools/wiki/build_fonti_eventi.py`. Una *fonte* è un luogo che ospita eventi, un organizzatore che li promuove o un aggregatore che li elenca. Qui stanno nomi, canali e conteggi; gli eventi restano nel foglio su Drive (DEC-022).
 
-Fonti: 2405 · nel registro del 13 ottobre: 807 · luoghi: 644 · organizzatori: 1200 · con sito web: 1047 · con pagina QN: 1846 · candidate dal censimento pagine del 24 ottobre: 598 (vedi [censimento-pagine.md](censimento-pagine.md))
+Fonti: 4309 · nel registro del 13 ottobre: 807 · luoghi: 644 · organizzatori: 3112 · con sito web: 2828 · con pagina QN: 2802 · candidate dai censimenti del 24 ottobre: 2526 (vedi [censimento-pagine.md](censimento-pagine.md))
 
 Aggregatori: vedi [aggregatori.md](aggregatori.md).
 
 | Municipio | fonti | luoghi | organizzatori | eventi ott 2026 | con sito | con pagina QN |
 |---|---|---|---|---|---|---|
-| [I](municipi/I.md) | 489 | 203 | 275 | 817 | 246 | 478 |
-| [II](municipi/II.md) | 197 | 69 | 122 | 495 | 95 | 191 |
-| [III](municipi/III.md) | 80 | 8 | 39 | 35 | 40 | 79 |
-| [IV](municipi/IV.md) | 92 | 17 | 37 | 137 | 36 | 88 |
-| [V](municipi/V.md) | 107 | 25 | 72 | 197 | 36 | 104 |
-| [VI](municipi/VI.md) | 89 | 6 | 28 | 54 | 50 | 88 |
-| [VII](municipi/VII.md) | 139 | 28 | 75 | 90 | 65 | 132 |
-| [VIII](municipi/VIII.md) | 110 | 36 | 50 | 133 | 48 | 108 |
-| [IX](municipi/IX.md) | 119 | 31 | 43 | 72 | 50 | 119 |
-| [X](municipi/X.md) | 63 | 11 | 21 | 78 | 31 | 60 |
-| [XI](municipi/XI.md) | 82 | 12 | 27 | 86 | 43 | 81 |
-| [XII](municipi/XII.md) | 67 | 17 | 30 | 106 | 34 | 51 |
-| [XIII](municipi/XIII.md) | 92 | 13 | 46 | 66 | 37 | 90 |
-| [XIV](municipi/XIV.md) | 76 | 6 | 19 | 19 | 42 | 68 |
-| [XV](municipi/XV.md) | 93 | 8 | 21 | 22 | 49 | 90 |
-| [senza municipio](municipi/senza-municipio.md) | 510 | 154 | 295 | 410 | 145 | 19 |
+| [I](municipi/I.md) | 882 | 203 | 669 | 817 | 622 | 842 |
+| [II](municipi/II.md) | 384 | 69 | 309 | 495 | 270 | 353 |
+| [III](municipi/III.md) | 123 | 8 | 82 | 35 | 82 | 122 |
+| [IV](municipi/IV.md) | 141 | 17 | 86 | 137 | 75 | 121 |
+| [V](municipi/V.md) | 174 | 25 | 140 | 197 | 94 | 158 |
+| [VI](municipi/VI.md) | 107 | 6 | 47 | 54 | 65 | 104 |
+| [VII](municipi/VII.md) | 216 | 28 | 152 | 90 | 140 | 199 |
+| [VIII](municipi/VIII.md) | 184 | 36 | 124 | 133 | 119 | 178 |
+| [IX](municipi/IX.md) | 162 | 31 | 86 | 72 | 90 | 138 |
+| [X](municipi/X.md) | 86 | 11 | 45 | 78 | 51 | 73 |
+| [XI](municipi/XI.md) | 106 | 12 | 51 | 86 | 67 | 100 |
+| [XII](municipi/XII.md) | 126 | 17 | 89 | 106 | 87 | 51 |
+| [XIII](municipi/XIII.md) | 130 | 13 | 85 | 67 | 76 | 121 |
+| [XIV](municipi/XIV.md) | 115 | 6 | 59 | 19 | 81 | 98 |
+| [XV](municipi/XV.md) | 135 | 8 | 63 | 22 | 90 | 125 |
+| [senza municipio](municipi/senza-municipio.md) | 1238 | 154 | 1025 | 409 | 819 | 19 |
 
 ## Dove cercare per primi: le 60 fonti più produttive con un indirizzo da controllare
 
@@ -61,7 +61,7 @@ Aggregatori: vedi [aggregatori.md](aggregatori.md).
 | Nuovo Cinema Aquila | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/nuovo-cinema-aquila/) · [sito](https://cinemaaquila.it) · [eventi della pagina Facebook](https://www.facebook.com/cinemaaquila/events) | V | Pigneto-Torpignattara | CR 12 |
 | Associazione AREA06 – ETS | [sito](https://area06.com) · [eventi della pagina Facebook](https://www.facebook.com/area06/events) · [Instagram](https://www.instagram.com/area06ets) | III | Montesacro | CR 11 |
 | bellaroma.info | [sito](https://bellaroma.info) · [eventi della pagina Facebook](https://www.facebook.com/bellaroma.info/events) | I | Centro Storico | FB 11 |
-| IL NAUFRAGARMEDOLCE ETS | [sito](https://ilnaufragarmedolce.it) · [eventi della pagina Facebook](https://www.facebook.com/ilnaufragarmedolce/events) · [Instagram](https://www.instagram.com/ilnaufragarmedolce) | IV | Pietralata | CR 11 |
+| IL NAUFRAGARMEDOLCE ETS | [pagina eventi del sito](https://www.ilnaufragarmedolce.it/spettacoli/zit/) · [sito](https://ilnaufragarmedolce.it) · [eventi della pagina Facebook](https://www.facebook.com/ilnaufragarmedolce/events) | IV | Pietralata | CR 11 |
 | Laboratorio 104 tour e visite guidate a Roma | [sito](https://laboratorio104.it) · [eventi della pagina Facebook](https://www.facebook.com/Laboratorio104/events) | I | Esquilino-Termini | FB 11 |
 | Orbita | Spellbound - Centro Nazionale di Produzione della Danza (rassegna Reverse) | [pagina letta alla fonte (calendario)](https://orbitaspellbound.com/orbita-spellbound/agenda/) · [sito](https://orbitaspellbound.com) | — | — | FL 11 |
 | Parco archeologico del Colosseo | [pagina letta alla fonte (calendario)](https://colosseo.it/eventi/) · [sito](https://colosseo.it) · [Instagram](https://www.instagram.com/parcocolosseo) | I | Centro Storico | FB 1 FL 9 RT 1 |
