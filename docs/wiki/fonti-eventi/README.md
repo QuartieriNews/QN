@@ -41,7 +41,9 @@ python tests/test_fonti_eventi_build.py
 La cartella di ingresso contiene `eventi_unico.xlsx` (il foglio degli eventi di
 ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31
 ottobre, con geografia, rintracciabilità e doppioni), `registro_fonti.xlsx` (registro
-del 13 ottobre 2026) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
+fonti versione 2 del 24 ottobre 2026: le 370 voci del 13 ottobre più 445 candidate trovate
+con la ricerca mirata per le 58 pagine QN con meno di cinque eventi futuri, decisione
+«candidata» finché l'owner non la cambia) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
 luoghi di culture.roma.it) e, facoltativo, `associazioni_fonti.xlsx` (censimento del 24
 ottobre 2026 di 1.169 pagine Facebook di associazioni: dati di pagina e eventi futuri via
 Apify, sito letto, indirizzo geocodificato, verdetto automatico). Stanno su Drive (`QN Hub /
@@ -76,11 +78,18 @@ decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 1.970 fonti, di cui 370 dal registro del 13
-ottobre e 598 candidate dal censimento del 24 ottobre (le coincidenze con voci del
-registro sono fuse); 644 luoghi e 1.200 organizzatori; 809 con un sito web; 1.410 con una pagina QN.
+I numeri sono in `INDEX.md`. In sintesi: 2.405 fonti, di cui 807 nel registro versione 2
+(370 del 13 ottobre più 445 candidate della ricerca mirata del 24 ottobre) e 598 candidate dal
+censimento delle pagine Facebook (le coincidenze con voci del registro sono fuse); 644 luoghi e
+1.200 organizzatori; 1.047 con un sito web; 1.846 con una pagina QN.
 Le fonti senza Municipio sono per lo più organizzatori che a ottobre hanno prodotto
 eventi fuori Roma o registrazioni del registro senza geografia.
+
+La ricerca mirata del 24 ottobre ha dato a 56 delle 58 pagine QN deboli almeno tre fonti
+da controllare (parrocchie, centri sociali anziani dagli elenchi ufficiali dei Municipi,
+comitati di quartiere, biblioteche dall'elenco di Biblioteche di Roma, istituti comprensivi
+dall'anagrafe MIUR, mercati rionali dai dati aperti, centri culturali, pro loco e consorzi);
+restano scoperte Dragona-Dragoncello e Muratella.
 
 Il censimento ha detto una cosa netta: di 1.169 pagine di associazioni, solo 19 hanno
 eventi futuri su Facebook (verificato con due lettori diversi); gli eventi li annunciano

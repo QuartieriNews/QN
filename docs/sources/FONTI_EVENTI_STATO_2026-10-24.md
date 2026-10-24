@@ -12,11 +12,37 @@ pagina (titoli, testi di presentazione) stanno su Drive e nell'anteprima privata
 | Cosa | Stato | Dove |
 |---|---|---|
 | Foglio unificato degli eventi di ottobre 2026 (Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31 ottobre) | 1.957 righe, geografia a due metodi, rintracciabilità, doppioni segnalati, colonna `riga_principale_proposta` (DEC-025 aperta) | Drive / anteprima |
-| Wiki delle fonti eventi | 1.970 fonti (370 dal registro del 13 ottobre, 598 candidate dal censimento del 24 ottobre), pagine per Municipio e per pagina QN, «dove cercare» per ogni fonte | `docs/wiki/fonti-eventi/` |
+| Wiki delle fonti eventi | 2.405 fonti (807 nel registro v2, 598 candidate dal censimento del 24 ottobre), pagine per Municipio e per pagina QN, «dove cercare» per ogni fonte, 181 fusioni proposte | `docs/wiki/fonti-eventi/` |
+| Registro fonti versione 2 | 370 voci del 13 ottobre più 445 candidate della ricerca mirata per le 58 pagine QN deboli, ciascuna con tipo, zona, canale e dove cercare; decisione «candidata» | Drive (`registro_fonti_v2_pagine_deboli.xlsx`), ingresso del build della wiki |
 | Censimento di 1.169 pagine Facebook di associazioni | letto al 99,9%: dati di pagina, eventi futuri, post degli ultimi sei mesi, sito, indirizzo geocodificato, verdetto automatico | `censimento-pagine.md` + foglio su Drive |
 | Lettura settimanale dei siti delle fonti | strumento pronto e testato (`tools/fonti/leggi_eventi_siti.py`, T-LS-1..5); prima prova fatta sulle 809 fonti con un sito (§4 bis) | repository |
 | Ricerca uno a uno dei 176 eventi senza fonte | fatta (Google via Apify, un candidato letto e verificato per evento) | foglio su Drive |
 | Decisioni aperte | DEC-024 (censimento → registro, Facebook come canale), DEC-025 (precedenza fra fonti) | `decisions/` |
+
+## 1 bis. Fonti mirate per le 58 pagine QN deboli (M, 24 ottobre 2026)
+
+Perimetro: le 89 pagine del gazetteer con meno di cinque eventi futuri nel foglio (31 a
+zero, 27 fra uno e quattro). Metodo: per ogni pagina una ricerca per tipo di fonte
+(parrocchia, centro anziani, comitato di quartiere, biblioteca, centro culturale, istituto
+comprensivo, associazione; pro loco e consorzio per le 17 pagine di frontiera), 423 ricerche
+Google via Apify (1,06 $), risultati tenuti solo se il nome del quartiere e la parola del
+tipo compaiono nel titolo e il dominio non è un elenco, un aggregatore o una testata; più
+quattro elenchi istituzionali letti per intero e geocodificati: centri sociali anziani dai
+PDF ufficiali dei Municipi III, IV, X, XI, XII (39), biblioteche dall'elenco di Biblioteche
+di Roma (45), istituti comprensivi dall'anagrafe MIUR 2026/27 (177), mercati rionali dai
+dati aperti di Roma Capitale (69). Esito nel foglio `fonti_mirate_pagine_deboli.xlsx`.
+
+| Misura | Valore |
+|---|---|
+| Candidate per le 58 pagine | 463 (sito 284, pagina Facebook 159, solo indirizzo 20); 443 con un indirizzo da controllare |
+| Per tipo | istituti comprensivi 110 · comitati 72 · parrocchie 65 · centri anziani 61 · associazioni 39 · biblioteche 34 · centri culturali 31 · pro loco e consorzi 15 · mercati 13 |
+| Pagine con almeno tre fonti (wiki + nuove) | 56 su 58; scoperte Dragona-Dragoncello (0) e Muratella (1) |
+| Nuove nel registro v2 | 445 (17 coincidevano con voci del 13 ottobre) |
+
+Limiti: le liste ufficiali dei centri anziani esistono solo per cinque Municipi; la
+diocesi (parrocchie) e Overpass (OpenStreetMap) non sono raggiungibili dall'ambiente, le
+parrocchie vengono dalla ricerca. Le candidate sono da leggere una volta a mano: la
+ricerca garantisce il nome del quartiere nel titolo, non che la fonte pubblichi eventi.
 
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
@@ -161,8 +187,8 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 ## 7. Prossimi passi, in ordine
 
 1. Owner: DEC-024 e DEC-025.
-2. Promuovere nel registro v2 le candidate secondo DEC-024 Q1; aggiungere Estate Romana e
-   Biblioteche di Roma come fonti istituzionali.
+2. Decidere le candidate del registro v2 (445 della ricerca mirata, 598 del censimento)
+   secondo DEC-024 Q1; aggiungere Estate Romana come fonte istituzionale.
 3. Mettere in calendario la lettura settimanale dei siti (§4) e misurare per quattro settimane
    quante fonti producono davvero; poi rileggere le candidate «pagina eventi senza date».
 4. Scrivere la lettura per differenza di culture.roma.it.

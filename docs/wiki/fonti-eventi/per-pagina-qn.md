@@ -89,7 +89,9 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Edarcom Europa Galleria d'Arte Contemporanea | [sito](https://edarcom.it) | luogo | RT 1 |
 | Graffiti - Scuola di Fotografia | [sito](https://graffitiscuola.it) · [eventi della pagina Facebook](https://www.facebook.com/graffiti.scuoladifotografia/events) | luogo, organizzatore | FB 1 |
 | Produzioni Teatro Verdi | [pagina Facebook](https://www.facebook.com/people/Produzioni-Teatro-Verdi/61576184594785) | organizzatore | FB 1 |
+| "Via Teodoro Mommsen 20" | [sito](https://www.mommsen.edu.it/) | soggetto | — |
 | Assedi - Associazione Servizi Diving Italiani | [pagina eventi del sito](https://www.assedi.org/category/news/) · [sito](https://assedi.org) · [eventi della pagina Facebook](https://www.facebook.com/Associazione.servizi.diving.italiani/events) | organizzatore | — |
+| Assistenza anziani a Roma Appio Latino | [sito](https://www.privatassistenza.it) | soggetto | — |
 | Associazione ARPEA Onlus | [pagina eventi del sito](https://www.arpea.it/website/category/news/) · [sito](https://arpea.it) · [eventi della pagina Facebook](https://www.facebook.com/associazione.arpea/events) | organizzatore | — |
 | Associazione Culturale L'altra Roma | [sito](https://laltraroma.com) · [eventi della pagina Facebook](https://www.facebook.com/laltraroma.net/events) | organizzatore | — |
 | Associazione Nuove Frontiere | [sito](https://associazionenuovefrontiere.net) · [eventi della pagina Facebook](https://www.facebook.com/100066821886081/events) | organizzatore | — |
@@ -97,9 +99,16 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Undici | [sito](https://associazioneundici.vpsite.it) · [eventi della pagina Facebook](https://www.facebook.com/100071404115531/events) | organizzatore | — |
 | Associazione volontari La Cometa aps | [pagina eventi del sito](https://www.lacometaonlus.eu/news.html) · [sito](https://lacometaonlus.eu) · [eventi della pagina Facebook](https://www.facebook.com/associazionevolontarilacometa/events) | organizzatore | — |
 | Assoeuro - Associazione Italiana Europrogettisti - EU Project Manager | [pagina eventi del sito](https://www.assoeuro.it/eventi/?ical=1) · [sito](https://assoeuro.it) · [eventi della pagina Facebook](https://www.facebook.com/Assoeuro/events) | organizzatore | — |
+| Consdircdq | [eventi della pagina Facebook](https://www.facebook.com/consdircdq/events) | soggetto | — |
+| Dove siamo – IC Via T. Mommsen, 20 | [sito](https://www.mommsen.edu.it) | soggetto | — |
+| Il Palco, circolo ARCI culturale ad Appio Latino | [sito](https://www.estateromana.com) | soggetto | — |
 | Le Chiavi d'Oro Roma - Associazione Portieri d'Albergo e Front Office | [sito](https://lechiavidoro-roma.org) · [eventi della pagina Facebook](https://www.facebook.com/lechiavidororoma/events) | organizzatore | — |
 | Musikè | [pagina eventi del sito](https://www.associazione-musike.com/news/) · [sito](https://associazione-musike.com) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneMusike/events) | organizzatore | — |
 | Via Gennaro Mondaini | — | luogo | FB 2 |
+| "Gino Strada" | — | soggetto | — |
+| Ic Alessandro Manzoni | — | soggetto | — |
+| Ic Via Ceneda | — | soggetto | — |
+| Mercato Latino | — | soggetto | — |
 
 ## Ardeatino `ardeatino` — Municipio VIII
 
@@ -109,6 +118,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | AIGAE Associazione Italiana Guide Ambientali Escursionistiche | [pagina eventi del sito](https://www.aigae.org/eventi/) · [sito](https://aigae.org) · [eventi della pagina Facebook](https://www.facebook.com/italiaguide/events) | organizzatore | — |
 | AISC - Associazione Italiana Scompensati Cardiaci | [pagina eventi del sito](https://www.associazioneaisc.org/news.html) · [sito](https://associazioneaisc.org) · [eventi della pagina Facebook](https://www.facebook.com/100064882922845/events) | organizzatore | — |
 | Andante con Fuoco - Associazione culturale | [sito](https://andanteconfuoco.it) · [eventi della pagina Facebook](https://www.facebook.com/andanteconfuoco/events) | organizzatore | — |
+| Ardeatino-Tor Marancia. Il Comitato di quartiere consegna ... | [sito](https://questure.poliziadistato.it) | soggetto | — |
 | Associazione Che Guevara | [sito](https://associazionecheguevara.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/associazionecheguevara/events) | organizzatore | — |
 | Associazione Culturale Rottanuova Onlus | [pagina eventi del sito](https://www.rottanuova.it/wp-content/plugins/tmm_events_calendar/css/calendar.css?ver=5.5.23) · [sito](https://rottanuova.it) · [eventi della pagina Facebook](https://www.facebook.com/Rottanuova/events) | organizzatore | — |
 | Associazione culturale Skenè | [pagina eventi del sito](https://teatrosfr.wixsite.com/associazioneskene/eventi) · [sito](https://teatrosfr.wixsite.com) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneSkene/events) | organizzatore | — |
@@ -116,9 +126,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Italiana Zincatura | [pagina eventi del sito](https://www.aiz.it/notizie) · [sito](https://aiz.it) · [eventi della pagina Facebook](https://www.facebook.com/100087526478528/events) | organizzatore | — |
 | Associazione Orti Urbani Sociali Tor Carbone Onlus Roma | [pagina eventi del sito](https://www.ortiurbanitorcarbone.it/wp-json/tribe/events/v1/) · [sito](https://ortiurbanitorcarbone.it) · [eventi della pagina Facebook](https://www.facebook.com/ortiurbanitorcarbone/events) | organizzatore | — |
 | associazione Psiche Demetra ODV | [pagina eventi del sito](https://www.psichedemetra.com/eventi/) · [sito](https://psichedemetra.com) · [eventi della pagina Facebook](https://www.facebook.com/100092706852218/events) | organizzatore | — |
+| Biblioteca Arcipelago Auditorium | [sito](https://www.bibliotechediroma.it/opac/library/Biblioteca%20Arcipelago%20Auditorium/RMBM1) | soggetto | — |
+| Comitato di Quartiere Ardeatino - Tor Marancia | [sito](https://www.ilmarforio.it) | soggetto | — |
+| il Nuovo CdQ Ardeatino-Tormarancia si presenta | [sito](https://urloweb.com) | soggetto | — |
 | Teatro Eleusis (Gruppo Eleusis) | [sito](https://www.gruppoeleusis.it/teatro-eleusis.html) | soggetto | — |
 | Teatro Eulisis | — | luogo | RT 1 |
+| Giuseppe Montezemolo | — | soggetto | — |
+| IC Carlo Alberto Dalla Chiesa | — | soggetto | — |
+| Ic Poggiali-Spizzichino | — | soggetto | — |
 | Il Ristoro degli Artisti (Car Gas Officina) | — | soggetto | — |
+| Mercato Grottaperfetta | — | soggetto | — |
+| Mercato Montagnola | — | soggetto | — |
 
 ## Aurelio `aurelio` — Municipio XIII
 
@@ -172,11 +190,29 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Via Gregorio XI 211, 00166 Rome, Italy | — | luogo | FB 1 |
 | vittoriano | — | luogo | FB 1 |
 
+## Balduina `balduina` — Municipio XIV
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Balduina (45mila abitanti) ha finalmente il suo Comitato di ... | [sito](https://www.balduina.org) | soggetto | — |
+| Balduina - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
+| Balduina Centro Sociale Anziani (@1Aldo1Aldo) | [eventi della pagina Facebook](https://www.facebook.com/1Aldo1Aldo/events) | soggetto | — |
+| Balduina'S | [eventi della pagina Facebook](https://www.facebook.com/ReteBalduina/events) | soggetto | — |
+| Centro sociale anziani Balduina | [sito](https://peranziani.it) | soggetto | — |
+| Chiesa di San Pio X alla Balduina | [sito](https://www.turismoroma.it) | soggetto | — |
+| Municipioromaxiv | [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | — |
+| Parrocchia San Pio X alla Balduina | [sito](https://www.scuolemigranti.org) | soggetto | — |
+
 ## Boccea `boccea` — Municipio XIII
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Comitato Collina Delle Muse | [sito](https://comitatocollinadellemuse.blogspot.com) · [eventi della pagina Facebook](https://www.facebook.com/comitatocdm/events) | organizzatore | — |
+| IC Viaboccea590 | [sito](https://icviaboccea590.edu.it) | soggetto | — |
+| Notizie – Pagina 2 – IC VIA BOCCEA 590 | [sito](https://icviaboccea590.edu.it) | soggetto | — |
+| Parrocchia Santa Maria di Nazareth | [eventi della pagina Facebook](https://www.facebook.com/smnazaret/events) | soggetto | — |
+| Tenuta di Boccea | [eventi della pagina Facebook](https://www.facebook.com/boccea/events) | soggetto | — |
+| Zona Romanord | [eventi della pagina Facebook](https://www.facebook.com/zona.romanord/events) | soggetto | — |
 
 ## Borghesiana `borghesiana` — Municipio VI
 
@@ -185,6 +221,19 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Culturale Progetto Riabilitazione - Roma | [sito](https://progettoriabilitazione.blogspot.it) · [eventi della pagina Facebook](https://www.facebook.com/100054604022503/events) | organizzatore | — |
 | Associazione Valle degli Ulivi Roma | [sito](https://valledegliuliviroma.com) · [eventi della pagina Facebook](https://www.facebook.com/valledegliuliviroma/events) | organizzatore | — |
 | Biblioteca Collina della Pace | [eventi della pagina Facebook](https://www.facebook.com/bibliotecacollinadellapace/events) | soggetto | — |
+| Biblioteca comunale Borghesiana | [sito](https://anagrafe.iccu.sbn.it) | soggetto | — |
+| Borghesiana - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
+| CONSORZIO BORGHESIANA G3, Partita IVA | [sito](https://www.ufficiocamerale.it) | soggetto | — |
+| consorzio borghesiana pantano | [sito](https://www.visura.pro) | soggetto | — |
+| IC DOMENICO SAVIO | [sito](https://icdomenicosavio.edu.it) | soggetto | — |
+| IC Iispertinifalcone | [sito](https://www.iispertinifalcone.edu.it) | soggetto | — |
+| Ic Marco Polo | [sito](https://www.istitutocomprensivomarcopoloroma.edu.it) | soggetto | — |
+| IL CENTRO ANZIANI BORGHESIANA APS, dopo tre lunghi ... | [eventi della pagina Facebook](https://www.facebook.com/vocedellaborghesiana/events) | soggetto | — |
+| Il contesto - ISTITUTO COMPRENSIVO STATALE "Marco ... | [sito](https://www.istitutocomprensivomarcopoloroma.edu.it) | soggetto | — |
+| Inaugurata la Biblioteca Borghesiana, primo spazio ... - NewsFY | [sito](https://www.saracinesco.it) | soggetto | — |
+| Maurizioveloccia1 | [eventi della pagina Facebook](https://www.facebook.com/MaurizioVeloccia1/events) | soggetto | — |
+| Biblioteca Borghesiana (Municipio VI) | — | soggetto | — |
+| I. C. Elisa Scala | — | soggetto | — |
 
 ## Bravetta `bravetta` — Municipio XII
 
@@ -194,12 +243,33 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | A.ROMA Lifestyle HOTEL | [eventi della pagina Facebook](https://www.facebook.com/ARomaLifestyleHotel/events) | luogo | FB 2 |
 | BAM - By All Means | [eventi della pagina Facebook](https://www.facebook.com/ByAllMeansNetwork/events) | organizzatore | FB 1 |
 | Partsweb | [eventi della pagina Facebook](https://www.facebook.com/Partsweb/events) | organizzatore | FB 1 |
+| Bravetta Pisana spazio per attività sociali e culturali | [sito](https://paesaggiorigenerazioneperiferie.it) | soggetto | — |
+| Comitato Genitori I.C. Pino Puglisi (@comitatoICPinoPuglisi) | [eventi della pagina Facebook](https://www.facebook.com/comitatoICPinoPuglisi/events) | soggetto | — |
+| Giubileo Parrocchiale - Parrocchia Natività di Maria - Bravetta | [sito](https://www.nativitadimaria.com) | soggetto | — |
+| IC Pinopuglisiroma | [sito](https://www.icpinopuglisiroma.edu.it) | soggetto | — |
+| Istituto Comprensivo Puglisi – Roma – Sito web ufficiale | [sito](https://www.icpinopuglisiroma.edu.it) | soggetto | — |
+| La Scuola – Istituto Comprensivo Puglisi | [sito](https://www.icpinopuglisiroma.edu.it) | soggetto | — |
+| Parrocchia SS. Crocifisso | [eventi della pagina Facebook](https://www.facebook.com/parrocobravetta332/events) | soggetto | — |
+| PD Pisana Bravetta | [eventi della pagina Facebook](https://www.facebook.com/pdpisana/events) | soggetto | — |
+| Prefettura e quartiere - Parrocchia Natività di Maria - Bravetta | [sito](https://www.nativitadimaria.com) | soggetto | — |
+
+## Bufalotta `bufalotta` — Municipio III
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| IC Liceonomentano | [sito](https://www.liceonomentano.edu.it) | soggetto | — |
+| Istituto Comprensivo Uruguay | [eventi della pagina Facebook](https://www.facebook.com/ScuolaUruguay/events) | soggetto | — |
+| Istituto Comprensivo Uruguay (@ScuolaUruguay) | [eventi della pagina Facebook](https://www.facebook.com/ScuolaUruguay/events) | soggetto | — |
+| Municipioromaiiiofficialpage | [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaIIIOfficialPage/events) | soggetto | — |
+| Parrocchia Santa Maria delle Grazie a Casalboccone | [eventi della pagina Facebook](https://www.facebook.com/SMGRAZIE/events) | soggetto | — |
 
 ## Casal Lumbroso `casal-lumbroso` — Municipio XII
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Euphoria Centro Estetica | [eventi della pagina Facebook](https://www.facebook.com/euphoriacentroestetica/events) | organizzatore | FB 1 |
+| IC Isiss Magarotto | [sito](https://www.isiss-magarotto.edu.it) | soggetto | — |
+| La Scuola – Istituto Comprensivo Octavia – Roma | [sito](https://www.icoctavia.edu.it) | soggetto | — |
 | Via Francesco Aquilanti 76B-G, Roma, Lazio | — | luogo | FB 1 |
 
 ## Casal Palocco `casal-palocco` — Municipio X
@@ -208,7 +278,22 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | SOLARA GARDEN | [sito](https://solaragarden.it) · [eventi della pagina Facebook](https://www.facebook.com/SolaragardenIlVillaggiodiNatale/events) · [Instagram](https://www.instagram.com/solarailvillaggiodinatale) | organizzatore | RT 1 |
 | Associazione HESED | [sito](https://chiesahesed.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneHesedAps/events) | organizzatore | — |
+| Centro Sociale Polivalente di Casalpalocco | [eventi della pagina Facebook](https://www.facebook.com/CSP171/events) | soggetto | — |
+| Centro Sociale Polivalente di Casalpalocco (@CSP171) | [eventi della pagina Facebook](https://www.facebook.com/CSP171/events) | soggetto | — |
+| Centro Sociale Polivalente di Casalpalocco: Benvenuti | [sito](https://www.csp-palocco.it) | soggetto | — |
+| Chi siamo - Centro Sociale Polivalente di Casalpalocco | [sito](https://www.csp-palocco.it) | soggetto | — |
+| Consorzio di Casalpalocco | [sito](https://consorziocasalpalocco.it) | soggetto | — |
+| Consorzio di Casalpalocco (@ConsorzioCasalpalocco) | [eventi della pagina Facebook](https://www.facebook.com/ConsorzioCasalpalocco/events) | soggetto | — |
+| Consorzio. Origini e Storia – Consorzio di Casalpalocco | [sito](https://consorziocasalpalocco.it) | soggetto | — |
+| Contatti – Consorzio di Casalpalocco | [sito](https://consorziocasalpalocco.it) | soggetto | — |
+| Documenti Costitutivi – Consorzio di Casalpalocco | [sito](https://consorziocasalpalocco.it) | soggetto | — |
+| IC Tulliazevi | [sito](https://www.ictulliazevi.edu.it) | soggetto | — |
+| ICC Istituto Clinico Casalpalocco | [eventi della pagina Facebook](https://www.facebook.com/GVMICCIstitutoClinicoCasalpalocco/events) | soggetto | — |
+| ICC-Istituto Clinico Casalpalocco: medicina per anziani tra ... | [sito](https://www.gvmnet.it) | soggetto | — |
+| Parrocchia di San Timoteo - Roma Casal Palocco | [sito](https://www.santimoteo.org) | soggetto | — |
 | Casal Palocco | — | luogo | RT 1 |
+| IC "Aristide Leonori" | — | soggetto | — |
+| Ic Tullia Zevi | — | soggetto | — |
 
 ## Casalotti `casalotti` — Municipio XIII
 
@@ -216,11 +301,24 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Luxna Beer | [eventi della pagina Facebook](https://www.facebook.com/luxnabirra/events) | luogo | FB 1 |
 | Outrun Band | [eventi della pagina Facebook](https://www.facebook.com/outrunbandRM/events) | organizzatore | FB 1 |
+| 7 novembre ore 15:00, Assemblea cittadina CASALOTTI E ... | [sito](https://www.casalottiecasamia.it) | soggetto | — |
+| Assistenza anziani a Roma Casalotti di Boccea | [sito](https://www.privatassistenza.it) | soggetto | — |
 | Associazione Culturale L.G.S. | [eventi della pagina Facebook](https://www.facebook.com/100068924385523/events) | organizzatore | — |
 | Associazione Nazionale Cuoche a Domicilio | [sito](https://assocuoche.it) · [eventi della pagina Facebook](https://www.facebook.com/assocuoche/events) | organizzatore | — |
+| Centro sociale anziani Casalotti | [sito](https://peranziani.it) | soggetto | — |
 | Comitato di Quartiere Casalotti, Casal Selce, Selva Candida, Selva Nera | [eventi della pagina Facebook](https://www.facebook.com/61553668641240/events) | soggetto | — |
 | EquilibrioYoga Associazione - Yoga Roma Boccea Casalotti Selva Candida | [pagina eventi del sito](http://www.equilibrioyoga.it/eventi.html) · [sito](https://equilibrioyoga.it) · [eventi della pagina Facebook](https://www.facebook.com/equilibrioyogaroma/events) | organizzatore | — |
+| I Love Casalotti (@ilovecasalotti) | [eventi della pagina Facebook](https://www.facebook.com/ilovecasalotti/events) | soggetto | — |
+| Il Centro Anziani Casalotti, associazione piazza Ormea ... | [eventi della pagina Facebook](https://www.facebook.com/nidoinfanziastregatto/events) | soggetto | — |
+| Istituto Comprensivo - Ic Via Casalotti, 259 | [sito](https://io.italia.it) | soggetto | — |
+| ISTITUTO COMPRENSIVO VIA CASALOTTI 259 ... | [sito](https://openpnrr.it) | soggetto | — |
+| Istituto Comprensivo Via Casalotti – Roma – Sito web ufficiale | [sito](https://www.iccasalotti.edu.it) | soggetto | — |
+| Parrocchia S. Rita da Cascia | [eventi della pagina Facebook](https://www.facebook.com/parrocchias.ritadacasciacasalotti/events) | soggetto | — |
+| Parrocchia S.... | [eventi della pagina Facebook](https://www.facebook.com/parrocchias.ritadacasciacasalotti/events) | soggetto | — |
 | Giulia Cheyenne | — | organizzatore | FB 1 |
+| Ic Via Casalotti 259 | — | soggetto | — |
+| Ic Via Ormea | — | soggetto | — |
+| Mercato Casalotti | — | soggetto | — |
 
 ## Cassia `cassia` — Municipio XV
 
@@ -231,6 +329,16 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato Regionale Lazio FICK | [pagina eventi del sito](https://www.federcanoa.it/home/news.html) · [sito](https://federcanoa.it) · [eventi della pagina Facebook](https://www.facebook.com/61570834715519/events) | organizzatore | — |
 | CONI Comitato Regionale Lazio | [pagina eventi del sito](https://lazio.coni.it/notizie?format=feed&amp;type=rss) · [sito](https://lazio.coni.it) · [eventi della pagina Facebook](https://www.facebook.com/lazio.coni.it/events) | organizzatore | — |
 | Fidal Comitato Provinciale Roma | [sito](https://roma.fidal.it) · [eventi della pagina Facebook](https://www.facebook.com/fidal.roma/events) | organizzatore | — |
+| IC Soglian Amaldi Via Cassia Roma | [sito](https://www.icsoglianamaldi.edu.it) | soggetto | — |
+| IC Viacassia1694Roma | [sito](https://www.icviacassia1694roma.edu.it) | soggetto | — |
+| Istituto Comprensivo - Ic Via Cassia 1694 | [sito](https://io.italia.it) | soggetto | — |
+| Istituto Comprensivo Statale Via Cassia 1694 | [sito](https://www.icviacassia1694roma.edu.it) | soggetto | — |
+| Istituto Comprensivo “via Cassia 1694” – Roma | [sito](https://sapereisapori.regione.lazio.it) | soggetto | — |
+| Parrocchia Beata Vergine Maria - Via Cassia 1286 - 00189 ... | [sito](https://www.parrocchiagiustiniana.it) | soggetto | — |
+| Parrocchia S. Andrea Apostolo | [eventi della pagina Facebook](https://www.facebook.com/s.andreaapostolo/events) | soggetto | — |
+| Parrocchia San Giuliano | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasangiulianoroma/events) | soggetto | — |
+| Teatro Cassia | [eventi della pagina Facebook](https://www.facebook.com/110971755634334/events) | soggetto | — |
+| Top 10 biblioteche vicino a Via Cassia | [sito](https://biblioteche.top10posti.it) | soggetto | — |
 | Evento sponsorizzato | — | organizzatore | RT 1 |
 
 ## Castel di Leva `castel-di-leva` — Municipio IX
@@ -242,13 +350,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Indipendente Concerti | [eventi della pagina Facebook](https://www.facebook.com/IndipendenteConcerti/events) | organizzatore | FB 2 |
 | CronoNauti | [eventi della pagina Facebook](https://www.facebook.com/crononauti/events) | organizzatore | FB 1 |
 | Lago Campanella | [Instagram](https://www.instagram.com/animaverde_eventi) | luogo | RT 1 |
+| Agricoltura Nuova | [eventi della pagina Facebook](https://www.facebook.com/AgricolturaNuovaCastelDiLeva/events) | soggetto | — |
 | Associazione Alberto Sordi | [pagina eventi del sito](https://www.fondazionealbertosordi.it/attivita/albertamente/) · [sito](https://fondazionealbertosordi.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionealbertosordi/events) | organizzatore | — |
 | Associazione Amici del Campus Bio-Medico di Roma -ETS | [eventi della pagina Facebook](https://www.facebook.com/amicicampusbiomedico/events) | organizzatore | — |
 | Associazione culturale Fiore di Libertà | [sito](https://mentinfermento.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/100068288648373/events) | organizzatore | — |
 | Associazione di promozione sociale "Country Club" | [eventi della pagina Facebook](https://www.facebook.com/PiscinaCountryClub/events) | organizzatore | — |
 | Associazione di Promozione Sociale Insieme PER Trigoria | [eventi della pagina Facebook](https://www.facebook.com/61575281006237/events) | organizzatore | — |
+| CASTEL DI LEVA SUMMERLAND Un'Estate tutta da vivere ... | [eventi della pagina Facebook](https://www.facebook.com/AgricolturaNuovaCastelDiLeva/events) | soggetto | — |
 | Castel Romano Designer Outlet - McArthurGlen | — | luogo | RT 1 |
 | Riserva naturale di Decima-Malafede | — | luogo | FB 1 |
+| Bruno De Finetti | — | soggetto | — |
+| Marta Russo | — | soggetto | — |
 
 ## Centocelle `centocelle` — Municipio V
 
@@ -493,6 +605,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | ISOLA PRODUZIONI S.R.L. | [sito](https://isolaproduzioni.it) · [eventi della pagina Facebook](https://www.facebook.com/isolaproduzioni/events) · [Instagram](https://www.instagram.com/isolaproduzioni_) | organizzatore | CR 2 |
+| Assistenza anziani a Roma Cesano | [sito](https://www.privatassistenza.it) | soggetto | — |
+| Associazioni – Città di Cesano Maderno | [sito](https://www.comune.cesano-maderno.mb.it) | soggetto | — |
+| Centoprimavere – Associazione Anziani Cesano Maderno | [sito](https://centoprimavere.org) | soggetto | — |
+| comitato di quartiere cesano di roma – insieme per cesano | [sito](https://irp.cdn-website.com) | soggetto | — |
+| Comitato di Quartiere di Cesano di Roma | [eventi della pagina Facebook](https://www.facebook.com/insiemepercesano/events) | soggetto | — |
+| Enzo Biagi | [sito](https://www.icenzobiagi.edu.it/) | soggetto | — |
+| Ossigeno – CENTRO SOCIALE ANZIANI CESANO DI ROMA | [sito](https://progetti.regione.lazio.it) | soggetto | — |
+| Parrocchia San Giovanni Battista a Cesano | [eventi della pagina Facebook](https://www.facebook.com/sangiovanniacesano/events) | soggetto | — |
+| Pro Loco Cesano di Roma | [sito](https://www.cesanodiroma.com) | soggetto | — |
+| Pro Loco Massa Cesana di Cesano di Roma | [eventi della pagina Facebook](https://www.facebook.com/prolocoCesano/events) | soggetto | — |
+| San Giovanni a Cesano | [sito](https://www.sangiovanniacesano.it) | soggetto | — |
 | Istituto di Istruzione Superiore “Domizia Lucilla” e Teatro Patologico | — | luogo | RT 1 |
 
 ## Cinecittà `cinecitta` — Municipio VII
@@ -525,6 +648,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Via Tuscolana 771/771A | — | luogo | FB 1 |
 | via valerio publicola, 45 Roma, 00174 Rome, Italy | — | luogo | FB 1 |
 
+## Colle Prenestino `colle-prenestino` — Municipio VI
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Cdq Colle Prenestino (@cdqcolle) | [eventi della pagina Facebook](https://www.facebook.com/cdqcolle/events) | soggetto | — |
+| Centro Sociale | Colle Prenestino | [sito](https://colleprenestino.it) | soggetto | — |
+| Chiesa di San Patrizio a Colle Prenestino | [sito](https://www.turismoroma.it) | soggetto | — |
+| Colle Prenestino | [sito](https://colleprenestino.it) | soggetto | — |
+| Contatto | Colle Prenestino | [sito](https://colleprenestino.it) | soggetto | — |
+| Mary Fede 1 | [eventi della pagina Facebook](https://www.facebook.com/mary.fede.1/events) | soggetto | — |
+
 ## Colli Aniene `colli-aniene` — Municipio IV
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
@@ -533,6 +667,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CENTRO PILATES Yoga Roma - Ginnastica per il Corpo e per la Mente | [eventi della pagina Facebook](https://www.facebook.com/CentroPILATES.Roma/events) | organizzatore | FB 1 |
 | Colli dell'Aniene, Roma | [pagina Facebook](https://www.facebook.com/pages/Colli-dellAniene-Roma/2555296921208671) | luogo | FB 1 |
 | OPERA E GRANDI COMPOSITORI DI MÚSICA CLASSICA | [pagina Facebook](https://www.facebook.com/groups/1395662270467019) | organizzatore | FB 1 |
+| Abbiamo un sogno: un Centro Culturale per Colli Aniene | [sito](https://www.collianiene.org) | soggetto | — |
+| Associazione Culturale Vivere a Colli Aniene | [sito](https://www.collianiene.org) | soggetto | — |
+| Associazione Il Foro - Eventi culturali a Colli Aniene | [sito](https://www.ilforoassociazione.it) | soggetto | — |
+| Vaccheria Nardi a Colli Aniene: storia della biblioteca e dell ... | [sito](https://www.fabriziocolarossi.com) | soggetto | — |
 | Raffaele Sorbo | — | organizzatore | FB 1 |
 | viale Ettore Franceschini 144, 00155 Rome, Italy | — | luogo | FB 1 |
 
@@ -555,6 +693,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | MRF 5 s.r.l. | [sito](https://mrf5.com) | organizzatore | CR 10 |
 | Associazione Culturale Procult | [sito](https://danzainlevare.it) · [Instagram](https://www.instagram.com/danzainlevare) | organizzatore | CR 9 |
 | Biblioteca Renato Nicolini | [eventi della pagina Facebook](https://www.facebook.com/BibliotecaRenatoNicolini/events) | soggetto | — |
+| Chiesa di San Girolamo a Corviale | [sito](https://www.turismoroma.it) | soggetto | — |
+| Comitato Inquilini Corviale (@ComitatoInquiliniCorviale) | [eventi della pagina Facebook](https://www.facebook.com/ComitatoInquiliniCorviale/events) | soggetto | — |
+| Corviale - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
+| Corviale, riconsegnati i locali del centro anziani dopo l' ... | [sito](https://urloweb.com) | soggetto | — |
+| CSA Amici di Corviale (@amicidicorviale2017) | [eventi della pagina Facebook](https://www.facebook.com/amicidicorviale2017/events) | soggetto | — |
+| Il Mitreo Iside - centro culturale a Corviale | [sito](https://www.mitreoiside.com) | soggetto | — |
+| Parrocchia San Girolamo a Corviale in Roma | [eventi della pagina Facebook](https://www.facebook.com/parrocchia.sangirolamocorviale/events) | soggetto | — |
+| Riapre la Biblioteca Renato Nicolini | [sito](https://www.bibliotechediroma.it/opac/news/riapre-la-biblioteca-renato-nicolini/38234) | soggetto | — |
+| San Girolamo a Corviale | [sito](https://sangirolamoacorviale.com) | soggetto | — |
+| UN PUNTO ROMA FACILE PER IL CSA CORVIALE ... | [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaXI.PaginaUfficiale/events) | soggetto | — |
+| UNO SPAZIO PER LA CULTURA A CORVIALE | [sito](https://rivisteweb.it) | soggetto | — |
 | Le Ali della Città (festival di Corviale) | — | soggetto | — |
 
 ## Dragona-Dragoncello `dragona-dragoncello` — Municipio X
@@ -736,6 +885,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato di Quartiere Castel Giubileo | [sito](https://castelgiubileo.it) · [eventi della pagina Facebook](https://www.facebook.com/CdQCastelGiubileo/events) | organizzatore | — |
 | Comitato di quartiere FIDENE | [sito](https://comitatodiquartierefidene.it) · [eventi della pagina Facebook](https://www.facebook.com/comitatodiquartierefidene/events) | organizzatore | — |
 | Comitato di Quartiere VILLA SPADA | [pagina eventi del sito](https://villaspada.com/event/scarti-alimentari-e-organici/) · [sito](https://villaspada.net) · [eventi della pagina Facebook](https://www.facebook.com/cdqvillaspada/events) | organizzatore | — |
+| Centro sociale anziani San Giusto | — | soggetto | — |
+| Centro sociale anziani Santa Felicita | — | soggetto | — |
+| Centro sociale anziani Serpentara | — | soggetto | — |
+| Ic Fidenae | — | soggetto | — |
+| Mercato Serpentara 2 | — | soggetto | — |
+| Uruguay | — | soggetto | — |
 
 ## Garbatella `garbatella` — Municipio VIII
 
@@ -766,21 +921,70 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Via Ostiense 106, 00154 Rome, Italy | — | luogo | FB 1 |
 | Via Ostiense, 106 | — | luogo | FB 1 |
 
+## Giardino di Roma `giardino-di-roma` — Municipio X
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| CdQ Giardino di Roma | [eventi della pagina Facebook](https://www.facebook.com/100086957408352/events) | soggetto | — |
+| COMITATO CITTADINO GIARDINO DI ROMA | [sito](https://comitato-cittadino-giardino-di-roma.webnode.it) | soggetto | — |
+| Contatti - COMITATO CITTADINO GIARDINO DI ROMA | [sito](https://comitato-cittadino-giardino-di-roma5.webnode.it) | soggetto | — |
+| Giardino di Roma - Istituto Comprensivo Donatello | [sito](https://it.gariwo.net) | soggetto | — |
+| Home - COMITATO DI QUARTIERE GIARDINO DI ROMA | [sito](https://www.comitatogiardinodiroma.it) | soggetto | — |
+| Storia del Comitato - comitato di quartiere giardino di roma | [sito](https://www.comitatogiardinodiroma.it) | soggetto | — |
+
+## Infernetto `infernetto` — Municipio X
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Associazione Happy Time Infernetto APS - Un luogo dove ciò ... | [sito](https://www.associazionehappytimeinfernetto.org) | soggetto | — |
+| CdQ Infernetto | [eventi della pagina Facebook](https://www.facebook.com/CdQInfernetto/events) | soggetto | — |
+| Chiesa di San Tommaso Apostolo all'Infernetto, Roma - Italia.it | [sito](https://www.italia.it) | soggetto | — |
+| COMITATO DI QUARTIERE INFERNETTO - Domenico Ciardulli | [sito](https://www.ciardullidomenico.it) | soggetto | — |
+| Happy Time Infernetto Aps | [eventi della pagina Facebook](https://www.facebook.com/associazionehappytimeinfernetto.org/events) | soggetto | — |
+| Spaziolistico Roma | Centro Massaggi a Infernetto, Roma | [sito](https://www.treatwell.it) | soggetto | — |
+
 ## La Giustiniana `la-giustiniana` — Municipio XV
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Locanda Blues | [eventi della pagina Facebook](https://www.facebook.com/liveaidofficial/events) | luogo | FB 1 |
 | Violatorz | [eventi della pagina Facebook](https://www.facebook.com/violatorz/events) | organizzatore | FB 1 |
+| Al centro anziani de La Giustiniana è tempo di elezioni | [sito](https://zonaromanord.it) | soggetto | — |
+| Associazione dei Genitori IC La Giustiniana | [sito](https://amicidellagiustiniana.wordpress.com) | soggetto | — |
+| Associazione genitori Amici dell'Ics La Giustiniana | [eventi della pagina Facebook](https://www.facebook.com/amicidellagiustiniana/events) | soggetto | — |
+| Biblioteca – IC La Giustiniana a Roma | [sito](https://www.icslagiustiniana.edu.it) | soggetto | — |
+| Calendario eventi – IC La Giustiniana a Roma | [sito](https://www.icslagiustiniana.edu.it) | soggetto | — |
+| Comitato di Quartiere "LA Giustiniana & Dintorni" | [eventi della pagina Facebook](https://www.facebook.com/Cdqlagiustiniana/events) | soggetto | — |
 | Comitato Genitori Cassia 1694 | [eventi della pagina Facebook](https://www.facebook.com/comitatogenitoricassia1694/events) | organizzatore | — |
+| Giustiniana - Centri Sociali Anziani di Roma | [sito](https://www.16nonni.it) | soggetto | — |
+| IC La Giustiniana a Roma | [sito](https://www.icslagiustiniana.edu.it) | soggetto | — |
+| Tenuta Giustiniana | [eventi della pagina Facebook](https://www.facebook.com/TenutaGiustiniana/events) | soggetto | — |
+
+## La Rustica `la-rustica` — Municipio V
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| APS La Rustica " Vito Federici" on Reels | [eventi della pagina Facebook](https://www.facebook.com/100064888172466/events) | soggetto | — |
+| CdQ La Rustica - Roma | [sito](https://www.cdqlarustica.it) | soggetto | — |
+| polisportiva "la rustica" asd - Registro 2.0 | [sito](https://www.coni.it) | soggetto | — |
+| Salone delle feste La Rustica Roma (@csalovelarustica) | [eventi della pagina Facebook](https://www.facebook.com/csalovelarustica/events) | soggetto | — |
 
 ## La Storta `la-storta` — Municipio XV
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| Biblioteca scolastica – I.C. Via Cassia 1694 | [sito](https://www.archivio.icviacassia1694roma.edu.it) | soggetto | — |
 | Comitato La Storta Stazione B47 - per un quartiere a misura di bambino | [eventi della pagina Facebook](https://www.facebook.com/comitato.amisuradibambino/events) | soggetto | — |
 | Croce Rossa Italiana - Comitato Municipio 15 di Roma | [sito](https://criroma15.it) · [eventi della pagina Facebook](https://www.facebook.com/criroma15/events) | organizzatore | — |
 | Decanto - Associazione Culturale | [sito](https://associazionedecanto.com) · [eventi della pagina Facebook](https://www.facebook.com/associazionedecanto/events) | organizzatore | — |
+| FESTA DEI SACRI CUORI a La Storta | [eventi della pagina Facebook](https://www.facebook.com/FestadeiSacriCuoriLaStorta/events) | soggetto | — |
+| La Storta - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
+| Parrocchia dei Sacri Cuori di Gesù e Maria a La Storta | [sito](https://istitutodirecom.ch) | soggetto | — |
+| Parrocchia Sacri Cuori di Gesù e Maria - La Storta | [sito](https://www.sacricuorilastorta.org) | soggetto | — |
+| Parrocchia Sacri Cuori di Gesù e Maria Cattedrale | [eventi della pagina Facebook](https://www.facebook.com/Sacricuorilastorta/events) | soggetto | — |
+| Scuola media b.buozzi (@ScuolaMediaBbuozzi) | [eventi della pagina Facebook](https://www.facebook.com/ScuolaMediaBbuozzi/events) | soggetto | — |
+| Via Cassia Km. 187 | [sito](https://www.icsoglianamaldi.edu.it/) | soggetto | — |
+| Ic Via Cassia 1694 | — | soggetto | — |
 
 ## Laurentino `laurentino` — Municipio IX
 
@@ -806,9 +1010,16 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione CdQ Villaggio Prenestino OdV | [pagina eventi del sito](https://villaggioprenestino.it/category/news/) · [sito](https://villaggioprenestino.it) · [eventi della pagina Facebook](https://www.facebook.com/VillaggioPrenestinoCDQ/events) | organizzatore | — |
 | Associazione Culturale Castellaccio | [sito](https://associazionecastellaccio.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/100063497793498/events) | organizzatore | — |
 | Associazione New Romalen | [sito](https://newromalen.blogspot.it) · [eventi della pagina Facebook](https://www.facebook.com/AssNewRomalen/events) | organizzatore | — |
+| Chiesa della Santissima Trinità a Lunghezza | [sito](https://theodia.org) | soggetto | — |
 | Croce Rossa Italiana - Comitato Municipio 6 di Roma ODV | [pagina eventi del sito](https://www.criroma6.org/news/) · [sito](https://criroma6.org) · [eventi della pagina Facebook](https://www.facebook.com/crocerossaroma6/events) | organizzatore | — |
 | Il Fantastico Mondo del Fantastico - Castello di Lunghezza | [sito](https://www.fantasticomondo.it/spettacoli/) | soggetto | — |
+| Lunghezza | [eventi della pagina Facebook](https://www.facebook.com/151852678185016/events) | soggetto | — |
+| Parrocchia della Santissima Trinità a Lunghezza - | [sito](https://annuariocattolico.it) | soggetto | — |
+| Parrocchia Santissima Trinità Di Lunghezza | [eventi della pagina Facebook](https://www.facebook.com/1403575086586231/events) | soggetto | — |
+| protezione.civile.lunghezza | [eventi della pagina Facebook](https://www.facebook.com/100069191440388/events) | soggetto | — |
 | Castello di Lunghezza | — | luogo | RT 1 |
+| Ic Emma Castelnuovo | — | soggetto | — |
+| Ic Villaggio Prenestino | — | soggetto | — |
 
 ## Magliana `magliana` — Municipio XI
 
@@ -820,6 +1031,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Delta Machines | [eventi della pagina Facebook](https://www.facebook.com/deltamachinestribute/events) | organizzatore | FB 1 |
 | E STREETS OF FIRE | [eventi della pagina Facebook](https://www.facebook.com/estreetsoffire/events) | organizzatore | FB 1 |
 | Mood Roma | [eventi della pagina Facebook](https://www.facebook.com/moodroma/events) | luogo | FB 1 |
+| Aiuto compiti in biblioteca e laboratori | [sito](https://www.bibliotechediroma.it/opac/news/aiuto-compiti-in-biblioteca-e-laboratori/37860) | soggetto | — |
+| Centro Culturale "Insieme per" | [eventi della pagina Facebook](https://www.facebook.com/100064422949949/events) | soggetto | — |
+| Centro Diurno Argento Vivo Magliana Solidale | [eventi della pagina Facebook](https://www.facebook.com/cdargentovivo/events) | soggetto | — |
+| Chiesa del Santo Volto di Gesù alla Magliana | [sito](https://turismoroma.it) | soggetto | — |
+| Comitato Quartiere Magliana | [sito](https://comitatoquartieremagliana.blogspot.com) | soggetto | — |
+| IC Sandronofri | [sito](https://www.icsandronofri.edu.it) | soggetto | — |
+| Municipioromaxi Paginaufficiale | [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaXI.PaginaUfficiale/events) | soggetto | — |
+| Parco Tevere Magliana | [eventi della pagina Facebook](https://www.facebook.com/parcoteveremagliana/events) | soggetto | — |
 | The Space Cinema | — | luogo | RT 4 |
 | Via Salvatore Rebecchini, 5, 00148 Rome, Italy | — | luogo | FB 3 |
 
@@ -828,6 +1047,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Associazione Riccobio | [sito](https://riccobio.it) · [eventi della pagina Facebook](https://www.facebook.com/61558304431258/events) | organizzatore | — |
+| Il "mostro" della Marcigliana | [sito](https://www.romareport.it) | soggetto | — |
+| Marcigliana tra Storia e Cultura | [sito](https://romanatura.roma.it) | soggetto | — |
+| Marcigliana Village | [eventi della pagina Facebook](https://www.facebook.com/marciglianavillage/events) | soggetto | — |
+| Marcigliana Village 2025 | [eventi della pagina Facebook](https://www.facebook.com/spettacoli24.it/events) | soggetto | — |
+| Riserva della Marcigliana | [sito](https://www.romaincampagna.it) | soggetto | — |
+| Riserva Naturale della Marcigliana | [sito](https://www.turismoroma.it) | soggetto | — |
+| Riserva Naturale della Marcigliana - Pro Loco Roma | [sito](https://www.prolocoroma.it) | soggetto | — |
+| Roserosmarino | [eventi della pagina Facebook](https://www.facebook.com/roserosmarino/events) | soggetto | — |
 
 ## Marconi `marconi` — Municipio XI
 
@@ -836,15 +1063,32 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Teatro di Roma – Teatro Nazionale | [sito](https://teatrodiroma.net) · [pagina Facebook](https://it-it.facebook.com/TeatroIndia) · [Instagram](https://www.instagram.com/fondazioneteatrodiroma) | organizzatore | CR 19 |
 | Teatro India | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-india/) | luogo | CR 7 RT 1 |
 | Biblioteca Guglielmo Marconi | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-guglielmo-marconi/) · [eventi della pagina Facebook](https://www.facebook.com/bibliotecaguglielmomarconi/events) | luogo | CR 1 |
+| Biblioteca - Università degli Studi Guglielmo Marconi | [sito](https://biblioteca.unimarconi.it) | soggetto | — |
+| Biblioteca comunale Guglielmo Marconi | [sito](https://anagrafe.iccu.sbn.it) | soggetto | — |
+| CdQMarconiRoma | [eventi della pagina Facebook](https://www.facebook.com/CdQMarconiRoma.info/events) | soggetto | — |
+| Chi siamo - Comitato di quartiere Marconi | [sito](https://comitatodiquartieremarconi.weebly.com) | soggetto | — |
 | Comitato contro l'"Incrocio della morte" di Marconi/Valco San Paolo - ROMA | [eventi della pagina Facebook](https://www.facebook.com/61586525590255/events) | organizzatore | — |
+| Comitato di quartiere Marconi - Roma - Weebly | [sito](https://comitatodiquartieremarconi.weebly.com) | soggetto | — |
 | Comitato Genitori Cine-TV Roberto Rossellini | [pagina eventi del sito](https://www.cine-tv.edu.it/tipologia-articolo/notizie/) · [sito](https://cine-tv.edu.it) · [eventi della pagina Facebook](https://www.facebook.com/100078228975140/events) | organizzatore | — |
+| Guglielmo Marconi-Fondi Speciali | [sito](https://www.bibliotechediroma.it/opac/library/guglielmo-marconifondi-speciali/RMB$Q1GUGLIELMOMARCONIFONDI) | soggetto | — |
+| Parco Marconi | [eventi della pagina Facebook](https://www.facebook.com/parcomarconi/events) | soggetto | — |
+| Scuola secondaria | [sito](https://www.scuolemarconi.edu.it) | soggetto | — |
+| Teatro Marconi | Roma | [sito](https://www.teatromarconi.it) | soggetto | — |
 | Molinari Center - Teatrolibero | — | luogo | RT 1 |
+| Biblioteca Guglielmo Marconi (Municipio XI) | — | soggetto | — |
 
 ## Massimina `massimina` — Municipio XII
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Anfiteatro Parco Vanni | [sito](https://valdradateatro.it) | luogo | RT 1 |
+| Categoria: Sociale - Comitato di Quartiere Massimina | [sito](https://cdqmassimina.it) | soggetto | — |
+| Comitato di Quartiere Massimina | [sito](https://cdqmassimina.org) | soggetto | — |
+| Corpus Domini Massimina - Parrocchia Massimina | [sito](https://www.parrocchiamassimina.it) | soggetto | — |
+| Parrocchia Corpus Domini Massimina | [eventi della pagina Facebook](https://www.facebook.com/corpusdominimassimina/events) | soggetto | — |
+| Parrocchia Madonna di Fatima | [eventi della pagina Facebook](https://www.facebook.com/parrocchiamdf.massimina/events) | soggetto | — |
+| Scuola Nando Martellini: riapre il plesso di Via Vanni a ... | [eventi della pagina Facebook](https://www.facebook.com/vivereroma.org/events) | soggetto | — |
+| Storia - Comitato di Quartiere Massimina | [sito](https://cdqmassimina.it) | soggetto | — |
 
 ## Montagnola `montagnola` — Municipio VIII
 
@@ -855,7 +1099,18 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Roma 70 Summer Village | [sito](https://roma70summervillage.com) · [eventi della pagina Facebook](https://www.facebook.com/roma70summervillage/events) | luogo, organizzatore | RT 1 |
 | Scena Pubblica IN/OUT - TWAIN Centro Produzione Danza | [pagina letta alla fonte (calendario)](https://cietwain.com/spettacoli-in-distribuzione/) · [sito](https://cietwain.com) | luogo | FL 1 |
 | Biblioteca Arcipelago | [eventi della pagina Facebook](https://www.facebook.com/bibliotecaarcipelago/events) | soggetto | — |
+| CdQ Montagnola | [eventi della pagina Facebook](https://www.facebook.com/CdQMontagnola/events) | soggetto | — |
+| CdQ Montagnola (@CdQMontagnola) | [eventi della pagina Facebook](https://www.facebook.com/CdQMontagnola/events) | soggetto | — |
+| Cdqmontagnola | [eventi della pagina Facebook](https://www.facebook.com/CdQMontagnola/events) | soggetto | — |
+| Chiesa di Gesù Buon Pastore alla Montagnola | [sito](https://www.turismoroma.it) | soggetto | — |
 | Comitato Piano di Zona Grottaperfetta | [eventi della pagina Facebook](https://www.facebook.com/comitatopdzromasud/events) | soggetto | — |
+| Istituto Comprensivo - Montagnola - Gramsci | [sito](https://io.italia.it) | soggetto | — |
+| Istituto Comprensivo Statale "Montagnola Gramsci" - Firenze (FI) | [sito](https://icmontagnolagramsci.edu.it) | soggetto | — |
+| Nasce il Comitato “AMA Montagnola” | [sito](https://urloweb.com) | soggetto | — |
+| Nuovo striscione per il Centro Anziani Casale Ceribelli | [eventi della pagina Facebook](https://www.facebook.com/CdQMontagnola/events) | soggetto | — |
+| Parrocchia Gesù Buon Pastore alla Montagnola | [eventi della pagina Facebook](https://www.facebook.com/GBPMontagnola/events) | soggetto | — |
+| Scuola Primaria Montagnola 60 anni 1963-2023 - Quartieri | [sito](https://quartieri.comune.fi.it) | soggetto | — |
+| venerdì 4 luglio Piazzale dei Caduti della Montagnola si ... | [eventi della pagina Facebook](https://www.facebook.com/MunicipioVIIIRoma/events) | soggetto | — |
 | Antica Enoteca Manzoni | — | luogo | RT 1 |
 | Centro Commerciale I Granai | — | luogo | RT 1 |
 | Al Solito Posto - rassegna Parole in Cantina (Antica Enoteca Manzoni) | — | soggetto | — |
@@ -872,12 +1127,22 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Liberté Onlus | [pagina eventi del sito](https://www.associazioneliberteonlus.org/eventi/?ical=1) · [sito](https://associazioneliberteonlus.org) · [eventi della pagina Facebook](https://www.facebook.com/associazioneliberte/events) | organizzatore | — |
 | Associazione Ortisti storici Cura Valle Fontana | [eventi della pagina Facebook](https://www.facebook.com/61566773043898/events) | organizzatore | — |
 | Associazione Pazienti BPCO e altre patologie respiratorie | [sito](https://pazientibpco.it) · [eventi della pagina Facebook](https://www.facebook.com/61562894245634/events) | organizzatore | — |
+| Chiesa di San Francesco d'Assisi a Monte Mario | [sito](https://www.turismoroma.it) | soggetto | — |
+| Chiodi Dionigio Romeo | [sito](https://www.icchiodi.edu.it/) | soggetto | — |
 | Comitato di Quartiere Colli dell'Insugherata | [sito](https://collidellinsugherata.it) · [eventi della pagina Facebook](https://www.facebook.com/cdqcollidellinsugherata/events) | organizzatore | — |
 | Comitato Pianoro di Proba Petronia | [eventi della pagina Facebook](https://www.facebook.com/comitatopianoro/events) | soggetto | — |
+| Ic Octavia | [sito](https://www.icoctavia.edu.it/) | soggetto | — |
+| Monte Mario - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
+| Parrocchia San Francesco D'Assisi a Monte Mario | [eventi della pagina Facebook](https://www.facebook.com/sanfrancescoamontemario/events) | soggetto | — |
+| Parrocchia San Francesco d'Assisi a Monte Mario: Inizio | [sito](https://www.sanfrancescoamontemario.it) | soggetto | — |
 | Riserva Naturale di Monte Mario (RomaNatura) | [sito](https://www.romanatura.roma.it/) | soggetto | — |
+| Top 10 biblioteche vicino a Stazione di Roma Monte Mario | [sito](https://biblioteche.top10posti.it) | soggetto | — |
+| Villa Monte Mario | [eventi della pagina Facebook](https://www.facebook.com/100069975445296/events) | soggetto | — |
 | Vintage Market Roma (VGMT) | [sito](https://vintagemarketroma.it/) · [Instagram](https://www.instagram.com/vintage_market_roma) | soggetto | — |
 | Forte! Trionfale Urban Factory | — | luogo | RT 1 |
 | The Dude Grunge Cafè | — | luogo | FB 1 |
+| IC Via Trionfale | — | soggetto | — |
+| Mercato Belsito | — | soggetto | — |
 
 ## Montesacro `montesacro` — Municipio III
 
@@ -955,11 +1220,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Il Corpo Guaritore | [pagina Facebook](https://www.facebook.com/people/Il-Corpo-Guaritore/100063672515796) | organizzatore | FB 1 |
 | Morena | [pagina Facebook](https://www.facebook.com/pages/Morena/505832779454536) | luogo | FB 1 |
+| Comitato di quartiere Morena | [sito](https://www.cdqmorena.it) | soggetto | — |
+| Contatti | Comitato di Quartiere Morena | [sito](https://www.cdqmorena.it) | soggetto | — |
+| ETNO RO | [eventi della pagina Facebook](https://www.facebook.com/etnomarketborghesiana/events) | soggetto | — |
+| IL QUARTIERE | Comitato di Quartiere Morena | [sito](https://www.cdqmorena.it) | soggetto | — |
+| Parrocchia Cristo Re Morena Sud | Via Scido 130 – Morena ... | [sito](https://cristoremorena.altervista.org) | soggetto | — |
 
 ## Muratella `muratella` — Municipio XI
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| NoiMuratella – Blog del Comitato di quartiere Muratella – Roma | [sito](https://noimuratella.wordpress.com) | soggetto | — |
 | The Space Cinema Roma Parco de' Medici | [sito](https://www.thespacecinema.it/) | soggetto | — |
 
 ## Nomentano `nomentano` — Municipio II
@@ -1030,8 +1301,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| Casadiriposoromacassiaresidence | [eventi della pagina Facebook](https://www.facebook.com/CasadiRiposoRomaCassiaResidence/events) | soggetto | — |
 | Comitato Olgiata Chiusa | [eventi della pagina Facebook](https://www.facebook.com/61556451566972/events) | soggetto | — |
+| CONSORZIO OLGIATA, Partita IVA | [sito](https://www.ufficiocamerale.it) | soggetto | — |
+| Consorzio Olgiata: Index | [sito](https://www.consorziolgiata.it) | soggetto | — |
+| Libreria Dell'olgiata | [eventi della pagina Facebook](https://www.facebook.com/libreria.dellolgiata/events) | soggetto | — |
 | Olgiata - Comitato per la Rigenerazione Urbana Sostenibile | [eventi della pagina Facebook](https://www.facebook.com/OlgiataRigenerazione/events) | soggetto | — |
+| Parrocchia Santipietropaolo Olgiata | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasantipietroepaoloolgiatacerquetta/events) | soggetto | — |
+| Pro Olgiata | [eventi della pagina Facebook](https://www.facebook.com/proolgiata/events) | soggetto | — |
 
 ## Ostia `ostia` — Municipio X
 
@@ -1092,6 +1369,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Studio Campo Boario | — | luogo | RT 1 |
 | Via Efeso, 2A | — | luogo | FB 1 |
 | Viale Leonardo da Vinci 279, 283, 00145 Rome, Italy | — | luogo | FB 1 |
+
+## Ottavia `ottavia` — Municipio XIV
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Associazione culturale "Lucchina e Ottavia" | [eventi della pagina Facebook](https://www.facebook.com/comitatolucchinaeottavia.blogspot.it/events) | soggetto | — |
+| Biblioteca del Portico di Ottavia | DaLiB | [sito](https://dalib.it) | soggetto | — |
+| Centro Anziani Ottavia, inaugurazione nuovo ... | [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | — |
+| Nasce la nuova biblioteca di Ottavia e Palmarola | [sito](https://www.ciardullidomenico.it) | soggetto | — |
+| Ottavia, Roma. Associazioni e solidarietà in rete contro il ... | [sito](https://www.intersos.org) | soggetto | — |
+| Centro Anziani Ottavia, inaugurazione nuovo Punto Roma ... | — | soggetto | — |
 
 ## Parioli-Flaminio `parioli-flaminio` — Municipio II
 
@@ -1244,11 +1532,27 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Via Biordo Michelotti, 2, 00176 Rome, Italy | — | luogo | FB 1 |
 | Via Natale Palli, 11 | — | luogo | FB 1 |
 
+## Pisana `pisana` — Municipio XI
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Biblioteca Longhena | [sito](https://www.bibliotechediroma.it/opac/library/biblioteca-longhena/RMBR2) | soggetto | — |
+| Comitato di quartiere Pisana Vignaccia Quaroni | [eventi della pagina Facebook](https://www.facebook.com/pisanavignacciaquaroni/events) | soggetto | — |
+| comitatonline bravetta.pisana | [eventi della pagina Facebook](https://www.facebook.com/comitato.bravetta.pisana/events) | soggetto | — |
+| INCIS Pisana OdV - Associazione INCIS Pisana ... | [sito](https://www.incispisanaroma.it) | soggetto | — |
+| Parrocchia S. Maria della Perseveranza | [eventi della pagina Facebook](https://www.facebook.com/Santamariadadellaperseveranza/events) | soggetto | — |
+| Parrocchia San Paolo VI Pisana | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasanpaoloviroma/events) | soggetto | — |
+| Plesso Ildebrando Pizzetti - IC NELSON MANDELA - Roma | [sito](https://www.icnelsonmandela.edu.it) | soggetto | — |
+
 ## Ponte Galeria `ponte-galeria` — Municipio XI
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Fiera di Roma | [pagina letta alla fonte (calendario)](https://www.fieraroma.it/) · [sito](https://fieraroma.it) | luogo | FL 2 |
+| Comitato di quartiere Ponte Galeria | [eventi della pagina Facebook](https://www.facebook.com/cdqpontegaleria/events) | soggetto | — |
+| CONSORZIO PONTE GALERIA Partita IVA:06213411009 | [sito](https://www.visura.pro) | soggetto | — |
+| CPR di Ponte Galeria, Roma. Prosegue il nostro impegno, ... | [eventi della pagina Facebook](https://www.facebook.com/refugeeswelcomeitalia/events) | soggetto | — |
+| IC Scuolafratellicervi | [sito](https://scuolafratellicervi.edu.it) | soggetto | — |
 
 ## Ponte di Nona `ponte-di-nona` — Municipio VI
 
@@ -1256,9 +1560,19 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Flavia Corso | [eventi della pagina Facebook](https://www.facebook.com/flavia.corso/events) | organizzatore | FB 1 |
 | Tacus Arte Integrazione Cultura | [sito](https://tacusaps.wixsite.com) · [eventi della pagina Facebook](https://www.facebook.com/TacusAssociazione/events) | organizzatore | FB 1 |
+| ACR Ponte di Nona | [eventi della pagina Facebook](https://www.facebook.com/acrpontedinona/events) | soggetto | — |
 | Comitato di Quartiere Castelverde di Roma | [sito](https://cdqcastelverde.it) · [eventi della pagina Facebook](https://www.facebook.com/cdqcastelverderoma/events) | organizzatore | — |
+| Il contesto - ISTITUTO COMPRENSIVO STATALE " ... | [sito](https://www.icgiuseppeimpastato.edu.it) | soggetto | — |
+| ISTITUTO COMPRENSIVO IC NUOVO PONTE DI NONA | [sito](https://scuolapay.it) | soggetto | — |
+| Istituto Comprensivo PONTE DI NONA VECCHIO LUNGHEZZA | [sito](https://icpontedinonavecchiolunghezza.weebly.com) | soggetto | — |
+| Istituto Comprensivo Ponte Di Nona Vecchio-Lunghe | [sito](https://www.comuniecitta.it) | soggetto | — |
+| Nuova Ponte di Nona (@NuovaPonteDiNona) | [eventi della pagina Facebook](https://www.facebook.com/NuovaPonteDiNona/events) | soggetto | — |
+| Ponte Di Nona Roma | [eventi della pagina Facebook](https://www.facebook.com/132926046832271/events) | soggetto | — |
+| RL1 - Q3 - Biblioteca del Casale di Ponte di Nona | [sito](https://www.iccu.sbn.it) | soggetto | — |
+| Top 10 biblioteche vicino a Ponte di Nona | [sito](https://biblioteche.top10posti.it) | soggetto | — |
 | Carmela Chiara Corso | — | organizzatore | FB 1 |
 | Palermo | — | luogo | FB 1 |
+| Ic Giuseppe Impastato | — | soggetto | — |
 
 ## Portuense `portuense` — Municipio XI
 
@@ -1394,7 +1708,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione APS Fenici | [eventi della pagina Facebook](https://www.facebook.com/61573945325142/events) | organizzatore | — |
 | Biblioteca Galline Bianche | [eventi della pagina Facebook](https://www.facebook.com/bibliotecagallinebianche/events) | soggetto | — |
 | Comitato Mobilità Labaro e Prima Porta | [eventi della pagina Facebook](https://www.facebook.com/comitatolabaroprimaporta/events) | organizzatore | — |
+| IC Istitutobaccano | [sito](https://www.istitutobaccano.edu.it) | soggetto | — |
+| Panoramica Scuola | [sito](https://www.istitutobaccano.edu.it) | soggetto | — |
 | Via Brembio | — | luogo | FB 1 |
+| I. C. Lucio Fontana | — | soggetto | — |
+| Ic Via Baccano | — | soggetto | — |
 
 ## Primavalle `primavalle` — Municipio XIV
 
@@ -1404,8 +1722,19 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Andrea Soldani | [sito](https://change.org) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneAndreaSoldani/events) | organizzatore | — |
 | Associazione Andrologi Italiani (ASS.A.I.) | [pagina eventi del sito](https://www.associazioneandrologi.it/eventi/) · [sito](https://associazioneandrologi.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneandrologi/events) | organizzatore | — |
 | Associazione Cotogni | [pagina eventi del sito](http://associazionecotogni.org/category/attivita/) · [sito](https://associazionecotogni.org) · [eventi della pagina Facebook](https://www.facebook.com/associazionecotogni/events) | organizzatore | — |
+| Associazione Primavalle | [sito](https://apsprimavalle.it) | soggetto | — |
+| Associazionenonnaroma | [eventi della pagina Facebook](https://www.facebook.com/associazionenonnaroma/events) | soggetto | — |
 | Biblioteca Franco Basaglia | [eventi della pagina Facebook](https://www.facebook.com/bibliotecafrancobasaglia/events) | soggetto | — |
+| Centro Anziani Primavalle | [sito](https://peranziani.it) | soggetto | — |
+| Chiesa di Santa Maria Assunta e San Giuseppe a Primavalle | [sito](https://www.turismoroma.it) | soggetto | — |
+| IC Iisdeamicis Cattaneo | [sito](https://www.iisdeamicis-cattaneo.edu.it) | soggetto | — |
+| Istituto Comprensivo "Via Maffi" | [sito](https://www.icmaffi.edu.it) | soggetto | — |
+| Parrocchia Santa Maria Assunta e San Giuseppe | [eventi della pagina Facebook](https://www.facebook.com/parrocchia.primavalle/events) | soggetto | — |
+| Primaria Venticinque Aprile - Scuola | [sito](https://www.icrosettarossi.edu.it) | soggetto | — |
 | Mercato Primavalle II | — | luogo | RT 1 |
+| "Pio La Torre" | — | soggetto | — |
+| Ic Via Maffi | — | soggetto | — |
+| Mercato Primavalle I | — | soggetto | — |
 
 ## Rebibbia `rebibbia` — Municipio IV
 
@@ -1427,29 +1756,50 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | AIE Associazione Italiana Enneagramma | [pagina eventi del sito](https://www.enneagrammaitalia.it/attivita/) · [sito](https://enneagrammaitalia.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneItalianaEnneagramma/events) | organizzatore | — |
 | Associazione Amici di Luigi Vittorio Ferraris | [eventi della pagina Facebook](https://www.facebook.com/AssociazioneAmicidiLuigiVittorioFerraris/events) | organizzatore | — |
 | Associazione No Problem | [sito](https://associazionenoproblem.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionenoproblem/events) | organizzatore | — |
+| Bibliobus Roma Nord | [sito](https://anagrafe.iccu.sbn.it) | soggetto | — |
 | Comitato Fise Lazio Club | [pagina eventi del sito](https://www.fise-lazio.it/eventi/182-la-lente/8825-campionati-italiani-di-mascalcia-cme-montelibretti-28-02-01-03-26) · [sito](https://fise-lazio.it) · [eventi della pagina Facebook](https://www.facebook.com/fiselazioclub/events) | organizzatore | — |
 | Foro Italico (Sport e Salute) - evento Tennis & Friends | [sito](https://www.sportesalute.eu/) | soggetto | — |
 | Roma ponte Milvio | — | luogo | FB 1 |
 | Stadio Olimpico | — | luogo | FB 1 |
 | Tuscania | — | luogo | RT 1 |
 | Foro Italico (Tennis & Friends) | — | soggetto | — |
+| Mercato Ponte Milvio | — | soggetto | — |
 
 ## Romanina `romanina` — Municipio VII
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Percorsi di Crescita APS | [sito](https://failadifferenza.com) · [eventi della pagina Facebook](https://www.facebook.com/failadifferenzasostenibilita/events) · [Instagram](https://www.instagram.com/fldifferenza) | organizzatore | CR 6 |
+| CdQ La Romanina | [eventi della pagina Facebook](https://www.facebook.com/cdqlaromanina/events) | soggetto | — |
+| Cdqlaromanina | [eventi della pagina Facebook](https://www.facebook.com/cdqlaromanina/events) | soggetto | — |
+| Comitato di Quartiere La Romanina | [sito](https://pianostrategico.cittametropolitanaroma.it) | soggetto | — |
+| Comitato di Quartiere La Romanina – CdQ La Romanina | [sito](https://cdqlaromanina.wordpress.com) | soggetto | — |
+| IC Antoniomontinaro | [sito](https://icantoniomontinaro.edu.it) | soggetto | — |
+| La Scuola – Istituto Comprensivo Raffaello | [sito](https://www.icraffaello.edu.it) | soggetto | — |
+| Romanina - Centri Sociali Anziani di Roma | [sito](https://www.16nonni.it) | soggetto | — |
 
 ## San Basilio `san-basilio` — Municipio IV
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Teatro IF | [sito](https://teatroif.it) | luogo | RT 2 |
+| APS San Basilio | [eventi della pagina Facebook](https://www.facebook.com/apssanbasilio/events) | soggetto | — |
 | Artu Associazione Genitori APS | [pagina eventi del sito](https://www.artuassociazionegenitori.com/appuntamenti) · [sito](https://artuassociazionegenitori.com) · [eventi della pagina Facebook](https://www.facebook.com/artuassociazionegenitori/events) | organizzatore | — |
-| Associazione Culturale Torraccia | [sito](https://actorraccia.com) · [eventi della pagina Facebook](https://www.facebook.com/ACTorraccia95/events) | organizzatore | — |
 | Associazione Music Up | [sito](https://music-up.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneMusicUp/events) | organizzatore | — |
 | Biblioteca Aldo Fabrizi | [eventi della pagina Facebook](https://www.facebook.com/BibliotecaAldoFabrizi/events) | soggetto | — |
+| Chiesa di San Basilio | [sito](https://www.turismoroma.it) | soggetto | — |
+| CHIESA DI SAN BASILIO A ROMA [2020] | [sito](https://www.centroaletti.com) | soggetto | — |
 | Croce Rossa Italiana - Comitato Municipio 4 di Roma | [pagina eventi del sito](https://www.criroma4.org/attivita/) · [sito](https://criroma4.org) · [eventi della pagina Facebook](https://www.facebook.com/croce.rossa.italiana.comitato.municipio.roma4/events) | organizzatore | — |
+| Ic "Ennio Morricone" | [sito](https://www.icenniomorricone.edu.it/) | soggetto | — |
+| La Scuola – Istituto Comprensivo "Mahatma Gandhi" | [sito](https://www.icmahatmagandhi.edu.it) | soggetto | — |
+| Parrocchia San Basilio | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasamba/events) | soggetto | — |
+| Parrocchia San Basilio Roma: Home | [sito](https://www.parrocchiasanbasilio.it) | soggetto | — |
+| Post-Comunione - Parrocchia San Basilio Roma | [sito](https://www.parrocchiasanbasilio.it) | soggetto | — |
+| San Basilio - Biblioteca comunale | [sito](https://www.sardegnabiblioteche.it) | soggetto | — |
+| Sede distaccata Aldo Fabrizi | [sito](https://www.bibliotechediroma.it/opac/news/sede-distaccata-aldo-fabrizi/4807) | soggetto | — |
+| Centro sociale anziani San Basilio | — | soggetto | — |
+| Mahatma Gandhi | — | soggetto | — |
+| Mercato San Basilio | — | soggetto | — |
 
 ## San Giovanni `san-giovanni` — Municipio VII
 
@@ -1460,6 +1810,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | SOTTO ROMA APS | [Instagram](https://www.instagram.com/giardiniviasannio) | organizzatore | CR 1 |
 | Vioflesh | [eventi della pagina Facebook](https://www.facebook.com/vioflesh/events) | organizzatore | FB 1 |
 | WOD | [eventi della pagina Facebook](https://www.facebook.com/wodconcerts/events) | organizzatore | FB 1 |
+| A #Roma, in Piazza Imola, nel quartiere #SanGiovanni, ha ... | [eventi della pagina Facebook](https://www.facebook.com/teleambiente/events) | soggetto | — |
+| Associazione San Giovanni | [sito](https://www.associazionesangiovannicb.it) | soggetto | — |
+| Basilica di San Giovanni in Laterano – Roma | [sito](https://www.visitlazio.com) | soggetto | — |
+| Centro Anziani SAN GIOVANNI - Centri sociali | [sito](https://www.oggiroma.it) | soggetto | — |
+| IC San Giovanni Bosco | [sito](https://www.icfabricadiroma.edu.it) | soggetto | — |
+| Parrocchia San Giovanni Battista De Rossi | [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaSanGiovanniBattistaDeRossi/events) | soggetto | — |
+| San Giovanni Battista de la Salle – Roma Eur-Torrino | [sito](https://parrocchiadelasalle.it) | soggetto | — |
+| Scuola San Giovanni Battista | [sito](https://www.scuolasgbattista.it) | soggetto | — |
 | Giardini di via Sannio | — | luogo | RT 1 |
 | Il Palco APS | — | luogo | RT 1 |
 | Maurizio Pariotti | — | organizzatore | FB 1 |
@@ -1497,7 +1855,18 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Associazione Culturale Calipso | [pagina eventi del sito](https://www.associazioneculturalecalipso.it/calendario/) · [sito](https://associazioneculturalecalipso.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneculturalecalipso/events) | organizzatore | FB 4 |
+| a Selva Candida un comitato adotta un parco - Roma | [sito](https://www.affaritaliani.it) | soggetto | — |
+| Biblioteca Selva Candida | [sito](https://www.romasitrasforma.it) | soggetto | — |
+| Chiesa Santi Martiri di Selva Candida | [sito](https://gcatholic.org) | soggetto | — |
+| Comitato Selva Candida (@ComitatoSelvaCandida) | [eventi della pagina Facebook](https://www.facebook.com/ComitatoSelvaCandida/events) | soggetto | — |
 | Comitato Valle Santa | [sito](https://vallesantarm.it) · [eventi della pagina Facebook](https://www.facebook.com/comitatovallesantaroma/events) | organizzatore | — |
+| Festa di Selva Candida | [eventi della pagina Facebook](https://www.facebook.com/100069886809114/events) | soggetto | — |
+| IC Pabloneruda | [sito](https://www.icpabloneruda.edu.it) | soggetto | — |
+| Open Day del Progetto Selva Candida Roma Nord CMB. Non ... | [eventi della pagina Facebook](https://www.facebook.com/ilovecasalotti/events) | soggetto | — |
+| Parrocchia Natività di Maria Santissima | [eventi della pagina Facebook](https://www.facebook.com/NativitaDiMariaSantissima/events) | soggetto | — |
+| Scuola Elementare Pablo Neruda, Plesso Selva Candida | [sito](https://www.reteimprese.it) | soggetto | — |
+| Selva Candida: Una nuova biblioteca comunale per ... | [sito](https://www.casalottiroma.it) | soggetto | — |
+| Voce alle fonti Selva Candida (@VoceallefontiSelvaCandida) | [eventi della pagina Facebook](https://www.facebook.com/VoceallefontiSelvaCandida/events) | soggetto | — |
 | itinerante, 00100 Rome, Italy | — | luogo | FB 2 |
 
 ## Settecamini `settecamini` — Municipio IV
@@ -1505,7 +1874,16 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Associazione Sportiva.Dilettantistica CASE ROSSE | [eventi della pagina Facebook](https://www.facebook.com/PalestraCaseRosse/events) | organizzatore | — |
+| Blog - Comitato di quartiere di Settecamini | [sito](https://www.settecamini.org) | soggetto | — |
 | Comitato di Quartiere di Settecamini | [eventi della pagina Facebook](https://www.facebook.com/comitatosettecamini/events) | soggetto | — |
+| Comitato di quartiere di Settecamini: Home | [sito](https://www.settecamini.org) | soggetto | — |
+| Comitato di Quartiere Settecamini Archivi | [sito](https://tiburno.tv) | soggetto | — |
+| Csa Settecamini | [eventi della pagina Facebook](https://www.facebook.com/MassimilianoUmberti/events) | soggetto | — |
+| Ic Casal Bianco | [sito](https://www.iccasalbianco.edu.it) | soggetto | — |
+| 𝐒𝐄𝐓𝐓𝐄𝐂𝐀𝐌𝐈𝐍𝐈, 𝐔𝐍𝐀 𝐂𝐀𝐒𝐀 𝐏𝐄𝐑 𝐋𝐀 𝐍𝐎𝐒𝐓𝐑𝐀 ... | [eventi della pagina Facebook](https://www.facebook.com/jubertsmax/events) | soggetto | — |
+| 𝗔 𝗦𝗘𝗧𝗧𝗘𝗖𝗔𝗠𝗜𝗡𝗜 𝗡𝗢𝗡 𝗔𝗕𝗕𝗜𝗔𝗠𝗢 𝗜𝗡𝗔𝗨𝗚𝗨𝗥𝗔𝗧𝗢 𝗦𝗢𝗟𝗢 ... | [eventi della pagina Facebook](https://www.facebook.com/annarita.leobruni/events) | soggetto | — |
+| Centro sociale anziani Settecamini | — | soggetto | — |
+| Via Casal Bianco | — | soggetto | — |
 
 ## Spinaceto `spinaceto` — Municipio IX
 
@@ -1513,9 +1891,21 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Fisiocorsi | [sito](https://fisiocorsi.it) · [eventi della pagina Facebook](https://www.facebook.com/fisiocorsi/events) | organizzatore | FB 1 |
 | Madre Terrarium | [eventi della pagina Facebook](https://www.facebook.com/madreterrarium/events) | organizzatore | FB 1 |
+| ASSOCIAZIONE CULTURALE SPINACETO CULTURA E ... | [sito](https://www-2022.agevola.uniroma2.it) | soggetto | — |
+| Associazione Spinaceto Cultura - Servizi - Roma (Rm) | [sito](https://lazioshopping.it) | soggetto | — |
 | Biblioteca Pier Paolo Pasolini | [eventi della pagina Facebook](https://www.facebook.com/bibliotecapasolinirm/events) | soggetto | — |
+| CENTRO SOCIALE ANZIANI SPINACETO DI ROMA 12 | [sito](https://www.eccellenzeitaliane.com) | soggetto | — |
+| Ic Ezio Bosso | [sito](https://www.icviasantisavarino.edu.it/) | soggetto | — |
+| IC Sassoli | [sito](https://www.icsassoli.edu.it) | soggetto | — |
+| Pagina CdQ Tor de' Cenci | [eventi della pagina Facebook](https://www.facebook.com/CdqTorDeCenciSpinacetoTrePiniCastelDiDecima/events) | soggetto | — |
+| Periferie dimenticate / Il cdq Tor de' Cenci - Spinaceto fra i ... | [sito](https://www.labparlamento.it) | soggetto | — |
+| Spinaceto Cultura (@spinacetocult) | [eventi della pagina Facebook](https://www.facebook.com/spinacetocult/events) | soggetto | — |
+| Teatro della Dodicesima | [sito](https://www.bibliotechediroma.it/opac/promo/teatro-della-dodicesima/9556) · [eventi della pagina Facebook](https://www.facebook.com/teatrodellaxii/events) | soggetto | — |
 | Mercure Roma West (Viale degli Eroi di Cefalonia 301, Roma, Lazio) | — | luogo | FB 1 |
 | Via Gustavo Giovannoni 75, Roma, Lazio | — | luogo | FB 1 |
+| CENTRO ANZIANI SPINACETO Indirizzo | — | soggetto | — |
+| Mercato Spinaceto | — | soggetto | — |
+| Mercato Tor de Cenci | — | soggetto | — |
 
 ## Talenti `talenti` — Municipio III
 
@@ -1527,10 +1917,20 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | The Bull's Family - Associazione di Volontariato | [eventi della pagina Facebook](https://www.facebook.com/m.thebullsfamily/events) | organizzatore | FB 1 |
 | Via Aurelio Saffi | [pagina Facebook](https://www.facebook.com/pages/Via-Aurelio-Saffi/627963973979127) | luogo | FB 1 |
 | Via Della Marcigliana | [pagina Facebook](https://www.facebook.com/pages/Via-Della-Marcigliana/347480385298772) | luogo | FB 1 |
+| Antoaurigemma | [eventi della pagina Facebook](https://www.facebook.com/antoaurigemma/events) | soggetto | — |
+| ASSOCIAZIONE ANZIANI TALENTI APS (Roma) | [sito](https://italianonprofit.it) | soggetto | — |
+| Associazione culturale talenti | [eventi della pagina Facebook](https://www.facebook.com/associazionetalenti/events) | soggetto | — |
 | Associazione di Promozione Sociale Comitato Vigne Nuove | [pagina eventi del sito](https://cdqvignenuove.wordpress.com/eventi/) · [sito](https://cdqvignenuove.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/AssociazionePromozioneSocialeComitatoVigneNuove/events) | organizzatore | — |
 | Associazione Spazioerre | [eventi della pagina Facebook](https://www.facebook.com/Spazioerre.plastic/events) | organizzatore | — |
+| Comitato di Quartiere Salviamo Talenti | [sito](https://comitatosalviamotalenti.blogspot.com) | soggetto | — |
+| Comitato di Quartiere Talenti (@comitatotalenti) | [eventi della pagina Facebook](https://www.facebook.com/comitatotalenti/events) | soggetto | — |
+| Libreria Montesacro Talenti Roma: Bibliofili nel XXI Secolo | [sito](https://librionline.altervista.org) | soggetto | — |
+| SESSANTOTTO VILLAGE PARCO TALENTI  ... | [eventi della pagina Facebook](https://www.facebook.com/SessantottoVillage/events) | soggetto | — |
+| Talenti - Centri Sociali Anziani di Roma | [sito](https://www.16nonni.it) | soggetto | — |
 | UNICI - Associazione | [sito](https://uniciassociazione.it) · [eventi della pagina Facebook](https://www.facebook.com/unici.associazione/events) | organizzatore | — |
 | Viale Risorgimento 5, 00041 Albano, Italy | — | luogo | FB 2 |
+| Centro sociale anziani Cifariello | — | soggetto | — |
+| Centro sociale anziani Settebagni | — | soggetto | — |
 
 ## Testaccio `testaccio` — Municipio I
 
@@ -1592,26 +1992,63 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| Cubo Libro | [eventi della pagina Facebook](https://www.facebook.com/CuboLibro/events) | soggetto | — |
+| Parrocchia Santa Rita | [eventi della pagina Facebook](https://www.facebook.com/SantaRitaRm/events) | soggetto | — |
+| Periferia : abitare Tor Bella Monaca | [sito](https://www.bibliotechediroma.it/opac/resource/periferia-abitare-tor-bella-monaca/RMB00951311) | soggetto | — |
+| Roma, ripartono i lavori alla Biblioteca di Tor Bella Monaca | [sito](https://www.agenziacult.it) | soggetto | — |
+| Tor Bella Monaca, la scuola Melissa Bassi ha il suo ... | [sito](https://sapereambiente.it) | soggetto | — |
 | Libreria Le Torri (Tor Bella Monaca) | — | soggetto | — |
 
 ## Tor Cervara `tor-cervara` — Municipio IV
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| Cave di Tufo di Tor Cervara, a Roma, è stata organizzata ... | [eventi della pagina Facebook](https://www.facebook.com/vdnewstv/events) | soggetto | — |
+| Chiesa Karisma Via di Tor Cervara 34 | [eventi della pagina Facebook](https://www.facebook.com/chiesakarisma/events) | soggetto | — |
 | Comitato Regionale Arbitri Lazio | [sito](https://cra-lazio.it) · [eventi della pagina Facebook](https://www.facebook.com/AIACraLazio/events) | organizzatore | — |
 
 ## Tor Sapienza `tor-sapienza` — Municipio V
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
+| Agenzia Di Quartiere Torsapienza | [eventi della pagina Facebook](https://www.facebook.com/adiquartieretorsapienza/events) | soggetto | — |
+| Associazione Culturale- Tor Sapienza | [sito](https://www.emagister.it) | soggetto | — |
 | Associazione Efficace-Mente | [sito](https://apsefficacemente.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneEfficaceMente/events) | organizzatore | — |
 | Comitato di Quartiere - Casale Caletto | [eventi della pagina Facebook](https://www.facebook.com/comitatocasalecaletto/events) | soggetto | — |
+| Comitato di Quartiere Tor Sapienza | [sito](https://pianostrategico.cittametropolitanaroma.it) | soggetto | — |
+| Oratorio San Vincenzo De Paoli Tor Sapienza | [eventi della pagina Facebook](https://www.facebook.com/oratorio.sanvincenzodepaoli/events) | soggetto | — |
+| Parrocchia Santa Maria Immacolata e San Vincenzo de' Paoli | [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaSantaMariaImmacolataESanVincenzoDePaoli/events) | soggetto | — |
+| Mercato La Rustica | — | soggetto | — |
+| Mercato Tor Sapienza | — | soggetto | — |
 
 ## Tor Vergata `tor-vergata` — Municipio VI
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Associazione culturale I Fuselli Rossi | [eventi della pagina Facebook](https://www.facebook.com/100064581646610/events) | organizzatore | — |
+| Biblioteca Area Giuridica | [eventi della pagina Facebook](https://www.facebook.com/bibliotecajuris/events) | soggetto | — |
+| Biblioteche – Università degli Studi di Roma"Tor Vergata" | [sito](https://www-2025.docs.ccd.uniroma2.it) | soggetto | — |
+| CdQ Nuova Tor Vergata | [sito](https://nuovatorvergata.com) · [eventi della pagina Facebook](https://www.facebook.com/ComitatoDiQuartiereNuovaTorVergata/events) | organizzatore | — |
+| Comitato di Quartiere Torrenova | [eventi della pagina Facebook](https://www.facebook.com/ComitatodiquartiereTorrenovaTorVergata/events) | soggetto | — |
+| IC Stabilini | [sito](https://www.icstabilini.edu.it) | soggetto | — |
+| Inaugura a Tor Vergata il Circolo Culturale “Kepos” | [sito](https://volontariatolazio.it) | soggetto | — |
+| La Scuola – Istituto Comprensivo "Antonio De Curtis" | [sito](https://www.icdecurtis.edu.it) | soggetto | — |
+| Parrocchia S. M. Regina della Pace – Tor Vergata Roma ... | [sito](https://www.reginapacistorvergata.it) | soggetto | — |
+| Parrocchia Santa Maria Regina della Pace | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasmrptorvergata/events) | soggetto | — |
+| Ringraziamenti all' IC ” Tullio De Mauro” dall' Università Tor ... | [sito](https://www.ictulliodemauro.edu.it) | soggetto | — |
+| Scienze della Storia e del Documento | [eventi della pagina Facebook](https://www.facebook.com/storia.torvergata/events) | soggetto | — |
+| Tor Vergata Library Search - Biblioteca Area Ingegneria | [sito](https://ingegneria.biblio.uniroma2.it) | soggetto | — |
+| IC Via Crivelli | — | soggetto | — |
+
+## Torraccia `torraccia` — Municipio IV
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Actorraccia95 | [eventi della pagina Facebook](https://www.facebook.com/ACTorraccia95/events) | soggetto | — |
+| Associazione Culturale Torraccia | [sito](https://www.oggiroma.it) · [eventi della pagina Facebook](https://www.facebook.com/ACTorraccia95/events) | organizzatore | — |
+| Associazione Culturale Torraccia (@ACTorraccia95) | [eventi della pagina Facebook](https://www.facebook.com/ACTorraccia95/events) | soggetto | — |
+| Associazione Culturale Torraccia A.S.D. | | [sito](https://www.actorraccia.com) | soggetto | — |
+| Tobiazevi 2021 | [eventi della pagina Facebook](https://www.facebook.com/tobiazevi.2021/events) | soggetto | — |
 
 ## Torre Angela `torre-angela` — Municipio VI
 
@@ -1641,7 +2078,18 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Associazione Dario Simonetti | [eventi della pagina Facebook](https://www.facebook.com/assdario.simonetti/events) | organizzatore | FB 2 |
+| ASSOCIAZIONE CENTRO ANZIANI TORREVECCHIA - | [sito](https://www.omts.org) | soggetto | — |
 | Biblioteca Casa del Parco | [eventi della pagina Facebook](https://www.facebook.com/bibliocasadelparco/events) | soggetto | — |
+| Biblioteca Torrevecchia Pia (@bibliotorrevecchiapia) | [eventi della pagina Facebook](https://www.facebook.com/bibliotorrevecchiapia/events) | soggetto | — |
+| I.C. Pio La Torre (@istitutocomprensivopiolatorre) | [eventi della pagina Facebook](https://www.facebook.com/istitutocomprensivopiolatorre/events) | soggetto | — |
+| I.C. “Pio la Torre” – Istituto Comprensivo | [sito](https://www.icpiolatorre.edu.it) | soggetto | — |
+| IC Ripamiglianico | [sito](https://www.icripamiglianico.edu.it) | soggetto | — |
+| IC Ripatorrevecchia | [sito](https://icripatorrevecchia.edu.it) | soggetto | — |
+| Parrocchia San Cipriano – Via Torrevecchia 169, 00168 Roma | [sito](https://www.parrocchiasancipriano.it) | soggetto | — |
+| Roma, Papa Leone XIV in visita alla parrocchia di Torrevecchia | [sito](https://stream24.ilsole24ore.com) | soggetto | — |
+| Scuola Secondaria I grado di Torrevecchia Teatina | [sito](https://www.icripamiglianico.edu.it) | soggetto | — |
+| Torrevecchia - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
+| Torrevecchiareteimpresa | [eventi della pagina Facebook](https://www.facebook.com/torrevecchiareteimpresa/events) | soggetto | — |
 | Piazza Pio IX | — | luogo | FB 1 |
 | Via Cardinal Passionei, 19 | — | luogo | FB 1 |
 
@@ -1660,9 +2108,18 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Simpatiche Canaglie | [pagina eventi del sito](https://www.simpatichecanaglie.org/events/?ical=1) · [sito](https://simpatichecanaglie.org) · [eventi della pagina Facebook](https://www.facebook.com/assimpatichecanaglie/events) | organizzatore | — |
 | ATENA - Associazione Italiana di TEcnica NAvale | [pagina eventi del sito](http://www.atenanazionale.it/news/2023/20230900-LIFE-PIAQUO-LOCANDINA.pdf) · [sito](https://atenanazionale.it) · [eventi della pagina Facebook](https://www.facebook.com/associazione.di.tecnica.navale/events) | organizzatore | — |
 | CdQ Eur Torrino - Comitato di Quartiere | [pagina eventi del sito](https://www.cdqeurtorrino.com/eventi) · [sito](https://cdqeurtorrino.com) · [eventi della pagina Facebook](https://www.facebook.com/CdQeurtorrino/events) | organizzatore | — |
+| Chiesa di Santa Maria Mater Ecclesiae al Torrino | [sito](https://www.turismoroma.it) | soggetto | — |
+| Comitato di Quartiere Torrino Nord | [eventi della pagina Facebook](https://www.facebook.com/cdqtorrinonord/events) | soggetto | — |
+| La Scuola – Ic Leonardo da Vinci | [sito](https://www.icleonardodavinci.edu.it) | soggetto | — |
+| Mercoledì 18 giugno presso il CSAQ "Decima Torrino" di ... | [eventi della pagina Facebook](https://www.facebook.com/municipioromanove/events) | soggetto | — |
+| Parrocchia Santa Maria Mater Ecclesiae Torrino Roma | [sito](https://www.santamariamaterecclesiaealtorrino.org) | soggetto | — |
+| Torrino Cultura | [eventi della pagina Facebook](https://www.facebook.com/TorrinoCultura/events) | soggetto | — |
 | Hotel Cristoforo Colombo | — | luogo | RT 2 |
 | La Vaccheria | — | luogo | RT 1 |
 | Parco Schuster | — | luogo | RT 1 |
+| Ic Teresa Sarti | — | soggetto | — |
+| Leonardo Vinci | — | soggetto | — |
+| M.Ricci Via Cina 4 | — | soggetto | — |
 
 ## Trastevere `trastevere` — Municipio I
 
@@ -1750,6 +2207,21 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Viale Gorizia 29, 00198 Rome, Italy | — | luogo | FB 1 |
 | Viale Somalia, 65, 00199 Rome, Italy | — | luogo | FB 1 |
 
+## Trigoria `trigoria` — Municipio IX
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Centro Anziani Trigoria – Centro culturale polivalente del ... | [sito](https://centroanzianitrigoria.wordpress.com) | soggetto | — |
+| Chi siamo - Centro Anziani Trigoria - WordPress.com | [sito](https://centroanzianitrigoria.wordpress.com) | soggetto | — |
+| Comitato di Quartiere di Trigoria | [eventi della pagina Facebook](https://www.facebook.com/CdQTrigoria/events) | soggetto | — |
+| Consorzio Gestione Trigoria | Sviluppo di progetti ... | [sito](https://atoka.io) | soggetto | — |
+| CSDT – Consorzio Strade Trigoria | [sito](https://www.csdt.it) | soggetto | — |
+| Dalla parrocchia S.MARIA ASSUNTA E S.MICHELE ... | [eventi della pagina Facebook](https://www.facebook.com/ConfraternitasstVallepietra/events) | soggetto | — |
+| ITALO SANTILLI - comitato di quartiere trigoria | [sito](https://www.romacura.roma.it) | soggetto | — |
+| Municipio | [eventi della pagina Facebook](https://www.facebook.com/municipioromanove/events) | soggetto | — |
+| Municipioromanove | [eventi della pagina Facebook](https://www.facebook.com/municipioromanove/events) | soggetto | — |
+| XXVII festa della parrocchia di Trigoria | [sito](https://www.oggiroma.it) | soggetto | — |
+
 ## Tuscolano `tuscolano` — Municipio VII
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
@@ -1801,4 +2273,28 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Nido Di Vespe - Comitato di Lotta Quadraro | [sito](https://assembleaperlautorganizzazione.org) · [eventi della pagina Facebook](https://www.facebook.com/NidodivespeQuadraro/events) | organizzatore | — |
 | Via dei Quintili, 219 | — | luogo | FB 1 |
 | via Diana n°17, 00175 Rome, Italy | — | luogo | FB 1 |
+
+## Vigna Clara `vigna-clara` — Municipio XV
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| Aperta l'Aula Studio Vigna Clara | [sito](https://www.bibliotechediroma.it/opac/news/aperta-laula-studio-vigna-clara/39216) | soggetto | — |
+| Aula Studio Vigna Clara | [sito](https://www.bibliotechediroma.it/opac/library/Aula%20Studio%20Vigna%20Clara/RMB$B3STUDIO) | soggetto | — |
+| Comitato di quartiere Vigna Clara | [eventi della pagina Facebook](https://www.facebook.com/CDQVignaclara/events) | soggetto | — |
+| Comitato di quartiere Vigna Clara (@CDQVignaclara) | [eventi della pagina Facebook](https://www.facebook.com/CDQVignaclara/events) | soggetto | — |
+| Eventi di musica e intrattenimento a Vigna Clara e Labaro .. | [eventi della pagina Facebook](https://www.facebook.com/61563304190618/events) | soggetto | — |
+| Parrocchia Santa Chiara | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasantachiara/events) | soggetto | — |
+| Roberto Gualtieri Eu | [eventi della pagina Facebook](https://www.facebook.com/roberto.gualtieri.eu/events) | soggetto | — |
+
+## Vitinia `vitinia` — Municipio IX
+
+| fonte | dove cercare | ruolo | eventi ott 2026 |
+|---|---|---|---|
+| "Vitinia" Scriveteci - Centri Sociali Anziani di Roma | [sito](https://www.16nonni.it) | soggetto | — |
+| A Vitinia gli anziani in gita sul web | [sito](https://www.mondodigitale.org) | soggetto | — |
+| BIBLIOCABINA di VITINIA (ROMA) 👏👏👏👏 ... | [eventi della pagina Facebook](https://www.facebook.com/condivisionelibri/events) | soggetto | — |
+| CdQ Vitinia | [eventi della pagina Facebook](https://www.facebook.com/CdQVitinia/events) | soggetto | — |
+| Istituto Comprensivo Tacito Guareschi di Vitinia (RM) | [sito](https://qloudscuola.it) | soggetto | — |
+| Vitinia Bene Comune per il Comitato di Quartiere | [eventi della pagina Facebook](https://www.facebook.com/100064721074581/events) | soggetto | — |
+| CENTRO ANZIANI VITINIA Indirizzo | — | soggetto | — |
 
