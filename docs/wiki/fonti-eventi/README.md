@@ -76,8 +76,8 @@ decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 ## Cosa dice questa prima versione (ottobre 2026)
 
 I numeri sono in `INDEX.md`. In sintesi: 1.970 fonti, di cui 370 dal registro del 13
-ottobre e 577 candidate dal censimento del 24 ottobre (le coincidenze con voci del
-registro sono fuse); 644 luoghi e 1.179 organizzatori; 809 con un sito web; 1.410 con una pagina QN.
+ottobre e 598 candidate dal censimento del 24 ottobre (le coincidenze con voci del
+registro sono fuse); 644 luoghi e 1.200 organizzatori; 809 con un sito web; 1.410 con una pagina QN.
 Le fonti senza Municipio sono per lo più organizzatori che a ottobre hanno prodotto
 eventi fuori Roma o registrazioni del registro senza geografia.
 
