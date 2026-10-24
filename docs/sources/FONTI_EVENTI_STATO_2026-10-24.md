@@ -95,6 +95,31 @@ pagine le fonti utili sono quelle mirate del §1 bis (parrocchie, centri anziani
 biblioteche, scuole), che non pubblicano calendari leggibili: servono la segnalazione in
 entrata e il contatto diretto (passo L di `FLUSSO_EVENTI_A_Z.md`), non altra lettura automatica.
 
+## 1 quinquies. Ricerca «evento / eventi / festa + quartiere» (M, 24 ottobre 2026)
+
+288 ricerche Google (tre forme per ognuno dei 96 nomi delle 89 pagine QN; i nomi doppi, come
+Dragona-Dragoncello, cercati separatamente), 6.266 risultati, 1.380 fonti distinte. Ogni fonte è
+classificata (già nota, aggregatore, testata, commerciale, istituzionale, social, sito); i siti
+nuovi sono letti rispettando il robots.txt, le pagine Facebook nuove con il lettore degli eventi
+futuri. Esito nel foglio `fonti_ricerca_quartieri.xlsx` su Drive. Costo Apify 1,7 dollari.
+
+| Esito | Fonti |
+|---|---|
+| Già note (registro, censimenti, wiki) | 182 |
+| Aggregatori, testate e blog (non letti: licenza o natura di notizia) | 206, più 58 riconosciuti alla lettura |
+| Servizi commerciali (sale feste, catering, location) | 143 |
+| Gruppi Facebook (non leggibili) e profili Instagram (da valutare a mano) | 97 e 108 |
+| Pagine Facebook nuove | 181, di cui 4 con eventi futuri |
+| Siti nuovi letti | 449: 415 letti, 27 non raggiungibili, 7 vietati dal robots.txt; 74 risultati fuori Roma |
+| **Candidate nel registro v4** | **129** (date future sul sito 71, pagina eventi 49, eventi strutturati 5, eventi futuri su Facebook 4); 119 con pagina QN, 61 su pagine deboli, 35 pagine deboli toccate |
+
+Eventi nuovi: 96 (18 strutturati, 75 blocchi di testo con data, 3 Facebook); solo 14 hanno una
+pagina QN con prove sufficienti (indirizzo della fonte per gli eventi strutturati, un luogo del
+gazetteer nel testo per i blocchi), gli altri stanno in «senza quartiere». Le pagine a zero restano
+25. Lettura: la ricerca per quartiere trova **fonti** (parrocchie, centri di iniziativa popolare,
+associazioni, festival di quartiere) più che **eventi**: le fonti di periferia pubblicano poco e
+male, e vanno lette nel tempo o contattate (passo L del flusso).
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |

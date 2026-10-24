@@ -41,10 +41,10 @@ python tests/test_fonti_eventi_build.py
 La cartella di ingresso contiene `eventi_unico.xlsx` (il foglio degli eventi di
 ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31
 ottobre, con geografia, rintracciabilità e doppioni), `registro_fonti.xlsx` (registro
-fonti versione 3 del 24 ottobre 2026: le 370 voci del 13 ottobre, con le 220 pagine Facebook
-verificate dall'owner portate a «tenere» e la decisione precedente conservata, più 445 candidate
-trovate con la ricerca mirata per le 58 pagine QN con meno di cinque eventi futuri, decisione
-«candidata» finché l'owner non la cambia) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
+fonti versione 4 del 24 ottobre 2026: le 370 voci del 13 ottobre, con le 220 pagine Facebook
+verificate dall'owner portate a «tenere» e la decisione precedente conservata, più le candidate
+della ricerca mirata per le 58 pagine QN con meno di cinque eventi futuri e della ricerca
+«evento / eventi / festa + quartiere», decisione «candidata» finché l'owner non la cambia) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
 luoghi di culture.roma.it) e, facoltativi, i due censimenti del 24 ottobre 2026: `associazioni_fonti.xlsx` (1.169 pagine
 Facebook di associazioni) e `enti_terzo_settore_fonti.xlsx` (6.247 enti del terzo settore di Roma
 iscritti al RUNTS); per ciascun soggetto dati di pagina, eventi futuri e post via Apify, sito
@@ -81,12 +81,12 @@ decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 4.309 fonti, di cui 807 nel registro versione 3
-(370 del 13 ottobre, con le 220 pagine verificate dall'owner il 24 ottobre portate a «tenere», più 445
-candidate della ricerca mirata del 24 ottobre), 1.928 candidate dal censimento degli enti del terzo
-settore (RUNTS) e 598 dal censimento delle pagine Facebook (le coincidenze con voci del registro sono
-fuse); 644 luoghi e 3.112 organizzatori; 2.828 con un sito web; 2.802 con una pagina QN;
-323 fusioni proposte da decidere.
+I numeri sono in `INDEX.md`. In sintesi: 4.433 fonti, di cui 935 nel registro versione 4
+(370 del 13 ottobre, con le 220 pagine verificate dall'owner portate a «tenere»; 445 candidate della
+ricerca mirata per le pagine deboli; 129 candidate della ricerca «evento / eventi / festa + quartiere»
+del 24 ottobre), 1.928 candidate dal censimento degli enti del terzo settore (RUNTS) e 598 dal
+censimento delle pagine Facebook (le coincidenze con voci del registro sono fuse); 644 luoghi e
+3.112 organizzatori; 2.951 con un sito web; 2.917 con una pagina QN; 334 fusioni proposte da decidere.
 
 La ricerca mirata del 24 ottobre ha dato a 56 delle 58 pagine QN deboli almeno tre fonti
 da controllare (parrocchie, centri sociali anziani dagli elenchi ufficiali dei Municipi,
