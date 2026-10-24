@@ -18,6 +18,8 @@ Rules under test, each named in the check label:
           with its verdict carried (never a registry decision); the same Facebook page as a
           registry entry is one source; the events page of its site is where to look; dormant
           pages are counted only; no page text enters the output.
+- T-FE-8  merge proposals: two entries that are probably the same source are listed for a
+          person in fusioni-proposte.md and never merged by the build.
 
 Run:  python tests/test_fonti_eventi_build.py   (exit 0 and "ALL PASS" required)
 """
@@ -81,6 +83,8 @@ def make_inputs(folder):
          "Teatro Vascello", "https://www.facebook.com/teatrovascello", "https://www.teatrovascello.it/spettacoli/serata-jazz; javascript:alert(1)", None],
         ["https://www.facebook.com/events/2/", TITLE_FB + " 2", "False", "105634906151016", "Teatro Vascello Roma", None, 41.88, 12.46, None, None, "Roma",
          "Jazz Promoter APS; Giulia Conti", "https://www.facebook.com/jazzpromoter/; https://www.facebook.com/profile.php?id=100099", "https://www.jazzpromoter.it/eventi/2", "https://www.vivaticket.com/x"],
+        ["https://www.facebook.com/events/3/", TITLE_FB + " 3", "False", "99", "Teatro Vascelo", None, 41.88, 12.46, None, None, "Roma",
+         "Jazz Promoter Associazione Culturale", None, None, None],
     ])
     ch = ["url", "title", "venue", "venueUrl", "address", "municipio", "aCuraDi", "contattiLinks", "social", "ingressoLinks"]
     sheet(wb, "Comune di Roma (culture)", ch, [
@@ -122,6 +126,10 @@ def make_inputs(folder):
     gaz = os.path.join(folder, "gazetteer.json")
     json.dump(GAZ, open(gaz, "w"))
     return gaz
+
+
+def sig_tokens_jp(name):
+    return bfe.sig_tokens(name) == {"jazz", "promoter"}
 
 
 def read_all(out):
@@ -201,6 +209,15 @@ def main():
         check("T-FE-7 dormant page counted, not listed", (any(e["nome"] == "Associazione Dormiente" for e in s["fonti"]), s["censimento_pagine"]["dormiente: nessun evento futuro su Facebook né calendario sul sito"]), (False, 1))
         check("T-FE-7 page text never written", INTRO_TXT in blob, False)
         check("T-FE-7 census page generated with the candidate", "Circolo Arci Testaccio" in texts.get("censimento-pagine.md", ""), True)
+
+        print("T-FE-8 merge proposals")
+        fp = s["fusioni_proposte"]
+        check("T-FE-8 typo spelling of the venue proposed, not merged",
+              (any(c["a_nome"] == "Teatro Vascello" and c["b_nome"] == "Teatro Vascelo" for c in fp), sum(1 for e in s["fonti"] if e["nome"] in ("Teatro Vascello", "Teatro Vascelo"))), (True, 2))
+        jp_all = [e for e in s["fonti"] if sig_tokens_jp(e["nome"])]
+        check("T-FE-8 legal form and generic words: same source already one entry by normalisation, so no proposal", (len(jp_all), any("Jazz Promoter" in c["a_nome"] for c in fp)), (1, False))
+        check("T-FE-8 page lists the pairs", "Teatro Vascelo" in texts.get("fusioni-proposte.md", ""), True)
+        check("T-FE-8 unrelated entries not paired", any("Comitato Fittizio" in (c["a_nome"], c["b_nome"]) and "Circolo Arci Testaccio" in (c["a_nome"], c["b_nome"]) for c in fp), False)
 
         print("T-FE-6 determinism and pages")
         check("T-FE-6 two builds identical", read_all(out1) == read_all(out2), True)

@@ -291,6 +291,44 @@ class Registry:
         self.entries[k]["rintracciabili"][rintracciabile or "n.d."] += 1
 
 
+def sig_tokens(name):
+    """Significant tokens of a name for the merge proposals: no legal forms, no generic words."""
+    stop = {"roma", "di", "del", "della", "dei", "degli", "delle", "il", "la", "le", "lo", "e", "ed", "a", "al", "in", "the", "of", "per", "con", "da", "dal",
+            "italia", "italiana", "italiano", "lazio", "nazionale",
+            "aps", "asd", "ets", "odv", "onlus", "srl", "srls", "snc", "sas", "spa", "ssd", "soc", "coop", "associazione", "culturale",
+            "teatro", "centro", "museo", "galleria", "club", "circolo", "spazio", "casa", "fondazione", "comitato", "quartiere"}
+    return {t for t in norm(name).split() if t not in stop and len(t) > 2}
+
+
+def proposed_merges(entries):
+    """Pairs of distinct entries that are probably the same source: a person decides, the
+    build never merges them (README rule). Criteria, in order: same name after removing legal
+    forms and generic words; one name's significant tokens inside the other's with at least
+    two tokens; names within a small edit distance. Pairs with conflicting Municipi are skipped."""
+    import difflib
+    cands = []
+    keyed = [(e, sig_tokens(e["nome"]), norm(e["nome"])) for e in entries if sig_tokens(e["nome"])]
+    for i in range(len(keyed)):
+        a, ta, na = keyed[i]
+        for j in range(i + 1, len(keyed)):
+            b, tb, nb = keyed[j]
+            if a["municipio"] and b["municipio"] and a["municipio"] != b["municipio"]:
+                continue
+            if ta == tb:
+                why = "stesso nome senza forme giuridiche e parole generiche"
+            elif len(ta & tb) >= 2 and (ta <= tb or tb <= ta) and min(len(ta), len(tb)) / max(len(ta), len(tb)) >= 0.5:
+                why = "un nome contiene l'altro"
+            elif len(ta) >= 2 and len(tb) >= 2 and len(ta & tb) >= 2 and len(ta & tb) >= len(ta | tb) - 1 and difflib.SequenceMatcher(None, na, nb).ratio() >= 0.8:
+                why = "nomi quasi uguali"
+            elif abs(len(na) - len(nb)) <= 2 and len(na) >= 12 and difflib.SequenceMatcher(None, na, nb).ratio() >= 0.92:
+                why = "grafie a distanza di un refuso"
+            else:
+                continue
+            cands.append({"a": a["id"], "a_nome": a["nome"], "b": b["id"], "b_nome": b["nome"], "motivo": why,
+                          "municipio": a["municipio"] or b["municipio"] or "", "ruoli": sorted(set(a["ruoli"]) | set(b["ruoli"]))})
+    return sorted(cands, key=lambda c: (c["a"], c["b"]))
+
+
 def load_gazetteer(path):
     g = json.load(open(path, encoding="utf-8"))
     return {z["publication_zone_id"]: z for z in g["publication_zones"]}
@@ -612,6 +650,7 @@ def build(input_dir, out_dir, gazetteer_path):
                             "rintracciabilita": dict(traced[s].most_common())} for s in AGGREGATORI},
         "doppioni": {f"{t} · {f}": n for (t, f), n in sorted(overlap.items())},
         "censimento_pagine": dict(sorted(censimento_conteggi.items())),
+        "fusioni_proposte": proposed_merges(out_entries),
     }
     os.makedirs(out_dir, exist_ok=True)
     json.dump(sched, open(os.path.join(out_dir, "fonti_eventi.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
@@ -715,6 +754,19 @@ def write_pages(sched, out_dir, zones):
     write_aggregatori(sched, out_dir)
     if sched.get("censimento_pagine"):
         write_censimento(sched, out_dir, zones)
+    write_fusioni(sched, out_dir)
+
+
+def write_fusioni(sched, out_dir):
+    out = ["# Fusioni proposte fra voci dello schedario (generato)", "",
+           "Coppie di voci che probabilmente sono la stessa fonte scritta in due modi. Il build non le fonde "
+           "(regola: le fusioni dubbie le decide una persona); chi decide registra la fusione nel registro fonti "
+           "con la chiave forte comune (URL Facebook, pagina del luogo su culture.roma.it) e il build la applica "
+           "alla rigenerazione successiva. Coppie con Municipi diversi non sono proposte.", "",
+           f"Coppie proposte: {len(sched['fusioni_proposte'])}", "", "| voce A | voce B | motivo | municipio | ruoli |", "|---|---|---|---|---|"]
+    for c in sched["fusioni_proposte"]:
+        out.append(f"| {c['a_nome']} `{c['a']}` | {c['b_nome']} `{c['b']}` | {c['motivo']} | {c['municipio'] or '—'} | {', '.join(c['ruoli'])} |")
+    open(os.path.join(out_dir, "fusioni-proposte.md"), "w", encoding="utf-8").write("\n".join(out) + "\n")
 
 
 def write_censimento(sched, out_dir, zones):

@@ -103846,5 +103846,985 @@
   "scartare": 37,
   "servizio o professione": 76,
   "tematico non locale": 66
- }
+ },
+ "fusioni_proposte": [
+  {
+   "a": "S-EV-0014",
+   "a_nome": "Accademia di Francia a Roma — Villa Medici",
+   "b": "S-FE-0049",
+   "b_nome": "Villa Medici - Accademia di Francia a Roma",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0028",
+   "a_nome": "Adoc - Associazione Difesa Orientamento Consumatori",
+   "b": "S-EV-0029",
+   "b_nome": "ADOC ROMA E LAZIO - Associazione Difesa Orientamento Consumatori",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0132",
+   "a_nome": "Arcobaleno96",
+   "b": "S-EV-0233",
+   "b_nome": "Associazione culturale Arcobaleno 96",
+   "motivo": "grafie a distanza di un refuso",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0153",
+   "a_nome": "ASD Atletica Rocca di Papa",
+   "b": "S-EV-1238",
+   "b_nome": "Rocca di Papa",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0263",
+   "a_nome": "Associazione Culturale L'Attico",
+   "b": "S-EV-0795",
+   "b_nome": "Galleria L'Attico",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0315",
+   "a_nome": "Associazione Donna Vita Libertà",
+   "b": "S-EV-0498",
+   "b_nome": "Associazione Vita di Donna OdV",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0379",
+   "a_nome": "Associazione Italiana Santa Cecilia",
+   "b": "S-EV-0654",
+   "b_nome": "Conservatorio Santa Cecilia",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0444",
+   "a_nome": "Associazione per Villa Pamphilj",
+   "b": "S-FE-0091",
+   "b_nome": "Teatro Villa Pamphilj",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "XII",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0516",
+   "a_nome": "Auditorium Parco della Musica",
+   "b": "S-EV-0973",
+   "b_nome": "Libreria Notebook-Auditorium Parco della Musica",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "II",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0516",
+   "a_nome": "Auditorium Parco della Musica",
+   "b": "S-FE-0102",
+   "b_nome": "Auditorium Parco della Musica Ennio Morricone",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "II",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0545",
+   "a_nome": "Biblioteca di Grottaferrata",
+   "b": "S-EV-0546",
+   "b_nome": "Biblioteca Statale di Grottaferrata",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0594",
+   "a_nome": "Casino dei Principi – Musei di Villa Torlonia",
+   "b": "S-EV-1062",
+   "b_nome": "Musei di Villa Torlonia - Casino dei Principi",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "II",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0599",
+   "a_nome": "Castel Sant'Angelo",
+   "b": "S-FE-0136",
+   "b_nome": "Museo Nazionale di Castel Sant'Angelo",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0601",
+   "a_nome": "Castello di Lunghezza",
+   "b": "S-FE-0079",
+   "b_nome": "Il Fantastico Mondo del Fantastico - Castello di Lunghezza",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "VI",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-0615",
+   "a_nome": "Charity Café",
+   "b": "S-FE-0060",
+   "b_nome": "Charity Café Jazz & Blues Club",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "organizzatore",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-0629",
+   "a_nome": "Città dell'Altra Economia",
+   "b": "S-EV-0630",
+   "b_nome": "Città dell'Altra Economia - CAE",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0629",
+   "a_nome": "Città dell'Altra Economia",
+   "b": "S-FE-0156",
+   "b_nome": "Testaccio Estate (Città dell'Altra Economia)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-0634",
+   "a_nome": "Civitavecchia, Italy (Port Of Rome)",
+   "b": "S-EV-0908",
+   "b_nome": "Italy, Rome.",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0634",
+   "a_nome": "Civitavecchia, Italy (Port Of Rome)",
+   "b": "S-EV-1256",
+   "b_nome": "Rome, Italy",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0670",
+   "a_nome": "D&C Eventi",
+   "b": "S-EV-0729",
+   "b_nome": "Eventi Roma",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0687",
+   "a_nome": "Dipendenza della Casina delle Civette – Musei di Villa Torlonia",
+   "b": "S-FE-0095",
+   "b_nome": "Musei di Villa Torlonia - Casina delle Civette",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "II",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0706",
+   "a_nome": "Eden Hotel",
+   "b": "S-EV-0860",
+   "b_nome": "Hotel Eden Rome",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0773",
+   "a_nome": "Foro Italico",
+   "b": "S-FE-0261",
+   "b_nome": "Foro Italico (Tennis & Friends)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "XV",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-0774",
+   "a_nome": "Forte Trionfale",
+   "b": "S-FE-0208",
+   "b_nome": "Forte! Trionfale Urban Factory",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "XIV",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0791",
+   "a_nome": "Galleria d'Arte Moderna",
+   "b": "S-FE-0030",
+   "b_nome": "Galleria d'Arte Moderna di Roma Capitale",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0792",
+   "a_nome": "Galleria Dell ' Academia Di Firenze",
+   "b": "S-EV-0793",
+   "b_nome": "Galleria dell'Accademia di Firenze",
+   "motivo": "grafie a distanza di un refuso",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0799",
+   "a_nome": "Galleria Vittoria",
+   "b": "S-EV-1389",
+   "b_nome": "Teatro Vittoria",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0813",
+   "a_nome": "Giancarlo Conte",
+   "b": "S-EV-0814",
+   "b_nome": "Giancarlo Conte Trekking Divertimento",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0814",
+   "a_nome": "Giancarlo Conte Trekking Divertimento",
+   "b": "S-EV-1428",
+   "b_nome": "Trekking & Divertimento",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0816",
+   "a_nome": "Gianluigi Perruso Pranic healing",
+   "b": "S-EV-1200",
+   "b_nome": "Pranic Healing Italia",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0819",
+   "a_nome": "Giardini di via Sannio",
+   "b": "S-FE-0215",
+   "b_nome": "Sotto Roma APS (Giardini di Via Sannio)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "VII",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-0880",
+   "a_nome": "Il suono di Liszt a Villa d'Este",
+   "b": "S-EV-1556",
+   "b_nome": "Villa d'Este",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0908",
+   "a_nome": "Italy, Rome.",
+   "b": "S-EV-1256",
+   "b_nome": "Rome, Italy",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-0975",
+   "a_nome": "Lido di Ostia",
+   "b": "S-EV-1368",
+   "b_nome": "Teatro del Lido di Ostia",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "X",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-0991",
+   "a_nome": "MACRO - Museo Arte Contemporanea Roma",
+   "b": "S-FE-0168",
+   "b_nome": "MACRO - Museo d'Arte Contemporanea Roma",
+   "motivo": "grafie a distanza di un refuso",
+   "municipio": "II",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1019",
+   "a_nome": "MAXXI - Museo delle arti del XXI secolo",
+   "b": "S-FE-0112",
+   "b_nome": "MAXXI - Museo nazionale delle arti del XXI secolo",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "II",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1024",
+   "a_nome": "Meet at Piazza del Popolo",
+   "b": "S-FE-0237",
+   "b_nome": "Piazza del Popolo",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-1043",
+   "a_nome": "Mondadori Bookstore Tuscolana Roma (Via Tuscolana 771/771A, Roma, Lazio)",
+   "b": "S-EV-1529",
+   "b_nome": "Via Tuscolana 771/771A",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "VII",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-1045",
+   "a_nome": "Monk Club",
+   "b": "S-FE-0122",
+   "b_nome": "MONK Roma",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "IV",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-1061",
+   "a_nome": "Musei di San Salvatore in Lauro",
+   "b": "S-FE-0034",
+   "b_nome": "Musei di San Salvatore in Lauro (Pio Sodalizio dei Piceni)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-1071",
+   "a_nome": "Museo Leonardo da Vinci - Piazza del Popolo",
+   "b": "S-FE-0237",
+   "b_nome": "Piazza del Popolo",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-1072",
+   "a_nome": "Museo Nazionale Romano - Palazzo Massimo - Palazzo Altemps",
+   "b": "S-EV-1073",
+   "b_nome": "Museo nazionale romano di palazzo Altemps",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1072",
+   "a_nome": "Museo Nazionale Romano - Palazzo Massimo - Palazzo Altemps",
+   "b": "S-EV-1131",
+   "b_nome": "Palazzo Altemps",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1073",
+   "a_nome": "Museo nazionale romano di palazzo Altemps",
+   "b": "S-EV-1131",
+   "b_nome": "Palazzo Altemps",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1112",
+   "a_nome": "Orto Botanico di villa Corsini",
+   "b": "S-EV-1113",
+   "b_nome": "Orto Botanico.",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1212",
+   "a_nome": "Quadrifoglio Immobiliare",
+   "b": "S-EV-1213",
+   "b_nome": "Quadrifoglio Immobiliare - Casal Bertone",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "IV",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-1268",
+   "a_nome": "Sala Teatro Il Majorana",
+   "b": "S-FE-0211",
+   "b_nome": "Sala Teatro Il Majorana (Istituto Piaget-Majorana)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "III",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-1271",
+   "a_nome": "Salone Bernini a Palazzo Ripetta",
+   "b": "S-EV-1272",
+   "b_nome": "Salone Bernini a Palazzo Ripetta, 00186",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1307",
+   "a_nome": "Simone D'Aniello",
+   "b": "S-EV-1309",
+   "b_nome": "Simone Phènom D'Aniello",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "V",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-EV-1386",
+   "a_nome": "Teatro Torlonia",
+   "b": "S-FE-0096",
+   "b_nome": "Teatro Torlonia (Teatro di Roma)",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "II",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-EV-1392",
+   "a_nome": "Terme di Caracalla",
+   "b": "S-EV-1540",
+   "b_nome": "Viale delle Terme di Caracalla, 52",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1392",
+   "a_nome": "Terme di Caracalla",
+   "b": "S-FE-0155",
+   "b_nome": "Terme di Caracalla (Soprintendenza Speciale di Roma)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1460",
+   "a_nome": "Via Biordo Michellotti, 00172 Rome, Italy",
+   "b": "S-EV-1461",
+   "b_nome": "Via Biordo Michelotti, 2, 00176 Rome, Italy",
+   "motivo": "grafie a distanza di un refuso",
+   "municipio": "V",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1520",
+   "a_nome": "Via Ostiense 106, 00154 Rome, Italy",
+   "b": "S-EV-1521",
+   "b_nome": "Via Ostiense, 106",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "VIII",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-EV-1568",
+   "a_nome": "Vintage Market Roma",
+   "b": "S-FE-0084",
+   "b_nome": "Vintage Market Roma (VGMT)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "XIV",
+   "ruoli": [
+    "organizzatore",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0006",
+   "a_nome": "Comitato di Quartiere Nuova Tor Tre Teste Attiva",
+   "b": "S-FE-0194",
+   "b_nome": "Comitato di Quartiere Tor Tre Teste Attiva",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "V",
+   "ruoli": [
+    "organizzatore",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0019",
+   "a_nome": "Biblioteca Quarticciolo",
+   "b": "S-EV-1363",
+   "b_nome": "Teatro Biblioteca Quarticciolo",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "V",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0021",
+   "a_nome": "Associazione Canova22 - Antica Fornace del Canova",
+   "b": "S-EV-0772",
+   "b_nome": "FORNACE DEL CANOVA",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0022",
+   "a_nome": "Biblioteca Angelica",
+   "b": "S-EV-0787",
+   "b_nome": "Galleria Biblioteca Angelica",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0027",
+   "a_nome": "Emmeotto Arte Contemporanea",
+   "b": "S-EV-0794",
+   "b_nome": "Galleria Emmeotto Arte",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0031",
+   "a_nome": "Garum - Biblioteca e Museo della Cucina",
+   "b": "S-EV-0804",
+   "b_nome": "Garum Museo della Cucina",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0032",
+   "a_nome": "Instituto Cervantes de Roma",
+   "b": "S-EV-0890",
+   "b_nome": "Instituto Cervantes di Roma - Sala Dalí",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0033",
+   "a_nome": "Musei Capitolini",
+   "b": "S-EV-1059",
+   "b_nome": "Musei Capitolini - Palazzo dei Conservatori",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0033",
+   "a_nome": "Musei Capitolini",
+   "b": "S-EV-1060",
+   "b_nome": "Musei Capitolini, Villa Caffarelli",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0037",
+   "a_nome": "Museo di Roma - Palazzo Braschi",
+   "b": "S-EV-1070",
+   "b_nome": "Museo di Roma a Palazzo Braschi",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0063",
+   "a_nome": "Palazzo delle Esposizioni",
+   "b": "S-EV-1138",
+   "b_nome": "Palazzo Esposizioni Roma",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0070",
+   "a_nome": "Palazzo dello Sport (EUR SpA)",
+   "b": "S-EV-1137",
+   "b_nome": "Palazzo dello Sport (Roma)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "IX",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0099",
+   "a_nome": "Centrale Montemartini",
+   "b": "S-EV-1058",
+   "b_nome": "Musei Capitolini - Centrale Montemartini di Roma",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "VIII",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0105",
+   "a_nome": "Casa del Cinema",
+   "b": "S-EV-0765",
+   "b_nome": "Fondazione Cinema per Roma",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "II",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0107",
+   "a_nome": "Festa del Cinema di Roma",
+   "b": "S-FE-0108",
+   "b_nome": "Festa del Cinema di Roma (Fondazione Cinema per Roma)",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "II",
+   "ruoli": [
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0113",
+   "a_nome": "Museo Carlo Bilotti Aranciera di Villa Borghese",
+   "b": "S-EV-1267",
+   "b_nome": "Sala de Chirico del Museo Carlo Bilotti Aranciera di Villa Borghese",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "II",
+   "ruoli": [
+    "luogo"
+   ]
+  },
+  {
+   "a": "S-FE-0115",
+   "a_nome": "Museo Nazionale Etrusco di Villa Giulia",
+   "b": "S-EV-1558",
+   "b_nome": "Villa Giulia",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "II",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0119",
+   "a_nome": "Comitato di Quartiere Casal Bertone",
+   "b": "S-EV-1213",
+   "b_nome": "Quadrifoglio Immobiliare - Casal Bertone",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "IV",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0137",
+   "a_nome": "Comitato di Quartiere - Villa Gordiani",
+   "b": "S-EV-1559",
+   "b_nome": "Villa Gordiani",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "V",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0157",
+   "a_nome": "Teatro Tor Bella Monaca",
+   "b": "S-EV-1420",
+   "b_nome": "Tor Bella Monaca",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "VI",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0176",
+   "a_nome": "Croce Rossa Italiana - Comitato Municipi 2 e 3 di Roma",
+   "b": "S-FE-0177",
+   "b_nome": "Croce Rossa Italiana - Comitato Municipi 8 11 12 di Roma",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "II",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0185",
+   "a_nome": "Istituzione Biblioteche di Roma",
+   "b": "S-EV-0904",
+   "b_nome": "Istituzione Biblioteche di Roma in collaborazione con Pav",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0210",
+   "a_nome": "Mercato Rionale del Tufello",
+   "b": "S-EV-1027",
+   "b_nome": "Mercato Rionale del Tufello “Gigi Proietti”",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "III",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0218",
+   "a_nome": "Libreria Le Torri (Tor Bella Monaca)",
+   "b": "S-EV-1420",
+   "b_nome": "Tor Bella Monaca",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "VI",
+   "ruoli": [
+    "luogo",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0218",
+   "a_nome": "Libreria Le Torri (Tor Bella Monaca)",
+   "b": "S-FE-0157",
+   "b_nome": "Teatro Tor Bella Monaca",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "VI",
+   "ruoli": [
+    "luogo",
+    "organizzatore",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0239",
+   "a_nome": "Mercato Centrale Roma",
+   "b": "S-EV-1026",
+   "b_nome": "MERCATO CENTRALE ROMA TERMINI SRL",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "I",
+   "ruoli": [
+    "luogo",
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0260",
+   "a_nome": "Foro Italico (Sport e Salute) - evento Tennis & Friends",
+   "b": "S-FE-0261",
+   "b_nome": "Foro Italico (Tennis & Friends)",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "XV",
+   "ruoli": [
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0275",
+   "a_nome": "Cidim - Comitato Nazionale Italiano Musica",
+   "b": "S-FE-0276",
+   "b_nome": "Cidim Comitato Nazionale Musica",
+   "motivo": "stesso nome senza forme giuridiche e parole generiche",
+   "municipio": "I",
+   "ruoli": [
+    "organizzatore"
+   ]
+  },
+  {
+   "a": "S-FE-0309",
+   "a_nome": "Comitato Nazionale Volontariato Protezione Civile",
+   "b": "S-EV-0809",
+   "b_nome": "Georoma ODV Associazione di volontariato Protezione Civile Geometri Roma",
+   "motivo": "un nome contiene l'altro",
+   "municipio": "XI",
+   "ruoli": [
+    "organizzatore",
+    "soggetto"
+   ]
+  },
+  {
+   "a": "S-FE-0354",
+   "a_nome": "FIC Comitato Regionale Lazio",
+   "b": "S-FE-0356",
+   "b_nome": "Fik-Comitato Regionale Lazio",
+   "motivo": "grafie a distanza di un refuso",
+   "municipio": "VII",
+   "ruoli": [
+    "organizzatore",
+    "soggetto"
+   ]
+  }
+ ]
 }
