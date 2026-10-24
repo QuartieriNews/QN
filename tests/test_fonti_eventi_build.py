@@ -89,6 +89,8 @@ def make_inputs(folder):
          "Jazz Promoter APS; Giulia Conti", "https://www.facebook.com/jazzpromoter/; https://www.facebook.com/profile.php?id=100099", "https://www.jazzpromoter.it/eventi/2", "https://www.vivaticket.com/x"],
         ["https://www.facebook.com/events/3/", TITLE_FB + " 3", "False", "99", "Teatro Vascelo", None, 41.88, 12.46, None, None, "Roma",
          "Jazz Promoter Associazione Culturale", None, None, None],
+        ["https://www.facebook.com/events/4/", TITLE_FB + " 4", "False", None, None, None, None, None, None, None, "Roma",
+         "segreteria@organizzatore-fittizio.it", None, None, None],
     ])
     ch = ["url", "title", "venue", "venueUrl", "address", "municipio", "aCuraDi", "contattiLinks", "social", "ingressoLinks"]
     sheet(wb, "Comune di Roma (culture)", ch, [
@@ -136,6 +138,8 @@ def make_inputs(folder):
                None, None, None, None, None, None, None])
     ws.append(["97000000002", "Associazione Ponte Fittizio APS", "rientra: calendario sul sito", "5 date future", None, None, 5, 2, "XII", "monteverde",
                "Via Fittizia 9, 00152 Roma", 41.88, 12.46, None, "https://www.pontefittizio.it", "https://www.pontefittizio.it/eventi/", None])
+    ws.append(["97000000004", "Associazione Recapito Fittizio APS", "rientra: calendario sul sito", "3 date future", None, None, 3, 0, "I", "testaccio",
+               "contatti@recapito-fittizio.it , Rome, Italy", None, None, None, "https://info@recapito-fittizio.it", None, None])
     ws.append(["97000000003", "Ente Senza Rete ETS", "nessuna presenza web trovata", "", None, None, None, None, None, None, None, None, None, None, None, None, None])
     rwb2.save(os.path.join(folder, "enti_terzo_settore_fonti.xlsx"))
     gaz = os.path.join(folder, "gazetteer.json")
@@ -223,6 +227,7 @@ def main():
               [d["url"] for d in circ["dove_cercare"]], ["https://www.circolotestaccio.it/eventi/", "https://circolotestaccio.it", "https://www.facebook.com/circolotestaccio/events"])
         check("T-FE-7 dormant page counted, not listed", (any(e["nome"] == "Associazione Dormiente" for e in s["fonti"]), s["censimento_pagine"]["pagine Facebook di associazioni"]["dormiente: nessun evento futuro su Facebook né calendario sul sito"]), (False, 1))
         check("T-FE-7 page text never written", INTRO_TXT in blob, False)
+        check("T-FE-7 no email address in any generated file (contacts stay on Drive)", bool(bfe.EMAIL_RX.search(blob)), False)
         check("T-FE-7 census page generated with the candidate", "Circolo Arci Testaccio" in texts.get("censimento-pagine.md", ""), True)
 
         print("T-FE-9 census of third-sector entities")

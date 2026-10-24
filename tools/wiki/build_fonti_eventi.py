@@ -65,6 +65,7 @@ VENUE_WORDS = ("teatro", "cinema", "biblioteca", "museo", "parco", "villa", "mer
                "istituto", "fondazione", "associazione", "comitato", "municipio", "parrocchia", "oratorio", "live", "lab")
 SOCIAL = re.compile(r"(facebook\.com|instagram\.com|tiktok\.com|youtube\.com|youtu\.be|x\.com|twitter\.com|linkedin\.com|t\.me|wa\.me|whatsapp|threads\.net|telegram)", re.I)
 TICKET = re.compile(r"(vivaticket|ticketone|ticketmaster|dice\.fm|eventbrite|boxol|ticketsms|clappit|liveticket|ciaotickets|xceed|mailticket|tickettailor|ticketnation|i-ticket|oooh\.events|tiqets|getyourguide|musement|coopculture|museiincomuneroma)", re.I)
+EMAIL_RX = re.compile(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}")
 CENSIMENTO_CANDIDATI = ("rientra", "locale", "da valutare", "da verificare")   # census verdicts that enter the registry as candidates
 # (file, sheet, origin label, column map onto the common fields; a key mapped to None is absent in that file)
 CENSUS_FILES = (
@@ -107,6 +108,8 @@ def norm(s):
 
 
 def is_web_url(s):
+    if "@" in str(s or "").split("//", 1)[-1].split("/", 1)[0]:   # user@host is a mailbox written as a link, not a site
+        return False
     return bool(s) and str(s).startswith(("http://", "https://"))
 
 
@@ -214,6 +217,7 @@ class Registry:
         self.zones = zones
 
     def get(self, name, extra_keys=(), ruolo=None, tipo=None, aggregatore=None):
+        name = EMAIL_RX.sub(" ", str(name or "")).strip(" -–,;:|")   # an address is a contact, never a name: it stays on Drive
         n = norm(name)
         if not n or n in ("roma", "n d", "nd"):
             return None
@@ -286,8 +290,9 @@ class Registry:
                 rec["punti"].append((float(lat), float(lon)))
             except (TypeError, ValueError):
                 pass
-        if indirizzo:
-            rec["indirizzi"][str(indirizzo).strip()] += 1
+        indirizzo = EMAIL_RX.sub(" ", str(indirizzo or "")).strip(" ,;") if indirizzo else None
+        if indirizzo and re.search(r"[A-Za-z]{3}", re.sub(r"\b(Rome|Roma|Italy|Italia)\b", "", indirizzo)):
+            rec["indirizzi"][re.sub(r"\s{2,}", " ", indirizzo)] += 1
         if citta:
             rec["citta"][str(citta).strip()] += 1
 
@@ -382,6 +387,8 @@ def build(input_dir, out_dir, gazetteer_path):
             u = urls[i].strip() if i < len(urls) else ""
             is_page = bool(re.match(r"https?://(?:www\.)?facebook\.com/[A-Za-z0-9._-]+/?$", u or "")) and not personal_profile(u)
             ko = reg.get(nm, ruolo="organizzatore", aggregatore="facebook")
+            if ko is None:   # a name that is only an address or "Roma" is not a source
+                continue
             if personal_profile(u):
                 profili_personali[0] += 1   # the name stays (DEC-105); a private profile is not a publication channel, so no URL
                 u = ""
@@ -420,7 +427,7 @@ def build(input_dir, out_dir, gazetteer_path):
             L = luoghi.get(g("venueUrl") or "", {})
             reg.geo(kv, geo.get("municipio"), geo.get("zona"), L.get("lat") or geo.get("lat"), L.get("lon") or geo.get("lon"), g("address") or L.get("indirizzo"), "Roma")
             reg.event(kv, "comune", geo.get("rintracciabile"))
-            if g("venueUrl"):
+            if g("venueUrl") and kv:
                 reg.entries[kv]["canali"]["culture_luogo"] = g("venueUrl")
         ko = None
         if g("aCuraDi"):
@@ -485,6 +492,8 @@ def build(input_dir, out_dir, gazetteer_path):
         if not g("nome_fonte"):
             continue
         k = reg.get(g("nome_fonte"), extra_keys=[f"registro:{g('fonte')}"] if g("fonte") else [], ruolo="luogo", tipo=g("tipo_fonte"), aggregatore="fonte_locale")
+        if not k:
+            continue
         reg.geo(k, g("municipio"), g("zona_qn"))
         reg.event(k, "fonte_locale", "letto alla fonte (sito del luogo)")
         if g("pagina_letta") and is_web_url(g("pagina_letta")):
