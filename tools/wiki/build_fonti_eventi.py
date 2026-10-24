@@ -501,6 +501,8 @@ def build(input_dir, out_dir, gazetteer_path):
             if not g("nome"):
                 continue
             k = reg.get(g("nome"), extra_keys=[f"registro:{g('chiave')}"], tipo=g("tipo"))
+            if not k:   # a registry row whose name is empty or just "Roma" is not a source
+                continue
             reg.entries[k]["registro"] = {"chiave": g("chiave"), "decisione": g("decisione"), "canale": g("canale"), "origine": g("origine"),
                                           "tipo": g("tipo"), "zona_qn": g("zona_qn"), "municipio": g("municipio"), "sotto_soglia": g("sotto_soglia")}
             reg.geo(k, g("municipio"), g("zona_qn"))
