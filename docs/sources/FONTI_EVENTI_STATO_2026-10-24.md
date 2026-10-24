@@ -16,7 +16,7 @@ pagina (titoli, testi di presentazione) stanno su Drive e nell'anteprima privata
 | Registro fonti versione 2 | 370 voci del 13 ottobre più 445 candidate della ricerca mirata per le 58 pagine QN deboli, ciascuna con tipo, zona, canale e dove cercare; decisione «candidata» | Drive (`registro_fonti_v2_pagine_deboli.xlsx`), ingresso del build della wiki |
 | Censimento di 1.169 pagine Facebook di associazioni | letto al 99,9%: dati di pagina, eventi futuri, post degli ultimi sei mesi, sito, indirizzo geocodificato, verdetto automatico | `censimento-pagine.md` + foglio su Drive |
 | Lettura settimanale dei siti delle fonti | strumento pronto e testato (`tools/fonti/leggi_eventi_siti.py`, T-LS-1..5); prima prova fatta sulle 809 fonti con un sito (§4 bis) | repository |
-| Ricerca uno a uno dei 176 eventi senza fonte | fatta (Google via Apify, un candidato letto e verificato per evento) | foglio su Drive |
+| Ricerca uno a uno dei 176 eventi senza fonte | fatta in due passaggi (sito del luogo nel registro, poi ricerca web): 30 fonti dirette trovate, `link_fonte_diretta` compilato | fogli su Drive |
 | Decisioni aperte | DEC-024 (censimento → registro, Facebook come canale), DEC-025 (precedenza fra fonti) | `decisions/` |
 
 ## 1 bis. Fonti mirate per le 58 pagine QN deboli (M, 24 ottobre 2026)
@@ -76,8 +76,16 @@ almeno il 60% delle parole del titolo compare nella pagina.
 | Altro aggregatore con scheda strutturata | 7 |
 | Fonte primaria probabile (sito del luogo o dell'ente) | 4 |
 
-Conferma la lettura del 23 ottobre: per queste schede la fonte primaria **non esiste sul
-web** come pagina dell'evento; l'organizzatore comunica per comunicato stampa, pagina
+Secondo passaggio, nell'ordine giusto: per i 132 eventi il cui luogo è nel registro, il
+sito del luogo (la pagina già letta dal lettore dei siti, altrimenti la pagina da
+controllare dello schedario) è stato cercato per le parole del titolo: 26 eventi ritrovati
+sul sito del luogo (musei civici, Colosseo, MACRO, Villa Giulia, Palazzo Bonaparte), contro
+i 4 della ricerca web. Esito finale: 30 con fonte diretta (`link_fonte_diretta` compilato
+nel foglio unificato, metodo in `fonte_diretta_metodo`), 30 con un sito terzo da verificare a
+mano, 72 con il luogo noto ma l'evento assente dal suo sito, 44 senza luogo noto né traccia.
+
+Conferma la lettura del 23 ottobre: per queste schede la fonte primaria di norma **non
+esiste sul web** come pagina dell'evento; l'organizzatore comunica per comunicato stampa, pagina
 Facebook (post) o non comunica affatto. La ricerca ha anche censito gli altri aggregatori
 che Google propone per Roma (spotlightapp.eu, vibeloop.it, eventivicino.it, araundapp.it,
 roma-o-matic.com, estateromana.com, bibliotechediroma.it): due sono fonti istituzionali da
