@@ -18,6 +18,10 @@ Rules under test, each named in the check label:
           with its verdict carried (never a registry decision); the same Facebook page as a
           registry entry is one source; the events page of its site is where to look; dormant
           pages are counted only; no page text enters the output.
+- T-FE-9  census of third-sector entities (RUNTS, 24 October 2026): read through a column map;
+          an entity also in the Facebook census stays one source with the first verdict; an entity
+          without a Facebook page enters by name with its tax code as identity key and its site's
+          events page as where to look; an entity without web presence is counted only.
 - T-FE-8  merge proposals: two entries that are probably the same source are listed for a
           person in fusioni-proposte.md and never merged by the build.
 
@@ -123,6 +127,17 @@ def make_inputs(folder):
     ws.append(["https://facebook.com/dormiente", "Associazione Dormiente", "letta", "dormiente: nessun evento futuro su Facebook né calendario sul sito", "—", 0, 0, 0, "I", "testaccio",
                None, None, None, "Nonprofit organisation", None, None, None, INTRO_TXT])
     cwb.save(os.path.join(folder, "associazioni_fonti.xlsx"))
+    rwb2 = openpyxl.Workbook()
+    ws = rwb2.active
+    ws.title = "Enti"
+    ws.append(["codice_fiscale", "denominazione", "verdetto", "motivo", "facebook", "fb_eventi_futuri_roma", "sito_date_future", "sito_date_6_mesi", "municipio", "zona_qn",
+               "indirizzo", "lat", "lon", "facebook_categoria", "sito", "sito_pagina_eventi", "gia_nella_wiki"])
+    ws.append(["97000000001", "Circolo Arci Testaccio", "rientra: annuncia eventi nei post Facebook", "3 post", "https://www.facebook.com/circolotestaccio", 0, 0, 0, "I", "testaccio",
+               None, None, None, None, None, None, None])
+    ws.append(["97000000002", "Associazione Ponte Fittizio APS", "rientra: calendario sul sito", "5 date future", None, None, 5, 2, "XII", "monteverde",
+               "Via Fittizia 9, 00152 Roma", 41.88, 12.46, None, "https://www.pontefittizio.it", "https://www.pontefittizio.it/eventi/", None])
+    ws.append(["97000000003", "Ente Senza Rete ETS", "nessuna presenza web trovata", "", None, None, None, None, None, None, None, None, None, None, None, None, None])
+    rwb2.save(os.path.join(folder, "enti_terzo_settore_fonti.xlsx"))
     gaz = os.path.join(folder, "gazetteer.json")
     json.dump(GAZ, open(gaz, "w"))
     return gaz
@@ -206,9 +221,19 @@ def main():
         check("T-FE-7 new candidate is an organiser with the facebook type mapped", (circ["ruoli"], circ["tipo"], circ["id"].startswith("S-EV-")), (["organizzatore"], "associazione", True))
         check("T-FE-7 events page of the site is where to look first, then site root, then facebook events",
               [d["url"] for d in circ["dove_cercare"]], ["https://www.circolotestaccio.it/eventi/", "https://circolotestaccio.it", "https://www.facebook.com/circolotestaccio/events"])
-        check("T-FE-7 dormant page counted, not listed", (any(e["nome"] == "Associazione Dormiente" for e in s["fonti"]), s["censimento_pagine"]["dormiente: nessun evento futuro su Facebook né calendario sul sito"]), (False, 1))
+        check("T-FE-7 dormant page counted, not listed", (any(e["nome"] == "Associazione Dormiente" for e in s["fonti"]), s["censimento_pagine"]["pagine Facebook di associazioni"]["dormiente: nessun evento futuro su Facebook né calendario sul sito"]), (False, 1))
         check("T-FE-7 page text never written", INTRO_TXT in blob, False)
         check("T-FE-7 census page generated with the candidate", "Circolo Arci Testaccio" in texts.get("censimento-pagine.md", ""), True)
+
+        print("T-FE-9 census of third-sector entities")
+        circ2 = [e for e in s["fonti"] if e["nome"] == "Circolo Arci Testaccio"]
+        check("T-FE-9 entity in both censuses is one source, first verdict kept, second noted",
+              (len(circ2), circ2[0]["censimento"]["verdetto"], circ2[0]["censimento"].get("anche_in")), (1, "rientra: attiva, calendario sul sito", ["enti del terzo settore (RUNTS)"]))
+        pf = next(e for e in s["fonti"] if e["nome"] == "Associazione Ponte Fittizio APS")
+        check("T-FE-9 entity without facebook enters with tax code key and RUNTS origin", ("cf:97000000002" in pf["chiavi"], pf["censimento"]["origine"], pf["zona"]), (True, "enti del terzo settore (RUNTS)", "monteverde"))
+        check("T-FE-9 its site's events page is where to look first", [d["url"] for d in pf["dove_cercare"]][:2], ["https://www.pontefittizio.it/eventi/", "https://pontefittizio.it"])
+        check("T-FE-9 entity without web presence counted only", (any(e["nome"] == "Ente Senza Rete ETS" for e in s["fonti"]), s["censimento_pagine"]["enti del terzo settore (RUNTS)"]["nessuna presenza web trovata"]), (False, 1))
+        check("T-FE-9 census page has a section per census", ("## Censimento: enti del terzo settore (RUNTS)" in texts.get("censimento-pagine.md", ""), "## Censimento: pagine Facebook di associazioni" in texts.get("censimento-pagine.md", "")), (True, True))
 
         print("T-FE-8 merge proposals")
         fp = s["fusioni_proposte"]
