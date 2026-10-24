@@ -65,7 +65,7 @@ valutare per licenza prima di ogni lettura.
 | Siti delle fonti (809 con un sito, 277 con sezione eventi) | `tools/fonti/leggi_eventi_siti.py` sullo schedario; schema.org Event come prova forte, date nel testo come candidati; uscita fuori dal repository | settimanale | 0 $ | pronto; prima prova in corso |
 | culture.roma.it | API WordPress (`event_calendar`) letta per differenza (solo id nuovi o modificati dall'ultima lettura); scheda letta per i nuovi | ogni 2 giorni | < 1 $ al mese | da scrivere (la lettura completa del 20 ottobre è il punto zero) |
 | Facebook, pagine note | `unseenuser/fb-events` con `pageUrls` di tutte le pagine del registro e del censimento, `onlyUpcoming` | ogni 2 settimane | ~0,5 $ | provato il 24 ottobre; schedulazione dipende da DEC-024 Q3 |
-| Facebook, scoperta | lettura per parole chiave (89 nomi di pagina QN + termini generici); organizzatori nuovi → censimento | mensile | vedi §5 | provato il 24 ottobre; dipende da DEC-024 Q3 e dal rapporto con DEC-102 |
+| Facebook, scoperta | lettura per parole chiave (89 nomi di pagina QN + termini generici); organizzatori nuovi → censimento | mensile | ~1 $ | provato il 24 ottobre: rende pochissimo (§5); da tenere solo come controllo |
 | Facebook, post delle pagine | `apify/facebook-posts-scraper` sulle pagine «attive senza eventi» (10 post, ultimi 30 giorni) | mensile | ~3 $ | provato il 24 ottobre (2.985 post) |
 | Roma Today | nessuna lettura regolare: robots.txt e licenza Citynews («nessun canale senza licenza») | — | — | chiuso salvo licenza |
 | Il workflow n8n `scrape-fb-events-rome.json` | resta la base di produzione pre-refactor; la lettura per pagine e per parole chiave sopra è il suo sostituto candidato | — | — | decisione dell'owner |
@@ -73,10 +73,30 @@ valutare per licenza prima di ogni lettura.
 Regola comune: ogni lettura produce righe con `fonte_id` dello schedario, così gli eventi
 nuovi si contano per fonte e per pagina QN e la wiki si aggiorna dai conteggi, mai dai testi.
 
-## 5. Lettura per parole chiave del 24 ottobre (M)
+## 5. Scoperta di organizzatori nuovi su Facebook per parole chiave (M)
 
-Da completare a fine run: numero di eventi futuri letti, organizzatori distinti, quanti già
-nel registro o nel censimento, costo.
+Due lettori, stesso giorno: `unseenuser/fb-events` con 109 parole chiave (89 nomi di pagina
+QN + 20 termini generici) e `apify/facebook-events-scraper` con 30 ricerche (lo stesso
+meccanismo del workflow n8n di produzione, che usa «Italy Roma»), 150 eventi al massimo per
+ricerca. Esito nel foglio `facebook_scoperta_organizzatori.xlsx` su Drive.
+
+| Misura | Valore |
+|---|---|
+| Eventi futuri distinti trovati (i due lettori insieme) | 95 |
+| A Roma (Municipio assegnato dalle coordinate) | 60; con pagina QN 49; zone QN toccate 21 |
+| Organizzatori distinti | 99; nuovi rispetto allo schedario 75; nuovi con almeno due eventi a Roma 0 |
+| Costo | 0,19 $ + 0,98 $ |
+
+Lettura: **la ricerca per parole chiave su Facebook non scopre quasi nulla**. Il motore di
+ricerca eventi di Facebook risponde con poche decine di risultati per termine, molti passati
+o fuori Roma; con 139 ricerche si trovano 60 eventi romani, cioè meno di quanti ne produce
+in un mese una sola fonte media del registro. Lo stesso vale per la pagina «eventi della
+città» (3 risultati). Per la scoperta di organizzatori nuovi restano tre strade che
+funzionano: gli organizzatori citati dagli eventi già letti (culture.roma.it «a cura di»,
+host degli eventi Facebook delle pagine note), gli elenchi istituzionali (albo delle
+associazioni dei Municipi, Biblioteche di Roma, Estate Romana) e le liste raccolte a mano
+dall'owner come quella del 24 ottobre. Il workflow n8n di produzione, che si affida alla
+ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 
 ## 6. Problemi rilevati
 

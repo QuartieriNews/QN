@@ -39,10 +39,10 @@ Question 2 — Le 24 pagine di organizzazioni politiche e le 54 attività commer
   categoria.
 
 Question 3 — Facebook come canale continuo di scoperta.
-  DEC-102 prevede la raccolta manuale degli URL. Il 24 ottobre una lettura per parole
-  chiave (89 nomi di pagina QN + 20 termini generici) con l'Actor `unseenuser/fb-events`
-  ha mostrato che si possono leggere gli eventi futuri di Roma a 0,0035 $ l'uno, senza
-  accesso diretto dall'ambiente del progetto.
+  DEC-102 prevede la raccolta manuale degli URL. Il 24 ottobre gli eventi futuri delle
+  1.169 pagine del censimento sono stati letti con l'Actor `unseenuser/fb-events`
+  (`pageUrls`, 0,0035 $ l'uno, 0,18 $ in tutto) senza accesso diretto dall'ambiente del
+  progetto; la stessa lettura per parole chiave ha reso pochissimo.
   Options:
   a) lettura mensile per parole chiave via Apify, con gli organizzatori nuovi che entrano
      nel censimento come candidate (stesso percorso del 24 ottobre); gli URL degli eventi
@@ -52,8 +52,13 @@ Question 3 — Facebook come canale continuo di scoperta.
      `pageUrls` ogni due settimane (0,18 $ per 1.169 pagine);
   c) entrambe: parole chiave una volta al mese per scoprire, `pageUrls` ogni due settimane
      per seguire.
-  Claude recommendation: c), con tetto di spesa mensile scritto nel workflow (DEC-004
-  insegna: il tetto va deciso prima che la schedulazione parta).
+  Claude recommendation: b), con una lettura per parole chiave al massimo trimestrale come
+  controllo. La prova del 24 ottobre (139 ricerche con due lettori, 60 eventi romani, 0
+  organizzatori nuovi con almeno due eventi a Roma; `docs/sources/FONTI_EVENTI_STATO_2026-10-24.md`
+  §5) dice che il motore di ricerca eventi di Facebook non scopre quasi nulla: la
+  scoperta passa dagli organizzatori citati dagli eventi già letti, dagli elenchi
+  istituzionali e dalle liste raccolte a mano. Tetto di spesa mensile scritto nel
+  workflow (DEC-004 insegna: il tetto va deciso prima che la schedulazione parta).
 
 Question 4 — Le 275 pagine dormienti.
   Options: a) rilettura a marzo 2027 (sei mesi); b) mai, salvo segnalazione; c) rilettura
@@ -62,8 +67,8 @@ Question 4 — Le 275 pagine dormienti.
 
 Impact: Q1 decide quante fonti nuove entrano nella wiki come «tenere» (68 o 390) e
 quindi quante pagine QN guadagnano una fonte: oggi 41 zone QN hanno almeno una pagina
-che rientra. Q3 decide il costo mensile (stima: 25-60 $ al mese per le parole chiave,
-meno di 1 $ per le pagine seguite) e il rapporto con DEC-102.
+che rientra. Q3 decide il costo mensile (meno di 1 $ per le pagine seguite, circa 1 $ per
+una lettura per parole chiave) e il rapporto con DEC-102.
 
 Decided by: — · Date: — · Affected components: registro fonti v2, `docs/wiki/fonti-eventi`,
 `prompts/EDITORIAL_FILTER.md` (Q2), `workflows/scrape-fb-events-rome.json` (Q3),
