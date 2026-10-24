@@ -14,7 +14,7 @@ pagina (titoli, testi di presentazione) stanno su Drive e nell'anteprima privata
 | Foglio unificato degli eventi di ottobre 2026 (Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31 ottobre) | 1.957 righe, geografia a due metodi, rintracciabilità, doppioni segnalati, colonna `riga_principale_proposta` (DEC-025 aperta) | Drive / anteprima |
 | Wiki delle fonti eventi | 1.970 fonti (370 dal registro del 13 ottobre, 598 candidate dal censimento del 24 ottobre), pagine per Municipio e per pagina QN, «dove cercare» per ogni fonte | `docs/wiki/fonti-eventi/` |
 | Censimento di 1.169 pagine Facebook di associazioni | letto al 99,9%: dati di pagina, eventi futuri, post degli ultimi sei mesi, sito, indirizzo geocodificato, verdetto automatico | `censimento-pagine.md` + foglio su Drive |
-| Lettura settimanale dei siti delle fonti | strumento pronto e testato (`tools/fonti/leggi_eventi_siti.py`, T-LS-1..5); prima prova in corso sulle 809 fonti con un sito | repository |
+| Lettura settimanale dei siti delle fonti | strumento pronto e testato (`tools/fonti/leggi_eventi_siti.py`, T-LS-1..5); prima prova fatta sulle 809 fonti con un sito (§4 bis) | repository |
 | Ricerca uno a uno dei 176 eventi senza fonte | fatta (Google via Apify, un candidato letto e verificato per evento) | foglio su Drive |
 | Decisioni aperte | DEC-024 (censimento → registro, Facebook come canale), DEC-025 (precedenza fra fonti) | `decisions/` |
 
@@ -62,7 +62,7 @@ valutare per licenza prima di ogni lettura.
 
 | Canale | Come | Cadenza | Costo (S) | Stato |
 |---|---|---|---|---|
-| Siti delle fonti (809 con un sito, 277 con sezione eventi) | `tools/fonti/leggi_eventi_siti.py` sullo schedario; schema.org Event come prova forte, date nel testo come candidati; uscita fuori dal repository | settimanale | 0 $ | pronto; prima prova in corso |
+| Siti delle fonti (809 con un sito, 277 con sezione eventi) | `tools/fonti/leggi_eventi_siti.py` sullo schedario; schema.org Event come prova forte, date nel testo come candidati; uscita fuori dal repository | settimanale | 0 $ | pronto; prima prova fatta (§4 bis) |
 | culture.roma.it | API WordPress (`event_calendar`) letta per differenza (solo id nuovi o modificati dall'ultima lettura); scheda letta per i nuovi | ogni 2 giorni | < 1 $ al mese | da scrivere (la lettura completa del 20 ottobre è il punto zero) |
 | Facebook, pagine note | `unseenuser/fb-events` con `pageUrls` di tutte le pagine del registro e del censimento, `onlyUpcoming` | ogni 2 settimane | ~0,5 $ | provato il 24 ottobre; schedulazione dipende da DEC-024 Q3 |
 | Facebook, scoperta | lettura per parole chiave (89 nomi di pagina QN + termini generici); organizzatori nuovi → censimento | mensile | ~1 $ | provato il 24 ottobre: rende pochissimo (§5); da tenere solo come controllo |
@@ -72,6 +72,26 @@ valutare per licenza prima di ogni lettura.
 
 Regola comune: ogni lettura produce righe con `fonte_id` dello schedario, così gli eventi
 nuovi si contano per fonte e per pagina QN e la wiki si aggiorna dai conteggi, mai dai testi.
+
+## 4 bis. Prima prova della lettura dei siti (M, 24 ottobre 2026)
+
+`tools/fonti/leggi_eventi_siti.py` su tutte le fonti dello schedario con una pagina da
+leggere, orizzonte 60 giorni, otto processi in parallelo per host diversi. Esito nel foglio
+`eventi_siti_prova_2026-10-24.xlsx` su Drive.
+
+| Misura | Valore |
+|---|---|
+| Fonti con una pagina da leggere | 809; lette 675; non raggiungibili 137 |
+| Fonti con eventi schema.org nei prossimi 60 giorni (prova forte) | 12, per 157 eventi (teatri e un paio di associazioni) |
+| Fonti con date nel testo (candidati da leggere a mano) | 196, per 1.089 blocchi datati |
+| Costo | 0 $ |
+
+Lettura: i siti delle fonti romane raramente pubblicano eventi strutturati; la lettura
+settimanale produce poche righe certe e molte righe candidate, che una persona (o un
+passaggio di lettura con modello) deve confermare. Il valore della lettura automatica è
+dire **quali** fonti hanno pubblicato qualcosa di datato questa settimana, non estrarne
+la scheda. I 137 siti non raggiungibili vanno controllati una volta a mano (molti sono
+indirizzi vecchi delle pagine Facebook).
 
 ## 5. Scoperta di organizzatori nuovi su Facebook per parole chiave (M)
 
