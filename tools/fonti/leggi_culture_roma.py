@@ -69,7 +69,7 @@ def text(s):
 
 
 def span(doc, cls):
-    m = re.search(r'<span class="?' + cls + r'"?>(.*?)</span>', doc, re.S)
+    m = re.search(r'<span\s+class="?' + cls + r'"?\s*>(.*?)</span>', doc, re.S)   # the theme breaks lines inside tags
     return text(m.group(1)) if m else None
 
 
@@ -102,9 +102,9 @@ def parse_page(doc):
     d["sito"] = next((u for u in re.findall(r'href="?(https?://[^"\s>]+)', w) if "culture.roma.it" not in u), None)
     d["email"] = next(iter(re.findall(r"mailto:([^\"'\s>]+)", w)), None)
     d["telefono"] = next(iter(re.findall(r"tel:([^\"'\s>]+)", w)), None)
-    m = re.search(r'page_manifestazione>Nell\'ambito di <a href="?([^"\s>]+)"?[^>]*>(.*?)</a>', doc, re.S)
+    m = re.search(r'page_manifestazione\s*>\s*Nell\'ambito di\s*<a\s+href="?([^"\s>]+)"?[^>]*>(.*?)</a>', doc, re.S)
     d["manifestazione"] = text(m.group(2)) if m else None
-    m = re.search(r'class="?page_subtitle"?>(.*?)</p>', doc, re.S)
+    m = re.search(r'class="?page_subtitle"?\s*>(.*?)</p>', doc, re.S)
     d["sottotitolo"] = text(m.group(1)) if m else None
     d["gratuito"] = 'etichetta gratuito' in doc
     return d

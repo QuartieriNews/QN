@@ -37,10 +37,13 @@ def check(label, actual, expected):
 
 PAGE = """<html><body><div class="slide_title"><span class=gratuito_container><span class="etichetta gratuito">GRATUITO</span></span>
 <h1 class="page_title">TITOLO PROVA</h1><p class=page_subtitle>Dibattito teatralizzato</p>
-<span class=page_date><span class=dates>03.10.2026 &#8212; 30.10.2026</span><span class=page_orario>ORE 18:00</span></span>
+<span
+class=page_date><span
+class=dates>03.10.2026 &#8212; 30.10.2026</span><span class=page_orario>ORE 18:00</span></span>
 <span class=page_map><span class=luogo_title>Centro Polivalente Prova</span><br> <span class=location>Via Prova, 74</span></span>
 <span class=page_map><span class=municipio_title>Municipio XI</span></span>
-<p class=page_manifestazione>Nell'ambito di <a href=/manifestazione/le-ali/ >LE ALI DELLA CITTÀ 2026</a></p>
+<p
+class=page_manifestazione>Nell'ambito di <a href=/manifestazione/le-ali/ >LE ALI DELLA CITTÀ 2026</a></p>
 <div class=widget><h2 class="mini_section_title">Contatti</h2><p>Telefono: <a href=tel:3421662800>3421662800</a></p><p>Email: <a href=mailto:info@prova.it>info@prova.it</a></p><p>Web: <a href="https://www.prova.it " target=_blank>www.prova.it</a></p></div>
 <div class="widget widget_ingresso"><h2 class="mini_section_title">Ingresso</h2><p>gratuito</p></div>
 <div class="widget widget_acuradi"><h2 class="mini_section_title">A cura di</h2><p>MRF 5 s.r.l.</p></div>
@@ -72,7 +75,7 @@ def main():
     check("T-CR-2 organiser, admission, free label", (d["a_cura_di"], d["ingresso"], d["gratuito"]), ("MRF 5 s.r.l.", "gratuito", True))
     check("T-CR-2 contacts and site", (d["sito"], d["email"], d["telefono"]), ("https://www.prova.it", "info@prova.it", "3421662800"))
     check("T-CR-2 manifestazione and subtitle", (d["manifestazione"], d["sottotitolo"]), ("LE ALI DELLA CITTÀ 2026", "Dibattito teatralizzato"))
-    check("T-CR-2 single date page", cr.parse_page('<span class=dates>12.11.2026 </span>')["fine"], "2026-11-12")
+    check("T-CR-2 single date page, line break inside the tag", cr.parse_page('<span\nclass=dates>12.11.2026 </span>')["fine"], "2026-11-12")
 
     print("T-CR-1 listing, T-CR-3 novelty, T-CR-4 failure")
     with tempfile.TemporaryDirectory() as tmp:
