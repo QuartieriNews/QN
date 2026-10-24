@@ -63,7 +63,7 @@ valutare per licenza prima di ogni lettura.
 | Canale | Come | Cadenza | Costo (S) | Stato |
 |---|---|---|---|---|
 | Siti delle fonti (809 con un sito, 277 con sezione eventi) | `tools/fonti/leggi_eventi_siti.py` sullo schedario; schema.org Event come prova forte, date nel testo come candidati; uscita fuori dal repository | settimanale | 0 $ | pronto; prima prova fatta (§4 bis) |
-| culture.roma.it | API WordPress (`event_calendar`) letta per differenza (solo id nuovi o modificati dall'ultima lettura); scheda letta per i nuovi | ogni 2 giorni | < 1 $ al mese | da scrivere (la lettura completa del 20 ottobre è il punto zero) |
+| culture.roma.it | `tools/fonti/leggi_culture_roma.py`: API WordPress (`event_calendar`, `modified_after`) letta per differenza, scheda letta per ogni voce nuova o modificata, stato in un file fuori dal repository | ogni 2 giorni | 0 $ | pronto e provato (§4 ter) |
 | Facebook, pagine note | `unseenuser/fb-events` con `pageUrls` di tutte le pagine del registro e del censimento, `onlyUpcoming` | ogni 2 settimane | ~0,5 $ | provato il 24 ottobre; schedulazione dipende da DEC-024 Q3 |
 | Facebook, scoperta | lettura per parole chiave (89 nomi di pagina QN + termini generici); organizzatori nuovi → censimento | mensile | ~1 $ | provato il 24 ottobre: rende pochissimo (§5); da tenere solo come controllo |
 | Facebook, post delle pagine | `apify/facebook-posts-scraper` sulle pagine «attive senza eventi» (10 post, ultimi 30 giorni) | mensile | ~3 $ | provato il 24 ottobre (2.985 post) |
@@ -90,8 +90,27 @@ Lettura: i siti delle fonti romane raramente pubblicano eventi strutturati; la l
 settimanale produce poche righe certe e molte righe candidate, che una persona (o un
 passaggio di lettura con modello) deve confermare. Il valore della lettura automatica è
 dire **quali** fonti hanno pubblicato qualcosa di datato questa settimana, non estrarne
-la scheda. I 137 siti non raggiungibili vanno controllati una volta a mano (molti sono
-indirizzi vecchi delle pagine Facebook).
+la scheda. Dei 137 siti non raggiungibili, 61 sono domini che non esistono più (il nome non
+si risolve: indirizzi vecchi lasciati sulle pagine Facebook), 26 chiudono la connessione, 23
+hanno certificati non validi, 11 rispondono 403: da togliere o correggere nel registro, non
+da riprovare.
+
+## 4 ter. Prima lettura per differenza di culture.roma.it (M, 24 ottobre 2026)
+
+`tools/fonti/leggi_culture_roma.py` dal punto zero del 20 ottobre (la lettura completa con
+Apify). Esito nel foglio `culture_roma_delta_2026-10-24.xlsx` su Drive.
+
+| Misura | Valore |
+|---|---|
+| Schede modificate o pubblicate dal 20 ottobre | 74 (43 nuove, 31 modificate), tutte lette, 0 errori |
+| Con date lette | 74; con fine da oggi in poi 72 |
+| Con «a cura di» (organizzatore) | 69; con sito esterno 73; con coordinate 67; con Municipio 65 |
+| Costo e tempo | 0 $; circa due minuti a una richiesta al secondo |
+
+Lettura: quattro giorni di agenda valgono 43 schede nuove, cioè circa dieci al giorno, quasi
+tutte con organizzatore e sito: è il canale a più alto rendimento per euro speso e il
+primo da mettere in calendario. Gli organizzatori «a cura di» delle schede nuove sono il
+modo naturale di scoprire fonti nuove (§5): entrano nel censimento come candidate.
 
 ## 5. Scoperta di organizzatori nuovi su Facebook per parole chiave (M)
 
@@ -128,7 +147,8 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
    leggendo prima la fonte (sito, pagina Facebook dell'organizzatore).
 3. **Identità delle fonti.** 72 candidate del censimento coincidono con voci del registro
    per URL Facebook; altre coincidono per nome con grafie diverse e restano doppie finché
-   una persona non le fonde (regola della wiki: le fusioni dubbie non si fanno).
+   una persona non le fonde (regola della wiki: le fusioni dubbie non si fanno). La wiki
+   genera ora `fusioni-proposte.md`: 85 coppie da decidere.
 4. **Geografia dai soli indirizzi Facebook.** 778 pagine hanno coordinate da Facebook, ma
    l'indirizzo di una pagina è la sede, non il luogo degli eventi; per 3 pagine la geografia
    viene dagli eventi. Il Metodo QN (`tools/geo-assign/qngeo.py punto`) non è stato usato
