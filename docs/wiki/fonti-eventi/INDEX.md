@@ -2,28 +2,28 @@
 
 Pagine generate da `fonti_eventi.json`; non modificare a mano, rigenerare con `tools/wiki/build_fonti_eventi.py`. Una *fonte* è un luogo che ospita eventi, un organizzatore che li promuove o un aggregatore che li elenca. Qui stanno nomi, canali e conteggi; gli eventi restano nel foglio su Drive (DEC-022).
 
-Fonti: 1856 · nel registro del 13 ottobre: 370 · luoghi: 644 · organizzatori: 1065 · con sito web: 712 · con pagina QN: 1322 · candidate dal censimento pagine del 24 ottobre: 463 (vedi [censimento-pagine.md](censimento-pagine.md))
+Fonti: 1970 · nel registro del 13 ottobre: 370 · luoghi: 644 · organizzatori: 1200 · con sito web: 809 · con pagina QN: 1410 · candidate dal censimento pagine del 24 ottobre: 598 (vedi [censimento-pagine.md](censimento-pagine.md))
 
 Aggregatori: vedi [aggregatori.md](aggregatori.md).
 
 | Municipio | fonti | luoghi | organizzatori | eventi ott 2026 | con sito | con pagina QN |
 |---|---|---|---|---|---|---|
-| [I](municipi/I.md) | 462 | 203 | 248 | 817 | 223 | 452 |
-| [II](municipi/II.md) | 187 | 69 | 111 | 495 | 86 | 182 |
-| [III](municipi/III.md) | 44 | 8 | 30 | 35 | 24 | 43 |
-| [IV](municipi/IV.md) | 55 | 17 | 32 | 137 | 16 | 53 |
-| [V](municipi/V.md) | 91 | 25 | 63 | 197 | 28 | 88 |
-| [VI](municipi/VI.md) | 30 | 6 | 21 | 54 | 14 | 29 |
-| [VII](municipi/VII.md) | 100 | 28 | 65 | 90 | 40 | 95 |
-| [VIII](municipi/VIII.md) | 87 | 36 | 47 | 133 | 36 | 85 |
-| [IX](municipi/IX.md) | 74 | 31 | 40 | 72 | 28 | 74 |
-| [X](municipi/X.md) | 34 | 11 | 19 | 78 | 12 | 31 |
-| [XI](municipi/XI.md) | 33 | 12 | 19 | 86 | 13 | 33 |
-| [XII](municipi/XII.md) | 45 | 17 | 26 | 106 | 18 | 33 |
-| [XIII](municipi/XIII.md) | 60 | 13 | 42 | 66 | 18 | 58 |
-| [XIV](municipi/XIV.md) | 27 | 6 | 16 | 19 | 14 | 20 |
-| [XV](municipi/XV.md) | 31 | 8 | 15 | 22 | 13 | 27 |
-| [senza municipio](municipi/senza-municipio.md) | 496 | 154 | 271 | 410 | 129 | 19 |
+| [I](municipi/I.md) | 489 | 203 | 275 | 817 | 246 | 478 |
+| [II](municipi/II.md) | 197 | 69 | 122 | 495 | 95 | 191 |
+| [III](municipi/III.md) | 51 | 8 | 39 | 35 | 30 | 50 |
+| [IV](municipi/IV.md) | 60 | 17 | 37 | 137 | 19 | 56 |
+| [V](municipi/V.md) | 96 | 25 | 72 | 197 | 32 | 93 |
+| [VI](municipi/VI.md) | 35 | 6 | 27 | 54 | 18 | 34 |
+| [VII](municipi/VII.md) | 110 | 28 | 75 | 90 | 46 | 103 |
+| [VIII](municipi/VIII.md) | 90 | 36 | 50 | 133 | 39 | 88 |
+| [IX](municipi/IX.md) | 77 | 31 | 43 | 72 | 31 | 77 |
+| [X](municipi/X.md) | 36 | 11 | 21 | 78 | 13 | 33 |
+| [XI](municipi/XI.md) | 41 | 12 | 27 | 86 | 19 | 40 |
+| [XII](municipi/XII.md) | 49 | 17 | 30 | 106 | 22 | 33 |
+| [XIII](municipi/XIII.md) | 63 | 13 | 46 | 66 | 21 | 61 |
+| [XIV](municipi/XIV.md) | 30 | 6 | 19 | 19 | 16 | 22 |
+| [XV](municipi/XV.md) | 35 | 8 | 21 | 22 | 16 | 32 |
+| [senza municipio](municipi/senza-municipio.md) | 511 | 154 | 296 | 410 | 146 | 19 |
 
 ## Dove cercare per primi: le 60 fonti più produttive con un indirizzo da controllare
 

@@ -75,16 +75,17 @@ decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 1.856 fonti, di cui 370 dal registro del 13
-ottobre e 463 candidate dal censimento del 24 ottobre (72 coincidono con voci del
-registro); 644 luoghi e 1.065 organizzatori; 712 con un sito web; 1.322 con una pagina QN.
+I numeri sono in `INDEX.md`. In sintesi: 1.970 fonti, di cui 370 dal registro del 13
+ottobre e 577 candidate dal censimento del 24 ottobre (le coincidenze con voci del
+registro sono fuse); 644 luoghi e 1.179 organizzatori; 809 con un sito web; 1.410 con una pagina QN.
 Le fonti senza Municipio sono per lo più organizzatori che a ottobre hanno prodotto
 eventi fuori Roma o registrazioni del registro senza geografia.
 
 Il censimento ha detto una cosa netta: di 1.169 pagine di associazioni, solo 19 hanno
-eventi futuri su Facebook (verificato con due lettori diversi). La prova di attività sta
-nei siti: 823 pagine ne espongono uno, 277 hanno una sezione eventi, 83 mostrano date
-future. Le 521 pagine dormienti restano fuori e si rileggono a marzo 2027.
+eventi futuri su Facebook (verificato con due lettori diversi); gli eventi li annunciano
+nei post (186 pagine con post datati di annuncio negli ultimi sei mesi) o sul sito (823
+pagine ne espongono uno, 277 hanno una sezione eventi, 83 mostrano date future). Le 275
+pagine dormienti restano fuori e si rileggono a marzo 2027.
 
 ## Cosa manca, deliberatamente
 
