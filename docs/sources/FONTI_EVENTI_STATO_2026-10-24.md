@@ -81,8 +81,8 @@ sito del luogo (la pagina già letta dal lettore dei siti, altrimenti la pagina 
 controllare dello schedario) è stato cercato per le parole del titolo: 26 eventi ritrovati
 sul sito del luogo (musei civici, Colosseo, MACRO, Villa Giulia, Palazzo Bonaparte), contro
 i 4 della ricerca web. Esito finale: 30 con fonte diretta (`link_fonte_diretta` compilato
-nel foglio unificato, metodo in `fonte_diretta_metodo`), 30 con un sito terzo da verificare a
-mano, 72 con il luogo noto ma l'evento assente dal suo sito, 44 senza luogo noto né traccia.
+nel foglio unificato, metodo in `fonte_diretta_metodo`), 27 con un sito terzo da verificare a
+mano, 81 con il luogo noto ma l'evento assente dal suo sito, 37 senza luogo noto né traccia.
 
 Conferma la lettura del 23 ottobre: per queste schede la fonte primaria di norma **non
 esiste sul web** come pagina dell'evento; l'organizzatore comunica per comunicato stampa, pagina
