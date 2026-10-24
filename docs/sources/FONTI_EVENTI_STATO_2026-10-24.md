@@ -94,7 +94,7 @@ valutare per licenza prima di ogni lettura.
 | Facebook, scoperta | lettura per parole chiave (89 nomi di pagina QN + termini generici); organizzatori nuovi → censimento | mensile | ~1 $ | provato il 24 ottobre: rende pochissimo (§5); da tenere solo come controllo |
 | Facebook, post delle pagine | `apify/facebook-posts-scraper` sulle pagine «attive senza eventi» (10 post, ultimi 30 giorni) | mensile | ~3 $ | provato il 24 ottobre (2.985 post) |
 | Roma Today | nessuna lettura regolare: robots.txt e licenza Citynews («nessun canale senza licenza») | — | — | chiuso salvo licenza |
-| Il workflow n8n `scrape-fb-events-rome.json` | resta la base di produzione pre-refactor; la lettura per pagine e per parole chiave sopra è il suo sostituto candidato | — | — | decisione dell'owner |
+| Il workflow n8n `scrape-fb-events-rome.json` | export nel repository: `active: false`, schedulazione ogni due notti alle 3 (`0 0 3 */2 * *`), ricerca «Italy Roma» con 200 eventi al massimo, scrittura in Firestore `roma-pipeline` / `facebook-posts` / `events` e nel foglio «QuartieriNews _ Events and Posts File»: nomi di produzione, nessun prefisso `staging_`; arricchimento con OpenAI. Sul conto Apify dell'organizzazione non c'è nessuna schedulazione né run precedente al 24 ottobre: se gira, gira dal vecchio conto. La ricerca «Italy Roma» è il canale che il 24 ottobre ha reso meno di tutti (§5) | — | — | da verificare dall'owner su n8n (gira? con quale conto?); sostituto candidato: lettura per pagine note |
 
 Regola comune: ogni lettura produce righe con `fonte_id` dello schedario, così gli eventi
 nuovi si contano per fonte e per pagina QN e la wiki si aggiorna dai conteggi, mai dai testi.
@@ -186,7 +186,8 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 
 ## 7. Prossimi passi, in ordine
 
-1. Owner: DEC-024 e DEC-025.
+1. Owner: DEC-023, DEC-024, DEC-025, DEC-026; verificare su n8n se il workflow Facebook gira
+   e con quale conto Apify.
 2. Decidere le candidate del registro v2 (445 della ricerca mirata, 598 del censimento)
    secondo DEC-024 Q1; aggiungere Estate Romana come fonte istituzionale.
 3. Mettere in calendario la lettura settimanale dei siti (§4) e misurare per quattro settimane
