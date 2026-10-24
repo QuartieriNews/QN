@@ -16,6 +16,7 @@ Molte fonti sono luogo e organizzatore insieme.
 | **Schedario** | `fonti_eventi.json` | una voce per fonte: id stabile (`S-FE-…` se è nel registro del 13 ottobre 2026, altrimenti `S-EV-…`), nome e grafie viste (`alias`), ruoli, tipo, Municipio ufficiale, pagina QN, indirizzo e coordinate, canali (sito, Facebook, Instagram, pagina del luogo su culture.roma.it, biglietteria), **`dove_cercare`** (gli indirizzi da controllare, in ordine), eventi per aggregatore a ottobre 2026, quota di eventi rintracciabili alla fonte, decisione del registro | il build, dal foglio degli eventi di ottobre 2026 e dal registro fonti; le fusioni di identità le decide una persona |
 | **Aggregatori** | `aggregatori.md` | una scheda per aggregatore: regole di accesso, cosa è stato misurato, rintracciabilità, sovrapposizioni | generato; i numeri vengono dal foglio |
 | **Pagine** | `INDEX.md`, `municipi/*.md`, `per-pagina-qn.md` | stampe leggibili dello schedario: per Municipio, per pagina QN, e la lista delle fonti più produttive | generate; non modificare a mano |
+| **Censimento** | `censimento-pagine.md` | le candidate uscite dal censimento delle pagine Facebook di associazioni del 24 ottobre 2026, raggruppate per verdetto della lettura automatica, con l'indirizzo da controllare; le pagine dormienti e scartate sono solo contate | generato; la decisione tenere/scartare spetta all'owner e va nel registro fonti |
 
 ## Come si usa
 
@@ -26,6 +27,8 @@ Molte fonti sono luogo e organizzatore insieme.
 - Devo decidere quali fonti leggere ogni settimana: `INDEX.md`, tabella «Dove cercare
   per primi», ordinata per eventi prodotti nel mese.
 - Devo capire se un aggregatore vale la pena: `aggregatori.md`.
+- Devo decidere quali associazioni entrano nel registro: `censimento-pagine.md`, un verdetto alla
+  volta (prima i «rientra», poi i «locale» e i «da valutare»).
 
 ## Rigenerare
 
@@ -38,9 +41,12 @@ La cartella di ingresso contiene `eventi_unico.xlsx` (il foglio degli eventi di
 ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31
 ottobre, con geografia, rintracciabilità e doppioni), `registro_fonti.xlsx` (registro
 del 13 ottobre 2026) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
-luoghi di culture.roma.it). Stanno su Drive (`QN Hub / 20 Packages / Fonti 2026-06`) e
-nell'anteprima privata, non nel repository: portano titoli di eventi, che sono testo
-delle fonti (DEC-022, decisione dell'owner del 23 ottobre 2026 sulla PR 18).
+luoghi di culture.roma.it) e, facoltativo, `associazioni_fonti.xlsx` (censimento del 24
+ottobre 2026 di 1.169 pagine Facebook di associazioni: dati di pagina e eventi futuri via
+Apify, sito letto, indirizzo geocodificato, verdetto automatico). Stanno su Drive (`QN Hub /
+20 Packages / Fonti 2026-06`) e nell'anteprima privata, non nel repository: portano titoli
+di eventi e testi di presentazione delle pagine, che sono testo delle fonti (DEC-022,
+decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Regole che il build rispetta
 
@@ -59,16 +65,26 @@ delle fonti (DEC-022, decisione dell'owner del 23 ottobre 2026 sulla PR 18).
   gazetteer non viene scritta.
 - **Identità**: due grafie sono la stessa fonte se coincidono dopo normalizzazione
   (accenti, punteggiatura, forme giuridiche, «Roma» in coda) o se condividono una
-  chiave forte (id del luogo Facebook, pagina del luogo su culture.roma.it, chiave del
-  registro). Le fusioni dubbie non si fanno: restano due voci, e le decide una persona.
+  chiave forte (id del luogo Facebook, URL della pagina Facebook, pagina del luogo su
+  culture.roma.it, chiave del registro). Le fusioni dubbie non si fanno: restano due voci,
+  e le decide una persona.
+- **Il censimento propone, non decide**: una pagina del censimento entra come candidata
+  con il suo verdetto automatico (`censimento.verdetto`); la decisione del registro resta
+  quella del 13 ottobre finché l'owner non la cambia. Test `T-FE-7`.
 - **Deterministico**: stessi ingressi, stessi byte.
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 1.467 fonti, di cui 370 dal registro del 13
-ottobre; 644 luoghi e 605 organizzatori; 314 con un sito web; 1.024 con una pagina QN.
+I numeri sono in `INDEX.md`. In sintesi: 1.856 fonti, di cui 370 dal registro del 13
+ottobre e 463 candidate dal censimento del 24 ottobre (72 coincidono con voci del
+registro); 644 luoghi e 1.065 organizzatori; 712 con un sito web; 1.322 con una pagina QN.
 Le fonti senza Municipio sono per lo più organizzatori che a ottobre hanno prodotto
 eventi fuori Roma o registrazioni del registro senza geografia.
+
+Il censimento ha detto una cosa netta: di 1.169 pagine di associazioni, solo 19 hanno
+eventi futuri su Facebook (verificato con due lettori diversi). La prova di attività sta
+nei siti: 823 pagine ne espongono uno, 277 hanno una sezione eventi, 83 mostrano date
+future. Le 521 pagine dormienti restano fuori e si rileggono a marzo 2027.
 
 ## Cosa manca, deliberatamente
 

@@ -14,6 +14,10 @@ Rules under test, each named in the check label:
 - T-FE-5  where to look: the page read at the source comes first, a website is kept as
           its root, a Facebook page becomes its /events view; non-http links are dropped.
 - T-FE-6  determinism: two builds of the same input give identical bytes.
+- T-FE-7  census of Facebook pages (24 October 2026): a candidate page enters as organiser
+          with its verdict carried (never a registry decision); the same Facebook page as a
+          registry entry is one source; the events page of its site is where to look; dormant
+          pages are counted only; no page text enters the output.
 
 Run:  python tests/test_fonti_eventi_build.py   (exit 0 and "ALL PASS" required)
 """
@@ -43,6 +47,7 @@ def check(label, actual, expected):
 TITLE_FB = "Serata Jazz Segretissima Al Vascello"
 TITLE_CR = "Mostra Che Non Deve Entrare Nel Repo"
 TITLE_RT = "Articolo Roma Today Titolo Riservato"
+INTRO_TXT = "Testo Di Presentazione Della Pagina Che Non Entra"
 
 GAZ = {"publication_zones": [{"publication_zone_id": "monteverde", "name_display": "Monteverde", "primary_municipality": "XII", "is_page": True},
                              {"publication_zone_id": "testaccio", "name_display": "Testaccio", "primary_municipality": "I", "is_page": True}],
@@ -102,6 +107,18 @@ def make_inputs(folder):
     rwb.save(os.path.join(folder, "registro_fonti.xlsx"))
     json.dump({"https://culture.roma.it/luogo/teatro-vascello/": {"lat": 41.881, "lon": 12.461, "indirizzo": "Via Giacinto Carini, 78"}},
               open(os.path.join(folder, "culture_luoghi.json"), "w"))
+    cwb = openpyxl.Workbook()
+    ws = cwb.active
+    ws.title = "Pagine"
+    ws.append(["url_pagina", "nome", "stato", "verdetto", "motivo", "fb_eventi_in_roma", "sito_date_future", "sito_date_ultimi_6_mesi", "municipio", "zona_qn",
+               "indirizzo", "lat", "lon", "categoria_facebook", "sito", "sito_pagina_eventi", "nel_registro_13_ott", "intro"])
+    ws.append(["https://facebook.com/comitatofittizio", "Comitato Fittizio", "letta", "rientra: eventi futuri su Facebook", "2 eventi futuri a Roma", 2, 0, 0, "XII", "monteverde",
+               "Via Fittizia 1, Rome", 41.88, 12.46, "Nonprofit organisation", None, None, "scartare", INTRO_TXT])
+    ws.append(["https://facebook.com/circolotestaccio", "Circolo Arci Testaccio", "letta", "rientra: attiva, calendario sul sito", "il sito mostra date future", 0, 4, 2, "I", "testaccio",
+               "Via Galvani 2, Rome", 41.87, 12.47, "Community organisation", "https://www.circolotestaccio.it", "https://www.circolotestaccio.it/eventi/", None, INTRO_TXT])
+    ws.append(["https://facebook.com/dormiente", "Associazione Dormiente", "letta", "dormiente: nessun evento futuro su Facebook né calendario sul sito", "—", 0, 0, 0, "I", "testaccio",
+               None, None, None, "Nonprofit organisation", None, None, None, INTRO_TXT])
+    cwb.save(os.path.join(folder, "associazioni_fonti.xlsx"))
     gaz = os.path.join(folder, "gazetteer.json")
     json.dump(GAZ, open(gaz, "w"))
     return gaz
@@ -169,6 +186,21 @@ def main():
         check("T-FE-5 ticket seller as domain only", v["canali"]["biglietteria"], ["vivaticket.com"])
         comitato = [e for e in s["fonti"] if e["nome"] == "Comitato Fittizio"][0]
         check("T-FE-5 registry entry without events kept (decision visible)", comitato["registro"]["decisione"], "scartare")
+
+        print("T-FE-7 census of Facebook pages")
+        com = [e for e in s["fonti"] if e["nome"] == "Comitato Fittizio"]
+        check("T-FE-7 same facebook page as the registry entry is one source", len(com), 1)
+        check("T-FE-7 registry id kept, verdict carried, decision untouched", (com[0]["id"], com[0]["censimento"]["verdetto"], com[0]["registro"]["decisione"]),
+              ("S-FE-0200", "rientra: eventi futuri su Facebook", "scartare"))
+        check("T-FE-7 facebook page key among keys", "fb-page:comitatofittizio" in com[0]["chiavi"], True)
+        check("T-FE-7 census geography reaches the entry", (com[0]["municipio"], com[0]["zona"]), ("XII", "monteverde"))
+        circ = next(e for e in s["fonti"] if e["nome"] == "Circolo Arci Testaccio")
+        check("T-FE-7 new candidate is an organiser with the facebook type mapped", (circ["ruoli"], circ["tipo"], circ["id"].startswith("S-EV-")), (["organizzatore"], "associazione", True))
+        check("T-FE-7 events page of the site is where to look first, then site root, then facebook events",
+              [d["url"] for d in circ["dove_cercare"]], ["https://www.circolotestaccio.it/eventi/", "https://circolotestaccio.it", "https://www.facebook.com/circolotestaccio/events"])
+        check("T-FE-7 dormant page counted, not listed", (any(e["nome"] == "Associazione Dormiente" for e in s["fonti"]), s["censimento_pagine"]["dormiente: nessun evento futuro su Facebook né calendario sul sito"]), (False, 1))
+        check("T-FE-7 page text never written", INTRO_TXT in blob, False)
+        check("T-FE-7 census page generated with the candidate", "Circolo Arci Testaccio" in texts.get("censimento-pagine.md", ""), True)
 
         print("T-FE-6 determinism and pages")
         check("T-FE-6 two builds identical", read_all(out1) == read_all(out2), True)

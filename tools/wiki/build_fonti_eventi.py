@@ -24,6 +24,8 @@ Inputs (a folder, nothing fetched from the network):
                              "Romatoday → sorgente", "Fonti locali 13-31 ott", "Doppioni"
     registro_fonti.xlsx      the source registry of 13 October 2026
     culture_luoghi.json      optional: coordinates of the culture.roma.it venue pages
+    associazioni_fonti.xlsx  optional: the census of Facebook pages of 24 October 2026 (tab "Pagine":
+                             one row per page with verdict, channels, geography and activity counts)
     gazetteer/gazetteer.json the gazetteer (publication zones win on names)
 
 Usage:
@@ -63,6 +65,22 @@ VENUE_WORDS = ("teatro", "cinema", "biblioteca", "museo", "parco", "villa", "mer
                "istituto", "fondazione", "associazione", "comitato", "municipio", "parrocchia", "oratorio", "live", "lab")
 SOCIAL = re.compile(r"(facebook\.com|instagram\.com|tiktok\.com|youtube\.com|youtu\.be|x\.com|twitter\.com|linkedin\.com|t\.me|wa\.me|whatsapp|threads\.net|telegram)", re.I)
 TICKET = re.compile(r"(vivaticket|ticketone|ticketmaster|dice\.fm|eventbrite|boxol|ticketsms|clappit|liveticket|ciaotickets|xceed|mailticket|tickettailor|ticketnation|i-ticket|oooh\.events|tiqets|getyourguide|musement|coopculture|museiincomuneroma)", re.I)
+CENSIMENTO_CANDIDATI = ("rientra", "locale", "da valutare")   # verdicts of the census that enter the registry as candidates
+FB_CATEGORIA_TIPO = (("theat", "teatro"), ("cinema", "cinema"), ("librar", "biblioteca"), ("museum", "museo"), ("art gallery", "galleria"),
+                     ("music", "club_musica"), ("dance", "scuola"), ("school", "scuola"), ("educat", "scuola"), ("church", "parrocchia"),
+                     ("religio", "parrocchia"), ("sport", "associazione"), ("nonprofit", "associazione"), ("non-profit", "associazione"),
+                     ("community", "associazione"), ("charity", "associazione"), ("politic", "organizzazione_politica"),
+                     ("local business", "locale"), ("bar", "locale"), ("restaurant", "locale"), ("event", "organizzatore"))
+
+
+def tipo_from_facebook(categoria, name):
+    c = str(categoria or "").lower()
+    for needle, tipo in FB_CATEGORIA_TIPO:
+        if needle in c:
+            return tipo
+    return None
+
+
 AGGR_DOMAINS = re.compile(r"(romatoday|citynews|culture\.roma\.it|060608|comune\.roma\.it|google\.|goo\.gl|maps\.app|forms\.gle|jotform|linktr\.ee|bit\.ly|apify)", re.I)
 
 
@@ -94,6 +112,14 @@ def personal_profile(url):
     """A Facebook personal profile (profile.php?id=…). A people/ URL is not treated as
     one: Facebook uses it for pages without a username too."""
     return bool(url) and "facebook.com/profile.php" in str(url)
+
+
+def fb_page_key(url):
+    """Identity key of a Facebook page URL (strong key, like fb-location and the registry key)."""
+    m = re.match(r"https?://(?:www\.|m\.)?facebook\.com/([A-Za-z0-9._-]+)/?$", str(url or "").strip())
+    if not m or m.group(1).lower() in ("events", "profile.php", "groups", "pages", "people", "share", "hashtag"):
+        return None
+    return "fb-page:" + m.group(1).lower()
 
 
 def name_tokens(name):
@@ -193,9 +219,9 @@ class Registry:
             k = n
             self.keys[n] = k
             self.entries[k] = {"nome": str(name).strip(), "alias": [], "ruoli": set(), "tipi": Counter(), "chiavi": set(),
-                               "canali": {"sito": Counter(), "facebook": Counter(), "instagram": Counter(), "biglietteria": Counter(), "culture_luogo": None},
+                               "canali": {"sito": Counter(), "sito_eventi": Counter(), "facebook": Counter(), "instagram": Counter(), "biglietteria": Counter(), "culture_luogo": None},
                                "indirizzi": Counter(), "municipi": Counter(), "zone": Counter(), "punti": [], "citta": Counter(),
-                               "eventi": Counter(), "rintracciabili": Counter(), "registro": None, "fonte_locale": None, "aggregatori": set(), "pagine_lette": Counter()}
+                               "eventi": Counter(), "rintracciabili": Counter(), "registro": None, "fonte_locale": None, "censimento": None, "aggregatori": set(), "pagine_lette": Counter()}
         rec = self.entries[k]
         self.keys.setdefault(n, k)
         for ek in extra_keys:
@@ -233,6 +259,11 @@ class Registry:
             return   # a private profile is not a publication channel (same rule for every source)
         if kind in ("facebook", "instagram"):
             url = re.sub(r"[?#].*$", "", url).rstrip("/")
+        if kind == "facebook":
+            fk = fb_page_key(url)
+            if fk:   # the same Facebook page seen later (registry, census) is the same source
+                self.keys.setdefault(fk, k)
+                self.entries[k]["chiavi"].add(fk)
         self.entries[k]["canali"][kind][url] += 1
 
     def geo(self, k, municipio=None, zona=None, lat=None, lon=None, indirizzo=None, citta=None):
@@ -442,6 +473,37 @@ def build(input_dir, out_dir, gazetteer_path):
             if is_web_url(g("instagram")):
                 reg.channel(k, "instagram", g("instagram"))
 
+    # ---- census of Facebook pages, 24 October 2026 --------------------------------------------------
+    # One row per page read with Apify (pages scraper, upcoming events) and on its website. Pages whose
+    # verdict starts with "rientra", "locale" or "da valutare" enter the registry as candidates (the owner
+    # decides; the verdict is carried, never turned into a registry decision). Dormant and discarded pages
+    # are counted only. No page text (intro) is written.
+    censimento_conteggi = Counter()
+    cp = os.path.join(input_dir, "associazioni_fonti.xlsx")
+    if os.path.exists(cp):
+        cwb = openpyxl.load_workbook(cp, read_only=True, data_only=True)
+        ch_, crows = read_sheet(cwb, "Pagine")
+        for r in crows:
+            g = lambda key: cell(None, ch_, r, key)
+            verdetto = str(g("verdetto") or "")
+            censimento_conteggi[verdetto or "n.d."] += 1
+            if not g("nome") or g("stato") != "letta" or not verdetto.startswith(CENSIMENTO_CANDIDATI):
+                continue
+            fb = re.sub(r"^https?://(www\.|m\.)?facebook\.com/", "https://www.facebook.com/", str(g("url_pagina") or "").strip())
+            k = reg.get(g("nome"), extra_keys=[fb_page_key(fb)], ruolo="organizzatore", tipo=tipo_from_facebook(g("categoria_facebook"), g("nome")))
+            if not k:
+                continue
+            reg.entries[k]["censimento"] = {
+                "verdetto": verdetto, "motivo": g("motivo"), "categoria_facebook": g("categoria_facebook"),
+                "eventi_futuri_facebook": int(g("fb_eventi_in_roma") or 0), "sito_date_future": int(g("sito_date_future") or 0),
+                "sito_date_ultimi_6_mesi": int(g("sito_date_ultimi_6_mesi") or 0), "nel_registro_13_ott": g("nel_registro_13_ott")}
+            reg.geo(k, g("municipio"), g("zona_qn"), g("lat"), g("lon"), g("indirizzo"))
+            reg.channel(k, "facebook", fb)
+            if is_web_url(g("sito")):
+                reg.channel(k, "sito", g("sito"))
+            if is_web_url(g("sito_pagina_eventi")):
+                reg.channel(k, "sito_eventi", g("sito_pagina_eventi"), keep_path=True)
+
     # ---- finalise entries ----------------------------------------------------------------------------
     def finalize(k, rec, seq):
         tipo = rec["tipi"].most_common(1)[0][0] if rec["tipi"] else guess_tipo(rec["nome"])
@@ -461,6 +523,9 @@ def build(input_dir, out_dir, gazetteer_path):
             dove.append({"url": u, "cosa": "pagina letta alla fonte (calendario)"})
         if rec["canali"]["culture_luogo"]:
             dove.append({"url": rec["canali"]["culture_luogo"], "cosa": "pagina del luogo su culture.roma.it"})
+        for u, _ in rec["canali"]["sito_eventi"].most_common(1):
+            if not any(d["url"] == u for d in dove):
+                dove.append({"url": u, "cosa": "pagina eventi del sito"})
         for u, _ in rec["canali"]["sito"].most_common(1):
             if not any(d["url"] == u for d in dove):
                 dove.append({"url": u, "cosa": "sito"})
@@ -488,7 +553,7 @@ def build(input_dir, out_dir, gazetteer_path):
             "aggregatori": sorted(rec["aggregatori"]),
             "eventi_ott_2026": dict(sorted(rec["eventi"].items())), "eventi_totali": tot,
             "rintracciabilita": {"eventi_con_fonte_diretta": diretti, "quota": round(diretti / tot, 2) if tot else None},
-            "registro": rec["registro"], "fonte_locale": rec["fonte_locale"],
+            "registro": rec["registro"], "fonte_locale": rec["fonte_locale"], "censimento": rec["censimento"],
             "chiavi": sorted(rec["chiavi"]),
         }
 
@@ -510,7 +575,7 @@ def build(input_dir, out_dir, gazetteer_path):
             seq += 1
         out_entries.append(finalize(k, rec, seq))
     # drop entries that are neither in the registry nor carry any event (pure link noise)
-    out_entries = [e for e in out_entries if e["registro"] or e["eventi_totali"] > 0]
+    out_entries = [e for e in out_entries if e["registro"] or e["censimento"] or e["eventi_totali"] > 0]
 
     # ---- aggregator cards: numbers from the workbook ------------------------------------------------
     per_src = Counter(); traced = defaultdict(Counter); geo_ok = Counter(); fuori = Counter()
@@ -536,7 +601,8 @@ def build(input_dir, out_dir, gazetteer_path):
 
     sched = {
         "versione": "2026-10.1",
-        "fonte_dati": "eventi_unico.xlsx (ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31 ottobre) + registro fonti 13 ott 2026",
+        "fonte_dati": "eventi_unico.xlsx (ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31 ottobre) + registro fonti 13 ott 2026"
+                      + (" + censimento pagine Facebook 24 ott 2026" if censimento_conteggi else ""),
         "regole": ["DEC-022: nessun testo delle fonti; qui stanno soggetti, canali e conteggi",
                    "DEC-105: nessuna anonimizzazione; chi organizza o ospita eventi è un soggetto, persona o organizzazione che sia; di un profilo personale Facebook non si scrive l'URL",
                    "gazetteer vince: la zona è scritta solo se è una publication_zone_id"],
@@ -545,6 +611,7 @@ def build(input_dir, out_dir, gazetteer_path):
         "aggregatori": {s: {"nome": AGGREGATORI[s], "eventi_ott_2026": per_src[s], "con_pagina_qn": geo_ok[s], "fuori_roma": fuori[s],
                             "rintracciabilita": dict(traced[s].most_common())} for s in AGGREGATORI},
         "doppioni": {f"{t} · {f}": n for (t, f), n in sorted(overlap.items())},
+        "censimento_pagine": dict(sorted(censimento_conteggi.items())),
     }
     os.makedirs(out_dir, exist_ok=True)
     json.dump(sched, open(os.path.join(out_dir, "fonti_eventi.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
@@ -596,7 +663,8 @@ def write_pages(sched, out_dir, zones):
              "Qui stanno nomi, canali e conteggi; gli eventi restano nel foglio su Drive (DEC-022).", "",
              f"Fonti: {len(fonti)} · nel registro del 13 ottobre: {reg_n} · luoghi: {sum(1 for e in fonti if 'luogo' in e['ruoli'])} · "
              f"organizzatori: {sum(1 for e in fonti if 'organizzatore' in e['ruoli'])} · con sito web: {sum(1 for e in fonti if e['canali']['sito'])} · "
-             f"con pagina QN: {sum(1 for e in fonti if e['zona'])}", "",
+             f"con pagina QN: {sum(1 for e in fonti if e['zona'])}"
+             + (f" · candidate dal censimento pagine del 24 ottobre: {sum(1 for e in fonti if e['censimento'])} (vedi [censimento-pagine.md](censimento-pagine.md))" if sched.get("censimento_pagine") else ""), "",
              "Aggregatori: vedi [aggregatori.md](aggregatori.md).", "",
              "| Municipio | fonti | luoghi | organizzatori | eventi ott 2026 | con sito | con pagina QN |", "|---|---|---|---|---|---|---|"]
     for m in ROMAN + ["senza municipio"]:
@@ -614,7 +682,7 @@ def write_pages(sched, out_dir, zones):
             out += [f"## {title}" + (f" `{zona_id}`" if zona_id in zones else ""), "",
                     "| fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |", "|---|---|---|---|---|---|---|---|"]
             for e in sorted(group, key=lambda e: (-e["eventi_totali"], e["nome"].lower())):
-                reg_s = f"{e['registro']['decisione']} ({e['registro']['canale'] or '—'})" if e["registro"] else "—"
+                reg_s = f"{e['registro']['decisione']} ({e['registro']['canale'] or '—'})" if e["registro"] else f"censimento: {e['censimento']['verdetto']}" if e["censimento"] else "—"
                 q = e["rintracciabilita"]["quota"]
                 out.append(f"| {e['nome']} | {dove_md(e)} | {', '.join(e['ruoli'])} | {e['tipo']} | {eventi_md(e)} | "
                            f"{'—' if q is None else f'{int(q*100)}%'} | {reg_s} | `{e['id']}` |")
@@ -645,6 +713,33 @@ def write_pages(sched, out_dir, zones):
         per.append("")
     open(os.path.join(out_dir, "per-pagina-qn.md"), "w", encoding="utf-8").write("\n".join(per) + "\n")
     write_aggregatori(sched, out_dir)
+    if sched.get("censimento_pagine"):
+        write_censimento(sched, out_dir, zones)
+
+
+def write_censimento(sched, out_dir, zones):
+    """Candidates from the census of Facebook pages (24 October 2026), grouped by verdict then
+    municipality: what the owner has to decide on, with the address to check for each."""
+    cand = [e for e in sched["fonti"] if e["censimento"]]
+    out = ["# Censimento delle pagine Facebook di associazioni — 24 ottobre 2026 (generato)", "",
+           "Pagine lette con Apify (dati di pagina, eventi futuri) e sul loro sito. Qui stanno le candidate: il verdetto è "
+           "della lettura automatica, la decisione (tenere / scartare) spetta all'owner e si registra nel registro fonti, non qui. "
+           "Le pagine dormienti o scartate sono solo contate.", "", "| verdetto | pagine |", "|---|---|"]
+    for v, n in sorted(sched["censimento_pagine"].items(), key=lambda kv: -kv[1]):
+        out.append(f"| {v} | {n} |")
+    out.append("")
+    by_v = defaultdict(list)
+    for e in cand:
+        by_v[e["censimento"]["verdetto"]].append(e)
+    for v in sorted(by_v, key=lambda v: (not v.startswith("rientra"), v)):
+        es = sorted(by_v[v], key=lambda e: (ROMAN.index(e["municipio"]) if e["municipio"] in ROMAN else 99, e["nome"].lower()))
+        out += [f"## {v} ({len(es)})", "", "| fonte | municipio | pagina QN | dove cercare | eventi futuri FB | date future sul sito | nel registro | id |", "|---|---|---|---|---|---|---|---|"]
+        for e in es:
+            c = e["censimento"]
+            out.append(f"| {e['nome']} | {e['municipio'] or '—'} | {e['zona_nome'] or '—'} | {dove_md(e)} | {c['eventi_futuri_facebook'] or '—'} | "
+                       f"{c['sito_date_future'] or '—'} | {e['registro']['decisione'] if e['registro'] else (c['nel_registro_13_ott'] or '—')} | `{e['id']}` |")
+        out.append("")
+    open(os.path.join(out_dir, "censimento-pagine.md"), "w", encoding="utf-8").write("\n".join(out) + "\n")
 
 
 def group_by_zone(es, zones):
