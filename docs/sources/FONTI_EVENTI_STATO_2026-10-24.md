@@ -122,36 +122,54 @@ male, e vanno lette nel tempo o contattate (passo L del flusso).
 
 ## 1 sexies. Eventi dentro i post Facebook delle fonti (M, 25 ottobre 2026)
 
-Gli ultimi 15 post di ogni pagina Facebook salvata, letti per capire quanto annunciano le fonti
-fuori dagli eventi Facebook. I post dei censimenti erano già stati letti (costo nei §1 ter e §2);
-le 220 pagine verificate dall'owner sono state lette ora (1.091 post, 5,5 dollari). Un post vale
-come annuncio se ha parole da evento e una data futura (anche relativa al giorno del post, o un
-giorno della settimana ricorrente); sono scartati resoconti senza data futura, bandi, scadenze,
-dirette e appuntamenti fuori Roma. La pagina QN viene dalla sede della fonte o da un luogo del
-gazetteer nominato nel post (nomi di strada esclusi).
+Gli ultimi 15 post (dal 10 settembre) di ogni pagina Facebook salvata, letti per capire quanto
+annunciano le fonti fuori dagli eventi Facebook. Primo giro: i post dei censimenti, già letti
+(costo nei §1 ter e §2), e le 220 pagine verificate dall'owner (5,5 dollari). Secondo giro: le
+662 pagine salvate e mai lette (fonti mirate e ricerca per quartiere nel registro v4, pagine
+«rientra» o «da verificare» dei censimenti, pagine nuove della ricerca), 657 lette, 12,4 dollari
+approvati dall'owner oltre il tetto del mese. Un post vale come annuncio se ha parole da evento
+e una data futura (anche relativa al giorno del post, o un giorno della settimana ricorrente);
+sono scartati resoconti senza data futura, bandi, scadenze, dirette, promozioni commerciali,
+scioperi e atti parlamentari, orari d'apertura, e gli appuntamenti fuori Roma (città italiane e
+comuni della provincia, anche scritti in maiuscolo).
 
 | Lotto | Pagine | Post letti | Post con un annuncio |
 |---|---|---|---|
-| Censimento RUNTS | 2.391 | 8.710 | 2.061 |
-| Censimento associazioni | 716 | 2.069 | 497 |
-| Pagine verificate dall'owner | 213 | 615 | 251 |
-| **Totale** | **3.320** | **11.394** | **2.809** |
+| Censimento RUNTS | 2.391 | 8.710 | 1.959 |
+| Censimento associazioni | 716 | 2.069 | 466 |
+| Pagine verificate dall'owner | 213 | 615 | 247 |
+| Secondo giro: fonti mirate e ricerca per quartiere (registro v4) | 195 | 817 | 224 |
+| Secondo giro: censimento associazioni | 161 | 448 | 101 |
+| Secondo giro: censimento RUNTS | 136 | 80 | 11 |
+| Secondo giro: pagine nuove della ricerca per quartiere | 164 | 572 | 152 |
+| **Totale** | **3.977** | **13.311** | **3.160** |
 
-Annunci distinti 2.639; futuri dal 25 ottobre 736 (105 ricorrenti), da 452 pagine; con pagina QN
-487 (425 dalla sede della fonte, 62 da un luogo nel testo), su 66 pagine QN. Nella pagina degli
-eventi di quartiere entrano 723 annunci (gli altri sono doppioni di eventi già noti o senza titolo): sono la
-prima fonte, 34% dei 2.126 eventi futuri, davanti agli eventi Facebook (30%), culture.roma.it
-(17%), i siti delle fonti (16%) e Roma Today (4%). Le pagine QN a zero scendono da 25 a 16:
-Balduina, Bufalotta, Casal Lumbroso, Colle Prenestino, Giardino di Roma, La Rustica, Lunghezza,
-Morena, Muratella, Olgiata, Pisana, Romanina, Tor Cervara, Trigoria, Vigna Clara, Vitinia.
+Annunci distinti 2.971; futuri dal 25 ottobre 888 (124 ricorrenti), da 555 pagine; con pagina QN
+559 su 71 pagine QN. Il secondo giro aggiunge 187 annunci futuri, 92 con pagina QN.
 
-Precisione stimata su un campione: circa tre annunci su quattro sono appuntamenti veri con la
-data giusta; il resto sono resoconti con una data citata, promozioni e inviti a iscriversi. Gli
+La pagina QN di un annuncio viene, in quest'ordine, da un luogo del gazetteer nominato nel post
+(nomi di strada esclusi: 92), dalla sede della fonte (417) o, per le fonti trovate cercando un
+quartiere, dal quartiere solo se il nome della fonte o il post lo nominano (50). La zona della
+ricerca da sola non basta: assegnava al quartiere cercato anche pagine di un Municipio intero,
+testate di Roma Nord, una televisione nazionale e una sagra di Cervara di Roma. Con questa regola
+Boccea torna a zero: i suoi eventi venivano da una pagina di notizie di Roma Nord e ora stanno a
+Prati e a Roma Nord.
+
+Nella pagina degli eventi di quartiere entrano 866 annunci (gli altri sono doppioni di eventi già
+noti o senza titolo): sono la prima fonte, 38% dei 2.269 eventi futuri, davanti agli eventi
+Facebook (28%), culture.roma.it (16%), i siti delle fonti (15%) e Roma Today (4%). Le pagine QN a
+zero scendono da 25 a 10: Boccea, Bufalotta, Casal Lumbroso, Colle Prenestino, La Rustica,
+Lunghezza, Morena, Muratella, Tor Cervara, Vitinia. Escono dallo zero, fra le altre, Balduina,
+Giardino di Roma, Olgiata, Pisana, Romanina, Trigoria e Vigna Clara.
+
+Precisione su due campioni di 30 annunci futuri (uno per giro, dopo i filtri): circa tre su
+quattro sono appuntamenti veri a Roma con la data giusta; il resto sono resoconti con una data
+citata, programmi televisivi o radiofonici, fiere professionali e avvisi di servizio. Gli
 annunci restano candidati «da verificare» (passo di verifica del flusso, `FLUSSO_EVENTI_A_Z.md`).
 Lettura: le fonti piccole (comitati, biblioteche, parrocchie) annunciano nei post, non negli
 eventi Facebook. Il Comitato Acilia Nord ha zero eventi Facebook e un incontro settimanale in
-sede nei post. Circa 600 pagine Facebook dei censimenti e delle ricerche (pagine «rientra» e
-candidate) non sono ancora state lette: circa 12 dollari, oltre il tetto di spesa del mese.
+sede nei post. Le pagine trovate con la ricerca rendono meno di quelle dei censimenti: molte
+sono testate, servizi commerciali o pagine nazionali.
 
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 

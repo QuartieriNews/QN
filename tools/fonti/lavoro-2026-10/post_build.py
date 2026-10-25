@@ -18,20 +18,25 @@ info={}
 wb=openpyxl.load_workbook('/mnt/user-data/outputs/registro_fonti_v4.xlsx',read_only=True); rr=list(wb.worksheets[0].iter_rows(values_only=True)); h=rr[0]
 for r in rr[1:]:
     d=dict(zip(h,r)); k=key(d.get('facebook'))
-    if k: info.setdefault(k,{'nome':d['nome'],'zona':d.get('zona_qn'),'mun':d.get('municipio'),'origine':'registro ('+str(d.get('origine'))+')','decisione':d.get('decisione')})
+    if k: info.setdefault(k,{'nome':d['nome'],'zona':d.get('zona_qn'),'mun':d.get('municipio'),'origine':'registro ('+str(d.get('origine'))+')','decisione':d.get('decisione'),
+                             'zona_da_ricerca':bool(re.search(r'fonti_mirate|ricerca_quartieri',str(d.get('origine'))))})   # la zona è quella della ricerca, non la sede
 for r in json.load(open(f'{S}/runts/work/rows.json')):
     k=key(r.get('facebook'))
     if k: info.setdefault(k,{'nome':r['denominazione'],'zona':r.get('zona_qn'),'mun':r.get('municipio'),'origine':'censimento RUNTS','decisione':r['verdetto']})
 for r in json.load(open(f'{S}/assoc/rows.json')):
     k=key(str(r.get('url_pagina')).replace('facebook.com/','www.facebook.com/'))
     if k: info.setdefault(k,{'nome':r['nome'],'zona':r.get('zona_qn'),'mun':r.get('municipio'),'origine':'censimento associazioni','decisione':r.get('verdetto')})
-files={'censimento RUNTS':glob.glob(f'{S}/runts/work/fb_posts/*.json'),'censimento associazioni':glob.glob(f'{S}/assoc/posts_data/*.json'),'pagine verificate dall’owner':glob.glob(f'{P}/owner_*.json')}
+files={'censimento RUNTS':glob.glob(f'{S}/runts/work/fb_posts/*.json'),'censimento associazioni':glob.glob(f'{S}/assoc/posts_data/*.json'),'pagine verificate dall’owner':glob.glob(f'{P}/owner_*.json'),'secondo giro':glob.glob(f'{P}/giro2/posts_*.json')}
+G2={}   # secondo giro (25 ottobre): pagine salvate mai lette, lotto per origine
+for k,v in (json.load(open(f'{P}/giro2/giro2_pagine.json')).items() if glob.glob(f'{P}/giro2/giro2_pagine.json') else []):
+    o=v[1]; G2[k]='secondo giro: '+('fonti mirate e ricerca quartieri (registro v4)' if o.startswith('registro v4') else 'pagine nuove della ricerca quartieri' if o.startswith('ricerca') else o)
 st=collections.Counter(); ev={}; pages_read=collections.defaultdict(set); posts_per=collections.Counter()
-for lot,fs in files.items():
+for lot0,fs in files.items():
     for f in sorted(fs):
         for p in json.load(open(f)):
             k=key(p.get('inputUrl') or p.get('facebookUrl') or p.get('url'))
             if not k: continue
+            lot=G2.get(k,'secondo giro: altro') if fs is files['secondo giro'] else lot0
             pages_read[lot].add(k)
             if p.get('error') or not p.get('text') or not p.get('time'): continue
             posts_per[(lot,k)]+=1
@@ -44,7 +49,7 @@ for lot,fs in files.items():
             kk=(k,norm(e['titolo'] or '')[:40],e['inizio'] if not e['ricorrente'] else e['ricorrente'])
             if kk in ev:
                 ev[kk]['ripetizioni']+=1; ev[kk]['ora']=ev[kk]['ora'] or e['ora']; ev[kk]['luogo']=ev[kk]['luogo'] or e['luogo']; continue
-            ev[kk]={**e,'pagina':k,'fonte':i.get('nome') or p.get('pageName') or k,'zona':i.get('zona'),'municipio':i.get('mun'),'origine_fonte':i.get('origine') or lot,'lotto':lot,'url_post':p.get('url'),'ripetizioni':1}
+            ev[kk]={**e,'pagina':k,'fonte':i.get('nome') or p.get('pageName') or k,'zona':i.get('zona'),'zona_da_ricerca':i.get('zona_da_ricerca',False),'testo_pieno':re.sub(r'\s+',' ',p['text'])[:600],'municipio':i.get('mun'),'origine_fonte':i.get('origine') or lot,'lotto':lot,'url_post':p.get('url'),'ripetizioni':1}
 E=list(ev.values())
 def nrm(x): return re.sub(r'\s+',' ',re.sub(r'[^a-z0-9 ]+',' ',unicodedata.normalize('NFKD',str(x or '')).encode('ascii','ignore').decode().lower())).strip()
 NM={}
@@ -53,7 +58,7 @@ for n in gz['neighbourhoods']:
         if len(nrm(a))>=6 and n.get('publishable',True) is not False and nrm(a) not in ('centro','parco','villa','italia'): NM.setdefault(nrm(a),n)
 for z in gz['publication_zones']:
     if z.get('is_page') and len(nrm(z['name_display']))>=5: NM.setdefault(nrm(z['name_display']),{'publication_zone_id':z['publication_zone_id'],'municipality_code':z['primary_municipality']})
-STREET=re.compile(r"\b(?:via|viale|v\.le|piazza|p\.zza|piazzale|largo|vicolo|lungotevere|circonvallazione|corso|borgo|salita|clivo|ponte|stazione|fermata)\s+(?:(?:d[ei]|degli|della|delle|del|dell'|di|san|santa|santo|ss\.?)\s+){0,3}[\w'’]+(?:\s+[A-Z][\w'’]+){0,3}",re.I)
+STREET=re.compile(r"\b(?:via|viale|v\.le|piazza|p\.zza|piazzale|largo|vicolo|lungotevere|circonvallazione|corso|borgo|salita|clivo|stazione|fermata)\s+(?:(?:d[ei]|degli|della|delle|del|dell'|di|san|santa|santo|ss\.?)\s+){0,3}[\w'’]+(?:\s+[A-Z][\w'’]+){0,3}",re.I)
 def zone_text(t):
     t=STREET.sub(' ',str(t or ''))      # un nome di strada non dice il quartiere (via dei Monti di San Paolo non è a San Paolo)
     tt=' '+nrm(t)+' '; best=None
@@ -64,12 +69,16 @@ fut=[e for e in E if e['fine']>=TODAY.isoformat()]
 for e in fut:
     zt,mt=zone_text((e.get('luogo') or '')+' '+(e.get('titolo') or ''))
     if zt in pages and zt!=e['zona']: e['zona_metodo']='luogo nominato nel post'; e['zona']=zt; e['municipio']=mt or pages[zt]['primary_municipality']
+    elif e['zona'] and e['zona_da_ricerca'] and zt!=e['zona'] and zone_text(e['fonte']+' '+e['testo_pieno'])[0]!=e['zona']:
+        e['zona_metodo']=None; e['zona']=None       # fonte trovata cercando il quartiere: vale solo se il nome o il post lo nominano
+    elif e['zona_da_ricerca'] and e['zona']: e['zona_metodo']='quartiere nominato dalla fonte'
     else: e['zona_metodo']='sede della fonte' if e['zona'] else None
     e['zona']=e['zona'] if e['zona'] in pages else None
+for e in E: e.pop('testo_pieno',None); e.pop('zona_da_ricerca',None)
 json.dump(fut,open(f'{P}/eventi_post_futuri.json','w'),ensure_ascii=False,indent=1)
 wbo=openpyxl.Workbook(); w=wbo.active; w.title='Riepilogo'; w.append(['misura','valore'])
 for c in w[1]: c.font=Font(bold=True)
-for lot in files: w.append([f'{lot}: pagine lette',len(pages_read[lot])])
+for lot in pages_read: w.append([f'{lot}: pagine lette',len(pages_read[lot])])
 for k,v in st.items(): w.append([k,v])
 w.append(['eventi distinti annunciati (doppioni uniti)',len(E)]); w.append(['  di cui futuri (dal 25 ottobre)',len(fut)]); w.append(['  futuri ricorrenti (ogni settimana)',sum(1 for e in fut if e['ricorrente'])])
 w.append(['  futuri con pagina QN',sum(1 for e in fut if e['zona'])]); w.append(['pagine Facebook con almeno un evento futuro',len({e['pagina'] for e in fut})]); w.append(['pagine QN toccate',len({e['zona'] for e in fut if e['zona']})])

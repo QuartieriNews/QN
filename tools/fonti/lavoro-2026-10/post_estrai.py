@@ -89,12 +89,13 @@ def titolo(t):
             tt=next(y for y in re.split(r"(?<=[.!?])\s+",x) if re.search(r"\bprossim\w+",y,re.I))
     tt=re.sub(r"#(\w+)",r"\1",tt); tt=re.sub(r"\s+",' ',tt).strip(" -–:|_*")
     return tt[:100] if len(tt)>=5 else None
-OTHERC=re.compile(r"\b(Milano|Torino|Genova|Bologna|Firenze|Napoli|Venezia|Mestre|Verona|Padova|Trieste|Trento|Bolzano|Bari|Palermo|Catania|Cagliari|Perugia|Ancona|Pescara|L'Aquila|Rimini|Parma|Modena|Brescia|Bergamo|Pisa|Siena|Lucca|Salerno|Lecce|Reggio Calabria|Messina|Viterbo|Rieti|Latina|Frosinone|Tivoli|Frascati|Fiumicino|Ciampino|Civitavecchia|Bruxelles|Parigi|Londra|Madrid|Berlino)\b")
-NOEV=re.compile(r"\b(rottamazion\w*|scadenz\w*|bando|bandi|candidatur\w*|servizio civile|offerta di lavoro|cerchiamo|webinar|zoom|in diretta|diretta streaming|streaming|dichiarazione dei redditi|5x1000|5 per mille|sondaggio|petizion\w*|online)\b",re.I)
+OTHERC=re.compile(r"\b(Milano|Torino|Genova|Bologna|Firenze|Napoli|Venezia|Mestre|Verona|Padova|Trieste|Trento|Bolzano|Bari|Palermo|Catania|Cagliari|Perugia|Ancona|Pescara|L'Aquila|Rimini|Parma|Modena|Brescia|Bergamo|Pisa|Siena|Lucca|Salerno|Lecce|Reggio Calabria|Messina|Viterbo|Rieti|Latina|Frosinone|Tivoli|Frascati|Fiumicino|Ciampino|Civitavecchia|Cesena|Forlì|Ravenna|Ferrara|Piacenza|Cremona|Lodi|Pavia|Como|Varese|Novara|Asti|Cuneo|Alessandria|Vicenza|Treviso|Udine|Bassano del Grappa|Reggio Emilia|Arezzo|Livorno|Prato|Pistoia|Grosseto|Terni|Foligno|Spoleto|Assisi|Orvieto|Macerata|Pesaro|Teramo|Chieti|Caserta|Avellino|Benevento|Potenza|Matera|Taranto|Brindisi|Foggia|Cosenza|Catanzaro|Siracusa|Trapani|Agrigento|Sassari|Olbia|Aosta|Mantova|Caselle Landi|Sambuci|Regione Siciliana|Cervara di Roma|Rocca di Papa|Castel Gandolfo|Monte ?Compatri|Monte Porzio|Zagarolo|Palestrina|Guidonia|Fonte Nuova|Mentana|Monterotondo|Anguillara|Bracciano|Cerveteri|Ladispoli|Ardea|Pomezia|Anzio|Velletri|Albano Laziale|Genzano|Ariccia|Grottaferrata|Rocca Priora|Subiaco|Formello|Sacrofano|Campagnano|Trevignano|Riano|Capena|Fiano Romano|Morlupo|Colleferro|Valmontone|Lariano|Artena|Santa Marinella|Tolfa|Bracciano|Manziana|Castel Madama|Vicovaro|San Cesareo|Bruxelles|Parigi|Londra|Madrid|Berlino)\b")
+OTHERC_UP=re.compile(OTHERC.pattern.upper().replace(r"\B",r"\b"))   # post tutti in maiuscolo («CASELLE LANDI»)
+NOEV=re.compile(r"\b(rottamazion\w*|scadenz\w*|bando|bandi|candidatur\w*|servizio civile|offerta di lavoro|cerchiamo|webinar|zoom|in diretta|diretta streaming|streaming|dichiarazione dei redditi|5x1000|5 per mille|sondaggio|petizion\w*|online|promozione valida|codice sconto|sconto|scontat\w+|sciopero|ddl|agevolazion\w*|espositor\w*|nostro stand|rimarremo chiusi|resteremo chiusi|siamo chiusi|orari della settimana)\b",re.I)
 def estrai(text,post_time,today):
     raw=str(text or ''); t=clean(raw)
     if len(t)<25 or not EVENTO.search(t): return None
-    if (OTHERC.search(t) and not re.search(r"\bRoma\b",t)) or NOEV.search(t[:400]): return None
+    if ((OTHERC.search(t) or OTHERC_UP.search(t)) and not re.search(r"\b(?:Roma|ROMA)\b",re.sub(r"(?i)Cervara di Roma","",t))) or NOEV.search(t[:400]): return None
     d0=datetime.fromisoformat(str(post_time).replace('Z','+00:00')).date()
     rec=recurring(t); ds=dates_in(t,d0)
     if REPORT.search(t[:250]) and not [x for x in ds if x[1]>d0]: return None

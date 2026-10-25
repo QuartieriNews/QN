@@ -105,7 +105,7 @@ for f in sorted(glob.glob(f'{RQ}/fb_events_*.json')):
         if str(x.get('is_past'))=='True' or ('Rome' not in str(x.get('city') or '') and 'Roma' not in str(x.get('address') or '')): continue
         z,m=zone_ll(x.get('latitude'),x.get('longitude'))
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),', '.join(x.get('host_names') or []) if isinstance(x.get('host_names'),list) else x.get('host_names'),x.get('url'),z,m,o='ricerca evento+quartiere: pagine Facebook nuove')
-# 8. eventi annunciati nei post Facebook (ultimi post di 3.320 pagine; estrazione dal testo, da verificare)
+# 8. eventi annunciati nei post Facebook (ultimi post di 3.977 pagine; estrazione dal testo, da verificare)
 PE=f'{S}/post_eventi/eventi_post_futuri.json'
 if os.path.exists(PE):
     for x in json.load(open(PE)):
