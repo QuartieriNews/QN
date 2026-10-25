@@ -120,6 +120,39 @@ gazetteer nel testo per i blocchi), gli altri stanno in «senza quartiere». Le 
 associazioni, festival di quartiere) più che **eventi**: le fonti di periferia pubblicano poco e
 male, e vanno lette nel tempo o contattate (passo L del flusso).
 
+## 1 sexies. Eventi dentro i post Facebook delle fonti (M, 25 ottobre 2026)
+
+Gli ultimi 15 post di ogni pagina Facebook salvata, letti per capire quanto annunciano le fonti
+fuori dagli eventi Facebook. I post dei censimenti erano già stati letti (costo nei §1 ter e §2);
+le 220 pagine verificate dall'owner sono state lette ora (1.091 post, 5,5 dollari). Un post vale
+come annuncio se ha parole da evento e una data futura (anche relativa al giorno del post, o un
+giorno della settimana ricorrente); sono scartati resoconti senza data futura, bandi, scadenze,
+dirette e appuntamenti fuori Roma. La pagina QN viene dalla sede della fonte o da un luogo del
+gazetteer nominato nel post (nomi di strada esclusi).
+
+| Lotto | Pagine | Post letti | Post con un annuncio |
+|---|---|---|---|
+| Censimento RUNTS | 2.391 | 8.710 | 2.061 |
+| Censimento associazioni | 716 | 2.069 | 497 |
+| Pagine verificate dall'owner | 213 | 615 | 251 |
+| **Totale** | **3.320** | **11.394** | **2.809** |
+
+Annunci distinti 2.639; futuri dal 25 ottobre 736 (105 ricorrenti), da 452 pagine; con pagina QN
+487 (425 dalla sede della fonte, 62 da un luogo nel testo), su 66 pagine QN. Nella pagina degli
+eventi di quartiere entrano 723 annunci (gli altri sono doppioni di eventi già noti o senza titolo): sono la
+prima fonte, 34% dei 2.126 eventi futuri, davanti agli eventi Facebook (30%), culture.roma.it
+(17%), i siti delle fonti (16%) e Roma Today (4%). Le pagine QN a zero scendono da 25 a 16:
+Balduina, Bufalotta, Casal Lumbroso, Colle Prenestino, Giardino di Roma, La Rustica, Lunghezza,
+Morena, Muratella, Olgiata, Pisana, Romanina, Tor Cervara, Trigoria, Vigna Clara, Vitinia.
+
+Precisione stimata su un campione: circa tre annunci su quattro sono appuntamenti veri con la
+data giusta; il resto sono resoconti con una data citata, promozioni e inviti a iscriversi. Gli
+annunci restano candidati «da verificare» (passo di verifica del flusso, `FLUSSO_EVENTI_A_Z.md`).
+Lettura: le fonti piccole (comitati, biblioteche, parrocchie) annunciano nei post, non negli
+eventi Facebook. Il Comitato Acilia Nord ha zero eventi Facebook e un incontro settimanale in
+sede nei post. Circa 600 pagine Facebook dei censimenti e delle ricerche (pagine «rientra» e
+candidate) non sono ancora state lette: circa 12 dollari, oltre il tetto di spesa del mese.
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |
