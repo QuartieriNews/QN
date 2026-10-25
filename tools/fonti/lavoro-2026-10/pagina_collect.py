@@ -1,5 +1,5 @@
 # Tutti gli eventi futuri noti al 24 ottobre 2026, assegnati alle pagine QN -> eventi.json per la pagina HTML
-import json,re,sys,glob,unicodedata,collections,openpyxl,os
+import json,re,sys,glob,unicodedata,collections,openpyxl,os,ast
 S='/tmp/claude-0/-home-user-QN/6ddd5f5b-029a-56ef-ba4a-9ebf9ede2447/scratchpad'; sys.path.insert(0,f'{S}/scripts')
 from mirate_liste import place
 TODAY='2026-10-25'
@@ -20,7 +20,7 @@ def match(sd,mun):
     return None
 GEO=os.environ.get('GEO','sudd')   # «zu»: zona urbanistica + toponimo più vicino (stessa geografia degli abitanti)
 if GEO=='zu':
-    sys.path.insert(0,f'{S}/popolazione'); from punto_pagina import pagina as _pagina   # nel repository: popolazione_punto_pagina.py
+    sys.path.insert(0,f'{S}/popolazione'); from punto_pagina import pagina as _pagina
 def zone_ll(lat,lon):
     try: lat,lon=float(lat),float(lon)
     except (TypeError,ValueError): return None,None
@@ -34,12 +34,17 @@ def zone_from_text(t):
     if not best: return None,None
     z=best[1]['publication_zone_id']; return (z if z in pages else None), best[1].get('municipality_code')
 def s(v): v=None if v in (None,'None','') else str(v).strip(); return v
+PROVT=re.compile(r"(?<!Via )(?<!Viale )(?<!Piazza )(?<!Largo )(?<!Via di )\b(Albano Laziale|Albano|Marino|Frascati|Ciampino|Castel Gandolfo|Genzano|Ariccia|Rocca di Papa|Rocca Priora|Grottaferrata|Monte Porzio|Monte Compatri|Fiumicino|Guidonia|Tivoli|Monterotondo|Pomezia|Ardea|Anzio|Nettuno|Velletri|Ladispoli|Cerveteri|Bracciano|Mentana|Fonte Nuova|Zagarolo|Palestrina|Colleferro|Valmontone|Lariano|Nemi|Formello|Sacrofano|Campagnano|Anguillara|Trevignano|Santa Marinella|Civitavecchia|Subiaco)\b")
 ev=[]; seen=set(); stat=collections.Counter()
 def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=None):
     t=s(t); d1=s(d1); d2=s(d2) or d1
     if not t or not d1: stat['senza titolo o data']+=1; return
     d1=d1[:16].replace('T',' '); d2=(d2 or d1)[:16].replace('T',' ')
     if max(d1[:10],d2[:10])<TODAY: stat['passati']+=1; return
+    if re.search(r'comune\.[a-z-]+\.rm\.it',str(url or '')+str(fonte_url or '')): stat['fuori Roma (sito di un altro comune)']+=1; return
+    if src!='Roma Today' and re.search(r'romatoday\.it',str(url or '')+str(fonte_url or '')): stat['Roma Today fuori dalla lettura autorizzata (DEC-026)']+=1; return
+    lu=f"{luogo or ''} {ind or ''}"
+    if PROVT.search(lu) and not re.search(r'\b(Roma|Rome)\b',lu): stat['fuori Roma (luogo in un comune della provincia)']+=1; return
     cap=re.findall(r'(?<![\d.])(\d{5})(?!\d)',f"{luogo or ''} {ind or ''}")
     if cap and not any('00100'<=c<='00199' for c in cap): stat['fuori Roma (CAP)']+=1; return   # widget di eventi altrui (AICP: eventi negli Stati Uniti), Fever all'estero
     k=(norm(t)[:45],d1[:10])
@@ -142,6 +147,27 @@ if os.path.exists(PS):
                 ev[-1]['dp']=True
                 if x.get('ricorrente'): ev[-1]['ric']=x['ricorrente']
             elif x.get('prova')!='jsonld': ev[-1]['dv']=True
+# 10. Biblioteche di Roma (agenda dell'OPAC, 25 ottobre): un evento schema.org per appuntamento, con la sede
+PB=f'{S}/promotori/biblioteche_eventi.json'
+if os.path.exists(PB):
+    BIB={}
+    for b in json.load(open(f'{S}/mirate/bib.json')):
+        c=str(b.get('sito') or '').rstrip('/').split('/')[-1]
+        if b.get('lat'): BIB[c]=(b['lat'],b['lon'],b.get('indirizzo'))
+    for x in json.load(open(PB)):
+        if x.get('sotto_eventi'): stat['biblioteche: news ombrello (gli appuntamenti sono a parte)']+=1; continue
+        codes=[c for c in x.get('codici_sede') or [] if c in BIB]
+        la,lo,ind=BIB[codes[0]] if codes else (None,None,None)
+        z,m=zone_ll(la,lo) if codes else (None,None)
+        om=re.search(r'ore\s+(\d{1,2})[:.](\d{2})',x.get('quando') or '')
+        add('sito della fonte',x['titolo'],x['inizio'],x['fine'],f"{int(om.group(1)):02d}:{om.group(2)}" if om else None,(x.get('sedi') or [None])[0],ind,(x.get('sedi') or ['Biblioteche di Roma'])[0],x['url'],z,m,o='Biblioteche di Roma: agenda (OPAC)')
+# 11. eventi futuri delle pagine Facebook mai lette (25 ottobre): lista supplementare e promotori
+for f in sorted(glob.glob(f'{S}/promotori/fbevents_ev_*.json')):
+    for x in json.load(open(f)):
+        if str(x.get('is_past'))=='True' or ('Rome' not in str(x.get('city') or '') and 'Roma' not in str(x.get('address') or '')): continue
+        z,m=zone_ll(x.get('latitude'),x.get('longitude'))
+        hn=x.get('host_names'); hn=', '.join(hn) if isinstance(hn,list) else (', '.join(ast.literal_eval(hn)) if isinstance(hn,str) and hn.startswith('[') else hn)
+        add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),hn,x.get('url'),z,m,o='Facebook: pagine mai lette (lista supplementare e promotori)')
 ev.sort(key=lambda e:(e['d1'],e['ora'] or '',e['t']))
 P=[{'id':z,'nome':p['name_display'],'mun':p['primary_municipality']} for z,p in sorted(pages.items(),key=lambda kv:kv[1]['name_display'])]
 json.dump({'oggi':TODAY,'pagine':P,'eventi':ev},open(f'{S}/pagina_eventi/eventi'+('_zu' if GEO=='zu' else '')+'.json','w'),ensure_ascii=False,separators=(',',':'))

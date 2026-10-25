@@ -16,11 +16,34 @@ for o in L:
     if o['gia_nota'] or not soggetto(o): continue
     if fbk(o.get('facebook')): byfb.setdefault(fbk(o['facebook']),o)
     if host(o.get('sito')): byhost.setdefault(host(o['sito']),o)
+FBT={}
+for f in glob.glob(f'{S}/runts/work/fb_pages/*.json')+glob.glob(f'{S}/assoc/pages_data/*.json')+glob.glob(f'{S}/owner_pagine/pages_*.json')+glob.glob(f'{S}/promotori/fbpages_*.json'):
+    for x in json.load(open(f)):
+        if isinstance(x,dict) and x.get('title'):
+            for u in (x.get('facebookUrl'),x.get('pageUrl'),x.get('inputUrl')):
+                if fbk(u): FBT.setdefault(fbk(u),x['title'])
+STOPW=set('associazione ass asd aps odv onlus ets centro circolo comitato di del della dei degli delle e il la lo le gli i in roma parrocchia chiesa san santa santo culturale sportiva quartiere sociale per a da al alla impresa srl cooperativa ente nazionale italia italiana'.split())
+def rnorm(x): return re.sub(r'\s+',' ',re.sub(r'[^a-z0-9 ]+',' ',unicodedata.normalize('NFKD',re.sub(r'([a-z])([A-Z])',r'\1 \2',str(x or ''))).encode('ascii','ignore').decode().lower())).strip()
+def initials(x,keep_small):
+    small={'di','del','della','delle','dei','degli','e','la','il','lo','le','gli','i','per','a','da','in','al','alla','of','the','and'}
+    return ''.join(w[0] for w in rnorm(x).split() if w and (keep_small or w not in small))
+def related(a,b):   # stesso soggetto? parole, nomi attaccati (camelCase), sigle (AVO, CSP, ANDOS…)
+    if not rnorm(a) or not rnorm(b): return True
+    ca,cb=rnorm(a).replace(' ',''),rnorm(b).replace(' ','')
+    ta=[w for w in rnorm(a).split() if w not in STOPW and len(w)>=4]; tb=[w for w in rnorm(b).split() if w not in STOPW and len(w)>=3]
+    if any(w in cb for w in ta) or any(w in ca for w in tb) or ca in cb or cb in ca: return True
+    for x,y in ((a,cb),(b,ca)):
+        for ks in (False,True):
+            ini=initials(x,ks)
+            if len(ini)>=3 and any(ini[i:i+n] in y for n in range(min(len(ini),5),2,-1) for i in range(len(ini)-n+1)): return True
+    return False
 out=[]; seen=set(); st=collections.Counter(); per=collections.Counter()
 for f in glob.glob(f'{S}/supplementare/posts_*.json'):
     for p in json.load(open(f)):
         k=fbk(p.get('inputUrl') or p.get('facebookUrl') or p.get('url')); o=byfb.get(k)
         if not o or p.get('error') or not p.get('text') or not p.get('time'): continue
+        tit=FBT.get(k) or p.get('pageName')
+        if tit and not related(o['nome'],tit) and not related(o['nome'],p.get('pageName')): st['post di una pagina che non è del soggetto (scartati)']+=1; continue
         per[k]+=1
         if per[k]>15: continue
         st['post letti']+=1
@@ -32,6 +55,7 @@ for f in glob.glob(f'{S}/supplementare/posts_*.json'):
         out.append({**e,'fonte':o['nome'],'tipo_fonte':o['tipo'],'zona':zt or o['pagina'],'municipio':o['municipio'],'zona_metodo':'luogo nominato nel post' if zt else 'sede della fonte (lista supplementare)','url':p.get('url'),'canale':'Facebook (post)'})
 st['pagine con post']=len(per)
 for r in json.load(open(f'{S}/supplementare/siti_letti.json')):
+    if re.search(r'romatoday\.it|citynews\.it',str(r.get('fonte'))+' '+' '.join(r.get('lette') or [])): st['siti: pagine di Roma Today lette per errore (scartate, DEC-026)']+=1; continue
     o=byhost.get(r['fonte'])
     if not o: continue
     if sum(1 for x in r['eventi'] if x['prova']!='jsonld')>20: st['siti esclusi: troppe date (blog o aggregatore)']+=1; continue

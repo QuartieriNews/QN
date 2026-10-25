@@ -25,6 +25,7 @@ def text(d): return html.unescape(re.sub(r'<[^>]+>',' ',re.sub(r'<(script|style|
 def work(src):
     urls=src['url_esempio'].split(' · '); home='https://'+src['fonte']
     out={'fonte':src['fonte'],'categoria':src['categoria'],'pagine_qn':src['pagine_qn'],'ricerche':src['ricerche'],'eventi':[],'lette':[]}
+    if re.search(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$',src['fonte']): out['esito']='non letto: Roma Today, licenza Citynews (DEC-026)'; return out
     if not robots_ok(home): out['esito']='robots.txt vieta la lettura'; return out
     fonte={'id':'Q-'+src['fonte'],'nome':src['fonte']}
     todo=list(dict.fromkeys([home]+urls[:2])); seen=set()

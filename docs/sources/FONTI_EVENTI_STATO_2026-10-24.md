@@ -253,6 +253,119 @@ del flusso). Eventi che mancano per portare ogni pagina al livello «quartiere a
 450 a circa 380. Costo Apify della lista: circa 16 dollari (Google Maps 8,1, post Facebook 7,3,
 ricerca Google 0,9).
 
+## 1 nonies. Promotori degli eventi, categorie, ricerche integrative, immagini e diffusione (M, 25 ottobre 2026)
+
+**Promotori.** Chi organizza i 2.384 eventi futuri della pagina degli eventi di quartiere: host degli
+eventi Facebook (con il link alla pagina), pagina che annuncia nel post, «a cura di» di culture.roma.it, la
+sede per l'agenda delle Biblioteche di Roma, la fonte per i siti; i co-organizzatori sono separati. 1.206 promotori; per 908 c'è un'email
+(75%), per 862 un sito, per 1.122 una pagina Facebook, per 707 un profilo
+Instagram, per 635 un telefono. Dati da: profili Facebook già letti nei censimenti e 425 letti ora,
+RUNTS, censimento associazioni, lista supplementare, contatti per evento di culture.roma.it, siti dei
+promotori letti ora (homepage, contatti, chi siamo, note legali; robots.txt rispettato) e una ricerca Google
+dei canali per chi non ne aveva. Ogni promotore ha una categoria, un ambito, le attività prevalenti, una
+descrizione breve scritta da regole con le nostre etichette e una descrizione lunga che aggiunge, tra
+virgolette, come il soggetto si presenta. Il foglio completo (`promotori_eventi.xlsx`) sta su Drive; la wiki
+ha la pagina generata `docs/wiki/fonti-eventi/promotori.md` con categoria, descrizione breve, canali, se
+esiste un contatto e la posizione sulla diffusione, senza email, telefoni né testi delle fonti (DEC-102,
+DEC-109; test T-FE-10).
+
+| Categoria | Promotori | Eventi | Quota nelle 41 pagine deboli |
+|---|---|---|---|
+| Associazioni culturali e artistiche | 273 | 544 | 10% |
+| Terzo settore sociale e sanitario | 160 | 254 | 13% |
+| Teatri, cinema e spazi di spettacolo | 76 | 251 | 12% |
+| Istituzioni pubbliche | 69 | 242 | 16% |
+| Grandi istituzioni culturali e fondazioni | 32 | 197 | 2% |
+| Persone (artisti, autori, guide) | 135 | 158 | 9% |
+| Non classificato | 92 | 140 | 8% |
+| Intermediari: biglietterie, aggregatori e media | 36 | 115 | 1% |
+| Turismo e visite guidate | 53 | 104 | 9% |
+| Sport e movimento | 63 | 87 | 26% |
+| Parrocchie e realtà religiose | 42 | 71 | 45% |
+| Scuole, università e formazione | 43 | 70 | 13% |
+| Musei, gallerie e spazi espositivi | 20 | 59 | 0% |
+| Locali e attività commerciali | 39 | 56 | 11% |
+| Centri sociali, centri anziani e spazi di comunità | 15 | 43 | 16% |
+| Comitati di quartiere e reti civiche | 24 | 40 | 38% |
+| Ambiente, natura e animali | 27 | 39 | 8% |
+| Politica e sindacati | 7 | 10 | 0% |
+
+**Lettura per categoria.** Quota degli eventi di ogni categoria che cade nelle 41 pagine deboli:
+le più legate alle periferie sono parrocchie e realtà religiose (45%), comitati di quartiere e reti civiche (38%), sport e movimento (26%); le meno musei, gallerie e spazi espositivi (0%), intermediari: biglietterie, aggregatori e media (1%), grandi istituzioni culturali e fondazioni (2%). Nelle 41 pagine deboli la lista supplementare (§1 octies) ha trovato 283 parrocchie e realtà religiose, 397 associazioni, 196 realtà sportive, 98 comitati, 73 centri anziani o sociali; i promotori di quelle categorie con almeno un evento nel calendario in quelle pagine sono 22 (8%), 42 (11%), 21 (11%), 10 (10%), 2 (3%). Il buco non è di soggetti: è di eventi che arrivano online.
+
+**Ricerche integrative** (spesa massima approvata 25 dollari):
+
+| Idea | Stato | Costo | Esito |
+|---|---|---|---|
+| Agenda delle Biblioteche di Roma (news dell'OPAC, eventi schema.org per sede) | eseguita | 0 $ (lettura del sito, una richiesta al secondo; il sito non ha robots.txt) | 110 eventi futuri nella pagina, 22 nelle 41 pagine deboli, da 30 sedi |
+| Eventi futuri delle pagine Facebook mai lette (lista supplementare e promotori) | eseguita | 0,14 $ | lette tutte le 226 pagine della lista supplementare e 13 delle 384 dei promotori (lettura interrotta: circa 5 pagine al minuto, e i promotori sono già nel calendario); 36 eventi letti, 32 futuri a Roma: 2 dalle 226 pagine dei quartieri deboli, 30 dalle 13 dei promotori; 30 entrati nella pagina dopo filtri e doppioni. Conferma che i piccoli soggetti annunciano nei post, non negli eventi Facebook |
+| Profili Facebook dei promotori senza dati (descrizione, email, sito, Instagram) | eseguita | 3,51 $ | 425 profili letti: 367 con email, 403 con descrizione |
+| Ricerca Google dei canali per i promotori senza sito né Facebook | eseguita | 0,39 $ | canali trovati per 56 promotori: 45 siti, 34 pagine Facebook, 27 Instagram |
+| Eventi dei Municipi su comune.roma.it | provata e scartata | 0 $ | Municipi VI e VII: 11 eventi in elenco, quasi tutti dell'estate e in parte già noti; l'elenco non è un calendario aggiornato |
+| Calendario delle gare podistiche (calendariopodismo.it, pagina Lazio) | provata e scartata | 0 $ (4 pagine dell'elenco; robots.txt aperto) | 98 gare nel Lazio fino a dicembre, 7 a Roma e quasi tutte grandi corse del centro già note; per le periferie meglio i calendari delle società e dei comitati (UISP, CSI) |
+| Bollettini e avvisi parrocchiali (pagine avvisi dei siti, foglio domenicale in PDF) | proposta | 0 $ (lettura dei siti e dei PDF; da scrivere un lettore di PDF) | — |
+| Calendario della Diocesi di Roma (sito con calendario eventi) | proposta | 0 $ | il sito chiede un captcha dopo poche richieste: va chiesto alla Diocesi un feed o un permesso di lettura |
+| Calendari dei tornei e delle gare delle società (UISP Roma, CSI Roma) | proposta | 0-1 $ | — |
+| Centri anziani e centri sociali | proposta (contatto, non ricerca) | 0 $ | contatto diretto con i telefoni della lista supplementare o con l'ufficio centri anziani di ogni Municipio |
+| Gruppi Facebook di quartiere («Sei di … se») | proposta (manuale) | 0 $ | non leggibili in automatico (gruppi chiusi): iscrizione della redazione e lettura settimanale |
+| Instagram dei promotori senza eventi su Facebook | proposta | 2-5 $ per un giro | resa attesa bassa nelle pagine deboli: da fare dopo i bollettini parrocchiali |
+
+**Correzioni alla lista supplementare.** Un post pubblicato da una pagina diversa dal soggetto non prende
+più la zona della sede del soggetto, e i post di pagine non collegate a un soggetto della lista
+supplementare sono scartati. Il lettore dei siti aveva seguito come «sito» di un soggetto un articolo di
+Roma Today e ne aveva letto anche la home e la pagina degli eventi: contro DEC-026, che fuori dalla lettura
+una tantum del 23 ottobre non ammette letture di Roma Today. I tre blocchi datati presi da lì sono tolti
+dalla pagina e dal foglio della lista supplementare, e Roma Today è escluso nel lettore dei siti, nel lettore della lista
+supplementare e nella raccolta degli eventi. Gli eventi della lista supplementare nella pagina sono ora
+83 (88 nel §1 octies).
+
+**Immagini (DEC-101).** Per ogni evento della pagina l'immagine della fonte è scaricata una volta e
+salvata a risoluzione da card (lato lungo 800 px), con `source_image_url`, `image_fetched_at`,
+`image_local_path`, `image_credit` e `image_removed`: 1.978 immagini. Non scaricate: Roma Today
+(licenza Citynews, DEC-026), eventi Fever (asset commerciali), blocchi di testo dei siti senza pagina
+dell'evento; 190 eventi non hanno immagine alla fonte. Archivio e manifest su Drive
+(`immagini_eventi.zip`, `immagini_eventi_manifest.xlsx`), mai nel repository.
+
+**Diffusione.** Posizione di ogni fonte sui propri contenuti, dal sito (note legali, termini, piè di
+pagina, robots.txt, riserva di estrazione TDM) o dai termini della piattaforma:
+
+| Posizione | Promotori | Eventi (posizione più restrittiva fra i promotori dell'evento) |
+|---|---|---|
+| riproduzione vietata | 5 | 36 |
+| raccolta automatica vietata | 2 | 2 |
+| licenza richiesta | 0 | 0 |
+| termini della piattaforma | 377 | 490 |
+| diritti riservati (generico) | 463 | 964 |
+| licenza aperta | 10 | 13 |
+| nessuna indicazione | 329 | 785 |
+| non verificabile | 20 | 15 |
+
+Gli stessi eventi per canale da cui li leggiamo (la posizione del canale vale anche quando il promotore non dice nulla):
+
+| Canale | Posizione | Eventi |
+|---|---|---|
+| Facebook (termini di Meta) | termini della piattaforma | 1536 |
+| culture.roma.it (Roma Capitale) | diritti riservati (generico) | 356 |
+| siti delle fonti | diritti riservati (generico) | 144 |
+| siti delle fonti | nessuna indicazione | 136 |
+| Biblioteche di Roma | nessuna indicazione | 110 |
+| Roma Today (Citynews) | licenza richiesta | 82 |
+| siti delle fonti | non verificabile | 14 |
+| siti delle fonti | riproduzione vietata | 4 |
+| siti delle fonti | licenza aperta | 2 |
+
+Vietano esplicitamente la riproduzione dei contenuti: Romaeuropa Festival (26 eventi), Teatro Degli Audaci (6 eventi), VignaClaraBlog.it Il primo quotidiano on line di Roma Nord (2 eventi), Indipendente Concerti (1 evento), Azione Cattolica Italiana (1 evento)
+(clausole rilette una per una: Romaeuropa non consente di usare contenuti e marchi del sito per scopi diversi da quelli del sito; il Teatro degli Audaci vieta riproduzione e diffusione senza autorizzazione scritta, ma ammette un estratto fino al 15% del testo con link all'originale e nome dell'autore; VignaClaraBlog vieta la riproduzione anche parziale senza approvazione scritta; il sito di riferimento è quello di Live Nation, i cui termini vietano di copiare o distribuire parti del sito senza autorizzazione scritta; Azione Cattolica consente solo usi personali dei contenuti).
+Vietano la raccolta automatica (termini o robots.txt): Intersos Lab, Le Nuove Chimere CooperativaSociale. Facebook e Instagram
+(termini di Meta: raccolta automatica vietata senza permesso) portano 1.536 eventi su 2.384; Roma Today
+richiede licenza (DEC-026); le note legali di Roma Capitale (anche per culture.roma.it) riservano i diritti
+sui contenuti senza licenza di riuso; il sito delle Biblioteche di Roma non dice nulla sui contenuti (il suo
+«copyright» riguarda il software del catalogo). Nessuna delle clausole lette vieta di dare notizia di un evento: i fatti (cosa,
+quando, dove, chi) non sono protetti; lo sono testi e immagini, e la banca dati contro estrazioni
+sistematiche. Conseguenza operativa, già nelle regole: scriviamo i nostri testi con credito e link
+(DEC-102), e per le fonti che vietano la riproduzione si usa la card generata invece dell'immagine
+(DEC-101); la posizione sulla raccolta automatica di Facebook resta quella di DEC-102.
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |
@@ -413,3 +526,6 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 5. Portare il pacchetto Metodo QN nell'ambiente e riassegnare la geografia degli eventi con
    `qngeo.py punto`.
 6. Rimisurare a fine novembre: eventi futuri per pagina QN con le sole righe principali.
+7. Promotori (§1 nonies): per le fonti che vietano la riproduzione usare la card generata e i
+   nostri testi; prossime ricerche gratuite: calendari dei tornei delle società (UISP, CSI) e
+   bollettini parrocchiali; per i centri anziani, contatto diretto.

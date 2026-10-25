@@ -24,6 +24,11 @@ Rules under test, each named in the check label:
           events page as where to look; an entity without web presence is counted only.
 - T-FE-8  merge proposals: two entries that are probably the same source are listed for a
           person in fusioni-proposte.md and never merged by the build.
+- T-FE-10 promoters of the events (analysis on Drive, 25 October 2026): promotori.md lists them by
+          our category with a one-line label description; emails, phone numbers, long descriptions and
+          the promoters' own texts never reach the output (a contact is only "sì/no"); a personal profile
+          (Facebook profile.php, LinkedIn /in/) keeps the name and drops the URL; the zone is written only
+          if it is a gazetteer id; a promoter with a schedario id carries its category on that entry.
 
 Run:  python tests/test_fonti_eventi_build.py   (exit 0 and "ALL PASS" required)
 """
@@ -54,6 +59,8 @@ TITLE_FB = "Serata Jazz Segretissima Al Vascello"
 TITLE_CR = "Mostra Che Non Deve Entrare Nel Repo"
 TITLE_RT = "Articolo Roma Today Titolo Riservato"
 INTRO_TXT = "Testo Di Presentazione Della Pagina Che Non Entra"
+AUTO_TXT = "Autodescrizione Del Promotore Che Resta Su Drive"
+PHONE = "06 5550 1234"
 
 GAZ = {"publication_zones": [{"publication_zone_id": "monteverde", "name_display": "Monteverde", "primary_municipality": "XII", "is_page": True},
                              {"publication_zone_id": "testaccio", "name_display": "Testaccio", "primary_municipality": "I", "is_page": True}],
@@ -142,6 +149,17 @@ def make_inputs(folder):
                "contatti@recapito-fittizio.it , Rome, Italy", None, None, None, "https://info@recapito-fittizio.it", None, None])
     ws.append(["97000000003", "Ente Senza Rete ETS", "nessuna presenza web trovata", "", None, None, None, None, None, None, None, None, None, None, None, None, None])
     rwb2.save(os.path.join(folder, "enti_terzo_settore_fonti.xlsx"))
+    json.dump([
+        {"nome": "Teatro Vascello", "id": "S-FE-0100", "categoria": "Teatri, cinema e spazi di spettacolo", "sottocategoria": "teatro", "ambito": "di quartiere",
+         "descrizione_breve": "Teatro di Monteverde (Municipio XII): teatro, danza, incontri.", "attivita": ["teatro", "danza"], "pubblico": [],
+         "municipio": "XII", "zona": "monteverde", "eventi": 5, "canali": {"sito": "https://www.teatrovascello.it", "facebook": "https://www.facebook.com/teatrovascello"},
+         "contatti": {"email": ["biglietteria@teatro-fittizio.it"], "telefono": PHONE}, "email": ["biglietteria@teatro-fittizio.it"], "telefono": PHONE,
+         "descrizione_lunga": AUTO_TXT, "autodescrizione": AUTO_TXT, "diffusione": "diritti riservati (generico)", "diffusione_prova": "https://www.teatrovascello.it/note-legali/"},
+        {"nome": "Giulia Conti", "id": None, "categoria": "Persone (artisti, autori, guide)", "sottocategoria": "persona", "ambito": "cittadino",
+         "descrizione_breve": "Artista: scrivete a giulia@persona-fittizia.it " + "x" * 400, "municipio": "XIII", "zona": "zona-inventata", "eventi": 1,
+         "canali": {"facebook": "https://www.facebook.com/profile.php?id=100099", "linkedin": "https://www.linkedin.com/in/giulia-conti-fittizia", "sito": "mailto:giulia@persona-fittizia.it"}, "contatti": {"email": True},
+         "diffusione": "una etichetta inventata"},
+    ], open(os.path.join(folder, "promotori.json"), "w"))
     gaz = os.path.join(folder, "gazetteer.json")
     json.dump(GAZ, open(gaz, "w"))
     return gaz
@@ -248,6 +266,21 @@ def main():
         check("T-FE-8 legal form and generic words: same source already one entry by normalisation, so no proposal", (len(jp_all), any("Jazz Promoter" in c["a_nome"] for c in fp)), (1, False))
         check("T-FE-8 page lists the pairs", "Teatro Vascelo" in texts.get("fusioni-proposte.md", ""), True)
         check("T-FE-8 unrelated entries not paired", any("Comitato Fittizio" in (c["a_nome"], c["b_nome"]) and "Circolo Arci Testaccio" in (c["a_nome"], c["b_nome"]) for c in fp), False)
+
+        print("T-FE-10 promoters of the events")
+        prom = texts.get("promotori.md", "")
+        check("T-FE-10 promoters page generated, both listed", ("Teatro Vascello" in prom, "Giulia Conti" in prom), (True, True))
+        check("T-FE-10 no email, phone, long description or own text anywhere",
+              (bool(bfe.EMAIL_RX.search(blob)), PHONE in blob, AUTO_TXT in blob), (False, False, False))
+        gp = next(p for p in s["promotori"] if p["nome"] == "Giulia Conti")
+        check("T-FE-10 contact is yes/no only", (sorted(gp["contatti"].items()), "email" in gp and not isinstance(gp.get("email"), bool)), ([("email", True), ("telefono", False)], False))
+        check("T-FE-10 personal profiles (Facebook, LinkedIn): name kept, url dropped; non-web link dropped", gp["canali"], {})
+        check("T-FE-10 short description capped and stripped of the address", (len(gp["descrizione_breve"]) <= bfe.PROMO_MAX, "persona-fittizia" in gp["descrizione_breve"]), (True, False))
+        check("T-FE-10 unknown zone and unknown label never written", (gp["zona"], gp["diffusione"]), (None, "non verificabile"))
+        vas = next(e for e in s["fonti"] if e["id"] == "S-FE-0100")
+        check("T-FE-10 schedario entry carries the promoter category", vas.get("promotore", {}).get("categoria"), "Teatri, cinema e spazi di spettacolo")
+        check("T-FE-10 evidence link of the position kept", "[diritti riservati (generico)](https://www.teatrovascello.it/note-legali/)" in prom, True)
+        check("T-FE-10 index links the page", "[promotori.md](promotori.md)" in texts["INDEX.md"], True)
 
         print("T-FE-6 determinism and pages")
         check("T-FE-6 two builds identical", read_all(out1) == read_all(out2), True)

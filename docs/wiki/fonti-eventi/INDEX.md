@@ -4,7 +4,7 @@ Pagine generate da `fonti_eventi.json`; non modificare a mano, rigenerare con `t
 
 Fonti: 5099 · nel registro del 13 ottobre: 1606 · luoghi: 644 · organizzatori: 3112 · con sito web: 3213 · con pagina QN: 3585 · candidate dai censimenti del 24 ottobre: 2526 (vedi [censimento-pagine.md](censimento-pagine.md))
 
-Aggregatori: vedi [aggregatori.md](aggregatori.md).
+Aggregatori: vedi [aggregatori.md](aggregatori.md). Promotori degli eventi, per categoria: vedi [promotori.md](promotori.md).
 
 | Municipio | fonti | luoghi | organizzatori | eventi ott 2026 | con sito | con pagina QN |
 |---|---|---|---|---|---|---|

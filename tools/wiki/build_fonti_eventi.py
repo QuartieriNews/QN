@@ -74,6 +74,42 @@ CENSUS_FILES = (
      {"nome": "denominazione", "url_pagina": "facebook", "stato": None, "fb_eventi_in_roma": "fb_eventi_futuri_roma",
       "sito_date_ultimi_6_mesi": "sito_date_6_mesi", "categoria_facebook": "facebook_categoria", "nel_registro_13_ott": "gia_nella_wiki"}),
 )
+# promoter analysis (Drive): our own category labels and one-line description per promoter; contacts, long
+# descriptions and the promoters' own texts stay on Drive (DEC-102, DEC-109) and are dropped here
+PROMOTORI_FILE = "promotori.json"
+DIFFUSIONE = ("riproduzione vietata", "raccolta automatica vietata", "licenza richiesta", "termini della piattaforma",
+              "diritti riservati (generico)", "licenza aperta", "nessuna indicazione", "non verificabile")
+PROMO_MAX = 220   # a short description is a label line, never a pasted text
+
+
+def clean_promotore(p, ids, zones):
+    """One promoter row as the wiki may hold it: whitelisted fields only, emails stripped from text, contacts as yes/no,
+    a personal profile (Facebook profile.php, LinkedIn /in/) without its URL, the zone only if it is a gazetteer id."""
+    nome = EMAIL_RX.sub(" ", str(p.get("nome") or "")).strip(" -–,;:|")
+    if not norm(nome):
+        return None
+
+    def txt(v, n):
+        v = re.sub(r"\s+", " ", EMAIL_RX.sub(" ", str(v or ""))).strip()
+        return v[:n].rstrip() or None
+    canali = {}
+    for k in ("sito", "facebook", "instagram", "youtube", "x", "tiktok", "linkedin"):
+        u = (p.get("canali") or {}).get(k)
+        if is_web_url(u) and not EMAIL_RX.search(u) and not (k == "facebook" and personal_profile(u)) and not (k == "linkedin" and "linkedin.com/in/" in u):
+            canali[k] = u
+    contatti = p.get("contatti") or {}
+    return {"nome": nome, "id": p.get("id") if p.get("id") in ids else None,
+            "categoria": txt(p.get("categoria"), 80), "sottocategoria": txt(p.get("sottocategoria"), 80), "ambito": txt(p.get("ambito"), 40),
+            "descrizione_breve": txt(p.get("descrizione_breve"), PROMO_MAX),
+            "attivita": [a for a in (txt(a, 40) for a in (p.get("attivita") or [])) if a][:5],
+            "pubblico": [a for a in (txt(a, 40) for a in (p.get("pubblico") or [])) if a][:5],
+            "municipio": p.get("municipio") if p.get("municipio") in ROMAN else None, "zona": p.get("zona") if p.get("zona") in zones else None,
+            "eventi": int(p.get("eventi") or 0), "canali": canali,
+            "contatti": {"email": bool(contatti.get("email")), "telefono": bool(contatti.get("telefono"))},
+            "diffusione": p.get("diffusione") if p.get("diffusione") in DIFFUSIONE else "non verificabile",
+            "diffusione_prova": p.get("diffusione_prova") if is_web_url(p.get("diffusione_prova")) else None}
+
+
 FB_CATEGORIA_TIPO = (("theat", "teatro"), ("cinema", "cinema"), ("librar", "biblioteca"), ("museum", "museo"), ("art gallery", "galleria"),
                      ("music", "club_musica"), ("dance", "scuola"), ("school", "scuola"), ("educat", "scuola"), ("church", "parrocchia"),
                      ("religio", "parrocchia"), ("sport", "associazione"), ("nonprofit", "associazione"), ("non-profit", "associazione"),
@@ -645,6 +681,18 @@ def build(input_dir, out_dir, gazetteer_path):
     # drop entries that are neither in the registry nor carry any event (pure link noise)
     out_entries = [e for e in out_entries if e["registro"] or e["censimento"] or e["eventi_totali"] > 0]
 
+    # ---- promoters of the events (analysis on Drive): labels and one-line descriptions -----------------
+    promotori = []
+    pp = os.path.join(input_dir, PROMOTORI_FILE)
+    if os.path.exists(pp):
+        ids = {e["id"] for e in out_entries}
+        promotori = [c for c in (clean_promotore(p, ids, zones) for p in json.load(open(pp, encoding="utf-8"))) if c]
+        promotori.sort(key=lambda p: (-p["eventi"], p["nome"].lower(), p["id"] or ""))
+        by_id = {p["id"]: p for p in promotori if p["id"]}
+        for e in out_entries:
+            if e["id"] in by_id:
+                e["promotore"] = {k: by_id[e["id"]][k] for k in ("categoria", "sottocategoria", "ambito", "descrizione_breve", "diffusione")}
+
     # ---- aggregator cards: numbers from the workbook ------------------------------------------------
     per_src = Counter(); traced = defaultdict(Counter); geo_ok = Counter(); fuori = Counter()
     for r in urows:
@@ -681,6 +729,7 @@ def build(input_dir, out_dir, gazetteer_path):
         "doppioni": {f"{t} · {f}": n for (t, f), n in sorted(overlap.items())},
         "censimento_pagine": {o: dict(sorted(c.items())) for o, c in censimento_conteggi.items()},
         "fusioni_proposte": proposed_merges(out_entries),
+        "promotori": promotori,
     }
     os.makedirs(out_dir, exist_ok=True)
     json.dump(sched, open(os.path.join(out_dir, "fonti_eventi.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
@@ -734,7 +783,7 @@ def write_pages(sched, out_dir, zones):
              f"organizzatori: {sum(1 for e in fonti if 'organizzatore' in e['ruoli'])} · con sito web: {sum(1 for e in fonti if e['canali']['sito'])} · "
              f"con pagina QN: {sum(1 for e in fonti if e['zona'])}"
              + (f" · candidate dai censimenti del 24 ottobre: {sum(1 for e in fonti if e['censimento'])} (vedi [censimento-pagine.md](censimento-pagine.md))" if sched.get("censimento_pagine") else ""), "",
-             "Aggregatori: vedi [aggregatori.md](aggregatori.md).", "",
+             "Aggregatori: vedi [aggregatori.md](aggregatori.md)." + (" Promotori degli eventi, per categoria: vedi [promotori.md](promotori.md)." if sched.get("promotori") else ""), "",
              "| Municipio | fonti | luoghi | organizzatori | eventi ott 2026 | con sito | con pagina QN |", "|---|---|---|---|---|---|---|"]
     for m in ROMAN + ["senza municipio"]:
         es = by_mun.get(m, [])
@@ -784,7 +833,42 @@ def write_pages(sched, out_dir, zones):
     write_aggregatori(sched, out_dir)
     if sched.get("censimento_pagine"):
         write_censimento(sched, out_dir, zones)
+    if sched.get("promotori"):
+        write_promotori(sched, out_dir, zones)
     write_fusioni(sched, out_dir)
+
+
+def write_promotori(sched, out_dir, zones):
+    """Who organises the events of the neighbourhood pages, grouped by our category: label line, scope, place,
+    channels, whether a contact exists, and the source's position on reusing its content."""
+    ps = sched["promotori"]
+    cell_ = lambda v: str(v).replace("|", "/")
+    out = ["# Promotori degli eventi (generato)", "",
+           "Chi organizza gli eventi della pagina «Eventi dei quartieri» (calendario noto al 25 ottobre 2026), per categoria: ambito, "
+           "una descrizione breve scritta da noi con etichette (non è testo della fonte), canali, se esiste un contatto, e la posizione "
+           "della fonte sulla diffusione dei suoi contenuti. Email, telefoni, descrizioni lunghe e autodescrizioni stanno nel foglio "
+           "`promotori_eventi.xlsx` su Drive (DEC-102, DEC-109).", "",
+           f"Promotori: {len(ps)} · con voce nello schedario: {sum(1 for p in ps if p['id'])} · con email: {sum(1 for p in ps if p['contatti']['email'])} · "
+           f"con telefono: {sum(1 for p in ps if p['contatti']['telefono'])}", "",
+           "| categoria | promotori | eventi |", "|---|---|---|"]
+    by_cat = defaultdict(list)
+    for p in ps:
+        by_cat[p["categoria"] or "Non classificato"].append(p)
+    cats = sorted(by_cat, key=lambda c: (-sum(p["eventi"] for p in by_cat[c]), c))
+    for c in cats:
+        out.append(f"| [{c}](#{re.sub(r'[^a-z0-9 -]', '', norm(c)).replace(' ', '-')}) | {len(by_cat[c])} | {sum(p['eventi'] for p in by_cat[c])} |")
+    dif = Counter(p["diffusione"] for p in ps)
+    out += ["", "| diffusione dei contenuti | promotori |", "|---|---|"] + [f"| {k} | {v} |" for k, v in sorted(dif.items(), key=lambda kv: (-kv[1], kv[0]))]
+    for c in cats:
+        out += ["", f"## {c}", "", "| promotore | descrizione breve | ambito | municipio · pagina QN | eventi | canali | email | diffusione | id |",
+                "|---|---|---|---|---|---|---|---|---|"]
+        for p in by_cat[c]:
+            can = " · ".join(md_link(u, k) for k, u in p["canali"].items()) or "—"
+            zona = zones[p["zona"]]["name_display"] if p["zona"] in zones else "—"
+            dif_s = md_link(p["diffusione_prova"], p["diffusione"]) if p["diffusione_prova"] else p["diffusione"]
+            out.append(f"| {cell_(p['nome'])} | {cell_(p['descrizione_breve'] or '—')} | {p['ambito'] or '—'} | {p['municipio'] or '—'} · {zona} | {p['eventi']} | "
+                       f"{can} | {'sì' if p['contatti']['email'] else 'no'} | {dif_s} | {('`' + p['id'] + '`') if p['id'] else '—'} |")
+    open(os.path.join(out_dir, "promotori.md"), "w", encoding="utf-8").write("\n".join(out) + "\n")
 
 
 def write_fusioni(sched, out_dir):

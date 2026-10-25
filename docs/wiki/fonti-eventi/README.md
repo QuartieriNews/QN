@@ -17,6 +17,7 @@ Molte fonti sono luogo e organizzatore insieme.
 | **Aggregatori** | `aggregatori.md` | una scheda per aggregatore: regole di accesso, cosa è stato misurato, rintracciabilità, sovrapposizioni | generato; i numeri vengono dal foglio |
 | **Pagine** | `INDEX.md`, `municipi/*.md`, `per-pagina-qn.md` | stampe leggibili dello schedario: per Municipio, per pagina QN, e la lista delle fonti più produttive | generate; non modificare a mano |
 | **Fusioni proposte** | `fusioni-proposte.md` | coppie di voci che probabilmente sono la stessa fonte scritta in due modi (stesso nome senza forme giuridiche, un nome dentro l'altro, refusi); il build non le fonde | generato; la fusione la decide una persona e si registra con una chiave forte comune |
+| **Promotori** | `promotori.md` | chi organizza gli eventi della pagina «Eventi dei quartieri», per categoria: descrizione breve scritta da noi con etichette, ambito, municipio e pagina QN, eventi, canali (sito e social), se esiste un'email, posizione della fonte sulla diffusione dei suoi contenuti con il link alla prova | generato da `promotori.json` (analisi dei promotori del 25 ottobre 2026); email, telefoni, descrizioni lunghe e autodescrizioni restano nel foglio `promotori_eventi.xlsx` su Drive |
 | **Censimento** | `censimento-pagine.md` | le candidate uscite dal censimento delle pagine Facebook di associazioni del 24 ottobre 2026, raggruppate per verdetto della lettura automatica, con l'indirizzo da controllare; le pagine dormienti e scartate sono solo contate | generato; la decisione tenere/scartare spetta all'owner e va nel registro fonti |
 
 ## Come si usa
@@ -30,6 +31,9 @@ Molte fonti sono luogo e organizzatore insieme.
 - Devo capire se un aggregatore vale la pena: `aggregatori.md`.
 - Devo decidere quali associazioni entrano nel registro: `censimento-pagine.md`, un verdetto alla
   volta (prima i «rientra», poi i «locale» e i «da valutare»).
+- Devo capire chi organizza gli eventi di una categoria, o se posso riprendere testi e immagini di
+  una fonte: `promotori.md` (categoria, canali, posizione sulla diffusione con il link alla clausola);
+  i contatti per scrivere sono nel foglio `promotori_eventi.xlsx` su Drive.
 
 ## Rigenerare
 
@@ -41,15 +45,18 @@ python tests/test_fonti_eventi_build.py
 La cartella di ingresso contiene `eventi_unico.xlsx` (il foglio degli eventi di
 ottobre 2026: Facebook via Apify, culture.roma.it, Roma Today, lettura diretta 13-31
 ottobre, con geografia, rintracciabilità e doppioni), `registro_fonti.xlsx` (registro
-fonti versione 4 del 24 ottobre 2026: le 370 voci del 13 ottobre, con le 220 pagine Facebook
+fonti versione 5 del 25 ottobre 2026: le 370 voci del 13 ottobre, con le 220 pagine Facebook
 verificate dall'owner portate a «tenere» e la decisione precedente conservata, più le candidate
-della ricerca mirata per le 58 pagine QN con meno di cinque eventi futuri e della ricerca
-«evento / eventi / festa + quartiere», decisione «candidata» finché l'owner non la cambia) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
+della ricerca mirata per le 58 pagine QN con meno di cinque eventi futuri, della ricerca
+«evento / eventi / festa + quartiere» e della lista supplementare per le 41 pagine deboli,
+decisione «candidata» finché l'owner non la cambia) e, facoltativo, `culture_luoghi.json` (coordinate delle pagine dei
 luoghi di culture.roma.it) e, facoltativi, i due censimenti del 24 ottobre 2026: `associazioni_fonti.xlsx` (1.169 pagine
 Facebook di associazioni) e `enti_terzo_settore_fonti.xlsx` (6.247 enti del terzo settore di Roma
 iscritti al RUNTS); per ciascun soggetto dati di pagina, eventi futuri e post via Apify, sito
-verificato, indirizzo geocodificato, verdetto automatico. Le email dei soggetti stanno solo in
-questi file: il build non le legge e il test verifica che nessun indirizzo arrivi nelle pagine. Stanno su Drive (`QN Hub /
+verificato, indirizzo geocodificato, verdetto automatico; facoltativo anche `promotori.json`
+(l'analisi dei promotori degli eventi del 25 ottobre 2026: categoria, descrizione breve, canali,
+posizione sulla diffusione; il build tiene solo i campi ammessi e riduce i contatti a sì/no, test
+`T-FE-10`). Le email dei soggetti stanno solo in questi file: il build non le legge e il test verifica che nessun indirizzo arrivi nelle pagine. Stanno su Drive (`QN Hub /
 20 Packages / Fonti 2026-06`) e nell'anteprima privata, non nel repository: portano titoli
 di eventi e testi di presentazione delle pagine, che sono testo delle fonti (DEC-022,
 decisione dell'owner del 23 ottobre 2026 sulla PR 18).
@@ -66,6 +73,10 @@ decisione dell'owner del 23 ottobre 2026 sulla PR 18).
   perché non è un canale di pubblicazione; il nome resta e il caso è contato
   (`profili_personali_senza_url`). Attori, registi e artisti di un singolo evento non
   sono fonti: stanno nei dati dell'evento, su Drive.
+- **Promotori senza contatti né testi** (DEC-102, DEC-109): di un promotore la wiki scrive il nome,
+  la nostra categoria, una descrizione breve fatta di etichette (mai la sua presentazione), i canali
+  e se esiste un'email o un telefono, non quali; un profilo personale (Facebook `profile.php`,
+  LinkedIn `/in/`) resta senza indirizzo. Test `T-FE-10`.
 - **Il gazetteer vince**: la pagina QN di una fonte è la `publication_zone_id` più
   frequente fra i suoi eventi (metodo 1 o 2 del foglio); una stringa che non è nel
   gazetteer non viene scritta.
@@ -101,6 +112,13 @@ eventi futuri su Facebook (verificato con due lettori diversi); gli eventi li an
 nei post (186 pagine con post datati di annuncio negli ultimi sei mesi) o sul sito (823
 pagine ne espongono uno, 277 hanno una sezione eventi, 83 mostrano date future). Le 275
 pagine dormienti restano fuori e si rileggono a marzo 2027.
+
+L'analisi dei promotori del 25 ottobre (`promotori.md`) dice chi organizza i 2.384 eventi futuri
+della pagina «Eventi dei quartieri»: 1.206 promotori in 17 categorie, 1.027 con una voce nello
+schedario. Parrocchie, comitati e sport sono le categorie con più eventi nelle 41 pagine deboli;
+musei, grandi istituzioni e intermediari quasi solo nel centro. Sulla diffusione dei propri contenuti
+cinque fonti vietano la riproduzione e due la raccolta automatica; nessuna clausola letta vieta di
+dare notizia di un evento (rapporto `docs/sources/FONTI_EVENTI_STATO_2026-10-24.md`, §1 nonies).
 
 ## Cosa manca, deliberatamente
 
