@@ -28,6 +28,11 @@ NOTE={'Teatro Degli Audaci':"il Teatro degli Audaci vieta riproduzione e diffusi
       'Azione Cattolica Italiana':"Azione Cattolica consente solo usi personali dei contenuti",
       'Indipendente Concerti':'il sito di riferimento è quello di Live Nation, i cui termini vietano di copiare o distribuire parti del sito senza autorizzazione scritta'}
 NOTE.update({k:'VignaClaraBlog vieta la riproduzione anche parziale senza approvazione scritta' for k in [r['nome'] for r in R] if k.startswith('VignaClaraBlog')})
+EV=json.load(open(f'{S}/pagina_eventi/eventi.json')); PG=EV['pagine']; ES=json.load(open(f'{S}/pagina_eventi/eventi_sudd.json'))['eventi']
+assert [(a['t'],a['d1']) for a in E]==[(b['t'],b['d1']) for b in ES]
+cz=collections.Counter(e['z'] for e in E); cs=collections.Counter(e['z'] for e in ES)
+geo=dict(cambiate=sum(1 for a,b in zip(E,ES) if a['z']!=b['z']),con_zu=sum(1 for e in E if e['z']),con_sudd=sum(1 for e in ES if e['z']),
+         dieci_zu=sum(1 for p in PG if cz.get(p['id'],0)>=10),dieci_sudd=sum(1 for p in PG if cs.get(p['id'],0)>=10),zero=[p['nome'] for p in PG if not cz.get(p['id'])])
 txt=f"""## 1 nonies. Promotori degli eventi, categorie, ricerche integrative, immagini e diffusione (M, 25 ottobre 2026)
 
 **Promotori.** Chi organizza i {it(len(E))} eventi futuri della pagina degli eventi di quartiere: host degli
@@ -43,6 +48,13 @@ virgolette, come il soggetto si presenta. Il foglio completo (`promotori_eventi.
 ha la pagina generata `docs/wiki/fonti-eventi/promotori.md` con categoria, descrizione breve, canali, se
 esiste un contatto e la posizione sulla diffusione, senza email, telefoni né testi delle fonti (DEC-102,
 DEC-109; test T-FE-10).
+
+**Geografia.** Dal 25 ottobre, per decisione dell'owner, la pagina pubblicata usa la geografia delle zone
+urbanistiche, la stessa degli abitanti (§1 septies): un evento con coordinate va nella pagina del toponimo
+del gazetteer più vicino dentro la sua zona urbanistica ufficiale. Cambiano pagina {geo['cambiate']} eventi su {it(len(E))};
+quelli con una pagina QN sono {it(geo['con_zu'])} ({it(geo['con_sudd'])} con le suddivisioni toponomastiche), le pagine con 10 o più eventi
+{geo['dieci_zu']} ({geo['dieci_sudd']}), quelle a zero {len(geo['zero'])} ({', '.join(geo['zero'])}). Le quote qui sotto usano questa geografia. È la
+geografia dell'anteprima: quella di produzione resta il pacchetto Metodo QN (`tools/geo-assign/qngeo.py punto`).
 
 | Categoria | Promotori | Eventi | Quota nelle 41 pagine deboli |
 |---|---|---|---|

@@ -18,7 +18,7 @@ def match(sd,mun):
         n=names.get(f)
         if n and n.get('publishable',True) and (not mun or not n.get('municipality_code') or n['municipality_code']==mun): return n['publication_zone_id']
     return None
-GEO=os.environ.get('GEO','sudd')   # «zu»: zona urbanistica + toponimo più vicino (stessa geografia degli abitanti)
+GEO=os.environ.get('GEO','zu')   # zona urbanistica + toponimo più vicino, la geografia degli abitanti (pagina pubblicata dal 25 ottobre, decisione dell'owner); «sudd»: suddivisioni toponomastiche
 if GEO=='zu':
     sys.path.insert(0,f'{S}/popolazione'); from punto_pagina import pagina as _pagina
 def zone_ll(lat,lon):
@@ -170,6 +170,7 @@ for f in sorted(glob.glob(f'{S}/promotori/fbevents_ev_*.json')):
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),hn,x.get('url'),z,m,o='Facebook: pagine mai lette (lista supplementare e promotori)')
 ev.sort(key=lambda e:(e['d1'],e['ora'] or '',e['t']))
 P=[{'id':z,'nome':p['name_display'],'mun':p['primary_municipality']} for z,p in sorted(pages.items(),key=lambda kv:kv[1]['name_display'])]
-json.dump({'oggi':TODAY,'pagine':P,'eventi':ev},open(f'{S}/pagina_eventi/eventi'+('_zu' if GEO=='zu' else '')+'.json','w'),ensure_ascii=False,separators=(',',':'))
+for f in (('eventi.json','eventi_zu.json') if GEO=='zu' else ('eventi_sudd.json',)):   # eventi_zu.json resta per il confronto con gli abitanti
+    json.dump({'oggi':TODAY,'pagine':P,'eventi':ev},open(f'{S}/pagina_eventi/{f}','w'),ensure_ascii=False,separators=(',',':'))
 c=collections.Counter(e['z'] for e in ev)
 print(dict(stat)); print('eventi',len(ev),'con pagina QN',sum(1 for e in ev if e['z']),'senza',sum(1 for e in ev if not e['z']),'pagine con almeno un evento',sum(1 for p in P if c.get(p['id'])),'a zero',sum(1 for p in P if not c.get(p['id'])),'>=10',sum(1 for p in P if c.get(p['id'],0)>=10))

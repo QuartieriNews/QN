@@ -305,7 +305,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "ente del terzo settore",
     "ambito": "di quartiere",
-    "descrizione_breve": "Ente del terzo settore: arte e mostre, libri e letture; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Ente del terzo settore attivo a Monteverde (Municipio XII): arte e mostre, libri e letture; per bambini e famiglie, giovani.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -2692,7 +2692,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale: musica, libri e letture.",
+    "descrizione_breve": "Associazione di promozione sociale attivo a San Lorenzo (Municipio II): musica, libri e letture.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -11572,7 +11572,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Organizzazione di volontariato: ambiente e natura, partecipazione civica.",
+    "descrizione_breve": "Organizzazione di volontariato attivo a Tor Sapienza (Municipio V): ambiente e natura, partecipazione civica.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -13013,7 +13013,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale: solidarietà e sociale, incontri e dibattiti, laboratori e corsi; per giovani, donne.",
+    "descrizione_breve": "Associazione di promozione sociale attivo a Centocelle (Municipio V): solidarietà e sociale, incontri e dibattiti, laboratori e corsi; per giovani, donne.",
     "diffusione": "licenza aperta"
    }
   },
@@ -14654,7 +14654,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "volontariato e assistenza",
     "ambito": "di quartiere",
-    "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato): incontri e dibattiti, solidarietà e sociale, storia e memoria; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) attivo a San Lorenzo (Municipio II): incontri e dibattiti, solidarietà e sociale, storia e memoria; per bambini e famiglie, giovani.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -18153,7 +18153,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano (Municipio VII): danza.",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano-Quadraro (Municipio VII): danza.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -19184,7 +19184,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo a Magliana (Municipio XI).",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Muratella (Municipio XI).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -19978,7 +19978,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: musica, laboratori e corsi, libri e letture; per persone con disabilità.",
+    "descrizione_breve": "Associazione culturale attivo a Centocelle (Municipio V): musica, laboratori e corsi, libri e letture; per persone con disabilità.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -22796,7 +22796,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: musica, teatro, laboratori e corsi; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Associazione culturale attivo a Torre Angela (Municipio VI): musica, teatro, laboratori e corsi; per bambini e famiglie, giovani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -22851,7 +22851,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VII).",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Morena (Municipio VII).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -22974,7 +22974,7 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro (associazione di promozione sociale): teatro, laboratori e corsi.",
+    "descrizione_breve": "Teatro (associazione di promozione sociale) attivo a Monteverde (Municipio XII): teatro, laboratori e corsi.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -23695,8 +23695,8 @@
    "promotore": {
     "categoria": "Musei, gallerie e spazi espositivi",
     "sottocategoria": "museo o galleria",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Museo o galleria (ente del terzo settore) attivo a Centro Storico (Municipio XII): arte e mostre, visite e passeggiate, incontri e dibattiti; per bambini e famiglie, giovani.",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Museo o galleria (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre, visite e passeggiate, incontri e dibattiti; per bambini e famiglie, giovani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -26797,7 +26797,7 @@
     "categoria": "Scuole, università e formazione",
     "sottocategoria": "scuola o università",
     "ambito": "di quartiere",
-    "descrizione_breve": "Scuola o università (ente del terzo settore): arte e mostre.",
+    "descrizione_breve": "Scuola o università (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -31667,7 +31667,7 @@
     "categoria": "Scuole, università e formazione",
     "sottocategoria": "scuola o università",
     "ambito": "di quartiere",
-    "descrizione_breve": "Scuola o università (associazione di promozione sociale): arte e mostre, teatro.",
+    "descrizione_breve": "Scuola o università (associazione di promozione sociale) attivo a Ostia (Municipio X): arte e mostre, teatro.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -36892,7 +36892,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: teatro.",
+    "descrizione_breve": "Associazione culturale attivo a Colli Portuensi (Municipio XII): teatro.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -43668,7 +43668,7 @@
     "categoria": "Locali e attività commerciali",
     "sottocategoria": "impresa",
     "ambito": "di quartiere",
-    "descrizione_breve": "Impresa (associazione di promozione sociale).",
+    "descrizione_breve": "Impresa (associazione di promozione sociale) attivo a Pietralata (Municipio IV).",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -44053,7 +44053,7 @@
     "categoria": "Sport e movimento",
     "sottocategoria": "sport",
     "ambito": "di quartiere",
-    "descrizione_breve": "Sport (associazione di promozione sociale): sport e movimento, teatro.",
+    "descrizione_breve": "Sport (associazione di promozione sociale) attivo a Prati (Municipio I): sport e movimento, teatro.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -51035,7 +51035,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale attivo a Monte Mario (Municipio XIV): sport e movimento.",
+    "descrizione_breve": "Associazione culturale attivo a Balduina (Municipio XIV): sport e movimento.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -51238,7 +51238,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: laboratori e corsi; per persone con disabilità.",
+    "descrizione_breve": "Associazione culturale attivo a Bravetta (Municipio XII): laboratori e corsi; per persone con disabilità.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -56147,7 +56147,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale (ente del terzo settore): solidarietà e sociale, laboratori e corsi; per bambini e famiglie.",
+    "descrizione_breve": "Associazione culturale (ente del terzo settore) attivo a Casal Lumbroso (Municipio XII): solidarietà e sociale, laboratori e corsi; per bambini e famiglie.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -56735,7 +56735,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Terzo settore sociale: laboratori e corsi, arte e mostre, ambiente e natura; per bambini e famiglie, migranti e nuovi cittadini.",
+    "descrizione_breve": "Terzo settore sociale attivo a Corviale (Municipio XI): laboratori e corsi, arte e mostre, ambiente e natura; per bambini e famiglie, migranti e nuovi cittadini.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -58663,7 +58663,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione: salute e benessere, sport e movimento, arte e mostre.",
+    "descrizione_breve": "Associazione attivo a Monteverde (Municipio XII): salute e benessere, sport e movimento, arte e mostre.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -64891,7 +64891,7 @@
     "categoria": "Ambiente, natura e animali",
     "sottocategoria": "ambiente e natura",
     "ambito": "di quartiere",
-    "descrizione_breve": "Ambiente e natura: ambiente e natura, arte e mostre, storia e memoria.",
+    "descrizione_breve": "Ambiente e natura attivo a Monteverde (Municipio XII): ambiente e natura, arte e mostre, storia e memoria.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -65794,7 +65794,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Organizzazione di volontariato attivo a Tuscolano (Municipio VII): feste e mercatini.",
+    "descrizione_breve": "Organizzazione di volontariato attivo ad Appia Antica (Municipio VII): feste e mercatini.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -87673,8 +87673,8 @@
    "promotore": {
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo ad Aurelio (Municipio XIII): laboratori e corsi, danza.",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Boccea (Municipio XIII): laboratori e corsi, danza.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -92637,7 +92637,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "cooperativa o impresa sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Cooperativa o impresa sociale: sport e movimento, laboratori e corsi.",
+    "descrizione_breve": "Cooperativa o impresa sociale attivo a Pietralata (Municipio IV): sport e movimento, laboratori e corsi.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -120137,7 +120137,7 @@
     "categoria": "Comitati di quartiere e reti civiche",
     "sottocategoria": "comitato di quartiere",
     "ambito": "di quartiere",
-    "descrizione_breve": "Comitato di quartiere: partecipazione civica, feste e mercatini, incontri e dibattiti; per bambini e famiglie.",
+    "descrizione_breve": "Comitato di quartiere attivo a Centocelle (Municipio V): partecipazione civica, feste e mercatini, incontri e dibattiti; per bambini e famiglie.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -126124,7 +126124,7 @@
     "categoria": "Parrocchie e realtà religiose",
     "sottocategoria": "altre confessioni",
     "ambito": "di quartiere",
-    "descrizione_breve": "Altre confessioni (associazione di promozione sociale): partecipazione civica, religione e spiritualità, storia e memoria.",
+    "descrizione_breve": "Altre confessioni (associazione di promozione sociale) attivo a San Lorenzo (Municipio II): partecipazione civica, religione e spiritualità, storia e memoria.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -126781,7 +126781,7 @@
     "categoria": "Centri sociali, centri anziani e spazi di comunità",
     "sottocategoria": "circolo e casa di quartiere",
     "ambito": "di quartiere",
-    "descrizione_breve": "Circolo e casa di quartiere (associazione di promozione sociale).",
+    "descrizione_breve": "Circolo e casa di quartiere (associazione di promozione sociale) attivo a Pietralata (Municipio IV).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -133376,7 +133376,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale attivo a Testaccio (Municipio I).",
+    "descrizione_breve": "Associazione culturale attivo a Centro Storico (Municipio I).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -136005,7 +136005,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: partecipazione civica.",
+    "descrizione_breve": "Associazione culturale attivo a Prati (Municipio I): partecipazione civica.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -145502,7 +145502,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "ente del terzo settore",
     "ambito": "di quartiere",
-    "descrizione_breve": "Ente del terzo settore: ambiente e natura.",
+    "descrizione_breve": "Ente del terzo settore attivo a Bravetta (Municipio XII): ambiente e natura.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -148162,7 +148162,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VII).",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Morena (Municipio VII).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -154635,7 +154635,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "volontariato e assistenza",
     "ambito": "di quartiere",
-    "descrizione_breve": "Volontariato e assistenza (onlus): feste e mercatini, ambiente e natura; per bambini e famiglie.",
+    "descrizione_breve": "Volontariato e assistenza (onlus) attivo a Pisana (Municipio XI): feste e mercatini, ambiente e natura; per bambini e famiglie.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -174257,7 +174257,7 @@
     "categoria": "Locali e attività commerciali",
     "sottocategoria": "impresa",
     "ambito": "di quartiere",
-    "descrizione_breve": "Impresa (ente del terzo settore): cinema.",
+    "descrizione_breve": "Impresa (ente del terzo settore) attivo a San Lorenzo (Municipio II): cinema.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -182804,7 +182804,7 @@
     "categoria": "Turismo e visite guidate",
     "sottocategoria": "turismo",
     "ambito": "di quartiere",
-    "descrizione_breve": "Turismo attivo a Castel di Leva (Municipio IX): musica, visite e passeggiate, arte e mostre.",
+    "descrizione_breve": "Turismo attivo a Laurentino (Municipio IX): musica, visite e passeggiate, arte e mostre.",
     "diffusione": "riproduzione vietata"
    }
   },
@@ -187006,7 +187006,7 @@
     "categoria": "Scuole, università e formazione",
     "sottocategoria": "scuola o università",
     "ambito": "di quartiere",
-    "descrizione_breve": "Scuola o università: visite e passeggiate; per bambini e famiglie.",
+    "descrizione_breve": "Scuola o università attivo a EUR (Municipio IX): visite e passeggiate; per bambini e famiglie.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -189058,7 +189058,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo ad agro-romano (Municipio VIII): musica.",
+    "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VIII): musica.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -190372,7 +190372,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "scuola di musica, danza o arte",
     "ambito": "di quartiere",
-    "descrizione_breve": "Scuola di musica, danza o arte attivo a Tuscolano (Municipio VII): danza.",
+    "descrizione_breve": "Scuola di musica, danza o arte attivo a Tuscolano-Quadraro (Municipio VII): danza.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -194658,8 +194658,8 @@
    "promotore": {
     "categoria": "Sport e movimento",
     "sottocategoria": "società o associazione sportiva",
-    "ambito": "di più quartieri",
-    "descrizione_breve": "Società o associazione sportiva con sede a Infernetto (Municipio X): sport e movimento, salute e benessere, incontri e dibattiti.",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Società o associazione sportiva di Infernetto (Municipio X): sport e movimento, salute e benessere, incontri e dibattiti.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -200741,8 +200741,8 @@
    "promotore": {
     "categoria": "Non classificato",
     "sottocategoria": null,
-    "ambito": "di quartiere",
-    "descrizione_breve": "Non classificato attivo ad Aurelio (Municipio XIII): laboratori e corsi, danza.",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Non classificato attivo a Boccea (Municipio XIII): laboratori e corsi, danza.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -201862,7 +201862,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "compagnia, coro, banda o ensemble",
     "ambito": "di quartiere",
-    "descrizione_breve": "Compagnia, coro, banda o ensemble attivo ad agro-romano (Municipio VIII): musica.",
+    "descrizione_breve": "Compagnia, coro, banda o ensemble attivo ad Appia Antica (Municipio VIII): musica.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -203804,7 +203804,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo ad agro-romano (Municipio VIII): musica.",
+    "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VIII): musica.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -208616,7 +208616,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale.",
+    "descrizione_breve": "Associazione culturale attivo a Prati (Municipio I).",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -210359,7 +210359,7 @@
     "categoria": "Non classificato",
     "sottocategoria": null,
     "ambito": "di quartiere",
-    "descrizione_breve": "Non classificato attivo a Magliana (Municipio XI).",
+    "descrizione_breve": "Non classificato attivo a Muratella (Municipio XI).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -216115,7 +216115,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale attivo ad Ardeatino (Municipio VIII): ambiente e natura, visite e passeggiate, feste e mercatini; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Associazione di promozione sociale attivo a Montagnola (Municipio VIII): ambiente e natura, visite e passeggiate, feste e mercatini; per bambini e famiglie, giovani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -216735,7 +216735,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo a Testaccio (Municipio I).",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Centro Storico (Municipio I).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -217754,7 +217754,7 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro (associazione di promozione sociale): teatro, laboratori e corsi, solidarietà e sociale.",
+    "descrizione_breve": "Teatro (associazione di promozione sociale) attivo a Monteverde (Municipio XII): teatro, laboratori e corsi, solidarietà e sociale.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -218842,8 +218842,8 @@
    "promotore": {
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "cinema",
-    "ambito": "di più quartieri",
-    "descrizione_breve": "Cinema con sede a Pigneto-Torpignattara (Municipio V): cinema.",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Cinema di Pigneto-Torpignattara (Municipio V): cinema.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -219911,8 +219911,8 @@
    "promotore": {
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
-    "ambito": "di più quartieri",
-    "descrizione_breve": "Associazione culturale con sede ad Ardeatino (Municipio VIII): sport e movimento, solidarietà e sociale.",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione culturale di Ardeatino (Municipio VIII): sport e movimento, solidarietà e sociale.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -221059,7 +221059,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: libri e letture.",
+    "descrizione_breve": "Associazione culturale attivo a Bravetta (Municipio XII): libri e letture.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -233344,7 +233344,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Terzo settore sociale: partecipazione civica, laboratori e corsi, musica; per bambini e famiglie.",
+    "descrizione_breve": "Terzo settore sociale attivo a Centocelle (Municipio V): partecipazione civica, laboratori e corsi, musica; per bambini e famiglie.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -235729,7 +235729,7 @@
     "categoria": "Non classificato",
     "sottocategoria": null,
     "ambito": "di quartiere",
-    "descrizione_breve": "Non classificato attivo a Tuscolano (Municipio VII): danza.",
+    "descrizione_breve": "Non classificato attivo a Tuscolano-Quadraro (Municipio VII): danza.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -238819,7 +238819,7 @@
     "categoria": "Sport e movimento",
     "sottocategoria": "sport",
     "ambito": "di quartiere",
-    "descrizione_breve": "Sport: sport e movimento.",
+    "descrizione_breve": "Sport attivo a Ottavia (Municipio XIV): sport e movimento.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -239103,7 +239103,7 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro attivo ad Appio Latino (Municipio VII): teatro.",
+    "descrizione_breve": "Teatro attivo a San Giovanni (Municipio VII): teatro.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -242217,7 +242217,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano (Municipio VII): danza.",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano-Quadraro (Municipio VII): danza.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -242989,7 +242989,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Organizzazione di volontariato: solidarietà e sociale; per bambini e famiglie.",
+    "descrizione_breve": "Organizzazione di volontariato attivo a Monteverde (Municipio XII): solidarietà e sociale; per bambini e famiglie.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -255262,7 +255262,7 @@
     "categoria": "Scuole, università e formazione",
     "sottocategoria": "scuola o università",
     "ambito": "di quartiere",
-    "descrizione_breve": "Scuola o università: musica, laboratori e corsi, teatro; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Scuola o università attivo a Monteverde (Municipio XII): musica, laboratori e corsi, teatro; per bambini e famiglie, giovani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -257771,7 +257771,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona (nome e cognome)",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (nome e cognome) attivo a Centocelle (Municipio V): teatro.",
+    "descrizione_breve": "Persona (nome e cognome) attivo a Centocelle: teatro.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -276438,7 +276438,7 @@
     "categoria": "Sport e movimento",
     "sottocategoria": "sport",
     "ambito": "di quartiere",
-    "descrizione_breve": "Sport (associazione di promozione sociale) attivo a Parioli-Flaminio (Municipio II): ambiente e natura, visite e passeggiate, sport e movimento; per persone con disabilità.",
+    "descrizione_breve": "Sport (associazione di promozione sociale) attivo a Nomentano (Municipio II): ambiente e natura, visite e passeggiate, sport e movimento; per persone con disabilità.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -278067,7 +278067,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: arte e mostre, cibo e degustazioni, ambiente e natura.",
+    "descrizione_breve": "Associazione culturale attivo a Prati (Municipio I): arte e mostre, cibo e degustazioni, ambiente e natura.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -291240,7 +291240,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "ente del terzo settore",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale: libri e letture, arte e mostre.",
+    "descrizione_breve": "Associazione di promozione sociale attivo a San Lorenzo (Municipio II): libri e letture, arte e mostre.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -291607,7 +291607,7 @@
     "categoria": "Non classificato",
     "sottocategoria": null,
     "ambito": "di quartiere",
-    "descrizione_breve": "Non classificato attivo a Magliana (Municipio XI).",
+    "descrizione_breve": "Non classificato attivo a Muratella (Municipio XI).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -292515,7 +292515,7 @@
     "categoria": "Non classificato",
     "sottocategoria": null,
     "ambito": "di quartiere",
-    "descrizione_breve": "Non classificato attivo a Centocelle (Municipio V): teatro.",
+    "descrizione_breve": "Non classificato attivo a Centocelle: teatro.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -297101,7 +297101,7 @@
    "id": null,
    "categoria": "Non classificato",
    "sottocategoria": null,
-   "ambito": "di quartiere",
+   "ambito": "di più quartieri",
    "descrizione_breve": "Non classificato attivo a Esquilino-Termini (Municipio I).",
    "attivita": [],
    "pubblico": [],
@@ -297297,7 +297297,7 @@
    "categoria": "Centri sociali, centri anziani e spazi di comunità",
    "sottocategoria": "circolo e casa di quartiere",
    "ambito": "di quartiere",
-   "descrizione_breve": "Circolo e casa di quartiere attivo a Prenestino (Municipio V): musica, libri e letture, ambiente e natura.",
+   "descrizione_breve": "Circolo e casa di quartiere attivo a Pigneto-Torpignattara (Municipio V): musica, libri e letture, ambiente e natura.",
    "attivita": [
     "musica",
     "libri e letture",
@@ -297305,7 +297305,7 @@
    ],
    "pubblico": [],
    "municipio": "V",
-   "zona": "prenestino",
+   "zona": "pigneto-torpignattara",
    "eventi": 14,
    "canali": {
     "sito": "http://www.fanfulla5a.it/",
@@ -297791,8 +297791,8 @@
    "id": "S-EV-0325",
    "categoria": "Musei, gallerie e spazi espositivi",
    "sottocategoria": "museo o galleria",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Museo o galleria (ente del terzo settore) attivo a Centro Storico (Municipio XII): arte e mostre, visite e passeggiate, incontri e dibattiti; per bambini e famiglie, giovani.",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Museo o galleria (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre, visite e passeggiate, incontri e dibattiti; per bambini e famiglie, giovani.",
    "attivita": [
     "arte e mostre",
     "visite e passeggiate",
@@ -297802,8 +297802,8 @@
     "bambini e famiglie",
     "giovani"
    ],
-   "municipio": "I",
-   "zona": "centro-storico",
+   "municipio": "XII",
+   "zona": "colli-portuensi",
    "eventi": 9,
    "canali": {
     "sito": "https://www.artsharingroma.it/",
@@ -297915,8 +297915,8 @@
    "id": "S-EV-2584",
    "categoria": "Teatri, cinema e spazi di spettacolo",
    "sottocategoria": "cinema",
-   "ambito": "di più quartieri",
-   "descrizione_breve": "Cinema con sede a Pigneto-Torpignattara (Municipio V): cinema.",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Cinema di Pigneto-Torpignattara (Municipio V): cinema.",
    "attivita": [
     "cinema"
    ],
@@ -299092,7 +299092,7 @@
     "bambini e famiglie"
    ],
    "municipio": "IX",
-   "zona": null,
+   "zona": "eur",
    "eventi": 5,
    "canali": {
     "sito": "http://www.casagitsalute.it/",
@@ -299415,7 +299415,7 @@
    "categoria": "Comitati di quartiere e reti civiche",
    "sottocategoria": "comitato di quartiere",
    "ambito": "di quartiere",
-   "descrizione_breve": "Comitato di quartiere: partecipazione civica, feste e mercatini, incontri e dibattiti; per bambini e famiglie.",
+   "descrizione_breve": "Comitato di quartiere attivo a Centocelle (Municipio V): partecipazione civica, feste e mercatini, incontri e dibattiti; per bambini e famiglie.",
    "attivita": [
     "partecipazione civica",
     "feste e mercatini",
@@ -299425,7 +299425,7 @@
     "bambini e famiglie"
    ],
    "municipio": "V",
-   "zona": null,
+   "zona": "centocelle",
    "eventi": 5,
    "canali": {
     "facebook": "https://www.facebook.com/61558162205487"
@@ -300465,8 +300465,8 @@
    "id": "S-EV-2599",
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
-   "ambito": "di più quartieri",
-   "descrizione_breve": "Associazione culturale con sede ad Ardeatino (Municipio VIII): sport e movimento, solidarietà e sociale.",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale di Ardeatino (Municipio VIII): sport e movimento, solidarietà e sociale.",
    "attivita": [
     "sport e movimento",
     "solidarietà e sociale"
@@ -301445,7 +301445,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: musica, laboratori e corsi, libri e letture; per persone con disabilità.",
+   "descrizione_breve": "Associazione culturale attivo a Centocelle (Municipio V): musica, laboratori e corsi, libri e letture; per persone con disabilità.",
    "attivita": [
     "musica",
     "laboratori e corsi",
@@ -301455,7 +301455,7 @@
     "persone con disabilità"
    ],
    "municipio": "V",
-   "zona": null,
+   "zona": "centocelle",
    "eventi": 3,
    "canali": {
     "sito": "http://www.centrostudiatelier102.it/index.html",
@@ -301611,7 +301611,7 @@
    "categoria": "Parrocchie e realtà religiose",
    "sottocategoria": "altre confessioni",
    "ambito": "di quartiere",
-   "descrizione_breve": "Altre confessioni (associazione di promozione sociale): partecipazione civica, religione e spiritualità, storia e memoria.",
+   "descrizione_breve": "Altre confessioni (associazione di promozione sociale) attivo a San Lorenzo (Municipio II): partecipazione civica, religione e spiritualità, storia e memoria.",
    "attivita": [
     "partecipazione civica",
     "religione e spiritualità",
@@ -301619,7 +301619,7 @@
    ],
    "pubblico": [],
    "municipio": "II",
-   "zona": null,
+   "zona": "san-lorenzo",
    "eventi": 3,
    "canali": {
     "sito": "http://comunitacristianadss.it/",
@@ -302233,7 +302233,7 @@
     "giovani"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "colli-portuensi",
    "eventi": 3,
    "canali": {
     "sito": "https://www.projectmean.it/",
@@ -302452,7 +302452,7 @@
    ],
    "pubblico": [],
    "municipio": "VII",
-   "zona": null,
+   "zona": "appia-antica",
    "eventi": 3,
    "canali": {
     "facebook": "https://www.facebook.com/quartomiglioappio",
@@ -302739,14 +302739,14 @@
    "categoria": "Teatri, cinema e spazi di spettacolo",
    "sottocategoria": "teatro",
    "ambito": "di quartiere",
-   "descrizione_breve": "Teatro (associazione di promozione sociale): teatro, laboratori e corsi.",
+   "descrizione_breve": "Teatro (associazione di promozione sociale) attivo a Monteverde (Municipio XII): teatro, laboratori e corsi.",
    "attivita": [
     "teatro",
     "laboratori e corsi"
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 3,
    "canali": {
     "sito": "http://www.teatrodeicontrari.com/",
@@ -302919,7 +302919,7 @@
     "bambini e famiglie"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 2,
    "canali": {
     "sito": "http://www.aigam.it/",
@@ -302992,7 +302992,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale: solidarietà e sociale, incontri e dibattiti, laboratori e corsi; per giovani, donne.",
+   "descrizione_breve": "Associazione di promozione sociale attivo a Centocelle (Municipio V): solidarietà e sociale, incontri e dibattiti, laboratori e corsi; per giovani, donne.",
    "attivita": [
     "solidarietà e sociale",
     "incontri e dibattiti",
@@ -303005,7 +303005,7 @@
     "migranti e nuovi cittadini"
    ],
    "municipio": "V",
-   "zona": null,
+   "zona": "centocelle",
    "eventi": 2,
    "canali": {
     "sito": "https://www.altramente.org/",
@@ -303556,7 +303556,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale attivo ad Ardeatino (Municipio VIII): ambiente e natura, visite e passeggiate, feste e mercatini; per bambini e famiglie, giovani.",
+   "descrizione_breve": "Associazione di promozione sociale attivo a Montagnola (Municipio VIII): ambiente e natura, visite e passeggiate, feste e mercatini; per bambini e famiglie, giovani.",
    "attivita": [
     "ambiente e natura",
     "visite e passeggiate",
@@ -303567,7 +303567,7 @@
     "giovani"
    ],
    "municipio": "VIII",
-   "zona": "ardeatino",
+   "zona": "montagnola",
    "eventi": 2,
    "canali": {
     "sito": "https://www.nereide.eu/",
@@ -303698,7 +303698,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale (ente del terzo settore): solidarietà e sociale, laboratori e corsi; per bambini e famiglie.",
+   "descrizione_breve": "Associazione culturale (ente del terzo settore) attivo a Casal Lumbroso (Municipio XII): solidarietà e sociale, laboratori e corsi; per bambini e famiglie.",
    "attivita": [
     "solidarietà e sociale",
     "laboratori e corsi"
@@ -303707,7 +303707,7 @@
     "bambini e famiglie"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "casal-lumbroso",
    "eventi": 2,
    "canali": {
     "sito": "http://www.associazionekim.it/",
@@ -303727,7 +303727,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Terzo settore sociale: laboratori e corsi, arte e mostre, ambiente e natura; per bambini e famiglie, migranti e nuovi cittadini.",
+   "descrizione_breve": "Terzo settore sociale attivo a Corviale (Municipio XI): laboratori e corsi, arte e mostre, ambiente e natura; per bambini e famiglie, migranti e nuovi cittadini.",
    "attivita": [
     "laboratori e corsi",
     "arte e mostre",
@@ -303738,7 +303738,7 @@
     "migranti e nuovi cittadini"
    ],
    "municipio": "XI",
-   "zona": null,
+   "zona": "corviale",
    "eventi": 2,
    "canali": {
     "sito": "https://odvlatartaruga.altervista.org/",
@@ -303783,7 +303783,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione: salute e benessere, sport e movimento, arte e mostre.",
+   "descrizione_breve": "Associazione attivo a Monteverde (Municipio XII): salute e benessere, sport e movimento, arte e mostre.",
    "attivita": [
     "salute e benessere",
     "sport e movimento",
@@ -303791,7 +303791,7 @@
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 2,
    "canali": {
     "sito": "http://www.mandala.it/",
@@ -304170,8 +304170,8 @@
    "id": "S-EV-1177",
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo ad Aurelio (Municipio XIII): laboratori e corsi, danza.",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Boccea (Municipio XIII): laboratori e corsi, danza.",
    "attivita": [
     "laboratori e corsi",
     "danza"
@@ -304666,13 +304666,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: partecipazione civica.",
+   "descrizione_breve": "Associazione culturale attivo a Prati (Municipio I): partecipazione civica.",
    "attivita": [
     "partecipazione civica"
    ],
    "pubblico": [],
    "municipio": "I",
-   "zona": null,
+   "zona": "prati",
    "eventi": 2,
    "canali": {
     "facebook": "https://www.facebook.com/dioghenesaps"
@@ -305008,7 +305008,7 @@
    ],
    "pubblico": [],
    "municipio": "IX",
-   "zona": null,
+   "zona": "eur",
    "eventi": 2,
    "canali": {
     "sito": "http://fondazioneuna.org/",
@@ -305414,13 +305414,13 @@
    "categoria": "Locali e attività commerciali",
    "sottocategoria": "impresa",
    "ambito": "di quartiere",
-   "descrizione_breve": "Impresa (ente del terzo settore): cinema.",
+   "descrizione_breve": "Impresa (ente del terzo settore) attivo a San Lorenzo (Municipio II): cinema.",
    "attivita": [
     "cinema"
    ],
    "pubblico": [],
    "municipio": "II",
-   "zona": null,
+   "zona": "san-lorenzo",
    "eventi": 2,
    "canali": {
     "sito": "http://www.patriziadesantis.it/",
@@ -305815,14 +305815,14 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale: musica, libri e letture.",
+   "descrizione_breve": "Associazione di promozione sociale attivo a San Lorenzo (Municipio II): musica, libri e letture.",
    "attivita": [
     "musica",
     "libri e letture"
    ],
    "pubblico": [],
    "municipio": "II",
-   "zona": null,
+   "zona": "san-lorenzo",
    "eventi": 2,
    "canali": {
     "sito": "https://form.jotform.com/conventicola/domanda-di-ammissione-a-socio",
@@ -305871,8 +305871,8 @@
    "id": "S-FE-1182",
    "categoria": "Sport e movimento",
    "sottocategoria": "società o associazione sportiva",
-   "ambito": "di più quartieri",
-   "descrizione_breve": "Società o associazione sportiva con sede a Infernetto (Municipio X): sport e movimento, salute e benessere, incontri e dibattiti.",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Società o associazione sportiva di Infernetto (Municipio X): sport e movimento, salute e benessere, incontri e dibattiti.",
    "attivita": [
     "sport e movimento",
     "salute e benessere",
@@ -305957,8 +305957,8 @@
    "id": "S-EV-2353",
    "categoria": "Non classificato",
    "sottocategoria": null,
-   "ambito": "di quartiere",
-   "descrizione_breve": "Non classificato attivo ad Aurelio (Municipio XIII): laboratori e corsi, danza.",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Non classificato attivo a Boccea (Municipio XIII): laboratori e corsi, danza.",
    "attivita": [
     "laboratori e corsi",
     "danza"
@@ -306173,7 +306173,7 @@
    "categoria": "Non classificato",
    "sottocategoria": null,
    "ambito": "di quartiere",
-   "descrizione_breve": "Non classificato attivo a Magliana (Municipio XI).",
+   "descrizione_breve": "Non classificato attivo a Muratella (Municipio XI).",
    "attivita": [],
    "pubblico": [],
    "municipio": "XI",
@@ -307960,7 +307960,7 @@
    "categoria": "Non classificato",
    "sottocategoria": null,
    "ambito": "di quartiere",
-   "descrizione_breve": "Non classificato attivo a Magliana (Municipio XI).",
+   "descrizione_breve": "Non classificato attivo a Muratella (Municipio XI).",
    "attivita": [],
    "pubblico": [],
    "municipio": "XI",
@@ -308634,14 +308634,14 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Organizzazione di volontariato: ambiente e natura, partecipazione civica.",
+   "descrizione_breve": "Organizzazione di volontariato attivo a Tor Sapienza (Municipio V): ambiente e natura, partecipazione civica.",
    "attivita": [
     "ambiente e natura",
     "partecipazione civica"
    ],
    "pubblico": [],
    "municipio": "V",
-   "zona": null,
+   "zona": "tor-sapienza",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/alberiinperiferia",
@@ -308706,13 +308706,13 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Prenestino (Municipio V): musica.",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Pigneto-Torpignattara (Municipio V): musica.",
    "attivita": [
     "musica"
    ],
    "pubblico": [],
    "municipio": "V",
-   "zona": "prenestino",
+   "zona": "pigneto-torpignattara",
    "eventi": 1,
    "canali": {
     "sito": "https://www.businessinternational.it/Speaker/18591/Alessandro-Ciccarelli",
@@ -308961,7 +308961,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "volontariato e assistenza",
    "ambito": "di quartiere",
-   "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato): incontri e dibattiti, solidarietà e sociale, storia e memoria; per bambini e famiglie, giovani.",
+   "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) attivo a San Lorenzo (Municipio II): incontri e dibattiti, solidarietà e sociale, storia e memoria; per bambini e famiglie, giovani.",
    "attivita": [
     "incontri e dibattiti",
     "solidarietà e sociale",
@@ -308973,7 +308973,7 @@
     "donne"
    ],
    "municipio": "II",
-   "zona": null,
+   "zona": "san-lorenzo",
    "eventi": 1,
    "canali": {
     "sito": "http://www.amka.it/",
@@ -309270,7 +309270,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano (Municipio VII): danza.",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano-Quadraro (Municipio VII): danza.",
    "attivita": [
     "danza"
    ],
@@ -309387,7 +309387,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Magliana (Municipio XI).",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Muratella (Municipio XI).",
    "attivita": [],
    "pubblico": [],
    "municipio": "XI",
@@ -309709,7 +309709,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: musica, teatro, laboratori e corsi; per bambini e famiglie, giovani.",
+   "descrizione_breve": "Associazione culturale attivo a Torre Angela (Municipio VI): musica, teatro, laboratori e corsi; per bambini e famiglie, giovani.",
    "attivita": [
     "musica",
     "teatro",
@@ -309720,7 +309720,7 @@
     "giovani"
    ],
    "municipio": "VI",
-   "zona": null,
+   "zona": "torre-angela",
    "eventi": 1,
    "canali": {
     "sito": "http://ariadimusica.com/",
@@ -309741,7 +309741,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VII).",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Morena (Municipio VII).",
    "attivita": [],
    "pubblico": [],
    "municipio": "VII",
@@ -309985,13 +309985,13 @@
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "scuola o università",
    "ambito": "di quartiere",
-   "descrizione_breve": "Scuola o università (ente del terzo settore): arte e mostre.",
+   "descrizione_breve": "Scuola o università (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre.",
    "attivita": [
     "arte e mostre"
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "colli-portuensi",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/arte2omusicacademy",
@@ -310330,14 +310330,14 @@
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "scuola o università",
    "ambito": "di quartiere",
-   "descrizione_breve": "Scuola o università (associazione di promozione sociale): arte e mostre, teatro.",
+   "descrizione_breve": "Scuola o università (associazione di promozione sociale) attivo a Ostia (Municipio X): arte e mostre, teatro.",
    "attivita": [
     "arte e mostre",
     "teatro"
    ],
    "pubblico": [],
    "municipio": "X",
-   "zona": null,
+   "zona": "ostia",
    "eventi": 1,
    "canali": {
     "sito": "https://www.galleriainterart.it/",
@@ -310544,13 +310544,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: teatro.",
+   "descrizione_breve": "Associazione culturale attivo a Colli Portuensi (Municipio XII): teatro.",
    "attivita": [
     "teatro"
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "colli-portuensi",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/Viadeimattiedeisognatori"
@@ -310913,13 +310913,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale attivo a Monte Mario (Municipio XIV): sport e movimento.",
+   "descrizione_breve": "Associazione culturale attivo a Balduina (Municipio XIV): sport e movimento.",
    "attivita": [
     "sport e movimento"
    ],
    "pubblico": [],
    "municipio": "XIV",
-   "zona": "monte-mario",
+   "zona": "balduina",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/associazioneikigairoma"
@@ -310937,7 +310937,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: laboratori e corsi; per persone con disabilità.",
+   "descrizione_breve": "Associazione culturale attivo a Bravetta (Municipio XII): laboratori e corsi; per persone con disabilità.",
    "attivita": [
     "laboratori e corsi"
    ],
@@ -310945,7 +310945,7 @@
     "persone con disabilità"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "bravetta",
    "eventi": 1,
    "canali": {
     "sito": "http://www.filodallatorre.it/",
@@ -311320,7 +311320,7 @@
    "categoria": "Ambiente, natura e animali",
    "sottocategoria": "ambiente e natura",
    "ambito": "di quartiere",
-   "descrizione_breve": "Ambiente e natura: ambiente e natura, arte e mostre, storia e memoria.",
+   "descrizione_breve": "Ambiente e natura attivo a Monteverde (Municipio XII): ambiente e natura, arte e mostre, storia e memoria.",
    "attivita": [
     "ambiente e natura",
     "arte e mostre",
@@ -311328,7 +311328,7 @@
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 1,
    "canali": {
     "sito": "http://www.associazionepervillapamphilj.it/",
@@ -312309,13 +312309,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale attivo a Centro Storico (Municipio I): arte e mostre.",
+   "descrizione_breve": "Associazione culturale attivo a Esquilino-Termini (Municipio I): arte e mostre.",
    "attivita": [
     "arte e mostre"
    ],
    "pubblico": [],
    "municipio": "I",
-   "zona": "centro-storico",
+   "zona": "esquilino-termini",
    "eventi": 1,
    "canali": {
     "sito": "https://blackliquidart.com",
@@ -312938,14 +312938,14 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "cooperativa o impresa sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Cooperativa o impresa sociale: sport e movimento, laboratori e corsi.",
+   "descrizione_breve": "Cooperativa o impresa sociale attivo a Pietralata (Municipio IV): sport e movimento, laboratori e corsi.",
    "attivita": [
     "sport e movimento",
     "laboratori e corsi"
    ],
    "pubblico": [],
    "municipio": "IV",
-   "zona": null,
+   "zona": "pietralata",
    "eventi": 1,
    "canali": {
     "sito": "http://www.elis.org/",
@@ -313046,11 +313046,11 @@
    "categoria": "Locali e attività commerciali",
    "sottocategoria": "impresa",
    "ambito": "di quartiere",
-   "descrizione_breve": "Impresa (associazione di promozione sociale).",
+   "descrizione_breve": "Impresa (associazione di promozione sociale) attivo a Pietralata (Municipio IV).",
    "attivita": [],
    "pubblico": [],
    "municipio": "IV",
-   "zona": null,
+   "zona": "pietralata",
    "eventi": 1,
    "canali": {
     "sito": "https://www.romacasalbertone.it/",
@@ -313106,7 +313106,7 @@
     "giovani"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 1,
    "canali": {
     "sito": "https://cometastudio.it/",
@@ -313607,11 +313607,11 @@
    "categoria": "Centri sociali, centri anziani e spazi di comunità",
    "sottocategoria": "circolo e casa di quartiere",
    "ambito": "di quartiere",
-   "descrizione_breve": "Circolo e casa di quartiere (associazione di promozione sociale).",
+   "descrizione_breve": "Circolo e casa di quartiere (associazione di promozione sociale) attivo a Pietralata (Municipio IV).",
    "attivita": [],
    "pubblico": [],
    "municipio": "IV",
-   "zona": null,
+   "zona": "pietralata",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/circoloconcettomarchesi",
@@ -313806,7 +313806,7 @@
     "donne"
    ],
    "municipio": "II",
-   "zona": null,
+   "zona": "san-lorenzo",
    "eventi": 1,
    "canali": {
     "sito": "http://www.cug.cnr.it/",
@@ -314152,14 +314152,14 @@
    "categoria": "Sport e movimento",
    "sottocategoria": "sport",
    "ambito": "di quartiere",
-   "descrizione_breve": "Sport (associazione di promozione sociale): sport e movimento, teatro.",
+   "descrizione_breve": "Sport (associazione di promozione sociale) attivo a Prati (Municipio I): sport e movimento, teatro.",
    "attivita": [
     "sport e movimento",
     "teatro"
    ],
    "pubblico": [],
    "municipio": "I",
-   "zona": null,
+   "zona": "prati",
    "eventi": 1,
    "canali": {
     "sito": "http://www.corethehub.com/",
@@ -314457,7 +314457,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale attivo a Testaccio (Municipio I).",
+   "descrizione_breve": "Associazione culturale attivo a Centro Storico (Municipio I).",
    "attivita": [],
    "pubblico": [],
    "municipio": "I",
@@ -315881,13 +315881,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "ente del terzo settore",
    "ambito": "di quartiere",
-   "descrizione_breve": "Ente del terzo settore: ambiente e natura.",
+   "descrizione_breve": "Ente del terzo settore attivo a Bravetta (Municipio XII): ambiente e natura.",
    "attivita": [
     "ambiente e natura"
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "bravetta",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/familyparkroma",
@@ -315955,7 +315955,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "volontariato e assistenza",
    "ambito": "di quartiere",
-   "descrizione_breve": "Volontariato e assistenza (onlus): feste e mercatini, ambiente e natura; per bambini e famiglie.",
+   "descrizione_breve": "Volontariato e assistenza (onlus) attivo a Pisana (Municipio XI): feste e mercatini, ambiente e natura; per bambini e famiglie.",
    "attivita": [
     "feste e mercatini",
     "ambiente e natura"
@@ -315964,7 +315964,7 @@
     "bambini e famiglie"
    ],
    "municipio": "XI",
-   "zona": null,
+   "zona": "pisana",
    "eventi": 1,
    "canali": {
     "sito": "http://www.fattoriadichiaraearianna.com/",
@@ -316170,7 +316170,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VII).",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Morena (Municipio VII).",
    "attivita": [],
    "pubblico": [],
    "municipio": "VII",
@@ -317333,7 +317333,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Prenestino (Municipio V): laboratori e corsi, musica; per giovani.",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Pigneto-Torpignattara (Municipio V): laboratori e corsi, musica; per giovani.",
    "attivita": [
     "laboratori e corsi",
     "musica"
@@ -317342,7 +317342,7 @@
     "giovani"
    ],
    "municipio": "V",
-   "zona": "prenestino",
+   "zona": "pigneto-torpignattara",
    "eventi": 1,
    "canali": {
     "sito": "https://www.laudes.it/docenti/gino-maria-boschi/",
@@ -318875,7 +318875,7 @@
    "categoria": "Turismo e visite guidate",
    "sottocategoria": "turismo",
    "ambito": "di quartiere",
-   "descrizione_breve": "Turismo attivo a Castel di Leva (Municipio IX): musica, visite e passeggiate, arte e mostre.",
+   "descrizione_breve": "Turismo attivo a Laurentino (Municipio IX): musica, visite e passeggiate, arte e mostre.",
    "attivita": [
     "musica",
     "visite e passeggiate",
@@ -319164,7 +319164,7 @@
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "scuola o università",
    "ambito": "di quartiere",
-   "descrizione_breve": "Scuola o università: visite e passeggiate; per bambini e famiglie.",
+   "descrizione_breve": "Scuola o università attivo a EUR (Municipio IX): visite e passeggiate; per bambini e famiglie.",
    "attivita": [
     "visite e passeggiate"
    ],
@@ -319172,7 +319172,7 @@
     "bambini e famiglie"
    ],
    "municipio": "IX",
-   "zona": null,
+   "zona": "eur",
    "eventi": 1,
    "canali": {
     "sito": "http://www.istitutomassimo.it/",
@@ -319336,7 +319336,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo ad agro-romano (Municipio VIII): musica.",
+   "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VIII): musica.",
    "attivita": [
     "musica"
    ],
@@ -319612,7 +319612,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "scuola di musica, danza o arte",
    "ambito": "di quartiere",
-   "descrizione_breve": "Scuola di musica, danza o arte attivo a Tuscolano (Municipio VII): danza.",
+   "descrizione_breve": "Scuola di musica, danza o arte attivo a Tuscolano-Quadraro (Municipio VII): danza.",
    "attivita": [
     "danza"
    ],
@@ -319937,7 +319937,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "ente del terzo settore",
    "ambito": "di quartiere",
-   "descrizione_breve": "Ente del terzo settore: arte e mostre, libri e letture; per bambini e famiglie, giovani.",
+   "descrizione_breve": "Ente del terzo settore attivo a Monteverde (Municipio XII): arte e mostre, libri e letture; per bambini e famiglie, giovani.",
    "attivita": [
     "arte e mostre",
     "libri e letture"
@@ -319948,7 +319948,7 @@
     "persone con disabilità"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 1,
    "canali": {
     "sito": "https://www.lalocandadeigirasoli.it/",
@@ -320561,7 +320561,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "compagnia, coro, banda o ensemble",
    "ambito": "di quartiere",
-   "descrizione_breve": "Compagnia, coro, banda o ensemble attivo ad agro-romano (Municipio VIII): musica.",
+   "descrizione_breve": "Compagnia, coro, banda o ensemble attivo ad Appia Antica (Municipio VIII): musica.",
    "attivita": [
     "musica"
    ],
@@ -320820,7 +320820,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Organizzazione di volontariato: solidarietà e sociale; per bambini e famiglie.",
+   "descrizione_breve": "Organizzazione di volontariato attivo a Monteverde (Municipio XII): solidarietà e sociale; per bambini e famiglie.",
    "attivita": [
     "solidarietà e sociale"
    ],
@@ -320828,7 +320828,7 @@
     "bambini e famiglie"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 1,
    "canali": {
     "sito": "http://www.malattiadikawasaki.it/",
@@ -320968,7 +320968,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo ad agro-romano (Municipio VIII): musica.",
+   "descrizione_breve": "Persona (nome e cognome) attivo ad Appia Antica (Municipio VIII): musica.",
    "attivita": [
     "musica"
    ],
@@ -321209,13 +321209,13 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Prenestino (Municipio V): musica.",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Pigneto-Torpignattara (Municipio V): musica.",
    "attivita": [
     "musica"
    ],
    "pubblico": [],
    "municipio": "V",
-   "zona": "prenestino",
+   "zona": "pigneto-torpignattara",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/TheoDistraido"
@@ -321348,14 +321348,14 @@
    "categoria": "Turismo e visite guidate",
    "sottocategoria": "turismo",
    "ambito": "di quartiere",
-   "descrizione_breve": "Turismo attivo a Cinecittà (Municipio VII): musica, visite e passeggiate.",
+   "descrizione_breve": "Turismo attivo ad Appia Antica (Municipio VII): musica, visite e passeggiate.",
    "attivita": [
     "musica",
     "visite e passeggiate"
    ],
    "pubblico": [],
    "municipio": "VII",
-   "zona": "cinecitta",
+   "zona": "appia-antica",
    "eventi": 1,
    "canali": {
     "sito": "https://mc2live.it/",
@@ -321592,13 +321592,13 @@
    "categoria": "Non classificato",
    "sottocategoria": null,
    "ambito": "di quartiere",
-   "descrizione_breve": "Non classificato attivo a Torrino (Municipio IX): laboratori e corsi.",
+   "descrizione_breve": "Non classificato attivo a Castel di Leva (Municipio IX): laboratori e corsi.",
    "attivita": [
     "laboratori e corsi"
    ],
    "pubblico": [],
    "municipio": "IX",
-   "zona": "torrino",
+   "zona": "castel-di-leva",
    "eventi": 1,
    "canali": {
     "sito": "https://www.occhiosulmondo.com/2026/03/29/viniamo-2026-il-wine-tasting-della-capitale/"
@@ -321616,11 +321616,11 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale.",
+   "descrizione_breve": "Associazione culturale attivo a Prati (Municipio I).",
    "attivita": [],
    "pubblico": [],
    "municipio": "I",
-   "zona": null,
+   "zona": "prati",
    "eventi": 1,
    "canali": {
     "sito": "https://rb.gy/p27yjl",
@@ -321676,7 +321676,7 @@
    ],
    "pubblico": [],
    "municipio": "VII",
-   "zona": null,
+   "zona": "appia-antica",
    "eventi": 1,
    "canali": {
     "sito": "http://modaviprotezionecivile.it/",
@@ -322213,7 +322213,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Testaccio (Municipio I).",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Centro Storico (Municipio I).",
    "attivita": [],
    "pubblico": [],
    "municipio": "I",
@@ -322316,7 +322316,7 @@
    "categoria": "Teatri, cinema e spazi di spettacolo",
    "sottocategoria": "teatro",
    "ambito": "di quartiere",
-   "descrizione_breve": "Teatro (associazione di promozione sociale): teatro, laboratori e corsi, solidarietà e sociale.",
+   "descrizione_breve": "Teatro (associazione di promozione sociale) attivo a Monteverde (Municipio XII): teatro, laboratori e corsi, solidarietà e sociale.",
    "attivita": [
     "teatro",
     "laboratori e corsi",
@@ -322324,7 +322324,7 @@
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 1,
    "canali": {
     "sito": "http://www.carrozzerienot.com/",
@@ -322375,7 +322375,7 @@
    ],
    "pubblico": [],
    "municipio": "XI",
-   "zona": "portuense",
+   "zona": "marconi",
    "eventi": 1,
    "canali": {
     "sito": "http://www.nuovaacropoli.it/",
@@ -322500,13 +322500,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: libri e letture.",
+   "descrizione_breve": "Associazione culturale attivo a Bravetta (Municipio XII): libri e letture.",
    "attivita": [
     "libri e letture"
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "bravetta",
    "eventi": 1,
    "canali": {
     "sito": "http://www.openhouseroma.org/",
@@ -323332,7 +323332,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Terzo settore sociale: partecipazione civica, laboratori e corsi, musica; per bambini e famiglie.",
+   "descrizione_breve": "Terzo settore sociale attivo a Centocelle (Municipio V): partecipazione civica, laboratori e corsi, musica; per bambini e famiglie.",
    "attivita": [
     "partecipazione civica",
     "laboratori e corsi",
@@ -323342,7 +323342,7 @@
     "bambini e famiglie"
    ],
    "municipio": "V",
-   "zona": null,
+   "zona": "centocelle",
    "eventi": 1,
    "canali": {
     "sito": "http://www.percorsidicittadinanza.org/",
@@ -323574,7 +323574,7 @@
    "categoria": "Non classificato",
    "sottocategoria": null,
    "ambito": "di quartiere",
-   "descrizione_breve": "Non classificato attivo a Tuscolano (Municipio VII): danza.",
+   "descrizione_breve": "Non classificato attivo a Tuscolano-Quadraro (Municipio VII): danza.",
    "attivita": [
     "danza"
    ],
@@ -323795,13 +323795,13 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Organizzazione di volontariato attivo a Tuscolano (Municipio VII): feste e mercatini.",
+   "descrizione_breve": "Organizzazione di volontariato attivo ad Appia Antica (Municipio VII): feste e mercatini.",
    "attivita": [
     "feste e mercatini"
    ],
    "pubblico": [],
    "municipio": "VII",
-   "zona": "tuscolano",
+   "zona": "appia-antica",
    "eventi": 1,
    "canali": {
     "sito": "http://www.prolocotorfiscale.it/",
@@ -323820,13 +323820,13 @@
    "categoria": "Sport e movimento",
    "sottocategoria": "sport",
    "ambito": "di quartiere",
-   "descrizione_breve": "Sport: sport e movimento.",
+   "descrizione_breve": "Sport attivo a Ottavia (Municipio XIV): sport e movimento.",
    "attivita": [
     "sport e movimento"
    ],
    "pubblico": [],
    "municipio": "XIV",
-   "zona": null,
+   "zona": "ottavia",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/people/Pro-Wrestling-Roma/100090513191479"
@@ -323844,7 +323844,7 @@
    "categoria": "Teatri, cinema e spazi di spettacolo",
    "sottocategoria": "teatro",
    "ambito": "di quartiere",
-   "descrizione_breve": "Teatro attivo ad Appio Latino (Municipio VII): teatro.",
+   "descrizione_breve": "Teatro attivo a San Giovanni (Municipio VII): teatro.",
    "attivita": [
     "teatro"
    ],
@@ -324123,7 +324123,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano (Municipio VII): danza.",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Tuscolano-Quadraro (Municipio VII): danza.",
    "attivita": [
     "danza"
    ],
@@ -324476,13 +324476,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale attivo a Cinecittà (Municipio VII): musica.",
+   "descrizione_breve": "Associazione culturale attivo ad Appia Antica (Municipio VII): musica.",
    "attivita": [
     "musica"
    ],
    "pubblico": [],
    "municipio": "VII",
-   "zona": "cinecitta",
+   "zona": "appia-antica",
    "eventi": 1,
    "canali": {
     "sito": "http://www.rockinroma.com/",
@@ -325707,7 +325707,7 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Centocelle (Municipio V): teatro.",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Centocelle: teatro.",
    "attivita": [
     "teatro"
    ],
@@ -326264,13 +326264,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "scuola di musica, danza o arte",
    "ambito": "di quartiere",
-   "descrizione_breve": "Scuola di musica, danza o arte: danza.",
+   "descrizione_breve": "Scuola di musica, danza o arte attivo a Monteverde (Municipio XII): danza.",
    "attivita": [
     "danza"
    ],
    "pubblico": [],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 1,
    "canali": {
     "sito": "http://www.orbitaspellbound.com/",
@@ -326345,7 +326345,7 @@
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "scuola o università",
    "ambito": "di quartiere",
-   "descrizione_breve": "Scuola o università: musica, laboratori e corsi, teatro; per bambini e famiglie, giovani.",
+   "descrizione_breve": "Scuola o università attivo a Monteverde (Municipio XII): musica, laboratori e corsi, teatro; per bambini e famiglie, giovani.",
    "attivita": [
     "musica",
     "laboratori e corsi",
@@ -326357,7 +326357,7 @@
     "donne"
    ],
    "municipio": "XII",
-   "zona": null,
+   "zona": "monteverde",
    "eventi": 1,
    "canali": {
     "sito": "http://www.donnaolimpia.it/",
@@ -327666,7 +327666,7 @@
    "categoria": "Sport e movimento",
    "sottocategoria": "sport",
    "ambito": "di quartiere",
-   "descrizione_breve": "Sport (associazione di promozione sociale) attivo a Parioli-Flaminio (Municipio II): ambiente e natura, visite e passeggiate, sport e movimento; per persone con disabilità.",
+   "descrizione_breve": "Sport (associazione di promozione sociale) attivo a Nomentano (Municipio II): ambiente e natura, visite e passeggiate, sport e movimento; per persone con disabilità.",
    "attivita": [
     "ambiente e natura",
     "visite e passeggiate",
@@ -327676,7 +327676,7 @@
     "persone con disabilità"
    ],
    "municipio": "II",
-   "zona": "parioli-flaminio",
+   "zona": "nomentano",
    "eventi": 1,
    "canali": {
     "sito": "http://www.trekly.it/",
@@ -327959,7 +327959,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: arte e mostre, cibo e degustazioni, ambiente e natura.",
+   "descrizione_breve": "Associazione culturale attivo a Prati (Municipio I): arte e mostre, cibo e degustazioni, ambiente e natura.",
    "attivita": [
     "arte e mostre",
     "cibo e degustazioni",
@@ -327967,7 +327967,7 @@
    ],
    "pubblico": [],
    "municipio": "I",
-   "zona": null,
+   "zona": "prati",
    "eventi": 1,
    "canali": {
     "sito": "https://www.ultrablu.it/",
@@ -328069,7 +328069,7 @@
    ],
    "pubblico": [],
    "municipio": "I",
-   "zona": null,
+   "zona": "testaccio",
    "eventi": 1,
    "canali": {
     "sito": "http://www.unarma.it/",
@@ -328417,11 +328417,11 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Prenestino (Municipio V).",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Pigneto-Torpignattara (Municipio V).",
    "attivita": [],
    "pubblico": [],
    "municipio": "V",
-   "zona": "prenestino",
+   "zona": "pigneto-torpignattara",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/people/Vic-Sinex/pfbid05Bef66NaCSK872unjbCJ53x7mfuiJDhYjiEtgyjSxbyyLtaZwHib1GXf84cG6j1Hl/"
@@ -328931,14 +328931,14 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "ente del terzo settore",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale: libri e letture, arte e mostre.",
+   "descrizione_breve": "Associazione di promozione sociale attivo a San Lorenzo (Municipio II): libri e letture, arte e mostre.",
    "attivita": [
     "libri e letture",
     "arte e mostre"
    ],
    "pubblico": [],
    "municipio": "II",
-   "zona": null,
+   "zona": "san-lorenzo",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/POETRYSLAMROMA",
@@ -329067,7 +329067,7 @@
    "categoria": "Non classificato",
    "sottocategoria": null,
    "ambito": "di quartiere",
-   "descrizione_breve": "Non classificato attivo a Centocelle (Municipio V): teatro.",
+   "descrizione_breve": "Non classificato attivo a Centocelle: teatro.",
    "attivita": [
     "teatro"
    ],

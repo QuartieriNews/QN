@@ -269,35 +269,42 @@ ha la pagina generata `docs/wiki/fonti-eventi/promotori.md` con categoria, descr
 esiste un contatto e la posizione sulla diffusione, senza email, telefoni né testi delle fonti (DEC-102,
 DEC-109; test T-FE-10).
 
+**Geografia.** Dal 25 ottobre, per decisione dell'owner, la pagina pubblicata usa la geografia delle zone
+urbanistiche, la stessa degli abitanti (§1 septies): un evento con coordinate va nella pagina del toponimo
+del gazetteer più vicino dentro la sua zona urbanistica ufficiale. Cambiano pagina 410 eventi su 2.384;
+quelli con una pagina QN sono 1.866 (1.700 con le suddivisioni toponomastiche), le pagine con 10 o più eventi
+46 (38), quelle a zero 5 (La Rustica, La Storta, Lunghezza, Marcigliana, Vitinia). Le quote qui sotto usano questa geografia. È la
+geografia dell'anteprima: quella di produzione resta il pacchetto Metodo QN (`tools/geo-assign/qngeo.py punto`).
+
 | Categoria | Promotori | Eventi | Quota nelle 41 pagine deboli |
 |---|---|---|---|
 | Associazioni culturali e artistiche | 273 | 544 | 10% |
-| Terzo settore sociale e sanitario | 160 | 254 | 13% |
-| Teatri, cinema e spazi di spettacolo | 76 | 251 | 12% |
-| Istituzioni pubbliche | 69 | 242 | 16% |
+| Terzo settore sociale e sanitario | 160 | 254 | 10% |
+| Teatri, cinema e spazi di spettacolo | 76 | 251 | 10% |
+| Istituzioni pubbliche | 69 | 242 | 13% |
 | Grandi istituzioni culturali e fondazioni | 32 | 197 | 2% |
-| Persone (artisti, autori, guide) | 135 | 158 | 9% |
-| Non classificato | 92 | 140 | 8% |
-| Intermediari: biglietterie, aggregatori e media | 36 | 115 | 1% |
-| Turismo e visite guidate | 53 | 104 | 9% |
-| Sport e movimento | 63 | 87 | 26% |
+| Persone (artisti, autori, guide) | 135 | 158 | 8% |
+| Non classificato | 92 | 140 | 9% |
+| Intermediari: biglietterie, aggregatori e media | 36 | 115 | 3% |
+| Turismo e visite guidate | 53 | 104 | 7% |
+| Sport e movimento | 63 | 87 | 28% |
 | Parrocchie e realtà religiose | 42 | 71 | 45% |
-| Scuole, università e formazione | 43 | 70 | 13% |
+| Scuole, università e formazione | 43 | 70 | 9% |
 | Musei, gallerie e spazi espositivi | 20 | 59 | 0% |
-| Locali e attività commerciali | 39 | 56 | 11% |
-| Centri sociali, centri anziani e spazi di comunità | 15 | 43 | 16% |
-| Comitati di quartiere e reti civiche | 24 | 40 | 38% |
+| Locali e attività commerciali | 39 | 56 | 9% |
+| Centri sociali, centri anziani e spazi di comunità | 15 | 43 | 9% |
+| Comitati di quartiere e reti civiche | 24 | 40 | 25% |
 | Ambiente, natura e animali | 27 | 39 | 8% |
 | Politica e sindacati | 7 | 10 | 0% |
 
 **Lettura per categoria.** Quota degli eventi di ogni categoria che cade nelle 41 pagine deboli:
-le più legate alle periferie sono parrocchie e realtà religiose (45%), comitati di quartiere e reti civiche (38%), sport e movimento (26%); le meno musei, gallerie e spazi espositivi (0%), intermediari: biglietterie, aggregatori e media (1%), grandi istituzioni culturali e fondazioni (2%). Nelle 41 pagine deboli la lista supplementare (§1 octies) ha trovato 283 parrocchie e realtà religiose, 397 associazioni, 196 realtà sportive, 98 comitati, 73 centri anziani o sociali; i promotori di quelle categorie con almeno un evento nel calendario in quelle pagine sono 22 (8%), 42 (11%), 21 (11%), 10 (10%), 2 (3%). Il buco non è di soggetti: è di eventi che arrivano online.
+le più legate alle periferie sono parrocchie e realtà religiose (45%), sport e movimento (28%), comitati di quartiere e reti civiche (25%); le meno musei, gallerie e spazi espositivi (0%), grandi istituzioni culturali e fondazioni (2%), intermediari: biglietterie, aggregatori e media (3%). Nelle 41 pagine deboli la lista supplementare (§1 octies) ha trovato 283 parrocchie e realtà religiose, 397 associazioni, 196 realtà sportive, 98 comitati, 73 centri anziani o sociali; i promotori di quelle categorie con almeno un evento nel calendario in quelle pagine sono 21 (7%), 38 (10%), 21 (11%), 9 (9%), 2 (3%). Il buco non è di soggetti: è di eventi che arrivano online.
 
 **Ricerche integrative** (spesa massima approvata 25 dollari):
 
 | Idea | Stato | Costo | Esito |
 |---|---|---|---|
-| Agenda delle Biblioteche di Roma (news dell'OPAC, eventi schema.org per sede) | eseguita | 0 $ (lettura del sito, una richiesta al secondo; il sito non ha robots.txt) | 110 eventi futuri nella pagina, 22 nelle 41 pagine deboli, da 30 sedi |
+| Agenda delle Biblioteche di Roma (news dell'OPAC, eventi schema.org per sede) | eseguita | 0 $ (lettura del sito, una richiesta al secondo; il sito non ha robots.txt) | 110 eventi futuri nella pagina, 15 nelle 41 pagine deboli, da 30 sedi |
 | Eventi futuri delle pagine Facebook mai lette (lista supplementare e promotori) | eseguita | 0,14 $ | lette tutte le 226 pagine della lista supplementare e 13 delle 384 dei promotori (lettura interrotta: circa 5 pagine al minuto, e i promotori sono già nel calendario); 36 eventi letti, 32 futuri a Roma: 2 dalle 226 pagine dei quartieri deboli, 30 dalle 13 dei promotori; 30 entrati nella pagina dopo filtri e doppioni. Conferma che i piccoli soggetti annunciano nei post, non negli eventi Facebook |
 | Profili Facebook dei promotori senza dati (descrizione, email, sito, Instagram) | eseguita | 3,51 $ | 425 profili letti: 367 con email, 403 con descrizione |
 | Ricerca Google dei canali per i promotori senza sito né Facebook | eseguita | 0,39 $ | canali trovati per 56 promotori: 45 siti, 34 pagine Facebook, 27 Instagram |
@@ -323,7 +330,7 @@ supplementare e nella raccolta degli eventi. Gli eventi della lista supplementar
 salvata a risoluzione da card (lato lungo 800 px), con `source_image_url`, `image_fetched_at`,
 `image_local_path`, `image_credit` e `image_removed`: 1.978 immagini. Non scaricate: Roma Today
 (licenza Citynews, DEC-026), eventi Fever (asset commerciali), blocchi di testo dei siti senza pagina
-dell'evento; 190 eventi non hanno immagine alla fonte. Archivio e manifest su Drive
+dell'evento; 189 eventi non hanno immagine alla fonte. Archivio e manifest su Drive
 (`immagini_eventi.zip`, `immagini_eventi_manifest.xlsx`), mai nel repository.
 
 **Diffusione.** Posizione di ogni fonte sui propri contenuti, dal sito (note legali, termini, piè di

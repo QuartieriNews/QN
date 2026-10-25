@@ -115,8 +115,9 @@ pagine dormienti restano fuori e si rileggono a marzo 2027.
 
 L'analisi dei promotori del 25 ottobre (`promotori.md`) dice chi organizza i 2.384 eventi futuri
 della pagina «Eventi dei quartieri»: 1.206 promotori in 17 categorie, 1.027 con una voce nello
-schedario. Parrocchie, comitati e sport sono le categorie con più eventi nelle 41 pagine deboli;
-musei, grandi istituzioni e intermediari quasi solo nel centro. Sulla diffusione dei propri contenuti
+schedario. Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
+nelle 41 pagine deboli (geografia delle zone urbanistiche); musei, grandi istituzioni e
+intermediari quasi solo nel centro. Sulla diffusione dei propri contenuti
 cinque fonti vietano la riproduzione e due la raccolta automatica; nessuna clausola letta vieta di
 dare notizia di un evento (rapporto `docs/sources/FONTI_EVENTI_STATO_2026-10-24.md`, §1 nonies).
 
