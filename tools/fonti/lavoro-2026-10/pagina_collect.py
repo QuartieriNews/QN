@@ -115,7 +115,7 @@ for f in sorted(glob.glob(f'{RQ}/fb_events_*.json')):
         if str(x.get('is_past'))=='True' or ('Rome' not in str(x.get('city') or '') and 'Roma' not in str(x.get('address') or '')): continue
         z,m=zone_ll(x.get('latitude'),x.get('longitude'))
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),', '.join(x.get('host_names') or []) if isinstance(x.get('host_names'),list) else x.get('host_names'),x.get('url'),z,m,o='ricerca evento+quartiere: pagine Facebook nuove')
-# 8. eventi annunciati nei post Facebook (ultimi post di 3.977 pagine; estrazione dal testo, da verificare)
+# 8. eventi annunciati nei post Facebook (ultimi post di 4.204 pagine; estrazione dal testo, da verificare)
 PE=f'{S}/post_eventi/eventi_post_futuri.json'
 FBLL={}   # pagina Facebook -> coordinate della sede (wiki fonti-eventi), per gli annunci assegnati dalla sede della fonte
 for f in sched.values():
@@ -131,6 +131,17 @@ if os.path.exists(PE):
         if len(ev)>n0:
             ev[-1]['dp']=True
             if x.get('ricorrente'): ev[-1]['ric']=x['ricorrente']
+# 9. lista supplementare per le pagine deboli (25 ottobre): post Facebook e siti dei soggetti nuovi (da verificare)
+PS=f'{S}/supplementare/eventi_suppl.json'
+if os.path.exists(PS):
+    for x in json.load(open(PS)):
+        n0=len(ev); post=x['canale']=='Facebook (post)'
+        add('Facebook (post)' if post else 'sito della fonte',x.get('titolo') or (x.get('testo') or '')[:90],x['inizio'],x['fine'],x.get('ora'),x.get('luogo'),None,x.get('fonte'),x.get('url'),x.get('zona'),x.get('municipio'),o='lista supplementare: '+x['canale'])
+        if len(ev)>n0:
+            if post:
+                ev[-1]['dp']=True
+                if x.get('ricorrente'): ev[-1]['ric']=x['ricorrente']
+            elif x.get('prova')!='jsonld': ev[-1]['dv']=True
 ev.sort(key=lambda e:(e['d1'],e['ora'] or '',e['t']))
 P=[{'id':z,'nome':p['name_display'],'mun':p['primary_municipality']} for z,p in sorted(pages.items(),key=lambda kv:kv[1]['name_display'])]
 json.dump({'oggi':TODAY,'pagine':P,'eventi':ev},open(f'{S}/pagina_eventi/eventi'+('_zu' if GEO=='zu' else '')+'.json','w'),ensure_ascii=False,separators=(',',':'))

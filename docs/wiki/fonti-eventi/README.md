@@ -81,12 +81,14 @@ decisione dell'owner del 23 ottobre 2026 sulla PR 18).
 
 ## Cosa dice questa prima versione (ottobre 2026)
 
-I numeri sono in `INDEX.md`. In sintesi: 4.433 fonti, di cui 935 nel registro versione 4
+I numeri sono in `INDEX.md`. In sintesi: 5.099 fonti, di cui 1.606 nel registro versione 5
 (370 del 13 ottobre, con le 220 pagine verificate dall'owner portate a «tenere»; 445 candidate della
 ricerca mirata per le pagine deboli; 129 candidate della ricerca «evento / eventi / festa + quartiere»
-del 24 ottobre), 1.928 candidate dal censimento degli enti del terzo settore (RUNTS) e 598 dal
-censimento delle pagine Facebook (le coincidenze con voci del registro sono fuse); 644 luoghi e
-3.112 organizzatori; 2.951 con un sito web; 2.917 con una pagina QN; 334 fusioni proposte da decidere.
+del 24 ottobre; 676 candidate della lista supplementare del 25 ottobre per le 41 pagine con meno
+eventi rispetto agli abitanti), 1.928 candidate dal censimento degli enti del terzo settore (RUNTS)
+e 598 dal censimento delle pagine Facebook (le coincidenze con voci del registro sono fuse); 644
+luoghi e 3.112 organizzatori; 3.213 con un sito web; 3.585 con una pagina QN; 376 fusioni proposte
+da decidere.
 
 La ricerca mirata del 24 ottobre ha dato a 56 delle 58 pagine QN deboli almeno tre fonti
 da controllare (parrocchie, centri sociali anziani dagli elenchi ufficiali dei Municipi,

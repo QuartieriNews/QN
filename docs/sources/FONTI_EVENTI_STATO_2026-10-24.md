@@ -217,6 +217,42 @@ Ostia), dove servono fonti nuove; con molte fonti ma pochi eventi (Monte Mario, 
 Tuscolano, Prenestino), dove le fonti ci sono e vanno lette più spesso o contattate (passo L del
 flusso). Le fonti note sono contate con la geografia della wiki, quindi sono indicative.
 
+## 1 octies. Lista supplementare per le 41 pagine deboli (M, 25 ottobre 2026)
+
+Per le 41 pagine sotto la mediana di eventi ogni 10.000 abitanti (§1 septies): associazioni,
+parrocchie, comitati, centri anziani e culturali con sede nella pagina, cercati in sei fonti.
+Esito nel foglio `lista_supplementare_quartieri_deboli.xlsx` su Drive (con telefoni ed email, che
+qui non stanno: DEC-109).
+
+| Fonte | Soggetti nelle pagine deboli |
+|---|---|
+| Google Maps («associazione», «centro anziani», «comitato di quartiere», «centro culturale», «parrocchia» + toponimo, 69 punti) | 611, tolte le attività commerciali |
+| OpenStreetMap (luoghi di culto, centri sociali, culturali e per anziani, associazioni, circoli, scout, biblioteche, teatri) | 415 |
+| Albo della cittadinanza attiva di Roma Capitale | 31 |
+| Ricerca Google «"comitato di quartiere" / associazione + toponimo» (207 toponimi) | 311 risultati utili |
+| Annuario della Diocesi di Roma | 22 schede: il sito chiede un captcha dopo poche pagine e la lettura si è fermata lì |
+| Albi e registri delle associazioni dei Municipi III, IV e VII (PDF) | 167 nomi, quasi tutti senza indirizzo: restano un elenco da incrociare |
+
+Uniti i doppioni (stesso sito, stessa pagina Facebook, nome simile a meno di 250 m): 1.153
+soggetti, 847 enti nuovi rispetto a wiki, registro v4 e censimento RUNTS (233 parrocchie e
+chiese, 190 associazioni, 186 realtà sportive, 83 luoghi culturali, 65 comitati di quartiere o
+civici, 61 centri anziani o sociali); 412 con telefono, 319 con sito, 219 con pagina Facebook.
+676 entrano nel **registro fonti v5** come candidate (FE-0945…FE-1620; le realtà sportive e
+religiose solo con eventi trovati o un canale da leggere); la wiki è rigenerata: 5.099 fonti,
+1.606 nel registro.
+
+Letti i siti dei nuovi (336 su 385, robots.txt rispettato; 83 con date future) e i post Facebook
+delle loro 227 pagine (116 con post dal 10 settembre): 89 eventi futuri dopo gli stessi filtri
+dell'estrattore dei post, 88 entrati nella pagina degli eventi di quartiere. Pagine QN a zero
+nella pagina pubblicata: da 10 a 5 (Casal Lumbroso, La Rustica, Lunghezza, Muratella, Vitinia).
+Con la geografia degli abitanti, eventi ogni 10.000 abitanti: Laurentino da 1,9 a 3,9,
+Bufalotta da 0 a 2,6, Primavalle da 2,4 a 4,5, Tor Vergata da 1,5 a 2,6; Morena (0,9), Ponte di
+Nona (0,8), Monte Mario (1,0) e Ardeatino (0,7) restano molto sotto anche con molte più fonti
+note (Morena da 5 a 38): lì le fonti ci sono, gli eventi vanno chiesti o letti nel tempo (passo L
+del flusso). Eventi che mancano per portare ogni pagina al livello «quartiere attivo»: da circa
+450 a circa 380. Costo Apify della lista: circa 16 dollari (Google Maps 8,1, post Facebook 7,3,
+ricerca Google 0,9).
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |
