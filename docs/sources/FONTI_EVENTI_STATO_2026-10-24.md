@@ -171,6 +171,52 @@ eventi Facebook. Il Comitato Acilia Nord ha zero eventi Facebook e un incontro s
 sede nei post. Le pagine trovate con la ricerca rendono meno di quelle dei censimenti: molte
 sono testate, servizi commerciali o pagine nazionali.
 
+## 1 septies. Eventi contro abitanti per pagina QN (M, 25 ottobre 2026)
+
+A grandi numeri: quali pagine hanno meno eventi di quanti ne giustificherebbero i loro abitanti.
+Esito nel foglio `eventi_per_abitanti.xlsx` su Drive.
+
+**Abitanti.** Griglia statistica di Roma Capitale sul geoportale (celle di 1 km con il numero di
+abitanti, 2,82 milioni in tutto). Ogni cella è divisa in 25 punti; ogni punto va nella sua zona
+urbanistica ufficiale (155) e poi alla pagina del toponimo del gazetteer più vicino fra quelli di
+quella zona. Il totale per zona urbanistica coincide con il dato del gazetteer (rapporto mediano
+0,96); la divisione di una zona fra più pagine è una stima. La popolazione del gazetteer da sola
+non bastava: copre 1,85 milioni di abitanti e lascia 25 pagine vuote.
+
+**Eventi.** Gli eventi futuri noti al 25 ottobre. Il controllo ha trovato 85 eventi fuori Roma
+nella pagina degli eventi di quartiere (un sito di fonte che riporta un widget di eventi negli
+Stati Uniti, eventi Fever all'estero): tolti, gli eventi sono 2.184. La pagina pubblicata
+assegna i punti con le suddivisioni toponomastiche, che accorpano quartieri diversi (San Giovanni
+nel Tuscolano, Centocelle nel Prenestino, Tor Bella Monaca in Torre Angela); per il confronto gli
+eventi con coordinate, o con la sede della fonte geolocalizzata, sono riassegnati con la stessa
+geografia degli abitanti (1.659 eventi con pagina invece di 1.532).
+
+**Riferimento.** Le pagine fuori dal centro (escluso il Municipio I e Parioli-Flaminio) con almeno
+5.000 abitanti: la mediana fa 2,4 eventi ogni 10.000 abitanti, il quartile alto («quartiere
+attivo») 4,5. Centro Storico, Esquilino, Testaccio, Trastevere e Parioli-Flaminio ne fanno 33-48. Per Municipio i più bassi sono XV (1,5), VI (1,9), XIV
+(2,0), III (2,2) e IX (2,4).
+
+| Pagina | Abitanti (stima) | Eventi | Ogni 10.000 | Mancanti per «quartiere attivo» | Fonti note |
+|---|---|---|---|---|---|
+| Morena (VII) | 82.000 | 6 | 0,7 | 31 | 5 |
+| Ponte di Nona (VI) | 53.000 | 3 | 0,6 | 21 | 12 |
+| Monte Mario (XIV) | 51.000 | 4 | 0,8 | 19 | 40 |
+| Borghesiana (VI) | 49.000 | 6 | 1,2 | 16 | 22 |
+| Tor Vergata (VI) | 47.000 | 7 | 1,5 | 14 | 19 |
+| Bufalotta (III) | 31.000 | 0 | 0 | 14 | 6 |
+| Ostia (X) | 106.000 | 35 | 3,3 | 13 | 9 |
+| Laurentino (IX) | 48.000 | 9 | 1,9 | 13 | 7 |
+| Cinecittà (VII) | 72.000 | 21 | 2,9 | 12 | 29 |
+| Montesacro (III) | 101.000 | 35 | 3,5 | 11 | 56 |
+| Selva Candida, Torrino, Fidene-Settebagni | 36.000-38.000 ciascuna | 5-6 | 1,4-1,6 | 11 ciascuna | 13-24 |
+
+Per portare ogni pagina al livello «quartiere attivo» mancano circa 450 eventi nel calendario
+noto, circa 130 per arrivare alla mediana. Le pagine sotto il livello sono di due tipi: con poche
+fonti note (Morena, Bufalotta, Colle Prenestino, Dragona-Dragoncello, Laurentino, Infernetto,
+Ostia), dove servono fonti nuove; con molte fonti ma pochi eventi (Monte Mario, Ardeatino,
+Tuscolano, Prenestino), dove le fonti ci sono e vanno lette più spesso o contattate (passo L del
+flusso). Le fonti note sono contate con la geografia della wiki, quindi sono indicative.
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |

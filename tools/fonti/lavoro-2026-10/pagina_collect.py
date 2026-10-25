@@ -1,5 +1,5 @@
 # Tutti gli eventi futuri noti al 24 ottobre 2026, assegnati alle pagine QN -> eventi.json per la pagina HTML
-import json,re,sys,glob,unicodedata,collections,openpyxl
+import json,re,sys,glob,unicodedata,collections,openpyxl,os
 S='/tmp/claude-0/-home-user-QN/6ddd5f5b-029a-56ef-ba4a-9ebf9ede2447/scratchpad'; sys.path.insert(0,f'{S}/scripts')
 from mirate_liste import place
 TODAY='2026-10-25'
@@ -18,9 +18,13 @@ def match(sd,mun):
         n=names.get(f)
         if n and n.get('publishable',True) and (not mun or not n.get('municipality_code') or n['municipality_code']==mun): return n['publication_zone_id']
     return None
+GEO=os.environ.get('GEO','sudd')   # «zu»: zona urbanistica + toponimo più vicino (stessa geografia degli abitanti)
+if GEO=='zu':
+    sys.path.insert(0,f'{S}/popolazione'); from punto_pagina import pagina as _pagina   # nel repository: popolazione_punto_pagina.py
 def zone_ll(lat,lon):
     try: lat,lon=float(lat),float(lon)
     except (TypeError,ValueError): return None,None
+    if GEO=='zu': return _pagina(lat,lon)
     mun,sd,_=place(lat,lon); return match(sd,mun),mun
 NAMES5={k:v for k,v in names.items() if len(k)>=6 and v.get('publishable',True) and k not in ('centro','roma','italia','parco','villa')}
 def zone_from_text(t):
@@ -36,6 +40,8 @@ def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=Non
     if not t or not d1: stat['senza titolo o data']+=1; return
     d1=d1[:16].replace('T',' '); d2=(d2 or d1)[:16].replace('T',' ')
     if max(d1[:10],d2[:10])<TODAY: stat['passati']+=1; return
+    cap=re.findall(r'(?<![\d.])(\d{5})(?!\d)',f"{luogo or ''} {ind or ''}")
+    if cap and not any('00100'<=c<='00199' for c in cap): stat['fuori Roma (CAP)']+=1; return   # widget di eventi altrui (AICP: eventi negli Stati Uniti), Fever all'estero
     k=(norm(t)[:45],d1[:10])
     if k in seen: stat['doppioni']+=1; return
     seen.add(k)
@@ -54,18 +60,21 @@ for row in rr[1:]:
     if r.get('riga_principale_proposta') not in ('sì',None): continue
     src=next((v for k,v in SRC.items() if str(r['fonte']).startswith(k)),'altro')
     z=s(r.get('zona_qn')) or s(r.get('zona_qn_metodo2')); m=s(r.get('municipio_assegnato'))
+    if GEO=='zu' and r.get('lat'): z,m=zone_ll(r['lat'],r['lon'])
     url=s(r.get('link_fonte_diretta')) or (None if src=='Roma Today' else s(r.get('url')))
     o={'culture.roma.it':'culture.roma.it: lettura completa 20 ott','Facebook':'Facebook: eventi raccolti a mano dall\'owner','Roma Today':'Roma Today: lettura una tantum','sito della fonte':'siti delle fonti: lettura diretta 13-31 ott'}.get(src,src)
     add(src,r['nome'],r['inizio'],r['fine'],None,r['luogo'],r['indirizzo'],r['organizzatore'],url,z,m,o=o)
 # 3. schema.org dai siti delle fonti
 sched={e['id']:e for e in json.load(open('/home/user/QN/docs/wiki/fonti-eventi/fonti_eventi.json'))['fonti']}
 for r in json.load(open(f'{S}/siti/eventi_siti_tutti.json')):
-    if r['prova']!='jsonld': continue
-    e=sched.get(r['fonte_id'],{}); add('sito della fonte',r['evento'],r['inizio'],r['fine'],None,r.get('luogo') or e.get('nome'),r.get('indirizzo') or e.get('indirizzo'),r['fonte'],r.get('url') or r['pagina'],e.get('zona'),e.get('municipio'),o='siti delle fonti: lettore automatico 24 ott')
+    if r['prova']!='jsonld' or 'AICP' in str(r.get('fonte')): continue   # AICP: il sito riporta un widget di eventi di tutto il mondo
+    e=sched.get(r['fonte_id'],{})
+    if GEO=='zu' and e.get('lat'): e={**e,**dict(zip(('zona','municipio'),zone_ll(e['lat'],e['lon'])))}
+    add('sito della fonte',r['evento'],r['inizio'],r['fine'],None,r.get('luogo') or e.get('nome'),r.get('indirizzo') or e.get('indirizzo'),r['fonte'],r.get('url') or r['pagina'],e.get('zona'),e.get('municipio'),o='siti delle fonti: lettore automatico 24 ott')
 # 4. eventi Facebook delle pagine (censimento associazioni)
 for u,v in json.load(open(f'{S}/assoc/events.json')).items():
     for x in v['eventi']:
-        add('Facebook',x['nome'],x['inizio'],None,None,x['luogo'],x['indirizzo'],x['host'],x['url'],match(x.get('suddivisione'),x.get('municipio')),x.get('municipio'),o='Facebook: pagine del censimento associazioni')
+        add('Facebook',x['nome'],x['inizio'],None,None,x['luogo'],x['indirizzo'],x['host'],x['url'],*(zone_ll(x['lat'],x['lon']) if GEO=='zu' and x.get('lat') else (match(x.get('suddivisione'),x.get('municipio')),x.get('municipio'))),o='Facebook: pagine del censimento associazioni')
 # 5. eventi Facebook degli enti RUNTS
 def key(u):
     m=re.match(r'https?://(?:www\.)?facebook\.com/profile\.php\?id=(\d+)',u or '')
@@ -93,6 +102,7 @@ if os.path.exists(f'{RQ}/fonti_lette.json'):
     for r in json.load(open(f'{RQ}/fonti_lette.json')):
         if r['fonte'] in FIL: continue
         z=match(r.get('sudd_nome'),r.get('municipio')) if r.get('sudd_nome') else None; m=r.get('municipio')
+        if GEO=='zu' and r.get('lat'): z,m=zone_ll(r['lat'],r['lon'])
         # solo l'indirizzo della fonte assegna la pagina: il quartiere della ricerca che l'ha trovata non basta
         for x in r['eventi']:
             dv=x['prova']!='jsonld'
@@ -107,8 +117,15 @@ for f in sorted(glob.glob(f'{RQ}/fb_events_*.json')):
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),', '.join(x.get('host_names') or []) if isinstance(x.get('host_names'),list) else x.get('host_names'),x.get('url'),z,m,o='ricerca evento+quartiere: pagine Facebook nuove')
 # 8. eventi annunciati nei post Facebook (ultimi post di 3.977 pagine; estrazione dal testo, da verificare)
 PE=f'{S}/post_eventi/eventi_post_futuri.json'
+FBLL={}   # pagina Facebook -> coordinate della sede (wiki fonti-eventi), per gli annunci assegnati dalla sede della fonte
+for f in sched.values():
+    for u in (f.get('canali') or {}).get('facebook') or []:
+        if f.get('lat') and key(u): FBLL.setdefault(key(u),(f['lat'],f['lon']))
 if os.path.exists(PE):
     for x in json.load(open(PE)):
+        if GEO=='zu' and x.get('zona_metodo') in ('sede della fonte',None) and FBLL.get(x.get('pagina')):
+            z,m=zone_ll(*FBLL[x['pagina']])
+            if z: x={**x,'zona':z,'municipio':m}
         n0=len(ev)
         add('Facebook (post)',x.get('titolo') or (x.get('testo') or '')[:90],x['inizio'],x['fine'],x.get('ora'),x.get('luogo'),None,x.get('fonte'),x.get('url_post'),x.get('zona'),x.get('municipio'),o='post Facebook: '+str(x.get('lotto')))
         if len(ev)>n0:
@@ -116,6 +133,6 @@ if os.path.exists(PE):
             if x.get('ricorrente'): ev[-1]['ric']=x['ricorrente']
 ev.sort(key=lambda e:(e['d1'],e['ora'] or '',e['t']))
 P=[{'id':z,'nome':p['name_display'],'mun':p['primary_municipality']} for z,p in sorted(pages.items(),key=lambda kv:kv[1]['name_display'])]
-json.dump({'oggi':TODAY,'pagine':P,'eventi':ev},open(f'{S}/pagina_eventi/eventi.json','w'),ensure_ascii=False,separators=(',',':'))
+json.dump({'oggi':TODAY,'pagine':P,'eventi':ev},open(f'{S}/pagina_eventi/eventi'+('_zu' if GEO=='zu' else '')+'.json','w'),ensure_ascii=False,separators=(',',':'))
 c=collections.Counter(e['z'] for e in ev)
 print(dict(stat)); print('eventi',len(ev),'con pagina QN',sum(1 for e in ev if e['z']),'senza',sum(1 for e in ev if not e['z']),'pagine con almeno un evento',sum(1 for p in P if c.get(p['id'])),'a zero',sum(1 for p in P if not c.get(p['id'])),'>=10',sum(1 for p in P if c.get(p['id'],0)>=10))
