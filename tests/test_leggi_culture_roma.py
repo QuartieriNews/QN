@@ -8,7 +8,8 @@
 - T-CR-3  new vs modified: an item published after the state is "nuovo", else "modificato".
 - T-CR-4  a page that fails stops the run there: it is listed with `errore` and the state
           advances only to the last item read; nothing is fatal.
-- T-CR-5  output and state must be outside docs/ (titles never enter the repository).
+- T-CR-5  output and state must be outside the repository, anywhere in it and however
+          written (titles never enter the repository).
 
 Run:  python tests/test_leggi_culture_roma.py   (exit 0 and "ALL PASS" required)
 """
@@ -93,11 +94,17 @@ def main():
         check("T-CR-4 page fields merged into the row", rows[0]["municipio"], "XI")
 
     print("T-CR-5 paths outside the repository")
-    try:
-        cr.main(["--stato", "docs/x.json", "--out", "/tmp/x.jsonl"])
-        check("T-CR-5 refused", True, False)
-    except SystemExit as e:
-        check("T-CR-5 refused", "DEC-022" in str(e), True)
+    repo = os.path.abspath(ROOT)
+    fuori = os.path.join(tempfile.gettempdir(), "x.jsonl")
+    for label, stato, out in (("state in docs/", os.path.join(repo, "docs", "x.json"), fuori),
+                              ("state in another folder", os.path.join(repo, "tools", "x.json"), fuori),
+                              ("output written with ..", os.path.join(tempfile.gettempdir(), "s.json"), os.path.join(repo, "tools", "..", "x.jsonl"))):
+        try:
+            cr.main(["--stato", stato, "--out", out])
+            check(f"T-CR-5 refused: {label}", True, False)
+        except SystemExit as e:
+            check(f"T-CR-5 refused: {label}", "DEC-022" in str(e), True)
+    check("T-CR-5 a path outside the repository is accepted", cr.inside_repo(fuori), False)
 
     print(f"\n{checks} checks, {failures} failures")
     print("ALL PASS" if failures == 0 else "FAILED")

@@ -21,20 +21,24 @@ def robots_ok(u):
         _,txt=fetch(f'{p.scheme}://{p.netloc}/robots.txt'); rp.parse(txt.splitlines())
     except Exception: return True
     return rp.can_fetch('*',u) and rp.can_fetch(UA,u)
+CITYNEWS=re.compile(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$')   # Roma Today e Citynews: mai letti (DEC-026)
+def citynews(u): return bool(CITYNEWS.search(urllib.parse.urlsplit(u if '//' in u else 'https://'+u).netloc.lower().split(':')[0]))
 def text(d): return html.unescape(re.sub(r'<[^>]+>',' ',re.sub(r'<(script|style|noscript)[^>]*>.*?</\1>',' ',d,flags=re.S|re.I)))
 def work(src):
     urls=src['url_esempio'].split(' · '); home='https://'+src['fonte']
     out={'fonte':src['fonte'],'categoria':src['categoria'],'pagine_qn':src['pagine_qn'],'ricerche':src['ricerche'],'eventi':[],'lette':[]}
-    if re.search(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$',src['fonte']): out['esito']='non letto: Roma Today, licenza Citynews (DEC-026)'; return out
+    if citynews(src['fonte']): out['esito']='non letto: Roma Today, licenza Citynews (DEC-026)'; return out
     if not robots_ok(home): out['esito']='robots.txt vieta la lettura'; return out
     fonte={'id':'Q-'+src['fonte'],'nome':src['fonte']}
     todo=list(dict.fromkeys([home]+urls[:2])); seen=set()
     for u in todo:
         if u in seen or len(out['lette'])>=4: continue
         seen.add(u)
+        if citynews(u): out.setdefault('saltati',[]).append(u); continue   # anche come url di esempio
         if not robots_ok(u): continue
         try: final,d=fetch(u)
         except Exception as e: out.setdefault('errori',[]).append(str(e)[:60]); continue
+        if citynews(final): out.setdefault('saltati',[]).append(final); continue   # redirect verso Roma Today: pagina scartata
         out['lette'].append(final)
         if u==home:
             m=re.search(r'<meta[^>]+property=["\']og:site_name["\'][^>]+content=["\']([^"\']+)',d,re.I) or re.search(r'<title>(.*?)</title>',d,re.S|re.I)

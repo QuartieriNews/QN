@@ -1,5 +1,5 @@
 # Eventi futuri dei soggetti nuovi della lista supplementare: post Facebook (estrattore dei post) e siti (lettore della ricerca per quartiere)
-import json,re,sys,glob,collections
+import json,urllib.parse,re,sys,glob,collections
 from datetime import date
 S='/tmp/claude-0/-home-user-QN/6ddd5f5b-029a-56ef-ba4a-9ebf9ede2447/scratchpad'
 for p in ('supplementare','post_eventi','pagina_eventi'): sys.path.insert(0,f'{S}/{p}')
@@ -55,7 +55,8 @@ for f in glob.glob(f'{S}/supplementare/posts_*.json'):
         out.append({**e,'fonte':o['nome'],'tipo_fonte':o['tipo'],'zona':zt or o['pagina'],'municipio':o['municipio'],'zona_metodo':'luogo nominato nel post' if zt else 'sede della fonte (lista supplementare)','url':p.get('url'),'canale':'Facebook (post)'})
 st['pagine con post']=len(per)
 for r in json.load(open(f'{S}/supplementare/siti_letti.json')):
-    if re.search(r'romatoday\.it|citynews\.it',str(r.get('fonte'))+' '+' '.join(r.get('lette') or [])): st['siti: pagine di Roma Today lette per errore (scartate, DEC-026)']+=1; continue
+    if any(re.search(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$',urllib.parse.urlsplit(u if '//' in u else 'https://'+u).netloc.lower()) for u in [str(r.get('fonte') or '')]+list(r.get('lette') or [])):
+        st['siti: pagine di Roma Today lette per errore (scartate, DEC-026)']+=1; continue
     o=byhost.get(r['fonte'])
     if not o: continue
     if sum(1 for x in r['eventi'] if x['prova']!='jsonld')>20: st['siti esclusi: troppe date (blog o aggregatore)']+=1; continue

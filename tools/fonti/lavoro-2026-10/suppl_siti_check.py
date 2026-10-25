@@ -11,7 +11,8 @@ todo={}
 for o in L:
     if o['gia_nota'] or not o.get('sito'): continue
     h=host(o['sito'])
-    if not h or re.search(r'facebook|instagram|google|wikipedia|youtube|comune\.roma|chiesacattolica|parrocchiemap|linktr|romatoday|citynews|today\.it',h): continue
+    if not h or re.search(r'facebook|instagram|google|wikipedia|youtube|comune\.roma|chiesacattolica|parrocchiemap|linktr',h): continue
+    if LF.citynews(h): continue   # Roma Today e Citynews: mai letti (DEC-026)
     todo.setdefault(h,{'fonte':h,'categoria':o['tipo'],'pagine_qn':o['pagina'],'ricerche':1,'url_esempio':o['sito'] if o['sito'].startswith('http') else 'https://'+o['sito']})
 print('siti da leggere',len(todo),flush=True)
 with ThreadPoolExecutor(max_workers=12) as ex: res=list(ex.map(LF.work,todo.values()))

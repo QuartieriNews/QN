@@ -9,7 +9,12 @@
           source, site root; social networks and licensed aggregators are never fetched.
 - T-LS-4  a source whose page cannot be fetched is counted and skipped, never fatal; one
           row per (title, start) even when the page repeats the event.
-- T-LS-5  the output path must be outside docs/ (event titles never enter the repository).
+- T-LS-5  the output path must be outside the repository, anywhere in it and however written
+          (event titles never enter the repository); a copy of the tool outside a repository
+          has no repository to protect.
+- T-LS-6  robots.txt is read once per host and obeyed: a disallowed page is skipped and
+          counted, never fetched; a 401/403 on robots.txt closes the host; an absent or
+          unreachable robots.txt does not block.
 
 Run:  python tests/test_leggi_eventi_siti.py   (exit 0 and "ALL PASS" required)
 """
@@ -111,11 +116,38 @@ def main():
         check("T-LS-4 rows carry the source id and page", (lines[0]["fonte_id"], lines[0]["pagina"]), ("S-EV-0001", "https://teatroprova.it/eventi/"))
 
     print("T-LS-5 output outside the repository")
-    try:
-        ls.main(["--out", "docs/wiki/fonti-eventi/x.jsonl"])
-        check("T-LS-5 refused", True, False)
-    except SystemExit as e:
-        check("T-LS-5 refused", "DEC-022" in str(e), True)
+    repo = os.path.abspath(ROOT)
+    for label, path in (("docs/", os.path.join(repo, "docs", "wiki", "fonti-eventi", "x.jsonl")), ("another folder", os.path.join(repo, "tools", "x.jsonl")),
+                        ("written with ..", os.path.join(repo, "tools", "..", "x.jsonl"))):
+        try:
+            ls.main(["--out", path])
+            check(f"T-LS-5 refused: {label}", True, False)
+        except SystemExit as e:
+            check(f"T-LS-5 refused: {label}", "DEC-022" in str(e), True)
+    check("T-LS-5 a path outside the repository is accepted", ls.inside_repo(os.path.join(tempfile.gettempdir(), "x.jsonl")), False)
+    with tempfile.TemporaryDirectory() as tmp:
+        check("T-LS-5 a copy outside a repository has no repository", ls.repo_root(os.path.join(tmp, "leggi_eventi_siti.py")), None)
+
+    print("T-LS-6 robots.txt")
+    calls = []
+
+    def robots_fetch(url):
+        calls.append(url)
+        if url == "https://teatroprova.it/robots.txt":
+            return "User-agent: *\nDisallow: /eventi/\n"
+        if url == "https://circologiu.it/robots.txt":
+            raise ls.urllib.error.HTTPError(url, 403, "Forbidden", None, None)
+        if url == "https://teatroprova.it/eventi/":
+            return PAGE_A
+        raise OSError("connection refused")
+    due = FONTI[:2] + [dict(FONTI[0], id="S-EV-0005")]   # two sources on the same host
+    with tempfile.TemporaryDirectory() as tmp:
+        stats = ls.run(due, os.path.join(tmp, "e.jsonl"), TODAY, 60, fetcher=robots_fetch, pausa=0, log=lambda *_: None)
+    check("T-LS-6 disallowed and 403-closed pages skipped and counted", (stats["fonti"], stats["robots_vieta"], stats["lette"]), (3, 3, 0))
+    check("T-LS-6 a disallowed page is never fetched", "https://teatroprova.it/eventi/" in calls, False)
+    check("T-LS-6 robots.txt read once per host", calls.count("https://teatroprova.it/robots.txt"), 1)
+    cache = {}
+    check("T-LS-6 unreachable robots.txt does not block", ls.robots_allows("https://altro.it/x", lambda u: (_ for _ in ()).throw(OSError("down")), cache), True)
 
     print(f"\n{checks} checks, {failures} failures")
     print("ALL PASS" if failures == 0 else "FAILED")

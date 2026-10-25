@@ -20,8 +20,9 @@ Usage:
     python tools/fonti/leggi_eventi_siti.py --schedario docs/wiki/fonti-eventi/fonti_eventi.json \
         --out /lavoro/eventi_siti.jsonl [--solo-jsonld] [--max 50] [--municipio I] [--zona monteverde]
 
-Rules: one request per second per host, a user agent with a contact, no aggregator with a
-licence clause (Roma Today / Citynews are never fetched: project rule "nessun canale senza
+Rules: one request per second per host, a user agent with a contact, the host's robots.txt
+read once per run and obeyed (a page it disallows is skipped and counted), no aggregator with
+a licence clause (Roma Today / Citynews are never fetched: project rule "nessun canale senza
 licenza"), social networks never fetched (DEC-102: Facebook is read through the owner's
 Apify runs, not from here).
 """
@@ -36,7 +37,9 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import urllib.robotparser
 from datetime import date, datetime, timedelta
+from pathlib import Path
 
 UA = "QuartieriNews-fonti/1.0 (+https://github.com/quartierinews/qn; contatto: redazione)"
 MESI = "gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre"
@@ -200,18 +203,57 @@ def select(fonti, municipio=None, zona=None, ids=None):
     return out
 
 
+def repo_root(start=None):
+    """The repository holding this tool (the directory with .git), or None when run from a copy."""
+    for d in Path(start or __file__).resolve().parents:
+        if (d / ".git").exists():
+            return d
+    return None
+
+
+def inside_repo(path, root=None):
+    """True when path, resolved (symlinks, '..', relative to the working directory), falls inside the repository."""
+    root = root or repo_root()
+    p = Path(path).expanduser().resolve()
+    return bool(root) and (p == root or root in p.parents)
+
+
+def robots_allows(url, fetcher, cache, before_request=lambda host: None):
+    """robots.txt of the url's host, read once per run (cache); absent or unreadable it does not block,
+    as the robots convention says, except a 401/403 on robots.txt itself, which closes the host."""
+    parts = urllib.parse.urlsplit(url)
+    if parts.netloc not in cache:
+        rp = urllib.robotparser.RobotFileParser()
+        try:
+            before_request(parts.netloc)
+            rp.parse(fetcher(f"{parts.scheme}://{parts.netloc}/robots.txt").splitlines())
+        except urllib.error.HTTPError as e:
+            rp = False if e.code in (401, 403) else None
+        except Exception:  # unreachable or absent: no rule to obey
+            rp = None
+        cache[parts.netloc] = rp
+    rp = cache[parts.netloc]
+    return rp is None or (rp is not False and rp.can_fetch(UA, url))
+
+
 def run(fonti, out_path, today, orizzonte=60, solo_jsonld=False, max_fonti=None, fetcher=fetch, pausa=1.0, log=print):
-    last_hit = {}
-    stats = {"fonti": 0, "lette": 0, "non_raggiungibili": 0, "con_eventi_jsonld": 0, "con_date": 0, "righe": 0}
+    last_hit, robots = {}, {}
+    stats = {"fonti": 0, "lette": 0, "non_raggiungibili": 0, "robots_vieta": 0, "con_eventi_jsonld": 0, "con_date": 0, "righe": 0}
+
+    def before_request(host):   # one request per second per host, robots.txt included
+        wait = last_hit.get(host, 0) + pausa - time.time()
+        if wait > 0:
+            time.sleep(wait)
+        last_hit[host] = time.time()
     with open(out_path, "w", encoding="utf-8") as fh:
         for f in fonti[:max_fonti] if max_fonti else fonti:
             url = page_to_check(f)
             stats["fonti"] += 1
-            host = urllib.parse.urlsplit(url).netloc
-            wait = last_hit.get(host, 0) + pausa - time.time()
-            if wait > 0:
-                time.sleep(wait)
-            last_hit[host] = time.time()
+            if not robots_allows(url, fetcher, robots, before_request):
+                stats["robots_vieta"] += 1
+                log(f"  r {f['id']} {url} (robots.txt)")
+                continue
+            before_request(urllib.parse.urlsplit(url).netloc)
             try:
                 doc = fetcher(url)
             except Exception as e:  # network errors of every kind: recorded, never fatal
@@ -243,8 +285,8 @@ def main(argv=None):
     ap.add_argument("--id", action="append", help="only these source ids (repeatable)")
     ap.add_argument("--oggi", help="date to reason from, YYYY-MM-DD (default: today)")
     a = ap.parse_args(argv)
-    if "/docs/" in a.out.replace("\\", "/") or a.out.startswith("docs/"):
-        sys.exit("--out must point outside the repository: the output carries event titles (DEC-022)")
+    if inside_repo(a.out):
+        sys.exit("--out must point outside the repository: the output carries event titles (DEC-022, DEC-109)")
     sched = json.load(open(a.schedario, encoding="utf-8"))
     today = datetime.strptime(a.oggi, "%Y-%m-%d").date() if a.oggi else date.today()
     fonti = select(sched["fonti"], a.municipio, a.zona, set(a.id) if a.id else None)

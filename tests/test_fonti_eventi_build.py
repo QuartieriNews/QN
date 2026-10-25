@@ -25,8 +25,9 @@ Rules under test, each named in the check label:
 - T-FE-8  merge proposals: two entries that are probably the same source are listed for a
           person in fusioni-proposte.md and never merged by the build.
 - T-FE-10 promoters of the events (analysis on Drive, 25 October 2026): promotori.md lists them by
-          our category with a one-line label description; emails, phone numbers, long descriptions and
-          the promoters' own texts never reach the output (a contact is only "sì/no"); a personal profile
+          our category with a one-line label description; emails, phone numbers (in the contact fields
+          and inside any text), long descriptions and the promoters' own texts never reach the output
+          (a contact is only "sì/no"); a personal profile
           (Facebook profile.php, LinkedIn /in/) keeps the name and drops the URL; the zone is written only
           if it is a gazetteer id; a promoter with a schedario id carries its category on that entry.
 
@@ -156,7 +157,8 @@ def make_inputs(folder):
          "contatti": {"email": ["biglietteria@teatro-fittizio.it"], "telefono": PHONE}, "email": ["biglietteria@teatro-fittizio.it"], "telefono": PHONE,
          "descrizione_lunga": AUTO_TXT, "autodescrizione": AUTO_TXT, "diffusione": "diritti riservati (generico)", "diffusione_prova": "https://www.teatrovascello.it/note-legali/"},
         {"nome": "Giulia Conti", "id": None, "categoria": "Persone (artisti, autori, guide)", "sottocategoria": "persona", "ambito": "cittadino",
-         "descrizione_breve": "Artista: scrivete a giulia@persona-fittizia.it " + "x" * 400, "municipio": "XIII", "zona": "zona-inventata", "eventi": 1,
+         "descrizione_breve": "Artista: scrivete a giulia@persona-fittizia.it o chiamate il " + PHONE + " " + "x" * 400,
+         "attivita": ["musica, tel. +39 " + PHONE], "municipio": "XIII", "zona": "zona-inventata", "eventi": 1,
          "canali": {"facebook": "https://www.facebook.com/profile.php?id=100099", "linkedin": "https://www.linkedin.com/in/giulia-conti-fittizia", "sito": "mailto:giulia@persona-fittizia.it"}, "contatti": {"email": True},
          "diffusione": "una etichetta inventata"},
     ], open(os.path.join(folder, "promotori.json"), "w"))
@@ -277,6 +279,9 @@ def main():
         check("T-FE-10 personal profiles (Facebook, LinkedIn): name kept, url dropped; non-web link dropped", gp["canali"], {})
         check("T-FE-10 short description capped and stripped of the address", (len(gp["descrizione_breve"]) <= bfe.PROMO_MAX, "persona-fittizia" in gp["descrizione_breve"]), (True, False))
         check("T-FE-10 unknown zone and unknown label never written", (gp["zona"], gp["diffusione"]), (None, "non verificabile"))
+        check("T-FE-10 phone numbers stripped from free text, postcode, year and date kept",
+              bfe.PHONE_RX.sub("§", "tel. 06 5550 1234 o +39 333 123 4567, Via Roma 12, 00153 Roma, dal 2026, il 05/11/2026 ore 18.30"),
+              "tel. § o §, Via Roma 12, 00153 Roma, dal 2026, il 05/11/2026 ore 18.30")
         vas = next(e for e in s["fonti"] if e["id"] == "S-FE-0100")
         check("T-FE-10 schedario entry carries the promoter category", vas.get("promotore", {}).get("categoria"), "Teatri, cinema e spazi di spettacolo")
         check("T-FE-10 evidence link of the position kept", "[diritti riservati (generico)](https://www.teatrovascello.it/note-legali/)" in prom, True)

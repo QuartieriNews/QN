@@ -1,5 +1,5 @@
 # Tutti gli eventi futuri noti al 24 ottobre 2026, assegnati alle pagine QN -> eventi.json per la pagina HTML
-import json,re,sys,glob,unicodedata,collections,openpyxl,os,ast
+import json,re,sys,glob,unicodedata,collections,openpyxl,os,ast,urllib.parse
 S='/tmp/claude-0/-home-user-QN/6ddd5f5b-029a-56ef-ba4a-9ebf9ede2447/scratchpad'; sys.path.insert(0,f'{S}/scripts')
 from mirate_liste import place
 TODAY='2026-10-25'
@@ -34,6 +34,7 @@ def zone_from_text(t):
     if not best: return None,None
     z=best[1]['publication_zone_id']; return (z if z in pages else None), best[1].get('municipality_code')
 def s(v): v=None if v in (None,'None','') else str(v).strip(); return v
+CITYNEWS=re.compile(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$')   # Roma Today e Citynews: solo la lettura una tantum autorizzata (DEC-026)
 PROVT=re.compile(r"(?<!Via )(?<!Viale )(?<!Piazza )(?<!Largo )(?<!Via di )\b(Albano Laziale|Albano|Marino|Frascati|Ciampino|Castel Gandolfo|Genzano|Ariccia|Rocca di Papa|Rocca Priora|Grottaferrata|Monte Porzio|Monte Compatri|Fiumicino|Guidonia|Tivoli|Monterotondo|Pomezia|Ardea|Anzio|Nettuno|Velletri|Ladispoli|Cerveteri|Bracciano|Mentana|Fonte Nuova|Zagarolo|Palestrina|Colleferro|Valmontone|Lariano|Nemi|Formello|Sacrofano|Campagnano|Anguillara|Trevignano|Santa Marinella|Civitavecchia|Subiaco)\b")
 ev=[]; seen=set(); stat=collections.Counter()
 def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=None):
@@ -42,7 +43,7 @@ def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=Non
     d1=d1[:16].replace('T',' '); d2=(d2 or d1)[:16].replace('T',' ')
     if max(d1[:10],d2[:10])<TODAY: stat['passati']+=1; return
     if re.search(r'comune\.[a-z-]+\.rm\.it',str(url or '')+str(fonte_url or '')): stat['fuori Roma (sito di un altro comune)']+=1; return
-    if src!='Roma Today' and re.search(r'romatoday\.it',str(url or '')+str(fonte_url or '')): stat['Roma Today fuori dalla lettura autorizzata (DEC-026)']+=1; return
+    if src!='Roma Today' and any(CITYNEWS.search(urllib.parse.urlsplit(str(u or '')).netloc.lower()) for u in (url,fonte_url)): stat['Roma Today fuori dalla lettura autorizzata (DEC-026)']+=1; return
     lu=f"{luogo or ''} {ind or ''}"
     if PROVT.search(lu) and not re.search(r'\b(Roma|Rome)\b',lu): stat['fuori Roma (luogo in un comune della provincia)']+=1; return
     cap=re.findall(r'(?<![\d.])(\d{5})(?!\d)',f"{luogo or ''} {ind or ''}")

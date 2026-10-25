@@ -440,7 +440,9 @@ nuovi si contano per fonte e per pagina QN e la wiki si aggiorna dai conteggi, m
 
 `tools/fonti/leggi_eventi_siti.py` su tutte le fonti dello schedario con una pagina da
 leggere, orizzonte 60 giorni, otto processi in parallelo per host diversi. Esito nel foglio
-`eventi_siti_prova_2026-10-24.xlsx` su Drive.
+`eventi_siti_prova_2026-10-24.xlsx` su Drive. Questa prova non controllava il robots.txt: dal
+25 ottobre lo strumento lo legge una volta per host e lo rispetta (revisione della PR 15, test
+T-LS-6).
 
 | Misura | Valore |
 |---|---|

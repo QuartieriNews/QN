@@ -32,6 +32,7 @@ import time
 import urllib.parse
 import urllib.request
 from datetime import datetime
+from pathlib import Path
 
 API = "https://culture.roma.it/wp-json/wp/v2/event_calendar"
 UA = "QuartieriNews-fonti/1.0 (+https://github.com/quartierinews/qn; contatto: redazione)"
@@ -140,6 +141,21 @@ def run(since, out_path, state_path, max_items=None, fetcher=get, pausa=1.0, log
     return stats
 
 
+def repo_root(start=None):
+    """The repository holding this tool (the directory with .git), or None when run from a copy."""
+    for d in Path(start or __file__).resolve().parents:
+        if (d / ".git").exists():
+            return d
+    return None
+
+
+def inside_repo(path, root=None):
+    """True when path, resolved (symlinks, '..', relative to the working directory), falls inside the repository."""
+    root = root or repo_root()
+    p = Path(path).expanduser().resolve()
+    return bool(root) and (p == root or root in p.parents)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--stato", required=True, help="JSON state file (last modification read); outside the repository")
@@ -148,9 +164,8 @@ def main(argv=None):
     ap.add_argument("--max", type=int, help="read at most N items (trial runs)")
     ap.add_argument("--pausa", type=float, default=1.0)
     a = ap.parse_args(argv)
-    for p in (a.out, a.stato):
-        if "/docs/" in p.replace("\\", "/") or p.startswith("docs/"):
-            sys.exit("--out and --stato must point outside the repository (DEC-022)")
+    if any(inside_repo(p) for p in (a.out, a.stato)):
+        sys.exit("--out and --stato must point outside the repository (DEC-022, DEC-109)")
     since = json.load(open(a.stato, encoding="utf-8"))["ultima_modifica_letta"] if os.path.exists(a.stato) else a.da
     if not since:
         sys.exit("first run: pass --da <ISO date-time of the point zero>")

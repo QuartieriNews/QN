@@ -299139,7 +299139,7 @@
    "diffusione_prova": "https://actorraccia.com/"
   },
   {
-   "nome": "Associazione di promozione sociale  Officina DONNA",
+   "nome": "Associazione di promozione sociale Officina DONNA",
    "id": "S-EV-0585",
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
@@ -299775,35 +299775,6 @@
    "diffusione_prova": "https://arsinurbe.org/"
   },
   {
-   "nome": "Associazione     Italiana     Jaques - Dalcroze",
-   "id": "S-EV-0764",
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "associazione culturale",
-   "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Associazione culturale: musica, incontri e dibattiti, teatro.",
-   "attivita": [
-    "musica",
-    "incontri e dibattiti",
-    "teatro"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "centro-storico",
-   "eventi": 4,
-   "canali": {
-    "sito": "http://www.dalcroze.it/",
-    "facebook": "https://www.facebook.com/DalcrozeItalia",
-    "instagram": "https://www.instagram.com/dalcroze_italia",
-    "youtube": "https://www.youtube.com/@dalcrozeitalia3487"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://dalcroze.it/"
-  },
-  {
    "nome": "Associazione Culturale Procult",
    "id": "S-EV-0549",
    "categoria": "Associazioni culturali e artistiche",
@@ -299915,6 +299886,35 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://associazionedariosimonetti.it/"
+  },
+  {
+   "nome": "Associazione Italiana Jaques - Dalcroze",
+   "id": "S-EV-0764",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Associazione culturale: musica, incontri e dibattiti, teatro.",
+   "attivita": [
+    "musica",
+    "incontri e dibattiti",
+    "teatro"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 4,
+   "canali": {
+    "sito": "http://www.dalcroze.it/",
+    "facebook": "https://www.facebook.com/DalcrozeItalia",
+    "instagram": "https://www.instagram.com/dalcroze_italia",
+    "youtube": "https://www.youtube.com/@dalcrozeitalia3487"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://dalcroze.it/"
   },
   {
    "nome": "Biblioteca Casa delle Traduzioni",
@@ -302192,7 +302192,7 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
-   "nome": "LABGDR  APS ASD",
+   "nome": "LABGDR APS ASD",
    "id": "S-EV-2265",
    "categoria": "Sport e movimento",
    "sottocategoria": "società o associazione sportiva",
@@ -303020,7 +303020,7 @@
    "diffusione_prova": "https://altramente.org/"
   },
   {
-   "nome": "AMICI PER sempre  APS",
+   "nome": "AMICI PER sempre APS",
    "id": "S-EV-0415",
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
@@ -304830,7 +304830,7 @@
    "diffusione_prova": "https://tour-roma.it/"
   },
   {
-   "nome": "Esserecane  - Centro Cinofilo",
+   "nome": "Esserecane - Centro Cinofilo",
    "id": "S-EV-1582",
    "categoria": "Sport e movimento",
    "sottocategoria": "sport",
@@ -307077,7 +307077,7 @@
    "diffusione_prova": "https://savoyswingitaly.it/"
   },
   {
-   "nome": "SCUOLE CONSAPEVOLI  ENTE DEL TERZO SETTORE",
+   "nome": "SCUOLE CONSAPEVOLI ENTE DEL TERZO SETTORE",
    "id": "S-EV-2976",
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "scuola o università",
@@ -308054,7 +308054,7 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
-   "nome": "A.I.A.C.O.  Associazione Italiana Arti e Cultura Orientale",
+   "nome": "A.I.A.C.O. Associazione Italiana Arti e Cultura Orientale",
    "id": "S-EV-0021",
    "categoria": "Sport e movimento",
    "sottocategoria": "sport",
@@ -309787,32 +309787,6 @@
    "diffusione_prova": "https://associazionearpad.it/"
   },
   {
-   "nome": "Art  Therapy Studio",
-   "id": "S-EV-0319",
-   "categoria": "Locali e attività commerciali",
-   "sottocategoria": "impresa",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Impresa di Centro Storico (Municipio I): salute e benessere, danza.",
-   "attivita": [
-    "salute e benessere",
-    "danza"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "centro-storico",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://www.psicologaartpsychotherapistsimonettacianca.com/",
-    "facebook": "https://www.facebook.com/simcianca"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "termini della piattaforma",
-   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
-  },
-  {
    "nome": "ART and SEEK",
    "id": "S-EV-0327",
    "categoria": "Associazioni culturali e artistiche",
@@ -309898,6 +309872,32 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://artsharingroma.it/"
+  },
+  {
+   "nome": "Art Therapy Studio",
+   "id": "S-EV-0319",
+   "categoria": "Locali e attività commerciali",
+   "sottocategoria": "impresa",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Impresa di Centro Storico (Municipio I): salute e benessere, danza.",
+   "attivita": [
+    "salute e benessere",
+    "danza"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://www.psicologaartpsychotherapistsimonettacianca.com/",
+    "facebook": "https://www.facebook.com/simcianca"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "ARTE Associazione di Reseller e Trader dell'Energia - Assoperatori",
@@ -312458,7 +312458,7 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
-   "nome": "Báilame  Fun Addicted",
+   "nome": "Báilame Fun Addicted",
    "id": null,
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
@@ -324734,7 +324734,7 @@
    "diffusione_prova": "https://romeartweek.com/"
   },
   {
-   "nome": "Romni   Onlus",
+   "nome": "Romni Onlus",
    "id": "S-EV-0959",
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "volontariato e assistenza",
