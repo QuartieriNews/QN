@@ -56,7 +56,7 @@ def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=Non
     ev.append({'z':z,'m':mun or (pages[z]['primary_municipality'] if z else None),'t':t[:160],'d1':d1[:10],'d2':d2[:10],'ora':s(ora),'luogo':s(luogo),'ind':s(ind),'org':s(org),'url':s(fonte_url) or s(url),'src':src,'free':gratis,'o':o or src})
     stat[src]+=1
 # 1. culture.roma.it per differenza (le più fresche)
-for r in (json.loads(l) for l in open(f'{S}/culture_delta/delta.jsonl')):
+for r in (json.loads(l) for f in sorted(glob.glob(f'{S}/culture_delta/delta*.jsonl')) for l in open(f)):
     z,m=zone_ll(r.get('lat'),r.get('lon')); add('culture.roma.it',r['titolo'],r.get('inizio'),r.get('fine'),r.get('orario'),r.get('luogo'),r.get('indirizzo'),r.get('a_cura_di'),r['url'],z,m or r.get('municipio'),r.get('sito'),'gratuito' if r.get('gratuito') else None,o='culture.roma.it: lettura per differenza 20-24 ott')
 # 2. foglio unificato (righe principali)
 wb=openpyxl.load_workbook('/mnt/user-data/outputs/eventi_unico.xlsx',read_only=True); ws=wb['Eventi unificati']; rr=list(ws.iter_rows(values_only=True)); h=rr[0]
@@ -169,6 +169,47 @@ for f in sorted(glob.glob(f'{S}/promotori/fbevents_ev_*.json')):
         z,m=zone_ll(x.get('latitude'),x.get('longitude'))
         hn=x.get('host_names'); hn=', '.join(hn) if isinstance(hn,list) else (', '.join(ast.literal_eval(hn)) if isinstance(hn,str) and hn.startswith('[') else hn)
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),hn,x.get('url'),z,m,o='Facebook: pagine mai lette (lista supplementare e promotori)')
+# 12. feed iCal e REST dei siti delle fonti (26 ottobre, leve L18/L20/L51): Teatri in Comune, The Events Calendar, Events Manager
+PF=f'{S}/feed/feed_eventi.json'
+if os.path.exists(PF):
+    for x in json.load(open(PF)):
+        z,m=(x['zona'],x['municipio']) if x.get('zona') else (zone_ll(x['lat'],x['lon']) if x.get('lat') else zone_from_text(x.get('luogo') or ''))
+        add('sito della fonte',x['titolo'],x['inizio'],x['fine'],x.get('ora'),x.get('luogo'),None,x.get('org'),x.get('url'),z,m,o='feed iCal e REST dei siti (26 ott)')
+# 13. recupero geografico degli eventi senza pagina (26 ottobre, leve L01 e L02): luogo già visto con una sola pagina;
+# indirizzo con civico geocodificato con Nominatim (cache, un'interrogazione al secondo, © OpenStreetMap contributors, ODbL).
+# Le schede di Roma Today restano senza pagina (DEC-026 aperta).
+import time,urllib.request,urllib.parse
+GEN=re.compile(r'^(teatro|location|scuola primaria|rome, italy|roma|sede|online|parrocchia|biblioteca|centro|piazza|via)\b',re.I)
+visti=collections.defaultdict(set)
+for e in ev:
+    if e['z'] and e.get('luogo') and len(norm(e['luogo']))>=8 and not GEN.match(e['luogo'].strip()): visti[norm(e['luogo'])].add(e['z'])
+CIV=re.compile(r"\b(via|viale|piazza|piazzale|largo|lungotevere|vicolo|corso|circonvallazione)\s+([^,\d\n]{3,60}?),?\s*(?:n\.?\s*)?(\d{1,4}[a-z]?)\b",re.I)
+CP=f'{S}/geo/cache_eventi.json'; GC=json.load(open(CP)) if os.path.exists(CP) else {}
+UA="QuartieriNews-fonti/1.0 (+https://github.com/quartierinews/qn; contatto: redazione)"; tlast=[0]
+def nominatim(street):
+    k=street.lower()
+    if k not in GC:
+        w=tlast[0]+1.1-time.time()
+        if w>0: time.sleep(w)
+        tlast[0]=time.time()
+        q=urllib.parse.urlencode({'street':street,'city':'Roma','countrycodes':'it','format':'jsonv2','limit':1,'addressdetails':1})
+        try:
+            with urllib.request.urlopen(urllib.request.Request('https://nominatim.openstreetmap.org/search?'+q,headers={'User-Agent':UA}),timeout=30) as r: d=json.loads(r.read().decode())
+            GC[k]=d[0] if d else None
+        except Exception: GC[k]=None
+    return GC[k]
+for e in ev:
+    if e['z'] or e['src']=='Roma Today': continue
+    lu=norm(e.get('luogo'))
+    if lu in visti and len(visti[lu])==1: e['z']=next(iter(visti[lu])); e['m']=e['m'] or pages[e['z']]['primary_municipality']; stat['recupero: luogo già visto']+=1; continue
+    txt=f"{e.get('luogo') or ''} {e.get('ind') or ''}"
+    if PROVT.search(txt) or not CIV.search(txt): continue
+    m=CIV.search(txt); r=nominatim(f"{m.group(1)} {m.group(2).strip()} {m.group(3)}")
+    if not r or r.get('addresstype') in ('road','city','suburb','quarter','neighbourhood','administrative','county','state','village','town'): stat['recupero: indirizzo non risolto']+=1; continue
+    z,mun=zone_ll(r['lat'],r['lon'])
+    if z: e['z']=z; e['m']=mun or e['m']; stat['recupero: indirizzo geocodificato']+=1
+    else: stat['recupero: fuori dal Comune']+=1
+json.dump(GC,open(CP,'w'),ensure_ascii=False)
 ev.sort(key=lambda e:(e['d1'],e['ora'] or '',e['t']))
 P=[{'id':z,'nome':p['name_display'],'mun':p['primary_municipality']} for z,p in sorted(pages.items(),key=lambda kv:kv[1]['name_display'])]
 for f in (('eventi.json','eventi_zu.json') if GEO=='zu' else ('eventi_sudd.json',)):   # eventi_zu.json resta per il confronto con gli abitanti

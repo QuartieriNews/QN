@@ -11,7 +11,7 @@ EVENTO=re.compile(r"\b(appuntament\w*|ci vediamo|vi aspettiamo|ti aspettiamo|vi 
 REPORT=re.compile(r"\b(ringrazi\w+|grazie (a|di cuore|mille)|è stat[oa] (un|una)|si è svolt\w+|si è concluso|ieri|eravamo|siamo stati|è andat[oa]|scors[oa]|abbiamo (fatto|vissuto|trascorso))",re.I)
 def clean(t):
     out=[]
-    for ch in str(t or ''):
+    for ch in unicodedata.normalize('NFKC',str(t or '')):   # grassetto matematico e simili tornano lettere e cifre leggibili
         o=ord(ch); cat=unicodedata.category(ch)
         if cat in ('So','Cs','Co') or o>0xFFFF or 0x2190<=o<=0x2BFF: out.append('\n')      # le emoji separano le parti del post
         elif 0xFE00<=o<=0xFE0F or o==0x200D or cat=='Sk': continue

@@ -255,11 +255,11 @@ ricerca Google 0,9).
 
 ## 1 nonies. Promotori degli eventi, categorie, ricerche integrative, immagini e diffusione (M, 25 ottobre 2026)
 
-**Promotori.** Chi organizza i 2.384 eventi futuri della pagina degli eventi di quartiere: host degli
+**Promotori.** Chi organizza i 2.563 eventi futuri della pagina degli eventi di quartiere: host degli
 eventi Facebook (con il link alla pagina), pagina che annuncia nel post, «a cura di» di culture.roma.it, la
-sede per l'agenda delle Biblioteche di Roma, la fonte per i siti; i co-organizzatori sono separati. 1.206 promotori; per 908 c'è un'email
-(75%), per 862 un sito, per 1.122 una pagina Facebook, per 707 un profilo
-Instagram, per 635 un telefono. Dati da: profili Facebook già letti nei censimenti e 425 letti ora,
+sede per l'agenda delle Biblioteche di Roma, la fonte per i siti; i co-organizzatori sono separati. 1.241 promotori; per 935 c'è un'email
+(75%), per 893 un sito, per 1.154 una pagina Facebook, per 729 un profilo
+Instagram, per 655 un telefono. Dati da: profili Facebook già letti nei censimenti e 425 letti ora,
 RUNTS, censimento associazioni, lista supplementare, contatti per evento di culture.roma.it, siti dei
 promotori letti ora (homepage, contatti, chi siamo, note legali; robots.txt rispettato) e una ricerca Google
 dei canali per chi non ne aveva. Ogni promotore ha una categoria, un ambito, le attività prevalenti, una
@@ -271,34 +271,34 @@ DEC-109; test T-FE-10).
 
 **Geografia.** Dal 25 ottobre, per decisione dell'owner, la pagina pubblicata usa la geografia delle zone
 urbanistiche, la stessa degli abitanti (§1 septies): un evento con coordinate va nella pagina del toponimo
-del gazetteer più vicino dentro la sua zona urbanistica ufficiale. Cambiano pagina 410 eventi su 2.384;
-quelli con una pagina QN sono 1.866 (1.700 con le suddivisioni toponomastiche), le pagine con 10 o più eventi
-46 (38), quelle a zero 5 (La Rustica, La Storta, Lunghezza, Marcigliana, Vitinia). Le quote qui sotto usano questa geografia. È la
+del gazetteer più vicino dentro la sua zona urbanistica ufficiale. Cambiano pagina 460 eventi su 2.563;
+quelli con una pagina QN sono 2.081 (1.907 con le suddivisioni toponomastiche), le pagine con 10 o più eventi
+49 (40), quelle a zero 5 (La Rustica, La Storta, Lunghezza, Marcigliana, Vitinia). Le quote qui sotto usano questa geografia. È la
 geografia dell'anteprima: quella di produzione resta il pacchetto Metodo QN (`tools/geo-assign/qngeo.py punto`).
 
 | Categoria | Promotori | Eventi | Quota nelle 41 pagine deboli |
 |---|---|---|---|
-| Associazioni culturali e artistiche | 273 | 544 | 10% |
-| Terzo settore sociale e sanitario | 160 | 254 | 10% |
-| Teatri, cinema e spazi di spettacolo | 76 | 251 | 10% |
-| Istituzioni pubbliche | 69 | 242 | 13% |
-| Grandi istituzioni culturali e fondazioni | 32 | 197 | 2% |
-| Persone (artisti, autori, guide) | 135 | 158 | 8% |
-| Non classificato | 92 | 140 | 9% |
+| Associazioni culturali e artistiche | 284 | 601 | 10% |
+| Istituzioni pubbliche | 73 | 293 | 11% |
+| Terzo settore sociale e sanitario | 167 | 267 | 11% |
+| Teatri, cinema e spazi di spettacolo | 79 | 265 | 13% |
+| Grandi istituzioni culturali e fondazioni | 34 | 201 | 2% |
+| Non classificato | 95 | 158 | 9% |
+| Persone (artisti, autori, guide) | 134 | 157 | 8% |
 | Intermediari: biglietterie, aggregatori e media | 36 | 115 | 3% |
-| Turismo e visite guidate | 53 | 104 | 7% |
+| Turismo e visite guidate | 53 | 114 | 6% |
 | Sport e movimento | 63 | 87 | 28% |
-| Parrocchie e realtà religiose | 42 | 71 | 45% |
-| Scuole, università e formazione | 43 | 70 | 9% |
-| Musei, gallerie e spazi espositivi | 20 | 59 | 0% |
+| Parrocchie e realtà religiose | 45 | 76 | 43% |
+| Scuole, università e formazione | 44 | 72 | 8% |
+| Musei, gallerie e spazi espositivi | 20 | 60 | 0% |
 | Locali e attività commerciali | 39 | 56 | 9% |
-| Centri sociali, centri anziani e spazi di comunità | 15 | 43 | 9% |
-| Comitati di quartiere e reti civiche | 24 | 40 | 25% |
-| Ambiente, natura e animali | 27 | 39 | 8% |
+| Centri sociali, centri anziani e spazi di comunità | 15 | 43 | 12% |
+| Ambiente, natura e animali | 29 | 42 | 7% |
+| Comitati di quartiere e reti civiche | 24 | 42 | 24% |
 | Politica e sindacati | 7 | 10 | 0% |
 
 **Lettura per categoria.** Quota degli eventi di ogni categoria che cade nelle 41 pagine deboli:
-le più legate alle periferie sono parrocchie e realtà religiose (45%), sport e movimento (28%), comitati di quartiere e reti civiche (25%); le meno musei, gallerie e spazi espositivi (0%), grandi istituzioni culturali e fondazioni (2%), intermediari: biglietterie, aggregatori e media (3%). Nelle 41 pagine deboli la lista supplementare (§1 octies) ha trovato 283 parrocchie e realtà religiose, 397 associazioni, 196 realtà sportive, 98 comitati, 73 centri anziani o sociali; i promotori di quelle categorie con almeno un evento nel calendario in quelle pagine sono 21 (7%), 38 (10%), 21 (11%), 9 (9%), 2 (3%). Il buco non è di soggetti: è di eventi che arrivano online.
+le più legate alle periferie sono parrocchie e realtà religiose (43%), sport e movimento (28%), comitati di quartiere e reti civiche (24%); le meno musei, gallerie e spazi espositivi (0%), grandi istituzioni culturali e fondazioni (2%), intermediari: biglietterie, aggregatori e media (3%). Nelle 41 pagine deboli la lista supplementare (§1 octies) ha trovato 283 parrocchie e realtà religiose, 397 associazioni, 196 realtà sportive, 98 comitati, 73 centri anziani o sociali; i promotori di quelle categorie con almeno un evento nel calendario in quelle pagine sono 22 (8%), 44 (11%), 21 (11%), 9 (9%), 3 (4%). Il buco non è di soggetti: è di eventi che arrivano online.
 
 **Ricerche integrative** (spesa massima approvata 25 dollari):
 
@@ -324,13 +324,13 @@ Roma Today e ne aveva letto anche la home e la pagina degli eventi: contro DEC-0
 una tantum del 23 ottobre non ammette letture di Roma Today. I tre blocchi datati presi da lì sono tolti
 dalla pagina e dal foglio della lista supplementare, e Roma Today è escluso nel lettore dei siti, nel lettore della lista
 supplementare e nella raccolta degli eventi. Gli eventi della lista supplementare nella pagina sono ora
-83 (88 nel §1 octies).
+85 (88 nel §1 octies).
 
 **Immagini (DEC-101).** Per ogni evento della pagina l'immagine della fonte è scaricata una volta e
 salvata a risoluzione da card (lato lungo 800 px), con `source_image_url`, `image_fetched_at`,
-`image_local_path`, `image_credit` e `image_removed`: 1.978 immagini. Non scaricate: Roma Today
+`image_local_path`, `image_credit` e `image_removed`: 2.149 immagini. Non scaricate: Roma Today
 (licenza Citynews, DEC-026), eventi Fever (asset commerciali), blocchi di testo dei siti senza pagina
-dell'evento; 189 eventi non hanno immagine alla fonte. Archivio e manifest su Drive
+dell'evento; 190 eventi non hanno immagine alla fonte. Archivio e manifest su Drive
 (`immagini_eventi.zip`, `immagini_eventi_manifest.xlsx`), mai nel repository.
 
 **Diffusione.** Posizione di ogni fonte sui propri contenuti, dal sito (note legali, termini, piè di
@@ -339,32 +339,32 @@ pagina, robots.txt, riserva di estrazione TDM) o dai termini della piattaforma:
 | Posizione | Promotori | Eventi (posizione più restrittiva fra i promotori dell'evento) |
 |---|---|---|
 | riproduzione vietata | 5 | 36 |
-| raccolta automatica vietata | 2 | 2 |
+| raccolta automatica vietata | 1 | 1 |
 | licenza richiesta | 0 | 0 |
-| termini della piattaforma | 377 | 490 |
-| diritti riservati (generico) | 463 | 964 |
-| licenza aperta | 10 | 13 |
-| nessuna indicazione | 329 | 785 |
-| non verificabile | 20 | 15 |
+| termini della piattaforma | 395 | 513 |
+| diritti riservati (generico) | 465 | 1018 |
+| licenza aperta | 9 | 12 |
+| nessuna indicazione | 330 | 831 |
+| non verificabile | 36 | 73 |
 
 Gli stessi eventi per canale da cui li leggiamo (la posizione del canale vale anche quando il promotore non dice nulla):
 
 | Canale | Posizione | Eventi |
 |---|---|---|
-| Facebook (termini di Meta) | termini della piattaforma | 1536 |
+| Facebook (termini di Meta) | termini della piattaforma | 1576 |
 | culture.roma.it (Roma Capitale) | diritti riservati (generico) | 356 |
-| siti delle fonti | diritti riservati (generico) | 144 |
-| siti delle fonti | nessuna indicazione | 136 |
+| siti delle fonti | diritti riservati (generico) | 187 |
+| siti delle fonti | nessuna indicazione | 174 |
 | Biblioteche di Roma | nessuna indicazione | 110 |
 | Roma Today (Citynews) | licenza richiesta | 82 |
-| siti delle fonti | non verificabile | 14 |
+| siti delle fonti | non verificabile | 72 |
 | siti delle fonti | riproduzione vietata | 4 |
 | siti delle fonti | licenza aperta | 2 |
 
 Vietano esplicitamente la riproduzione dei contenuti: Romaeuropa Festival (26 eventi), Teatro Degli Audaci (6 eventi), VignaClaraBlog.it Il primo quotidiano on line di Roma Nord (2 eventi), Indipendente Concerti (1 evento), Azione Cattolica Italiana (1 evento)
 (clausole rilette una per una: Romaeuropa non consente di usare contenuti e marchi del sito per scopi diversi da quelli del sito; il Teatro degli Audaci vieta riproduzione e diffusione senza autorizzazione scritta, ma ammette un estratto fino al 15% del testo con link all'originale e nome dell'autore; VignaClaraBlog vieta la riproduzione anche parziale senza approvazione scritta; il sito di riferimento è quello di Live Nation, i cui termini vietano di copiare o distribuire parti del sito senza autorizzazione scritta; Azione Cattolica consente solo usi personali dei contenuti).
-Vietano la raccolta automatica (termini o robots.txt): Intersos Lab, Le Nuove Chimere CooperativaSociale. Facebook e Instagram
-(termini di Meta: raccolta automatica vietata senza permesso) portano 1.536 eventi su 2.384; Roma Today
+Vietano la raccolta automatica (termini o robots.txt): Intersos Lab. Facebook e Instagram
+(termini di Meta: raccolta automatica vietata senza permesso) portano 1.576 eventi su 2.563; Roma Today
 richiede licenza (DEC-026); le note legali di Roma Capitale (anche per culture.roma.it) riservano i diritti
 sui contenuti senza licenza di riuso; il sito delle Biblioteche di Roma non dice nulla sui contenuti (il suo
 «copyright» riguarda il software del catalogo). Nessuna delle clausole lette vieta di dare notizia di un evento: i fatti (cosa,
@@ -372,6 +372,32 @@ quando, dove, chi) non sono protetti; lo sono testi e immagini, e la banca dati 
 sistematiche. Conseguenza operativa, già nelle regole: scriviamo i nostri testi con credito e link
 (DEC-102), e per le fonti che vietano la riproduzione si usa la card generata invece dell'immagine
 (DEC-101); la posizione sulla raccolta automatica di Facebook resta quella di DEC-102.
+
+## 1 decies. Secondo giro di leve per aumentare gli eventi in tutte le pagine (M, 26 ottobre 2026)
+
+Otto esploratori AI indipendenti hanno proposto 60 leve (dati già raccolti, categorie di fonti, feed e API, social, canali diretti, cadenza e conteggio, enti pubblici, estrazione con modelli); 30 sono passate da due verifiche avversarie, sulla resa e sulla liceità, prima che il giro fosse fermato per limiti di quota. Classifica per probabilità di successo con un tetto di 15 dollari di Apify: eseguite subito le leve deterministiche su dati già nostri o su feed pubblici strutturati (0 dollari spesi); le altre stanno nel foglio `leve_eventi_2026-10-26.xlsx` su Drive, da verificare con l'owner.
+
+**Risultato delle leve eseguite.** Eventi futuri nella pagina da 2.384 a 2.563. con pagina QN da 1.866 a 2.081; pagine con 10 o più eventi da 46 a 49; pagine a zero ferme a 5 (La Rustica. La Storta. Lunghezza. Marcigliana. Vitinia).
+
+| Leva | Che cosa | Esito misurato |
+|---|---|---|
+| L18 | Feed iCal e REST di The Events Calendar (Tribe) sui siti WordPress delle fonti | 158 eventi letti da 28 siti con feed iCal o REST (41 host provati, robots.txt rispettato, campi di contatto scartati, serie contate una volta); 139 entrati nella pagina dopo i doppioni |
+| L20 | iCal di Events Manager: Teatri in Comune (Tor Bella Monaca, Lido di Ostia, Villa Pamphilj, Quarticciolo) e altri siti con il plugin | Teatri in Comune (Tor Bella Monaca, Lido di Ostia, Villa Pamphilj, Quarticciolo): 53 eventi dal feed iCal, compresi nei 139; Ostia +20, Tor Bella Monaca +14 |
+| L51 | Parchi e riserve: calendari WordPress con iCal di RomaNatura, Parco regionale dell'Appia Antica e Parco archeologico dell'Appia | RomaNatura: feed iCal e REST vuoti al 26 ottobre; i parchi con The Events Calendar sono compresi nella lettura dei feed |
+| L08 | Correzioni deterministiche alle regole dei post (estrai.py/build.py): Unicode NFKC, ricorrenze, parola «online», post condivisi, anteprime, date parziali, vie di città | normalizzazione NFKC del testo dei post (grassetto matematico): annunci futuri da 888 a 930, nella pagina da 914 a 954 |
+| L01 | Recupero della pagina QN per i 518 eventi senza pagina con regole sui dati già in casa | 11 eventi senza pagina assegnati per luogo già visto con una sola pagina |
+| L02 | Geocodifica degli indirizzi stradali residui (Nominatim con cache o pacchetto Metodo QN) e scarto dei luoghi fuori Roma | 89 eventi senza pagina assegnati geocodificando l'indirizzo con civico (Nominatim, cache, una richiesta al secondo; 7 fuori dal Comune, 11 non risolti); attribuzione ODbL nella pagina |
+| L17 | culture.roma.it: lettore per differenza in calendario ogni 2 giorni, esteso a manifestazioni, tassonomia Municipio e luoghi | lettura per differenza dal 23 ottobre: 0 schede nuove o modificate in tre giorni (fine settimana); da ripetere a cadenza |
+
+**Leve da verificare con l'owner**, in ordine di probabilità di successo (resa e costo come corretti dallo scettico, dove c'è stata la verifica):
+
+- **1. Dati pubblici strutturati, costo zero o sotto 2 $:** L22 schema.org Event nelle sottopagine «eventi» e Google Calendar incorpor (Sottopagine eventi: 52 eventi futuri JSON-LD lordi su 151 siti, ≤29 netti e quasi tutti es; 0 $ confermato: nessun actor Apify. Rilanciare il ); L47 Centri commerciali: ≈20 gallerie di periferia con calendario eventi, 0 (40-100 eventi/mese (molti multi-giorno) su 15-20 pagine periferiche (III, IV, V, VI, VII, ; 0 $ per i WordPress (Euroma2, Maximo, Cinecittà Du); L56 Musei civici e statali, parchi archeologici, MAXXI e Bioparco: calenda (40-80 eventi/mese: MAXXI 32, Bioparco 9, Musei in Comune 12-15, Appia 4-8 (misurati); stat; 0 $.); L54 Mercati rionali, mercati contadini e fiere: 69 mercati in tutti i 15 M (+30-60 eventi/mese, metà ricorrenti, su 15 Municipi a bassa densità.; 0 $.); L46 Scuole statali: open day, «scuole aperte», feste e notizie dei 296-297 (300-900 open day fra novembre 2026 e gennaio 2027 (≈150-300/mese), su quasi tutte le 89 pa; 0 $ lettura (≈800 pagine; lettore già in uso); mod); L49 Cinema: rassegne e appuntamenti speciali delle 47 sale romane (8 nella (120-300 appuntamenti/mese (20-60 nei multiplex periferici) su ≈25 pagine.; 0 $ (una pagina per sala a settimana).); L55 Teatri non ancora censiti: ≈200 sale attive contro 114 nella wiki (180-360 titoli/mese (molte repliche) da 80-90 teatri nuovi su 10-15 pagine in più (VII, VI; 0 $ (1-2 pagine per teatro).); L48 Università e accademie: agende dei 4 atenei statali, Santa Cecilia, pr (Divergente: 15-40 eventi aperti/mese (statali + Santa Cecilia) o 45-90/mese includendo 10 ; 0 $ (RSS, HTML); Sapienza via actor 0,01-0,02 $/le); L52 Accademie straniere e istituti di cultura: 38 dell'Unione Internaziona (120-300 eventi/mese (ipotesi: 40 × 3-8) ma solo su 6-8 pagine centrali (Parioli-Flaminio/V; 0 $.); L53 Locali live e club: Songkick/Bandsintown come elenco (126 concerti a n (+60-90 eventi/mese in 15-25 locali su ≈12 pagine (Pigneto, Portonaccio, San Lorenzo, EUR, ; 0 $ (siti dei locali o API Songkick con chiave gra); L57 ASL Roma 1-2-3, ospedali, Croce Rossa e Caritas: notizie e feed letti  (20-40 eventi pubblici/mese, prevalenza di periferia (Corviale, Magliana, Ostia, Primavalle; 0 $.); L40 Pagine Facebook ufficiali dei 15 Municipi (e di 3 presidenti) lette og (≈60-90 eventi/mese su 15 Municipi (15 pagine × 31 post × 0,2 eventi/post × 3/4); può scend; ≈0,05 $/pagina/mese → meno di 1 $/mese per 18 pagi); L26 Ricerca degli eventi Facebook per luogo e parola chiave (Apify): già m (35-50 eventi futuri romani con pagina QN per giro mensile (tetto 60 prima del filtro geogr; ≈1,2 $/giro mensile confermato (0,19 $ + 0,98 $ mi); L19 Tipi di contenuto «evento» via WordPress REST con after/modified_after (A regime 40-80 eventi futuri netti al mese per il calendario (ipotesi: 69 record/mese dai ; Lettura REST: 0 $ plausibile (2-4 richieste per si); L21 Post dei siti via WordPress REST posts?after= e RSS: l'equivalente gra (Candidati grezzi dalle regole: 250-350 al mese (10,5% di ~2.900 post), in linea con la lev; 0 $ di lettura (REST e feed pubblici, robots rispe)
+- **2. Letture con un modello (costo in token, non in Apify):** L07 Blocchi datati dei siti del registro (1.089 letti il 24/10, mai usati) (Una tantum: 150-250 eventi veri nuovi con pagina QN (≈224 blocchi nuovi con zona dopo aver; Lettura: 0 $ confermato (tools/fonti/leggi_eventi_); L12 Coda settimanale di verifica dei candidati con modello (precisione da  (Al primo passaggio (fotografia del 25 ottobre): confermati dai post 914 × 0,63–0,84 × rich; Modello: realistico e anzi sovrastimato. Con i pre); L09 Lettura dei post Facebook con un modello al posto delle (o oltre le) r (Una tantum: +200-250 eventi futuri veri trovati (20 dalla classe scartata, 80-100 dai post; Prezzi verificati nella tabella del kit Claude API); L10 Visione sulle locandine: leggere le immagini dei post senza data nel t (Una tantum: 80-150 annunci futuri «da verificare» (massimo 250), non 200-500. Calcolo: 4.8; Modello: confermato il listino (skill claude-api: ); L43 Avvisi parrocchiali: lettura settimanale a modello di 39 pagine avvisi (+80-200 eventi/mese a regime, quasi tutti in periferia (ipotesi: 0,5-2 pubblicabili per pa; 45 pagine × 4 × 3.000 token ≈ 0,5 M/mese: Sonnet 1); L11 Seguire i link esterni dei post alle pagine evento ufficiali (bigliett (Una tantum: +10-25 eventi nuovi completi (ipotesi: 30-40 pagine leggibili e nuove × precis; Token: 300-360 pagine × 3.000-8.000 token (le pagi); L03 Gazetteer dei luoghi (open data + luoghi già visti + luoghi di culture (Una tantum: 35-45 dei 518 (ipotesi), così composti: ~13 per corrispondenza stretta di nome; 0 $ di dati e < 1 $ di modello sono realistici (da); L06 Doppioni: fondere invece di scartare, chiave con il luogo e dedupe sem (Zero eventi in più nel totale, come dichiara la leva. Recupero di 5-11 eventi distinti dai; 0 $ confermato: anche prendendo tutte le 439 coppi); L04 Fascia «altri eventi nel Municipio» per gli eventi con il solo Municip (0 eventi raccolti in più (confermato). Resi visibili: 23 (non 16-80), pari a 1,5 per Munic; 0 $ di raccolta, confermato. Costo reale: lavoro s); L05 Scarti a monte di collect.py: eventi Facebook senza luogo, coordinate  (4-9 eventi una tantum (gruppo 1: 1-5, di cui 4 con pagina probabilmente sbagliata; gruppo ; 0 $ confermato: nessun actor, nessun modello; solo)
+- **3. Canali diretti, accordi e licenze (serve una tua lettera o decisione):** L35 Invito «caldo» ai 908 promotori già pubblicati, con lettura automatica (Prima ondata 90-180 rispondenti (10-20%, ipotesi «caldo»); a regime 160-325 eventi/mese di; 0 $ Apify; modello sotto i 20 $ per la prima ondat); L37 Modulo pubblico «segnala il tuo evento» e numero WhatsApp di redazione (Da solo quasi zero prima del lancio; agganciato agli inviti 50-150 eventi/mese (20-40% dei; 0 $ (Tally/Google Form, casella, numero WhatsApp);); L36 Invito «freddo» ai soli soggetti attivi dei censimenti (RUNTS, pagine  (40-75 rispondenti alla prima ondata (3-6% di 1.268); 70-135 eventi/mese a regime (1,8 per ; 0 $ Apify; modello sotto i 30 $ per ondata; tempo ); L38 Iscrizione alle newsletter dei promotori e delle reti, con lettura aut (10-30 eventi/mese nuovi o anticipati (ipotesi): i 190 eventi dei 79 promotori sono per lo ; 0 $; modello centesimi per newsletter; una casella); L39 Accordo con i 15 Municipi: elenco mensile delle manifestazioni realizz (60-90 eventi/mese nuovi se tutti rispondono (40-60% di 152 non già in calendario: ipotesi); 0 $; modello centesimi; 15 lettere e solleciti.); L41 Accordo con l'Istituzione Biblioteche di Roma: programma mensile delle (+30-60 eventi/mese rispetto all'OPAC (ipotesi): 9 sedi mute, bibliopoint, anticipo di un m; 0 $; una lettera; modello centesimi.); L42 Diocesi di Roma: calendario in formato dati al posto del captcha, agen (30-60 eventi/mese nuovi, quasi tutti in periferia (ipotesi: 10-15% delle 316 parrocchie in; 0 $; una richiesta istituzionale; modello centesim); L44 Reti del terzo settore come moltiplicatori: CSV Lazio (calendario, new (Lettura diretta 10-20 eventi/mese (45/mese nel Lazio, 60% Roma, metà già note: ipotesi); i; 0 $; modello centesimi; due lettere.); L45 Scambio con le testate e i blog di quartiere (agenda in cambio di cred (10-30 eventi/mese nuovi in Roma Nord, Appio e zone dei blog (ipotesi: oggi 115 eventi dagl; 0 $; lettere e accordo per testata; modello centes); L58 Richieste di licenza a Roma Capitale e a Citynews (Roma Today) con bas (Nessun evento nuovo in sé: certezza su 526 già in calendario (culture 356, Biblioteche 110; 0 $; tempo dell'owner; eventuale corrispettivo Cit)
+- **4. Regole e budget (decisioni):** L16 Definizione onesta di «evento contato» e effetto di ogni scelta sul nu (Nessun evento in più: è una regola di conteggio. Regola onesta (doppioni fusi, inizio entr; 0 $ confermato: solo calcolo sui file locali, ness); L13 Lettura settimanale dei post Facebook per differenza (onlyPostsNewerTh (A regime settimanale: stock da post circa 1.250 candidati (1.100-1.150 non ricorrenti + 12; 0,005 $ per riga restituita, righe vuote comprese ); L14 Livelli di cadenza per produttività misurata (pagine produttive più sp (A regime il livello A (≈700 pagine settimanali) raccoglie il 30-45% del flusso di candidat; Prezzo per post (circa 0,007 $/post con filtro dat); L15 Modello a regime: fabbisogno settimanale, cadenze per canale tarate su (Con 75-95 $/mese (≈1.000 pagine di post a settimana): stock a regime ≈1.100-1.300 grezzi s; Come descritta (532 annunci/settimana) la leva cos)
+- **5. Piattaforme con termini restrittivi (da decidere prima di toccarle):** L27 Instagram delle fonti già censite letto con Apify (861 handle distinti (Prima tappa (circa 170 handle: 102 promotori con Instagram ma senza eventi presi da Facebo; Pilota: 170 handle × 8 post = 1.360 risultati ≈ 3,); L28 Instagram via API ufficiale Meta (Business Discovery): la via con perm (Una tantum: 40-120 eventi futuri nuovi dopo verifica (lordo 200-600 candidati «da verifica; 0 $ Apify e 0 $ API, confermato. Tempo macchina: b); L29 Hashtag Instagram per quartiere (API ufficiale o Apify): scoperta di f (Fonti: via API 0 profili identificabili (manca username; servono aperture manuali dei perm; Via API: 0 $ di piattaforma, ma serve un account I); L32 Gruppi Facebook di quartiere: sonda Apify sui gruppi pubblici (5 $) e  ((A) 30-120 candidati al mese se il 30-50% è pubblico e un gruppo attivo dà 0,5-2 annunci f; Sonda 1.000 post = 5 $ (4 $ Starter); a regime 5-1); L23 Zero.eu: sitemap mensile + schema.org Event di ogni pagina, licenza CC (Flusso: 400-520 eventi romani pubblicati al mese (misurato: 514 a settembre, 399 in 23 gio; 0 $ in API: 3 sitemap (≈0,2-0,45 MB l'una) più ≈12); L25 Meetup: iCal pubblico per gruppo (robots lo consente) contro API solo  (Dai 20 gruppi visibili: 25-40 voci di calendario al mese contando le repliche settimanali,; 0 $ in denaro, ma non «una richiesta/settimana per)
+
+**Scartate:** L24 Eventbrite: le API vietano la lettura di organizzatori terzi senza consenso; gli eventi arrivano già dai post; L30 Telegram: i termini dal 3 febbraio 2026 vietano la raccolta automatica; L31 WhatsApp: solo a mano, con una SIM e ore di lettura a settimana; L33 YouTube: 5-20 eventi al mese, quasi tutti dirette religiose e istituzionali; L34 Nextdoor: contenuti riservati ai residenti; L59 VisitLazio: 10-30 al mese, quasi tutti in centro e fiere; L60 comune.roma.it: 0-10 al mese, già noti da culture.roma.it; provata il 25 ottobre.
 
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
@@ -538,3 +564,5 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 7. Promotori (§1 nonies): per le fonti che vietano la riproduzione usare la card generata e i
    nostri testi; prossime ricerche gratuite: calendari dei tornei delle società (UISP, CSI) e
    bollettini parrocchiali; per i centri anziani, contatto diretto.
+8. Leve del 26 ottobre (§1 decies): lettura settimanale dei feed iCal e REST dei siti e del
+   delta di culture.roma.it; le 46 leve da verificare stanno nel foglio `leve_eventi_2026-10-26.xlsx`.

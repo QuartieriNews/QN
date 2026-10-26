@@ -300,14 +300,7 @@
    "chiavi": [
     "cf:06737070828",
     "fb-page:locandadeigirasoli"
-   ],
-   "promotore": {
-    "categoria": "Associazioni culturali e artistiche",
-    "sottocategoria": "ente del terzo settore",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Ente del terzo settore attivo a Monteverde (Municipio XII): arte e mostre, libri e letture; per bambini e famiglie, giovani.",
-    "diffusione": "nessuna indicazione"
-   }
+   ]
   },
   {
    "id": "S-FE-0748",
@@ -4501,7 +4494,14 @@
    "chiavi": [
     "cf:80141550584",
     "fb-page:accademiadellarcadia.it"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "scuola di musica, danza o arte",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Scuola di musica, danza o arte (ente del terzo settore) di Centro Storico (Municipio I): libri e letture, incontri e dibattiti, musica.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0054",
@@ -5818,7 +5818,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: musica, cinema.",
+    "descrizione_breve": "Associazione culturale attivo ad Appio Latino (Municipio VII): musica, cinema.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -8328,7 +8328,14 @@
    },
    "chiavi": [
     "fb-page:associazionegisi"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Scuole, università e formazione",
+    "sottocategoria": "scuola o università",
+    "ambito": "nazionale o internazionale",
+    "descrizione_breve": "Scuola o università.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0110",
@@ -8629,7 +8636,14 @@
    },
    "chiavi": [
     "fb-page:aibvcbeachvolleyclub"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Teatri, cinema e spazi di spettacolo",
+    "sottocategoria": "musica dal vivo e club",
+    "ambito": "nazionale o internazionale",
+    "descrizione_breve": "Musica dal vivo e club con sede a EUR (Municipio IX): sport e movimento.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-0114",
@@ -9564,7 +9578,14 @@
    },
    "chiavi": [
     "fb-page:italiaguide"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Ambiente, natura e animali",
+    "sottocategoria": "ambiente e natura",
+    "ambito": "nazionale o internazionale",
+    "descrizione_breve": "Ambiente e natura con sede ad Ardeatino (Municipio VIII): ambiente e natura, visite e passeggiate.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-0128",
@@ -9703,7 +9724,7 @@
     "categoria": "Scuole, università e formazione",
     "sottocategoria": "scuola o università",
     "ambito": "nazionale o internazionale",
-    "descrizione_breve": "Scuola o università con sede a Centro Storico (Municipio I): laboratori e corsi, ambiente e natura, incontri e dibattiti; per giovani.",
+    "descrizione_breve": "Scuola o università con sede a Centro Storico (Municipio I): laboratori e corsi, ambiente e natura, musica; per giovani.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -14722,10 +14743,10 @@
     "fb-page:amnestyinternationalitalia"
    ],
    "promotore": {
-    "categoria": "Associazioni culturali e artistiche",
-    "sottocategoria": "associazione",
+    "categoria": "Terzo settore sociale e sanitario",
+    "sottocategoria": "volontariato e assistenza",
     "ambito": "nazionale o internazionale",
-    "descrizione_breve": "Organizzazione di volontariato con sede a Esquilino-Termini (Municipio I): solidarietà e sociale.",
+    "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) con sede a Esquilino-Termini (Municipio I): solidarietà e sociale, libri e letture, musica.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -15271,8 +15292,8 @@
    "promotore": {
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di Nomentano (Municipio II): musica, arte e mostre, incontri e dibattiti; per bambini e famiglie.",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Associazione con sede a Nomentano (Municipio II): musica, arte e mostre, incontri e dibattiti; per bambini e famiglie.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -26797,7 +26818,7 @@
     "categoria": "Scuole, università e formazione",
     "sottocategoria": "scuola o università",
     "ambito": "di quartiere",
-    "descrizione_breve": "Scuola o università (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre.",
+    "descrizione_breve": "Scuola o università (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): musica, arte e mostre.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -29652,7 +29673,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "volontariato e assistenza",
     "ambito": "di quartiere",
-    "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) di Prati (Municipio I): salute e benessere, solidarietà e sociale; per bambini e famiglie.",
+    "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) di Prati (Municipio I): salute e benessere, teatro, laboratori e corsi; per bambini e famiglie.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -32836,7 +32857,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale (ente del terzo settore) di Parioli-Flaminio (Municipio II): musica, arte e mostre, teatro.",
+    "descrizione_breve": "Associazione culturale (ente del terzo settore) di Parioli-Flaminio (Municipio II): musica, teatro.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -39399,7 +39420,7 @@
     "categoria": "Persone (artisti, autori, guide)",
     "sottocategoria": "persona",
     "ambito": "di quartiere",
-    "descrizione_breve": "Persona (associazione di promozione sociale): musica, teatro, laboratori e corsi.",
+    "descrizione_breve": "Persona (associazione di promozione sociale) attivo a Testaccio (Municipio I): musica, teatro, laboratori e corsi.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -40215,7 +40236,14 @@
    "chiavi": [
     "cf:97854920580",
     "fb-page:quattrosassi"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione culturale di Esquilino-Termini (Municipio I): teatro; per bambini e famiglie.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-0553",
@@ -40677,8 +40705,8 @@
    "promotore": {
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale di Centro Storico (Municipio I): arte e mostre, visite e passeggiate.",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Associazione culturale con sede a Centro Storico (Municipio I): arte e mostre, visite e passeggiate.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -42205,7 +42233,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Organizzazione di volontariato attivo a Torrevecchia: libri e letture, solidarietà e sociale; per migranti e nuovi cittadini.",
+    "descrizione_breve": "Organizzazione di volontariato attivo a Torrevecchia (Municipio XIII): libri e letture, solidarietà e sociale; per migranti e nuovi cittadini.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -45121,7 +45149,7 @@
     "categoria": "Parrocchie e realtà religiose",
     "sottocategoria": "oratorio, Caritas, gruppi religiosi",
     "ambito": "di quartiere",
-    "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (associazione di promozione sociale) di Esquilino-Termini (Municipio I).",
+    "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (associazione di promozione sociale) di Esquilino-Termini (Municipio I): religione e spiritualità, storia e memoria.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -47569,7 +47597,14 @@
    },
    "chiavi": [
     "cf:96600970584"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione culturale di Ardeatino (Municipio VIII): libri e letture, danza.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0658",
@@ -50059,7 +50094,14 @@
    },
    "chiavi": [
     "fb-page:associazionegeotecnicaitaliana"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione",
+    "ambito": "nazionale o internazionale",
+    "descrizione_breve": "Associazione con sede a Nomentano (Municipio II): musica, incontri e dibattiti.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0695",
@@ -50617,7 +50659,14 @@
    "chiavi": [
     "cf:97274430582",
     "fb-page:gdscarlasandri"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Terzo settore sociale e sanitario",
+    "sottocategoria": "salute e disabilità",
+    "ambito": "cittadino",
+    "descrizione_breve": "Salute e disabilità (organizzazione di volontariato) con sede a Esquilino-Termini (Municipio I): salute e benessere; per giovani.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0704",
@@ -51735,10 +51784,10 @@
    ],
    "promotore": {
     "categoria": "Associazioni culturali e artistiche",
-    "sottocategoria": "ente del terzo settore",
+    "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale: scienza e tecnologia.",
-    "diffusione": "diritti riservati (generico)"
+    "descrizione_breve": "Associazione culturale.",
+    "diffusione": "termini della piattaforma"
    }
   },
   {
@@ -54759,7 +54808,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "nazionale o internazionale",
-    "descrizione_breve": "Associazione culturale: musica, incontri e dibattiti, teatro.",
+    "descrizione_breve": "Associazione culturale: musica, incontri e dibattiti, laboratori e corsi.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -60818,7 +60867,14 @@
    },
    "chiavi": [
     "fb-page:assobersaglieri"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Terzo settore sociale e sanitario",
+    "sottocategoria": "terzo settore sociale",
+    "ambito": "nazionale o internazionale",
+    "descrizione_breve": "Terzo settore sociale con sede a Trastevere (Municipio I).",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0859",
@@ -61558,7 +61614,14 @@
    "chiavi": [
     "cf:80145390581",
     "fb-page:anfcdg"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Terzo settore sociale e sanitario",
+    "sottocategoria": "salute e disabilità",
+    "ambito": "nazionale o internazionale",
+    "descrizione_breve": "Salute e disabilità con sede a Prati (Municipio I).",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0871",
@@ -62708,7 +62771,7 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro (ente del terzo settore): arte e mostre, teatro, laboratori e corsi; per anziani, giovani.",
+    "descrizione_breve": "Teatro (ente del terzo settore): teatro, laboratori e corsi, arte e mostre; per anziani, giovani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -63065,7 +63128,14 @@
    "chiavi": [
     "cf:97682340589",
     "fb-page:ortiurbanitorcarbone"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Terzo settore sociale e sanitario",
+    "sottocategoria": "volontariato e assistenza",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Volontariato e assistenza di Ardeatino (Municipio VIII): feste e mercatini.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0893",
@@ -75653,7 +75723,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "ente del terzo settore",
     "ambito": "di quartiere",
-    "descrizione_breve": "Organizzazione di volontariato di Prenestino (Municipio V): solidarietà e sociale, laboratori e corsi, partecipazione civica; per anziani.",
+    "descrizione_breve": "Organizzazione di volontariato di Prenestino (Municipio V): solidarietà e sociale, incontri e dibattiti, laboratori e corsi; per anziani.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -79391,7 +79461,14 @@
    "chiavi": [
     "fb-page:bibliotecaarcipelago",
     "registro:FE-0081"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Istituzioni pubbliche",
+    "sottocategoria": "biblioteca pubblica",
+    "ambito": "cittadino",
+    "descrizione_breve": "Biblioteca pubblica con sede a Montagnola (Municipio VIII): libri e letture, laboratori e corsi.",
+    "diffusione": "nessuna indicazione"
+   }
   },
   {
    "id": "S-FE-0642",
@@ -80187,7 +80264,14 @@
    "chiavi": [
     "fb-page:bibliocornelia",
     "registro:FE-0012"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Istituzioni pubbliche",
+    "sottocategoria": "biblioteca pubblica",
+    "ambito": "cittadino",
+    "descrizione_breve": "Biblioteca pubblica con sede ad Aurelio (Municipio XIII).",
+    "diffusione": "nessuna indicazione"
+   }
   },
   {
    "id": "S-FE-0500",
@@ -80654,7 +80738,14 @@
    "chiavi": [
     "fb-page:bibliotecaeuropearoma",
     "registro:FE-0165"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Istituzioni pubbliche",
+    "sottocategoria": "biblioteca pubblica",
+    "ambito": "nazionale o internazionale",
+    "descrizione_breve": "Biblioteca pubblica con sede a Trieste-Salario (Municipio II): cinema, feste e mercatini, libri e letture.",
+    "diffusione": "nessuna indicazione"
+   }
   },
   {
    "id": "S-FE-0140",
@@ -82127,7 +82218,14 @@
    "chiavi": [
     "fb-page:bibliotorrevecchiapia",
     "registro:FE-0706"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Istituzioni pubbliche",
+    "sottocategoria": "biblioteca pubblica",
+    "ambito": "cittadino",
+    "descrizione_breve": "Biblioteca pubblica: libri e letture, feste e mercatini.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-FE-0143",
@@ -82181,7 +82279,14 @@
    "chiavi": [
     "fb-page:bibliotecatulliodemauro",
     "registro:FE-0143"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Istituzioni pubbliche",
+    "sottocategoria": "biblioteca pubblica",
+    "ambito": "cittadino",
+    "descrizione_breve": "Biblioteca pubblica con sede a San Lorenzo (Municipio II): libri e letture.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-FE-0056",
@@ -89032,7 +89137,14 @@
     "culture:https://culture.roma.it/luogo/casa-delle-traduzioni/",
     "fb-page:bibliotecacasadelletraduzioni",
     "registro:FE-0025"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Grandi istituzioni culturali e fondazioni",
+    "sottocategoria": "grande istituzione culturale",
+    "ambito": "cittadino",
+    "descrizione_breve": "Grande istituzione culturale con sede a Centro Storico (Municipio I).",
+    "diffusione": "diritti riservati (generico)"
+   }
   },
   {
    "id": "S-EV-1190",
@@ -99178,7 +99290,14 @@
    "chiavi": [
     "cf:02131761005",
     "fb-page:centrostudiamericani"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Ambiente, natura e animali",
+    "sottocategoria": "ente del terzo settore",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Ente del terzo settore di Centro Storico (Municipio I): libri e letture, ambiente e natura, solidarietà e sociale.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-1266",
@@ -106255,7 +106374,14 @@
    "chiavi": [
     "fb-page:parrocchiasangiovannixxiii",
     "registro:FE-1584"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Parrocchie e realtà religiose",
+    "sottocategoria": "parrocchia",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Parrocchia di Torrino (Municipio IX).",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-FE-1605",
@@ -111129,7 +111255,14 @@
    },
    "chiavi": [
     "fb-page:associazionecmteatro"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Teatri, cinema e spazi di spettacolo",
+    "sottocategoria": "teatro",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Teatro attivo a Monteverde (Municipio XII): laboratori e corsi, teatro.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-FE-0963",
@@ -112094,7 +112227,7 @@
     "categoria": "Locali e attività commerciali",
     "sottocategoria": "impresa",
     "ambito": "di quartiere",
-    "descrizione_breve": "Impresa: laboratori e corsi.",
+    "descrizione_breve": "Impresa attivo a Esquilino-Termini (Municipio I): laboratori e corsi.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -117090,7 +117223,7 @@
     "categoria": "Comitati di quartiere e reti civiche",
     "sottocategoria": "comitato di quartiere",
     "ambito": "di quartiere",
-    "descrizione_breve": "Comitato di quartiere di Alessandrino (Municipio V): partecipazione civica.",
+    "descrizione_breve": "Comitato di quartiere di Alessandrino (Municipio V): storia e memoria; per bambini e famiglie.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -120137,7 +120270,7 @@
     "categoria": "Comitati di quartiere e reti civiche",
     "sottocategoria": "comitato di quartiere",
     "ambito": "di quartiere",
-    "descrizione_breve": "Comitato di quartiere attivo a Centocelle (Municipio V): partecipazione civica, feste e mercatini, incontri e dibattiti; per bambini e famiglie.",
+    "descrizione_breve": "Comitato di quartiere attivo a Centocelle (Municipio V): danza, feste e mercatini, partecipazione civica; per bambini e famiglie.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -125867,14 +126000,7 @@
    "chiavi": [
     "fb-page:comunealbanolaziale",
     "registro:FE-0893"
-   ],
-   "promotore": {
-    "categoria": "Istituzioni pubbliche",
-    "sottocategoria": "ente pubblico",
-    "ambito": "cittadino",
-    "descrizione_breve": "Ente pubblico con sede a Fidene-Settebagni (Municipio III): musica.",
-    "diffusione": "licenza aperta"
-   }
+   ]
   },
   {
    "id": "S-FE-1094",
@@ -136071,8 +136197,8 @@
    "promotore": {
     "categoria": "Scuole, università e formazione",
     "sottocategoria": "università",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Università di Corviale (Municipio XI): scienza e tecnologia, laboratori e corsi, storia e memoria; per giovani.",
+    "ambito": "cittadino",
+    "descrizione_breve": "Università con sede a Corviale (Municipio XI): scienza e tecnologia, laboratori e corsi, storia e memoria; per giovani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -141868,7 +141994,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale: scienza e tecnologia, incontri e dibattiti, visite e passeggiate; per bambini e famiglie, anziani.",
+    "descrizione_breve": "Associazione culturale attivo a Montesacro (Municipio III): scienza e tecnologia, incontri e dibattiti, visite e passeggiate; per bambini e famiglie, anziani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -148865,7 +148991,14 @@
    "chiavi": [
     "cf:97336650581",
     "fb-page:fiabromaruotalibera"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione culturale di Ostiense-San Paolo (Municipio VIII): laboratori e corsi.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-1667",
@@ -149286,7 +149419,14 @@
    "censimento": null,
    "chiavi": [
     "registro:FE-0131"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Non classificato",
+    "sottocategoria": null,
+    "ambito": "di quartiere",
+    "descrizione_breve": "Non classificato attivo a Portuense (Municipio XI).",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-1671",
@@ -150674,7 +150814,7 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro: teatro, arte e mostre, libri e letture; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Teatro attivo ad Appio Latino (Municipio VII): teatro, arte e mostre, libri e letture; per bambini e famiglie, giovani.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -153204,7 +153344,14 @@
    "chiavi": [
     "cf:97301650582",
     "fb-page:istitutocristoreroma"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Scuole, università e formazione",
+    "sottocategoria": "scuola o università",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Scuola o università (ente del terzo settore) di Trieste-Salario (Municipio II); per bambini e famiglie.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-1734",
@@ -155735,7 +155882,14 @@
    },
    "chiavi": [
     "cf:96633970585"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Grandi istituzioni culturali e fondazioni",
+    "sottocategoria": "grande istituzione culturale",
+    "ambito": "cittadino",
+    "descrizione_breve": "Grande istituzione culturale (fondazione) con sede a Parioli-Flaminio (Municipio II): cinema; per giovani.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-1775",
@@ -159684,7 +159838,7 @@
     "categoria": "Comitati di quartiere e reti civiche",
     "sottocategoria": "rete civica",
     "ambito": "di quartiere",
-    "descrizione_breve": "Rete civica (fondazione) di Centro Storico (Municipio I): libri e letture, partecipazione civica.",
+    "descrizione_breve": "Rete civica (fondazione) di Centro Storico (Municipio I): partecipazione civica, libri e letture.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -160568,7 +160722,7 @@
     "categoria": "Parrocchie e realtà religiose",
     "sottocategoria": "oratorio, Caritas, gruppi religiosi",
     "ambito": "di quartiere",
-    "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (ente del terzo settore) di Prenestino (Municipio V): danza, ambiente e natura; per bambini e famiglie.",
+    "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (ente del terzo settore) di Prenestino (Municipio V): ambiente e natura; per bambini e famiglie.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -166870,8 +167024,8 @@
    "promotore": {
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale attivo a Ostia (Municipio X).",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Associazione di promozione sociale attivo a Selva Candida (Municipio XIV).",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -167049,7 +167203,14 @@
    "chiavi": [
     "cf:96446110585",
     "fb-page:genitori-per-la-scuola-112529643820219"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Associazione culturale attivo a Torraccia (Municipio IV): visite e passeggiate; per bambini e famiglie.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-1944",
@@ -169918,7 +170079,14 @@
    "chiavi": [
     "cf:96544630583",
     "fb-page:granballoviennese"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione culturale: danza.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-1986",
@@ -172187,8 +172355,8 @@
    "promotore": {
     "categoria": "Turismo e visite guidate",
     "sottocategoria": "visite guidate e turismo",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Visite guidate e turismo di Nomentano (Municipio II): ambiente e natura, visite e passeggiate.",
+    "ambito": "cittadino",
+    "descrizione_breve": "Visite guidate e turismo con sede a Nomentano (Municipio II): ambiente e natura, partecipazione civica, visite e passeggiate; per donne.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -174966,7 +175134,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione: musica.",
+    "descrizione_breve": "Ente del terzo settore: teatro, musica, partecipazione civica.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -184906,7 +185074,14 @@
    "chiavi": [
     "cf:97351200585",
     "fb-page:islangbata"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Terzo settore sociale e sanitario",
+    "sottocategoria": "volontariato e assistenza",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) di Prenestino (Municipio V): solidarietà e sociale; per bambini e famiglie.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-2143",
@@ -187072,7 +187247,14 @@
    "chiavi": [
     "cf:97807420589",
     "fb-page:istitutocorelli"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "ente del terzo settore",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione di promozione sociale attivo a Pietralata (Municipio IV): musica, teatro.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-2159",
@@ -195033,7 +195215,7 @@
     "categoria": "Sport e movimento",
     "sottocategoria": "società o associazione sportiva",
     "ambito": "di quartiere",
-    "descrizione_breve": "Società o associazione sportiva: laboratori e corsi, sport e movimento; per bambini e famiglie.",
+    "descrizione_breve": "Società o associazione sportiva attivo a San Giovanni (Municipio VII): laboratori e corsi, sport e movimento; per bambini e famiglie.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -195708,7 +195890,14 @@
    "chiavi": [
     "cf:97606040588",
     "fb-page:lacasadargilla.compagnia"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "compagnia, coro, banda o ensemble",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Compagnia, coro, banda o ensemble (ente del terzo settore): teatro.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-2276",
@@ -197487,7 +197676,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale (organizzazione di volontariato): solidarietà e sociale, laboratori e corsi; per bambini e famiglie.",
+    "descrizione_breve": "Associazione culturale (organizzazione di volontariato) attivo a San Giovanni (Municipio VII): solidarietà e sociale.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -199316,7 +199505,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale: sport e movimento, solidarietà e sociale, visite e passeggiate; per donne.",
+    "descrizione_breve": "Associazione di promozione sociale attivo a Pietralata (Municipio IV): sport e movimento, solidarietà e sociale, visite e passeggiate; per donne.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -202620,7 +202809,7 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro, cinema o club",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro, cinema o club (associazione di promozione sociale) di Trieste-Salario (Municipio II): teatro, musica, cinema; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Teatro, cinema o club (associazione di promozione sociale) di Trieste-Salario (Municipio II): musica, teatro, cinema; per bambini e famiglie, giovani.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -210749,7 +210938,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione di promozione sociale di Parioli-Flaminio (Municipio II): musica, incontri e dibattiti; per donne.",
+    "descrizione_breve": "Associazione di promozione sociale di Parioli-Flaminio (Municipio II): musica, storia e memoria, incontri e dibattiti; per donne.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -211008,7 +211197,7 @@
     "categoria": "Terzo settore sociale e sanitario",
     "sottocategoria": "terzo settore sociale",
     "ambito": "nazionale o internazionale",
-    "descrizione_breve": "Organizzazione di volontariato; per bambini e famiglie, giovani.",
+    "descrizione_breve": "Organizzazione di volontariato.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -214522,7 +214711,14 @@
    },
    "chiavi": [
     "cf:96555270584"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "cittadino",
+    "descrizione_breve": "Associazione culturale (ente del terzo settore) con sede ad Aurelio (Municipio XIII): teatro, musica, laboratori e corsi.",
+    "diffusione": "diritti riservati (generico)"
+   }
   },
   {
    "id": "S-EV-2524",
@@ -216505,7 +216701,14 @@
    },
    "chiavi": [
     "fb-page:nwart.it"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione culturale attivo a Esquilino-Termini (Municipio I).",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-2554",
@@ -218591,7 +218794,14 @@
    "chiavi": [
     "cf:80206250583",
     "fb-page:nuova.consonanza"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "ente del terzo settore",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Ente del terzo settore: musica, incontri e dibattiti.",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-2582",
@@ -219011,7 +219221,14 @@
    "chiavi": [
     "fb-page:nuovotsp",
     "registro:FE-0894"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Teatri, cinema e spazi di spettacolo",
+    "sottocategoria": "teatro",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Teatro attivo a Ostiense-San Paolo (Municipio VIII).",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-EV-2586",
@@ -228543,7 +228760,7 @@
     "categoria": "Parrocchie e realtà religiose",
     "sottocategoria": "parrocchia",
     "ambito": "di quartiere",
-    "descrizione_breve": "Parrocchia di Tor Cervara (Municipio IV): religione e spiritualità; per bambini e famiglie.",
+    "descrizione_breve": "Parrocchia di Tor Cervara (Municipio IV): ambiente e natura, religione e spiritualità.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -229645,7 +229862,14 @@
    "chiavi": [
     "fb-page:sacricuorilastorta",
     "registro:FE-0470"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Parrocchie e realtà religiose",
+    "sottocategoria": "parrocchia",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Parrocchia attivo a La Storta (Municipio XV).",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-FE-0617",
@@ -241709,8 +241933,8 @@
    "promotore": {
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione culturale",
-    "ambito": "di quartiere",
-    "descrizione_breve": "Associazione culturale attivo a Monteverde (Municipio XII): incontri e dibattiti.",
+    "ambito": "di più quartieri",
+    "descrizione_breve": "Associazione culturale attivo a Centro Storico (Municipio I): incontri e dibattiti, scienza e tecnologia.",
     "diffusione": "diritti riservati (generico)"
    }
   },
@@ -241830,7 +242054,14 @@
    "chiavi": [
     "fb-page:residenti.quartiereaxa",
     "registro:FE-1068"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione attivo a Casal Palocco (Municipio X).",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-FE-0219",
@@ -267838,7 +268069,7 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro di Aurelio (Municipio XIII): laboratori e corsi, teatro, musica; per bambini e famiglie.",
+    "descrizione_breve": "Teatro di Aurelio (Municipio XIII): teatro, laboratori e corsi, musica; per bambini e famiglie.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -268038,7 +268269,7 @@
     "categoria": "Istituzioni pubbliche",
     "sottocategoria": "biblioteca pubblica",
     "ambito": "cittadino",
-    "descrizione_breve": "Biblioteca pubblica con sede a Centocelle (Municipio V).",
+    "descrizione_breve": "Biblioteca pubblica con sede a Centocelle (Municipio V): teatro, musica, danza.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -276548,7 +276779,14 @@
    "chiavi": [
     "cf:97626730580",
     "fb-page:tricostarc"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "associazione culturale",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione culturale (ente del terzo settore) di Trieste-Salario (Municipio II).",
+    "diffusione": "termini della piattaforma"
+   }
   },
   {
    "id": "S-FE-0048",
@@ -292460,7 +292698,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "associazione",
     "ambito": "di quartiere",
-    "descrizione_breve": "Associazione attivo a Settecamini.",
+    "descrizione_breve": "Associazione attivo a Settecamini: incontri e dibattiti, scienza e tecnologia.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -292576,7 +292814,7 @@
     "categoria": "Centri sociali, centri anziani e spazi di comunità",
     "sottocategoria": "centro anziani",
     "ambito": "di quartiere",
-    "descrizione_breve": "Centro anziani attivo a Settecamini: danza; per bambini e famiglie.",
+    "descrizione_breve": "Centro anziani attivo a Settecamini (Municipio IV): danza.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -296978,6 +297216,35 @@
  ],
  "promotori": [
   {
+   "nome": "Teatro Biblioteca Quarticciolo",
+   "id": "S-EV-3149",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica con sede a Centocelle (Municipio V): teatro, musica, danza.",
+   "attivita": [
+    "teatro",
+    "musica",
+    "danza"
+   ],
+   "pubblico": [],
+   "municipio": "V",
+   "zona": "centocelle",
+   "eventi": 40,
+   "canali": {
+    "sito": "http://www.teatriincomune.roma.it/teatro-biblioteca-quarticciolo/",
+    "facebook": "https://www.facebook.com/teatrobibliotecaquarticciolo",
+    "instagram": "https://www.instagram.com/teatrobibliotecaquarticciolo",
+    "x": "https://x.com/TLidodiOstia"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://teatriincomune.roma.it/"
+  },
+  {
    "nome": "Auditorium Parco della Musica Ennio Morricone",
    "id": "S-EV-1815",
    "categoria": "Grandi istituzioni culturali e fondazioni",
@@ -297200,6 +297467,34 @@
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
   },
   {
+   "nome": "Accademia dell'Arcadia",
+   "id": "S-EV-0053",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "scuola di musica, danza o arte",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Scuola di musica, danza o arte (ente del terzo settore) di Centro Storico (Municipio I): libri e letture, incontri e dibattiti, musica.",
+   "attivita": [
+    "libri e letture",
+    "incontri e dibattiti",
+    "musica"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 18,
+   "canali": {
+    "sito": "http://www.accademiadellarcadia.it/",
+    "facebook": "https://www.facebook.com/accademiadellarcadia.it",
+    "instagram": "https://www.instagram.com/accademiadellarcadia"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Teatro Villa Pamphilj",
    "id": "S-FE-0091",
    "categoria": "Teatri, cinema e spazi di spettacolo",
@@ -297409,6 +297704,33 @@
    "diffusione_prova": "https://bellaroma.info/"
   },
   {
+   "nome": "Biblioteca Nelson Mandela",
+   "id": "S-FE-0142",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica con sede a Tuscolano (Municipio VII): libri e letture, incontri e dibattiti.",
+   "attivita": [
+    "libri e letture",
+    "incontri e dibattiti"
+   ],
+   "pubblico": [],
+   "municipio": "VII",
+   "zona": "tuscolano",
+   "eventi": 12,
+   "canali": {
+    "sito": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Nelson%20Mandela/RMBI1",
+    "facebook": "https://www.facebook.com/BibliotecaNelsonMandela",
+    "instagram": "https://www.instagram.com/bibliotecanelsonmandela"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
+  },
+  {
    "nome": "Biblioteche di Roma",
    "id": "S-FE-0173",
    "categoria": "Istituzioni pubbliche",
@@ -297464,6 +297786,34 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://bioparco.it/"
+  },
+  {
+   "nome": "Il talento di Roma",
+   "id": "S-EV-0717",
+   "categoria": "Non classificato",
+   "sottocategoria": "ente del terzo settore",
+   "ambito": "cittadino",
+   "descrizione_breve": "Non classificato: libri e letture, storia e memoria, partecipazione civica.",
+   "attivita": [
+    "libri e letture",
+    "storia e memoria",
+    "partecipazione civica"
+   ],
+   "pubblico": [],
+   "municipio": "XIV",
+   "zona": "selva-candida",
+   "eventi": 12,
+   "canali": {
+    "sito": "http://www.iltalentodiroma.com/",
+    "facebook": "https://www.facebook.com/iltalentodiroma",
+    "instagram": "https://www.instagram.com/iltalentodiroma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://iltalentodiroma.com/"
   },
   {
    "nome": "Margine Operativo",
@@ -297583,6 +297933,32 @@
    "diffusione_prova": "https://ilparioli.it/"
   },
   {
+   "nome": "Associazione Geotecnica Italiana",
+   "id": "S-EV-0694",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Associazione con sede a Nomentano (Municipio II): musica, incontri e dibattiti.",
+   "attivita": [
+    "musica",
+    "incontri e dibattiti"
+   ],
+   "pubblico": [],
+   "municipio": "II",
+   "zona": "nomentano",
+   "eventi": 11,
+   "canali": {
+    "sito": "https://associazionegeotecnica.it/",
+    "facebook": "https://www.facebook.com/associazionegeotecnicaitaliana"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Balletto di Roma",
    "id": "S-EV-1088",
    "categoria": "Associazioni culturali e artistiche",
@@ -297643,24 +298019,119 @@
    "diffusione_prova": "https://capodannoroma.org/"
   },
   {
-   "nome": "Biblioteca Nelson Mandela",
-   "id": "S-FE-0142",
+   "nome": "Cometa Off",
+   "id": "S-EV-0476",
+   "categoria": "Teatri, cinema e spazi di spettacolo",
+   "sottocategoria": "teatro, cinema o club",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Teatro, cinema o club (ente del terzo settore) di Testaccio (Municipio I): teatro, cinema; per giovani.",
+   "attivita": [
+    "teatro",
+    "cinema"
+   ],
+   "pubblico": [
+    "giovani"
+   ],
+   "municipio": "I",
+   "zona": "testaccio",
+   "eventi": 11,
+   "canali": {
+    "sito": "https://www.cometaoff.it/",
+    "facebook": "https://www.facebook.com/cometa.off",
+    "instagram": "https://www.instagram.com/cometaoff"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://cometaoff.it/"
+  },
+  {
+   "nome": "Guida Turistica Roma - Benedetta Bottone",
+   "id": "S-EV-2016",
+   "categoria": "Turismo e visite guidate",
+   "sottocategoria": "visite guidate e turismo",
+   "ambito": "cittadino",
+   "descrizione_breve": "Visite guidate e turismo con sede a Nomentano (Municipio II): ambiente e natura, partecipazione civica, visite e passeggiate; per donne.",
+   "attivita": [
+    "ambiente e natura",
+    "partecipazione civica",
+    "visite e passeggiate"
+   ],
+   "pubblico": [
+    "donne"
+   ],
+   "municipio": "II",
+   "zona": "nomentano",
+   "eventi": 11,
+   "canali": {
+    "sito": "https://guidaturisticaromabenedettabottone.com/",
+    "facebook": "https://www.facebook.com/benedettabottoneroma",
+    "instagram": "https://www.instagram.com/guida.roma.benedettabottone",
+    "youtube": "https://www.youtube.com/@GuidaRoma-BenedettaBottone",
+    "tiktok": "https://www.tiktok.com/@guidabenedettabottone"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://guidaturisticaromabenedettabottone.com/"
+  },
+  {
+   "nome": "ArtSharing Roma",
+   "id": "S-EV-0325",
+   "categoria": "Musei, gallerie e spazi espositivi",
+   "sottocategoria": "museo o galleria",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Museo o galleria (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre, visite e passeggiate, incontri e dibattiti; per bambini e famiglie, giovani.",
+   "attivita": [
+    "arte e mostre",
+    "visite e passeggiate",
+    "incontri e dibattiti"
+   ],
+   "pubblico": [
+    "bambini e famiglie",
+    "giovani"
+   ],
+   "municipio": "XII",
+   "zona": "colli-portuensi",
+   "eventi": 10,
+   "canali": {
+    "sito": "https://www.artsharingroma.it/",
+    "facebook": "https://www.facebook.com/ArtSharingRoma",
+    "instagram": "https://www.instagram.com/artsharingroma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://artsharingroma.it/"
+  },
+  {
+   "nome": "Biblioteca Enzo Tortora",
+   "id": "S-FE-0150",
    "categoria": "Istituzioni pubbliche",
    "sottocategoria": "biblioteca pubblica",
    "ambito": "cittadino",
-   "descrizione_breve": "Biblioteca pubblica con sede a Tuscolano (Municipio VII): libri e letture, incontri e dibattiti.",
+   "descrizione_breve": "Biblioteca pubblica con sede a Testaccio (Municipio I): libri e letture, cinema, feste e mercatini; per bambini e famiglie, migranti e nuovi cittadini.",
    "attivita": [
     "libri e letture",
-    "incontri e dibattiti"
+    "cinema",
+    "feste e mercatini"
    ],
-   "pubblico": [],
-   "municipio": "VII",
-   "zona": "tuscolano",
+   "pubblico": [
+    "bambini e famiglie",
+    "migranti e nuovi cittadini"
+   ],
+   "municipio": "I",
+   "zona": "testaccio",
    "eventi": 10,
    "canali": {
-    "sito": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Nelson%20Mandela/RMBI1",
-    "facebook": "https://www.facebook.com/BibliotecaNelsonMandela",
-    "instagram": "https://www.instagram.com/bibliotecanelsonmandela"
+    "sito": "https://www.bibliotechediroma.it/opac/library/biblioteca-enzo-tortora/RMBA3",
+    "facebook": "https://www.facebook.com/bibliotecaenzotortora"
    },
    "contatti": {
     "email": true,
@@ -297668,6 +298139,38 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
+  },
+  {
+   "nome": "Musei in Comune Roma",
+   "id": "S-FE-0186",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "beni culturali pubblici",
+   "ambito": "cittadino",
+   "descrizione_breve": "Beni culturali pubblici con sede a Garbatella (Municipio VIII): musica, laboratori e corsi, arte e mostre; per giovani.",
+   "attivita": [
+    "musica",
+    "laboratori e corsi",
+    "arte e mostre"
+   ],
+   "pubblico": [
+    "giovani"
+   ],
+   "municipio": "VIII",
+   "zona": "garbatella",
+   "eventi": 10,
+   "canali": {
+    "sito": "http://www.museiincomuneroma.it/",
+    "facebook": "https://www.facebook.com/MuseiInComuneRoma",
+    "instagram": "https://www.instagram.com/museiincomuneroma",
+    "youtube": "https://youtube.com/@museiincomune",
+    "x": "https://x.com/museiincomune"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://museiincomuneroma.it/"
   },
   {
    "nome": "Ottavo Colle Associazione di Promozione Sociale",
@@ -297787,37 +298290,6 @@
    "diffusione_prova": "https://teatrodidocumenti.org/"
   },
   {
-   "nome": "ArtSharing Roma",
-   "id": "S-EV-0325",
-   "categoria": "Musei, gallerie e spazi espositivi",
-   "sottocategoria": "museo o galleria",
-   "ambito": "di più quartieri",
-   "descrizione_breve": "Museo o galleria (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre, visite e passeggiate, incontri e dibattiti; per bambini e famiglie, giovani.",
-   "attivita": [
-    "arte e mostre",
-    "visite e passeggiate",
-    "incontri e dibattiti"
-   ],
-   "pubblico": [
-    "bambini e famiglie",
-    "giovani"
-   ],
-   "municipio": "XII",
-   "zona": "colli-portuensi",
-   "eventi": 9,
-   "canali": {
-    "sito": "https://www.artsharingroma.it/",
-    "facebook": "https://www.facebook.com/ArtSharingRoma",
-    "instagram": "https://www.instagram.com/artsharingroma"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://artsharingroma.it/"
-  },
-  {
    "nome": "Kollatino Underground",
    "id": "S-FE-0925",
    "categoria": "Centri sociali, centri anziani e spazi di comunità",
@@ -297846,38 +298318,6 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://kollatinounderground.eu/"
-  },
-  {
-   "nome": "Musei in Comune Roma",
-   "id": "S-FE-0186",
-   "categoria": "Istituzioni pubbliche",
-   "sottocategoria": "beni culturali pubblici",
-   "ambito": "cittadino",
-   "descrizione_breve": "Beni culturali pubblici con sede a Garbatella (Municipio VIII): musica, laboratori e corsi, arte e mostre; per giovani.",
-   "attivita": [
-    "musica",
-    "laboratori e corsi",
-    "arte e mostre"
-   ],
-   "pubblico": [
-    "giovani"
-   ],
-   "municipio": "VIII",
-   "zona": "garbatella",
-   "eventi": 9,
-   "canali": {
-    "sito": "http://www.museiincomuneroma.it/",
-    "facebook": "https://www.facebook.com/MuseiInComuneRoma",
-    "instagram": "https://www.instagram.com/museiincomuneroma",
-    "youtube": "https://youtube.com/@museiincomune",
-    "x": "https://x.com/museiincomune"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://museiincomuneroma.it/"
   },
   {
    "nome": "NATURA AVVENTURA",
@@ -298078,36 +298518,6 @@
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
   },
   {
-   "nome": "Biblioteca Enzo Tortora",
-   "id": "S-FE-0150",
-   "categoria": "Istituzioni pubbliche",
-   "sottocategoria": "biblioteca pubblica",
-   "ambito": "cittadino",
-   "descrizione_breve": "Biblioteca pubblica con sede a Testaccio (Municipio I): libri e letture, cinema, feste e mercatini; per bambini e famiglie, migranti e nuovi cittadini.",
-   "attivita": [
-    "libri e letture",
-    "cinema",
-    "feste e mercatini"
-   ],
-   "pubblico": [
-    "bambini e famiglie",
-    "migranti e nuovi cittadini"
-   ],
-   "municipio": "I",
-   "zona": "testaccio",
-   "eventi": 8,
-   "canali": {
-    "sito": "https://www.bibliotechediroma.it/opac/library/biblioteca-enzo-tortora/RMBA3",
-    "facebook": "https://www.facebook.com/bibliotecaenzotortora"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
-  },
-  {
    "nome": "Biblioteca Joyce Lussu",
    "id": "S-FE-0097",
    "categoria": "Istituzioni pubbliche",
@@ -298248,6 +298658,32 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://monkroma.it/"
+  },
+  {
+   "nome": "Orbita Spellbound Centro Nazionale di Produzione della Danza",
+   "id": "S-EV-2625",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "scuola di musica, danza o arte",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Scuola di musica, danza o arte con sede a Centocelle (Municipio V): danza.",
+   "attivita": [
+    "danza"
+   ],
+   "pubblico": [],
+   "municipio": "V",
+   "zona": "centocelle",
+   "eventi": 8,
+   "canali": {
+    "sito": "https://www.orbitaspellbound.com/",
+    "facebook": "https://www.facebook.com/orbitaspellbound",
+    "instagram": "https://www.instagram.com/orbita_spellbound"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://orbitaspellbound.com/"
   },
   {
    "nome": "Orchestra Notturna Clandestina",
@@ -298404,8 +298840,8 @@
    "id": "S-FE-0829",
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "università",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Università di Corviale (Municipio XI): scienza e tecnologia, laboratori e corsi, storia e memoria; per giovani.",
+   "ambito": "cittadino",
+   "descrizione_breve": "Università con sede a Corviale (Municipio XI): scienza e tecnologia, laboratori e corsi, storia e memoria; per giovani.",
    "attivita": [
     "scienza e tecnologia",
     "laboratori e corsi",
@@ -298572,30 +299008,31 @@
    "diffusione_prova": "https://paypal.me/"
   },
   {
-   "nome": "Orbita Spellbound Centro Nazionale di Produzione della Danza",
-   "id": "S-EV-2625",
+   "nome": "MUSICA DEL VIVO",
+   "id": "S-EV-2523",
    "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "scuola di musica, danza o arte",
-   "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Scuola di musica, danza o arte con sede a Centocelle (Municipio V): danza.",
+   "sottocategoria": "associazione culturale",
+   "ambito": "cittadino",
+   "descrizione_breve": "Associazione culturale (ente del terzo settore) con sede ad Aurelio (Municipio XIII): teatro, musica, laboratori e corsi.",
    "attivita": [
-    "danza"
+    "teatro",
+    "musica",
+    "laboratori e corsi"
    ],
    "pubblico": [],
-   "municipio": "V",
-   "zona": "centocelle",
+   "municipio": "XIII",
+   "zona": "aurelio",
    "eventi": 7,
    "canali": {
-    "sito": "https://www.orbitaspellbound.com/",
-    "facebook": "https://www.facebook.com/orbitaspellbound",
-    "instagram": "https://www.instagram.com/orbita_spellbound"
+    "sito": "https://musicadelvivo.it",
+    "instagram": "https://www.instagram.com/musica.del.vivo"
    },
    "contatti": {
     "email": true,
     "telefono": false
    },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://orbitaspellbound.com/"
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://musicadelvivo.it/"
   },
   {
    "nome": "Roma Capitale",
@@ -298660,7 +299097,7 @@
    "categoria": "Teatri, cinema e spazi di spettacolo",
    "sottocategoria": "teatro",
    "ambito": "di quartiere",
-   "descrizione_breve": "Teatro: teatro, arte e mostre, libri e letture; per bambini e famiglie, giovani.",
+   "descrizione_breve": "Teatro attivo ad Appio Latino (Municipio VII): teatro, arte e mostre, libri e letture; per bambini e famiglie, giovani.",
    "attivita": [
     "teatro",
     "arte e mostre",
@@ -298671,7 +299108,7 @@
     "giovani"
    ],
    "municipio": "VII",
-   "zona": null,
+   "zona": "appio-latino",
    "eventi": 7,
    "canali": {
     "sito": "http://www.teatrovillalazzaroni.com/",
@@ -298714,6 +299151,37 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://libreriazalib.com/"
+  },
+  {
+   "nome": "Associazione Culturale Torraccia",
+   "id": "S-FE-0542",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale di Torraccia (Municipio IV): musica, laboratori e corsi, sport e movimento; per bambini e famiglie.",
+   "attivita": [
+    "musica",
+    "laboratori e corsi",
+    "sport e movimento"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "IV",
+   "zona": "torraccia",
+   "eventi": 6,
+   "canali": {
+    "sito": "http://www.actorraccia.com/",
+    "facebook": "https://www.facebook.com/ACTorraccia95",
+    "instagram": "https://www.instagram.com/act_torraccia",
+    "x": "https://x.com/Act_Torraccia"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://actorraccia.com/"
   },
   {
    "nome": "Associazione Il Nido - Casa Maternità a Testaccio",
@@ -298801,6 +299269,34 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
+  },
+  {
+   "nome": "Comitato Genitori Deledda-Pavoni",
+   "id": "S-FE-0289",
+   "categoria": "Comitati di quartiere e reti civiche",
+   "sottocategoria": "comitato di quartiere",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Comitato di quartiere attivo a Centocelle (Municipio V): danza, feste e mercatini, partecipazione civica; per bambini e famiglie.",
+   "attivita": [
+    "danza",
+    "feste e mercatini",
+    "partecipazione civica"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "V",
+   "zona": "centocelle",
+   "eventi": 6,
+   "canali": {
+    "facebook": "https://www.facebook.com/61558162205487"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Cranpi",
@@ -299108,37 +299604,6 @@
    "diffusione_prova": "https://casagitsalute.it/"
   },
   {
-   "nome": "Associazione Culturale Torraccia",
-   "id": "S-FE-0542",
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "associazione culturale",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale di Torraccia (Municipio IV): musica, laboratori e corsi, sport e movimento; per bambini e famiglie.",
-   "attivita": [
-    "musica",
-    "laboratori e corsi",
-    "sport e movimento"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "IV",
-   "zona": "torraccia",
-   "eventi": 5,
-   "canali": {
-    "sito": "http://www.actorraccia.com/",
-    "facebook": "https://www.facebook.com/ACTorraccia95",
-    "instagram": "https://www.instagram.com/act_torraccia",
-    "x": "https://x.com/Act_Torraccia"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://actorraccia.com/"
-  },
-  {
    "nome": "Associazione di promozione sociale Officina DONNA",
    "id": "S-EV-0585",
    "categoria": "Terzo settore sociale e sanitario",
@@ -299296,6 +299761,35 @@
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
   },
   {
+   "nome": "Biblioteca Laurentina",
+   "id": "S-FE-0077",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica con sede a EUR (Municipio IX): musica, libri e letture, incontri e dibattiti.",
+   "attivita": [
+    "musica",
+    "libri e letture",
+    "incontri e dibattiti"
+   ],
+   "pubblico": [],
+   "municipio": "IX",
+   "zona": "eur",
+   "eventi": 5,
+   "canali": {
+    "sito": "https://www.comune.roma.it/web/it/istituzione-biblioteche-di-roma-uffici-e-contatti.page?contentId=UFF182670",
+    "facebook": "https://www.facebook.com/bibliotecalaurentina",
+    "instagram": "https://www.instagram.com/roma",
+    "x": "https://x.com/roma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
+  },
+  {
    "nome": "Biblioteca Raffaello",
    "id": "S-FE-0051",
    "categoria": "Istituzioni pubbliche",
@@ -299410,32 +299904,26 @@
    "diffusione_prova": "https://dragona.it/"
   },
   {
-   "nome": "Comitato Genitori Deledda-Pavoni",
-   "id": "S-FE-0289",
-   "categoria": "Comitati di quartiere e reti civiche",
-   "sottocategoria": "comitato di quartiere",
+   "nome": "Fiera di Roma",
+   "id": "S-FE-0131",
+   "categoria": "Non classificato",
+   "sottocategoria": null,
    "ambito": "di quartiere",
-   "descrizione_breve": "Comitato di quartiere attivo a Centocelle (Municipio V): partecipazione civica, feste e mercatini, incontri e dibattiti; per bambini e famiglie.",
-   "attivita": [
-    "partecipazione civica",
-    "feste e mercatini",
-    "incontri e dibattiti"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "V",
-   "zona": "centocelle",
+   "descrizione_breve": "Non classificato attivo a Portuense (Municipio XI).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "XI",
+   "zona": "ponte-galeria",
    "eventi": 5,
    "canali": {
-    "facebook": "https://www.facebook.com/61558162205487"
+    "sito": "https://fieraroma.it"
    },
    "contatti": {
-    "email": true,
+    "email": false,
     "telefono": false
    },
-   "diffusione": "termini della piattaforma",
-   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
   },
   {
    "nome": "INDEX Productions",
@@ -299497,10 +299985,10 @@
    "categoria": "Teatri, cinema e spazi di spettacolo",
    "sottocategoria": "teatro, cinema o club",
    "ambito": "di quartiere",
-   "descrizione_breve": "Teatro, cinema o club (associazione di promozione sociale) di Trieste-Salario (Municipio II): teatro, musica, cinema; per bambini e famiglie, giovani.",
+   "descrizione_breve": "Teatro, cinema o club (associazione di promozione sociale) di Trieste-Salario (Municipio II): musica, teatro, cinema; per bambini e famiglie, giovani.",
    "attivita": [
-    "teatro",
     "musica",
+    "teatro",
     "cinema"
    ],
    "pubblico": [
@@ -299666,6 +300154,36 @@
    "diffusione_prova": "https://sovraintendenzaroma.it/"
   },
   {
+   "nome": "Teatro Aurelio",
+   "id": "S-FE-0834",
+   "categoria": "Teatri, cinema e spazi di spettacolo",
+   "sottocategoria": "teatro",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Teatro di Aurelio (Municipio XIII): teatro, laboratori e corsi, musica; per bambini e famiglie.",
+   "attivita": [
+    "teatro",
+    "laboratori e corsi",
+    "musica"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "XIII",
+   "zona": "aurelio",
+   "eventi": 5,
+   "canali": {
+    "sito": "http://www.teatroaurelio.it/",
+    "facebook": "https://www.facebook.com/teatroaurelio.it",
+    "instagram": "https://www.instagram.com/teatroaurelio"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://teatroaurelio.it/"
+  },
+  {
    "nome": "Tempio della Grande Dea - Roma / Goddess Temple Rome",
    "id": "S-EV-2102",
    "categoria": "Associazioni culturali e artistiche",
@@ -299804,8 +300322,8 @@
    "id": "S-EV-0558",
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale di Centro Storico (Municipio I): arte e mostre, visite e passeggiate.",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Associazione culturale con sede a Centro Storico (Municipio I): arte e mostre, visite e passeggiate.",
    "attivita": [
     "arte e mostre",
     "visite e passeggiate"
@@ -299864,7 +300382,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Organizzazione di volontariato attivo a Torrevecchia: libri e letture, solidarietà e sociale; per migranti e nuovi cittadini.",
+   "descrizione_breve": "Organizzazione di volontariato attivo a Torrevecchia (Municipio XIII): libri e letture, solidarietà e sociale; per migranti e nuovi cittadini.",
    "attivita": [
     "libri e letture",
     "solidarietà e sociale"
@@ -299893,11 +300411,11 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Associazione culturale: musica, incontri e dibattiti, teatro.",
+   "descrizione_breve": "Associazione culturale: musica, incontri e dibattiti, laboratori e corsi.",
    "attivita": [
     "musica",
     "incontri e dibattiti",
-    "teatro"
+    "laboratori e corsi"
    ],
    "pubblico": [],
    "municipio": "I",
@@ -300053,6 +300571,31 @@
    "diffusione_prova": "https://danzasi.it/"
   },
   {
+   "nome": "EUconsult Italia",
+   "id": "S-EV-0608",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "terzo settore sociale",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Associazione di promozione sociale con sede a Prati (Municipio I): musica.",
+   "attivita": [
+    "musica"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "prati",
+   "eventi": 4,
+   "canali": {
+    "sito": "http://www.euconsultitalia.org/",
+    "facebook": "https://www.facebook.com/euconsultitalia"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://euconsultitalia.org/"
+  },
+  {
    "nome": "Family Academy",
    "id": null,
    "categoria": "Persone (artisti, autori, guide)",
@@ -300081,6 +300624,34 @@
    "diffusione_prova": "https://family-academy.it/"
   },
   {
+   "nome": "FONDACA - Fondazione per la cittadinanza attiva",
+   "id": "S-EV-1834",
+   "categoria": "Comitati di quartiere e reti civiche",
+   "sottocategoria": "rete civica",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Rete civica (fondazione) di Centro Storico (Municipio I): partecipazione civica, libri e letture.",
+   "attivita": [
+    "partecipazione civica",
+    "libri e letture"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 4,
+   "canali": {
+    "sito": "https://us06web.zoom.us/meeting/register/tZwvcu2qqTwqHdyyr3dTKAVoQ7Tmi4AYZ7Ql",
+    "facebook": "https://www.facebook.com/fondaca.org",
+    "instagram": "https://www.instagram.com/zoom",
+    "x": "https://x.com/Zoom"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://us06web.zoom.us/"
+  },
+  {
    "nome": "Fun See Do: Eventi in Italia",
    "id": "S-EV-1906",
    "categoria": "Teatri, cinema e spazi di spettacolo",
@@ -300103,6 +300674,34 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Gruppo Donatori di Sangue «Carla Sandri»",
+   "id": "S-EV-0703",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "salute e disabilità",
+   "ambito": "cittadino",
+   "descrizione_breve": "Salute e disabilità (organizzazione di volontariato) con sede a Esquilino-Termini (Municipio I): salute e benessere; per giovani.",
+   "attivita": [
+    "salute e benessere"
+   ],
+   "pubblico": [
+    "giovani"
+   ],
+   "municipio": "I",
+   "zona": "esquilino-termini",
+   "eventi": 4,
+   "canali": {
+    "sito": "http://www.gdscarlasandri.it/",
+    "facebook": "https://www.facebook.com/gdscarlasandri",
+    "instagram": "https://www.instagram.com/fidasgdscarlasandri"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
   },
   {
    "nome": "I Camminesploratori - Escursioni gite e cammini",
@@ -300135,12 +300734,39 @@
    "diffusione_prova": "https://camminesploratori.com/"
   },
   {
+   "nome": "I Concerti nel Parco",
+   "id": "S-FE-0183",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Ente del terzo settore: teatro, musica, partecipazione civica.",
+   "attivita": [
+    "teatro",
+    "musica",
+    "partecipazione civica"
+   ],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 4,
+   "canali": {
+    "facebook": "https://www.facebook.com/ConcertiNelParco",
+    "instagram": "https://www.instagram.com/iconcertinelparco"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
    "nome": "Igers Roma",
    "id": null,
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome) attivo a Ostiense-San Paolo (Municipio VIII): visite e passeggiate.",
+   "ambito": "cittadino",
+   "descrizione_breve": "Persona (nome e cognome): visite e passeggiate.",
    "attivita": [
     "visite e passeggiate"
    ],
@@ -300571,6 +301197,35 @@
    "diffusione_prova": "https://parrocchiaselvacandida.com/"
   },
   {
+   "nome": "Quantum gnosis ATM",
+   "id": "S-EV-2824",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Associazione culturale attivo a Centro Storico (Municipio I): incontri e dibattiti, scienza e tecnologia.",
+   "attivita": [
+    "incontri e dibattiti",
+    "scienza e tecnologia"
+   ],
+   "pubblico": [],
+   "municipio": "XII",
+   "zona": "monteverde",
+   "eventi": 4,
+   "canali": {
+    "sito": "http://atmgnosi.org/",
+    "facebook": "https://www.facebook.com/quantum.gnosis.ATM",
+    "instagram": "https://www.instagram.com/nicolaferuglio",
+    "youtube": "https://www.youtube.com/@ATMItalia",
+    "tiktok": "https://www.tiktok.com/@nicolaferuglio"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://atmgnosi.org/"
+  },
+  {
    "nome": "RETE Ricerca e Terapia per l’Età Evolutiva",
    "id": "S-EV-2860",
    "categoria": "Associazioni culturali e artistiche",
@@ -300739,36 +301394,6 @@
    "diffusione_prova": "https://ambrajovinelli.org/"
   },
   {
-   "nome": "Teatro Aurelio",
-   "id": "S-FE-0834",
-   "categoria": "Teatri, cinema e spazi di spettacolo",
-   "sottocategoria": "teatro",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Teatro di Aurelio (Municipio XIII): laboratori e corsi, teatro, musica; per bambini e famiglie.",
-   "attivita": [
-    "laboratori e corsi",
-    "teatro",
-    "musica"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "XIII",
-   "zona": "aurelio",
-   "eventi": 4,
-   "canali": {
-    "sito": "http://www.teatroaurelio.it/",
-    "facebook": "https://www.facebook.com/teatroaurelio.it",
-    "instagram": "https://www.instagram.com/teatroaurelio"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://teatroaurelio.it/"
-  },
-  {
    "nome": "Traffic Live",
    "id": "S-EV-3235",
    "categoria": "Persone (artisti, autori, guide)",
@@ -300902,12 +301527,42 @@
    "diffusione_prova": "https://aiisa.eu/"
   },
   {
+   "nome": "Amnesty International - Italia",
+   "id": "S-EV-0200",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "volontariato e assistenza",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) con sede a Esquilino-Termini (Municipio I): solidarietà e sociale, libri e letture, musica.",
+   "attivita": [
+    "solidarietà e sociale",
+    "libri e letture",
+    "musica"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "esquilino-termini",
+   "eventi": 3,
+   "canali": {
+    "sito": "https://www.amnesty.it/",
+    "facebook": "https://www.facebook.com/AmnestyInternationalItalia",
+    "instagram": "https://www.instagram.com/amnestyitalia",
+    "x": "https://x.com/amnestyitalia",
+    "tiktok": "https://www.tiktok.com/@amnestyitalia"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://amnesty.it/"
+  },
+  {
    "nome": "Ance Roma - ACER - Associazione Costruttori Edili Roma",
    "id": "S-EV-0207",
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di Nomentano (Municipio II): musica, arte e mostre, incontri e dibattiti; per bambini e famiglie.",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Associazione con sede a Nomentano (Municipio II): musica, arte e mostre, incontri e dibattiti; per bambini e famiglie.",
    "attivita": [
     "musica",
     "arte e mostre",
@@ -301097,6 +301752,32 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
+   "nome": "ASSOCIAZIONE ESSENTIA APS",
+   "id": "S-EV-0657",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale di Ardeatino (Municipio VIII): libri e letture, danza.",
+   "attivita": [
+    "libri e letture",
+    "danza"
+   ],
+   "pubblico": [],
+   "municipio": "VIII",
+   "zona": "ardeatino",
+   "eventi": 3,
+   "canali": {
+    "sito": "https://essentia-centrolistico.it",
+    "instagram": "https://www.instagram.com/essentiacentrolistico"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Associazione Nazionale Archeologi",
    "id": "S-EV-0857",
    "categoria": "Associazioni culturali e artistiche",
@@ -301198,35 +301879,6 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
-  },
-  {
-   "nome": "Biblioteca Laurentina",
-   "id": "S-FE-0077",
-   "categoria": "Istituzioni pubbliche",
-   "sottocategoria": "biblioteca pubblica",
-   "ambito": "cittadino",
-   "descrizione_breve": "Biblioteca pubblica con sede a EUR (Municipio IX): musica, libri e letture, incontri e dibattiti.",
-   "attivita": [
-    "musica",
-    "libri e letture",
-    "incontri e dibattiti"
-   ],
-   "pubblico": [],
-   "municipio": "IX",
-   "zona": "eur",
-   "eventi": 3,
-   "canali": {
-    "sito": "https://www.comune.roma.it/web/it/istituzione-biblioteche-di-roma-uffici-e-contatti.page?contentId=UFF182670",
-    "facebook": "https://www.facebook.com/bibliotecalaurentina",
-    "instagram": "https://www.instagram.com/roma",
-    "x": "https://x.com/roma"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
   },
   {
    "nome": "Biblioteca Penazzato",
@@ -301343,10 +301995,9 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale (ente del terzo settore) di Parioli-Flaminio (Municipio II): musica, arte e mostre, teatro.",
+   "descrizione_breve": "Associazione culturale (ente del terzo settore) di Parioli-Flaminio (Municipio II): musica, teatro.",
    "attivita": [
     "musica",
-    "arte e mostre",
     "teatro"
    ],
    "pubblico": [],
@@ -301587,11 +302238,13 @@
    "categoria": "Comitati di quartiere e reti civiche",
    "sottocategoria": "comitato di quartiere",
    "ambito": "di quartiere",
-   "descrizione_breve": "Comitato di quartiere di Alessandrino (Municipio V): partecipazione civica.",
+   "descrizione_breve": "Comitato di quartiere di Alessandrino (Municipio V): storia e memoria; per bambini e famiglie.",
    "attivita": [
-    "partecipazione civica"
+    "storia e memoria"
    ],
-   "pubblico": [],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
    "municipio": "V",
    "zona": "alessandrino",
    "eventi": 3,
@@ -301693,31 +302346,6 @@
    "diffusione_prova": "https://elsa-italy.org/"
   },
   {
-   "nome": "EUconsult Italia",
-   "id": "S-EV-0608",
-   "categoria": "Terzo settore sociale e sanitario",
-   "sottocategoria": "terzo settore sociale",
-   "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Associazione di promozione sociale con sede a Prati (Municipio I): musica.",
-   "attivita": [
-    "musica"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "prati",
-   "eventi": 3,
-   "canali": {
-    "sito": "http://www.euconsultitalia.org/",
-    "facebook": "https://www.facebook.com/euconsultitalia"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://euconsultitalia.org/"
-  },
-  {
    "nome": "Explora - il Museo dei Bambini di Roma",
    "id": "S-EV-2511",
    "categoria": "Musei, gallerie e spazi espositivi",
@@ -301802,34 +302430,6 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://fisiomaster.it/"
-  },
-  {
-   "nome": "FONDACA - Fondazione per la cittadinanza attiva",
-   "id": "S-EV-1834",
-   "categoria": "Comitati di quartiere e reti civiche",
-   "sottocategoria": "rete civica",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Rete civica (fondazione) di Centro Storico (Municipio I): libri e letture, partecipazione civica.",
-   "attivita": [
-    "libri e letture",
-    "partecipazione civica"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "centro-storico",
-   "eventi": 3,
-   "canali": {
-    "sito": "https://us06web.zoom.us/meeting/register/tZwvcu2qqTwqHdyyr3dTKAVoQ7Tmi4AYZ7Ql",
-    "facebook": "https://www.facebook.com/fondaca.org",
-    "instagram": "https://www.instagram.com/zoom",
-    "x": "https://x.com/Zoom"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://us06web.zoom.us/"
   },
   {
    "nome": "Fondo Andrea Camilleri",
@@ -302083,6 +302683,33 @@
    "diffusione_prova": "https://isaacitaly.com/"
   },
   {
+   "nome": "ISTITUTO MUSICALE ARCANGELO CORELLI CCEP UNLA",
+   "id": "S-EV-2158",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "ente del terzo settore",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione di promozione sociale attivo a Pietralata (Municipio IV): musica, teatro.",
+   "attivita": [
+    "musica",
+    "teatro"
+   ],
+   "pubblico": [],
+   "municipio": "IV",
+   "zona": "pietralata",
+   "eventi": 3,
+   "canali": {
+    "sito": "https://istitutocorelli.com",
+    "facebook": "https://www.facebook.com/istitutocorelli",
+    "instagram": "https://www.instagram.com/istituto_corelli"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Italmaker",
    "id": "S-EV-2181",
    "categoria": "Associazioni culturali e artistiche",
@@ -302197,7 +302824,7 @@
    "categoria": "Sport e movimento",
    "sottocategoria": "società o associazione sportiva",
    "ambito": "di quartiere",
-   "descrizione_breve": "Società o associazione sportiva: laboratori e corsi, sport e movimento; per bambini e famiglie.",
+   "descrizione_breve": "Società o associazione sportiva attivo a San Giovanni (Municipio VII): laboratori e corsi, sport e movimento; per bambini e famiglie.",
    "attivita": [
     "laboratori e corsi",
     "sport e movimento"
@@ -302205,8 +302832,8 @@
    "pubblico": [
     "bambini e famiglie"
    ],
-   "municipio": null,
-   "zona": null,
+   "municipio": "VII",
+   "zona": "san-giovanni",
    "eventi": 3,
    "canali": {
     "sito": "https://labgdr.com/",
@@ -302219,34 +302846,6 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://labgdr.com/"
-  },
-  {
-   "nome": "MEAN Movimento Europeo Azione Nonviolenta",
-   "id": "S-EV-2488",
-   "categoria": "Terzo settore sociale e sanitario",
-   "sottocategoria": "terzo settore sociale",
-   "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Organizzazione di volontariato; per bambini e famiglie, giovani.",
-   "attivita": [],
-   "pubblico": [
-    "bambini e famiglie",
-    "giovani"
-   ],
-   "municipio": "XII",
-   "zona": "colli-portuensi",
-   "eventi": 3,
-   "canali": {
-    "sito": "https://www.projectmean.it/",
-    "facebook": "https://www.facebook.com/meanprogetto",
-    "instagram": "https://www.instagram.com/movinazionale",
-    "youtube": "https://www.youtube.com/@project_mean"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://projectmean.it/"
   },
   {
    "nome": "MRF 5 s.r.l.",
@@ -302273,6 +302872,35 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://mrf5.com/"
+  },
+  {
+   "nome": "Municipio Roma III",
+   "id": "S-FE-0397",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "Municipio o Comune",
+   "ambito": "cittadino",
+   "descrizione_breve": "Municipio o Comune con sede a Bufalotta (Municipio III): partecipazione civica; per bambini e famiglie.",
+   "attivita": [
+    "partecipazione civica"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "III",
+   "zona": "bufalotta",
+   "eventi": 3,
+   "canali": {
+    "sito": "https://www.comune.roma.it/web/it/municipio-iii.page",
+    "facebook": "https://www.facebook.com/MunicipioRomaIIIOfficialPage",
+    "instagram": "https://www.instagram.com/municipio_roma_iii",
+    "x": "https://x.com/roma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
   },
   {
    "nome": "Municipio XI Roma Arvalia Portuense",
@@ -303051,34 +303679,6 @@
    "diffusione_prova": "https://amicipersempreaps.it/"
   },
   {
-   "nome": "Amnesty International - Italia",
-   "id": "S-EV-0200",
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "associazione",
-   "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Organizzazione di volontariato con sede a Esquilino-Termini (Municipio I): solidarietà e sociale.",
-   "attivita": [
-    "solidarietà e sociale"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "esquilino-termini",
-   "eventi": 2,
-   "canali": {
-    "sito": "https://www.amnesty.it/",
-    "facebook": "https://www.facebook.com/AmnestyInternationalItalia",
-    "instagram": "https://www.instagram.com/amnestyitalia",
-    "x": "https://x.com/amnestyitalia",
-    "tiktok": "https://www.tiktok.com/@amnestyitalia"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://amnesty.it/"
-  },
-  {
    "nome": "Andrea Maccioni",
    "id": "S-EV-0218",
    "categoria": "Persone (artisti, autori, guide)",
@@ -303167,13 +303767,11 @@
    "categoria": "Centri sociali, centri anziani e spazi di comunità",
    "sottocategoria": "centro anziani",
    "ambito": "di quartiere",
-   "descrizione_breve": "Centro anziani attivo a Settecamini: danza; per bambini e famiglie.",
+   "descrizione_breve": "Centro anziani attivo a Settecamini (Municipio IV): danza.",
    "attivita": [
     "danza"
    ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
+   "pubblico": [],
    "municipio": "IV",
    "zona": "settecamini",
    "eventi": 2,
@@ -303221,7 +303819,7 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: scienza e tecnologia, incontri e dibattiti, visite e passeggiate; per bambini e famiglie, anziani.",
+   "descrizione_breve": "Associazione culturale attivo a Montesacro (Municipio III): scienza e tecnologia, incontri e dibattiti, visite e passeggiate; per bambini e famiglie, anziani.",
    "attivita": [
     "scienza e tecnologia",
     "incontri e dibattiti",
@@ -303232,8 +303830,8 @@
     "anziani",
     "giovani"
    ],
-   "municipio": null,
-   "zona": null,
+   "municipio": "III",
+   "zona": "montesacro",
    "eventi": 2,
    "canali": {
     "sito": "https://equiteserrantes.it/",
@@ -303395,6 +303993,36 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://laghidellecolline.com/"
+  },
+  {
+   "nome": "Assc Casal Monastero",
+   "id": "S-EV-0040",
+   "categoria": "Parrocchie e realtà religiose",
+   "sottocategoria": "oratorio, Caritas, gruppi religiosi",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (associazione di promozione sociale) di Settecamini (Municipio IV): partecipazione civica, sport e movimento, solidarietà e sociale; per bambini e famiglie.",
+   "attivita": [
+    "partecipazione civica",
+    "sport e movimento",
+    "solidarietà e sociale"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "IV",
+   "zona": "settecamini",
+   "eventi": 2,
+   "canali": {
+    "sito": "http://www.casalmonastero.org/",
+    "facebook": "https://www.facebook.com/ASSC.CASALMONASTERO",
+    "instagram": "https://www.instagram.com/assc_casalmonastero"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://casalmonastero.org/"
   },
   {
    "nome": "ASSIPROMOS - ASSOCIAZIONE ITALIANA PROMOZIONE SOCIALE",
@@ -303893,6 +304521,36 @@
    "diffusione_prova": "https://auroraeventi.net/"
   },
   {
+   "nome": "Auser Prenestino",
+   "id": "S-EV-1070",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "ente del terzo settore",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Organizzazione di volontariato di Prenestino (Municipio V): solidarietà e sociale, incontri e dibattiti, laboratori e corsi; per anziani.",
+   "attivita": [
+    "solidarietà e sociale",
+    "incontri e dibattiti",
+    "laboratori e corsi"
+   ],
+   "pubblico": [
+    "anziani"
+   ],
+   "municipio": "V",
+   "zona": "prenestino",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://auserprenestino.it",
+    "facebook": "https://www.facebook.com/auserprenestino",
+    "instagram": "https://www.instagram.com/auserprenestino"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://auserprenestino.it/"
+  },
+  {
    "nome": "B-HOP magazine",
    "id": "S-EV-1084",
    "categoria": "Intermediari: biglietterie, aggregatori e media",
@@ -304189,6 +304847,31 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
+   "nome": "Casa delle Traduzioni",
+   "id": "S-FE-0025",
+   "categoria": "Grandi istituzioni culturali e fondazioni",
+   "sottocategoria": "grande istituzione culturale",
+   "ambito": "cittadino",
+   "descrizione_breve": "Grande istituzione culturale con sede a Centro Storico (Municipio I).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://www.comune.roma.it/web/it/dettaglio.page?contentId=UFF29003",
+    "facebook": "https://www.facebook.com/BibliotecaCasadelleTraduzioni",
+    "instagram": "https://www.instagram.com/roma",
+    "x": "https://x.com/roma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
+  },
+  {
    "nome": "Casa dello Spettatore",
    "id": "S-EV-1190",
    "categoria": "Associazioni culturali e artistiche",
@@ -304348,6 +305031,35 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
+   "nome": "Centro Studi Americani",
+   "id": "S-EV-1265",
+   "categoria": "Ambiente, natura e animali",
+   "sottocategoria": "ente del terzo settore",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Ente del terzo settore di Centro Storico (Municipio I): libri e letture, ambiente e natura, solidarietà e sociale.",
+   "attivita": [
+    "libri e letture",
+    "ambiente e natura",
+    "solidarietà e sociale"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://www.linkedin.com/company/centro-studi-americani/",
+    "facebook": "https://www.facebook.com/centrostudiamericani",
+    "instagram": "https://www.instagram.com/centro_studi_americani",
+    "x": "https://x.com/centrostudiusa"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Certi Diritti",
    "id": "S-EV-0945",
    "categoria": "Terzo settore sociale e sanitario",
@@ -304481,33 +305193,61 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
-   "nome": "Cometa Off",
-   "id": "S-EV-0476",
-   "categoria": "Teatri, cinema e spazi di spettacolo",
-   "sottocategoria": "teatro, cinema o club",
+   "nome": "Clivis APS - Accademia di Musica e Formazione",
+   "id": "S-EV-1328",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "scuola di musica, danza o arte",
    "ambito": "di quartiere",
-   "descrizione_breve": "Teatro, cinema o club (ente del terzo settore) di Testaccio (Municipio I): teatro, cinema; per giovani.",
+   "descrizione_breve": "Scuola di musica, danza o arte (associazione di promozione sociale) di Appio Latino (Municipio VII): musica, laboratori e corsi, teatro; per giovani.",
    "attivita": [
-    "teatro",
-    "cinema"
+    "musica",
+    "laboratori e corsi",
+    "teatro"
    ],
    "pubblico": [
     "giovani"
    ],
-   "municipio": "I",
-   "zona": "testaccio",
+   "municipio": "VII",
+   "zona": "appio-latino",
    "eventi": 2,
    "canali": {
-    "sito": "https://www.cometaoff.it/",
-    "facebook": "https://www.facebook.com/cometa.off",
-    "instagram": "https://www.instagram.com/cometaoff"
+    "sito": "http://www.clivis.it/",
+    "facebook": "https://www.facebook.com/clivis.it",
+    "instagram": "https://www.instagram.com/accademiaclivis",
+    "youtube": "https://www.youtube.com/@clivisaps"
    },
    "contatti": {
     "email": true,
     "telefono": true
    },
    "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://cometaoff.it/"
+   "diffusione_prova": "https://clivis.it/"
+  },
+  {
+   "nome": "CM Teatro",
+   "id": "S-EV-1330",
+   "categoria": "Teatri, cinema e spazi di spettacolo",
+   "sottocategoria": "teatro",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Teatro attivo a Monteverde (Municipio XII): laboratori e corsi, teatro.",
+   "attivita": [
+    "laboratori e corsi",
+    "teatro"
+   ],
+   "pubblico": [],
+   "municipio": "XII",
+   "zona": "monteverde",
+   "eventi": 2,
+   "canali": {
+    "sito": "http://www.cmteatro.it/",
+    "facebook": "https://www.facebook.com/AssociazioneCMTeatro"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Comitato di Quartiere Torre Angela - Fatti, non parole",
@@ -304637,6 +305377,35 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "D.i.Re Donne in Rete contro la violenza",
+   "id": "S-EV-1503",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "terzo settore sociale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Ente del terzo settore di Centro Storico (Municipio I); per giovani, donne.",
+   "attivita": [
+    "incontri e dibattiti"
+   ],
+   "pubblico": [
+    "giovani",
+    "donne"
+   ],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 2,
+   "canali": {
+    "sito": "http://www.direcontrolaviolenza.it/",
+    "facebook": "https://www.facebook.com/DiReDonneInReteControLaViolenza",
+    "instagram": "https://www.instagram.com/direcontrolaviolenza"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://direcontrolaviolenza.it/"
   },
   {
    "nome": "Defrag",
@@ -304965,6 +305734,33 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
+   "nome": "FONDAZIONE GIOVANNI SCAMBIA ETS",
+   "id": "S-EV-1774",
+   "categoria": "Grandi istituzioni culturali e fondazioni",
+   "sottocategoria": "grande istituzione culturale",
+   "ambito": "cittadino",
+   "descrizione_breve": "Grande istituzione culturale (fondazione) con sede a Parioli-Flaminio (Municipio II): cinema; per giovani.",
+   "attivita": [
+    "cinema"
+   ],
+   "pubblico": [
+    "giovani"
+   ],
+   "municipio": "II",
+   "zona": "parioli-flaminio",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://fondazionegiovanniscambiaets.it",
+    "instagram": "https://www.instagram.com/fondazione_giovanni_scambia"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Fondazione Santo Versace Ente Filantropico",
    "id": "S-EV-1858",
    "categoria": "Grandi istituzioni culturali e fondazioni",
@@ -305085,12 +305881,12 @@
    "id": "S-EV-1940",
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale attivo a Ostia (Municipio X).",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Associazione di promozione sociale attivo a Selva Candida (Municipio XIV).",
    "attivita": [],
    "pubblico": [],
-   "municipio": "X",
-   "zona": "ostia",
+   "municipio": "XIV",
+   "zona": "selva-candida",
    "eventi": 2,
    "canali": {
     "facebook": "https://www.facebook.com/GdTRomaPlayers",
@@ -305102,6 +305898,35 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Genitori per la Scuola",
+   "id": "S-EV-1943",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Associazione culturale attivo a Torraccia (Municipio IV): visite e passeggiate; per bambini e famiglie.",
+   "attivita": [
+    "visite e passeggiate"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "IV",
+   "zona": "torraccia",
+   "eventi": 2,
+   "canali": {
+    "sito": "http://www.genitorixlascuola.it/",
+    "facebook": "https://www.facebook.com/Genitori-per-la-Scuola-112529643820219",
+    "instagram": "https://www.instagram.com/genitorixlascuola",
+    "youtube": "https://youtube.com/@genitorixlascuolaassociazi6705"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
   },
   {
    "nome": "Geopolitica.info",
@@ -305927,7 +306752,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale: sport e movimento, solidarietà e sociale, visite e passeggiate; per donne.",
+   "descrizione_breve": "Associazione di promozione sociale attivo a Pietralata (Municipio IV): sport e movimento, solidarietà e sociale, visite e passeggiate; per donne.",
    "attivita": [
     "sport e movimento",
     "solidarietà e sociale",
@@ -305936,8 +306761,8 @@
    "pubblico": [
     "donne"
    ],
-   "municipio": null,
-   "zona": null,
+   "municipio": "IV",
+   "zona": "pietralata",
    "eventi": 2,
    "canali": {
     "sito": "http://www.liberinantes.org/",
@@ -306081,6 +306906,31 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://materiagallery.com/"
+  },
+  {
+   "nome": "MEAN Movimento Europeo Azione Nonviolenta",
+   "id": "S-EV-2488",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "terzo settore sociale",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Organizzazione di volontariato.",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "XII",
+   "zona": "colli-portuensi",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://www.projectmean.it/",
+    "facebook": "https://www.facebook.com/meanprogetto",
+    "instagram": "https://www.instagram.com/movinazionale",
+    "youtube": "https://www.youtube.com/@project_mean"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://projectmean.it/"
   },
   {
    "nome": "Melasecca PressOffice",
@@ -306250,10 +307100,10 @@
    "categoria": "Istituzioni pubbliche",
    "sottocategoria": "Municipio o Comune",
    "ambito": "cittadino",
-   "descrizione_breve": "Municipio o Comune: partecipazione civica, arte e mostre.",
+   "descrizione_breve": "Municipio o Comune: arte e mostre, partecipazione civica.",
    "attivita": [
-    "partecipazione civica",
-    "arte e mostre"
+    "arte e mostre",
+    "partecipazione civica"
    ],
    "pubblico": [],
    "municipio": "XIII",
@@ -306387,6 +307237,31 @@
    "diffusione_prova": "https://museoverde.org/"
   },
   {
+   "nome": "Nederlandse School Rome - 't Kofschip",
+   "id": "S-EV-0005",
+   "categoria": "Scuole, università e formazione",
+   "sottocategoria": "scuola o università",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Scuola o università (associazione di promozione sociale).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 2,
+   "canali": {
+    "sito": "https://tkofschip.org/",
+    "facebook": "https://www.facebook.com/KofschipRome",
+    "instagram": "https://www.instagram.com/tkofschip_rome",
+    "youtube": "https://youtube.com/@nederlandseschooltkofschip3546"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://tkofschip.org/"
+  },
+  {
    "nome": "NOI Associazione AntiMafia",
    "id": "S-EV-2562",
    "categoria": "Terzo settore sociale e sanitario",
@@ -306502,11 +307377,11 @@
    "categoria": "Teatri, cinema e spazi di spettacolo",
    "sottocategoria": "teatro",
    "ambito": "di quartiere",
-   "descrizione_breve": "Teatro (ente del terzo settore): arte e mostre, teatro, laboratori e corsi; per anziani, giovani.",
+   "descrizione_breve": "Teatro (ente del terzo settore): teatro, laboratori e corsi, arte e mostre; per anziani, giovani.",
    "attivita": [
-    "arte e mostre",
     "teatro",
-    "laboratori e corsi"
+    "laboratori e corsi",
+    "arte e mostre"
    ],
    "pubblico": [
     "anziani",
@@ -306535,9 +307410,8 @@
    "categoria": "Parrocchie e realtà religiose",
    "sottocategoria": "oratorio, Caritas, gruppi religiosi",
    "ambito": "di quartiere",
-   "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (ente del terzo settore) di Prenestino (Municipio V): danza, ambiente e natura; per bambini e famiglie.",
+   "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (ente del terzo settore) di Prenestino (Municipio V): ambiente e natura; per bambini e famiglie.",
    "attivita": [
-    "danza",
     "ambiente e natura"
    ],
    "pubblico": [
@@ -306624,13 +307498,12 @@
    "categoria": "Parrocchie e realtà religiose",
    "sottocategoria": "parrocchia",
    "ambito": "di quartiere",
-   "descrizione_breve": "Parrocchia di Tor Cervara (Municipio IV): religione e spiritualità; per bambini e famiglie.",
+   "descrizione_breve": "Parrocchia di Tor Cervara (Municipio IV): ambiente e natura, religione e spiritualità.",
    "attivita": [
+    "ambiente e natura",
     "religione e spiritualità"
    ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
+   "pubblico": [],
    "municipio": "IV",
    "zona": "tor-cervara",
    "eventi": 2,
@@ -307196,36 +308069,6 @@
    "diffusione_prova": "https://spazicircolari.it/"
   },
   {
-   "nome": "SuperAbile",
-   "id": "S-EV-3126",
-   "categoria": "Terzo settore sociale e sanitario",
-   "sottocategoria": "terzo settore sociale",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale: solidarietà e sociale, partecipazione civica; per bambini e famiglie, persone con disabilità.",
-   "attivita": [
-    "solidarietà e sociale",
-    "partecipazione civica"
-   ],
-   "pubblico": [
-    "bambini e famiglie",
-    "persone con disabilità"
-   ],
-   "municipio": null,
-   "zona": null,
-   "eventi": 2,
-   "canali": {
-    "sito": "https://superabile.net/",
-    "facebook": "https://www.facebook.com/SuperAbileAPS",
-    "instagram": "https://www.instagram.com/superabileaps"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://superabile.net/"
-  },
-  {
    "nome": "Swing Dream Factory",
    "id": "S-EV-1086",
    "categoria": "Associazioni culturali e artistiche",
@@ -307311,31 +308154,6 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://teatroazione.it/"
-  },
-  {
-   "nome": "Teatro Biblioteca Quarticciolo",
-   "id": "S-EV-3149",
-   "categoria": "Istituzioni pubbliche",
-   "sottocategoria": "biblioteca pubblica",
-   "ambito": "cittadino",
-   "descrizione_breve": "Biblioteca pubblica con sede a Centocelle (Municipio V).",
-   "attivita": [],
-   "pubblico": [],
-   "municipio": "V",
-   "zona": "centocelle",
-   "eventi": 2,
-   "canali": {
-    "sito": "http://www.teatriincomune.roma.it/teatro-biblioteca-quarticciolo/",
-    "facebook": "https://www.facebook.com/teatrobibliotecaquarticciolo",
-    "instagram": "https://www.instagram.com/teatrobibliotecaquarticciolo",
-    "x": "https://x.com/TLidodiOstia"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://teatriincomune.roma.it/"
   },
   {
    "nome": "Teatro del Lido di Ostia",
@@ -307857,8 +308675,8 @@
     "partecipazione civica"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "XV",
+   "zona": "roma-nord",
    "eventi": 2,
    "canali": {
     "sito": "https://www.vignaclarablog.it/",
@@ -307953,6 +308771,30 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://collettivowsp.org/"
+  },
+  {
+   "nome": "www.parrocchiasanbasilio.it",
+   "id": null,
+   "categoria": "Parrocchie e realtà religiose",
+   "sottocategoria": "parrocchia",
+   "ambito": "di più quartieri",
+   "descrizione_breve": "Parrocchia attivo a San Basilio (Municipio IV): feste e mercatini.",
+   "attivita": [
+    "feste e mercatini"
+   ],
+   "pubblico": [],
+   "municipio": "IV",
+   "zona": "san-basilio",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://www.parrocchiasanbasilio.it"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
   },
   {
    "nome": "X-Man.agement",
@@ -308310,14 +309152,14 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: musica, cinema.",
+   "descrizione_breve": "Associazione culturale attivo ad Appio Latino (Municipio VII): musica, cinema.",
    "attivita": [
     "musica",
     "cinema"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "VII",
+   "zona": "appio-latino",
    "eventi": 1,
    "canali": {
     "sito": "http://www.acmf.it/",
@@ -308377,6 +309219,29 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
+   "nome": "AGISI - Associazione Gruppo Italiano Studi Implantoprotesici",
+   "id": "S-EV-0109",
+   "categoria": "Scuole, università e formazione",
+   "sottocategoria": "scuola o università",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Scuola o università.",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "sito": "https://agisi.eu/",
+    "facebook": "https://www.facebook.com/AssociazioneGISI"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Agricoltura Nuova - Castel di Leva",
    "id": "S-FE-0718",
    "categoria": "Associazioni culturali e artistiche",
@@ -308398,6 +309263,31 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://agricolturanuova.it/"
+  },
+  {
+   "nome": "Aibvc Associazione Italiana Beach Volley Club",
+   "id": "S-EV-0113",
+   "categoria": "Teatri, cinema e spazi di spettacolo",
+   "sottocategoria": "musica dal vivo e club",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Musica dal vivo e club con sede a EUR (Municipio IX): sport e movimento.",
+   "attivita": [
+    "sport e movimento"
+   ],
+   "pubblico": [],
+   "municipio": "IX",
+   "zona": "eur",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://www.aibvc.it/",
+    "facebook": "https://www.facebook.com/aibvcbeachvolleyclub"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "AICS Ambiente APS",
@@ -308432,16 +309322,42 @@
    "diffusione_prova": "https://aics.it/"
   },
   {
+   "nome": "AIGAE Associazione Italiana Guide Ambientali Escursionistiche",
+   "id": "S-EV-0127",
+   "categoria": "Ambiente, natura e animali",
+   "sottocategoria": "ambiente e natura",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Ambiente e natura con sede ad Ardeatino (Municipio VIII): ambiente e natura, visite e passeggiate.",
+   "attivita": [
+    "ambiente e natura",
+    "visite e passeggiate"
+   ],
+   "pubblico": [],
+   "municipio": "VIII",
+   "zona": "ardeatino",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.aigae.org/",
+    "facebook": "https://www.facebook.com/italiaguide"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
    "nome": "AIIG - Associazione Italiana Insegnanti di Geografia",
    "id": "S-EV-0129",
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "scuola o università",
    "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Scuola o università con sede a Centro Storico (Municipio I): laboratori e corsi, ambiente e natura, incontri e dibattiti; per giovani.",
+   "descrizione_breve": "Scuola o università con sede a Centro Storico (Municipio I): laboratori e corsi, ambiente e natura, musica; per giovani.",
    "attivita": [
     "laboratori e corsi",
     "ambiente e natura",
-    "incontri e dibattiti"
+    "musica"
    ],
    "pubblico": [
     "giovani"
@@ -308468,7 +309384,7 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Organizzazione di volontariato: ambiente e natura, solidarietà e sociale, salute e benessere; per bambini e famiglie, donne.",
+   "descrizione_breve": "Organizzazione di volontariato attivo a Nomentano (Municipio II): ambiente e natura, solidarietà e sociale, salute e benessere; per bambini e famiglie, donne.",
    "attivita": [
     "ambiente e natura",
     "solidarietà e sociale",
@@ -308478,8 +309394,8 @@
     "bambini e famiglie",
     "donne"
    ],
-   "municipio": null,
-   "zona": null,
+   "municipio": "II",
+   "zona": "nomentano",
    "eventi": 1,
    "canali": {
     "sito": "http://www.ailroma.it/",
@@ -309160,14 +310076,12 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "terzo settore sociale",
    "ambito": "nazionale o internazionale",
-   "descrizione_breve": "Associazione di promozione sociale: libri e letture, salute e benessere; per donne, persone con disabilità.",
+   "descrizione_breve": "Associazione di promozione sociale: salute e benessere; per donne.",
    "attivita": [
-    "libri e letture",
     "salute e benessere"
    ],
    "pubblico": [
-    "donne",
-    "persone con disabilità"
+    "donne"
    ],
    "municipio": null,
    "zona": null,
@@ -309956,6 +310870,35 @@
    "diffusione_prova": "https://artecriminologia.it/"
   },
   {
+   "nome": "Arte Marziale della Consapevolezza",
+   "id": null,
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale attivo a Parioli-Flaminio (Municipio II): storia e memoria, libri e letture, incontri e dibattiti; per giovani.",
+   "attivita": [
+    "storia e memoria",
+    "libri e letture",
+    "incontri e dibattiti"
+   ],
+   "pubblico": [
+    "giovani"
+   ],
+   "municipio": "II",
+   "zona": "parioli-flaminio",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://iliqchuan.it",
+    "facebook": "https://www.facebook.com/ArteMarzialeDellaConsapevolezza"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://iliqchuan.it/"
+  },
+  {
    "nome": "Arte Marziale della Consapevolezza - Roma Centro Storico",
    "id": "S-EV-0332",
    "categoria": "Associazioni culturali e artistiche",
@@ -309985,8 +310928,9 @@
    "categoria": "Scuole, università e formazione",
    "sottocategoria": "scuola o università",
    "ambito": "di quartiere",
-   "descrizione_breve": "Scuola o università (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): arte e mostre.",
+   "descrizione_breve": "Scuola o università (ente del terzo settore) attivo a Colli Portuensi (Municipio XII): musica, arte e mostre.",
    "attivita": [
+    "musica",
     "arte e mostre"
    ],
    "pubblico": [],
@@ -310193,36 +311137,6 @@
    "diffusione_prova": "https://aspergeronline.org/"
   },
   {
-   "nome": "Assc Casal Monastero",
-   "id": "S-EV-0040",
-   "categoria": "Parrocchie e realtà religiose",
-   "sottocategoria": "oratorio, Caritas, gruppi religiosi",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (associazione di promozione sociale) di Settecamini (Municipio IV): partecipazione civica, sport e movimento, solidarietà e sociale; per bambini e famiglie.",
-   "attivita": [
-    "partecipazione civica",
-    "sport e movimento",
-    "solidarietà e sociale"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "IV",
-   "zona": "settecamini",
-   "eventi": 1,
-   "canali": {
-    "sito": "http://www.casalmonastero.org/",
-    "facebook": "https://www.facebook.com/ASSC.CASALMONASTERO",
-    "instagram": "https://www.instagram.com/assc_casalmonastero"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://casalmonastero.org/"
-  },
-  {
    "nome": "Asso Style Image",
    "id": "S-EV-0372",
    "categoria": "Terzo settore sociale e sanitario",
@@ -310274,10 +311188,11 @@
    "categoria": "Terzo settore sociale e sanitario",
    "sottocategoria": "volontariato e assistenza",
    "ambito": "di quartiere",
-   "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) di Prati (Municipio I): salute e benessere, solidarietà e sociale; per bambini e famiglie.",
+   "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) di Prati (Municipio I): salute e benessere, teatro, laboratori e corsi; per bambini e famiglie.",
    "attivita": [
     "salute e benessere",
-    "solidarietà e sociale"
+    "teatro",
+    "laboratori e corsi"
    ],
    "pubblico": [
     "bambini e famiglie"
@@ -310614,6 +311529,34 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://fabiosargentini.it/"
+  },
+  {
+   "nome": "Associazione Culturale Quattro Sassi",
+   "id": "S-EV-0552",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale di Esquilino-Termini (Municipio I): teatro; per bambini e famiglie.",
+   "attivita": [
+    "teatro"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "I",
+   "zona": "esquilino-termini",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://www.quattrosassi.com/Cosa-puoi-fare-tu/Sostienici",
+    "facebook": "https://www.facebook.com/quattrosassi",
+    "instagram": "https://www.instagram.com/quattrosassi"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Associazione culturale talenti",
@@ -311264,6 +312207,79 @@
    "diffusione_prova": "https://associazionenaturalmenteroma.it/"
   },
   {
+   "nome": "Associazione Nazionale Bersaglieri Presidenza Nazionale",
+   "id": "S-EV-0858",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "terzo settore sociale",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Terzo settore sociale con sede a Trastevere (Municipio I).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "trastevere",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.assobersaglieri.it/",
+    "facebook": "https://www.facebook.com/assobersaglieri",
+    "instagram": "https://www.instagram.com/presidenzanazionale"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
+   "nome": "Associazione Nazionale Famiglie Caduti e Dispersi in Guerra",
+   "id": "S-EV-0870",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "salute e disabilità",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Salute e disabilità con sede a Prati (Municipio I).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "prati",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.anfcdg.it/",
+    "facebook": "https://www.facebook.com/anfcdg"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
+   "nome": "Associazione Orti Urbani Sociali Tor Carbone",
+   "id": "S-EV-0892",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "volontariato e assistenza",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Volontariato e assistenza di Ardeatino (Municipio VIII): feste e mercatini.",
+   "attivita": [
+    "feste e mercatini"
+   ],
+   "pubblico": [],
+   "municipio": "VIII",
+   "zona": "ardeatino",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.ortiurbanitorcarbone.it/",
+    "facebook": "https://www.facebook.com/ortiurbanitorcarbone",
+    "instagram": "https://www.instagram.com/ortiurbanisocialitorcarbone"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Associazione Orti Urbani Valle Dei Casali APS",
    "id": "S-EV-0893",
    "categoria": "Ambiente, natura e animali",
@@ -311758,36 +312774,6 @@
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
   },
   {
-   "nome": "Auser Prenestino",
-   "id": "S-EV-1070",
-   "categoria": "Terzo settore sociale e sanitario",
-   "sottocategoria": "ente del terzo settore",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Organizzazione di volontariato di Prenestino (Municipio V): solidarietà e sociale, laboratori e corsi, partecipazione civica; per anziani.",
-   "attivita": [
-    "solidarietà e sociale",
-    "laboratori e corsi",
-    "partecipazione civica"
-   ],
-   "pubblico": [
-    "anziani"
-   ],
-   "municipio": "V",
-   "zona": "prenestino",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://auserprenestino.it",
-    "facebook": "https://www.facebook.com/auserprenestino",
-    "instagram": "https://www.instagram.com/auserprenestino"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://auserprenestino.it/"
-  },
-  {
    "nome": "AVIS Comunale Frosinone - Associazione Volontari Italiani Sangue OdV",
    "id": "S-EV-1076",
    "categoria": "Terzo settore sociale e sanitario",
@@ -312100,6 +313086,33 @@
    "diffusione_prova": "https://bfoutdoorshop.com/"
   },
   {
+   "nome": "Biblioteca Arcipelago",
+   "id": "S-FE-0081",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica con sede a Montagnola (Municipio VIII): libri e letture, laboratori e corsi.",
+   "attivita": [
+    "libri e letture",
+    "laboratori e corsi"
+   ],
+   "pubblico": [],
+   "municipio": "VIII",
+   "zona": "montagnola",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://www.bibliotechediroma.it/opac/library/biblioteca-arcipelago-auditorium/RMBM1",
+    "facebook": "https://www.facebook.com/bibliotecaarcipelago",
+    "instagram": "https://www.instagram.com/biblioteca.arcipelago"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
+  },
+  {
    "nome": "Biblioteca Casa dei Bimbi",
    "id": "S-FE-0016",
    "categoria": "Istituzioni pubbliche",
@@ -312150,6 +313163,56 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Biblioteca Cornelia",
+   "id": "S-FE-0012",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica con sede ad Aurelio (Municipio XIII).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "XIII",
+   "zona": "aurelio",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://www.bibliotechediroma.it/opac/library/biblioteca-cornelia/RMBT2",
+    "facebook": "https://www.facebook.com/bibliocornelia"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
+  },
+  {
+   "nome": "Biblioteca Europea Roma",
+   "id": "S-FE-0165",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "nazionale o internazionale",
+   "descrizione_breve": "Biblioteca pubblica con sede a Trieste-Salario (Municipio II): cinema, feste e mercatini, libri e letture.",
+   "attivita": [
+    "cinema",
+    "feste e mercatini",
+    "libri e letture"
+   ],
+   "pubblico": [],
+   "municipio": "II",
+   "zona": "trieste-salario",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://www.bibliotechediroma.it/opac/library/biblioteca-europea/RMBA1",
+    "facebook": "https://www.facebook.com/bibliotecaeuropearoma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
   },
   {
    "nome": "Biblioteca Franco Basaglia",
@@ -312214,6 +313277,57 @@
    "canali": {
     "sito": "http://www.bibliotu.it/biblioteca/sandroonofri#0",
     "facebook": "https://www.facebook.com/bibliotecasandroonofri"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Biblioteca Torrevecchia Pia",
+   "id": "S-FE-0706",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica: libri e letture, feste e mercatini.",
+   "attivita": [
+    "libri e letture",
+    "feste e mercatini"
+   ],
+   "pubblico": [],
+   "municipio": "XIII",
+   "zona": "torrevecchia",
+   "eventi": 1,
+   "canali": {
+    "facebook": "https://www.facebook.com/bibliotorrevecchiapia"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Biblioteca Tullio De Mauro",
+   "id": "S-FE-0143",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica con sede a San Lorenzo (Municipio II): libri e letture.",
+   "attivita": [
+    "libri e letture"
+   ],
+   "pubblico": [],
+   "municipio": "II",
+   "zona": "san-lorenzo",
+   "eventi": 1,
+   "canali": {
+    "facebook": "https://www.facebook.com/bibliotecatulliodemauro",
+    "instagram": "https://www.instagram.com/bibliotullio",
+    "x": "https://x.com/bibliotullio"
    },
    "contatti": {
     "email": true,
@@ -312416,13 +313530,13 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome): feste e mercatini.",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Pietralata (Municipio IV): feste e mercatini.",
    "attivita": [
     "feste e mercatini"
    ],
    "pubblico": [],
    "municipio": "IV",
-   "zona": null,
+   "zona": "pietralata",
    "eventi": 1,
    "canali": {
     "sito": "https://breakprowrestling.com/",
@@ -313404,6 +314518,29 @@
    "diffusione_prova": "https://sangiovannicrisostomo.it/"
   },
   {
+   "nome": "Chiesa Parrocchiale di San Giovanni XXIII",
+   "id": "S-FE-1584",
+   "categoria": "Parrocchie e realtà religiose",
+   "sottocategoria": "parrocchia",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Parrocchia di Torrino (Municipio IX).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "IX",
+   "zona": "torrino",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.parrocchiasangiovannixxiii.it/",
+    "facebook": "https://www.facebook.com/parrocchiasangiovannixxiii"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
    "nome": "China Files",
    "id": "S-EV-0597",
    "categoria": "Associazioni culturali e artistiche",
@@ -313677,31 +314814,6 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
-   "nome": "Città di Albano Laziale | Albano Laziale",
-   "id": "S-FE-0893",
-   "categoria": "Istituzioni pubbliche",
-   "sottocategoria": "ente pubblico",
-   "ambito": "cittadino",
-   "descrizione_breve": "Ente pubblico con sede a Fidene-Settebagni (Municipio III): musica.",
-   "attivita": [
-    "musica"
-   ],
-   "pubblico": [],
-   "municipio": "III",
-   "zona": "fidene-settebagni",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://comune.albanolaziale.rm.it/",
-    "facebook": "https://www.facebook.com/comunealbanolaziale"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "licenza aperta",
-   "diffusione_prova": "https://comune.albanolaziale.rm.it/note-legali/"
-  },
-  {
    "nome": "City Fitness Roma",
    "id": "S-FE-1138",
    "categoria": "Sport e movimento",
@@ -313760,37 +314872,6 @@
    "diffusione_prova": "https://cpvroma.it/"
   },
   {
-   "nome": "Clivis APS - Accademia di Musica e Formazione",
-   "id": "S-EV-1328",
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "scuola di musica, danza o arte",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Scuola di musica, danza o arte (associazione di promozione sociale) di Appio Latino (Municipio VII): musica, laboratori e corsi, teatro; per giovani.",
-   "attivita": [
-    "musica",
-    "laboratori e corsi",
-    "teatro"
-   ],
-   "pubblico": [
-    "giovani"
-   ],
-   "municipio": "VII",
-   "zona": "appio-latino",
-   "eventi": 1,
-   "canali": {
-    "sito": "http://www.clivis.it/",
-    "facebook": "https://www.facebook.com/clivis.it",
-    "instagram": "https://www.instagram.com/accademiaclivis",
-    "youtube": "https://www.youtube.com/@clivisaps"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://clivis.it/"
-  },
-  {
    "nome": "CNR CUG Comitato Unico di Garanzia",
    "id": "S-EV-1332",
    "categoria": "Istituzioni pubbliche",
@@ -313826,13 +314907,13 @@
    "categoria": "Locali e attività commerciali",
    "sottocategoria": "impresa",
    "ambito": "di quartiere",
-   "descrizione_breve": "Impresa: laboratori e corsi.",
+   "descrizione_breve": "Impresa attivo a Esquilino-Termini (Municipio I): laboratori e corsi.",
    "attivita": [
     "laboratori e corsi"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "I",
+   "zona": "esquilino-termini",
    "eventi": 1,
    "canali": {
     "sito": "http://comeinktattoostudio.business.site/",
@@ -314043,6 +315124,32 @@
    "diffusione_prova": "https://comitatomonteverdenuovo.it/"
   },
   {
+   "nome": "Compagnia Lacasadargilla",
+   "id": "S-EV-2275",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "compagnia, coro, banda o ensemble",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Compagnia, coro, banda o ensemble (ente del terzo settore): teatro.",
+   "attivita": [
+    "teatro"
+   ],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "sito": "https://www.lacasadargilla.com/",
+    "facebook": "https://www.facebook.com/lacasadargilla.compagnia",
+    "instagram": "https://www.instagram.com/lacasadargilla"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
    "nome": "Comunità Murialdo Trentino Alto Adige is",
    "id": "S-EV-2807",
    "categoria": "Associazioni culturali e artistiche",
@@ -314172,33 +315279,6 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://corethehub.com/"
-  },
-  {
-   "nome": "Coris - Dipartimento di Comunicazione e Ricerca Sociale - Sapienza",
-   "id": null,
-   "categoria": "Scuole, università e formazione",
-   "sottocategoria": "università",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Università di Parioli-Flaminio (Municipio II): laboratori e corsi; per giovani.",
-   "attivita": [
-    "laboratori e corsi"
-   ],
-   "pubblico": [
-    "giovani"
-   ],
-   "municipio": "II",
-   "zona": "parioli-flaminio",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://web.uniroma1.it/coris/",
-    "facebook": "https://www.facebook.com/corissapienza"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://web.uniroma1.it/"
   },
   {
    "nome": "Crafting Dialogues",
@@ -314394,16 +315474,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale (organizzazione di volontariato): solidarietà e sociale, laboratori e corsi; per bambini e famiglie.",
+   "descrizione_breve": "Associazione culturale (organizzazione di volontariato) attivo a San Giovanni (Municipio VII): solidarietà e sociale.",
    "attivita": [
-    "solidarietà e sociale",
-    "laboratori e corsi"
+    "solidarietà e sociale"
    ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": null,
-   "zona": null,
+   "pubblico": [],
+   "municipio": "VII",
+   "zona": "san-giovanni",
    "eventi": 1,
    "canali": {
     "sito": "https://www.trovavolontariato.com/",
@@ -314492,33 +315569,6 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
-  },
-  {
-   "nome": "D.i.Re Donne in Rete contro la violenza",
-   "id": "S-EV-1503",
-   "categoria": "Terzo settore sociale e sanitario",
-   "sottocategoria": "terzo settore sociale",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Ente del terzo settore di Centro Storico (Municipio I); per giovani, donne.",
-   "attivita": [],
-   "pubblico": [
-    "giovani",
-    "donne"
-   ],
-   "municipio": "I",
-   "zona": "centro-storico",
-   "eventi": 1,
-   "canali": {
-    "sito": "http://www.direcontrolaviolenza.it/",
-    "facebook": "https://www.facebook.com/DiReDonneInReteControLaViolenza",
-    "instagram": "https://www.instagram.com/direcontrolaviolenza"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://direcontrolaviolenza.it/"
   },
   {
    "nome": "Danila Parrucchiere",
@@ -314789,8 +315839,11 @@
    "categoria": "Parrocchie e realtà religiose",
    "sottocategoria": "oratorio, Caritas, gruppi religiosi",
    "ambito": "di quartiere",
-   "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (associazione di promozione sociale) di Esquilino-Termini (Municipio I).",
-   "attivita": [],
+   "descrizione_breve": "Oratorio, Caritas, gruppi religiosi (associazione di promozione sociale) di Esquilino-Termini (Municipio I): religione e spiritualità, storia e memoria.",
+   "attivita": [
+    "religione e spiritualità",
+    "storia e memoria"
+   ],
    "pubblico": [],
    "municipio": "I",
    "zona": "esquilino-termini",
@@ -314926,8 +315979,8 @@
    "pubblico": [
     "giovani"
    ],
-   "municipio": null,
-   "zona": null,
+   "municipio": "II",
+   "zona": "nomentano",
    "eventi": 1,
    "canali": {
     "sito": "http://www.docomomoitalia.it/",
@@ -315209,7 +316262,7 @@
    ],
    "pubblico": [],
    "municipio": "IV",
-   "zona": null,
+   "zona": "pietralata",
    "eventi": 1,
    "canali": {
     "sito": "https://sociologicamente.it/lo-sviluppo-di-unetica-della-sostenibilita-lecocene/",
@@ -315682,7 +316735,7 @@
    ],
    "pubblico": [],
    "municipio": "II",
-   "zona": null,
+   "zona": "san-lorenzo",
    "eventi": 1,
    "canali": {
     "sito": "https://www.cnr.it/en/international-scientific-organization/60/euchems-european-chemical-society",
@@ -316262,6 +317315,32 @@
    "diffusione_prova": "https://biciliberatutti.org/"
   },
   {
+   "nome": "FIAB ROMA RUOTALIBERA",
+   "id": "S-EV-1666",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale di Ostiense-San Paolo (Municipio VIII): laboratori e corsi.",
+   "attivita": [
+    "laboratori e corsi"
+   ],
+   "pubblico": [],
+   "municipio": "VIII",
+   "zona": "ostiense-san-paolo",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://ruotalibera.org/",
+    "facebook": "https://www.facebook.com/fiabromaruotalibera",
+    "instagram": "https://www.instagram.com/fiab.roma.ruotalibera"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Fipsas Federazione Italiana Pesca Sportiva Attività Subacquee Nuoto Pinnato",
    "id": "S-EV-1604",
    "categoria": "Sport e movimento",
@@ -316354,7 +317433,7 @@
     "persone con disabilità"
    ],
    "municipio": "IX",
-   "zona": null,
+   "zona": "eur",
    "eventi": 1,
    "canali": {
     "sito": "https://fmsi.ngo/",
@@ -316481,8 +317560,8 @@
     "salute e benessere"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "II",
+   "zona": "trieste-salario",
    "eventi": 1,
    "canali": {
     "instagram": "https://www.instagram.com/fondazionedignitascurae"
@@ -317606,6 +318685,32 @@
    "diffusione_prova": "https://giannipinnizzotto.it/"
   },
   {
+   "nome": "Gran Ballo Viennese delle Debuttanti di Roma",
+   "id": "S-EV-1985",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale: danza.",
+   "attivita": [
+    "danza"
+   ],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.granballodelledebuttantiroma.com/",
+    "facebook": "https://www.facebook.com/granballoviennese",
+    "instagram": "https://www.instagram.com/granballodelledebuttantiroma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
    "nome": "Gran Tour Perugia",
    "id": "S-EV-1986",
    "categoria": "Turismo e visite guidate",
@@ -317863,35 +318968,6 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
-  },
-  {
-   "nome": "Guida Turistica Roma - Benedetta Bottone",
-   "id": "S-EV-2016",
-   "categoria": "Turismo e visite guidate",
-   "sottocategoria": "visite guidate e turismo",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Visite guidate e turismo di Nomentano (Municipio II): ambiente e natura, visite e passeggiate.",
-   "attivita": [
-    "ambiente e natura",
-    "visite e passeggiate"
-   ],
-   "pubblico": [],
-   "municipio": "II",
-   "zona": "nomentano",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://guidaturisticaromabenedettabottone.com/",
-    "facebook": "https://www.facebook.com/benedettabottoneroma",
-    "instagram": "https://www.instagram.com/guida.roma.benedettabottone",
-    "youtube": "https://www.youtube.com/@GuidaRoma-BenedettaBottone",
-    "tiktok": "https://www.tiktok.com/@guidabenedettabottone"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://guidaturisticaromabenedettabottone.com/"
   },
   {
    "nome": "Halloween Roma",
@@ -318212,30 +319288,6 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://assomusica.org/"
-  },
-  {
-   "nome": "I Concerti nel Parco",
-   "id": "S-FE-0183",
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "associazione",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione: musica.",
-   "attivita": [
-    "musica"
-   ],
-   "pubblico": [],
-   "municipio": null,
-   "zona": null,
-   "eventi": 1,
-   "canali": {
-    "facebook": "https://www.facebook.com/ConcertiNelParco"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "termini della piattaforma",
-   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "I Love Casalotti",
@@ -318667,32 +319719,6 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
-  },
-  {
-   "nome": "Il talento di Roma",
-   "id": "S-EV-0717",
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "ente del terzo settore",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale: scienza e tecnologia.",
-   "attivita": [
-    "scienza e tecnologia"
-   ],
-   "pubblico": [],
-   "municipio": "X",
-   "zona": null,
-   "eventi": 1,
-   "canali": {
-    "sito": "http://www.iltalentodiroma.com/",
-    "facebook": "https://www.facebook.com/iltalentodiroma",
-    "instagram": "https://www.instagram.com/iltalentodiroma"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://iltalentodiroma.com/"
   },
   {
    "nome": "Il Teatro di Alice",
@@ -319131,6 +320157,60 @@
    "diffusione_prova": "https://ipssartorcarbone.edu.it/"
   },
   {
+   "nome": "Isla Ng Bata - L'Isola dei Bambini onlus",
+   "id": "S-EV-2142",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "volontariato e assistenza",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Volontariato e assistenza (organizzazione di volontariato) di Prenestino (Municipio V): solidarietà e sociale; per bambini e famiglie.",
+   "attivita": [
+    "solidarietà e sociale"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "V",
+   "zona": "prenestino",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.islangbata.it/",
+    "facebook": "https://www.facebook.com/islangbata",
+    "instagram": "https://www.instagram.com/isla_ng_bata"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Istituto Cristo Re",
+   "id": "S-EV-1733",
+   "categoria": "Scuole, università e formazione",
+   "sottocategoria": "scuola o università",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Scuola o università (ente del terzo settore) di Trieste-Salario (Municipio II); per bambini e famiglie.",
+   "attivita": [],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "II",
+   "zona": "trieste-salario",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.fondazionecristore.org/",
+    "facebook": "https://www.facebook.com/istitutocristoreroma",
+    "instagram": "https://www.instagram.com/istitutocristore"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
    "nome": "Istituto Maestre Pie dell'Addolorata Roma",
    "id": "S-EV-1801",
    "categoria": "Scuole, università e formazione",
@@ -319412,11 +320492,11 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona (nome e cognome)",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (nome e cognome).",
+   "descrizione_breve": "Persona (nome e cognome) attivo a Esquilino-Termini (Municipio I).",
    "attivita": [],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "I",
+   "zona": "esquilino-termini",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/JapanspecialistIT/"
@@ -319932,36 +321012,6 @@
    "diffusione_prova": "https://lllitalia.org/"
   },
   {
-   "nome": "La Locanda dei Girasoli",
-   "id": "S-EV-0003",
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "ente del terzo settore",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Ente del terzo settore attivo a Monteverde (Municipio XII): arte e mostre, libri e letture; per bambini e famiglie, giovani.",
-   "attivita": [
-    "arte e mostre",
-    "libri e letture"
-   ],
-   "pubblico": [
-    "bambini e famiglie",
-    "giovani",
-    "persone con disabilità"
-   ],
-   "municipio": "XII",
-   "zona": "monteverde",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://www.lalocandadeigirasoli.it/",
-    "facebook": "https://www.facebook.com/LocandadeiGirasoli"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://lalocandadeigirasoli.it/"
-  },
-  {
    "nome": "La Papirusa Tango",
    "id": "S-EV-2248",
    "categoria": "Associazioni culturali e artistiche",
@@ -320221,30 +321271,6 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://lechiavidoro-roma.org/"
-  },
-  {
-   "nome": "Le Nuove Chimere CooperativaSociale",
-   "id": null,
-   "categoria": "Persone (artisti, autori, guide)",
-   "sottocategoria": "persona",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Persona: scienza e tecnologia.",
-   "attivita": [
-    "scienza e tecnologia"
-   ],
-   "pubblico": [],
-   "municipio": null,
-   "zona": null,
-   "eventi": 1,
-   "canali": {
-    "facebook": "https://www.facebook.com/lenuovechimere.cooperativasociale.1"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "raccolta automatica vietata",
-   "diffusione_prova": "https://lenuovechimere.it/robots.txt"
   },
   {
    "nome": "Le Vibrazioni Fanclub",
@@ -321134,9 +322160,10 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione di promozione sociale di Parioli-Flaminio (Municipio II): musica, incontri e dibattiti; per donne.",
+   "descrizione_breve": "Associazione di promozione sociale di Parioli-Flaminio (Municipio II): musica, storia e memoria, incontri e dibattiti; per donne.",
    "attivita": [
     "musica",
+    "storia e memoria",
     "incontri e dibattiti"
    ],
    "pubblico": [
@@ -321163,8 +322190,11 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione attivo a Settecamini.",
-   "attivita": [],
+   "descrizione_breve": "Associazione attivo a Settecamini: incontri e dibattiti, scienza e tecnologia.",
+   "attivita": [
+    "incontri e dibattiti",
+    "scienza e tecnologia"
+   ],
    "pubblico": [],
    "municipio": "IV",
    "zona": "settecamini",
@@ -321323,14 +322353,14 @@
    "categoria": "Non classificato",
    "sottocategoria": null,
    "ambito": "di quartiere",
-   "descrizione_breve": "Non classificato: musica, sport e movimento.",
+   "descrizione_breve": "Non classificato attivo a EUR (Municipio IX): musica, sport e movimento.",
    "attivita": [
     "musica",
     "sport e movimento"
    ],
    "pubblico": [],
    "municipio": "IX",
-   "zona": null,
+   "zona": "eur",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/fmpezzali/"
@@ -321728,15 +322758,15 @@
    "categoria": "Persone (artisti, autori, guide)",
    "sottocategoria": "persona",
    "ambito": "di quartiere",
-   "descrizione_breve": "Persona (associazione di promozione sociale): musica, teatro, laboratori e corsi.",
+   "descrizione_breve": "Persona (associazione di promozione sociale) attivo a Testaccio (Municipio I): musica, teatro, laboratori e corsi.",
    "attivita": [
     "musica",
     "teatro",
     "laboratori e corsi"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "I",
+   "zona": "testaccio",
    "eventi": 1,
    "canali": {
     "sito": "http://www.morethangospel.it/",
@@ -321808,47 +322838,18 @@
    "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
   },
   {
-   "nome": "Municipio Roma III",
-   "id": "S-FE-0397",
-   "categoria": "Istituzioni pubbliche",
-   "sottocategoria": "Municipio o Comune",
-   "ambito": "cittadino",
-   "descrizione_breve": "Municipio o Comune con sede a Bufalotta (Municipio III): partecipazione civica; per bambini e famiglie.",
-   "attivita": [
-    "partecipazione civica"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "III",
-   "zona": "bufalotta",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://www.comune.roma.it/web/it/municipio-iii.page",
-    "facebook": "https://www.facebook.com/MunicipioRomaIIIOfficialPage",
-    "instagram": "https://www.instagram.com/municipio_roma_iii",
-    "x": "https://x.com/roma"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
-  },
-  {
    "nome": "Municipio Roma IV",
    "id": null,
    "categoria": "Istituzioni pubbliche",
    "sottocategoria": "Municipio o Comune",
    "ambito": "cittadino",
-   "descrizione_breve": "Municipio o Comune: partecipazione civica.",
+   "descrizione_breve": "Municipio o Comune: laboratori e corsi.",
    "attivita": [
-    "partecipazione civica"
+    "laboratori e corsi"
    ],
    "pubblico": [],
-   "municipio": "VII",
-   "zona": "cinecitta",
+   "municipio": null,
+   "zona": null,
    "eventi": 1,
    "canali": {
     "sito": "https://www.comune.roma.it/web/it/municipio-iv.page",
@@ -322000,33 +323001,6 @@
    "diffusione_prova": "https://direzionemuseiroma.cultura.gov.it/"
   },
   {
-   "nome": "Musica Del Vivo",
-   "id": null,
-   "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "associazione culturale",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale (ente del terzo settore) di Aurelio (Municipio XIII): teatro, musica, laboratori e corsi.",
-   "attivita": [
-    "teatro",
-    "musica",
-    "laboratori e corsi"
-   ],
-   "pubblico": [],
-   "municipio": "XIII",
-   "zona": "aurelio",
-   "eventi": 1,
-   "canali": {
-    "sito": "https://www.musicadelvivo.it/",
-    "instagram": "https://www.instagram.com/musica.del.vivo"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://musicadelvivo.it/"
-  },
-  {
    "nome": "MusicAdesso Scuola di Musica",
    "id": "S-EV-2526",
    "categoria": "Associazioni culturali e artistiche",
@@ -322109,31 +323083,6 @@
    "diffusione_prova": "https://rocchettidanza.it/"
   },
   {
-   "nome": "Nederlandse School Rome - 't Kofschip",
-   "id": "S-EV-0005",
-   "categoria": "Scuole, università e formazione",
-   "sottocategoria": "scuola o università",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Scuola o università (associazione di promozione sociale).",
-   "attivita": [],
-   "pubblico": [],
-   "municipio": null,
-   "zona": null,
-   "eventi": 1,
-   "canali": {
-    "sito": "https://tkofschip.org/",
-    "facebook": "https://www.facebook.com/KofschipRome",
-    "instagram": "https://www.instagram.com/tkofschip_rome",
-    "youtube": "https://youtube.com/@nederlandseschooltkofschip3546"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://tkofschip.org/"
-  },
-  {
    "nome": "Neroelettrico",
    "id": "S-EV-2547",
    "categoria": "Persone (artisti, autori, guide)",
@@ -322206,6 +323155,30 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Neworld Associazione Culturale",
+   "id": "S-EV-2553",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale attivo a Esquilino-Termini (Municipio I).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "esquilino-termini",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.antoniettacampilongo.it/",
+    "facebook": "https://www.facebook.com/nwart.it",
+    "instagram": "https://www.instagram.com/neworld.associazioneculturale"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
   },
   {
    "nome": "Nicolangiolo Zoppo",
@@ -322389,6 +323362,56 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://nuovaacropoli.it/"
+  },
+  {
+   "nome": "Nuova Consonanza",
+   "id": "S-EV-2581",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "ente del terzo settore",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Ente del terzo settore: musica, incontri e dibattiti.",
+   "attivita": [
+    "musica",
+    "incontri e dibattiti"
+   ],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.nuovaconsonanza.it/",
+    "facebook": "https://www.facebook.com/nuova.consonanza",
+    "instagram": "https://www.instagram.com/nuovaconsonanza"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
+   "nome": "Nuovo Teatro San Paolo",
+   "id": "S-FE-0894",
+   "categoria": "Teatri, cinema e spazi di spettacolo",
+   "sottocategoria": "teatro",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Teatro attivo a Ostiense-San Paolo (Municipio VIII).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "VIII",
+   "zona": "ostiense-san-paolo",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://nuovoteatrosanpaolo.it",
+    "facebook": "https://www.facebook.com/nuovotsp"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Nuvole e Magia - Centro Formazione e Studi delle Arti dello Spettacolo",
@@ -322983,6 +324006,28 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://parrocchiasangirolamoemiliani.com/"
+  },
+  {
+   "nome": "Parrocchia Sacri Cuori di Gesù e Maria Cattedrale",
+   "id": "S-FE-0470",
+   "categoria": "Parrocchie e realtà religiose",
+   "sottocategoria": "parrocchia",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Parrocchia attivo a La Storta (Municipio XV).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "XV",
+   "zona": "la-storta",
+   "eventi": 1,
+   "canali": {
+    "facebook": "https://www.facebook.com/Sacricuorilastorta"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Parrocchia San Giuda Taddeo Apostolo",
@@ -323768,14 +324813,14 @@
    "categoria": "Turismo e visite guidate",
    "sottocategoria": "turismo",
    "ambito": "di quartiere",
-   "descrizione_breve": "Turismo: visite e passeggiate, cinema.",
+   "descrizione_breve": "Turismo attivo a Parioli-Flaminio (Municipio II): visite e passeggiate, cinema.",
    "attivita": [
     "visite e passeggiate",
     "cinema"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "II",
+   "zona": "parioli-flaminio",
    "eventi": 1,
    "canali": {
     "sito": "http://www.prolocoroma.it/",
@@ -324090,32 +325135,27 @@
    "diffusione_prova": "https://quadodo.it/"
   },
   {
-   "nome": "Quantum gnosis ATM",
-   "id": "S-EV-2824",
+   "nome": "Quartiere Axa",
+   "id": "S-FE-1068",
    "categoria": "Associazioni culturali e artistiche",
-   "sottocategoria": "associazione culturale",
+   "sottocategoria": "associazione",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale attivo a Monteverde (Municipio XII): incontri e dibattiti.",
-   "attivita": [
-    "incontri e dibattiti"
-   ],
+   "descrizione_breve": "Associazione attivo a Casal Palocco (Municipio X).",
+   "attivita": [],
    "pubblico": [],
-   "municipio": "XII",
-   "zona": "monteverde",
+   "municipio": "X",
+   "zona": "casal-palocco",
    "eventi": 1,
    "canali": {
-    "sito": "http://atmgnosi.org/",
-    "facebook": "https://www.facebook.com/quantum.gnosis.ATM",
-    "instagram": "https://www.instagram.com/nicolaferuglio",
-    "youtube": "https://www.youtube.com/@ATMItalia",
-    "tiktok": "https://www.tiktok.com/@nicolaferuglio"
+    "sito": "https://residenti.quartiereaxa",
+    "facebook": "https://www.facebook.com/residenti.quartiereaxa/"
    },
    "contatti": {
     "email": false,
     "telefono": false
    },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://atmgnosi.org/"
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Rachele Luciani",
@@ -325878,6 +326918,29 @@
    "diffusione_prova": "https://socialtrek.it/"
   },
   {
+   "nome": "Società Cooperativa Sociale \"L'Isola che c'è\"",
+   "id": null,
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "cooperativa o impresa sociale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Cooperativa o impresa sociale.",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.isolachecesociale.it/",
+    "facebook": "https://www.facebook.com/isolachecescs"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
+  },
+  {
    "nome": "Società Geografica Italiana",
    "id": "S-EV-3034",
    "categoria": "Terzo settore sociale e sanitario",
@@ -326639,6 +327702,36 @@
    "diffusione_prova": "https://ospedaliere.it/"
   },
   {
+   "nome": "SuperAbile",
+   "id": "S-EV-3126",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "terzo settore sociale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione di promozione sociale: solidarietà e sociale, partecipazione civica; per bambini e famiglie, persone con disabilità.",
+   "attivita": [
+    "solidarietà e sociale",
+    "partecipazione civica"
+   ],
+   "pubblico": [
+    "bambini e famiglie",
+    "persone con disabilità"
+   ],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "sito": "https://superabile.net/",
+    "facebook": "https://www.facebook.com/SuperAbileAPS",
+    "instagram": "https://www.instagram.com/superabileaps"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://superabile.net/"
+  },
+  {
    "nome": "SuperCat Show Mostra Felina",
    "id": null,
    "categoria": "Non classificato",
@@ -327382,13 +328475,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "associazione culturale",
    "ambito": "di quartiere",
-   "descrizione_breve": "Associazione culturale: musica.",
+   "descrizione_breve": "Associazione culturale attivo a Portuense (Municipio XI): musica.",
    "attivita": [
     "musica"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "XI",
+   "zona": "portuense",
    "eventi": 1,
    "canali": {
     "facebook": "https://www.facebook.com/therifflivemusicroma"
@@ -327689,6 +328782,30 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://trekly.it/"
+  },
+  {
+   "nome": "TRICOSTARC ETS",
+   "id": "S-EV-3244",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "associazione culturale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione culturale (ente del terzo settore) di Trieste-Salario (Municipio II).",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": "II",
+   "zona": "trieste-salario",
+   "eventi": 1,
+   "canali": {
+    "sito": "http://www.tricostarc.it/",
+    "facebook": "https://www.facebook.com/tricostarc",
+    "instagram": "https://www.instagram.com/tricostarc"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "triphe.it",
@@ -328363,6 +329480,28 @@
    },
    "diffusione": "non verificabile",
    "diffusione_prova": null
+  },
+  {
+   "nome": "verdeinscena",
+   "id": null,
+   "categoria": "Non classificato",
+   "sottocategoria": null,
+   "ambito": "di quartiere",
+   "descrizione_breve": "Non classificato.",
+   "attivita": [],
+   "pubblico": [],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "facebook": "https://www.facebook.com/verdeinscena"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "termini della piattaforma",
+   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Viaggi del Gentile",

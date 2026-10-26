@@ -113,12 +113,12 @@ nei post (186 pagine con post datati di annuncio negli ultimi sei mesi) o sul si
 pagine ne espongono uno, 277 hanno una sezione eventi, 83 mostrano date future). Le 275
 pagine dormienti restano fuori e si rileggono a marzo 2027.
 
-L'analisi dei promotori del 25 ottobre (`promotori.md`) dice chi organizza i 2.384 eventi futuri
-della pagina «Eventi dei quartieri»: 1.206 promotori in 17 categorie, 1.027 con una voce nello
+L'analisi dei promotori del 25 ottobre (`promotori.md`. rigenerata il 26) dice chi organizza i 2.563 eventi
+futuri della pagina «Eventi dei quartieri»: 1.241 promotori in 17 categorie. 1.061 con una voce nello
 schedario. Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
 nelle 41 pagine deboli (geografia delle zone urbanistiche); musei, grandi istituzioni e
 intermediari quasi solo nel centro. Sulla diffusione dei propri contenuti
-cinque fonti vietano la riproduzione e due la raccolta automatica; nessuna clausola letta vieta di
+cinque fonti vietano la riproduzione e una la raccolta automatica; nessuna clausola letta vieta di
 dare notizia di un evento (rapporto `docs/sources/FONTI_EVENTI_STATO_2026-10-24.md`, §1 nonies).
 
 ## Cosa manca, deliberatamente
