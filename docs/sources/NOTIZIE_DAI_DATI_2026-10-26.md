@@ -104,20 +104,38 @@ vanno pubblicate senza la coda manuale.
 
 ## 3. Chi produce le notizie
 
-194 fonti hanno almeno una notizia confermata. Per 176 di loro l'esito degli eventi era stato nullo: nessun evento fra quelli
-raccolti a ottobre. Le fonti scartate per gli eventi sono proprio dove stanno le notizie.
+Le fonti scartate per gli eventi e quelle senza notizie non coincidono. «Con eventi» vuol dire che la fonte ha dato almeno un
+evento alla pagina «Eventi dei quartieri», come promotore o nello schedario. L'incrocio sulle 2.820 fonti rilette (pagine
+Facebook e siti):
 
-| Tipo di fonte | Fonti | Notizie confermate |
+| | con notizie confermate | solo notizie da vedere | nessuna notizia | totale |
+|---|---|---|---|---|
+| fonti con eventi | 91 | 82 | 749 | 922 |
+| fonti senza eventi | 111 | 127 | 1.660 | 1.898 |
+
+Che cosa dice:
+- **La maggior parte delle fonti scartate per gli eventi è vuota anche di notizie:** 1.660 su 1.898, l'87%. Sono pagine con
+  post di promozione, nazionali o di altre città, o ferme.
+- **Una parte delle scartate invece porta notizie:** 111 con notizie confermate e 127 con notizie da vedere.
+- **Metà delle notizie confermate viene da fonti che non hanno dato eventi:** 217 su 402, da 111 organizzazioni sulle 194 che
+  ne producono. L'altra metà viene da fonti che danno anche eventi.
+- **I comitati di quartiere sono il caso più netto:** 36 comitati su 52 non hanno dato eventi, ma portano 91 delle loro 136
+  notizie.
+- **Il confronto riguarda solo le fonti di cui avevamo post o feed.** Gli enti senza pagina o con la pagina non accessibile
+  non si potevano rileggere.
+
+| Tipo di fonte | Organizzazioni (di cui senza eventi) | Notizie confermate (di cui da fonti senza eventi) |
 |---|---|---|
-| comitati di quartiere e di cittadini | 52 | 136 |
-| associazioni per il verde e l'ambiente | 12 | 39 |
-| municipi ed eletti (pagine ufficiali, sindaco, assessori, presidenti) | 10 | 30 |
-| enti pubblici e culturali | 7 | 14 |
-| pagine di cittadini sui trasporti | 1 | 8 |
-| parrocchie e realtà religiose | 4 | 6 |
-| scuole | 2 | 2 |
-| sport | 1 | 3 |
-| altre associazioni e realtà sociali (centri anziani, reti di accoglienza, associazioni di zona) | 105 | 164 |
+| comitati di quartiere e di cittadini | 52 (36) | 136 (91) |
+| associazioni per il verde e l'ambiente | 12 (8) | 39 (18) |
+| municipi ed eletti (pagine ufficiali, sindaco, assessori, presidenti) | 10 (4) | 30 (17) |
+| enti pubblici e culturali | 7 (0) | 14 (0) |
+| pagine di cittadini sui trasporti | 1 (0) | 8 (0) |
+| parrocchie e realtà religiose | 4 (0) | 6 (0) |
+| scuole | 2 (0) | 2 (0) |
+| sport | 1 (0) | 3 (0) |
+| altre associazioni e realtà sociali (centri anziani, reti di accoglienza, associazioni di zona) | 105 (63) | 164 (91) |
+| totale | 194 (111) | 402 (217) |
 
 Le fonti più ricche, per tipo:
 - **Comitati di quartiere.**

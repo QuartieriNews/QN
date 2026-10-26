@@ -46,6 +46,17 @@ def geo(scheda,meta):
     if scheda.get('livello_geo') in ('citta',): return None,None,'tutta la città'
     if meta and meta.get('zona'): return meta['zona'],meta.get('municipio'),'sede della fonte'
     return None,(meta or {}).get('municipio'),'non assegnata'
+# ---- eventi: la fonte ha dato almeno un evento alla pagina (promotore) o ha eventi nello schedario ----
+def _fbk(u):
+    m=re.search(r'facebook\.com/(?:profile\.php\?id=(\d+)|people/[^/]+/(\d+)|(?:pg/)?([^/?#]+))',str(u or ''),re.I)
+    return (m.group(1) or m.group(2) or m.group(3)).lower() if m else None
+def _host(u):
+    m=re.match(r'(?:https?://)?(?:www\.)?([^/\s?#:]+)',str(u or '').strip().lower()); return m.group(1) if m else None
+PROM=set()
+for p in json.load(open(f'{S}/promotori/promotori_finale.json')):
+    if _fbk(p.get('facebook')): PROM.add('fb:'+_fbk(p['facebook']))
+    if _host(p.get('sito')): PROM.add('sito:'+_host(p['sito']))
+def con_eventi(it): return it['fonte'] in PROM or ((it.get('meta') or {}).get('eventi') or 0)>0
 # ---- righe ----
 gruppo_di={}
 for k,gr in enumerate(G):
@@ -62,7 +73,7 @@ for i,b in B.items():
                   'punteggio':(v or {}).get('punteggio_finale',b['punteggio']),'sensibile':b['sensibile'],'motivo_sensibile':b['motivo_sensibile'],
                   'sintesi':(v or {}).get('sintesi_finale') or b['sintesi'],'motivo_verifica':(v or {}).get('motivo'),'fonte':it['nome_fonte'],'canale':it['tipo'],'lotto':it['lotto'],
                   'link':it.get('url') or it.get('feed'),'fonte_id':m.get('id'),'tipo_fonte':m.get('categoria') or m.get('tipo'),'eventi_fonte':m.get('eventi'),
-                  'registro':m.get('registro'),'censimento':m.get('verdetto'),'gruppo':gruppo_di.get(i)})
+                  'registro':m.get('registro'),'censimento':m.get('verdetto'),'gruppo':gruppo_di.get(i),'fonte_key':it['fonte'],'con_eventi':con_eventi(it)})
 json.dump({'righe':righe,'A':A,'gruppi':G},open(f'{S}/notizie/sintesi.json','w'),ensure_ascii=False)
 conf=[r for r in righe if r['stato']=='confermata']
 # fatti unici: un gruppo di doppioni conta una volta
@@ -86,13 +97,25 @@ json.dump(st,open(f'{S}/notizie/numeri.json','w'),ensure_ascii=False,indent=1)
 print(json.dumps(st,ensure_ascii=False,indent=1)[:3000])
 # ---- fonti di notizie e pagine ----
 utili=[r for r in righe if r['stato'] in ('confermata','scheda senza verifica')]
-F=collections.defaultdict(lambda:{'confermate':0,'utili':0,'blocchi':collections.Counter(),'temi':collections.Counter(),'meta':None,'canale':None})
+F=collections.defaultdict(lambda:{'confermate':0,'utili':0,'blocchi':collections.Counter(),'temi':collections.Counter(),'meta':None,'canale':None,'nome':None})
 for r in utili:
-    f=F[(r['fonte'],r['fonte_id'])]; f['utili']+=1; f['confermate']+=r['stato']=='confermata'; f['blocchi'][r['blocco']]+=1; f['temi'][r['tema']]+=1
-    f['meta']=(r['tipo_fonte'],r['eventi_fonte'],r['registro'],r['censimento']); f['canale']=r['canale']
-fonti=sorted(F.items(),key=lambda kv:(-kv[1]['confermate'],-kv[1]['utili'],kv[0][0].lower()))
+    f=F[(r['fonte_key'],r['fonte_id'])]; f['utili']+=1; f['confermate']+=r['stato']=='confermata'; f['blocchi'][r['blocco']]+=1; f['temi'][r['tema']]+=1
+    f['meta']=(r['tipo_fonte'],r['con_eventi'],r['registro'],r['censimento']); f['canale']=r['canale']; f['nome']=r['fonte']
+fonti=sorted(F.items(),key=lambda kv:(-kv[1]['confermate'],-kv[1]['utili'],(kv[1]['nome'] or '').lower()))
 st['fonti_con_notizie']=len(fonti); st['fonti_con_confermate']=sum(1 for _,f in fonti if f['confermate'])
-st['fonti_senza_eventi_con_notizie']=sum(1 for _,f in fonti if f['confermate'] and not (f['meta'][1] or 0))
+st['fonti_senza_eventi_con_notizie']=sum(1 for _,f in fonti if f['confermate'] and not f['meta'][1])
+# incrocio eventi / notizie su tutte le fonti rilette (smistate)
+tutte=collections.defaultdict(lambda:[False,0,0])
+for i in A:
+    it=C.get(i)
+    if not it: continue
+    t=tutte[it['fonte']]; t[0]=con_eventi(it)
+for r in righe:
+    t=tutte[r['fonte_key']]; t[1]+=r['stato']=='confermata'; t[2]+=r['stato'] in ('confermata','scheda senza verifica')
+X=collections.Counter()
+for k,(ev,cf,ut) in tutte.items(): X[('con eventi' if ev else 'senza eventi','con notizie confermate' if cf else ('solo notizie da vedere' if ut else 'nessuna notizia'))]+=1
+st['fonti_rilette']=len(tutte); st['incrocio_eventi_notizie']={f'{a} · {b}':v for (a,b),v in sorted(X.items())}
+st['notizie_confermate_da_fonti_senza_eventi']=sum(1 for r in conf if not r['con_eventi'])
 P=collections.defaultdict(lambda:[0,0])
 for r in utili:
     if r['zona']: P[r['zona']][0]+=r['stato']=='confermata'; P[r['zona']][1]+=1
@@ -121,10 +144,10 @@ head(ws,['data','blocco','tema','pagina QN','municipio','luogo','sintesi (parole
 for r in sorted([r for r in righe if r['stato']!='confermata' and r['blocco']!='scarta'],key=lambda r:(-r['punteggio'],r['data'] or ''),reverse=False):
     ws.append([r['data'],r['blocco'],r['tema'],r['pagina'],r['municipio'],r['luogo'],r['sintesi'],r['punteggio'],r['attualita'],r['origine'],'sì' if r['sensibile'] else None,r['fonte'],r['canale'],r['link'],r['stato'],r['id']])
 ws=wb.create_sheet('Fonti di notizie')
-head(ws,['fonte','id schedario','tipo o categoria','canale','notizie confermate','notizie utili','blocchi','temi principali','eventi a ottobre','registro','censimento'],[40,13,30,18,10,10,40,50,9,14,14])
-for (nome,fid),f in fonti:
+head(ws,['fonte','id schedario','tipo o categoria','canale','notizie confermate','notizie utili','blocchi','temi principali','ha dato eventi alla pagina','registro','censimento'],[40,13,30,18,10,10,40,50,11,14,14])
+for (key,fid),f in fonti:
     t,ev,reg,cen=f['meta']
-    ws.append([nome,fid,t,f['canale'],f['confermate'],f['utili'],', '.join(f'{a} {b}' for a,b in f['blocchi'].most_common()),', '.join(f'{a} {b}' for a,b in f['temi'].most_common(3)),ev or 0,reg,cen])
+    ws.append([f['nome'],fid,t,f['canale'],f['confermate'],f['utili'],', '.join(f'{a} {b}' for a,b in f['blocchi'].most_common()),', '.join(f'{a} {b}' for a,b in f['temi'].most_common(3)),'sì' if ev else 'no',reg,cen])
 ws=wb.create_sheet('Per pagina QN')
 head(ws,['pagina QN','id','municipio','notizie confermate','notizie utili'],[26,26,9,12,12])
 for z,zz in sorted(PZ.items(),key=lambda kv:kv[1]['name_display']):
@@ -158,7 +181,8 @@ for l in ["Notizie di quartiere dai dati già raccolti (rilettura a ritroso, 26 
           "Blocchi: Notizie di quartiere, Istituzionale, Servizi e avvisi utili, Segnalazioni e temi dei residenti. Gli eventi restano nel loro blocco.",
           "La sintesi è scritta da noi e non riproduce il testo della fonte; il link porta alla fonte. Prima di pubblicare vanno applicate le regole del blocco (DEC-108 per la cronaca, nomi, minori, presunzione di innocenza).",
           "Geografia: pagina QN dal luogo del fatto quando contiene un toponimo del gazetteer, altrimenti dalla sede della fonte (colonna «geografia da»). La sede della fonte è un'ipotesi da verificare: un eletto o un ente cittadino può parlare di un luogo lontano dalla sua sede.",
-          f"Chi le produce: {st['fonti_con_confermate']} fonti con notizie confermate; {st['fonti_senza_eventi_con_notizie']} di queste non avevano dato nessun evento alla pagina degli eventi. Le voci sensibili (minori, salute, vittime, persone nominate) sono segnate: {st['sensibili_confermate']} fra le confermate.",
+          f"Chi le produce: {st['fonti_con_confermate']} fonti (pagine o siti) con notizie confermate; {st['fonti_senza_eventi_con_notizie']} di queste non hanno dato nessun evento alla pagina degli eventi, e da loro vengono {st['notizie_confermate_da_fonti_senza_eventi']} delle {st['confermate']} notizie. Le voci sensibili (minori, salute, vittime, persone nominate) sono segnate: {st['sensibili_confermate']} fra le confermate.",
+          "Incrocio su tutte le fonti rilette (eventi / notizie): " + "; ".join(f"{k}: {v}" for k,v in st['incrocio_eventi_notizie'].items()) + ".",
           "Esclusi a monte: testate e media; nello smistamento i rilanci di articoli di giornale senza fatti propri (DEC-108 resta la regola per la cronaca di stampa).",
           "Fogli: Notizie confermate (un fatto per riga), Da vedere (schede non verificate o declassate), Fonti di notizie, Per pagina QN, Numeri."]:
     ws.append([l])

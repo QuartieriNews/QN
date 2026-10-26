@@ -549,7 +549,8 @@ notizie per gli altri blocchi del sito.
 
 - 402 notizie confermate, pari a 347 fatti; 237 sono di ottobre.
 - 75 pagine QN su 89 ne hanno almeno una.
-- 194 fonti le producono; 176 di queste non avevano dato nessun evento.
+- 194 organizzazioni le producono. 111 di queste non hanno dato nessun evento alla pagina e portano 217 notizie.
+- Delle 1.898 fonti rilette senza eventi, 1.660 non hanno nemmeno notizie.
 
 Metodo, numeri, fonti e decisione aperta sono in `docs/sources/NOTIZIE_DAI_DATI_2026-10-26.md`. Il foglio con le sintesi
 scritte da noi e il link alla fonte è su Drive.
