@@ -30,12 +30,12 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| Bilet Italia | [eventi della pagina Facebook](https://www.facebook.com/BiletItalia/events) | organizzatore | altro | FB 2 | 0% | — | `S-EV-1118` |
+| Bilet Italia | [pagina eventi del sito](https://biletitalia.com/) · [eventi della pagina Facebook](https://www.facebook.com/BiletItalia/events) | organizzatore | altro | FB 2 | 0% | — | `S-EV-1118` |
 | Nuovo Teatro Orione | [eventi della pagina Facebook](https://www.facebook.com/orioneroma/events) | luogo | teatro | FB 2 | 0% | — | `S-EV-2585` |
 | Via Gennaro Mondaini | — | luogo | altro | FB 2 | 100% | — | `S-EV-3374` |
 | Edarcom Europa Galleria d'Arte Contemporanea | [sito](https://edarcom.it) | luogo | galleria | RT 1 | 100% | — | `S-EV-1525` |
 | Graffiti - Scuola di Fotografia | [pagina eventi del sito](https://graffitiscuola.it/corsi/) · [sito](https://graffitiscuola.it) · [eventi della pagina Facebook](https://www.facebook.com/graffiti.scuoladifotografia/events) | luogo, organizzatore | scuola | FB 1 | 100% | censimento: rientra: calendario sul sito | `S-EV-1984` |
-| Produzioni Teatro Verdi | [pagina Facebook](https://www.facebook.com/people/Produzioni-Teatro-Verdi/61576184594785) | organizzatore | teatro | FB 1 | 0% | — | `S-EV-2782` |
+| Produzioni Teatro Verdi | [pagina eventi del sito](https://www.teatroverdimontecatini.it/programmaLocation.aspx/) · [pagina Facebook](https://www.facebook.com/people/Produzioni-Teatro-Verdi/61576184594785) | organizzatore | teatro | FB 1 | 0% | — | `S-EV-2782` |
 | "Gino Strada" | — | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0769` |
 | "Via Teodoro Mommsen 20" | [sito](https://www.mommsen.edu.it/) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0770` |
 | ADMO-ASSOCIAZIONE DONATORI DI MIDOLLO OSSEO-CELLULE STAMINALI EMOPOIETICHE ETS | [sito](https://admo.it) · [eventi della pagina Facebook](https://www.facebook.com/admo.nazionale/events) | organizzatore | altro | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-0089` |
@@ -65,11 +65,11 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 | COMITATO MURA LATINE | [pagina eventi del sito](https://www.muralatine.it/category/eventi/) · [sito](https://muralatine.it) · [eventi della pagina Facebook](https://www.facebook.com/muralatine/events) | organizzatore | associazione | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-1352` |
 | COMITATO PER IL PARCO DELLA CAFFARELLA ODV | [pagina eventi del sito](https://www.caffarella.it/temi/notizie/) · [sito](https://caffarella.it) · [eventi della pagina Facebook](https://www.facebook.com/parcocaffarella/events) | organizzatore | associazione | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-1354` |
 | Consdircdq | [eventi della pagina Facebook](https://www.facebook.com/consdircdq/events) | soggetto | centro_anziani | — | — | candidata (facebook) | `S-FE-0767` |
-| DanzaSì | [sito](https://danzasi.it) · [eventi della pagina Facebook](https://www.facebook.com/AssDanzaSi/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0865` |
+| DanzaSì | [pagina eventi del sito](http://www.danzasi.it/spettacoli.php/) · [sito](https://danzasi.it) · [eventi della pagina Facebook](https://www.facebook.com/AssDanzaSi/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0865` |
 | Dove siamo – IC Via T. Mommsen, 20 | [sito](https://www.mommsen.edu.it) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0771` |
-| E-cology.it | [sito](https://e-cology.it) · [eventi della pagina Facebook](https://www.facebook.com/ecology.italia/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0901` |
+| E-cology.it | [pagina eventi del sito](https://www.e-cology.it/category/eventi-e-appuntamenti/) · [sito](https://e-cology.it) · [eventi della pagina Facebook](https://www.facebook.com/ecology.italia/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0901` |
 | ELA ITALIA ONLUS | [pagina eventi del sito](https://elaitalia.it/events/?ical=1) · [sito](https://elaitalia.it) | organizzatore | associazione | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-1534` |
-| FEDERAZIONE A.L.I.CE. ITALIA  ODV | [pagina eventi del sito](https://www.aliceitalia.org/notizie/) · [sito](https://aliceitalia.org) · [eventi della pagina Facebook](https://www.facebook.com/AliceItaliaOdv/events) | organizzatore | altro | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-1633` |
+| FEDERAZIONE A.L.I.CE. ITALIA  ODV | [pagina eventi del sito](http://www.aliceitalia.org/notizie/) · [pagina eventi del sito](https://www.aliceitalia.org/notizie/) · [sito](https://aliceitalia.org) | organizzatore | altro | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-1633` |
 | FONDAZIONE EMANUELA PANETTI ETS | [pagina eventi del sito](https://fondazioneemanuelapanetti.org/news/) · [sito](https://fondazioneemanuelapanetti.org) · [eventi della pagina Facebook](https://www.facebook.com/volontariato.roma/events) | organizzatore | associazione | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-1747` |
 | FONDAZIONE NAZIONALE ANFFAS DURANTE E DOPO DI NOI - ENTE FILANTROPICO | [sito](https://fondazionenazionaleanffas.it) · [eventi della pagina Facebook](https://www.facebook.com/fondazione.anffasnaz/events) | organizzatore | associazione | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-1817` |
 | FONDAZIONE ST. PHILIP SCHOOL ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.stphilipschool.it/istituto/news/) · [sito](https://stphilipschool.it) · [eventi della pagina Facebook](https://www.facebook.com/StPhilipSchoolRoma/events) | organizzatore | scuola | — | — | censimento: rientra: eventi futuri su Facebook | `S-EV-1869` |
@@ -85,7 +85,7 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 | Mercato Latino | — | soggetto | mercato_rionale | — | — | candidata (da_trovare) | `S-FE-0774` |
 | meta | — | soggetto | centro_culturale | — | — | candidata (da_trovare) | `S-FE-0951` |
 | MOVIMENTO COMICO APS | [pagina eventi del sito](https://movimentocomico.it/corsi/corsi-teatro-comico/) · [sito](https://movimentocomico.it) · [eventi della pagina Facebook](https://www.facebook.com/ass.cult.movimentocomico/events) | organizzatore | altro | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2486` |
-| murilab | [sito](https://murilab.it) · [eventi della pagina Facebook](https://www.facebook.com/MuriLab.Roma/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0907` |
+| murilab | [pagina eventi del sito](http://www.murilab.it/) · [sito](https://murilab.it) · [eventi della pagina Facebook](https://www.facebook.com/MuriLab.Roma/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0907` |
 | MUSIC THEATRE INTERNATIONAL - M.Th.I. ETS | [sito](https://mthi.it) · [eventi della pagina Facebook](https://www.facebook.com/musictheatreinternational/events) | organizzatore | altro | — | — | censimento: rientra: calendario sul sito | `S-EV-2522` |
 | Musikè | [pagina eventi del sito](https://www.associazione-musike.com/news/) · [sito](https://associazione-musike.com) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneMusike/events) | organizzatore | scuola | — | — | censimento: rientra: pagina eventi sul sito, attività da verificare | `S-EV-2529` |
 | OBIETTIVO SOLIDARIETA' - ASSOCIAZIONE DI VOLONTARIATO - ODV | [pagina eventi del sito](https://www.obiettivosolidarieta.org/iniziative) · [sito](https://obiettivosolidarieta.org) · [eventi della pagina Facebook](https://www.facebook.com/ObiettivoSolidarieta/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2591` |
@@ -93,7 +93,7 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 | parcoappio | [sito](https://parcoappio.it) · [eventi della pagina Facebook](https://www.facebook.com/parcoappio/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0844` |
 | PROVINCIA ITALIANA DELLA CONGREGAZIONE DELLE SUORE OSPEDALIERE DEL SACRO CUORE DI GESU' | [pagina eventi del sito](https://ospedaliere.it/news/) · [sito](https://ospedaliere.it) · [eventi della pagina Facebook](https://www.facebook.com/SuoreOspedaliereProvinciaItaliana/events) | organizzatore | altro | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2806` |
 | Roma Live Arts | — | soggetto | centro_culturale | — | — | candidata (da_trovare) | `S-FE-0956` |
-| SOCIETA' ITALIANA DI PSICOANALISI DELLA RELAZIONE ETS SIPRE ETS | [pagina eventi del sito](https://www.sipreonline.it/formazione/corsi/) · [sito](https://sipreonline.it) · [eventi della pagina Facebook](https://www.facebook.com/sipreonline/events) | organizzatore | scuola | — | — | censimento: rientra: calendario sul sito | `S-EV-3043` |
+| SOCIETA' ITALIANA DI PSICOANALISI DELLA RELAZIONE ETS SIPRE ETS | [pagina eventi del sito](http://www.sipreonline.it/) · [pagina eventi del sito](https://www.sipreonline.it/formazione/corsi/) · [sito](https://sipreonline.it) | organizzatore | scuola | — | — | censimento: rientra: calendario sul sito | `S-EV-3043` |
 | Spazio dell'anima | [sito](http://www.bottegafilosofica.it) | soggetto | centro_culturale | — | — | candidata (sito) | `S-FE-0950` |
 | Spazio il Sole | [sito](https://www.spazioilsole.it/) | soggetto | centro_culturale | — | — | candidata (sito) | `S-FE-0957` |
 | Teatro a vista | [sito](https://www.teatroavista.com/) | soggetto | teatro | — | — | candidata (sito) | `S-FE-0959` |
@@ -189,12 +189,12 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 | Osteria del curato | [sito](https://cdqosteriadelcurato.innovalis.it/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1317` |
 | Parrocchia Cristo Re Morena Sud | Via Scido 130 – Morena ... | [sito](https://cristoremorena.altervista.org) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0490` |
 | Parrocchia di Sant’Anna di Morena (RM) | [sito](http://www.parrocchiasantanna.it/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1345` |
-| Parrocchia S. Girolamo Emiliani | [sito](https://www.parrocchiasangirolamoemiliani.com) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1341` |
+| Parrocchia S. Girolamo Emiliani | [pagina eventi del sito](https://www.parrocchiasangirolamoemiliani.com/news/) · [sito](https://www.parrocchiasangirolamoemiliani.com) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1341` |
 | Parrocchia San Giuseppe Moscati | [sito](https://sangiuseppemoscatiroma.mystrikingly.com/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1342` |
 | Parrocchia San Raimondo Nonnato | [sito](http://www.sanraimondo.org/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1343` |
 | Parrocchia Sant'Andrea Corsini | [sito](http://www.santandreacorsini.it/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1344` |
 | Residenza per anziani | — | soggetto | centro_anziani | — | — | candidata (da_trovare) | `S-FE-1322` |
-| Rinnovo Direttivo e Presidenza del Comitato di Quartiere " ... | [pagina Facebook](https://www.facebook.com/MunicipioRomaVII/posts/rinnovo-direttivo-e-presidenza-del-comitato-di-quartiere-osteria-del-curato-si-r/1194406052864835) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-1328` |
+| Rinnovo Direttivo e Presidenza del Comitato di Quartiere " ... | [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaVII/events) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-1328` |
 
 ## Romanina `romanina`
 
@@ -206,7 +206,7 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 | Comitato di Quartiere La Romanina | [sito](https://pianostrategico.cittametropolitanaroma.it) | soggetto | comitato_quartiere | — | — | candidata (sito) | `S-FE-0522` |
 | Comitato di Quartiere La Romanina – CdQ La Romanina | [sito](https://cdqlaromanina.wordpress.com) | soggetto | comitato_quartiere | — | — | candidata (sito) | `S-FE-0523` |
 | IC Antoniomontinaro | [sito](https://icantoniomontinaro.edu.it) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0524` |
-| La Romanina | [sito](https://centrolaromanina.it) · [eventi della pagina Facebook](https://www.facebook.com/laromaninacc/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0833` |
+| La Romanina | [pagina eventi del sito](https://www.centrolaromanina.it/) · [sito](https://centrolaromanina.it) · [eventi della pagina Facebook](https://www.facebook.com/laromaninacc/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0833` |
 | La Scuola – Istituto Comprensivo Raffaello | [sito](https://www.icraffaello.edu.it) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0525` |
 | Parrocchia Santi Mario e Famiglia Martiri | [sito](https://parrocchiasanmario.it) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0843` |
 | Romanina - Centri Sociali Anziani di Roma | [sito](https://www.16nonni.it) | soggetto | centro_anziani | — | — | candidata (sito) | `S-FE-0519` |
@@ -238,9 +238,9 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| Casa di Cura Villa Fulvia | [sito](https://villafulvia.it) · [eventi della pagina Facebook](https://www.facebook.com/casadicuravillafulvia/events) | organizzatore | parco | FB 3 | 100% | — | `S-EV-1191` |
+| Casa di Cura Villa Fulvia | [pagina eventi del sito](http://www.villafulvia.it/) · [sito](https://villafulvia.it) · [eventi della pagina Facebook](https://www.facebook.com/casadicuravillafulvia/events) | organizzatore | parco | FB 3 | 100% | — | `S-EV-1191` |
 | Via Appia Nuova 901, 00178 Rome, Italy | — | luogo | altro | FB 3 | 100% | — | `S-EV-3326` |
-| Università degli Studi Internazionali di Roma - UNINT | [sito](https://unint.eu) · [eventi della pagina Facebook](https://www.facebook.com/unintuniversita/events) | organizzatore | altro | FB 2 | 100% | — | `S-EV-3304` |
+| Università degli Studi Internazionali di Roma - UNINT | [pagina eventi del sito](http://www.unint.eu/) · [sito](https://unint.eu) · [eventi della pagina Facebook](https://www.facebook.com/unintuniversita/events) | organizzatore | altro | FB 2 | 100% | — | `S-EV-3304` |
 | AAIE Center For Contemporary Art | — | luogo | altro | FB 1 | 100% | — | `S-EV-0044` |
 | Anna Maria Ferrara Tango | [eventi della pagina Facebook](https://www.facebook.com/annamariaferraratango/events) | organizzatore | altro | FB 1 | 100% | — | `S-EV-0234` |
 | Antonella Scidà | — | organizzatore | altro | FB 1 | 0% | — | `S-EV-0248` |
@@ -296,7 +296,7 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 | Chiesa di Santa Giacinta | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1607` |
 | Chiesa Parrocchiale del Santissimo Corpo e Sangue di Cristo | [sito](https://sangaspare.it/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1603` |
 | Chiesa Parrocchiale di S. Gaspare del Bufalo | [sito](http://www.parrocchiasangaspare.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocosangaspare/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1604` |
-| Chiesa Parrocchiale di San Giuda Taddeo Apostolo | [sito](http://www.parrocchiasangiudataddeo.it/) · [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaSanGiuda/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1605` |
+| Chiesa Parrocchiale di San Giuda Taddeo Apostolo | [pagina eventi del sito](http://parrocchiasangiudataddeo.it/) · [sito](http://www.parrocchiasangiudataddeo.it/) · [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaSanGiuda/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1605` |
 | CINECIRCOLI GIOVANILI SOCIOCULTURALI - APS | [pagina eventi del sito](https://www.cgsweb.it/category/news/) · [sito](https://cgsweb.it) · [eventi della pagina Facebook](https://www.facebook.com/cgsaps/events) | organizzatore | associazione | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-1299` |
 | Comitato Salute San Policarpo | [eventi della pagina Facebook](https://www.facebook.com/100076164172190/events) | soggetto | associazione_locale | — | — | tenere (facebook) | `S-FE-0265` |
 | Comitato San Giovanni per Renzi | [sito](https://sangiovanniperrenzi.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/100064785393782/events) | organizzatore | politico | — | — | tenere (facebook) | `S-FE-0322` |
@@ -311,7 +311,7 @@ Fonti: 297 · eventi nel mese: 90. Sigle degli aggregatori: FB Facebook, CR cult
 | Il Filo di Arianna | [sito](http://www.ilfilodiariannaonlus.it/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1593` |
 | IL MELOGRANO APS | [pagina eventi del sito](https://www.melogranoarte.it/corsi/recitazione/) · [sito](https://melogranoarte.it) · [eventi della pagina Facebook](https://www.facebook.com/melogranoarte/events) | organizzatore | scuola | — | — | censimento: rientra: calendario sul sito | `S-EV-2084` |
 | IL SOLE E LA LUNA | [pagina eventi del sito](https://www.ilsoleelalunadanza.it/category/news/) · [sito](https://ilsoleelalunadanza.it) · [eventi della pagina Facebook](https://www.facebook.com/ilcannolosicilianoroma/events) | organizzatore | altro | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-2097` |
-| inITALY | [sito](https://initaly.it) · [eventi della pagina Facebook](https://www.facebook.com/initalyofficial/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0860` |
+| inITALY | [pagina eventi del sito](https://www.initaly.it/it/categoria/eventi/mostre-21/) · [sito](https://initaly.it) · [eventi della pagina Facebook](https://www.facebook.com/initalyofficial/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0860` |
 | KLIMAX THEATRE COMPANY ETS | [pagina eventi del sito](https://www.klimaxtheatre.it/spettacoli/falstaff-e-il-suo-re/) · [sito](https://klimaxtheatre.it) · [eventi della pagina Facebook](https://www.facebook.com/klimaxtheatrecompany/events) | organizzatore | teatro | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-2201` |
 | LA GIUSTA DIFESA APS | [pagina eventi del sito](https://www.lagiustadifesa.it/category/eventi/) · [sito](https://lagiustadifesa.it) · [eventi della pagina Facebook](https://www.facebook.com/LAGIUSTADIFESA/events) | organizzatore | associazione | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-2236` |
 | LOTTOUNICO A.P.S. | [pagina eventi del sito](https://lottounico.it/attivita/) · [sito](https://lottounico.it) · [eventi della pagina Facebook](https://www.facebook.com/LottounicoAps/events) | organizzatore | altro | — | — | censimento: rientra: calendario sul sito | `S-EV-2354` |

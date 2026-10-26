@@ -30,6 +30,11 @@ Rules under test, each named in the check label:
           (a contact is only "sì/no"); a personal profile
           (Facebook profile.php, LinkedIn /in/) keeps the name and drops the URL; the zone is written only
           if it is a gazetteer id; a promoter with a schedario id carries its category on that entry.
+- T-FE-11 where to look per promoter (channel test, 26 October 2026): channel, evidence and check channel
+          are enums, anything else is dropped; the page is never a personal profile or a licensed
+          aggregator; a site page proven to carry the promoter's events enters the entry's where-to-look
+          list after the pages already read, so the site reader reads it; a Facebook link is cut to its
+          page (a video, post or photo path carries the source's text) everywhere in the output.
 
 Run:  python tests/test_fonti_eventi_build.py   (exit 0 and "ALL PASS" required)
 """
@@ -41,6 +46,8 @@ import tempfile
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 sys.path.insert(0, os.path.join(ROOT, "tools", "wiki"))
 import build_fonti_eventi as bfe  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "tools", "fonti"))
+import leggi_eventi_siti as ls  # noqa: E402
 
 checks = 0
 failures = 0
@@ -153,14 +160,16 @@ def make_inputs(folder):
     json.dump([
         {"nome": "Teatro Vascello", "id": "S-FE-0100", "categoria": "Teatri, cinema e spazi di spettacolo", "sottocategoria": "teatro", "ambito": "di quartiere",
          "descrizione_breve": "Teatro di Monteverde (Municipio XII): teatro, danza, incontri.", "attivita": ["teatro", "danza"], "pubblico": [],
-         "municipio": "XII", "zona": "monteverde", "eventi": 5, "canali": {"sito": "https://www.teatrovascello.it", "facebook": "https://www.facebook.com/teatrovascello"},
+         "municipio": "XII", "zona": "monteverde", "eventi": 5, "canali": {"sito": "https://www.teatrovascello.it", "facebook": "https://www.facebook.com/teatrovascello/videos/una-serata-dal-titolo-fittizio/1234567890/"},
          "contatti": {"email": ["biglietteria@teatro-fittizio.it"], "telefono": PHONE}, "email": ["biglietteria@teatro-fittizio.it"], "telefono": PHONE,
-         "descrizione_lunga": AUTO_TXT, "autodescrizione": AUTO_TXT, "diffusione": "diritti riservati (generico)", "diffusione_prova": "https://www.teatrovascello.it/note-legali/"},
+         "descrizione_lunga": AUTO_TXT, "autodescrizione": AUTO_TXT, "diffusione": "diritti riservati (generico)", "diffusione_prova": "https://www.teatrovascello.it/note-legali/",
+         "dove_cercare": {"canale": "calendario del sito (schema.org)", "prova": "confermato", "pagina": "https://www.teatrovascello.it/calendario/", "controllo": "eventi Facebook"}},
         {"nome": "Giulia Conti", "id": None, "categoria": "Persone (artisti, autori, guide)", "sottocategoria": "persona", "ambito": "cittadino",
          "descrizione_breve": "Artista: scrivete a giulia@persona-fittizia.it o chiamate il " + PHONE + " " + "x" * 400,
          "attivita": ["musica, tel. +39 " + PHONE], "municipio": "XIII", "zona": "zona-inventata", "eventi": 1,
          "canali": {"facebook": "https://www.facebook.com/profile.php?id=100099", "linkedin": "https://www.linkedin.com/in/giulia-conti-fittizia", "sito": "mailto:giulia@persona-fittizia.it"}, "contatti": {"email": True},
-         "diffusione": "una etichetta inventata"},
+         "diffusione": "una etichetta inventata",
+         "dove_cercare": {"canale": "eventi Facebook", "prova": "storico", "pagina": "https://www.facebook.com/profile.php?id=100099", "controllo": "un canale inventato"}},
     ], open(os.path.join(folder, "promotori.json"), "w"))
     gaz = os.path.join(folder, "gazetteer.json")
     json.dump(GAZ, open(gaz, "w"))
@@ -286,6 +295,32 @@ def main():
         check("T-FE-10 schedario entry carries the promoter category", vas.get("promotore", {}).get("categoria"), "Teatri, cinema e spazi di spettacolo")
         check("T-FE-10 evidence link of the position kept", "[diritti riservati (generico)](https://www.teatrovascello.it/note-legali/)" in prom, True)
         check("T-FE-10 index links the page", "[promotori.md](promotori.md)" in texts["INDEX.md"], True)
+
+        print("T-FE-11 where to look per promoter")
+        gv = next(p for p in s["promotori"] if p["nome"] == "Teatro Vascello")
+        check("T-FE-11 rule kept: channel, evidence, page, check channel", gv["dove_cercare"],
+              {"canale": "calendario del sito (schema.org)", "prova": "confermato", "pagina": "https://www.teatrovascello.it/calendario/", "controllo": "eventi Facebook"})
+        check("T-FE-11 personal profile as page dropped, unknown check channel dropped", gp["dove_cercare"],
+              {"canale": "eventi Facebook", "prova": "storico", "pagina": None, "controllo": None})
+        check("T-FE-11 unknown channel: no rule", bfe.dove_cercare_promotore({"canale": "un canale inventato", "pagina": "https://esempio.it"}), None)
+        check("T-FE-11 licensed aggregator never the page", bfe.dove_cercare_promotore({"canale": "pagina eventi del sito", "pagina": "https://www.romatoday.it/eventi/x.html"})["pagina"], None)
+        dove = vas["dove_cercare"]
+        check("T-FE-11 proven site page after the pages already read, before the other site addresses",
+              [d["cosa"] for d in dove[:3]], ["pagina letta alla fonte (calendario)", "pagina del luogo su culture.roma.it", "pagina eventi del sito"])
+        check("T-FE-11 the site reader reads the proven page", ls.page_to_check(vas), "https://www.teatrovascello.it/calendario/")
+        check("T-FE-11 a Facebook video link becomes its page, the slug never reaches the output",
+              (gv["canali"]["facebook"], "titolo-fittizio" in blob + prom), ("https://www.facebook.com/teatrovascello", False))
+        check("T-FE-11 Facebook page forms: old name/id, people, groups kept; event, story dropped; post cut to the page",
+              [bfe.fb_page_url(u) for u in ("https://www.facebook.com/Nome-Pagina/1234567890", "https://www.facebook.com/people/Nome/61500000000000",
+                                            "https://www.facebook.com/groups/gruppo", "https://www.facebook.com/events/1234567890", "https://www.facebook.com/story.php",
+                                            "https://www.facebook.com/pagina/posts/987654321")],
+              ["https://www.facebook.com/Nome-Pagina/1234567890", "https://www.facebook.com/people/Nome/61500000000000", "https://www.facebook.com/groups/gruppo",
+               None, None, "https://www.facebook.com/pagina"])
+        check("T-FE-11 a Facebook post is never the page to read", bfe.dove_cercare_promotore({"canale": "post Facebook", "pagina": "https://www.facebook.com/pagina/posts/987654321"})["pagina"], None)
+        check("T-FE-11 schedario entry carries the rule", vas["promotore"]["dove_cercare"]["canale"], "calendario del sito (schema.org)")
+        check("T-FE-11 promoters page: rule column with link, evidence and check channel",
+              "[calendario del sito (schema.org)](https://www.teatrovascello.it/calendario/) · confermato · controllo: eventi Facebook" in prom, True)
+        check("T-FE-11 promoters page: summary by channel", "| eventi Facebook | 1 | storico 1 |" in prom, True)
 
         print("T-FE-6 determinism and pages")
         check("T-FE-6 two builds identical", read_all(out1) == read_all(out2), True)

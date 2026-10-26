@@ -1,6 +1,6 @@
 # Municipio XIV — fonti eventi (ottobre 2026)
 
-Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR culture.roma.it, RT Roma Today, FL lettura diretta. La *quota diretta* è la parte degli eventi della fonte che rimanda al sito dell'organizzatore o è stata letta lì.
+Fonti: 179 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR culture.roma.it, RT Roma Today, FL lettura diretta. La *quota diretta* è la parte degli eventi della fonte che rimanda al sito dell'organizzatore o è stata letta lì.
 
 ## Balduina `balduina`
 
@@ -11,7 +11,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 | Balduina Centro Sociale Anziani (@1Aldo1Aldo) | [eventi della pagina Facebook](https://www.facebook.com/1Aldo1Aldo/events) | soggetto | centro_anziani | — | — | candidata (facebook) | `S-FE-0373` |
 | Balduina'S | [eventi della pagina Facebook](https://www.facebook.com/ReteBalduina/events) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-0376` |
 | Centro sociale anziani Balduina | [sito](https://peranziani.it) | soggetto | centro_anziani | — | — | candidata (sito) | `S-FE-0374` |
-| Chiesa di San Pio X alla Balduina | [sito](https://www.turismoroma.it) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0377` |
+| Chiesa di San Pio X alla Balduina | [pagina eventi del sito](https://www.turismoroma.it/it/eventi/falstaff/) · [sito](https://www.turismoroma.it) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0377` |
 | Municipioromaxiv | [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-0745` |
 | Parrocchia San Pio X alla Balduina | [sito](https://www.scuolemigranti.org) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0378` |
 
@@ -39,7 +39,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 | Chiesa Centrale del Sacro Cuore | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1304` |
 | Chiesa di Nostra Signora di Guadalupe a Monte Mario | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1306` |
 | Chiesa di San Francesco d'Assisi a Monte Mario | [sito](https://www.turismoroma.it) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0741` |
-| Chiesa Parrocchiale di Gesù Divino Maestro | [sito](http://www.gesudivinomaestro.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiagesudivinomaestro/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1305` |
+| Chiesa Parrocchiale di Gesù Divino Maestro | [pagina eventi del sito](https://www.gesudivinomaestro.it/category/eventi/) · [sito](http://www.gesudivinomaestro.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiagesudivinomaestro/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1305` |
 | Chiodi Dionigio Romeo | [sito](https://www.icchiodi.edu.it/) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0737` |
 | Circolo Trionfale Lazio | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1290` |
 | COCCINELLE PER LE PEDIATRIE ORGANIZZAZIONE DI VOLONTARIATO ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.coponlus.org/eventi/) · [sito](https://coponlus.org) · [eventi della pagina Facebook](https://www.facebook.com/Coccinelle-per-lOncologia-Pediatrica-COP-Onlus-102844237731122/events) | organizzatore | associazione | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-1335` |
@@ -95,10 +95,11 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 |---|---|---|---|---|---|---|---|
 | Associazione culturale "Lucchina e Ottavia" | [eventi della pagina Facebook](https://www.facebook.com/comitatolucchinaeottavia.blogspot.it/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-0498` |
 | Biblioteca del Portico di Ottavia | DaLiB | [sito](https://dalib.it) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0500` |
-| Centro Anziani Ottavia, inaugurazione nuovo ... | [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | centro_anziani | — | — | candidata (facebook) | `S-FE-0502` |
+| Centro Anziani Ottavia, inaugurazione nuovo ... | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | centro_anziani | — | — | candidata (facebook) | `S-FE-0502` |
 | Centro Anziani Ottavia, inaugurazione nuovo Punto Roma ... | — | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0503` |
 | Etoile 23 | [sito](https://etoile23.com) · [eventi della pagina Facebook](https://www.facebook.com/E23roma/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0936` |
 | FONDAZIONE LA SESTA CITTA' DI RIFUGIO ETS | [pagina eventi del sito](https://www.fondazionerifugio.it/events/?ical=1) · [sito](https://fondazionerifugio.it) · [eventi della pagina Facebook](https://www.facebook.com/FondazioneRifugio/events) | organizzatore | associazione | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-1795` |
+| Intersos Lab | [sito](https://www.intersoslab.it/) · [eventi della pagina Facebook](https://www.facebook.com/IntersosLabFormazione/events) · [Instagram](https://www.instagram.com/intersoslab) | soggetto | altro | — | — | candidata (facebook) | `S-PR-0072` |
 | Nasce la nuova biblioteca di Ottavia e Palmarola | [sito](https://www.ciardullidomenico.it) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0501` |
 | Ottavia, Roma. Associazioni e solidarietà in rete contro il ... | [sito](https://www.intersos.org) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-0499` |
 
@@ -108,7 +109,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 |---|---|---|---|---|---|---|---|
 | Cantieri dello Spettacolo E.T.S. | [sito](https://cantieridellospettacolo.it) · [pagina Facebook](https://www.facebook.com/people/Teatro-la-casetta/100057039626820) · [Instagram](https://www.instagram.com/teatrolacasetta) | organizzatore | altro | CR 8 | 100% | — | `S-EV-1167` |
 | Mercato Primavalle II | — | luogo | mercato_fiera | RT 1 | 0% | scartare (nessuno) | `S-FE-0259` |
-| "Il Comitato di Quartiere Torresina non pretende nulla ... | [pagina Facebook](https://www.facebook.com/UrbanBlogTorresina/videos/il-comitato-di-quartiere-torresina-non-pretende-nulla-anche-perch%C3%A9-un-riaffido-t/2092451640871955) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-1419` |
+| "Il Comitato di Quartiere Torresina non pretende nulla ... | [eventi della pagina Facebook](https://www.facebook.com/UrbanBlogTorresina/events) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-1419` |
 | "Pio La Torre" | — | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0748` |
 | ASSOCIAZIONE  UNA BRECCIA NEL MURO | [pagina eventi del sito](https://www.unabreccianelmuro.org/news) · [sito](https://unabreccianelmuro.org) · [eventi della pagina Facebook](https://www.facebook.com/associazioneunabreccianelmuro/events) | organizzatore | altro | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-0380` |
 | Associazione Andrea Soldani | [pagina eventi del sito](https://associazioneandreasoldani.com/eventi/) · [sito](https://change.org) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneAndreaSoldani/events) | organizzatore | associazione | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-0418` |
@@ -129,7 +130,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 | Chiesa di Santa Maria della Salute a Primavalle | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1423` |
 | Comitato di Quartiere Torresina | — | soggetto | comitato_quartiere | — | — | candidata (da_trovare) | `S-FE-1420` |
 | Da Neo e Loki | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1424` |
-| Diritti Al Cuore Onlus | [sito](https://www.dirittialcuore.it/) · [eventi della pagina Facebook](https://www.facebook.com/dirittialcuoreonlus/events) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1415` |
+| Diritti Al Cuore Onlus | [pagina eventi del sito](https://dirittialcuore.it/it/chi-siamo/news/) · [sito](https://www.dirittialcuore.it/) · [eventi della pagina Facebook](https://www.facebook.com/dirittialcuoreonlus/events) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1415` |
 | FONDAZIONE MAESTRE PIE DELL’ADDOLORATA E.T.S. | [pagina eventi del sito](https://fondazionempda.org/news/) · [sito](https://fondazionempda.org) · [eventi della pagina Facebook](https://www.facebook.com/scuolamaestrepie/events) | organizzatore | scuola | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-1801` |
 | FORUM NAZIONALE PER L'EDUCAZIONE MUSICALE | [sito](https://forumeducazionemusicale.it) · [eventi della pagina Facebook](https://www.facebook.com/forumeducazionemusicale/events) | organizzatore | scuola | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-1891` |
 | I GATTI DI VAL CANNUTA - ODV | [pagina eventi del sito](https://www.igattidivalcannuta.org/category/eventi/) · [sito](https://igattidivalcannuta.org) · [eventi della pagina Facebook](https://www.facebook.com/igattidivalcannuta/events) | organizzatore | associazione | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-2052` |
@@ -139,6 +140,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 | IL SUO DOPPIO APS | [pagina eventi del sito](https://ilsuodoppioaps.it/eventi) · [sito](https://ilsuodoppioaps.it) | organizzatore | altro | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-2099` |
 | Istituto Comprensivo "Via Maffi" | [sito](https://www.icmaffi.edu.it) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0751` |
 | LA FABBRICA DEL CUORE STP -  SOCIETA' COOPERATIVA SOCIALE TRA PROFESSIONISTI | [pagina eventi del sito](https://www.lafabbricadelcuore.com/category/news/) · [sito](https://lafabbricadelcuore.com) · [pagina Facebook](https://www.facebook.com/La-Fabbrica-del-Cuore-Amici-per-lAutismo-onlus/1425630350982280) | organizzatore | altro | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-2231` |
+| Magazzino Cooperativa Sociale Integrata Onlus | [sito](http://coopmagazzino.it/) · [eventi della pagina Facebook](https://www.facebook.com/CooperativaMagazzino/events) · [Instagram](https://www.instagram.com/magazzino_cooperativa_sociale) | soggetto | altro | — | — | candidata (facebook) | `S-PR-0084` |
 | Mercato Primavalle I | — | soggetto | mercato_rionale | — | — | candidata (da_trovare) | `S-FE-0753` |
 | Parrocchia S. Massimo Vescovo a Palmarola | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1425` |
 | Parrocchia Santa Maria Assunta e San Giuseppe | [eventi della pagina Facebook](https://www.facebook.com/parrocchia.primavalle/events) | soggetto | parrocchia | — | — | candidata (facebook) | `S-FE-0755` |
@@ -154,7 +156,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 |---|---|---|---|---|---|---|---|
 | itinerante, 00100 Rome, Italy | — | luogo | altro | FB 2 | 0% | — | `S-EV-2185` |
 | a Selva Candida un comitato adotta un parco - Roma | [sito](https://www.affaritaliani.it) | soggetto | comitato_quartiere | — | — | candidata (sito) | `S-FE-0679` |
-| ASD Laghi delle Colline | [sito](https://www.laghidellecolline.com/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1448` |
+| ASD Laghi delle Colline | [pagina eventi del sito](https://www.laghidellecolline.com/news/) · [sito](https://www.laghidellecolline.com/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1448` |
 | ASD Roma Pattinaggio Arcoiris | [sito](https://www.romapattinaggioarcoiris.com/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1449` |
 | Associazione Cornelia Antiqua | [sito](http://www.corneliaantiqua.org/) · [eventi della pagina Facebook](https://www.facebook.com/cornelia.antiqua.roma/events) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1428` |
 | Associazione Teatrale Sogni di Scena | [sito](http://www.compagniateatralesognidiscena.it/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1429` |
@@ -162,7 +164,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 | Atelier Del Possibile | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1431` |
 | BASE SCOUT LA VALLETTA | [sito](http://www.basescoutlavalletta.it/) · [pagina Facebook](https://www.facebook.com/people/MASCI-ROMA-25-La-Storta/100069571410634) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1447` |
 | Biblioteca Selva Candida | [sito](https://www.romasitrasforma.it) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0676` |
-| Casa Arca degli Esposti | [sito](https://www.progettoarca.org/news/tutte-le-notizie/412-nasce-a-roma-il-condominio-sociale-casa-arca-degli-esposti.html) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneprogettoarca/events) | soggetto | centro_culturale | — | — | candidata (sito) | `S-FE-1434` |
+| Casa Arca degli Esposti | [pagina eventi del sito](https://www.progettoarca.org/) · [sito](https://www.progettoarca.org/news/tutte-le-notizie/412-nasce-a-roma-il-condominio-sociale-casa-arca-degli-esposti.html) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneprogettoarca/events) | soggetto | centro_culturale | — | — | candidata (sito) | `S-FE-1434` |
 | Casa Della Solidarieta'- Consorzio Di Cooperative Sociali | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1432` |
 | Cassia Residence | — | soggetto | centro_culturale | — | — | candidata (da_trovare) | `S-FE-1435` |
 | Centro Italiano Studi Sull'Uomo G.I.Gurdjieff-Onlus | — | soggetto | centro_culturale | — | — | candidata (da_trovare) | `S-FE-1438` |
@@ -180,7 +182,7 @@ Fonti: 177 · eventi nel mese: 19. Sigle degli aggregatori: FB Facebook, CR cult
 | IC Pabloneruda | [sito](https://www.icpabloneruda.edu.it) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0680` |
 | Open Day del Progetto Selva Candida Roma Nord CMB. Non ... | [eventi della pagina Facebook](https://www.facebook.com/ilovecasalotti/events) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-0674` |
 | Oratorio di S. Gabriele dell'Addolorata | — | soggetto | centro_culturale | — | — | candidata (da_trovare) | `S-FE-1436` |
-| Parrocchia Natività di Maria Santissima | [sito](https://parrocchiaselvacandida.com) · [eventi della pagina Facebook](https://www.facebook.com/NativitaDiMariaSantissima/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0845` |
+| Parrocchia Natività di Maria Santissima | [pagina eventi del sito](http://www.parrocchiaselvacandida.com/parrocchia/) · [sito](https://parrocchiaselvacandida.com) · [eventi della pagina Facebook](https://www.facebook.com/NativitaDiMariaSantissima/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0845` |
 | Parrocchia S. Mario Marta e figli | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1446` |
 | Rome International Creative Cultural Organization | — | soggetto | centro_culturale | — | — | candidata (da_trovare) | `S-FE-1439` |
 | Scuola Elementare Pablo Neruda, Plesso Selva Candida | [sito](https://www.reteimprese.it) | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0681` |

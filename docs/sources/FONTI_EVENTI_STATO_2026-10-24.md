@@ -414,6 +414,133 @@ Otto esploratori AI indipendenti hanno proposto 60 leve (dati già raccolti, cat
 
 **Rischi.** Ogni fonte nuova porta doppioni (la fusione dei doppioni va fatta prima di misurare le leve nuove); le fonti strutturate si concentrano nei Municipi I e II; le 5 pagine a zero non sono toccate da nessuna leva misurata; parrocchie, scuole e ASL contengono nomi di persone (in estrazione si tengono solo data, ora, luogo ed ente).
 
+## 1 undecies. Dove cercare i prossimi eventi di ogni promotore, e quanto costa (M, 26 ottobre 2026)
+
+La domanda dell'owner: tutti i promotori che hanno dato un evento utile sono schedati? E per
+ognuno c'è una regola che dice dove cercare i prossimi eventi al costo più basso, per esempio
+sul sito invece che su Facebook quando l'evento sta su entrambi? Il passo successivo è il costo
+mensile di cercare eventi ogni giorno.
+
+**Prova del canale (0 dollari).**
+- **Primo giro.** Per i 931 promotori con un sito (942 siti) sono state lette la home, la pagina
+  eventi e il feed delle notizie. La pagina eventi è quella dello schedario o, se manca, la
+  prima trovata nei link della home. Il robots.txt è rispettato (35 siti saltati), con una
+  richiesta al secondo per sito: 847 siti letti.
+- **Secondo giro.** Sui promotori rimasti su Facebook:
+  - varianti dell'indirizzo per i siti non raggiungibili (39);
+  - ricerca interna di WordPress con le parole dei titoli (214 siti);
+  - Chromium per i siti fatti in JavaScript (56; 13 con robots.txt che vieta, saltati).
+- **Riscontro.** Un evento futuro già noto del promotore è stato ritrovato sul sito con titolo e
+  data vicini per 136 promotori, con il titolo intero per 83. Su un campione di 25 controllato a
+  mano, 24 riscontri sono veri. L'unico falso era una data di un anno passato scritta senza
+  anno, e ora è escluso.
+- **Pagina scritta.** È sempre una pagina indice, mai quella di un singolo evento, perché lo slug
+  porta il titolo (DEC-109). Un link Facebook è ridotto alla pagina: un video o un post ne porta
+  il testo. La correzione vale anche per i canali dello schedario, che ne contenevano alcuni.
+
+**La regola.** Il canale da leggere è il più economico che porta gli eventi del promotore. La
+prova dice perché:
+- **storico**: a ottobre gli eventi sono arrivati da quel canale;
+- **confermato**: la prova del 26 ottobre li ha ritrovati sul sito;
+- **probabile**: il sito pubblica date future, ma nessuno degli eventi noti.
+
+Il **controllo** è il canale Facebook da guardare a cadenza lenta quando quello gratuito non porta
+tutti gli eventi.
+
+| Canale da leggere | Promotori | Prova | Eventi di ottobre |
+|---|---|---|---|
+| feed del sito (iCal, REST) | 36 | storico 30, confermato 2, probabile 4 | 204 |
+| calendario del sito (schema.org) | 28 | storico 15, confermato 3, probabile 10 | 133 |
+| pagina eventi del sito | 343 | storico 92, confermato 168, probabile 83 | 897 |
+| notizie del sito (RSS) | 46 | confermato 46 | 70 |
+| agenda Biblioteche di Roma | 30 | storico 30 | 156 |
+| culture.roma.it | 27 | storico 27 | 124 |
+| eventi Facebook | 309 | storico 309 | 473 |
+| post Facebook | 346 | storico 346 | 540 |
+| solo Instagram (non letto) | 17 | — | 22 |
+| solo aggregatore | 6 | — | 6 |
+| nessun canale proprio | 58 | — | 61 |
+
+In sintesi:
+- **Canale gratuito con prova: 413 promotori.** Per 194 la prova è storica, per 219 è confermata.
+  Di questi ultimi, 195 a ottobre arrivavano solo da Facebook: ora si leggono sul sito.
+- **Sito «probabile»: 97.** Pubblica date future ma non ancora i loro eventi: resta Facebook più
+  il sito in prova.
+- **Facebook: 655.**
+  - 248 non hanno un sito;
+  - 286 hanno un sito senza date;
+  - 62 hanno un sito con date ma non i loro eventi;
+  - 20 hanno un sito che vieta la lettura;
+  - 39 hanno un sito irraggiungibile.
+- **Nessun canale proprio: 81.** Soprattutto persone (artisti, guide) e co-organizzatori senza
+  pagina: i loro eventi arrivano dalle pagine dei luoghi che li ospitano.
+
+Un evento con più promotori conta per ciascuno: i totali per canale fanno 2.686, non 2.585.
+
+**Lista completa.** I promotori con una voce nello schedario passano da 1.064 a 1.245 su 1.246:
+- 139 entrano nel registro v6 come candidati (chiave `PR-…`, origine `promotori_eventi_2026-10-26`);
+  tenerli o scartarli resta all'owner (DEC-024);
+- 21 c'erano già sotto un'altra grafia del nome;
+- 22 erano già righe del registro;
+- uno resta senza voce, perché la sua riga del registro (FE-1216) ha il nome generico
+  «Associazione culturale», da correggere.
+
+Il registro v6 ha 1.759 righe. Le 1.620 del v5 sono invariate (decisione, canale, note); in fondo
+ci sono cinque colonne nuove: eventi del promotore, canale da leggere, prova, pagina da leggere,
+controllo. Nessun id dello schedario cambia: le voci nuove sono 139, nessuna scompare o cambia
+nome.
+
+**Costo mensile.** Prezzi dell'account (piano Apify Starter, fascia BRONZE), letti via API il 26
+ottobre:
+- post Facebook: 0,004 dollari a post più 0,001 di filtro data;
+- eventi Facebook: 0,003 dollari a evento restituito;
+- avvio di un'esecuzione: 0,001 dollari.
+
+Ritmi misurati nelle esecuzioni del 24-25 ottobre:
+- 0,088 post al giorno per pagina in media, su 4.016 pagine;
+- 0,089 eventi futuri per pagina a ogni lettura, su 4.813 letture.
+
+I post si pagano a post, non a lettura: con il filtro «solo post dal giorno prima», leggerli
+ogni giorno o ogni settimana costa quasi uguale. La cadenza pesa solo sugli eventi Facebook.
+
+| Scenario | Ogni giorno | Ogni settimana |
+|---|---|---|
+| Oggi, tutto da Facebook: 1.123 pagine, eventi e post | 33,94 $ | 26,17 $ |
+| Regola: canale gratuito dove c'è la prova, Facebook per gli altri (328 pagine eventi, 423 post), controllo compreso | 15,50 $ | 13,19 $ |
+| Regola con anche i siti «probabili» al posto di Facebook | 15,35 $ | 13,17 $ |
+
+Che cosa dice la tabella:
+- **Siti, feed, notizie, culture.roma.it e Biblioteche di Roma costano 0 dollari** a qualsiasi
+  cadenza: circa 420 pagine al giorno, una richiesta al secondo per sito.
+- **Il controllo sui post costa 2,25 dollari**, perché i post si pagano a post anche a cadenza
+  lenta. Il controllo con gli eventi Facebook una volta al mese costa pochi centesimi.
+- **Spostare i siti «probabili» quasi non risparmia**, perché tengono il controllo Facebook.
+- **La regola sta dentro il consumo incluso nel piano Starter** (29 dollari al mese).
+- **Il ciclo Apify in corso** (24 ottobre - 23 novembre) ha già 177,76 dollari consumati dai
+  censimenti, con un tetto di 200.
+- **Restano fuori dalla tabella** la scoperta di promotori nuovi su Facebook per parole chiave
+  (circa 1 dollaro a trimestre) e Instagram, oggi non letto.
+
+**Confronto con le stime del §1 decies.** I 75-95 dollari al mese del §1 decies riguardano la
+lettura settimanale di tutti i canali censiti, circa 4.000 pagine. Qui ci sono solo le pagine
+dei 1.246 promotori che hanno dato eventi. Le due cifre misurano cose diverse e non si
+sommano.
+
+**Limiti.**
+- La prova è di un giorno: un promotore che a fine ottobre non aveva eventi sul sito può
+  averli a novembre. La prova si ripete ogni mese.
+- 84 riscontri si reggono sul solo titolo.
+- I ritmi di post ed eventi sono quelli di fine ottobre: dicembre sarà più fitto.
+- La lettura di Facebook dipende da attori Apify di terzi, che cambiano prezzi e
+  comportamento.
+
+Uscite su Drive (cartella delle uscite della sessione):
+- `promotori_dove_cercare_2026-10-26.xlsx`: i 1.246 promotori con la regola, il riepilogo, i
+  costi, i prezzi e le misure;
+- `registro_fonti_v6.xlsx`.
+
+Gli script sono in `tools/fonti/lavoro-2026-10/canali/`.
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |
@@ -582,3 +709,10 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 8. Leve del 26 ottobre (§1 decies): lettura settimanale dei feed iCal e REST dei siti e del
    delta di culture.roma.it; 12 leve da eseguire a costo zero, 35 da verificare con l'owner, nel
    foglio `leve_eventi_2026-10-26.xlsx`.
+9. Dove cercare (§1 undecies). Owner:
+   - cadenza (ogni giorno o ogni settimana) e budget mensile Apify della lettura dei promotori;
+   - decidere i 139 candidati `PR-…` del registro v6;
+   - correggere il nome della riga FE-1216.
+
+   Builder: ripetere la prova del canale ogni mese, e portare la regola nel workflow n8n di
+   staging quando le decisioni ci sono.

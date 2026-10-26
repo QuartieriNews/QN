@@ -17,7 +17,7 @@ Molte fonti sono luogo e organizzatore insieme.
 | **Aggregatori** | `aggregatori.md` | una scheda per aggregatore: regole di accesso, cosa è stato misurato, rintracciabilità, sovrapposizioni | generato; i numeri vengono dal foglio |
 | **Pagine** | `INDEX.md`, `municipi/*.md`, `per-pagina-qn.md` | stampe leggibili dello schedario: per Municipio, per pagina QN, e la lista delle fonti più produttive | generate; non modificare a mano |
 | **Fusioni proposte** | `fusioni-proposte.md` | coppie di voci che probabilmente sono la stessa fonte scritta in due modi (stesso nome senza forme giuridiche, un nome dentro l'altro, refusi); il build non le fonde | generato; la fusione la decide una persona e si registra con una chiave forte comune |
-| **Promotori** | `promotori.md` | chi organizza gli eventi della pagina «Eventi dei quartieri», per categoria: descrizione breve scritta da noi con etichette, ambito, municipio e pagina QN, eventi, canali (sito e social), se esiste un'email, posizione della fonte sulla diffusione dei suoi contenuti con il link alla prova | generato da `promotori.json` (analisi dei promotori del 25 ottobre 2026); email, telefoni, descrizioni lunghe e autodescrizioni restano nel foglio `promotori_eventi.xlsx` su Drive |
+| **Promotori** | `promotori.md` | chi organizza gli eventi della pagina «Eventi dei quartieri», per categoria: descrizione breve scritta da noi con etichette, ambito, municipio e pagina QN, eventi, canali (sito e social), se esiste un'email, posizione della fonte sulla diffusione dei suoi contenuti con il link alla prova, dove cercare i prossimi eventi (canale più economico, prova, pagina, canale di controllo) | generato da `promotori.json` (analisi dei promotori del 25 ottobre 2026, prova del canale del 26); email, telefoni, descrizioni lunghe e autodescrizioni restano nel foglio `promotori_eventi.xlsx` su Drive |
 | **Censimento** | `censimento-pagine.md` | le candidate uscite dal censimento delle pagine Facebook di associazioni del 24 ottobre 2026, raggruppate per verdetto della lettura automatica, con l'indirizzo da controllare; le pagine dormienti e scartate sono solo contate | generato; la decisione tenere/scartare spetta all'owner e va nel registro fonti |
 
 ## Come si usa
@@ -114,8 +114,11 @@ pagine ne espongono uno, 277 hanno una sezione eventi, 83 mostrano date future).
 pagine dormienti restano fuori e si rileggono a marzo 2027.
 
 L'analisi dei promotori del 25 ottobre (`promotori.md`, rigenerata il 26) dice chi organizza i 2.585 eventi
-futuri della pagina «Eventi dei quartieri»: 1.246 promotori in 17 categorie, 1.064 con una voce nello
-schedario. Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
+futuri della pagina «Eventi dei quartieri»: 1.246 promotori in 17 categorie, 1.245 con una voce nello
+schedario (139 entrate il 26 ottobre come candidate del registro v6). Per ognuno `promotori.md` dice dove
+cercare i prossimi eventi: il canale gratuito con una prova per 413 (feed, calendario o pagina eventi
+del sito, notizie del sito, culture.roma.it, Biblioteche di Roma), un sito che pubblica date future ma
+non ancora i loro eventi per 97, Facebook per 655, nessun canale proprio per 81 (rapporto, §1 undecies). Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
 nelle 41 pagine deboli (geografia delle zone urbanistiche); musei, grandi istituzioni e
 intermediari quasi solo nel centro. Sulla diffusione dei propri contenuti
 cinque fonti vietano la riproduzione e una la raccolta automatica; nessuna clausola letta vieta di

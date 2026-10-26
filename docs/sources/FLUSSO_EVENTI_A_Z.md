@@ -32,6 +32,17 @@ La cadenza non è per famiglia ma per **livello di produttività**, misurato e r
 | **Segnalazioni in entrata** | organizzatori che rispondono all'avviso del passo L | modulo «segnala il tuo evento» | continua | 0 $ |
 
 Spesa Apify a regime: circa 15-20 dollari al mese, contro i 138 dei censimenti di ottobre.
+
+**Regola per promotore (26 ottobre 2026).** Dentro i livelli, ogni promotore che ha dato eventi
+ha un canale da leggere con una prova: il più economico che porta i suoi eventi, nell'ordine
+feed del sito, calendario o pagina eventi del sito, notizie del sito, agende già lette
+(culture.roma.it, Biblioteche di Roma), eventi Facebook, post Facebook; un canale di controllo
+a cadenza lenta quando quello gratuito non porta tutto. La regola sta in `promotori.md` della
+wiki e nel registro v6 (colonne `canale_da_leggere`, `prova_canale`, `pagina_da_leggere`,
+`controllo`); la prova si ripete ogni mese, perché i promotori cambiano canale. Costo misurato
+per i 1.246 promotori con la regola: lettura ogni giorno circa 15,5 dollari al mese, ogni
+settimana circa 13 (tutto su Facebook sarebbe 34 e 26). I post Facebook si pagano a post e non
+a lettura, quindi la cadenza pesa solo sugli eventi Facebook (rapporto, §1 undecies).
 Il tetto mensile va scritto nella configurazione prima che la schedulazione parta (DEC-004).
 
 ## 3. Chi esegue

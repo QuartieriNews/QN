@@ -15,7 +15,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Biblioteca Sandro Onofri | [eventi della pagina Facebook](https://www.facebook.com/bibliotecasandroonofri/events) | soggetto | — |
 | Comitato Acilia Nord 2018 | [eventi della pagina Facebook](https://www.facebook.com/ComitatoAciliaNord/events) | soggetto | — |
 | FONDAZIONE ORTI SOCIALI ARVALIA - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.ortisocialiarvalia.it/events/?ical=1) · [sito](https://ortisocialiarvalia.it) · [eventi della pagina Facebook](https://www.facebook.com/ortisocialiarvalia/events) | organizzatore | — |
-| Ludoteca Axa Palocco | [sito](https://ludotecaaxapalocco.it) | soggetto | — |
+| Ludoteca Axa Palocco | [pagina eventi del sito](https://ludotecaaxapalocco.it/feed/) · [sito](https://ludotecaaxapalocco.it) | soggetto | — |
 | NUOVA ARMONIA associazione culturale sportiva dilettantistica | [pagina eventi del sito](https://www.nuova-armonia.com/area-sportiva-dilettantistica/corsi/) · [sito](https://nuova-armonia.it) · [eventi della pagina Facebook](https://www.facebook.com/100064204866692/events) | organizzatore | — |
 | Romacambiamente Associazione Culturale | [pagina eventi del sito](https://romacambiamente.webnode.it/attivita/) · [sito](https://romacambiamente.webnode.it) · [eventi della pagina Facebook](https://www.facebook.com/romacambiamente/events) | organizzatore | — |
 | SAHARAVERDE ODV | [sito](https://saharaverde.it) | organizzatore | — |
@@ -64,8 +64,9 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato di Quartiere Nuova Tor Tre Teste Attiva | [eventi della pagina Facebook](https://www.facebook.com/61553642282897/events) | organizzatore | — |
 | Comitato di Quartiere Tor Tre Teste Attiva | [eventi della pagina Facebook](https://www.facebook.com/tortretesteattiva/events) | soggetto | — |
 | FUSOLAB APS ASD | [eventi della pagina Facebook](https://www.facebook.com/fusolab/events) | organizzatore | — |
+| HRail | [eventi della pagina Facebook](https://www.facebook.com/HRailOfficial/events) · [Instagram](https://www.instagram.com/hrail_official) | soggetto | — |
 | MUSICADESSO APS | [sito](https://musicadesso.net) · [eventi della pagina Facebook](https://www.facebook.com/assmusicadesso/events) | organizzatore | — |
-| Ottobre Alessandrino | [eventi della pagina Facebook](https://www.facebook.com/ottobrealessandrino/events) | soggetto | — |
+| Ottobre Alessandrino | [pagina eventi del sito](https://culturaesviluppo.it/evento/tempo-e-memoria/) · [eventi della pagina Facebook](https://www.facebook.com/ottobrealessandrino/events) | soggetto | — |
 | Vito Napoletano | — | organizzatore | FB 2 |
 | Debs Deborah | — | organizzatore | FB 1 |
 | Viale della bella villa 96, Roma, Lazio | — | luogo | FB 1 |
@@ -100,11 +101,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Bilet Italia | [eventi della pagina Facebook](https://www.facebook.com/BiletItalia/events) | organizzatore | FB 2 |
+| Bilet Italia | [pagina eventi del sito](https://biletitalia.com/) · [eventi della pagina Facebook](https://www.facebook.com/BiletItalia/events) | organizzatore | FB 2 |
 | Nuovo Teatro Orione | [eventi della pagina Facebook](https://www.facebook.com/orioneroma/events) | luogo | FB 2 |
 | Edarcom Europa Galleria d'Arte Contemporanea | [sito](https://edarcom.it) | luogo | RT 1 |
 | Graffiti - Scuola di Fotografia | [pagina eventi del sito](https://graffitiscuola.it/corsi/) · [sito](https://graffitiscuola.it) · [eventi della pagina Facebook](https://www.facebook.com/graffiti.scuoladifotografia/events) | luogo, organizzatore | FB 1 |
-| Produzioni Teatro Verdi | [pagina Facebook](https://www.facebook.com/people/Produzioni-Teatro-Verdi/61576184594785) | organizzatore | FB 1 |
+| Produzioni Teatro Verdi | [pagina eventi del sito](https://www.teatroverdimontecatini.it/programmaLocation.aspx/) · [pagina Facebook](https://www.facebook.com/people/Produzioni-Teatro-Verdi/61576184594785) | organizzatore | FB 1 |
 | "Via Teodoro Mommsen 20" | [sito](https://www.mommsen.edu.it/) | soggetto | — |
 | ADMO-ASSOCIAZIONE DONATORI DI MIDOLLO OSSEO-CELLULE STAMINALI EMOPOIETICHE ETS | [sito](https://admo.it) · [eventi della pagina Facebook](https://www.facebook.com/admo.nazionale/events) | organizzatore | — |
 | Assedi - Associazione Servizi Diving Italiani | [pagina eventi del sito](https://www.assedi.org/category/news/) · [sito](https://assedi.org) · [eventi della pagina Facebook](https://www.facebook.com/Associazione.servizi.diving.italiani/events) | organizzatore | — |
@@ -130,11 +131,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | COMITATO MURA LATINE | [pagina eventi del sito](https://www.muralatine.it/category/eventi/) · [sito](https://muralatine.it) · [eventi della pagina Facebook](https://www.facebook.com/muralatine/events) | organizzatore | — |
 | COMITATO PER IL PARCO DELLA CAFFARELLA ODV | [pagina eventi del sito](https://www.caffarella.it/temi/notizie/) · [sito](https://caffarella.it) · [eventi della pagina Facebook](https://www.facebook.com/parcocaffarella/events) | organizzatore | — |
 | Consdircdq | [eventi della pagina Facebook](https://www.facebook.com/consdircdq/events) | soggetto | — |
-| DanzaSì | [sito](https://danzasi.it) · [eventi della pagina Facebook](https://www.facebook.com/AssDanzaSi/events) | soggetto | — |
+| DanzaSì | [pagina eventi del sito](http://www.danzasi.it/spettacoli.php/) · [sito](https://danzasi.it) · [eventi della pagina Facebook](https://www.facebook.com/AssDanzaSi/events) | soggetto | — |
 | Dove siamo – IC Via T. Mommsen, 20 | [sito](https://www.mommsen.edu.it) | soggetto | — |
-| E-cology.it | [sito](https://e-cology.it) · [eventi della pagina Facebook](https://www.facebook.com/ecology.italia/events) | soggetto | — |
+| E-cology.it | [pagina eventi del sito](https://www.e-cology.it/category/eventi-e-appuntamenti/) · [sito](https://e-cology.it) · [eventi della pagina Facebook](https://www.facebook.com/ecology.italia/events) | soggetto | — |
 | ELA ITALIA ONLUS | [pagina eventi del sito](https://elaitalia.it/events/?ical=1) · [sito](https://elaitalia.it) | organizzatore | — |
-| FEDERAZIONE A.L.I.CE. ITALIA  ODV | [pagina eventi del sito](https://www.aliceitalia.org/notizie/) · [sito](https://aliceitalia.org) · [eventi della pagina Facebook](https://www.facebook.com/AliceItaliaOdv/events) | organizzatore | — |
+| FEDERAZIONE A.L.I.CE. ITALIA  ODV | [pagina eventi del sito](http://www.aliceitalia.org/notizie/) · [pagina eventi del sito](https://www.aliceitalia.org/notizie/) · [sito](https://aliceitalia.org) | organizzatore | — |
 | FONDAZIONE EMANUELA PANETTI ETS | [pagina eventi del sito](https://fondazioneemanuelapanetti.org/news/) · [sito](https://fondazioneemanuelapanetti.org) · [eventi della pagina Facebook](https://www.facebook.com/volontariato.roma/events) | organizzatore | — |
 | FONDAZIONE NAZIONALE ANFFAS DURANTE E DOPO DI NOI - ENTE FILANTROPICO | [sito](https://fondazionenazionaleanffas.it) · [eventi della pagina Facebook](https://www.facebook.com/fondazione.anffasnaz/events) | organizzatore | — |
 | FONDAZIONE ST. PHILIP SCHOOL ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.stphilipschool.it/istituto/news/) · [sito](https://stphilipschool.it) · [eventi della pagina Facebook](https://www.facebook.com/StPhilipSchoolRoma/events) | organizzatore | — |
@@ -145,14 +146,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ItinerArte | [eventi della pagina Facebook](https://www.facebook.com/ItinerArteRoma/events) | soggetto | — |
 | Le Chiavi d'Oro Roma - Associazione Portieri d'Albergo e Front Office | [sito](https://lechiavidoro-roma.org) · [eventi della pagina Facebook](https://www.facebook.com/lechiavidororoma/events) | organizzatore | — |
 | MOVIMENTO COMICO APS | [pagina eventi del sito](https://movimentocomico.it/corsi/corsi-teatro-comico/) · [sito](https://movimentocomico.it) · [eventi della pagina Facebook](https://www.facebook.com/ass.cult.movimentocomico/events) | organizzatore | — |
-| murilab | [sito](https://murilab.it) · [eventi della pagina Facebook](https://www.facebook.com/MuriLab.Roma/events) | soggetto | — |
+| murilab | [pagina eventi del sito](http://www.murilab.it/) · [sito](https://murilab.it) · [eventi della pagina Facebook](https://www.facebook.com/MuriLab.Roma/events) | soggetto | — |
 | MUSIC THEATRE INTERNATIONAL - M.Th.I. ETS | [sito](https://mthi.it) · [eventi della pagina Facebook](https://www.facebook.com/musictheatreinternational/events) | organizzatore | — |
 | Musikè | [pagina eventi del sito](https://www.associazione-musike.com/news/) · [sito](https://associazione-musike.com) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneMusike/events) | organizzatore | — |
 | OBIETTIVO SOLIDARIETA' - ASSOCIAZIONE DI VOLONTARIATO - ODV | [pagina eventi del sito](https://www.obiettivosolidarieta.org/iniziative) · [sito](https://obiettivosolidarieta.org) · [eventi della pagina Facebook](https://www.facebook.com/ObiettivoSolidarieta/events) | organizzatore | — |
 | ODV FELICIANGELI IN MOTO | [pagina eventi del sito](https://www.angeliinmoto.it/events/?ical=1) · [sito](https://angeliinmoto.it) · [eventi della pagina Facebook](https://www.facebook.com/AngeliinMoto.2015/events) | organizzatore | — |
 | parcoappio | [sito](https://parcoappio.it) · [eventi della pagina Facebook](https://www.facebook.com/parcoappio/events) | soggetto | — |
 | PROVINCIA ITALIANA DELLA CONGREGAZIONE DELLE SUORE OSPEDALIERE DEL SACRO CUORE DI GESU' | [pagina eventi del sito](https://ospedaliere.it/news/) · [sito](https://ospedaliere.it) · [eventi della pagina Facebook](https://www.facebook.com/SuoreOspedaliereProvinciaItaliana/events) | organizzatore | — |
-| SOCIETA' ITALIANA DI PSICOANALISI DELLA RELAZIONE ETS SIPRE ETS | [pagina eventi del sito](https://www.sipreonline.it/formazione/corsi/) · [sito](https://sipreonline.it) · [eventi della pagina Facebook](https://www.facebook.com/sipreonline/events) | organizzatore | — |
+| SOCIETA' ITALIANA DI PSICOANALISI DELLA RELAZIONE ETS SIPRE ETS | [pagina eventi del sito](http://www.sipreonline.it/) · [pagina eventi del sito](https://www.sipreonline.it/formazione/corsi/) · [sito](https://sipreonline.it) | organizzatore | — |
 | Spazio dell'anima | [sito](http://www.bottegafilosofica.it) | soggetto | — |
 | Spazio il Sole | [sito](https://www.spazioilsole.it/) | soggetto | — |
 | Teatro a vista | [sito](https://www.teatroavista.com/) | soggetto | — |
@@ -176,7 +177,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Ristoro degli Artisti | [Instagram](https://instagram.com/mathiasp___) | luogo | RT 1 |
-| A.L.F.A. ASSOCIAZIONE LOVE FOR ANIMALS ODV | [sito](https://associazione-alfa.org) · [eventi della pagina Facebook](https://www.facebook.com/293290937394645/events) | organizzatore | — |
+| A.L.F.A. ASSOCIAZIONE LOVE FOR ANIMALS ODV | [pagina eventi del sito](https://www.associazione-alfa.org/) · [sito](https://associazione-alfa.org) · [eventi della pagina Facebook](https://www.facebook.com/293290937394645/events) | organizzatore | — |
 | AIGAE Associazione Italiana Guide Ambientali Escursionistiche | [pagina eventi del sito](https://www.aigae.org/eventi/) · [sito](https://aigae.org) · [eventi della pagina Facebook](https://www.facebook.com/italiaguide/events) | organizzatore | — |
 | AISC - Associazione Italiana Scompensati Cardiaci | [pagina eventi del sito](https://www.associazioneaisc.org/news.html) · [sito](https://associazioneaisc.org) · [eventi della pagina Facebook](https://www.facebook.com/100064882922845/events) | organizzatore | — |
 | ANCOS ROMA E PROVINCIA APS | [sito](https://ancosromaeprovincia.com) · [eventi della pagina Facebook](https://www.facebook.com/ANCoSRomaProvincia/events) | organizzatore | — |
@@ -244,14 +245,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Teatro Ghione | [eventi della pagina Facebook](https://www.facebook.com/GhioneTeatroRoma/events) | luogo, organizzatore | FB 8 |
+| Teatro Ghione | [pagina eventi del sito](https://teatroghione.it/) · [eventi della pagina Facebook](https://www.facebook.com/GhioneTeatroRoma/events) | luogo, organizzatore | FB 8 |
 | Forum Roma Sport Center | [eventi della pagina Facebook](https://www.facebook.com/ForumRomaSportCenter/events) | luogo | FB 3 |
 | The Royal Family Dance Crew | [eventi della pagina Facebook](https://www.facebook.com/OfficialRoyalFamilyDanceCrew/events) | organizzatore | FB 2 |
 | Alessandra Casale | [eventi della pagina Facebook](https://www.facebook.com/alessandra.casale/events) | organizzatore | FB 1 |
 | Antonio Tartarini | [eventi della pagina Facebook](https://www.facebook.com/antonio.tartarini.5/events) | organizzatore | FB 1 |
 | Asc Danza | [eventi della pagina Facebook](https://www.facebook.com/ascdanza/events) | organizzatore | FB 1 |
 | GMC Defence Services | [sito](https://academy.gmcdefence.net) · [eventi della pagina Facebook](https://www.facebook.com/gmcdefenceteam/events) | organizzatore | FB 1 |
-| GRUPPOANTEPRIMA | [eventi della pagina Facebook](https://www.facebook.com/gruppoanteprima/events) | organizzatore | FB 1 |
+| GRUPPOANTEPRIMA | [pagina eventi del sito](http://www.gruppoanteprima.com/9/eventi/) · [eventi della pagina Facebook](https://www.facebook.com/gruppoanteprima/events) | organizzatore | FB 1 |
 | Io Vergine tu Pesci? I segni dell' amore | [eventi della pagina Facebook](https://www.facebook.com/ioverginetupesci/events) | organizzatore | FB 1 |
 | Lega del Filo d'Oro | [eventi della pagina Facebook](https://www.facebook.com/legadelfilodoro/events) | organizzatore | FB 1 |
 | Livia Bonifazi | [eventi della pagina Facebook](https://www.facebook.com/livia.bonifazi/events) | organizzatore | FB 1 |
@@ -259,7 +260,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Magic Amor ETS | [pagina eventi del sito](https://www.magicamor.org/notizie/) · [sito](https://magicamor.org) · [eventi della pagina Facebook](https://www.facebook.com/MagicAmorEts/events) | organizzatore | FB 1 |
 | Mago Lollo | [eventi della pagina Facebook](https://www.facebook.com/magolollo/events) | organizzatore | FB 1 |
 | MGID | [sito](https://lc.mgid.com) · [eventi della pagina Facebook](https://www.facebook.com/mgidglobal/events) | organizzatore | FB 1 |
-| Nomos Trek - Escursioni e Trekking | [pagina eventi del sito](https://www.nomostrek.com/eventi/) · [sito](https://nomostrek.com) · [eventi della pagina Facebook](https://www.facebook.com/NomosTrek/events) | organizzatore | FB 1 |
+| Nomos Trek - Escursioni e Trekking | [pagina eventi del sito](http://www.nomostrek.com/) · [pagina eventi del sito](https://www.nomostrek.com/eventi/) · [sito](https://nomostrek.com) | organizzatore | FB 1 |
 | Piazza Venezzia, Rome, Italy | [pagina Facebook](https://www.facebook.com/pages/Piazza-Venezzia-Rome-Italy/238543586189135) | luogo | FB 1 |
 | Pierluigi Picconi | [eventi della pagina Facebook](https://www.facebook.com/pierluigi.picconi/events) | organizzatore | FB 1 |
 | Rieti - Park Hotel Villa Potenziani | [pagina Facebook](https://www.facebook.com/pages/Rieti-Park-Hotel-Villa-Potenziani/380880551990407) | luogo | FB 1 |
@@ -267,14 +268,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Roma, Lazio, Italy | [pagina Facebook](https://www.facebook.com/pages/Roma-Lazio-Italy/160952890767549) | luogo | FB 1 |
 | Scuola Italiana di Tehran "Pietro della Valle" EX-ALLIEVI | [pagina Facebook](https://www.facebook.com/groups/31134662361) | organizzatore | FB 1 |
 | Sogno di Bambino Onlus | [sito](https://sognodibambino.org) · [eventi della pagina Facebook](https://www.facebook.com/sognodibambino/events) | organizzatore | FB 1 |
-| StarTrekk | [sito](https://startrekk.it) · [eventi della pagina Facebook](https://www.facebook.com/startrekk2012/events) | organizzatore | FB 1 |
+| StarTrekk | [pagina eventi del sito](http://www.startrekk.it/) · [sito](https://startrekk.it) · [eventi della pagina Facebook](https://www.facebook.com/startrekk2012/events) | organizzatore | FB 1 |
 | Sulle Note di Ultimo & Baglioni Tribute Band | [eventi della pagina Facebook](https://www.facebook.com/sullenotediclaudiobaglioni/events) | organizzatore | FB 1 |
 | A.A.ALCOLISTI ANONIMI | [sito](https://alcolistianonimiitalia.it) · [eventi della pagina Facebook](https://www.facebook.com/AlcolistiAnonimiAPS/events) | organizzatore | — |
 | A.N.T.E.P. Associazione Nazionale Truccatori | [sito](https://antep.it) · [eventi della pagina Facebook](https://www.facebook.com/antep.truccatori/events) | organizzatore | — |
 | ACCADEMIA DEL PAZIENTE ESPERTO EUPATI - APS | [pagina eventi del sito](https://accademiadeipazienti.org/wp-json/tribe/events/v1/) · [sito](https://accademiadeipazienti.org) · [eventi della pagina Facebook](https://www.facebook.com/EUPATI.Italia/events) | organizzatore | — |
 | AGICO ETS | [pagina eventi del sito](https://agico-ets.it/category/eventi/) · [sito](https://agico-ets.it) | organizzatore | — |
 | Associazione ANAI: a sostegno dei Condomini | [sito](https://associazioneanai.it) · [eventi della pagina Facebook](https://www.facebook.com/100063254468845/events) | organizzatore | — |
-| Associazione culturale MiraMuseo | [sito](https://miramuseo.com) · [eventi della pagina Facebook](https://www.facebook.com/miramuseo/events) | organizzatore | — |
+| Associazione culturale MiraMuseo | [pagina eventi del sito](https://www.miramuseo.com/calendario/) · [sito](https://miramuseo.com) · [eventi della pagina Facebook](https://www.facebook.com/miramuseo/events) | organizzatore | — |
 | Associazione Culturale Sunodia | [pagina eventi del sito](https://www.sunodia.it/site/argomenti/news/) · [sito](https://sunodia.it) · [eventi della pagina Facebook](https://www.facebook.com/sunodia.it/events) | organizzatore | — |
 | Associazione Energia da Biomasse Solide | [pagina eventi del sito](https://biomasseenergia.eu/news/) · [sito](https://biomasseenergia.eu) · [eventi della pagina Facebook](https://www.facebook.com/biomasseenergia.it/events) | organizzatore | — |
 | Associazione Genitori AGe | [sito](https://age.it) · [eventi della pagina Facebook](https://www.facebook.com/age.associazione.italiana.genitori/events) | organizzatore | — |
@@ -295,7 +296,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CROCE ROSSA ITALIANA COMITATO MUNICIPI 8-11-12 DI ROMA ORGANIZZAZIONE DI VOLONTARIATO | [eventi della pagina Facebook](https://www.facebook.com/criroma1314/events) | organizzatore | — |
 | DE LA SALLE SOLIDARIETA' INTERNAZIONALE - ONLUS | [pagina eventi del sito](https://www.lasallefoundation.org/it/news/) · [sito](https://lasallefoundation.org) · [eventi della pagina Facebook](https://www.facebook.com/lasallefoundation/events) | organizzatore | — |
 | ENS - ENTE NAZIONALE PER LA PROTEZIONE E L'ASSISTENZA DEI SORDI ETS APS | [sito](https://ens.it) · [eventi della pagina Facebook](https://www.facebook.com/EnteNazionaleSordi/events) | organizzatore | — |
-| Far F'Arte | [pagina eventi del sito](https://www.farfarte.com/corsi/) · [sito](https://farfarte.com) · [eventi della pagina Facebook](https://www.facebook.com/farfarte.associazione/events) | organizzatore | — |
+| Far F'Arte | [pagina eventi del sito](https://www.farfarte.com/) · [pagina eventi del sito](https://www.farfarte.com/corsi/) · [sito](https://farfarte.com) | organizzatore | — |
 | FEMMINILE MASCHILE NEUTRO APS | [sito](https://femminilemaschileneutro.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionefemminilemaschileneutro/events) | organizzatore | — |
 | FONDAZIONE ARTOI ETS | [pagina eventi del sito](https://www.artoi.it/news/interviste-a-margine-del-iv-congresso-artoi/) · [sito](https://artoi.it) · [eventi della pagina Facebook](https://www.facebook.com/artoiit/events) | organizzatore | — |
 | FONDAZIONE GEMELLI MEDICAL CENTER - ENTE FILANTROPICO ETS | [pagina eventi del sito](https://www.gemellimedicalcenter.it/news/) · [sito](https://gemellimedicalcenter.it) · [eventi della pagina Facebook](https://www.facebook.com/gemellimedicalcenter/events) | organizzatore | — |
@@ -303,7 +304,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Fondazione Nicolò Piccolomini | [sito](https://fondazionepiccolomini.it) · [pagina Facebook](https://www.facebook.com/Fondazione-Nicol%C3%B2-Piccolomini-101312438402033) | soggetto | — |
 | FONDAZIONE OFM FRATERNITAS ETS | [pagina eventi del sito](https://ofmfraternitas.org/notizie/) · [sito](https://ofmfraternitas.org) · [eventi della pagina Facebook](https://www.facebook.com/ofmfraternitas/events) | organizzatore | — |
 | FONDAZIONE SCALABRINIANA ETS | [sito](https://scalabrinianfoundation.org) · [eventi della pagina Facebook](https://www.facebook.com/scalabrinianfoundation/events) | organizzatore | — |
-| FONDAZIONE VOLONTARIATO GIOVANI E SOLIDARIETA' ONLUS | [sito](https://fondazionefvgs.it) · [pagina Facebook](https://www.facebook.com/VIDES-Internazionale-FVGS-Onlus-108322109210790/timeline) | organizzatore | — |
+| FONDAZIONE VOLONTARIATO GIOVANI E SOLIDARIETA' ONLUS | [sito](https://fondazionefvgs.it) · [eventi della pagina Facebook](https://www.facebook.com/VIDES-Internazionale-FVGS-Onlus-108322109210790/events) | organizzatore | — |
 | HABITAT PER L'AUTISMO ETS | [pagina eventi del sito](https://www.habitatautismo.org/category/attivita/) · [sito](https://habitatautismo.org) · [eventi della pagina Facebook](https://www.facebook.com/Habitat-autismo-onlus-251216768287734/events) | organizzatore | — |
 | LA GIOVANE ROMA ETS | [sito](https://lagiovaneroma.it) · [eventi della pagina Facebook](https://www.facebook.com/lagiovaneroma/events) | organizzatore | — |
 | M'AMA DALLA PARTE DEI BAMBINI APS | [pagina eventi del sito](https://www.mammematte.com/notizie/) · [sito](https://mammematte.com) · [eventi della pagina Facebook](https://www.facebook.com/retemammematte/events) | organizzatore | — |
@@ -333,7 +334,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Balduina Centro Sociale Anziani (@1Aldo1Aldo) | [eventi della pagina Facebook](https://www.facebook.com/1Aldo1Aldo/events) | soggetto | — |
 | Balduina'S | [eventi della pagina Facebook](https://www.facebook.com/ReteBalduina/events) | soggetto | — |
 | Centro sociale anziani Balduina | [sito](https://peranziani.it) | soggetto | — |
-| Chiesa di San Pio X alla Balduina | [sito](https://www.turismoroma.it) | soggetto | — |
+| Chiesa di San Pio X alla Balduina | [pagina eventi del sito](https://www.turismoroma.it/it/eventi/falstaff/) · [sito](https://www.turismoroma.it) | soggetto | — |
 | Municipioromaxiv | [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | — |
 | Parrocchia San Pio X alla Balduina | [sito](https://www.scuolemigranti.org) | soggetto | — |
 
@@ -369,12 +370,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| 22/10/2026 𝘿𝙪𝙚 𝙡𝙚𝙤𝙣𝙞 Un'emozione unica il ritorno a ... | [pagina Facebook](https://www.facebook.com/100009514943505/videos/22102026%F0%9D%98%BF%F0%9D%99%AA%F0%9D%99%9A-%F0%9D%99%A1%F0%9D%99%9A%F0%9D%99%A4%F0%9D%99%A3%F0%9D%99%9E-unemozione-unica-il-ritorno-a-casa-di-un-simbolo-identificativ/1683634019992438) | soggetto | — |
+| 22/10/2026 𝘿𝙪𝙚 𝙡𝙚𝙤𝙣𝙞 Un'emozione unica il ritorno a ... | [eventi della pagina Facebook](https://www.facebook.com/100009514943505/events) | soggetto | — |
 | Associazione Culturale Progetto Riabilitazione - Roma | [sito](https://progettoriabilitazione.blogspot.it) · [eventi della pagina Facebook](https://www.facebook.com/100054604022503/events) | organizzatore | — |
 | Associazione Italiana Armatori Diportisti | [sito](https://associazionediportisti.it/) | soggetto | — |
 | Associazione Onda Telematica | [sito](http://ondatelematica.it/) | soggetto | — |
 | ASSOCIAZIONE ROMNI APS | [eventi della pagina Facebook](https://www.facebook.com/RomniAPS/events) | organizzatore | — |
 | Associazione Valle degli Ulivi Roma | [sito](https://valledegliuliviroma.com) · [eventi della pagina Facebook](https://www.facebook.com/valledegliuliviroma/events) | organizzatore | — |
+| Biblioteca Borghesiana (Municipio VI) | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) | soggetto | — |
 | Biblioteca Collina della Pace | [eventi della pagina Facebook](https://www.facebook.com/bibliotecacollinadellapace/events) | soggetto | — |
 | Biblioteca comunale Borghesiana | [sito](https://anagrafe.iccu.sbn.it) | soggetto | — |
 | Borghesiana - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
@@ -397,14 +399,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Inaugurata la Biblioteca Borghesiana, primo spazio ... - NewsFY | [sito](https://www.saracinesco.it) | soggetto | — |
 | ISTITUTO CASA DEI POVERI DEL SERVO LORENZO AGRIPPINO - APS | [pagina eventi del sito](https://www.istitutocasadeipoveridilorenzo.it/news/) · [sito](https://istitutocasadeipoveridilorenzo.it) | organizzatore | — |
 | KONSUMER ITALIA APS | [pagina eventi del sito](https://www.konsumer.it/category/eventi/) · [sito](https://konsumer.it) · [eventi della pagina Facebook](https://www.facebook.com/KonsumerItalia/events) | organizzatore | — |
-| La Capitale | [sito](https://lacapitale.it) · [eventi della pagina Facebook](https://www.facebook.com/lacapitalenews/events) | soggetto | — |
+| La Capitale | [pagina eventi del sito](https://www.lacapitale.it/temi/eventi/) · [sito](https://lacapitale.it) · [eventi della pagina Facebook](https://www.facebook.com/lacapitalenews/events) | soggetto | — |
 | Maurizioveloccia1 | [eventi della pagina Facebook](https://www.facebook.com/MaurizioVeloccia1/events) | soggetto | — |
 | Opera Madonna Del Divino Amore Seconda | [sito](https://www.casadicuramda.it/) | soggetto | — |
 | Parrocchia Santa Maria della Fiducia | [sito](http://www.smariafiducia.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiaSMF/events) | soggetto | — |
 | Aemme Tennis Roma Asd Borghesiana | — | soggetto | — |
 | Associazione Culturale L'Armonia Dell'Arte | — | soggetto | — |
 | ASSOCIAZIONE CULTURALE L'ARTIGIANO | — | soggetto | — |
-| Biblioteca Borghesiana (Municipio VI) | — | soggetto | — |
 | Cappella di Sant'Antonio da Padova alla Borghesiana | — | soggetto | — |
 | Cappella SANTA CHIARA alla Borghesiana | — | soggetto | — |
 | casa nostra Moretti | — | soggetto | — |
@@ -428,7 +429,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | ASS. CULT. VALDRADA | [sito](https://valdradateatro.it) · [eventi della pagina Facebook](https://www.facebook.com/valdrada.compagniateatrale/events) · [Instagram](https://www.instagram.com/valdradateatro) | organizzatore | CR 4 |
 | A.ROMA Lifestyle HOTEL | [eventi della pagina Facebook](https://www.facebook.com/ARomaLifestyleHotel/events) | luogo | FB 2 |
-| BAM - By All Means | [eventi della pagina Facebook](https://www.facebook.com/ByAllMeansNetwork/events) | organizzatore | FB 1 |
+| BAM - By All Means | [pagina eventi del sito](https://www.bam-network.com/) · [eventi della pagina Facebook](https://www.facebook.com/ByAllMeansNetwork/events) | organizzatore | FB 1 |
 | Partsweb | [eventi della pagina Facebook](https://www.facebook.com/Partsweb/events) | organizzatore | FB 1 |
 | Bravetta Pisana spazio per attività sociali e culturali | [sito](https://paesaggiorigenerazioneperiferie.it) | soggetto | — |
 | Centro Melantone - Centro Protestante di studi ecumenici a Roma | [sito](https://www.centromelantone.org/) | soggetto | — |
@@ -461,12 +462,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Circolo Valentini | [sito](http://www.circolovalentini.it/) | soggetto | — |
 | Comunità di Sant'Egidio - sede Serpentara | [sito](http://www.santegidio.org/) · [eventi della pagina Facebook](https://www.facebook.com/santegidio.org/events) | soggetto | — |
 | IC Liceonomentano | [sito](https://www.liceonomentano.edu.it) | soggetto | — |
-| Il Teatro degli Audaci | [sito](https://www.teatrodegliaudaci.it/) · [eventi della pagina Facebook](https://www.facebook.com/teatrodegliaudaci.it/events) | soggetto | — |
+| Il Teatro degli Audaci | [pagina eventi del sito](http://www.teatrodegliaudaci.it/category/eventi/) · [sito](https://www.teatrodegliaudaci.it/) · [eventi della pagina Facebook](https://www.facebook.com/teatrodegliaudaci.it/events) | soggetto | — |
 | Istituto Comprensivo Uruguay | [eventi della pagina Facebook](https://www.facebook.com/ScuolaUruguay/events) | soggetto | — |
 | Istituto Comprensivo Uruguay (@ScuolaUruguay) | [eventi della pagina Facebook](https://www.facebook.com/ScuolaUruguay/events) | soggetto | — |
 | La Chiesa di Gesù Cristo dei Santi degli Ultimi Giorni | [sito](https://local.churchofjesuschrist.org/it/it/rome/rome/via-di-settebagni-376?utm_source=gmb&utm_medium=yext&y_source=1_NjcwOTQ1NjEtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D) | soggetto | — |
 | Lazio Volley e Sport | [sito](http://laziovolleyesport.it/) · [eventi della pagina Facebook](https://www.facebook.com/laziovolleyesport/events) | soggetto | — |
-| Municipioromaiiiofficialpage | [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaIIIOfficialPage/events) | soggetto | — |
+| Municipioromaiiiofficialpage | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaIIIOfficialPage/events) | soggetto | — |
 | Parrocchia San Domenico Guzman | [sito](http://iclesia.com/churches/parrocchia-san-domenico-di-guzman) | soggetto | — |
 | Parrocchia Santa Maria delle Grazie a Casalboccone | [eventi della pagina Facebook](https://www.facebook.com/SMGRAZIE/events) | soggetto | — |
 | Roma VolleY Bufalotta | [sito](https://romavolleybufalotta.it) | soggetto | — |
@@ -504,7 +505,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | SOLARA GARDEN | [sito](https://solaragarden.it) · [eventi della pagina Facebook](https://www.facebook.com/SolaragardenIlVillaggiodiNatale/events) · [Instagram](https://www.instagram.com/solarailvillaggiodinatale) | organizzatore | RT 1 |
-| ANCIS POLITEIA - ODV | [pagina eventi del sito](https://ancispoliteia.com/eventi) · [sito](https://ancispoliteia.com) · [eventi della pagina Facebook](https://www.facebook.com/AncisPoliteiaOnlus/events) | organizzatore | — |
+| ANCIS POLITEIA - ODV | [pagina eventi del sito](http://www.ancispoliteia.com/) · [pagina eventi del sito](https://ancispoliteia.com/eventi) · [sito](https://ancispoliteia.com) | organizzatore | — |
 | Associazione culturale l'altro scatto | [sito](http://laltroscatto.it/) | soggetto | — |
 | ASSOCIAZIONE DI PROMOZIONE SOCIALE BIJA | [eventi della pagina Facebook](https://www.facebook.com/bijaolistic/events) | organizzatore | — |
 | Associazione HESED | [sito](https://chiesahesed.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneHesedAps/events) | organizzatore | — |
@@ -532,7 +533,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Parrocchia di San Timoteo - Roma Casal Palocco | [sito](https://www.santimoteo.org) | soggetto | — |
 | Parrocchia San Carlo da Sezze | [sito](http://www.sancarlods.it/) · [eventi della pagina Facebook](https://www.facebook.com/ChiesaSanCarloDaSezze/events) | soggetto | — |
 | Quartiere Axa (@residenti.quartiereaxa) | [eventi della pagina Facebook](https://www.facebook.com/residenti.quartiereaxa/events) | soggetto | — |
-| Roma Festival Barocco | XIX EDIZIONE 2026 | [sito](https://romafestivalbarocco.it) · [eventi della pagina Facebook](https://www.facebook.com/RomaFestivalBarocco/events) | soggetto | — |
+| Roma Festival Barocco | XIX EDIZIONE 2026 | [pagina eventi del sito](https://www.romafestivalbarocco.it/i-grandi-eventi/) · [sito](https://romafestivalbarocco.it) · [eventi della pagina Facebook](https://www.facebook.com/RomaFestivalBarocco/events) | soggetto | — |
 | Scuola di circo Roma VolaVoilà | [sito](https://volavoila.it) · [eventi della pagina Facebook](https://www.facebook.com/circovolavoilaroma/events) | soggetto | — |
 | Viento de Tango | [sito](https://www.tango-argentino-roma.it/) | soggetto | — |
 | Casal Palocco | — | luogo | RT 1 |
@@ -559,7 +560,8 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CENTRO STUDI DIFESA CIVILE | [pagina eventi del sito](https://www.pacedifesa.org/category/eventi/) · [sito](https://pacedifesa.org) | organizzatore | — |
 | Comitato di Quartiere Casalotti, Casal Selce, Selva Candida, Selva Nera | [eventi della pagina Facebook](https://www.facebook.com/61553668641240/events) | soggetto | — |
 | COMITATO PROMOTORE PER LA TUTELA E LA SALVAGUARDIA DEL PARCO DELLA CELLULOSA APS | [pagina eventi del sito](https://www.parcodellacellulosa.it/category/notizie/) · [sito](https://parcodellacellulosa.it) · [eventi della pagina Facebook](https://www.facebook.com/comitatoparcocellulosa/events) | organizzatore | — |
-| EquilibrioYoga Associazione - Yoga Roma Boccea Casalotti Selva Candida | [pagina eventi del sito](http://www.equilibrioyoga.it/eventi.html) · [sito](https://equilibrioyoga.it) · [eventi della pagina Facebook](https://www.facebook.com/equilibrioyogaroma/events) | organizzatore | — |
+| EquilibrioYoga Associazione - Yoga Roma Boccea Casalotti Selva Candida | [pagina eventi del sito](http://www.equilibrioyoga.it/) · [pagina eventi del sito](http://www.equilibrioyoga.it/eventi.html) · [sito](https://equilibrioyoga.it) | organizzatore | — |
+| Futura Servizi | [Instagram](https://www.instagram.com/futura_servizi) | soggetto | — |
 | I Love Casalotti (@ilovecasalotti) | [eventi della pagina Facebook](https://www.facebook.com/ilovecasalotti/events) | soggetto | — |
 | Il Centro Anziani Casalotti, associazione piazza Ormea ... | [eventi della pagina Facebook](https://www.facebook.com/nidoinfanziastregatto/events) | soggetto | — |
 | Istituto Comprensivo - Ic Via Casalotti, 259 | [sito](https://io.italia.it) | soggetto | — |
@@ -567,7 +569,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Istituto Comprensivo Via Casalotti – Roma – Sito web ufficiale | [sito](https://www.iccasalotti.edu.it) | soggetto | — |
 | Parrocchia S. Rita da Cascia | [eventi della pagina Facebook](https://www.facebook.com/parrocchias.ritadacasciacasalotti/events) | soggetto | — |
 | Parrocchia S.... | [eventi della pagina Facebook](https://www.facebook.com/parrocchias.ritadacasciacasalotti/events) | soggetto | — |
-| Parrocchia Ss. Rufina e Seconda - Chiesa di S. Gemma Galgani | [sito](https://santerufinaeseconda.it) · [eventi della pagina Facebook](https://www.facebook.com/ss.rufinaesecondaroma/events) | soggetto | — |
+| Parrocchia Ss. Rufina e Seconda - Chiesa di S. Gemma Galgani | [pagina eventi del sito](https://www.santerufinaeseconda.it/) · [sito](https://santerufinaeseconda.it) · [eventi della pagina Facebook](https://www.facebook.com/ss.rufinaesecondaroma/events) | soggetto | — |
 | TURISPORT EUROPE APS | [pagina eventi del sito](https://www.turisporteurope.it/news/) · [sito](https://turisporteurope.it) · [eventi della pagina Facebook](https://www.facebook.com/turisporteuropeitalia/events) | organizzatore | — |
 | Giulia Cheyenne | — | organizzatore | FB 1 |
 | Ic Via Casalotti 259 | — | soggetto | — |
@@ -588,7 +590,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | COACHING4MUM ETS | [pagina eventi del sito](https://coaching4mum.it/news/) · [sito](https://coaching4mum.it) | organizzatore | — |
 | Comitato di Quartiere Tomba di Nerone e Zone Limitrofe | [eventi della pagina Facebook](https://www.facebook.com/CDQtombadinerone/events) | soggetto | — |
 | Comitato Regionale Lazio FICK | [pagina eventi del sito](https://www.federcanoa.it/home/news.html) · [sito](https://federcanoa.it) · [eventi della pagina Facebook](https://www.facebook.com/61570834715519/events) | organizzatore | — |
-| CONI Comitato Regionale Lazio | [pagina eventi del sito](https://lazio.coni.it/notizie?format=feed&amp;type=rss) · [sito](https://lazio.coni.it) · [eventi della pagina Facebook](https://www.facebook.com/lazio.coni.it/events) | organizzatore | — |
+| CONI Comitato Regionale Lazio | [pagina eventi del sito](https://lazio.coni.it/) · [pagina eventi del sito](https://lazio.coni.it/notizie?format=feed&amp;type=rss) · [sito](https://lazio.coni.it) | organizzatore | — |
 | CSC - Communication & Speaking Center | [sito](https://www.centrostudicassia.it/) · [eventi della pagina Facebook](https://www.facebook.com/centrostudicassia/events) | soggetto | — |
 | Fidal Comitato Provinciale Roma | [sito](https://roma.fidal.it) · [eventi della pagina Facebook](https://www.facebook.com/fidal.roma/events) | organizzatore | — |
 | Halloween Roma | [sito](https://halloweenroma.it) | soggetto | — |
@@ -633,7 +635,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Chiesa di Santa Teresa d'Avila | [sito](https://www.parrocchiasantantoniodipadova.org/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiasantantoniodipadovapomezia/events) | soggetto | — |
 | Chiodo Storto Teatro Santa Chiara | [sito](http://www.chiodostorto.it/) | soggetto | — |
 | Circolo Sportivo TeMa Club Srl | [sito](http://temaclub.metro.biz/) · [eventi della pagina Facebook](https://www.facebook.com/Temaclubsrl/events) | soggetto | — |
-| Comune di Cisterna di Latina | [pagina Facebook](https://www.facebook.com/ComuneCisternaLT/posts/sabato-lintitolazione-piazza-madonna-del-divino-amore-e-inaugurazione-delle-panc/1427041372795792) | soggetto | — |
+| Comune di Cisterna di Latina | [eventi della pagina Facebook](https://www.facebook.com/ComuneCisternaLT/events) | soggetto | — |
 | EUROPA 2010 CENTRO STUDI E FORMAZIONE ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.europa2010.org/eventi/) · [sito](https://europa2010.org) | organizzatore | — |
 | FestaRica Villa delle Rose | [sito](https://www.festarica.it/) · [eventi della pagina Facebook](https://www.facebook.com/villaperfeste18anniroma/events) | soggetto | — |
 | FONDAZIONE SAMUEL E BARBARA STERNBERG PER LA CURA E RICERCA ONCOLOGICA ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.fondazionesternberg.it/it/news/Mission-e-Visione) · [sito](https://fondazionesternberg.it) | organizzatore | — |
@@ -676,7 +678,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Charlotte Spettacoli | [eventi della pagina Facebook](https://www.facebook.com/charlottespettacoli/events) | organizzatore | FB 4 |
 | BERTI LIVE | [sito](https://bertilive.com) · [eventi della pagina Facebook](https://www.facebook.com/bertilive/events) | organizzatore | FB 1 |
 | Biblioteca Quarticciolo | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-biblioteca-quarticciolo-2/) · [eventi della pagina Facebook](https://www.facebook.com/bibquarticcioloRM/events) | luogo | CR 1 |
-| Health Pilates Latina | [pagina Facebook](https://www.facebook.com/people/Health-Pilates-Latina/61565874868219) | organizzatore | FB 1 |
+| Health Pilates Latina | [pagina eventi del sito](https://www.pilates-latina.com/gli-studi/) · [pagina Facebook](https://www.facebook.com/people/Health-Pilates-Latina/61565874868219) | organizzatore | FB 1 |
 | Simone Mozzato | [eventi della pagina Facebook](https://www.facebook.com/simone.mozzato.9/events) | organizzatore | FB 1 |
 | 𝑩𝑨𝑫 𝑹𝑶𝑴𝑨𝑵𝑪𝑬 - " Tʜᴇ Lᴀᴅʏ Gᴀɢᴀ Sʜᴏᴡ " | [pagina Facebook](https://www.facebook.com/people/%F0%9D%91%A9%F0%9D%91%A8%F0%9D%91%AB-%F0%9D%91%B9%F0%9D%91%B6%F0%9D%91%B4%F0%9D%91%A8%F0%9D%91%B5%F0%9D%91%AA%F0%9D%91%AC-T%CA%9C%E1%B4%87-L%E1%B4%80%E1%B4%85%CA%8F-G%E1%B4%80%C9%A2%E1%B4%80-S%CA%9C%E1%B4%8F%E1%B4%A1-/61551936461008) | organizzatore | FB 1 |
 | Teatro D'Annunzio Latina | — | luogo | FB 3 |
@@ -689,7 +691,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Biblioteche di Roma | [sito](https://bibliotechediroma.it) · [eventi della pagina Facebook](https://www.facebook.com/biblioteche.roma/events) · [Instagram](https://www.instagram.com/bibliotechediroma) | organizzatore | CR 14 |
 | Sovrintendenza Capitolina | [sito](https://sovraintendenzaroma.it) · [eventi della pagina Facebook](https://www.facebook.com/SovrintendenzaCapitolina/events) · [Instagram](https://www.instagram.com/sovrintendenzacapitolina) | organizzatore | CR 14 |
-| Ars in Urbe APS | [sito](https://arsinurbe.org) · [eventi della pagina Facebook](https://www.facebook.com/ArsinUrbeRoma/events) | organizzatore | FB 13 |
+| Ars in Urbe APS | [pagina eventi del sito](https://www.arsinurbe.org/calendario/) · [sito](https://arsinurbe.org) · [eventi della pagina Facebook](https://www.facebook.com/ArsinUrbeRoma/events) | organizzatore | FB 13 |
 | Nightswim S.r.l. | [sito](https://nightswim.eu) · [eventi della pagina Facebook](https://www.facebook.com/nightswimproduction/events) · [Instagram](https://www.instagram.com/nightswim_production) | organizzatore | CR 12 |
 | bellaroma.info | [sito](https://bellaroma.info) · [eventi della pagina Facebook](https://www.facebook.com/bellaroma.info/events) | organizzatore | FB 11 |
 | Parco archeologico del Colosseo | [pagina letta alla fonte (calendario)](https://colosseo.it/eventi/) · [sito](https://colosseo.it) · [Instagram](https://www.instagram.com/parcocolosseo) | luogo | FB 1 FL 9 RT 1 |
@@ -706,7 +708,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Museo di Roma | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/museo-di-roma/) · [sito](https://museodiroma.it) · [eventi della pagina Facebook](https://www.facebook.com/MuseoDiRoma/events) | luogo | CR 3 FB 1 RT 1 |
 | Scuderie del Quirinale | [pagina letta alla fonte (calendario)](https://scuderiequirinale.it/elenco-mostre/) · [sito](https://scuderiequirinale.it) · [eventi della pagina Facebook](https://www.facebook.com/ScuderieQuirinale/events) | luogo | FB 3 FL 1 RT 1 |
 | Auditorium Conciliazione | [sito](https://www.auditoriumconciliazione.it/) | luogo | FB 1 RT 3 |
-| Roma Esoterica | [eventi della pagina Facebook](https://www.facebook.com/RomaEsotericaTour/events) | organizzatore | FB 4 |
+| Roma Esoterica | [pagina eventi del sito](https://www.romaesoterica.com/) · [eventi della pagina Facebook](https://www.facebook.com/RomaEsotericaTour/events) | organizzatore | FB 4 |
 | Teatro Sala Umberto | [pagina letta alla fonte (calendario)](https://salaumberto.com/) · [sito](https://salaumberto.com) | luogo | FL 3 RT 1 |
 | Basilica dei Santi Quattro Coronati | [pagina Facebook](https://www.facebook.com/pages/Basilica-dei-Santi-Quattro-Coronati/162744783738591) | luogo | FB 3 |
 | Biblioteca Angelica | [pagina letta alla fonte (calendario)](https://bibliotecaangelica.cultura.gov.it/) · [sito](https://bibliotecaangelica.cultura.gov.it) | luogo | FL 3 |
@@ -717,13 +719,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | TEATROSOPHIA | [pagina letta alla fonte (calendario)](https://teatrosophia.it/) · [sito](https://teatrosophia.it) | luogo | FL 2 RT 1 |
 | Arte Marziale della Consapevolezza Zhong Xin Dao I Liq Chuan - Italia | [eventi della pagina Facebook](https://www.facebook.com/ArteMarzialeDellaConsapevolezza/events) | organizzatore | FB 2 |
 | Biblioteca Casa delle Letterature | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-casa-delle-letterature/) | luogo | CR 2 |
-| Cicero in Rome | [sito](https://ciceroinrome.blogspot.it) · [eventi della pagina Facebook](https://www.facebook.com/CiceroinRome/events) | organizzatore | FB 2 |
+| Cicero in Rome | [pagina eventi del sito](https://ciceroinrome.blogspot.com/p/calendario.html/) · [sito](https://ciceroinrome.blogspot.it) · [eventi della pagina Facebook](https://www.facebook.com/CiceroinRome/events) | organizzatore | FB 2 |
 | Fondazione Museo della Shoah | [pagina letta alla fonte (calendario)](https://www.museodellashoah.it/eventistampa/) · [pagina eventi del sito](https://www.museodellashoah.it/corsi/) · [sito](https://museodellashoah.it) | luogo, organizzatore | CR 1 FL 1 |
 | Guida Turistica - Paola Di Silvio | [eventi della pagina Facebook](https://www.facebook.com/guidaturisticaromaviterbo/events) | organizzatore | FB 2 |
 | Inverno Romano - Gli Eventi Migliori | [eventi della pagina Facebook](https://www.facebook.com/Romecity.it/events) | organizzatore | FB 2 |
 | Italy, Rome. | [pagina Facebook](https://www.facebook.com/pages/Italy-Rome/438090772889479) | luogo | FB 2 |
 | Museo Napoleonico | [pagina letta alla fonte (calendario)](https://www.museonapoleonico.it/it/mostre_ed_eventi/mostre) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/museo-napoleonico/) · [sito](https://museonapoleonico.it) | luogo | CR 1 FL 1 |
-| Oratorio del Gonfalone - Coro Polifonico Romano Gastone Tosato | [sito](https://oratoriogonfalone.eu) · [eventi della pagina Facebook](https://www.facebook.com/oratoriogonfalone/events) | organizzatore | FB 2 |
+| Oratorio del Gonfalone - Coro Polifonico Romano Gastone Tosato | [pagina eventi del sito](https://www.oratoriogonfalone.eu/) · [sito](https://oratoriogonfalone.eu) · [eventi della pagina Facebook](https://www.facebook.com/oratoriogonfalone/events) | organizzatore | FB 2 |
 | Sala Santa Rita | [pagina letta alla fonte (calendario)](https://culture.roma.it/manifestazione/sala-santa-rita/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/sala-santa-rita/) · [pagina eventi del sito](https://www.acquerellisti.net/category/news/) | luogo, organizzatore | CR 1 FL 1 |
 | Viaggi nella Storia di Laura D. | [eventi della pagina Facebook](https://www.facebook.com/viagginellastoria/events) | organizzatore | FB 2 |
 | Villa Maraini.... | [pagina eventi del sito](https://villamaraini.it/attivita/unita-di-strada/) · [sito](https://villamaraini.it) · [pagina Facebook](https://www.facebook.com/pages/Villa-Maraini/149542041808872) | luogo, organizzatore | FB 2 |
@@ -735,10 +737,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Black Liquid Art Gallery | [sito](https://blackliquidart.com) | luogo | RT 1 |
 | blowart contemporary space | [sito](https://melaseccapressoffice.it) | luogo | RT 1 |
 | Campo Marzio, Lazio, Italy | [pagina Facebook](https://www.facebook.com/pages/Campo-Marzio-Lazio-Italy/107126885992016) | luogo | FB 1 |
-| Casa delle Traduzioni | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/casa-delle-traduzioni/) · [eventi della pagina Facebook](https://www.facebook.com/BibliotecaCasadelleTraduzioni/events) | luogo | CR 1 |
+| Casa delle Traduzioni | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/casa-delle-traduzioni/) · [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/BibliotecaCasadelleTraduzioni/events) | luogo | CR 1 |
 | Chiostro del Bramante | [sito](https://www.chiostrodelbramante.it/) | luogo | RT 1 |
 | City of Roma | [pagina Facebook](https://www.facebook.com/pages/City-of-Roma/181409308653107) | luogo | FB 1 |
-| Claudio Parisi Presicce, Laura Petacco | [sito](https://arapacis.it) · [eventi della pagina Facebook](https://www.facebook.com/MuseoAraPacis/events) · [Instagram](http://www.instagram.com/museiincomuneroma) | organizzatore | CR 1 |
+| Claudio Parisi Presicce, Laura Petacco | [pagina eventi del sito](http://www.arapacis.it/) · [sito](https://arapacis.it) · [eventi della pagina Facebook](https://www.facebook.com/MuseoAraPacis/events) | organizzatore | CR 1 |
 | CONFESERCENTI FORUM | [sito](https://confesercentiforum.it) | luogo | RT 1 |
 | CTG Vallesina - JESI | [eventi della pagina Facebook](https://www.facebook.com/ctgvallesina/events) | organizzatore | FB 1 |
 | D&C Eventi | [eventi della pagina Facebook](https://www.facebook.com/deceventi/events) | organizzatore | FB 1 |
@@ -748,8 +750,8 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Enoteca Letteraria, Roma | [eventi della pagina Facebook](https://www.facebook.com/enotecaletterariaroma/events) | luogo | FB 1 |
 | Family Tour | [pagina Facebook](https://www.facebook.com/people/Family-Tour/100064051598857) | organizzatore | FB 1 |
 | Federica Maurizi | [eventi della pagina Facebook](https://www.facebook.com/federica.maurizi.9/events) | organizzatore | FB 1 |
-| Fondazione Primoli | [pagina eventi del sito](https://www.fondazioneprimoli.it/eventi/) · [sito](https://fondazioneprimoli.it) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneprimoli/events) | organizzatore | FB 1 |
-| FONDAZIONE TEATRO DI ROMA | [sito](https://teatrodiroma.net) · [eventi della pagina Facebook](https://www.facebook.com/valleteatro/events) · [Instagram](https://www.instagram.com/fondazioneteatrodiroma) | organizzatore | RT 1 |
+| Fondazione Primoli | [pagina eventi del sito](http://www.fondazioneprimoli.it/) · [pagina eventi del sito](https://www.fondazioneprimoli.it/eventi/) · [sito](https://fondazioneprimoli.it) | organizzatore | FB 1 |
+| FONDAZIONE TEATRO DI ROMA | [pagina eventi del sito](http://www.teatrodiroma.net/) · [sito](https://teatrodiroma.net) · [eventi della pagina Facebook](https://www.facebook.com/valleteatro/events) | organizzatore | RT 1 |
 | Galleria Biblioteca Angelica | [sito](https://melaseccapressoffice.it) | luogo | RT 1 |
 | Galleria d'Arte Moderna di Roma Capitale | [pagina letta alla fonte (calendario)](https://www.galleriaartemodernaroma.it/it/mostre_ed_eventi/mostre) · [sito](https://galleriaartemodernaroma.it) | luogo | FL 1 |
 | Galleria dell'Accademia di Firenze | [eventi della pagina Facebook](https://www.facebook.com/galleriadellaccademiaGAMB/events) | organizzatore | FB 1 |
@@ -776,7 +778,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Rosso20sette arte contemporanea | [sito](https://melaseccapressoffice.it) | luogo | RT 1 |
 | Santa Maria del Popolo | [eventi della pagina Facebook](https://www.facebook.com/basilicasantamariadelpopolo/events) | luogo | FB 1 |
 | Scuola Internazionale di Teatro dei Giullari | [pagina Facebook](https://www.facebook.com/people/Scuola-Internazionale-di-Teatro-dei-Giullari/61588877194009) | organizzatore | FB 1 |
-| StraWoman | [sito](https://strawoman.com) · [eventi della pagina Facebook](https://www.facebook.com/StraWoman/events) | organizzatore | FB 1 |
+| StraWoman | [pagina eventi del sito](http://www.strawoman.com/) · [sito](https://strawoman.com) · [eventi della pagina Facebook](https://www.facebook.com/StraWoman/events) | organizzatore | FB 1 |
 | Teatro Flavio Vespasiano Rieti | [eventi della pagina Facebook](https://www.facebook.com/100070145146883/events) | luogo | FB 1 |
 | Teatro Tordinona | [sito](https://www.teatrotordinona.it/) | luogo | RT 1 |
 | The International Comedy Show | [eventi della pagina Facebook](https://www.facebook.com/romeinternationalcomedy/events) | organizzatore | FB 1 |
@@ -790,13 +792,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | A.IT.A FEDERAZIONE (ASSOCIAZIONE ITALIANA AFASICI). | [pagina eventi del sito](http://www.aitafederazione.it/aita/news) · [sito](https://aitafederazione.it) · [pagina Facebook](https://www.facebook.com/AITA-Federazione-Associazioni-Italiane-Afasici/336213689765023) | organizzatore | — |
 | A.P.S. ECOFRIENDLYROME | [eventi della pagina Facebook](https://www.facebook.com/ecofriendlyrome/events) | organizzatore | — |
 | A.P.S. PRESIDIUM DEBITORES DI ROMA | [sito](https://presidiumdebitores.it) | organizzatore | — |
-| A.RE.SA.M. ODV (ASSOCIAZIONE REGIONALE PER LA SALUTE MENTALE) | [pagina eventi del sito](https://www.aresam.it/attivita/) · [sito](https://aresam.it) · [eventi della pagina Facebook](https://www.facebook.com/story.php/events) | organizzatore | — |
+| A.RE.SA.M. ODV (ASSOCIAZIONE REGIONALE PER LA SALUTE MENTALE) | [pagina eventi del sito](https://www.aresam.it/attivita/) · [sito](https://aresam.it) | organizzatore | — |
 | A.S.I.L.S. - ETS | [pagina eventi del sito](https://www.asils.it/news/) · [sito](https://asils.it) · [eventi della pagina Facebook](https://www.facebook.com/asils.it/events) | organizzatore | — |
 | ACCADEMIA DELL'ARCADIA | [pagina eventi del sito](https://www.accademiadellarcadia.it/eventi/?ical=1) · [sito](https://accademiadellarcadia.it) · [eventi della pagina Facebook](https://www.facebook.com/accademiadellarcadia.it/events) | organizzatore | — |
 | ACCADEMIA NAZIONALE DEI SARTORI APS | [pagina eventi del sito](https://www.accademianazionaledeisartori.it/corsi/) · [sito](https://accademianazionaledeisartori.it) · [eventi della pagina Facebook](https://www.facebook.com/accademiasartori/events) | organizzatore | — |
 | ACCADEMIA NAZIONALE DI SAN LUCA - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://accademiasanluca.it/iniziative/eventi/evento/alla-studiosa-gioventu-del-disegno) · [sito](https://accademiasanluca.it) · [eventi della pagina Facebook](https://www.facebook.com/Accademia-Nazionale-di-San-Luca-191286187552065/events) | organizzatore | — |
 | ACCI - Associazione Circo Contemporaneo Italia | [sito](https://associazionecircocontemporaneo.it) · [eventi della pagina Facebook](https://www.facebook.com/accicirco/events) | organizzatore | — |
-| AICS AMBIENTE APS | [sito](https://aics.it) · [eventi della pagina Facebook](https://www.facebook.com/AiCSdn/events) | organizzatore | — |
+| AICS AMBIENTE APS | [pagina eventi del sito](http://www.aics.it/) · [sito](https://aics.it) · [eventi della pagina Facebook](https://www.facebook.com/AiCSdn/events) | organizzatore | — |
 | AIDOS Associazione italiana donne per lo sviluppo | [sito](https://aidos.it) · [eventi della pagina Facebook](https://www.facebook.com/Aidos.it/events) | organizzatore | — |
 | AIIG - Associazione Italiana Insegnanti di Geografia | [pagina eventi del sito](https://www.aiig.it/attivita/giovani/) · [sito](https://aiig.it) · [eventi della pagina Facebook](https://www.facebook.com/Aiigeografia/events) | organizzatore | — |
 | Aimac - Associazione Italiana Malati di Cancro | [pagina eventi del sito](https://www.aimac.it/notizie-tumore/news/graduatorie-definitive-servizio-civile-2026) · [sito](https://aimac.it) · [eventi della pagina Facebook](https://www.facebook.com/aimac.associazione/events) | organizzatore | — |
@@ -824,14 +826,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Culturale L'Attico | [sito](https://fabiosargentini.it) · [eventi della pagina Facebook](https://www.facebook.com/LAtticoGalleria/events) | organizzatore | — |
 | Associazione Culturale Sinopie | [pagina eventi del sito](https://www.sinopie.it/calendario/) · [sito](https://sinopie.it) · [eventi della pagina Facebook](https://www.facebook.com/SinopieAssociazione/events) | organizzatore | — |
 | Associazione Culturale Teatro Due Roma | [pagina eventi del sito](https://teatrodueroma.it/attivita/) · [sito](https://teatrodueroma.it) · [eventi della pagina Facebook](https://www.facebook.com/TEATRODUEROMA/events) | organizzatore | — |
-| Associazione dasud Roma | [sito](https://dasud.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionedaSudRoma/events) | organizzatore | — |
+| Associazione dasud Roma | [pagina eventi del sito](https://www.dasud.it/) · [sito](https://dasud.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionedaSudRoma/events) | organizzatore | — |
 | Associazione dei Mediatori Interculturali del Lazio | [sito](https://amilazio.it) · [eventi della pagina Facebook](https://www.facebook.com/AMILazio/events) | organizzatore | — |
 | Associazione della Stampa Estera in Italia | [pagina eventi del sito](https://www.stampaestera.org/agenda/) · [sito](https://stampaestera.org) · [eventi della pagina Facebook](https://www.facebook.com/StampaEstera/events) | organizzatore | — |
 | ASSOCIAZIONE DI SAN MARTINO ODV | [pagina eventi del sito](https://sanmartinoodv.it/eventi/) · [sito](https://sanmartinoodv.it) · [pagina Facebook](https://www.facebook.com/people/San-Martino-Odv/61561640225730) | organizzatore | — |
 | Associazione di Studi Giuridici Giuseppe Borré e Carlo Maria Verardi | [pagina eventi del sito](https://www.associazioneborreverardi.it/category/eventi/) · [sito](https://associazioneborreverardi.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneborreverardi/events) | organizzatore | — |
 | Associazione di volontariato "A Roma, Insieme" | [pagina eventi del sito](https://www.aromainsieme.it/category/news/) · [sito](https://aromainsieme.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneAromaInsieme/events) | organizzatore | — |
 | Associazione Federico nel Cuore - Regione Lazio | [sito](https://federiconelcuore.org) · [eventi della pagina Facebook](https://www.facebook.com/100064872900688/events) | organizzatore | — |
-| Associazione Formazione 24H | [pagina eventi del sito](https://formazione24h.it/events/corso-aggiornamento-per-mediatore-culturale/) · [sito](https://formazione24h.it) · [eventi della pagina Facebook](https://www.facebook.com/Formazione24h/events) | organizzatore | — |
+| Associazione Formazione 24H | [pagina eventi del sito](https://formazione24h.it/eventi-2/) · [pagina eventi del sito](https://formazione24h.it/events/corso-aggiornamento-per-mediatore-culturale/) · [sito](https://formazione24h.it) | organizzatore | — |
 | ASSOCIAZIONE GUIDE E SCOUTS CATTOLICI ITALIANI (AGESCI) APS | [pagina eventi del sito](https://www.agesci.it/eventi/?ical=1) · [sito](https://agesci.it) · [eventi della pagina Facebook](https://www.facebook.com/agesci/events) | organizzatore | — |
 | ASSOCIAZIONE INTERNAZIONALE DI ARCHEOLOGIA CLASSICA ONLUS | [pagina eventi del sito](https://www.aiac.org/attivita/incontri-aiac/) · [sito](https://aiac.org) · [eventi della pagina Facebook](https://www.facebook.com/AIAC-Associazione-Internazionale-di-Archeologia-Classica-260551097314951/events) | organizzatore | — |
 | Associazione Italia-Iran | [sito](https://italia-iran.org) · [eventi della pagina Facebook](https://www.facebook.com/61555440796923/events) | organizzatore | — |
@@ -839,7 +841,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Italiana Arbitri - FIGC | [sito](https://aia-figc.it) · [eventi della pagina Facebook](https://www.facebook.com/aiafigc/events) | organizzatore | — |
 | ASSOCIAZIONE ITALIANA DI NUTRIZIONE, SPORT E STILE DI VITA - ENTE DEL TERZO SETTORE | [sito](https://aniss.it) | organizzatore | — |
 | ASSOCIAZIONE ITALIANA SOMMELIER LAZIO ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.aislazio.it/categoria-prodotto/corsi/) · [sito](https://aislazio.it) · [eventi della pagina Facebook](https://www.facebook.com/aislazio/events) | organizzatore | — |
-| Associazione Luca Coscioni | [pagina eventi del sito](https://www.associazionelucacoscioni.it/notizie/comunicati/coronavirus-ascolta-tutte-le-interviste-in-podcast) · [sito](https://associazionelucacoscioni.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionecoscioni/events) | organizzatore | — |
+| Associazione Luca Coscioni | [pagina eventi del sito](https://www.associazionelucacoscioni.it/agenda/) · [pagina eventi del sito](https://www.associazionelucacoscioni.it/notizie/comunicati/coronavirus-ascolta-tutte-le-interviste-in-podcast) · [sito](https://associazionelucacoscioni.it) | organizzatore | — |
 | ASSOCIAZIONE MECENATE 90 ETS | [pagina eventi del sito](https://mecenate90.it/iniziative/presentazionedelrapportodiricerca-ifel-mecenate-90/) · [sito](https://mecenate90.it) · [eventi della pagina Facebook](https://www.facebook.com/Mecenate90/events) | organizzatore | — |
 | Associazione MetaMorfosi | [sito](https://associazionemetamorfosi.com) · [eventi della pagina Facebook](https://www.facebook.com/associazione.metamorfosi.roma/events) | organizzatore | — |
 | ASSOCIAZIONE NAZIONALE  VITTIME CIVILI DI GUERRA APS | [sito](https://anvcg.it) · [eventi della pagina Facebook](https://www.facebook.com/anvcgONLUS/events) | organizzatore | — |
@@ -855,16 +857,16 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ASSOCIAZIONE UPTER SOLIDARIETA' ODV | [pagina eventi del sito](https://www.uptersolidarieta.it/attivita/) · [sito](https://uptersolidarieta.it) · [eventi della pagina Facebook](https://www.facebook.com/uptersolidarieta/events) | organizzatore | — |
 | ASSOUTENTI LAZIO APS | [pagina eventi del sito](https://www.assoutentilazioaps.it/news/) · [sito](https://assoutentilazioaps.it) · [eventi della pagina Facebook](https://www.facebook.com/aulazio/events) | organizzatore | — |
 | Attuare la Costituzione - Associazione di promozione sociale | [pagina eventi del sito](https://www.attuarelacostituzione.it/news/) · [sito](https://attuarelacostituzione.it) · [eventi della pagina Facebook](https://www.facebook.com/Attuarelacostituzione2017/events) | organizzatore | — |
-| AVOS ENSEMBLE ETS - A.P.S. | [pagina eventi del sito](https://www.avosproject.it/corsi/) · [sito](https://avosproject.it) · [eventi della pagina Facebook](https://www.facebook.com/avoschamber/events) | organizzatore | — |
+| AVOS ENSEMBLE ETS - A.P.S. | [pagina eventi del sito](https://www.avosproject.it/avoslive/) · [pagina eventi del sito](https://www.avosproject.it/corsi/) · [sito](https://avosproject.it) | organizzatore | — |
 | Biblioteca Centrale Ragazzi | [eventi della pagina Facebook](https://www.facebook.com/centraleragazzi/events) | soggetto | — |
 | CAPIT CIRCOLI APS ETS | [sito](https://capit-aps.org) | organizzatore | — |
-| CARTA DI ROMA APS | [eventi della pagina Facebook](https://www.facebook.com/CartaDiRoma/events) | organizzatore | — |
+| CARTA DI ROMA APS | [pagina eventi del sito](https://www.cartadiroma.org/rassegna/) · [eventi della pagina Facebook](https://www.facebook.com/CartaDiRoma/events) | organizzatore | — |
 | Casa delle Letterature | [eventi della pagina Facebook](https://www.facebook.com/casa.letterature/events) | soggetto | — |
 | CENTRO ANZIANI VIGNA MURATA - APS | [pagina eventi del sito](https://www.cdqvignamurata.it/notizie/) · [sito](https://cdqvignamurata.it) · [eventi della pagina Facebook](https://www.facebook.com/fonte.meravigliosa/events) | organizzatore | — |
 | CENTRO ASTALLI PER L'ASSISTENZA AGLI IMMIGRATI ODV | [pagina eventi del sito](https://www.centroastalli.it/category/news/) · [sito](https://centroastalli.it) · [eventi della pagina Facebook](https://www.facebook.com/CentroAstalli/events) | organizzatore | — |
 | CENTRO CONSUMATORI ITALIA APS | [pagina eventi del sito](https://centroconsumatoriitalia.it/category/news/) · [sito](https://centroconsumatoriitalia.it) · [eventi della pagina Facebook](https://www.facebook.com/centroconsumatoritalia/events) | organizzatore | — |
 | CENTRO DI INIZIATIVA GIURIDICA PIERO CALAMANDREI ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.fondazionecalamandrei.it/attivita/) · [sito](https://fondazionecalamandrei.it) | organizzatore | — |
-| CENTRO PER LA RIFORMA DELLO STATO - ETS | [sito](https://centroriformastato.it) · [eventi della pagina Facebook](https://www.facebook.com/CRiformaStato/events) | organizzatore | — |
+| CENTRO PER LA RIFORMA DELLO STATO - ETS | [pagina eventi del sito](http://www.centroriformastato.it/) · [sito](https://centroriformastato.it) · [eventi della pagina Facebook](https://www.facebook.com/CRiformaStato/events) | organizzatore | — |
 | CENTRO STUDI AMERICANI | [pagina eventi del sito](https://centrostudiamericani.org/events/?ical=1) · [sito](https://centrostudiamericani.org) · [eventi della pagina Facebook](https://www.facebook.com/centrostudiamericani/events) | organizzatore | — |
 | CENTRO STUDI DI POLITICA INTERNAZIONALE CESPI ETS | [pagina eventi del sito](https://www.cespi.it/it/eventi-note/eventi) · [sito](https://cespi.it) · [eventi della pagina Facebook](https://www.facebook.com/cespiroma/events) | organizzatore | — |
 | CENTRO TURISTICO GIOVANILE APS | [pagina eventi del sito](https://ctg.it/notizie) · [sito](https://ctg.it) · [pagina Facebook](https://www.facebook.com/p/CENTRO-TURISTICO-GIOVANILE-100064761278437) | organizzatore | — |
@@ -907,7 +909,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Garum - Biblioteca e Museo della Cucina | [sito](https://www.museodellacucina.com/) | soggetto | — |
 | Gruppo India | [sito](https://gruppoindia.it) · [eventi della pagina Facebook](https://www.facebook.com/ComitatoGruppoIndia/events) | organizzatore | — |
 | HARMONIA MUNDI APS | [pagina eventi del sito](https://harmonia-mundi.it/eventi) · [sito](https://harmonia-mundi.it) · [eventi della pagina Facebook](https://www.facebook.com/Harmoniamundi/events) | organizzatore | — |
-| Home Page - Camera di Commercio di Roma - CCIAA Roma | [sito](https://rm.camcom.it) · [eventi della pagina Facebook](https://www.facebook.com/CameradiCommercioRoma/events) | soggetto | — |
+| Home Page - Camera di Commercio di Roma - CCIAA Roma | [pagina eventi del sito](https://www.rm.camcom.it/) · [sito](https://rm.camcom.it) · [eventi della pagina Facebook](https://www.facebook.com/CameradiCommercioRoma/events) | soggetto | — |
 | I POVERI AL CENTRO ODV | [sito](https://ipoverialcentro.it) · [eventi della pagina Facebook](https://www.facebook.com/ipoverialcentro/events) | organizzatore | — |
 | IL PIACERE DI SAPERE APS | [sito](https://ilpiaceredisapere.it) · [eventi della pagina Facebook](https://www.facebook.com/uninettuno/events) | organizzatore | — |
 | Instituto Cervantes de Roma | [sito](https://roma.cervantes.es/) | soggetto | — |
@@ -916,11 +918,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ISTITUTO PSICOANALITICO PER LE RICERCHE SOCIALI E.T.S. | [pagina eventi del sito](https://www.iprs.it/eventi/) · [sito](https://iprs.it) · [eventi della pagina Facebook](https://www.facebook.com/iprs.it/events) | organizzatore | — |
 | JESUIT SOCIAL NETWORK ETS | [pagina eventi del sito](https://www.jsn.it/cosa-facciamo/attivita) · [sito](https://jsn.it) · [eventi della pagina Facebook](https://www.facebook.com/Jesuit-Social-Network-374690466681335/events) | organizzatore | — |
 | JustRoma.it – Tutto quello che serve per visitare Roma | [sito](https://justroma.it) | soggetto | — |
-| L'ALBERO VERDE DELLA VITA APS | [sito](https://lalinfa.it) · [eventi della pagina Facebook](https://www.facebook.com/alberoverdedellavita/events) | organizzatore | — |
+| L'ALBERO VERDE DELLA VITA APS | [pagina eventi del sito](https://lalinfa.it/sapori-dal-mondo/) · [sito](https://lalinfa.it) · [eventi della pagina Facebook](https://www.facebook.com/alberoverdedellavita/events) | organizzatore | — |
 | LA SCUOLA DI PACE - ODV | [pagina eventi del sito](https://www.lascuoladipace.eu/category/eventi/) · [sito](https://lascuoladipace.eu) · [eventi della pagina Facebook](https://www.facebook.com/lascuoladipace1/events) | organizzatore | — |
 | MEGLIO LEGALE - APS | [sito](https://megliolegale.it) · [eventi della pagina Facebook](https://www.facebook.com/megliolegale/events) | organizzatore | — |
 | MENTE PUBBLICA - THINK TANK - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.mentepubblica.it/news/) · [sito](https://mentepubblica.it) · [eventi della pagina Facebook](https://www.facebook.com/MentePubblicaETS/events) | organizzatore | — |
-| MOVIMENTO PER LA VITA ITALIANO ODV - FEDERAZIONE DEI MOVIMENTI PER LA VITA E DEI CENTRI DI AIUTO ALLA VITA D'ITALIA | [pagina eventi del sito](https://siallavita.epaper.digital/en/news) · [sito](https://siallavita.epaper.digital) · [pagina Facebook](https://www.facebook.com/https://www.facebook.com/movimentoperlavitaitaliano) | organizzatore | — |
+| MOVIMENTO PER LA VITA ITALIANO ODV - FEDERAZIONE DEI MOVIMENTI PER LA VITA E DEI CENTRI DI AIUTO ALLA VITA D'ITALIA | [pagina eventi del sito](https://siallavita.epaper.digital/en/news) · [sito](https://siallavita.epaper.digital) · [pagina Facebook](https://www.facebook.com/https:) | organizzatore | — |
 | Musei di San Salvatore in Lauro (Pio Sodalizio dei Piceni) | [sito](https://www.piosodaliziodeipiceni.it/) | soggetto | — |
 | MUTUA ITALIA ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://mutuaitalia.wordpress.com/news/) · [sito](https://mutuaitalia.wordpress.com) | organizzatore | — |
 | NoiNo Comitato Popolare | [sito](https://comitatopopolareperilno.it) · [eventi della pagina Facebook](https://www.facebook.com/100068011524989/events) | organizzatore | — |
@@ -931,7 +933,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | SALUTE E SVILUPPO ETS | [pagina eventi del sito](https://salutesviluppo.org/category/notizie/) · [sito](https://salutesviluppo.org) · [eventi della pagina Facebook](https://www.facebook.com/salutesviluppo/events) | organizzatore | — |
 | SALUTEMIA SOCIETA' DI MUTUO SOCCORSO DEI MEDICI E DEGLI ODONTOIAT RI ETS O IN BREVE SALUTEMIA SMS ETS | [pagina eventi del sito](https://www.salutemia.net/news/) · [sito](https://salutemia.net) | organizzatore | — |
 | SIPARIO LIRICO APS | [pagina eventi del sito](https://www.siparioliricoaps.it/eventi/) · [sito](https://siparioliricoaps.it) | organizzatore | — |
-| SOCIETA' GEOGRAFICA ITALIANA ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://societageografica.net/wp/events/?ical=1) · [sito](https://societageografica.net) · [eventi della pagina Facebook](https://www.facebook.com/societa.geografica.italiana/events) | organizzatore | — |
+| SOCIETA' GEOGRAFICA ITALIANA ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://societageografica.net/wp/events/) · [pagina eventi del sito](https://societageografica.net/wp/events/?ical=1) · [sito](https://societageografica.net) | organizzatore | — |
 | SOCIETA' ROMANA DI STORIA PATRIA - ETS | [pagina eventi del sito](https://www.srsp.it/index.php/eventi/) · [sito](https://srsp.it) · [eventi della pagina Facebook](https://www.facebook.com/societaromana.storiapatria.1/events) | organizzatore | — |
 | SOLE LUNA - UN PONTE TRA LE CULTURE ETS | [pagina eventi del sito](https://solelunadoc.org/programma/) · [sito](https://solelunadoc.org) · [eventi della pagina Facebook](https://www.facebook.com/solelunadoc/events) | organizzatore | — |
 | SPORTELLO AMIANTO NAZIONALE | [sito](https://sportelloamianto.com) · [eventi della pagina Facebook](https://www.facebook.com/organizzazionesportelloamianto/events) | organizzatore | — |
@@ -1016,7 +1018,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ASD Centro Equestre Blue Moon | [sito](http://www.asdbluemoon.it/) | soggetto | — |
 | ASD Cesano | [sito](http://www.asdcesano.it/) · [eventi della pagina Facebook](https://www.facebook.com/ASDCesano/events) | soggetto | — |
 | Assistenza anziani a Roma Cesano | [sito](https://www.privatassistenza.it) | soggetto | — |
-| ASSOCIAZIONE CULTURALE 7 HILLS GOSPEL APS | [sito](https://7hillsgospel.it) · [eventi della pagina Facebook](https://www.facebook.com/7hillsgospel.it/events) | organizzatore | — |
+| ASSOCIAZIONE CULTURALE 7 HILLS GOSPEL APS | [pagina eventi del sito](https://7hillsgospel.it/calendario-eventi/) · [sito](https://7hillsgospel.it) · [eventi della pagina Facebook](https://www.facebook.com/7hillsgospel.it/events) | organizzatore | — |
 | ASSOCIAZIONE CULTURECO A.P.S. | [sito](https://cultureco.it) · [pagina Facebook](https://www.facebook.com/people/CulturEco/61575677018179) | organizzatore | — |
 | ASSOCIAZIONE ITALIANA COMPOSTAGGIO ETS | [sito](https://associazioneitalianacompostaggio.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneitalianacompostaggio/events) | organizzatore | — |
 | ASSOCIAZIONE PRO TERRITORIO E CITTADINI ODV | [pagina eventi del sito](https://www.proterritorioecittadinionlus.it/iniziative/) · [sito](https://proterritorioecittadinionlus.it) | organizzatore | — |
@@ -1113,7 +1115,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Biblioteca Vaccheria Nardi | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-vaccheria-nardi/) · [eventi della pagina Facebook](https://www.facebook.com/bibliotecavaccherianardi/events) | luogo | CR 1 |
-| CENTRO PILATES Yoga Roma - Ginnastica per il Corpo e per la Mente | [eventi della pagina Facebook](https://www.facebook.com/CentroPILATES.Roma/events) | organizzatore | FB 1 |
+| CENTRO PILATES Yoga Roma - Ginnastica per il Corpo e per la Mente | [pagina eventi del sito](http://www.centropilatesyogaroma.com/1/prossimi_appuntamenti_611736.html/) · [eventi della pagina Facebook](https://www.facebook.com/CentroPILATES.Roma/events) | organizzatore | FB 1 |
 | Colli dell'Aniene, Roma | [pagina Facebook](https://www.facebook.com/pages/Colli-dellAniene-Roma/2555296921208671) | luogo | FB 1 |
 | OPERA E GRANDI COMPOSITORI DI MÚSICA CLASSICA | [pagina Facebook](https://www.facebook.com/groups/1395662270467019) | organizzatore | FB 1 |
 | Abbiamo un sogno: un Centro Culturale per Colli Aniene | [sito](https://www.collianiene.org) | soggetto | — |
@@ -1126,7 +1128,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Parrocchia di Santa Bernadette Soubirous | [sito](https://www.santabernadette.it/) · [eventi della pagina Facebook](https://www.facebook.com/ArquidiocesisCordoba/events) | soggetto | — |
 | Parrocchia di Santa Maria del Soccorso | [sito](http://smariadelsoccorso.altervista.org/) · [eventi della pagina Facebook](https://www.facebook.com/SMSParrocchia/events) | soggetto | — |
 | Roma Dodgeball ASD - Colli Aniene | [sito](https://asdromadodgeball.wixsite.com/my-site) | soggetto | — |
-| Sezione A.I.A. Roma 2 "Riccardo Lattanzi" | [sito](http://www.aiaroma2.it/) | soggetto | — |
+| Sezione A.I.A. Roma 2 "Riccardo Lattanzi" | [pagina eventi del sito](https://www.aiaroma2.it/news/) · [sito](http://www.aiaroma2.it/) | soggetto | — |
 | teatroaniene.it | [sito](https://teatroaniene.it) · [eventi della pagina Facebook](https://www.facebook.com/teatroaniene/events) | soggetto | — |
 | Vaccheria Nardi a Colli Aniene: storia della biblioteca e dell ... | [sito](https://www.fabriziocolarossi.com) | soggetto | — |
 | Raffaele Sorbo | — | organizzatore | FB 1 |
@@ -1144,22 +1146,22 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| GRUPPO TEATRO ESSERE APS | [sito](https://teatroportaportese.it) · [eventi della pagina Facebook](https://www.facebook.com/teatroportaportese/events) · [Instagram](https://www.instagram.com/teatro_portaportese_official) | organizzatore | CR 8 |
-| Functional Training School | [sito](https://functionaltrainingschool.com) · [eventi della pagina Facebook](https://www.facebook.com/FunctionalTrainingSchool/events) | organizzatore | FB 2 |
+| GRUPPO TEATRO ESSERE APS | [pagina eventi del sito](https://www.teatroportaportese.it/programmazione-2025-2026/) · [sito](https://teatroportaportese.it) · [eventi della pagina Facebook](https://www.facebook.com/teatroportaportese/events) | organizzatore | CR 8 |
+| Functional Training School | [pagina eventi del sito](http://www.functionaltrainingschool.com/) · [sito](https://functionaltrainingschool.com) · [eventi della pagina Facebook](https://www.facebook.com/FunctionalTrainingSchool/events) | organizzatore | FB 2 |
 | ArtSharing Roma | [sito](https://artsharingroma.it) | luogo | RT 1 |
 | Monteverde Nuovo | [pagina Facebook](https://www.facebook.com/pages/Monteverde-Nuovo/1443693289261141) | luogo | FB 1 |
 | Ottica Candino Dal 1960 | [pagina Facebook](https://www.facebook.com/people/Ottica-Candino-Dal-1960/61576846431253) | organizzatore | FB 1 |
 | Biblioteca Colli Portuensi | [eventi della pagina Facebook](https://www.facebook.com/bibliotecacolliportuensi/events) | soggetto | — |
 | Bistrout | [sito](https://bistrout.com) · [eventi della pagina Facebook](https://www.facebook.com/bistroutroma/events) | soggetto | — |
 | Palestra Monteverde Colli Portuensi Roma - 61 Wellness | Centro Sportivo in Via Antonio Pa | [sito](https://61wellness.it) | soggetto | — |
-| RoccoToys - Negozi di Giocattoli per bambini - ROMA | [sito](https://roccotoys.com) · [eventi della pagina Facebook](https://www.facebook.com/RoccoToys/events) | soggetto | — |
+| RoccoToys - Negozi di Giocattoli per bambini - ROMA | [pagina eventi del sito](http://www.roccotoys.com/eventi/) · [sito](https://roccotoys.com) · [eventi della pagina Facebook](https://www.facebook.com/RoccoToys/events) | soggetto | — |
 | Freetime Sporting club ssd | — | luogo | FB 2 |
 
 ## Corviale `corviale` — Municipio XI
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| MRF 5 s.r.l. | [sito](https://mrf5.com) | organizzatore | CR 10 |
+| MRF 5 s.r.l. | [pagina eventi del sito](https://www.mrf5.com/) · [sito](https://mrf5.com) | organizzatore | CR 10 |
 | Associazione Culturale Procult | [sito](https://danzainlevare.it) · [Instagram](https://www.instagram.com/danzainlevare) | organizzatore | CR 9 |
 | Biblioteca Renato Nicolini | [eventi della pagina Facebook](https://www.facebook.com/BibliotecaRenatoNicolini/events) | soggetto | — |
 | Caro Corviale - Comunità e accoglienza | [sito](https://carocorviale.it) · [eventi della pagina Facebook](https://www.facebook.com/carocorviale/events) | soggetto | — |
@@ -1168,7 +1170,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Corviale - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
 | Corviale, riconsegnati i locali del centro anziani dopo l' ... | [sito](https://urloweb.com) | soggetto | — |
 | CSA Amici di Corviale (@amicidicorviale2017) | [eventi della pagina Facebook](https://www.facebook.com/amicidicorviale2017/events) | soggetto | — |
-| Dipartimento di Architettura | [sito](https://architettura.uniroma3.it) · [eventi della pagina Facebook](https://www.facebook.com/Architettura-Roma-Tre-1097158017148404/events) | soggetto | — |
+| Dipartimento di Architettura | [pagina eventi del sito](http://architettura.uniroma3.it/) · [sito](https://architettura.uniroma3.it) · [eventi della pagina Facebook](https://www.facebook.com/Architettura-Roma-Tre-1097158017148404/events) | soggetto | — |
 | Il Mitreo Iside - centro culturale a Corviale | [sito](https://www.mitreoiside.com) | soggetto | — |
 | Parrocchia San Girolamo a Corviale in Roma | [eventi della pagina Facebook](https://www.facebook.com/parrocchia.sangirolamocorviale/events) | soggetto | — |
 | Regione Lazio | [sito](https://regione.lazio.it) · [eventi della pagina Facebook](https://www.facebook.com/RegioneLazio/events) | soggetto | — |
@@ -1184,7 +1186,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Cantieri Narranti | [sito](https://cantierinarranti.it) | soggetto | — |
 | Comitato Cittadino di Dragona | [pagina eventi del sito](https://www.dragona.it/category/eventi/) · [sito](https://dragona.it) · [eventi della pagina Facebook](https://www.facebook.com/comitatocittadinodidragona/events) | organizzatore | — |
-| Dragoncello, inaugurata l'area-gioco all'interno del parco ... | [pagina Facebook](https://www.facebook.com/virginia.raggi.m5sroma/videos/dragoncello-inaugurata-larea-gioco-allinterno-del-parco-vittime-del-razzismo/608638419747404) | soggetto | — |
+| Dragoncello, inaugurata l'area-gioco all'interno del parco ... | [eventi della pagina Facebook](https://www.facebook.com/virginia.raggi.m5sroma/events) | soggetto | — |
 | Parrocchia dei Santi Cirillo e Metodio | [sito](http://www.santicirilloemetodio.it/) · [eventi della pagina Facebook](https://www.facebook.com/santicirilloemetodio/events) | soggetto | — |
 | Santa Maria Regina dei Martiri | [eventi della pagina Facebook](https://www.facebook.com/parrocchiadragona/events) | soggetto | — |
 | Villa ANITA | [sito](http://residenzaanzianiostia.it/) | soggetto | — |
@@ -1201,14 +1203,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Palazzo dello Sport (EUR SpA) | [pagina letta alla fonte (calendario)](https://www.eurspa.it/) · [sito](https://eurspa.it) | luogo | FL 7 |
 | Atlantico live | [pagina letta alla fonte (calendario)](https://www.atlanticoliveroma.it/calendario-eventi/) · [sito](https://atlanticoliveroma.it) | luogo | FL 4 RT 2 |
-| Gigi D'Alessio | [eventi della pagina Facebook](https://www.facebook.com/gigidalessioofficial/events) | organizzatore | FB 2 |
+| Gigi D'Alessio | [pagina eventi del sito](https://www.gigidalessioofficial.it/news/) · [eventi della pagina Facebook](https://www.facebook.com/gigidalessioofficial/events) | organizzatore | FB 2 |
 | ASD Gasya Gym | [pagina Facebook](https://www.facebook.com/people/ASD-Gasya-Gym/61594245609841) | organizzatore | FB 1 |
 | Biblioteca Laurentina | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-laurentina/) · [eventi della pagina Facebook](https://www.facebook.com/bibliotecalaurentina/events) | luogo | CR 1 |
 | Fundadores FIC-Religiosas Franciscanas de la Inmaculada Concepción-Perú | [eventi della pagina Facebook](https://www.facebook.com/FICPeru/events) | organizzatore | FB 1 |
 | I Viaggi di Giorgio | [eventi della pagina Facebook](https://www.facebook.com/IViaggidiGiorgio/events) | organizzatore | FB 1 |
 | IL MERCATINO DEL DJ | [pagina Facebook](https://www.facebook.com/groups/1679619242250285) | organizzatore | FB 1 |
 | Invincible Fest | [eventi della pagina Facebook](https://www.facebook.com/theinvinciblefest/events) | luogo | FB 1 |
-| Laparoscopic | [sito](https://laparoscopic.it) · [eventi della pagina Facebook](https://www.facebook.com/laparoscopic.it/events) | organizzatore | FB 1 |
+| Laparoscopic | [pagina eventi del sito](http://www.laparoscopic.it/) · [sito](https://laparoscopic.it) · [eventi della pagina Facebook](https://www.facebook.com/laparoscopic.it/events) | organizzatore | FB 1 |
 | Planetario | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/planetario/) · [pagina eventi del sito](https://museociviltaromana.it/it/mostre_ed_eventi/eventi) · [sito](https://planetarioroma.it) | luogo, organizzatore | CR 1 |
 | Riccardo De Simone | [eventi della pagina Facebook](https://www.facebook.com/remixsperlonga/events) | organizzatore | FB 1 |
 | Teatro Elsa Morante | [sito](https://teatrodiroma.net) · [eventi della pagina Facebook](https://www.facebook.com/biblioteca.elsamorante/events) | luogo | RT 1 |
@@ -1219,7 +1221,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Ex Alunni Istituto Massimo | [sito](https://exalmassimo.it) · [eventi della pagina Facebook](https://www.facebook.com/exalmassimo/events) | organizzatore | — |
 | Associazione Italiana Nutrizionisti in Cucina - AINC | [pagina eventi del sito](https://www.associazioneitaliananutrizionistincucina.it/news) · [sito](https://associazioneitaliananutrizionistincucina.it) · [eventi della pagina Facebook](https://www.facebook.com/AINUTRIZIONISTICUCINA/events) | organizzatore | — |
 | Associazione Nuove Risorse | [sito](https://nuoverisorse.com) · [eventi della pagina Facebook](https://www.facebook.com/100068623609575/events) | organizzatore | — |
-| Capodanno Roma 2027 - Feste ed eventi del Capodanno a Roma | [sito](https://capodannoroma.org) · [eventi della pagina Facebook](https://www.facebook.com/capodannoroma.org/events) | soggetto | — |
+| Capodanno Roma 2027 - Feste ed eventi del Capodanno a Roma | [pagina eventi del sito](https://www.capodannoroma.org/) · [sito](https://capodannoroma.org) · [eventi della pagina Facebook](https://www.facebook.com/capodannoroma.org/events) | soggetto | — |
 | Comitato di Quartiere Eur-Ferratella | [sito](https://cdqeurferratella.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/comitatodiquartiere.ferratella/events) | organizzatore | — |
 | Comitato Italiano Pierre de Coubertin | [pagina eventi del sito](https://www.coubertin.org/news/) · [sito](https://coubertin.org) · [eventi della pagina Facebook](https://www.facebook.com/CIPCItalia/events) | organizzatore | — |
 | Competitività e Infrastrutture - GI Confindustria | [pagina eventi del sito](https://giovanimprenditori.org/news/) · [sito](https://giovanimprenditori.org) · [eventi della pagina Facebook](https://www.facebook.com/GI.Comitato.Infrastrutture/events) | organizzatore | — |
@@ -1241,7 +1243,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Laboratorio 104 tour e visite guidate a Roma | [sito](https://laboratorio104.it) · [eventi della pagina Facebook](https://www.facebook.com/Laboratorio104/events) | organizzatore | FB 11 |
+| Laboratorio 104 tour e visite guidate a Roma | [pagina eventi del sito](https://www.laboratorio104.it/visite-in-programma/) · [sito](https://laboratorio104.it) · [eventi della pagina Facebook](https://www.facebook.com/Laboratorio104/events) | organizzatore | FB 11 |
 | Medina Art Gallery | [pagina letta alla fonte (calendario)](https://www.medinaroma.com/) · [sito](https://medinaroma.com) | luogo | FL 4 RT 5 |
 | Palazzo delle Esposizioni | [pagina letta alla fonte (calendario)](https://www.palazzoesposizioniroma.it/) · [sito](https://palazzoesposizioniroma.it) · [eventi della pagina Facebook](https://www.facebook.com/palazzoesposizioni/events) | luogo | FL 9 |
 | Teatro Brancaccio | [pagina letta alla fonte (calendario)](https://teatrobrancaccio.it/) · [sito](https://teatrobrancaccio.it) · [eventi della pagina Facebook](https://www.facebook.com/Teatro.Brancaccio.Roma/events) | luogo | FB 1 FL 3 RT 3 |
@@ -1266,14 +1268,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | AmarTango Vicky Arenillas | [eventi della pagina Facebook](https://www.facebook.com/AmarTangoVickyArenillas/events) | organizzatore | FB 1 |
 | Auditorium Antonianum | [eventi della pagina Facebook](https://www.facebook.com/AuditoriumAntonianum/events) | luogo | FB 1 |
 | Bookingsmed.com | [eventi della pagina Facebook](https://www.facebook.com/bookingsmed/events) | organizzatore | FB 1 |
-| CARD Italia | [eventi della pagina Facebook](https://www.facebook.com/carditalia/events) | organizzatore | FB 1 |
+| CARD Italia | [pagina eventi del sito](http://www.carditalia.com/) · [eventi della pagina Facebook](https://www.facebook.com/carditalia/events) | organizzatore | FB 1 |
 | Chiesa Evangelica Metodista | [sito](https://opera-lirica.com) | luogo | RT 1 |
 | Dinner & New Friends events | [pagina Facebook](https://www.facebook.com/people/Dinner-New-Friends-events/61577264561800) | organizzatore | FB 1 |
 | Domino Experience | [eventi della pagina Facebook](https://www.facebook.com/DominoExperienceRiccioneCattolica/events) | organizzatore | FB 1 |
-| DoubleTree by Hilton Rome Monti | [sito](https://dtromemonti.com) · [eventi della pagina Facebook](https://www.facebook.com/DoubleTreeRomeMonti/events) | organizzatore | FB 1 |
+| DoubleTree by Hilton Rome Monti | [pagina eventi del sito](https://www.dtromemonti.com/eat-e-drink/) · [sito](https://dtromemonti.com) · [eventi della pagina Facebook](https://www.facebook.com/DoubleTreeRomeMonti/events) | organizzatore | FB 1 |
 | Eccellenze Ortodontiche - Ortodontisti di alto livello | [eventi della pagina Facebook](https://www.facebook.com/eccellenzeortodontiche.it/events) | organizzatore | FB 1 |
 | Festa delle Stelle | [eventi della pagina Facebook](https://www.facebook.com/festadellestelleworld/events) · [Instagram](http://www.instagram.com/lafestadellestelle) | organizzatore | FB 1 |
-| Grand Ballo Storico a Roma | [sito](https://granballostoricoroma.ru) · [pagina Facebook](https://www.facebook.com/people/Grand-Ballo-Storico-a-Roma/100076302881969) | organizzatore | FB 1 |
+| Grand Ballo Storico a Roma | [pagina eventi del sito](https://granballostoricoroma.ru/) · [sito](https://granballostoricoroma.ru) · [pagina Facebook](https://www.facebook.com/people/Grand-Ballo-Storico-a-Roma/100076302881969) | organizzatore | FB 1 |
 | Hotel La Griffe Roma | [eventi della pagina Facebook](https://www.facebook.com/hotellagrifferoma/events) | luogo | FB 1 |
 | Le Bestevem | [eventi della pagina Facebook](https://www.facebook.com/LeBestevem/events) | organizzatore | FB 1 |
 | Make Friends events | [eventi della pagina Facebook](https://www.facebook.com/MakeFriendsEvents/events) | organizzatore | FB 1 |
@@ -1281,13 +1283,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | MERCATO CENTRALE ROMA TERMINI SRL | [sito](https://app.aloesuite.com) | organizzatore | RT 1 |
 | MiceriumOrtodonzia | [eventi della pagina Facebook](https://www.facebook.com/MiceriumOrtodonzia/events) | organizzatore | FB 1 |
 | OFFICINE CULTURALI | [sito](https://ambrajovinelli.org) · [eventi della pagina Facebook](https://www.facebook.com/AmbraJovinelli/events) · [Instagram](https://www.instagram.com/ambrajovinelli) | organizzatore | RT 1 |
-| Ottobrata Monticiana | [pagina Facebook](https://www.facebook.com/events/2583774172094055) | luogo | RT 1 |
 | Palais Massimo alle Terme | [pagina Facebook](https://www.facebook.com/pages/Palais-Massimo-alle-Terme/136104726437074) | luogo | FB 1 |
 | Quirinale Hotel Rome | [pagina Facebook](https://www.facebook.com/pages/Quirinale-Hotel-Rome/145571532145984) | luogo | FB 1 |
 | Roma Esplorazioni | [eventi della pagina Facebook](https://www.facebook.com/romaesplorazioni/events) | organizzatore | FB 1 |
 | Roma, Italy | [eventi della pagina Facebook](https://www.facebook.com/italiaitalyitalien/events) | luogo | FB 1 |
 | Scisynopsis Conferences | [sito](https://scisynopsisconferences.com) · [eventi della pagina Facebook](https://www.facebook.com/scisynopsisconferences/events) | organizzatore | FB 1 |
-| Sister Annella Zervas | [sito](https://sisterannella.org) · [eventi della pagina Facebook](https://www.facebook.com/sisterannella/events) | organizzatore | FB 1 |
+| Sister Annella Zervas | [pagina eventi del sito](https://sisterannella.org/) · [sito](https://sisterannella.org) · [eventi della pagina Facebook](https://www.facebook.com/sisterannella/events) | organizzatore | FB 1 |
 | St. Charles Pilgrimages LLC | [eventi della pagina Facebook](https://www.facebook.com/st.charlespilgrimages/events) | organizzatore | FB 1 |
 | The 48 Hour Film Project Italia | [sito](https://48hourfilm.com) · [eventi della pagina Facebook](https://www.facebook.com/the48hourfilmproject.italia/events) | organizzatore | FB 1 |
 | Volver al FLAMENCO 2021 | [pagina Facebook](https://www.facebook.com/groups/147860463911941) | organizzatore | FB 1 |
@@ -1301,16 +1302,17 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ADOC ROMA E LAZIO - Associazione Difesa Orientamento Consumatori | [pagina eventi del sito](https://www.adocromaelazio.it/notizie/) · [sito](https://adocromaelazio.it) · [eventi della pagina Facebook](https://www.facebook.com/adocromaelazio/events) | organizzatore | — |
 | AGCI Associazione Generale Cooperative Italiane | [sito](https://agci.it) · [eventi della pagina Facebook](https://www.facebook.com/AGCI.Associazione.Generale.Cooperative.Italiane/events) | organizzatore | — |
 | AIAC Associazione Italiana di Architettura e Critica | [sito](https://architetturaecritica.it) · [eventi della pagina Facebook](https://www.facebook.com/100065058169644/events) | organizzatore | — |
-| ALLEANZA ITALIANA PER LO SVILUPPO SOSTENIBILE - ETS | [pagina eventi del sito](https://asvis.it/news/) · [sito](https://asvis.it) · [eventi della pagina Facebook](https://www.facebook.com/asvisitalia/events) | organizzatore | — |
+| ALLEANZA ITALIANA PER LO SVILUPPO SOSTENIBILE - ETS | [pagina eventi del sito](http://www.asvis.it/) · [pagina eventi del sito](https://asvis.it/news/) · [sito](https://asvis.it) | organizzatore | — |
 | AMICI DI ROBERTO MORRIONE ENTE DEL TERZO SETTORE ETS | [pagina eventi del sito](https://www.premiorobertomorrione.it/news/) · [sito](https://premiorobertomorrione.it) · [eventi della pagina Facebook](https://www.facebook.com/PremioRobertoMorrione/events) | organizzatore | — |
 | AMNESTY INTERNATIONAL SEZIONE ITALIANA ODV | [pagina eventi del sito](https://www.amnesty.it/wp-json/tribe/events/v1/) · [sito](https://amnesty.it) · [eventi della pagina Facebook](https://www.facebook.com/AmnestyInternationalItalia/events) | organizzatore | — |
 | ANC Associazione Nazionale Commercialisti | [pagina eventi del sito](https://ancnazionale.it/news/) · [sito](https://ancnazionale.it) · [eventi della pagina Facebook](https://www.facebook.com/100064793944210/events) | organizzatore | — |
 | ANLAIDS ASSOCIAZIONE NAZIONALE PER LA LOTTA ALL'AIDS ETS | [pagina eventi del sito](https://www.anlaids.it/news) · [sito](https://anlaids.it) · [eventi della pagina Facebook](https://www.facebook.com/Anlaids/events) | organizzatore | — |
+| ANLI Associazione Nazionale Lavoratori in Italia | [sito](http://www.immigrati.eu/) · [eventi della pagina Facebook](https://www.facebook.com/lavoratorimmigrati/events) · [Instagram](https://www.instagram.com/anli.roma) | soggetto | — |
 | APS AMATI PER AMARE | [pagina eventi del sito](https://amatiperamare.eu/calendario/?ical=1) · [sito](https://amatiperamare.eu) · [eventi della pagina Facebook](https://www.facebook.com/AmatiperAmare/events) | organizzatore | — |
 | APS I FATTI IN CASA | [eventi della pagina Facebook](https://www.facebook.com/ifattincasa2020/events) | organizzatore | — |
 | ARCHIVIO RIAVVOLTE ETS | [pagina eventi del sito](https://www.archivioriavvolte.it/category/eventi/) · [sito](https://archivioriavvolte.it) · [eventi della pagina Facebook](https://www.facebook.com/archivioriavvolte/events) | organizzatore | — |
 | ARTE Associazione di Reseller e Trader dell'Energia - Assoperatori | [sito](https://assoperatori.it) · [eventi della pagina Facebook](https://www.facebook.com/assoperatori/events) | organizzatore | — |
-| ASI SPORT EQUESTRI ASD APS | [pagina eventi del sito](https://asiequitazione.com/eventi/?ical=1) · [sito](https://asiequitazione.com) · [eventi della pagina Facebook](https://www.facebook.com/asisportesociale/events) | organizzatore | — |
+| ASI SPORT EQUESTRI ASD APS | [pagina eventi del sito](https://asiequitazione.com/eventi/) · [pagina eventi del sito](https://asiequitazione.com/eventi/?ical=1) · [sito](https://asiequitazione.com) | organizzatore | — |
 | ASNOR Associazione Nazionale Orientatori | [sito](https://asnor.it) · [eventi della pagina Facebook](https://www.facebook.com/ASNOROfficialPage/events) | organizzatore | — |
 | ASSIPROMOS - ASSOCIAZIONE ITALIANA PROMOZIONE SOCIALE | [sito](https://assipromos.it) · [eventi della pagina Facebook](https://www.facebook.com/assipromos/events) | organizzatore | — |
 | ASSOCIAZIONE  AREA 06 - ETS | [pagina eventi del sito](https://www.shorttheatre.org/calendario/) · [sito](https://shorttheatre.org) · [eventi della pagina Facebook](https://www.facebook.com/shorttheatre/events) | organizzatore | — |
@@ -1323,16 +1325,16 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ASSOCIAZIONE CASA FAMIGLIA BICE PORCU ETS | [pagina eventi del sito](https://www.casafamigliabiceporcu.org/eventi/) · [sito](https://casafamigliabiceporcu.org) · [eventi della pagina Facebook](https://www.facebook.com/casafamigliabiceporcu/events) | organizzatore | — |
 | Associazione Ciclonauti | [sito](https://ciclonauti.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneCiclonauti/events) | organizzatore | — |
 | Associazione Culturale EOS | [sito](https://eoscultura.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneculturaleeos/events) | organizzatore | — |
-| ASSOCIAZIONE CULTURALE FUORI CONTESTO | [pagina eventi del sito](https://www.fuoricontesto.it/category/news/) · [sito](https://fuoricontesto.it) · [eventi della pagina Facebook](https://www.facebook.com/fuori.contesto/events) | organizzatore | — |
+| ASSOCIAZIONE CULTURALE FUORI CONTESTO | [pagina eventi del sito](https://www.fuoricontesto.it/blog/) · [pagina eventi del sito](https://www.fuoricontesto.it/category/news/) · [sito](https://fuoricontesto.it) | organizzatore | — |
 | Associazione Culturale KeepIT | [sito](https://keepitculture.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneKeepIT/events) | organizzatore | — |
 | Associazione Culturale Quattro Sassi | [pagina eventi del sito](https://www.quattrosassi.com/Eventi.aspx) · [sito](https://quattrosassi.com) · [eventi della pagina Facebook](https://www.facebook.com/quattrosassi/events) | organizzatore | — |
 | Associazione dei Salesiani Cooperatori | [sito](https://asscc-mondiale.org) · [eventi della pagina Facebook](https://www.facebook.com/semcoop6/events) | organizzatore | — |
 | ASSOCIAZIONE DI PROMOZIONE SOCIALE MATERIA APS | [eventi della pagina Facebook](https://www.facebook.com/MateriaRomaCafe/events) | organizzatore | — |
-| ASSOCIAZIONE DI PROMOZIONE SOCIALE SAN GIOVANNI | [sito](https://basilicasangiovanni.va) · [eventi della pagina Facebook](https://www.facebook.com/diocesiroma/events) | organizzatore | — |
+| ASSOCIAZIONE DI PROMOZIONE SOCIALE SAN GIOVANNI | [pagina eventi del sito](https://www.diocesidiroma.it/event/udienze-213/) · [sito](https://basilicasangiovanni.va) · [eventi della pagina Facebook](https://www.facebook.com/diocesiroma/events) | organizzatore | — |
 | Associazione di Volontariato Europeo Solidale | [pagina eventi del sito](https://www.associazioneaves.it/roma/eventi/) · [sito](https://associazioneaves.it) · [eventi della pagina Facebook](https://www.facebook.com/100064738596622/events) | organizzatore | — |
 | Associazione Dimore Storiche Italiane | [pagina eventi del sito](https://www.associazionedimorestoricheitaliane.it/event/492434/convocazione-assemblea-adsi-emilia-romagna/?lan=it&amp;tab=242531) · [sito](https://associazionedimorestoricheitaliane.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionedimorestoricheitaliane/events) | organizzatore | — |
 | ASSOCIAZIONE DIPENDENTI MINISTERO DELL'INTERNO AND PARTNERS - ODV | [pagina eventi del sito](https://admi.it/contenuti/documenti/notizie/infosora29giugno2026casadellefarfalledefinitivo2.pdf) · [sito](https://admi.it) · [eventi della pagina Facebook](https://www.facebook.com/admi/events) | organizzatore | — |
-| ASSOCIAZIONE EUROPA INCANTO ONLUS | [sito](https://europaincanto.com) · [eventi della pagina Facebook](https://www.facebook.com/europaincanto/events) | organizzatore | — |
+| ASSOCIAZIONE EUROPA INCANTO ONLUS | [pagina eventi del sito](https://europaincanto.com/news-press/) · [sito](https://europaincanto.com) · [eventi della pagina Facebook](https://www.facebook.com/europaincanto/events) | organizzatore | — |
 | ASSOCIAZIONE FIGLI INABILI BANCA D'ITALIA (AFIBI) - ENTE FILANTROPICO | [sito](https://afibi.it) · [pagina Facebook](https://www.facebook.com/Associazione-Figli-Inabili-Banca-dItalia-AFIBI-ONLUS/160401580686263) | organizzatore | — |
 | Associazione Floricoltori e Fioristi Italiani | [pagina eventi del sito](https://www.associazionefloricoltoriefioristiitaliani.it/eventi) · [sito](https://associazionefloricoltoriefioristiitaliani.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionefloricoltoriefioristiitaliani/events) | organizzatore | — |
 | ASSOCIAZIONE FORUMAMBIENTALISTA ODV | [pagina eventi del sito](https://forumambientalista.org/iniziative.html) · [sito](https://forumambientalista.org) · [eventi della pagina Facebook](https://www.facebook.com/ambienteterritorio.lavoro/events) | organizzatore | — |
@@ -1432,6 +1434,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | LEGAMBIENTE LAZIO APS | [eventi della pagina Facebook](https://www.facebook.com/LegambienteLazio/events) | organizzatore | — |
 | LIVE YOUR RAINBOW - LYR, CONSULTORIO LGBT+ APS | [pagina eventi del sito](https://www.liveyourrainbow.it/attivita/) · [sito](https://liveyourrainbow.it) · [eventi della pagina Facebook](https://www.facebook.com/liveyourrainbow/events) | organizzatore | — |
 | LUNARIA ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.lunaria.org/appuntamenti/?ical=1) · [sito](https://lunaria.org) · [eventi della pagina Facebook](https://www.facebook.com/APS.Lunaria/events) | organizzatore | — |
+| Mama Termini | [eventi della pagina Facebook](https://www.facebook.com/mamatermini/events) · [Instagram](https://www.instagram.com/mamatermini) | soggetto | — |
 | MAST - OFFICINA DELLE ARTI | [pagina eventi del sito](https://mastofficinadellearti.wordpress.com/corsi/) · [sito](https://mastofficinadellearti.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/mast.officinadellearti/events) | organizzatore | — |
 | MEDREACT | [sito](https://medreact.org) · [eventi della pagina Facebook](https://www.facebook.com/medreact.org/events) | organizzatore | — |
 | MEMORIAL DAY - VITTIME DELLA CRIMINALITA' E DEL DOVERE - APS | [sito](https://memorialdaysap.org) · [eventi della pagina Facebook](https://www.facebook.com/memorialdaysap/events) | organizzatore | — |
@@ -1455,7 +1458,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | RADIO OSCIA' APS | [pagina eventi del sito](https://www.radiooscia.it/eventi/) · [sito](https://radiooscia.it) · [pagina Facebook](https://www.facebook.com/Radio-Osci%C3%A0-103413458579595) | organizzatore | — |
 | RICONOSCERE ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.riconoscere.it/news.html) · [sito](https://riconoscere.it) · [eventi della pagina Facebook](https://www.facebook.com/riconoscereodv/events) | organizzatore | — |
 | Roma - Guida di viaggio e turismo - Scopri Roma | [sito](https://scopriroma.com) | soggetto | — |
-| RUOTE A SPASSO APS | [pagina eventi del sito](https://ruoteaspasso.it/eventi/) · [sito](https://ruoteaspasso.it) · [eventi della pagina Facebook](https://www.facebook.com/ruoteaspasso/events) | organizzatore | — |
+| RUOTE A SPASSO APS | [pagina eventi del sito](https://ruoteaspasso.it/blog-a-spasso/) · [pagina eventi del sito](https://ruoteaspasso.it/eventi/) · [sito](https://ruoteaspasso.it) | organizzatore | — |
 | S.I.T.A.C. ONLUS SOCIETA' ITALIANA PER IL TRATTAMENTO DELL'ALCOLISMO E LE SUE COM | [pagina eventi del sito](https://www.sitac.it/notizie/) · [sito](https://sitac.it) · [eventi della pagina Facebook](https://www.facebook.com/Parole-dellAlcol-SITAC-150009651837514/events) | organizzatore | — |
 | SCOPRIAMO L'AUTISMO APS | [pagina eventi del sito](https://www.scopriamolautismo.it/eventi/) · [sito](https://scopriamolautismo.it) | organizzatore | — |
 | SCUOLE CONSAPEVOLI  ENTE DEL TERZO SETTORE | [sito](https://scuoleconsapevoli.it) · [eventi della pagina Facebook](https://www.facebook.com/scuoleconsapevoli/events) | organizzatore | — |
@@ -1471,7 +1474,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | TANA LIBERO TUTTI - ODV | [pagina eventi del sito](https://tanaliberotutti.it/notizie/) · [sito](https://tanaliberotutti.it) · [eventi della pagina Facebook](https://www.facebook.com/tanaliberotutti/events) | organizzatore | — |
 | THEMIS CENTRO RICERCHE SOCIOPSICOLOGICHE E CRIMINOLOGICO-FORENSI APS | [pagina eventi del sito](https://themiscrime.com/it/comunicazione/news) · [sito](https://themiscrime.com) · [eventi della pagina Facebook](https://www.facebook.com/CentroRicercheThemis/events) | organizzatore | — |
 | U.I.L.T. LAZIO APS | [sito](https://lazio.uilt.it) · [eventi della pagina Facebook](https://www.facebook.com/uilt.regionelazio/events) | organizzatore | — |
-| UCRI UNIONE COMUNITA ROMANES IN ITALIA APS | [sito](https://ucri.eu) · [eventi della pagina Facebook](https://www.facebook.com/UCRIromesinti/events) | organizzatore | — |
+| UCRI UNIONE COMUNITA ROMANES IN ITALIA APS | [pagina eventi del sito](http://www.ucri.eu/) · [sito](https://ucri.eu) · [eventi della pagina Facebook](https://www.facebook.com/UCRIromesinti/events) | organizzatore | — |
 | UN PONTE PER - ENTE DEL TERZO SETTORE - UN PONTE PER ETS | [pagina eventi del sito](https://unponteper.it/it/eventi/) · [sito](https://unponteper.it) · [eventi della pagina Facebook](https://www.facebook.com/unponteper/events) | organizzatore | — |
 | UNIONE ITALIANA DEI CIECHI E DEGLI IPOVEDENTI ETS-APS | [sito](https://uicroma.it) · [eventi della pagina Facebook](https://www.facebook.com/UnioneItalianaCiechieIpovedentiRoma/events) | organizzatore | — |
 | uniroma3.it | [sito](https://uniroma3.it) | soggetto | — |
@@ -1494,6 +1497,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Museo Nazionale degli Strumenti Musicali | — | luogo | RT 1 |
 | Museo Nazionale Romano - Palazzo Massimo - Palazzo Altemps | — | luogo | RT 1 |
 | Orto Botanico di villa Corsini | — | luogo | FB 1 |
+| Ottobrata Monticiana | — | luogo | RT 1 |
 | Palazzo Massimo alle Terme | — | luogo | FB 1 |
 | Piazza del Colosseo | — | luogo | FB 1 |
 | Piazza dell'Esquilino, 1, 00185 Rome, Italy | — | luogo | FB 1 |
@@ -1554,11 +1558,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Roma Tre Orchestra (Teatro Palladium) | [pagina letta alla fonte (calendario)](https://teatropalladium.uniroma3.it/) · [sito](https://teatropalladium.uniroma3.it) | luogo | FL 6 |
 | Centrale Montemartini | [pagina letta alla fonte (calendario)](https://www.centralemontemartini.org/it/mostre_ed_eventi/mostre) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/centrale-montemartini/) · [sito](https://centralemontemartini.org) | luogo, organizzatore | CR 1 FB 1 FL 1 RT 1 |
-| Associazione culturale Cara Garbatella | [pagina Facebook](https://www.facebook.com/share/1HrRnbKUJD) · [Instagram](https://www.instagram.com/caragarbatella) | organizzatore | CR 3 |
+| Associazione culturale Cara Garbatella | [Instagram](https://www.instagram.com/caragarbatella) | organizzatore | CR 3 |
 | CINECITTA' | [sito](https://archivioluce.com) | organizzatore | RT 2 |
 | El cuerpo community | [eventi della pagina Facebook](https://www.facebook.com/elcuerpocommunity/events) | organizzatore | FB 2 |
 | Inforidea | [eventi della pagina Facebook](https://www.facebook.com/Inforidea/events) | organizzatore | FB 2 |
-| Musei in Comune Roma | [eventi della pagina Facebook](https://www.facebook.com/MuseiInComuneRoma/events) | organizzatore | FB 2 |
+| Musei in Comune Roma | [pagina eventi del sito](http://www.museiincomuneroma.it/) · [eventi della pagina Facebook](https://www.facebook.com/MuseiInComuneRoma/events) | organizzatore | FB 2 |
 | Potere Agency s.r.l. | [sito](https://visiva365.it) · [eventi della pagina Facebook](https://www.facebook.com/visiva365/events) · [Instagram](https://www.instagram.com/visiva365) | organizzatore | CR 2 |
 | Casetta Rossa Spa | [eventi della pagina Facebook](https://www.facebook.com/casettarossa.spa/events) | organizzatore | FB 1 |
 | Cosarte | [sito](https://romeartweek.com) | luogo | RT 1 |
@@ -1590,7 +1594,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Giardino di Roma - Istituto Comprensivo Donatello | [sito](https://it.gariwo.net) | soggetto | — |
 | Home - COMITATO DI QUARTIERE GIARDINO DI ROMA | [sito](https://www.comitatogiardinodiroma.it) | soggetto | — |
 | Storia del Comitato - comitato di quartiere giardino di roma | [sito](https://www.comitatogiardinodiroma.it) | soggetto | — |
-| Tv2000 - Canale 28 digitale terrestre, 18 di tivùsat, 157 di Sky | [sito](https://tv2000.it) · [eventi della pagina Facebook](https://www.facebook.com/Tv2000it/events) | soggetto | — |
+| Tv2000 - Canale 28 digitale terrestre, 18 di tivùsat, 157 di Sky | [pagina eventi del sito](http://www.tv2000.it/) · [sito](https://tv2000.it) · [eventi della pagina Facebook](https://www.facebook.com/Tv2000it/events) | soggetto | — |
 
 ## Infernetto `infernetto` — Municipio X
 
@@ -1624,7 +1628,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ANIMALI IN FAMIGLIA - ORGANIZZAZIONE DI VOLONTARIATO - ODV | [eventi della pagina Facebook](https://www.facebook.com/animaliinfamiglia.it/events) | organizzatore | — |
 | ASD Sport Project | [sito](https://asdsportproject.wordpress.com/) · [eventi della pagina Facebook](https://www.facebook.com/asdsportprojet/events) | soggetto | — |
 | Associazione dei Genitori IC La Giustiniana | [sito](https://amicidellagiustiniana.wordpress.com) | soggetto | — |
-| Associazione genitori Amici dell'Ics La Giustiniana | [eventi della pagina Facebook](https://www.facebook.com/amicidellagiustiniana/events) | soggetto | — |
+| Associazione genitori Amici dell'Ics La Giustiniana | [pagina eventi del sito](https://amicidellagiustiniana.wordpress.com/) · [eventi della pagina Facebook](https://www.facebook.com/amicidellagiustiniana/events) | soggetto | — |
 | Associazione il colibrì APS | [sito](https://www.associazioneilcolibriaps.org/) · [pagina Facebook](https://www.facebook.com/p/Associazione-Il-colibri-APS-100068814982625) | organizzatore | — |
 | ASSOCIAZIONE ST. PATRICK’S CULTURAL HOUSE APS | [pagina eventi del sito](https://www.stpatricksculturalhouse.com/attivita) · [sito](https://stpatricksculturalhouse.com) | organizzatore | — |
 | Biblioteca – IC La Giustiniana a Roma | [sito](https://www.icslagiustiniana.edu.it) | soggetto | — |
@@ -1671,7 +1675,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Associazione Culturale Comites | [pagina Facebook](https://www.facebook.com/pages/category/Education/COMITES-associazione-di-promozione-sociale-470512416315142) | soggetto | — |
+| Associazione Culturale Comites | [pagina Facebook](https://www.facebook.com/pages/category/Education) | soggetto | — |
 | Associazione Pianeta Idea | [sito](https://pianetaidea.it/) · [eventi della pagina Facebook](https://www.facebook.com/pianetaidearoma/events) | soggetto | — |
 | Biblioteca scolastica – I.C. Via Cassia 1694 | [sito](https://www.archivio.icviacassia1694roma.edu.it) | soggetto | — |
 | Chiesa di San Pancrazio | [sito](http://www.chiesaisolafarnese.it/) | soggetto | — |
@@ -1679,10 +1683,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato-Spontaneo-Osteria-Nuova-Cesano. ... | [sito](https://www.ascoltoattivo.net/wordpress/wp-content/uploads/2018/10/Comitato-Spontaneo-Osteria-Nuova-Cesano.pdf) · [eventi della pagina Facebook](https://www.facebook.com/ascoltoattivo/events) | soggetto | — |
 | COMUNITA' DEL CASALE APS | [sito](https://comunitaefamiglia.org) · [eventi della pagina Facebook](https://www.facebook.com/MondoDiComunitaEFamiglia/events) | organizzatore | — |
 | Croce Rossa Italiana - Comitato Municipio 15 di Roma | [pagina eventi del sito](https://www.criroma15.it/news/) · [sito](https://criroma15.it) · [eventi della pagina Facebook](https://www.facebook.com/criroma15/events) | organizzatore | — |
-| Dal 25 al 27 settembre, presso l'Area Fiera di Osteria ... | [pagina Facebook](https://www.facebook.com/formatrieti/posts/dal-25-al-27-settembre-presso-larea-fiera-di-osteria-nuova-levento-organizzato-d/1656488419814808) | soggetto | — |
+| Dal 25 al 27 settembre, presso l'Area Fiera di Osteria ... | [eventi della pagina Facebook](https://www.facebook.com/formatrieti/events) | soggetto | — |
 | Decanto - Associazione Culturale | [pagina eventi del sito](https://associazionedecanto.com/category/eventi/) · [sito](https://associazionedecanto.com) · [eventi della pagina Facebook](https://www.facebook.com/associazionedecanto/events) | organizzatore | — |
 | Diocesi di Porto Santa Rufina - Curia Vescovile | [sito](http://www.diocesiportosantarufina.it/) | soggetto | — |
-| E oggi ne parliamo in diretta alle 16 su Radio Vaticana... | [pagina Facebook](https://www.facebook.com/nuvolaproject/posts/e-oggi-ne-parliamo-in-diretta-alle-16-su-radio-vaticana/1011873741549613) | soggetto | — |
+| E oggi ne parliamo in diretta alle 16 su Radio Vaticana... | [eventi della pagina Facebook](https://www.facebook.com/nuvolaproject/events) | soggetto | — |
 | FESTA DEI SACRI CUORI a La Storta | [eventi della pagina Facebook](https://www.facebook.com/FestadeiSacriCuoriLaStorta/events) | soggetto | — |
 | IL MONDO DI ATLANTIS A.P.S. - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://ilmondodiatlantis.com/eventi/) · [sito](https://ilmondodiatlantis.com) · [eventi della pagina Facebook](https://www.facebook.com/Club.Prive.Mondo.di.Atlantis/events) | organizzatore | — |
 | La Storta - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | — |
@@ -1707,7 +1711,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Esserecane  - Centro Cinofilo | [sito](https://esserecane.it) · [eventi della pagina Facebook](https://www.facebook.com/EssereCane/events) | organizzatore | FB 2 |
+| Esserecane  - Centro Cinofilo | [pagina eventi del sito](http://www.esserecane.it/) · [sito](https://esserecane.it) · [eventi della pagina Facebook](https://www.facebook.com/EssereCane/events) | organizzatore | FB 2 |
 | Wildfire Store | [eventi della pagina Facebook](https://www.facebook.com/Wildfirestore/events) | organizzatore | FB 2 |
 | Ilaria Zin Giuliani | [eventi della pagina Facebook](https://www.facebook.com/ilaria.giuliani.50/events) | organizzatore | FB 1 |
 | Marco Tribuzio | [eventi della pagina Facebook](https://www.facebook.com/marco.tribuzio/events) | organizzatore | FB 1 |
@@ -1720,20 +1724,20 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ASSOCIAZIONE DI PROTEZIONE CIVILE FIRE 3-ODV | [pagina eventi del sito](https://protezionecivilefire3.wordpress.com/category/news/) · [sito](https://protezionecivilefire3.wordpress.com) | organizzatore | — |
 | Associazione Gentes Villaggio Giuliano Dalmata | [sito](https://quartieregiulianodalmata.com) · [eventi della pagina Facebook](https://www.facebook.com/100064875750541/events) | organizzatore | — |
 | Associazione Nazionale Venezia Giulia E Dalmazia Comitato Collegiale R | [sito](http://www.anvgd.it/) · [eventi della pagina Facebook](https://www.facebook.com/Anvgd-Sede-Nazionale-868554539843945/events) | soggetto | — |
-| Cdq Fonte Laurentina | [pagina Facebook](https://www.facebook.com/p/Cdq-Fonte-Laurentina-100064816325774) | soggetto | — |
+| Cdq Fonte Laurentina | [pagina eventi del sito](http://fontelaurentina.blogspot.com/) · [pagina Facebook](https://www.facebook.com/p/Cdq-Fonte-Laurentina-100064816325774) | soggetto | — |
 | CdQ Giuliano Dalmata (@cdqgiulianodalmata) | [eventi della pagina Facebook](https://www.facebook.com/cdqgiulianodalmata/events) | soggetto | — |
 | CECCHIGNOLA VIVIBILE ODV | [eventi della pagina Facebook](https://www.facebook.com/associazionececchignolavivibile/events) | organizzatore | — |
 | Centro anziani Fonte Ostiense | [eventi della pagina Facebook](https://www.facebook.com/centro.anziani.5680/events) | soggetto | — |
 | CENTRO DI AIUTO ALLA VITA - Roma Ardeatino | [sito](http://cavromaardeatino.it/) · [eventi della pagina Facebook](https://www.facebook.com/cav.romaardeatino/events) | soggetto | — |
-| Chiesa di San Giuseppe da Copertino | [sito](http://www.sangiuseppedacopertinoroma.it/) · [eventi della pagina Facebook](https://www.facebook.com/SanGiuseppeDaCopertinoRomait/events) | soggetto | — |
+| Chiesa di San Giuseppe da Copertino | [pagina eventi del sito](https://www.sangiuseppedacopertinoroma.it/) · [sito](http://www.sangiuseppedacopertinoroma.it/) · [eventi della pagina Facebook](https://www.facebook.com/SanGiuseppeDaCopertinoRomait/events) | soggetto | — |
 | Chiesa Parrocchiale del Comprensorio | [eventi della pagina Facebook](https://www.facebook.com/parrocchia.cecchignola/events) | soggetto | — |
 | Chiesa Parrocchiale di San Mauro Abate | [sito](https://sanmauroabate.blogspot.com/) | soggetto | — |
 | Chiesa Parrocchiale di Santa Giovanna Antida Thouret | [sito](https://antida.it/) | soggetto | — |
-| Comitato di quartiere Laurentino - Fonte Ostiense | [pagina Facebook](https://www.facebook.com/yuri.trombetti/videos/comitato-di-quartiere-laurentino-fonte-ostiense/877909627659141) | soggetto | — |
+| Comitato di quartiere Laurentino - Fonte Ostiense | [eventi della pagina Facebook](https://www.facebook.com/yuri.trombetti/events) | soggetto | — |
 | Comunità di Sant'Egidio - Scuola della pace | [eventi della pagina Facebook](https://www.facebook.com/Eur.Laurentino/events) | soggetto | — |
-| Comunità patrimoniale della Valle del Fosso ... | [sito](https://faroitaliaplatform.it/places/italy/lazio/roma/comunita-patrimoniale-della-valle-del-fosso-della-cecchignola/) · [pagina Facebook](https://www.facebook.com/hashtag/convenzionedifaro) | soggetto | — |
-| Globo Padel Roma Club | [sito](https://globopadelroma.it/) · [eventi della pagina Facebook](https://www.facebook.com/globopadelroma/events) | soggetto | — |
-| Inaugurato il murale del Quartiere Giuliano-dalmata di ... | [pagina Facebook](https://www.facebook.com/100064435425686/posts/inaugurato-il-murale-del-quartiere-giuliano-dalmata-di-roma/1116800317144472) | soggetto | — |
+| Comunità patrimoniale della Valle del Fosso ... | [sito](https://faroitaliaplatform.it/places/italy/lazio/roma/comunita-patrimoniale-della-valle-del-fosso-della-cecchignola/) | soggetto | — |
+| Globo Padel Roma Club | [pagina eventi del sito](https://www.globopadelroma.it/) · [sito](https://globopadelroma.it/) · [eventi della pagina Facebook](https://www.facebook.com/globopadelroma/events) | soggetto | — |
+| Inaugurato il murale del Quartiere Giuliano-dalmata di ... | [eventi della pagina Facebook](https://www.facebook.com/100064435425686/events) | soggetto | — |
 | ISTITUTO COMPRENSIVO DOMENICO BERNARDINI | [sito](https://icdomenicobernardini.edu.it) · [eventi della pagina Facebook](https://www.facebook.com/icdomenicobernardini/events) | soggetto | — |
 | L38 Squat | [sito](https://l38squat.noblogs.org/) · [eventi della pagina Facebook](https://www.facebook.com/l38squatter/events) | soggetto | — |
 | La Vigna | [sito](http://associazionelavigna.org/) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneLaVigna/events) | organizzatore | — |
@@ -1747,7 +1751,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Radiondarossa | [sito](https://ondarossa.info) | soggetto | — |
 | RetakeRoma Cecchignola - Sostieni Retake | [sito](https://sostieni.retake.org/team/retakeroma-cecchignola/) · [eventi della pagina Facebook](https://www.facebook.com/retakeroma/events) | soggetto | — |
 | SANTA RITA ASSOCIAZIONE CULTURALE E SPORTIVA | [sito](https://caritasoria.it/santa-rita-associazione-culturale-e-sportiva/) | soggetto | — |
-| Siamo andati a trovare... il comitato di quartiere di Colle ... | [pagina Facebook](https://www.facebook.com/orticomunitari/posts/siamo-andati-a-trovare-il-comitato-di-quartiere-di-colle-di-mezzo-e-lassociazion/1281614017329534) | soggetto | — |
+| Siamo andati a trovare... il comitato di quartiere di Colle ... | [eventi della pagina Facebook](https://www.facebook.com/orticomunitari/events) | soggetto | — |
 | Via Castel di Leva 371, 00134 Rome, Italy | — | luogo | FB 2 |
 | Via della Fonte Meravigliosa, 64, 00143 Rome, Italy | — | luogo | FB 2 |
 | Villaggio Cultura - Pentatonic | — | luogo | FB 1 |
@@ -1778,7 +1782,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Croce Rossa Italiana - Comitato Municipio 6 di Roma ODV | [pagina eventi del sito](https://www.criroma6.org/news/) · [sito](https://criroma6.org) · [eventi della pagina Facebook](https://www.facebook.com/crocerossaroma6/events) | organizzatore | — |
 | Fantastico Castello di Babbo Natale | [sito](https://fantasticocastellodibabbonatale.it) | soggetto | — |
 | Il Fantastico Mondo del Fantastico - Castello di Lunghezza | [sito](https://www.fantasticomondo.it/spettacoli/) | soggetto | — |
-| Insieme per lunghezza | Associazione Culturale Insieme per Lunghezza | [sito](https://insiemeperlunghezza.com) | soggetto | — |
+| Insieme per lunghezza | Associazione Culturale Insieme per Lunghezza | [pagina eventi del sito](https://www.insiemeperlunghezza.com/eventi/) · [sito](https://insiemeperlunghezza.com) | soggetto | — |
 | Lunghezza | [eventi della pagina Facebook](https://www.facebook.com/151852678185016/events) | soggetto | — |
 | Parrocchia della Santissima Trinità a Lunghezza | [sito](https://annuariocattolico.it) | soggetto | — |
 | Parrocchia Santissima Trinità Di Lunghezza | [eventi della pagina Facebook](https://www.facebook.com/1403575086586231/events) | soggetto | — |
@@ -1808,12 +1812,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Centro Culturale "Insieme per" | [eventi della pagina Facebook](https://www.facebook.com/100064422949949/events) | soggetto | — |
 | Centro Diurno Argento Vivo Magliana Solidale | [eventi della pagina Facebook](https://www.facebook.com/cdargentovivo/events) | soggetto | — |
 | Chiesa del Santo Volto di Gesù alla Magliana | [sito](https://turismoroma.it) | soggetto | — |
-| Claudio Barocci | [pagina Facebook](https://www.facebook.com/claudio.barocci.1/posts/oggi-abbiamo-inaugurato-la-casa-sociale-delle-persone-anziane-e-del-quartiere-li/10242659215873626) | soggetto | — |
+| Claudio Barocci | [eventi della pagina Facebook](https://www.facebook.com/claudio.barocci.1/events) | soggetto | — |
 | Comitato la Torretta del Trullo | Rome | [eventi della pagina Facebook](https://www.facebook.com/torrettatrullo/events) | soggetto | — |
 | Comitato Quartiere Magliana | [sito](https://comitatoquartieremagliana.blogspot.com) | soggetto | — |
 | IC Sandronofri | [sito](https://www.icsandronofri.edu.it) | soggetto | — |
 | Madonna di Pompei | [sito](https://santamariadelrosarioaimartiriportuensi.it/) | soggetto | — |
-| Municipioromaxi Paginaufficiale | [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaXI.PaginaUfficiale/events) | soggetto | — |
+| Municipioromaxi Paginaufficiale | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaXI.PaginaUfficiale/events) | soggetto | — |
 | Parco Tevere Magliana | [eventi della pagina Facebook](https://www.facebook.com/parcoteveremagliana/events) | soggetto | — |
 | Parrocchia S. Maria del Carmine e San Giuseppe | [sito](https://www.parrocchietta.it/blog/) | soggetto | — |
 | Parrocchia San Raffaele Arcangelo al Trullo | [sito](https://www.parrocchiasanraffaele.it/) | soggetto | — |
@@ -1847,7 +1851,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Teatro di Roma – Teatro Nazionale | [sito](https://teatrodiroma.net) · [pagina Facebook](https://it-it.facebook.com/TeatroIndia) · [Instagram](https://www.instagram.com/fondazioneteatrodiroma) | organizzatore | CR 19 |
+| Teatro di Roma – Teatro Nazionale | [pagina eventi del sito](http://www.teatrodiroma.net/) · [sito](https://teatrodiroma.net) · [pagina Facebook](https://it-it.facebook.com/TeatroIndia) | organizzatore | CR 19 |
 | Teatro India | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-india/) | luogo | CR 7 RT 1 |
 | Biblioteca Guglielmo Marconi | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-guglielmo-marconi/) · [eventi della pagina Facebook](https://www.facebook.com/bibliotecaguglielmomarconi/events) | luogo | CR 1 |
 | Biblioteca - Università degli Studi Guglielmo Marconi | [sito](https://biblioteca.unimarconi.it) | soggetto | — |
@@ -1898,7 +1902,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Nuovo striscione per il Centro Anziani Casale Ceribelli | [eventi della pagina Facebook](https://www.facebook.com/CdQMontagnola/events) | soggetto | — |
 | Parrocchia Gesù Buon Pastore alla Montagnola | [eventi della pagina Facebook](https://www.facebook.com/GBPMontagnola/events) | soggetto | — |
 | Scuola Primaria Montagnola 60 anni 1963-2023 - Quartieri | [sito](https://quartieri.comune.fi.it) | soggetto | — |
-| venerdì 4 luglio Piazzale dei Caduti della Montagnola si ... | [eventi della pagina Facebook](https://www.facebook.com/MunicipioVIIIRoma/events) | soggetto | — |
+| venerdì 4 luglio Piazzale dei Caduti della Montagnola si ... | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/MunicipioVIIIRoma/events) | soggetto | — |
 | Antica Enoteca Manzoni | — | luogo | RT 1 |
 | Centro Commerciale I Granai | — | luogo | RT 1 |
 | Al Solito Posto - rassegna Parole in Cantina (Antica Enoteca Manzoni) | — | soggetto | — |
@@ -1921,7 +1925,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Pazienti BPCO e altre patologie respiratorie | [sito](https://pazientibpco.it) · [eventi della pagina Facebook](https://www.facebook.com/61562894245634/events) | organizzatore | — |
 | ASSOCIAZIONE UNIVERSITARIA PER LA COOPERAZIONE INTERNAZIONALE | [pagina eventi del sito](https://auci.org/eventi/) · [sito](https://auci.org) · [eventi della pagina Facebook](https://www.facebook.com/auci.ong/events) | organizzatore | — |
 | Chiesa di San Francesco d'Assisi a Monte Mario | [sito](https://www.turismoroma.it) | soggetto | — |
-| Chiesa Parrocchiale di Gesù Divino Maestro | [sito](http://www.gesudivinomaestro.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiagesudivinomaestro/events) | soggetto | — |
+| Chiesa Parrocchiale di Gesù Divino Maestro | [pagina eventi del sito](https://www.gesudivinomaestro.it/category/eventi/) · [sito](http://www.gesudivinomaestro.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiagesudivinomaestro/events) | soggetto | — |
 | Chiodi Dionigio Romeo | [sito](https://www.icchiodi.edu.it/) | soggetto | — |
 | COCCINELLE PER LE PEDIATRIE ORGANIZZAZIONE DI VOLONTARIATO ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.coponlus.org/eventi/) · [sito](https://coponlus.org) · [eventi della pagina Facebook](https://www.facebook.com/Coccinelle-per-lOncologia-Pediatrica-COP-Onlus-102844237731122/events) | organizzatore | — |
 | Comitato di Quartiere Colli dell'Insugherata | [sito](https://collidellinsugherata.it) · [eventi della pagina Facebook](https://www.facebook.com/cdqcollidellinsugherata/events) | organizzatore | — |
@@ -1983,14 +1987,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Associazione AREA06 – ETS | [sito](https://area06.com) · [eventi della pagina Facebook](https://www.facebook.com/area06/events) · [Instagram](https://www.instagram.com/area06ets) | organizzatore | CR 11 |
 | Teatro 7 Off srl | [sito](https://teatro7off.it) · [eventi della pagina Facebook](https://www.facebook.com/teatro7off/events) · [Instagram](https://www.instagram.com/teatro7off) | organizzatore | CR 4 |
-| Altamira Events | [sito](https://altamiraevents.net) · [eventi della pagina Facebook](https://www.facebook.com/AltamiraEvents/events) | organizzatore | FB 2 |
+| Altamira Events | [pagina eventi del sito](https://altamiraevents.net/gigs.htm/) · [sito](https://altamiraevents.net) · [eventi della pagina Facebook](https://www.facebook.com/AltamiraEvents/events) | organizzatore | FB 2 |
 | Defrag | [eventi della pagina Facebook](https://www.facebook.com/DefragTufello/events) | luogo, organizzatore | FB 2 |
 | NATURA AVVENTURA | [pagina eventi del sito](https://www.naturaavventura.it/calendario/) · [sito](https://naturaavventura.it) · [eventi della pagina Facebook](https://www.facebook.com/NaturaAvventuraRoma/events) | organizzatore | FB 2 |
 | Aletheya | [eventi della pagina Facebook](https://www.facebook.com/aletheyaofficial/events) | organizzatore | FB 1 |
 | Associazione musicale TrueFellows | [sito](https://truefellows.it) · [eventi della pagina Facebook](https://www.facebook.com/truefellows2022/events) · [Instagram](https://www.instagram.com/the_truefellows) | organizzatore | CR 1 |
 | Danilo Rosati | [eventi della pagina Facebook](https://www.facebook.com/danilo.rosati.65/events) | organizzatore | FB 1 |
 | Dark Quarterer | [sito](https://darkquarterer.it) · [eventi della pagina Facebook](https://www.facebook.com/DarkQuarterer/events) | organizzatore | FB 1 |
-| Gli Amanti Del Trekking APS | [sito](https://gliamantideltrekking.it) · [eventi della pagina Facebook](https://www.facebook.com/gliamantideltrekking/events) | organizzatore | FB 1 |
+| Gli Amanti Del Trekking APS | [pagina eventi del sito](https://www.gliamantideltrekking.it/category/viaggi-ed-eventi/) · [sito](https://gliamantideltrekking.it) · [eventi della pagina Facebook](https://www.facebook.com/gliamantideltrekking/events) | organizzatore | FB 1 |
 | ACCADEMIA MUSICALE DEL LAZIO APS | [pagina eventi del sito](https://www.accademiamusicaledellazio.it/news/) · [sito](https://accademiamusicaledellazio.it) · [eventi della pagina Facebook](https://www.facebook.com/accademiamusicaledellazio/events) | organizzatore | — |
 | APIS - Associazione Italiana Progettisti Sociali | [pagina eventi del sito](https://www.progettistisociali.it/notizie/) · [sito](https://progettistisociali.it) · [eventi della pagina Facebook](https://www.facebook.com/progettisti.sociali/events) | organizzatore | — |
 | ASC Comitato Provinciale Roma | [pagina eventi del sito](https://www.ascsport.it/news/?categoria=5994&) · [sito](https://ascsport.it) · [eventi della pagina Facebook](https://www.facebook.com/ComitatoProvincialeRomaASC/events) | organizzatore | — |
@@ -2010,12 +2014,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ASSOCIAZIONE MUSICALE E CULTURALE LE TRIOLE APS | [pagina eventi del sito](https://www.furiosiaffetti.it/news/) · [sito](https://furiosiaffetti.it) · [eventi della pagina Facebook](https://www.facebook.com/furiosiaffetti/events) | organizzatore | — |
 | ASSOCIAZIONE MUTUALISMO ROMA EST - LAZIO - ODV | [pagina eventi del sito](https://www.amreodv.it/attivita/ambulatorio-popolare-roma-est/) · [sito](https://amreodv.it) | organizzatore | — |
 | ASSOCIAZIONE PER LA GIUSTIZIA E IL DIRITTO ENZO TORTORA APS | [sito](https://giustiziagiusta.org) · [pagina Facebook](https://www.facebook.com/people/Giustizia-Giusta/61589969856764) | organizzatore | — |
-| ASSOCIAZIONE PRO UNIVERSITATE DON BOSCO ETS | [pagina eventi del sito](https://unisal.it/notizie/associazione-pro-universitate) · [sito](https://unisal.it) · [eventi della pagina Facebook](https://www.facebook.com/UnivSalesiana/events) | organizzatore | — |
+| ASSOCIAZIONE PRO UNIVERSITATE DON BOSCO ETS | [pagina eventi del sito](http://www.unisal.it/) · [pagina eventi del sito](https://unisal.it/notizie/associazione-pro-universitate) · [sito](https://unisal.it) | organizzatore | — |
 | Associazione Spazio Asperger ONLUS | [pagina eventi del sito](https://www.spazioasperger.it/wp-json/tribe/events/v1/) · [sito](https://spazioasperger.it) · [eventi della pagina Facebook](https://www.facebook.com/spazioasperger/events) | organizzatore | — |
 | Associazione Verba Manent | [pagina eventi del sito](https://www.ac-verbamanent.it/events/?ical=1) · [sito](https://ac-verbamanent.it) · [eventi della pagina Facebook](https://www.facebook.com/assverbamanent/events) | organizzatore | — |
 | AVAZ - Associazione Volontari per lo Sviluppo dei Popoli | [pagina eventi del sito](https://avaz.it/news/) · [sito](https://avaz.it) · [eventi della pagina Facebook](https://www.facebook.com/avazets/events) | organizzatore | — |
 | Biblioteca Ennio Flaiano | [eventi della pagina Facebook](https://www.facebook.com/biblioteca.ennioflaiano/events) | soggetto | — |
 | CEIST CENTRO PER L'INNOVAZIONE E LO SVILUPPO DEI TERRITORI ETS | [pagina eventi del sito](https://www.ceist.it/news) · [sito](https://ceist.it) · [pagina Facebook](https://www.facebook.com/people/Ceist-ETS/61567487303244) | organizzatore | — |
+| Civici Pompieri Volontari | [sito](http://cpvroma.it/) · [eventi della pagina Facebook](https://www.facebook.com/civicipompieri/events) · [Instagram](https://www.instagram.com/civicipompieri) | soggetto | — |
 | Comitato di quartiere Nuovo Salario | [eventi della pagina Facebook](https://www.facebook.com/comitatoDiQuartiereNuovoSalario/events) | soggetto | — |
 | Comitato di Quartiere Porro Lambertenghi | [pagina eventi del sito](http://porrolambertenghi.altervista.org/category/eventi/) · [sito](https://porrolambertenghi.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/cdqporrolambertenghi/events) | organizzatore | — |
 | Comitato Popolare Tufello - III Municipio Roma | [eventi della pagina Facebook](https://www.facebook.com/ComitatoTufello/events) | organizzatore | — |
@@ -2027,20 +2032,22 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | GUARDA LONTANO APS | [pagina eventi del sito](https://www.guardalontano.org/eventi/) · [sito](https://guardalontano.org) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneGuardaLontanoOnlus/events) | organizzatore | — |
 | IL TEMPIO DELLA GRANDE DEA | [sito](https://tempiodellagrandedea.com) · [eventi della pagina Facebook](https://www.facebook.com/TempiodellaGrandeDeaNoProfit/events) | organizzatore | — |
 | INSIEME CON TE - ODV | [sito](https://insiemeconte.org) | organizzatore | — |
+| Insieme Per Fare | [eventi della pagina Facebook](https://www.facebook.com/insiemeperfare/events) · [Instagram](https://www.instagram.com/insiemeperfare) | soggetto | — |
 | KINESIO ATHLETICS ASD APS | [sito](https://kinesioathletic.com) · [pagina Facebook](https://www.facebook.com/people/Kinesio-Athletic-ASD-APS/61552812364447) | organizzatore | — |
 | L'ORTO MAGICO - SOCIETA' COOPERATIVA SOCIALE | [sito](https://ortomagico.net) · [eventi della pagina Facebook](https://www.facebook.com/cooportomagico/events) | organizzatore | — |
 | LABSUS - LABORATORIO PER LA SUSSIDIARIETA' APS | [pagina eventi del sito](https://www.labsus.org/eventi/) · [sito](https://labsus.org) · [eventi della pagina Facebook](https://www.facebook.com/LabsusBeniComuni/events) | organizzatore | — |
 | LGRB - ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://pmcstudio.eu/news.html) · [sito](https://pmcstudio.eu) | organizzatore | — |
-| NOID TELECOM APS | [pagina eventi del sito](https://www.noidtelecom.it/index.php/news/) · [sito](https://noidtelecom.it) · [eventi della pagina Facebook](https://www.facebook.com/NoiD-Telecom-101769012024385/events) | organizzatore | — |
+| NOID TELECOM APS | [pagina eventi del sito](http://www.noidtelecom.it/) · [pagina eventi del sito](https://www.noidtelecom.it/index.php/news/) · [sito](https://noidtelecom.it) | organizzatore | — |
 | OBIETTIVO ROMA APS | [sito](https://apsobiettivoroma.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneobiettivoroma/events) | organizzatore | — |
 | OPHELIA CENTRO PER LA FAMIGLIA APS | [pagina eventi del sito](https://www.centro-ophelia.it/notizie/) · [sito](https://centro-ophelia.it) · [eventi della pagina Facebook](https://www.facebook.com/61556049691527/events) | organizzatore | — |
 | PARSEC CONSORTIUM SOC.COOP.SOCIALE A.R.L. | [pagina eventi del sito](https://www.parsec-consortium.it/category/attivita/) · [sito](https://parsec-consortium.it) · [eventi della pagina Facebook](https://www.facebook.com/parsec.consortium/events) | organizzatore | — |
+| Parsec Cooperativa Sociale | [sito](http://www.cooperativaparsec.it/) · [eventi della pagina Facebook](https://www.facebook.com/CooperativaParsec/events) · [Instagram](https://www.instagram.com/coop.parsec) | soggetto | — |
 | PASSO CIVICO COMITATO PER ROMA ETS | [pagina eventi del sito](https://passocivico.org/iniziative/) · [sito](https://passocivico.org) · [eventi della pagina Facebook](https://www.facebook.com/PassoCivico/events) | organizzatore | — |
 | PIXIE  E.T.S. | [pagina eventi del sito](http://www.associazionepixie.it/attivita.html) · [sito](https://associazionepixie.it) | organizzatore | — |
 | PROGETTO ITACA ROMA | [pagina eventi del sito](https://roma.progettoitaca.org/news/) · [sito](https://roma.progettoitaca.org) · [eventi della pagina Facebook](https://www.facebook.com/progettoitacaroma/events) | organizzatore | — |
 | PROGETTO ORIENTAMENTO GIOVANI - APS | [pagina eventi del sito](https://www.progettopog.it/news) · [sito](https://progettopog.it) | organizzatore | — |
 | PROGETTO SALUTE SOCIETA' COOPERATIVA SOCIALE ONLUS | [pagina eventi del sito](https://www.scvprogettosalute.com/notizie/) · [sito](https://scvprogettosalute.com) · [eventi della pagina Facebook](https://www.facebook.com/progettosalutesocietacooperativasocialeonlus/events) | organizzatore | — |
-| Salario Center | [sito](https://salariocenter.it) · [eventi della pagina Facebook](https://www.facebook.com/salariocenter/events) | soggetto | — |
+| Salario Center | [pagina eventi del sito](http://www.salariocenter.it/) · [sito](https://salariocenter.it) · [eventi della pagina Facebook](https://www.facebook.com/salariocenter/events) | soggetto | — |
 | SECOND GENERATION AID ODV | [pagina eventi del sito](https://www.secondgenerationaid.it/notizie/) · [sito](https://secondgenerationaid.it) · [eventi della pagina Facebook](https://www.facebook.com/secondgenerationaid/events) | organizzatore | — |
 | TOKALON APS | [sito](https://associazionetokalon.com) · [eventi della pagina Facebook](https://www.facebook.com/associazionetokalon/events) | organizzatore | — |
 | VOLONTARI IN CARCERE ODV | [pagina eventi del sito](https://vic-odv.org/index.php/mega/iniziative/nuovo-complesso) · [sito](https://vic-odv.org) · [eventi della pagina Facebook](https://www.facebook.com/SegreteriaVic/events) | organizzatore | — |
@@ -2058,7 +2065,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Balletto di Roma | [sito](https://ballettodiroma.com) · [eventi della pagina Facebook](https://www.facebook.com/BallettodiRoma/events) · [Instagram](https://www.instagram.com/ballettodiroma) | organizzatore | CR 15 |
-| Comitato "Pratone Torre Spaccata" | [sito](https://pratonetorrespaccata.it) · [pagina Facebook](https://www.facebook.com/hashtag/rugantino) | soggetto | — |
+| Comitato "Pratone Torre Spaccata" | [sito](https://pratonetorrespaccata.it) | soggetto | — |
 
 ## Monteverde `monteverde` — Municipio XII
 
@@ -2069,7 +2076,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Luoghi Segreti a Due Passi da Roma | [eventi della pagina Facebook](https://www.facebook.com/luoghisegretiroma/events) | organizzatore | FB 4 |
 | Teatro Verde | [pagina letta alla fonte (calendario)](https://www.teatroverde.it/) · [sito](https://teatroverde.it) | luogo | FL 3 RT 1 |
 | Storie Contemporanee | [sito](https://paolobielli.it) | luogo | RT 3 |
-| ALM - Associazione Laicale Missionaria ETS | [pagina Facebook](https://www.facebook.com/people/ALM-Associazione-Laicale-Missionaria-ETS/100064873683564) | organizzatore | FB 1 |
+| ALM - Associazione Laicale Missionaria ETS | [pagina eventi del sito](https://associazionelaicalemissionaria.it/category/eventi/) · [pagina Facebook](https://www.facebook.com/people/ALM-Associazione-Laicale-Missionaria-ETS/100064873683564) | organizzatore | FB 1 |
 | APPasseggio | [eventi della pagina Facebook](https://www.facebook.com/APPasseggio/events) | organizzatore | FB 1 |
 | Associazione IRENE | [sito](https://associazioneirene.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneirene.it/events) | organizzatore | FB 1 |
 | Biblioteca Villino Corsini - Villa Pamphilj | [eventi della pagina Facebook](https://www.facebook.com/BibliotecaVillinoCorsini/events) | organizzatore | FB 1 |
@@ -2106,11 +2113,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Osteria del curato | [sito](https://cdqosteriadelcurato.innovalis.it/) | soggetto | — |
 | Parrocchia Cristo Re Morena Sud | Via Scido 130 – Morena ... | [sito](https://cristoremorena.altervista.org) | soggetto | — |
 | Parrocchia di Sant’Anna di Morena (RM) | [sito](http://www.parrocchiasantanna.it/) | soggetto | — |
-| Parrocchia S. Girolamo Emiliani | [sito](https://www.parrocchiasangirolamoemiliani.com) | soggetto | — |
+| Parrocchia S. Girolamo Emiliani | [pagina eventi del sito](https://www.parrocchiasangirolamoemiliani.com/news/) · [sito](https://www.parrocchiasangirolamoemiliani.com) | soggetto | — |
 | Parrocchia San Giuseppe Moscati | [sito](https://sangiuseppemoscatiroma.mystrikingly.com/) | soggetto | — |
 | Parrocchia San Raimondo Nonnato | [sito](http://www.sanraimondo.org/) | soggetto | — |
 | Parrocchia Sant'Andrea Corsini | [sito](http://www.santandreacorsini.it/) | soggetto | — |
-| Rinnovo Direttivo e Presidenza del Comitato di Quartiere " ... | [pagina Facebook](https://www.facebook.com/MunicipioRomaVII/posts/rinnovo-direttivo-e-presidenza-del-comitato-di-quartiere-osteria-del-curato-si-r/1194406052864835) | soggetto | — |
+| Rinnovo Direttivo e Presidenza del Comitato di Quartiere " ... | [eventi della pagina Facebook](https://www.facebook.com/MunicipioRomaVII/events) | soggetto | — |
 | APS CINECITTA' EST | — | soggetto | — |
 | Centro anziani | — | soggetto | — |
 | Centro Anziani G.ALBANESE RUFFO | — | soggetto | — |
@@ -2143,10 +2150,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Teatro Torlonia | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-torlonia/) · [sito](https://teatrodiroma.net) | luogo | CR 6 RT 1 |
 | Musei di Villa Torlonia - Casina delle Civette | [pagina letta alla fonte (calendario)](https://www.museivillatorlonia.it/it/mostre_ed_eventi/mostre) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/musei-di-villa-torlonia-casina-delle-civette/) · [sito](https://museivillatorlonia.it) | luogo | CR 1 FL 3 |
 | LIBERA. Associazioni, nomi e numeri contro le mafie | [sito](https://extra.libera.it) · [pagina Facebook](https://www.facebook.com/people/Libera-Roma/100064595205823) · [Instagram](https://www.instagram.com/xl_extralibera/X) | organizzatore | CR 3 |
-| EuroEventi Production | [eventi della pagina Facebook](https://www.facebook.com/euroeventiprod/events) | organizzatore | FB 2 |
+| EuroEventi Production | [pagina eventi del sito](https://euroeventiproduction.com/calendario/) · [eventi della pagina Facebook](https://www.facebook.com/euroeventiprod/events) | organizzatore | FB 2 |
 | Musei di Villa Torlonia - Casino Nobile | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/musei-di-villa-torlonia-casino-nobile/) | luogo | CR 2 |
 | Teatro Italia | [eventi della pagina Facebook](https://www.facebook.com/teatroitalia/events) | luogo | FB 2 |
-| A.I.A.C.O.  Associazione Italiana Arti e Cultura Orientale | [sito](https://aiaco.it) · [eventi della pagina Facebook](https://www.facebook.com/aiaco.it/events) | organizzatore | FB 1 |
+| A.I.A.C.O.  Associazione Italiana Arti e Cultura Orientale | [pagina eventi del sito](https://www.aiaco.it/calendario-settimanale/) · [sito](https://aiaco.it) · [eventi della pagina Facebook](https://www.facebook.com/aiaco.it/events) | organizzatore | FB 1 |
 | Emisferi Un Ponte tra Oriente ed Occidente | [eventi della pagina Facebook](https://www.facebook.com/Emisferi/events) | luogo | FB 1 |
 | EMT | [eventi della pagina Facebook](https://www.facebook.com/emtstayrock/events) | organizzatore | FB 1 |
 | Good Music | [eventi della pagina Facebook](https://www.facebook.com/GoodMusicAgency/events) | organizzatore | FB 1 |
@@ -2179,7 +2186,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ARTE&MANI DEAF ITALY | [pagina eventi del sito](https://www.artemanideafitaly.org/laboratori/) · [sito](https://artemanideafitaly.org) · [eventi della pagina Facebook](https://www.facebook.com/ArteManiDeafItaly/events) | organizzatore | — |
 | ASSOCIAZIONE ARCHEOLOG ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.archeolog.it/come-operiamo/attivita/) · [sito](https://archeolog.it) | organizzatore | — |
 | Associazione CNCP: Coordinamento Nazionale Counsellor Professionisti | [pagina eventi del sito](https://www.cncp.it/eventi/) · [sito](https://cncp.it) · [eventi della pagina Facebook](https://www.facebook.com/counsellingcncp/events) | organizzatore | — |
-| ASSOCIAZIONE CROSSING DIALOGUES ETS | [pagina eventi del sito](https://www.crossingdialogues.it/attivita/) · [sito](https://crossingdialogues.it) · [pagina Facebook](https://www.facebook.com/Associazione-Crossing-Dialogues-103034253364883/timeline) | organizzatore | — |
+| ASSOCIAZIONE CROSSING DIALOGUES ETS | [pagina eventi del sito](https://www.crossingdialogues.it/attivita/) · [sito](https://crossingdialogues.it) · [eventi della pagina Facebook](https://www.facebook.com/Associazione-Crossing-Dialogues-103034253364883/events) | organizzatore | — |
 | Associazione culturale "Laura Lombardo Radice" | [pagina eventi del sito](https://www.iford.eu/news/) · [sito](https://iford.eu) · [eventi della pagina Facebook](https://www.facebook.com/associazioneLauraLombardoRadice/events) | organizzatore | — |
 | Associazione Culturale Due Gatti | [pagina eventi del sito](https://www.associazioneculturaleduegatti.it/category/news/) · [sito](https://associazioneculturaleduegatti.it) · [eventi della pagina Facebook](https://www.facebook.com/asscultduegatti/events) | organizzatore | — |
 | ASSOCIAZIONE DAJE DE ALBERI | [pagina eventi del sito](https://www.dajedealberi.com/categoria/eventi/) · [sito](https://dajedealberi.com) · [eventi della pagina Facebook](https://www.facebook.com/dajedealberi/events) | organizzatore | — |
@@ -2220,6 +2227,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | OFTALMOLOGIA OGGI PER LO STUDIO, LA RICERCA, LA CURA E L'ASSISTENZA OFTALMOLOGICA - ETS | [pagina eventi del sito](https://mvm-roma.it/news/) · [sito](https://mvm-roma.it) · [eventi della pagina Facebook](https://www.facebook.com/microchirurgiavillamassimo/events) | organizzatore | — |
 | PIARC Associazione Mondiale della Strada Italia | [pagina eventi del sito](https://piarc-italia.it/eventi-e-attivita/calendario/) · [sito](https://piarc-italia.it) · [eventi della pagina Facebook](https://www.facebook.com/piarc.cni/events) | organizzatore | — |
 | POLISPORTIVE GIOVANILI SALESIANE - ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.pgsitalia.org/news/) · [sito](https://pgsitalia.org) · [eventi della pagina Facebook](https://www.facebook.com/Pgs.Polisportive.Giovanili.Salesiane/events) | organizzatore | — |
+| Rifornimento in Volo | [eventi della pagina Facebook](https://www.facebook.com/aiutopsicologicoagliadolescenti/events) · [Instagram](https://www.instagram.com/rifornimentoinvolocoopsociale) | soggetto | — |
 | RomaSì Comitato | [sito](https://romasi.org) · [eventi della pagina Facebook](https://www.facebook.com/RomaSiComitato/events) | organizzatore | — |
 | S.I.P.E.A. - SOCIETA' ITALIANA DI PSICOLOGIA EDUCAZIONE ARTITERAPIE APS | [sito](https://sipea.eu) · [eventi della pagina Facebook](https://www.facebook.com/sipeassociazione/events) | organizzatore | — |
 | SALE IN ZUCCA APS | [pagina eventi del sito](https://www.saleinzuccaps.it/it/attivita) · [sito](https://saleinzuccaps.it) · [eventi della pagina Facebook](https://www.facebook.com/SaleinZuccaps/events) | organizzatore | — |
@@ -2255,7 +2263,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Parrocchia Santi Pietro e Paolo (Olgiata-Cerquetta, Roma) | [sito](http://www.parrocchiasantipietroepaolo.it/) · [eventi della pagina Facebook](https://www.facebook.com/Parrocchia-Santipietropaolo-Olgiata-Cerquetta-1434458430215303/events) | soggetto | — |
 | Parrocchia Santipietropaolo Olgiata | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasantipietroepaoloolgiatacerquetta/events) | soggetto | — |
 | Pro Olgiata | [eventi della pagina Facebook](https://www.facebook.com/proolgiata/events) | soggetto | — |
-| Rotary Club Roma Olgiata Veio | [sito](https://rotaryclubromaolgiata.com) · [eventi della pagina Facebook](https://www.facebook.com/Rotary-Club-Roma-Olgiata-708435662589520/events) | soggetto | — |
+| Rotary Club Roma Olgiata Veio | [pagina eventi del sito](https://www.rotaryclubromaolgiata.com/eventi/) · [sito](https://rotaryclubromaolgiata.com) · [eventi della pagina Facebook](https://www.facebook.com/Rotary-Club-Roma-Olgiata-708435662589520/events) | soggetto | — |
 | Associazione F I L E D A T E | — | soggetto | — |
 | Cada di Alessia | — | soggetto | — |
 | Capitello votivo alla Madonna | — | soggetto | — |
@@ -2268,14 +2276,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Teatro del Lido | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-del-lido/) | luogo | CR 20 |
 | Teatro del Lido di Ostia | [eventi della pagina Facebook](https://www.facebook.com/TeatroDelLidoDiOstia/events) · [Instagram](https://www.instagram.com/teatrodellido) | organizzatore | CR 11 |
-| Associazione culturale Il Triangolo Scaleno | [sito](https://teatridivetro.it) · [eventi della pagina Facebook](https://www.facebook.com/teatridivetro/events) · [Instagram](https://www.instagram.com/teatridivetro) | organizzatore | CR 10 |
+| Associazione culturale Il Triangolo Scaleno | [pagina eventi del sito](https://teatridivetro.it/programma-2026/) · [sito](https://teatridivetro.it) · [eventi della pagina Facebook](https://www.facebook.com/teatridivetro/events) | organizzatore | CR 10 |
 | ASS. AFFABULAZIONE ETS | [sito](https://affabulazionenet.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/assaffabulazione/events) · [Instagram](https://www.instagram.com/associazioneaffabulazione) | organizzatore | CR 9 |
 | Ostia, Lazio, Italy | [pagina Facebook](https://www.facebook.com/pages/Ostia-Lazio-Italy/113750085307162) | luogo | FB 2 |
 | Scout Nautici del Litorale Romano | [pagina Facebook](https://www.facebook.com/people/Scout-Nautici-del-Litorale-Romano/61576563699706) | organizzatore | FB 2 |
 | Castel Fusano | [eventi della pagina Facebook](https://www.facebook.com/castelfusano/events) | organizzatore | FB 1 |
 | UMED OSTIA | [eventi della pagina Facebook](https://www.facebook.com/UmedOstia/events) | organizzatore | FB 1 |
-| Visite Guidate di Roma - The Grand Tour | [sito](https://thegrandtour.it) · [eventi della pagina Facebook](https://www.facebook.com/thegrandtourita/events) | organizzatore | FB 1 |
-| WalkZone | [sito](https://walkzone.online) · [eventi della pagina Facebook](https://www.facebook.com/walkzone.official/events) | organizzatore | FB 1 |
+| Visite Guidate di Roma - The Grand Tour | [pagina eventi del sito](http://www.thegrandtour.it/) · [sito](https://thegrandtour.it) · [eventi della pagina Facebook](https://www.facebook.com/thegrandtourita/events) | organizzatore | FB 1 |
+| WalkZone | [pagina eventi del sito](https://www.walkzone.online/eventi/) · [sito](https://walkzone.online) · [eventi della pagina Facebook](https://www.facebook.com/walkzone.official/events) | organizzatore | FB 1 |
 | ALIANZ ITALIAN KENNEL CLUB | [pagina eventi del sito](https://alianzitaliankennelclub.com/pages/news.htm) · [sito](https://alianzitaliankennelclub.com) · [eventi della pagina Facebook](https://www.facebook.com/alianzworldwide/events) | organizzatore | — |
 | Associazione MotoriaMente | [eventi della pagina Facebook](https://www.facebook.com/MotoriaMente/events) | organizzatore | — |
 | BARBY FLOWERS APS | [sito](https://matrimonio.com) · [eventi della pagina Facebook](https://www.facebook.com/matrimoniocom/events) | organizzatore | — |
@@ -2283,7 +2291,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ESCUELITA VIVA ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://escuelitaviva.com/events/categories/eventi/) · [sito](https://escuelitaviva.com) · [eventi della pagina Facebook](https://www.facebook.com/asilonelboscoescuelitaviva/events) | organizzatore | — |
 | IL FARO D'ARGENTO APS | [eventi della pagina Facebook](https://www.facebook.com/ilfarodargentoaps/events) | organizzatore | — |
 | NOI Associazione AntiMafia | [eventi della pagina Facebook](https://www.facebook.com/NOIAMANODISARMATA/events) | organizzatore | — |
-| Ostia e Dintorni | [sito](https://ostiaedintorni.it) · [eventi della pagina Facebook](https://www.facebook.com/ostiaedintorni/events) | soggetto | — |
+| Ostia e Dintorni | [pagina eventi del sito](http://ostiaedintorni.it/eventi/) · [sito](https://ostiaedintorni.it) · [eventi della pagina Facebook](https://www.facebook.com/ostiaedintorni/events) | soggetto | — |
 | WWF LITORALE LAZIALE - ODV | [sito](https://wwflitoralelaziale.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/LegambienteOstia/events) | organizzatore | — |
 | Bar Della Pineta (Castel Fusano), in Viale Mediterraneo, 85 - Ostia | — | luogo | FB 1 |
 | Lido di Ostia | — | luogo | RT 1 |
@@ -2298,13 +2306,13 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Tuttoteatro.com | [sito](https://tuttoteatro.com) · [eventi della pagina Facebook](https://www.facebook.com/tuttoteatrocom/events) · [Instagram](https://www.instagram.com/tuttoteatrocom) | organizzatore | CR 30 |
+| Tuttoteatro.com | [pagina eventi del sito](http://www.tuttoteatro.com/) · [sito](https://tuttoteatro.com) · [eventi della pagina Facebook](https://www.facebook.com/tuttoteatrocom/events) | organizzatore | CR 30 |
 | Il Covo del Nerd - Roma | [eventi della pagina Facebook](https://www.facebook.com/ilcovodelnerd.roma/events) | luogo, organizzatore | FB 3 |
 | Art Orient Academy Dance Napoli | [eventi della pagina Facebook](https://www.facebook.com/artorientdanceacademy/events) | organizzatore | FB 2 |
 | Industrie Fluviali | [sito](https://www.industriefluviali.it/) | luogo | RT 2 |
 | Alfina Trekking & Outdoor | [eventi della pagina Facebook](https://www.facebook.com/alfinaoutdoorsurvival/events) | organizzatore | FB 1 |
 | Centro Meditazione Roma | [eventi della pagina Facebook](https://www.facebook.com/CentroMeditazioneRoma/events) | organizzatore | FB 1 |
-| Elegance Cafè jazz club | [eventi della pagina Facebook](https://www.facebook.com/elegancecafejazzclub/events) | luogo, organizzatore | FB 1 |
+| Elegance Cafè jazz club | [pagina eventi del sito](https://www.elegancecafe.it/) · [eventi della pagina Facebook](https://www.facebook.com/elegancecafejazzclub/events) | luogo, organizzatore | FB 1 |
 | Marco Liotti & Fifty Fifty | [eventi della pagina Facebook](https://www.facebook.com/marcoliottififtyfifty/events) | organizzatore | FB 1 |
 | Massimo Picaro Paradiso | [eventi della pagina Facebook](https://www.facebook.com/picaro.radiogagarin/events) | organizzatore | FB 1 |
 | Roma San Paolo | [pagina Facebook](https://www.facebook.com/pages/Roma-San-Paolo/252225562337094) | luogo | FB 1 |
@@ -2324,7 +2332,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ARCHIVIO GARZIA APS | [sito](https://archiviogarzia.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/archiviogarzia/events) | organizzatore | — |
 | Associazione Culturale Controchiave ETS | [sito](https://controchiave.it) · [eventi della pagina Facebook](https://www.facebook.com/controchiave/events) | organizzatore | — |
 | Associazione Culturale Numen | [sito](https://universonumen.it) · [eventi della pagina Facebook](https://www.facebook.com/numenassociazioneculturale/events) | organizzatore | — |
-| ASSOCIAZIONE DI PROMOZIONE SOCIALE RADICI | [pagina eventi del sito](https://radiciaps.it/calendario) · [sito](https://radiciaps.it) · [eventi della pagina Facebook](https://www.facebook.com/radiciaps/events) | organizzatore | — |
+| ASSOCIAZIONE DI PROMOZIONE SOCIALE RADICI | [pagina eventi del sito](https://www.radiciaps.it/calendario/) · [pagina eventi del sito](https://radiciaps.it/calendario) · [sito](https://radiciaps.it) | organizzatore | — |
 | ASSOCIAZIONE NAZIONALE ITALIANA MUTILATI INVALIDI E DISABILI ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.animid.it/news/) · [sito](https://animid.it) | organizzatore | — |
 | ASSOCIAZIONE ROMANA PRO JUVENTUTE TETTO  ETS- ARPJTETTO ETS | [pagina eventi del sito](https://arpj.org/news/) · [sito](https://arpj.org) · [eventi della pagina Facebook](https://www.facebook.com/larpjtetto/events) | organizzatore | — |
 | Associazione Save  The Family | [pagina eventi del sito](https://savefamilygps.com/it/blogs/notizie) · [sito](https://savethefamily.it) · [eventi della pagina Facebook](https://www.facebook.com/100069329301532/events) | organizzatore | — |
@@ -2333,7 +2341,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | BIMBI & CO. CENTRO PER LE FAMIGLIE ONLUS | [pagina eventi del sito](https://bimbieco.net/attivita.asp) · [sito](https://bimbieco.net) · [eventi della pagina Facebook](https://www.facebook.com/bimbiecoonlus/events) | organizzatore | — |
 | BRIGATA GARBATELLA -ODV | [pagina eventi del sito](https://www.brigatagarbatella.org/category/news/) · [sito](https://brigatagarbatella.org) · [eventi della pagina Facebook](https://www.facebook.com/brigatagarbatella/events) | organizzatore | — |
 | CDCA - CENTRO DI DOCUMENTAZIONE SUI CONFLITTI AMBIENTALI ETS | [pagina eventi del sito](https://www.cdca.it/category/Notizie/) · [sito](https://cdca.it) · [eventi della pagina Facebook](https://www.facebook.com/cdcaitalia/events) | organizzatore | — |
-| CENTRO DI RIABILITAZIONE VACLAV VOJTA SOCIETA' COOPERATIVA SOCIAL E | [pagina eventi del sito](https://www.centrovojta.com/iniziative) · [sito](https://centrovojta.com) · [pagina Facebook](https://www.facebook.com/policies/cookies) | organizzatore | — |
+| CENTRO DI RIABILITAZIONE VACLAV VOJTA SOCIETA' COOPERATIVA SOCIAL E | [pagina eventi del sito](https://www.centrovojta.com/iniziative) · [sito](https://centrovojta.com) · [eventi della pagina Facebook](https://www.facebook.com/policies/events) | organizzatore | — |
 | CENTRO DOCUMENTAZIONE ARCHIVIO FLAMIGNI - E.T.S. | [pagina eventi del sito](https://www.archivioflamigni.org/attivita/) · [sito](https://archivioflamigni.org) · [eventi della pagina Facebook](https://www.facebook.com/archivioflamigni/events) | organizzatore | — |
 | CENTRO INTERNAZIONALE CROCEVIA ETS | [pagina eventi del sito](https://www.croceviaterra.it/news/) · [sito](https://croceviaterra.it) · [eventi della pagina Facebook](https://www.facebook.com/croceviaterra/events) | organizzatore | — |
 | CIRCOLO DI CULTURA OMOSESSUALE MARIO MIELI APS | [pagina eventi del sito](https://www.mariomieli.org/eventi/) · [sito](https://mariomieli.org) · [eventi della pagina Facebook](https://www.facebook.com/CCOMarioMieli/events) | organizzatore | — |
@@ -2359,14 +2367,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | NF2 PROJECT APS | [pagina eventi del sito](https://www.nf2project.org/events/?ical=1) · [sito](https://nf2project.org) · [eventi della pagina Facebook](https://www.facebook.com/NF2PROJECT/events) | organizzatore | — |
 | NOVALUNA APS | [eventi della pagina Facebook](https://www.facebook.com/AssociazioneNovaLuna/events) | organizzatore | — |
 | Nuovo Teatro San Paolo | [sito](https://nuovoteatrosanpaolo.it) · [eventi della pagina Facebook](https://www.facebook.com/nuovotsp/events) | soggetto | — |
-| Ottavo Colle Associazione di Promozione Sociale | [pagina eventi del sito](https://www.ottavocolle.com/appuntamenti/) · [sito](https://ottavocolle.com) · [eventi della pagina Facebook](https://www.facebook.com/ottavocolleroma/events) | organizzatore | — |
+| Ottavo Colle Associazione di Promozione Sociale | [pagina eventi del sito](http://www.ottavocolle.com/) · [pagina eventi del sito](https://www.ottavocolle.com/appuntamenti/) · [sito](https://ottavocolle.com) | organizzatore | — |
 | PATRONATO ACLI ROMA APS | [pagina eventi del sito](https://www.acliromaservizi.it/notizie/) · [sito](https://acliromaservizi.it) · [eventi della pagina Facebook](https://www.facebook.com/acli.rieti/events) | organizzatore | — |
 | Phrasis - Associazione Italiana di fraseologia e paremiologia | [sito](https://phrasis.it) · [eventi della pagina Facebook](https://www.facebook.com/100054588452911/events) | organizzatore | — |
 | PMTR - SCIENZE E TERAPIE RELAZIONALI ETS | [sito](https://pmtrscienzedelleterapierelazionali.com) · [eventi della pagina Facebook](https://www.facebook.com/PMTR.ScienzeeTerapieRelazionali/events) | organizzatore | — |
-| RadioSapienza | [sito](https://radiosapienza.net) · [eventi della pagina Facebook](https://www.facebook.com/radiosapienza/events) | soggetto | — |
-| REPAIR CAFE' ROMA SAN PAOLO APS | [pagina eventi del sito](https://www.repaircaferoma8.it/eventi/?ical=1) · [sito](https://repaircaferoma8.it) · [pagina Facebook](https://www.facebook.com/romarepair8/events) | organizzatore | — |
+| RadioSapienza | [pagina eventi del sito](http://www.radiosapienza.net/) · [sito](https://radiosapienza.net) · [eventi della pagina Facebook](https://www.facebook.com/radiosapienza/events) | soggetto | — |
+| REPAIR CAFE' ROMA SAN PAOLO APS | [pagina eventi del sito](https://www.repaircaferoma8.it/eventi/?ical=1) · [sito](https://repaircaferoma8.it) · [eventi della pagina Facebook](https://www.facebook.com/romarepair8/events) | organizzatore | — |
 | Riva Marconi | [sito](https://rivamarconi.it) | soggetto | — |
-| Roma Servizi per la Mobilità | [sito](https://romamobilita.it) · [eventi della pagina Facebook](https://www.facebook.com/romamobilita/events) | soggetto | — |
+| Roma Servizi per la Mobilità | [pagina eventi del sito](http://www.romamobilita.it/) · [sito](https://romamobilita.it) · [eventi della pagina Facebook](https://www.facebook.com/romamobilita/events) | soggetto | — |
 | ROMA TRE ORCHESTRA ETS | [pagina eventi del sito](https://r3o.org/news/) · [sito](https://r3o.org) · [eventi della pagina Facebook](https://www.facebook.com/romatreorchestra/events) | organizzatore | — |
 | SOULNEST APS | [pagina eventi del sito](https://www.soulnest.net/events/) · [sito](https://soulnest.net) · [eventi della pagina Facebook](https://www.facebook.com/soulnest/events) | organizzatore | — |
 | SPORT SENZA FRONTIERE ETS | [pagina eventi del sito](https://www.sportsenzafrontiere.it/eventi/) · [sito](https://sportsenzafrontiere.it) · [eventi della pagina Facebook](https://www.facebook.com/SportSenzaFrontiereETS/events) | organizzatore | — |
@@ -2375,7 +2383,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Teatro Garbatella | [sito](https://teatrogarbatella.it) | soggetto | — |
 | UNIONE DEGLI ATEI E DEGLI AGNOSTICI RAZIONALISTI APS | [pagina eventi del sito](https://www.uaar.it/appuntamenti/) · [sito](https://uaar.it) · [eventi della pagina Facebook](https://www.facebook.com/UAAR.it/events) | organizzatore | — |
 | UNIONE SPORTIVA ACLI DELLA PROVINCIA DI ROMA APS | [pagina eventi del sito](http://www.usacliroma.it/tesseramento/modalita-di-pagamento/news/) · [sito](https://usacliroma.it) | organizzatore | — |
-| WSP PHOTOGRAPHY APS | [pagina eventi del sito](https://www.collettivowsp.org/fotografia/corsi/) · [sito](https://collettivowsp.org) · [eventi della pagina Facebook](https://www.facebook.com/wspphotography/events) | organizzatore | — |
+| WSP PHOTOGRAPHY APS | [pagina eventi del sito](http://www.collettivowsp.org/) · [pagina eventi del sito](https://www.collettivowsp.org/fotografia/corsi/) · [sito](https://collettivowsp.org) | organizzatore | — |
 | Basilica di San Paolo fuori le mura | — | luogo | FB 1 |
 | Studio Campo Boario | — | luogo | RT 1 |
 | Via Efeso, 2A | — | luogo | FB 1 |
@@ -2387,9 +2395,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Associazione culturale "Lucchina e Ottavia" | [eventi della pagina Facebook](https://www.facebook.com/comitatolucchinaeottavia.blogspot.it/events) | soggetto | — |
 | Biblioteca del Portico di Ottavia | DaLiB | [sito](https://dalib.it) | soggetto | — |
-| Centro Anziani Ottavia, inaugurazione nuovo ... | [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | — |
+| Centro Anziani Ottavia, inaugurazione nuovo ... | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/municipioromaxiv/events) | soggetto | — |
 | Etoile 23 | [sito](https://etoile23.com) · [eventi della pagina Facebook](https://www.facebook.com/E23roma/events) | soggetto | — |
 | FONDAZIONE LA SESTA CITTA' DI RIFUGIO ETS | [pagina eventi del sito](https://www.fondazionerifugio.it/events/?ical=1) · [sito](https://fondazionerifugio.it) · [eventi della pagina Facebook](https://www.facebook.com/FondazioneRifugio/events) | organizzatore | — |
+| Intersos Lab | [sito](https://www.intersoslab.it/) · [eventi della pagina Facebook](https://www.facebook.com/IntersosLabFormazione/events) · [Instagram](https://www.instagram.com/intersoslab) | soggetto | — |
 | Nasce la nuova biblioteca di Ottavia e Palmarola | [sito](https://www.ciardullidomenico.it) | soggetto | — |
 | Ottavia, Roma. Associazioni e solidarietà in rete contro il ... | [sito](https://www.intersos.org) | soggetto | — |
 | Centro Anziani Ottavia, inaugurazione nuovo Punto Roma ... | — | soggetto | — |
@@ -2400,7 +2409,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 |---|---|---|---|
 | Casa del Cinema | [pagina letta alla fonte (calendario)](https://www.casadelcinema.it/en/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/casa-del-cinema/) · [sito](https://casadelcinema.it) | luogo | CR 49 FL 51 |
 | Fondazione Cinema per Roma | [sito](https://casadelcinema.it) · [eventi della pagina Facebook](https://www.facebook.com/CasaDelCinema/events) · [Instagram](https://www.instagram.com/casadelcinema) | organizzatore | CR 50 |
-| Fondazione Musica per Roma | [sito](https://auditorium.com) · [eventi della pagina Facebook](https://www.facebook.com/AuditoriumParcodellaMusica/events) · [Instagram](https://www.instagram.com/auditoriumparcodellamusica) | organizzatore | CR 46 |
+| Fondazione Musica per Roma | [pagina eventi del sito](https://casadeljazz.com) · [sito](https://auditorium.com) · [eventi della pagina Facebook](https://www.facebook.com/AuditoriumParcodellaMusica/events) | organizzatore | CR 46 |
 | Auditorium Parco della Musica Ennio Morricone | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/auditorium-parco-della-musica/) · [eventi della pagina Facebook](https://www.facebook.com/AuditoriumParcodellaMusica/events) | luogo | CR 35 FB 5 |
 | MAXXI - Museo nazionale delle arti del XXI secolo | [pagina letta alla fonte (calendario)](https://www.maxxi.art/) · [sito](https://maxxi.art) · [eventi della pagina Facebook](https://www.facebook.com/MAXXImuseo/events) | luogo | FL 19 |
 | Accademia Nazionale di Santa Cecilia | [pagina letta alla fonte (calendario)](https://santacecilia.it/) · [sito](https://santacecilia.it) · [eventi della pagina Facebook](https://www.facebook.com/accademiadisantacecilia/events) | luogo, organizzatore | CR 8 FL 7 |
@@ -2420,12 +2429,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Biblioteca Flaminia | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-flaminia/) · [eventi della pagina Facebook](https://www.facebook.com/biblioteca.flaminia/events) | luogo | CR 1 |
 | Biglietti concerti ITALIA | [pagina Facebook](https://www.facebook.com/groups/944380590362634) | organizzatore | FB 1 |
 | Casina di Raffaello | [sito](https://www.casinadiraffaello.it/) | luogo | RT 1 |
-| Fabio Concato | [eventi della pagina Facebook](https://www.facebook.com/fabioconcatoofficial/events) | organizzatore | FB 1 |
+| Fabio Concato | [pagina eventi del sito](https://www.fabioconcato.it/) · [eventi della pagina Facebook](https://www.facebook.com/fabioconcatoofficial/events) | organizzatore | FB 1 |
 | Galleria Nazionale d'Arte Moderna e Contemporanea | [sito](https://lagallerianazionale.com/) · [eventi della pagina Facebook](https://www.facebook.com/lagallerianazionale/events) · [Instagram](https://www.instagram.com/lagallerianazionale) | luogo | RT 1 |
 | Giulia Damico | [pagina Facebook](https://www.facebook.com/people/Giulia-Damico/pfbid02hhLn9Zu6wYLRydKEG94shL9UTJArg4uZ9R2LRSev9gXSf9RKZAsF61LdKJGh9foWl) | organizzatore | FB 1 |
 | Helikonia eventi | [eventi della pagina Facebook](https://www.facebook.com/helikoniaeventi/events) | organizzatore | FB 1 |
 | Jando Music | [eventi della pagina Facebook](https://www.facebook.com/jandomusiclabel/events) | organizzatore | FB 1 |
-| Mauro Di Maggio | [eventi della pagina Facebook](https://www.facebook.com/maurodimaggioofficial/events) | organizzatore | FB 1 |
+| Mauro Di Maggio | [pagina eventi del sito](http://www.maurodimaggio.it/news.html/) · [eventi della pagina Facebook](https://www.facebook.com/maurodimaggioofficial/events) | organizzatore | FB 1 |
 | Museo Carlo Bilotti | [eventi della pagina Facebook](https://www.facebook.com/MuseoCarloBilotti/events) | organizzatore | FB 1 |
 | NoGravity Theatre | [eventi della pagina Facebook](https://www.facebook.com/nogravitytheatre/events) | organizzatore | FB 1 |
 | Pallazzo Dello Sport | [pagina Facebook](https://www.facebook.com/pages/Pallazzo-Dello-Sport/158032857720137) | luogo | FB 1 |
@@ -2437,7 +2446,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | AGOL - Associazione Giovani Opinion Leader | [sito](https://agol.it) · [eventi della pagina Facebook](https://www.facebook.com/Agolnet/events) | organizzatore | — |
 | AIDDA ETS Associazione Imprenditrici e Donne Dirigenti di Azienda | [pagina eventi del sito](https://www.aidda.org/attivita/) · [sito](https://aidda.org) · [eventi della pagina Facebook](https://www.facebook.com/aiddaorg/events) | organizzatore | — |
 | AIS - Associazione Italiana di Sociologia | [sito](https://ais-sociologia.it) · [eventi della pagina Facebook](https://www.facebook.com/ais.associazione.italiana.sociologia/events) | organizzatore | — |
-| AISF - Associazione Italiana per lo Studio del Fegato | [sito](https://webaisf.org) · [eventi della pagina Facebook](https://www.facebook.com/100094454933508/events) | organizzatore | — |
+| AISF - Associazione Italiana per lo Studio del Fegato | [pagina eventi del sito](http://www.webaisf.org/) · [sito](https://webaisf.org) · [eventi della pagina Facebook](https://www.facebook.com/100094454933508/events) | organizzatore | — |
 | ALBUMARTE ASSOCIAZIONE CULTURALE NON PROFIT | [sito](https://albumarte.org) · [eventi della pagina Facebook](https://www.facebook.com/albumarte.spazioeprogetti/events) | organizzatore | — |
 | AMAD ASSOCIAZIONE MALATTIE ANSIA E DEPRESSIONE | [pagina eventi del sito](https://associazioneperlemalattieansiaedepressione.com/index.php/attivita) · [sito](https://associazioneperlemalattieansiaedepressione.com) | organizzatore | — |
 | ANAPA Associazione Nazionale Agenti Professionisti Assicurazione | [pagina eventi del sito](https://anapaweb.it/eventi/) · [sito](https://anapaweb.it) · [eventi della pagina Facebook](https://www.facebook.com/AnapaReteImpresAgenzia/events) | organizzatore | — |
@@ -2455,7 +2464,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Crocerossine d'Italia ETS | [pagina eventi del sito](https://www.crocerossineditalia.org/news/) · [sito](https://crocerossineditalia.org) · [eventi della pagina Facebook](https://www.facebook.com/AssCrocersossinedItalia/events) | organizzatore | — |
 | ASSOCIAZIONE CULTURALE SCUOLA MONTESSORI APS | [pagina eventi del sito](https://www.acscuolamontessori.it/eventi/) · [sito](https://acscuolamontessori.it) · [eventi della pagina Facebook](https://www.facebook.com/acscuolamontessoriaps/events) | organizzatore | — |
 | ASSOCIAZIONE D.O.N.N.A. DETERMINATA, OLISTICA, NEVRALGICA, NATURALE, AUTENTICA APS | [pagina eventi del sito](https://www.associazionedonna.org/laboratori) · [sito](https://associazionedonna.org) · [eventi della pagina Facebook](https://www.facebook.com/wix/events) | organizzatore | — |
-| ASSOCIAZIONE DI PROMOZIONE SOCIALE CHINA FILES | [pagina eventi del sito](https://www.china-files.com/tag/corsi/) · [sito](https://china-files.com) · [pagina Facebook](https://www.facebook.com/ChinaFilesIT/videos) | organizzatore | — |
+| ASSOCIAZIONE DI PROMOZIONE SOCIALE CHINA FILES | [pagina eventi del sito](https://www.china-files.com/tag/corsi/) · [sito](https://china-files.com) · [eventi della pagina Facebook](https://www.facebook.com/ChinaFilesIT/events) | organizzatore | — |
 | ASSOCIAZIONE DIFFERENZA DONNA APS | [pagina eventi del sito](https://www.differenzadonna.org/news/differenza-donna-sostiene-il-film-la-maison-des-femmes-la-casa-delle-donne-dal-29-ottobre-al-cinema/) · [sito](https://differenzadonna.org) · [eventi della pagina Facebook](https://www.facebook.com/ongdifferenzadonna/events) | organizzatore | — |
 | ASSOCIAZIONE DISABILI VISIVI APS-ETS | [pagina eventi del sito](https://www.disabilivisivi.it/pagine/news/rfi-firenze-partono-domani-sera-alle-23-i-lavori-per-il-varo-del-nuovo-cavalcaverrovia-stradale-ponte-al-pino) · [sito](https://disabilivisivi.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneDisabiliVisiviOnlus/events) | organizzatore | — |
 | Associazione Enrico Toti | [sito](https://associazioneenricototi.org) · [eventi della pagina Facebook](https://www.facebook.com/associazioneenricototi/events) | organizzatore | — |
@@ -2485,7 +2494,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Festa del Cinema di Roma (Fondazione Cinema per Roma) | [sito](https://www.romacinemafest.it) | soggetto | — |
 | FONDAZIONE AURORA ETS | [pagina eventi del sito](https://www.fondazioneaurora.org/iniziative/) · [sito](https://fondazioneaurora.org) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneaurora/events) | organizzatore | — |
 | FONDAZIONE DIETA MEDITERRANEA ETS | [pagina eventi del sito](https://fondazionedietamediterranea.net/eventi/) · [sito](https://fondazionedietamediterranea.net) | organizzatore | — |
-| FONDAZIONE ENNIO MORRICONE - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.fondazionemorricone.it/category/news/) · [sito](https://fondazionemorricone.it) · [eventi della pagina Facebook](https://www.facebook.com/fondazionemorricone/events) | organizzatore | — |
+| FONDAZIONE ENNIO MORRICONE - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.fondazionemorricone.it/) · [pagina eventi del sito](https://www.fondazionemorricone.it/category/news/) · [sito](https://fondazionemorricone.it) | organizzatore | — |
 | FONDAZIONE GIOVANNI SCAMBIA ETS | [pagina eventi del sito](https://fondazionegiovanniscambiaets.it/events/?ical=1) · [sito](https://fondazionegiovanniscambiaets.it) | organizzatore | — |
 | FONDAZIONE ITALIANA DEL NOTARIATO - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.fondazionenotariato.it/news.html) · [sito](https://fondazionenotariato.it) | organizzatore | — |
 | FONDAZIONE MAIRE  ENTE DEL TERZO SETTORE IN BREVE FONDAZIONE MAIRE  ETS | [pagina eventi del sito](https://fondazione.groupmaire.com/it/news/) · [sito](https://fondazione.groupmaire.com) | organizzatore | — |
@@ -2496,10 +2505,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | FONDAZIONE ROMA REGENERATION ETS | [sito](https://romaregeneration.it) · [eventi della pagina Facebook](https://www.facebook.com/RomaREgeneration/events) | organizzatore | — |
 | FONDAZIONE SANTO VERSACE ENTE FILANTROPICO | [pagina eventi del sito](https://fondazionesantoversace.it/news/) · [sito](https://fondazionesantoversace.it) · [eventi della pagina Facebook](https://www.facebook.com/FondazioneSantoVersace/events) | organizzatore | — |
 | FONDAZIONE UGO SPIRITO E RENZO DE FELICE ETS | [pagina eventi del sito](https://www.fondazionespirito.it/events/?ical=1) · [sito](https://fondazionespirito.it) · [eventi della pagina Facebook](https://www.facebook.com/FondazioneSpirito/events) | organizzatore | — |
-| FORUM NAZIONALE DEL TERZO SETTORE ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.forumterzosettore.it/notizie) · [sito](https://forumterzosettore.it) · [eventi della pagina Facebook](https://www.facebook.com/Forum-Nazionale-Terzo-Settore-169711579745068/events) | organizzatore | — |
+| FORUM NAZIONALE DEL TERZO SETTORE ENTE DEL TERZO SETTORE | [pagina eventi del sito](http://www.forumterzosettore.it/) · [pagina eventi del sito](https://www.forumterzosettore.it/notizie) · [sito](https://forumterzosettore.it) | organizzatore | — |
 | IL TRUST IN ITALIA ETS | [pagina eventi del sito](https://il-trust-in-italia.it/eventi) · [sito](https://il-trust-in-italia.it) · [eventi della pagina Facebook](https://www.facebook.com/iltrustinitalia/events) | organizzatore | — |
 | LA CITTA' IDEALE - ENTE DEL TERZO SETTORE | [sito](https://fondazionelacittaideale.it) · [eventi della pagina Facebook](https://www.facebook.com/lacittaidealeRM/events) | organizzatore | — |
-| LEGAMBIENTE SCUOLA E FORMAZIONE | [pagina eventi del sito](https://www.legambientescuolaformazione.it/iniziative) · [sito](https://legambientescuolaformazione.it) · [eventi della pagina Facebook](https://www.facebook.com/legambiente.scuolaformazione/events) | organizzatore | — |
+| LEGAMBIENTE SCUOLA E FORMAZIONE | [pagina eventi del sito](http://www.legambientescuolaformazione.it/) · [pagina eventi del sito](https://www.legambientescuolaformazione.it/iniziative) · [sito](https://legambientescuolaformazione.it) | organizzatore | — |
 | MAMANONMAMA ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.sexandthecancer.it/eventi/?ical=1) · [sito](https://sexandthecancer.it) · [eventi della pagina Facebook](https://www.facebook.com/Sex-and-the-cancer-100950571983670/events) | organizzatore | — |
 | MOVIMENTO ADULTI SCOUT CATTOLICI ITALIANI APS | [pagina eventi del sito](https://www.masci.it/eventi/?ical=1) · [sito](https://masci.it) · [eventi della pagina Facebook](https://www.facebook.com/MovimentoAdultiScoutCattoliciItaliani/events) | organizzatore | — |
 | MUSEO DEI BAMBINI SOCIETA' COOPERATIVA SOCIALE | [pagina eventi del sito](https://mdbr.it/news/) · [sito](https://mdbr.it) · [eventi della pagina Facebook](https://www.facebook.com/mdbr.it/events) | organizzatore | — |
@@ -2511,17 +2520,18 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | PROGETTO SUD ETS | [sito](https://progettosud.org) · [eventi della pagina Facebook](https://www.facebook.com/IstitutoProgettoSUD/events) | organizzatore | — |
 | PRONTO SOCCORSO PER LE FAMIGLIE APS | [pagina eventi del sito](https://prontosoccorsoperlefamiglieaps.it/news) · [sito](https://prontosoccorsoperlefamiglieaps.it) · [eventi della pagina Facebook](https://www.facebook.com/prontosoccorsofamiglie/events) | organizzatore | — |
 | RETE PER IL SOCIALE ETS | [sito](https://reteperilsociale.it) · [eventi della pagina Facebook](https://www.facebook.com/istitutoretericercaeterapiainetaevolutiva/events) | organizzatore | — |
-| Roma Arte in Nuvola | [sito](https://romaarteinnuvola.eu) · [eventi della pagina Facebook](https://www.facebook.com/romaarteinnuvola/events) | soggetto | — |
+| Roma Arte in Nuvola | [pagina eventi del sito](https://romaarteinnuvola.eu/) · [sito](https://romaarteinnuvola.eu) · [eventi della pagina Facebook](https://www.facebook.com/romaarteinnuvola/events) | soggetto | — |
 | Santa Croce a Via Flaminia – Parrocchia – Roma | [sito](https://santacrocealflaminio.it) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiasantacrocealflaminio/events) | soggetto | — |
-| SATIS ASSOCIAZIONE DI PROMOZIONE SOCIALE | [eventi della pagina Facebook](https://www.facebook.com/SatisCentroClinicodiPsicologia/events) | organizzatore | — |
+| SATIS ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](http://www.satiscentroclinico.com/) · [eventi della pagina Facebook](https://www.facebook.com/SatisCentroClinicodiPsicologia/events) | organizzatore | — |
 | SCUOLA E SVILUPPO IMPRESA SOCIALE ETS | [pagina eventi del sito](https://www.scuolaesviluppo.it/corsi/) · [sito](https://scuolaesviluppo.it) · [eventi della pagina Facebook](https://www.facebook.com/scuolaesviluppo/events) | organizzatore | — |
 | SIAMO RETE ODV | [pagina eventi del sito](https://www.reteurbs.org/news/) · [sito](https://reteurbs.org) | organizzatore | — |
 | SOCIAL VALUE ITALIA ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.socialvalueitalia.it/news/) · [sito](https://socialvalueitalia.it) · [eventi della pagina Facebook](https://www.facebook.com/socialvalueitalia/events) | organizzatore | — |
 | SOCIETA' ITALIANA DI ECOGRAFIA OSTETRICA E GINECOLOGICA E METODOLOGIE BIOFISICHE ENTE DEL TERZO SETTORE IN SIGLA S.I.E.O.G. ETS | [pagina eventi del sito](https://www.sieog.it/events/webinar-sieog-ecografia-di-riferimento-dallesame-ecografico-precoce-a-quello-tardivo/) · [sito](https://sieog.it) · [eventi della pagina Facebook](https://www.facebook.com/SIEOG/events) | organizzatore | — |
 | SOCIETA' ITALIANA DI GEOLOGIA AMBIENTALE (SIGEA) - APS | [pagina eventi del sito](https://sigea-aps.it/eventi/) · [sito](https://sigea-aps.it) · [eventi della pagina Facebook](https://www.facebook.com/Sigea.Societa.Italiana.di.Geologia.Ambientale/events) | organizzatore | — |
 | SOCIETA' ITALIANA DI ORTOPEDIA E TRAUMATOLOGIA - E.T.S. | [pagina eventi del sito](https://siot.it/news/) · [sito](https://siot.it) · [eventi della pagina Facebook](https://www.facebook.com/SiotOrtopedia/events) | organizzatore | — |
+| T'ACCOMPAGNO APS | [sito](https://www.taccompagno.it/it/) · [eventi della pagina Facebook](https://www.facebook.com/taccompagno/events) | soggetto | — |
 | TEATRI DI LUNA A.P.S. | [pagina eventi del sito](https://teatridiluna.joomlafree.it/attivita.html) · [sito](https://teatridiluna.joomlafree.it) · [eventi della pagina Facebook](https://www.facebook.com/teatridiluna/events) | organizzatore | — |
-| TERRA NUOVA CENTRO PER LA SOLIDARIETA' E LA COOPERAZIONE TRA I POPOLI ONLUS | [pagina eventi del sito](https://www.terranuova.org/news/terra-nuova-al-forum-del-csipm-alla-fao-rafforzare-il-multilateralismo-e-la-partecipazione-della-societa-civile-per-il-diritto-al-cibo) · [sito](https://terranuova.org) · [eventi della pagina Facebook](https://www.facebook.com/terranuovaong/events) | organizzatore | — |
+| TERRA NUOVA CENTRO PER LA SOLIDARIETA' E LA COOPERAZIONE TRA I POPOLI ONLUS | [pagina eventi del sito](http://www.terranuova.org/appuntamenti/) · [pagina eventi del sito](https://www.terranuova.org/news/terra-nuova-al-forum-del-csipm-alla-fao-rafforzare-il-multilateralismo-e-la-partecipazione-della-societa-civile-per-il-diritto-al-cibo) · [sito](https://terranuova.org) | organizzatore | — |
 | UNIONE CONSUMATORI ITALIANI E.T.S. | [sito](https://consumatoritaliani.org) · [eventi della pagina Facebook](https://www.facebook.com/consumatoritaliani/events) | organizzatore | — |
 | UNIONE FORENSE PER LA TUTELA DEI DIRITTI UMANI ETS | [pagina eventi del sito](https://www.unionedirittiumani.it/eventi/) · [sito](https://unionedirittiumani.it) · [eventi della pagina Facebook](https://www.facebook.com/Unionedirittiumani/events) | organizzatore | — |
 | Fabrizio Sodani | — | organizzatore | FB 2 |
@@ -2543,7 +2553,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | MONK Roma | [pagina letta alla fonte (calendario)](https://www.monkroma.it/programma/) · [sito](https://monkroma.it) · [eventi della pagina Facebook](https://www.facebook.com/monkclubroma/events) | luogo, organizzatore | FB 4 FL 20 RT 1 |
 | Galactus Tiburtina | [eventi della pagina Facebook](https://www.facebook.com/GalactusTiburtina/events) | organizzatore | FB 18 |
 | IL NAUFRAGARMEDOLCE ETS | [pagina eventi del sito](https://www.ilnaufragarmedolce.it/spettacoli/zit/) · [sito](https://ilnaufragarmedolce.it) · [eventi della pagina Facebook](https://www.facebook.com/ilnaufragarmedolce/events) | organizzatore | CR 11 |
-| Associazione Culturale ZERKALO | [sito](https://zerkaloteatro.com) | organizzatore | CR 4 |
+| Associazione Culturale ZERKALO | [pagina eventi del sito](https://www.zerkaloteatro.com/spettacoli-ed-eventi/) · [sito](https://zerkaloteatro.com) | organizzatore | CR 4 |
 | Primo Piano | [eventi della pagina Facebook](https://www.facebook.com/primo1piano/events) | luogo, organizzatore | FB 4 |
 | Hacienda | [sito](https://www.haciendaroma.it/) · [Instagram](https://www.instagram.com/the_green_market_roma) | luogo | RT 3 |
 | hacienda_rome | [eventi della pagina Facebook](https://www.facebook.com/HcndRm/events) | luogo, organizzatore | FB 3 |
@@ -2565,7 +2575,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ARCI LAZIO A.P.S. | [eventi della pagina Facebook](https://www.facebook.com/arcilazio/events) | organizzatore | — |
 | ASSOCIAZIONE ARS LUDI ETS | [pagina eventi del sito](https://www.arsludi.eu/news.asp?sez=Produzioni) · [sito](https://arsludi.eu) · [eventi della pagina Facebook](https://www.facebook.com/ensemble.arsludi/events) | organizzatore | — |
 | ASSOCIAZIONE DI PROMOZIONE SOCIALE NUOVO 1 MAGGIO ETS | [eventi della pagina Facebook](https://www.facebook.com/100063579340226/events) | organizzatore | — |
-| ASSOCIAZIONE DI PROMOZIONE SOCIALE ZEFIRA | [sito](https://associazionezefira.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionezefira/events) | organizzatore | — |
+| ASSOCIAZIONE DI PROMOZIONE SOCIALE ZEFIRA | [pagina eventi del sito](https://associazionezefira.it/) · [sito](https://associazionezefira.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionezefira/events) | organizzatore | — |
 | Associazione Libera-mente | [sito](https://teatroliberamente.com) · [eventi della pagina Facebook](https://www.facebook.com/pietro.liberamente/events) | organizzatore | — |
 | Associazione Spazio B A S E | [eventi della pagina Facebook](https://www.facebook.com/AssociazioneSpazioBASE/events) | organizzatore | — |
 | Atelier Montez | [sito](https://www.montez.it/) | soggetto | — |
@@ -2592,10 +2602,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | La Rocca ETS | [sito](https://fortezzaest.com) · [eventi della pagina Facebook](https://www.facebook.com/fortezzaest/events) · [Instagram](https://www.instagram.com/fortezzaest) | organizzatore | CR 15 |
-| Nuovo Cinema Aquila | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/nuovo-cinema-aquila/) · [sito](https://cinemaaquila.it) · [eventi della pagina Facebook](https://www.facebook.com/cinemaaquila/events) | luogo, organizzatore | CR 12 |
+| Nuovo Cinema Aquila | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/nuovo-cinema-aquila/) · [pagina eventi del sito](http://www.cinemaaquila.it/) · [sito](https://cinemaaquila.it) | luogo, organizzatore | CR 12 |
 | Spazio Diamante | [pagina letta alla fonte (calendario)](https://spaziodiamante.it/) · [sito](https://spaziodiamante.it) | luogo | FL 9 RT 2 |
 | ASSOCIAZIONE TEATRALE CULTURALE SALTIMBANCO ETS | [sito](https://atcsaltimbanco.com) · [eventi della pagina Facebook](https://www.facebook.com/Teatro.Brancaccio.Roma/events) | organizzatore | CR 9 |
-| Ruotalibera cooperativa sociale | [sito](https://centraleprenesteteatro.it) · [eventi della pagina Facebook](https://www.facebook.com/CentralePrenesteTeatro/events) · [Instagram](https://www.instagram.com/centralepreneste) | organizzatore | CR 9 |
+| Ruotalibera cooperativa sociale | [pagina eventi del sito](https://centraleprenesteteatro.it/calendario-eventi/) · [sito](https://centraleprenesteteatro.it) · [eventi della pagina Facebook](https://www.facebook.com/CentralePrenesteTeatro/events) | organizzatore | CR 9 |
 | Largo venue | [sito](https://largovenue.com/upcoming-events/) · [eventi della pagina Facebook](https://www.facebook.com/largovenue/events) | luogo, organizzatore | FB 6 |
 | Centrale Preneste Teatro | [sito](https://www.centralepreneste.it/) | luogo | RT 4 |
 | Chiasma ETS | [sito](https://chiasma.eu) · [eventi della pagina Facebook](https://www.facebook.com/interazionifestival.it/events) · [Instagram](https://www.instagram.com/interazioni_festival) | organizzatore | CR 3 |
@@ -2609,7 +2619,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Gallery Morphè | [sito](https://gallerymorphe.com) | luogo | RT 1 |
 | Immanuel Casto | [eventi della pagina Facebook](https://www.facebook.com/CastoImmanuel/events) | organizzatore | FB 1 |
 | Latte Fresco | [eventi della pagina Facebook](https://www.facebook.com/lattefrescoparty/events) | organizzatore | FB 1 |
-| Le Vibrazioni Fanclub | [eventi della pagina Facebook](https://www.facebook.com/levibrazioniofficial/events) | organizzatore | FB 1 |
+| Le Vibrazioni Fanclub | [pagina eventi del sito](https://francescosarcina.music/) · [eventi della pagina Facebook](https://www.facebook.com/levibrazioniofficial/events) | organizzatore | FB 1 |
 | Metamorphosis | [eventi della pagina Facebook](https://www.facebook.com/MetamorphosisClubbing/events) | organizzatore | FB 1 |
 | nEw liFe promo | [eventi della pagina Facebook](https://www.facebook.com/newlifepromoit/events) | organizzatore | FB 1 |
 | Biblioteca Penazzato | [eventi della pagina Facebook](https://www.facebook.com/bibliotecapenazzato/events) | soggetto | — |
@@ -2677,8 +2687,8 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Chiesa parrocchiale di Santa Maria Josefa del Cuore di Gesù | [sito](https://parrocchiasantamariajosefa.wordpress.com/) | soggetto | — |
 | Chiesa Parrocchiale di Santa Maria Madre della Chiesa | [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaPantanoBorghese/events) | soggetto | — |
 | Chiesa Parrocchiale di Santa Teresa di Calcutta | [sito](http://parrocchiateresadicalcutta.it/) | soggetto | — |
-| Comitato - #cdqcastelverde | [pagina Facebook](https://m.facebook.com/100070918081960/photos/598128502561081) | soggetto | — |
-| Comitato di Quartiere Castelverde di Roma | [sito](https://cdqcastelverde.it) · [eventi della pagina Facebook](https://www.facebook.com/cdqcastelverderoma/events) | organizzatore | — |
+| Comitato - #cdqcastelverde | [pagina Facebook](https://m.facebook.com/100070918081960) | soggetto | — |
+| Comitato di Quartiere Castelverde di Roma | [pagina eventi del sito](https://cdqcastelverde.it/) · [sito](https://cdqcastelverde.it) · [eventi della pagina Facebook](https://www.facebook.com/cdqcastelverderoma/events) | organizzatore | — |
 | Comitato di Quartiere di Castelverde | [Instagram](https://www.instagram.com/comitatodiquartierecastelverde) | soggetto | — |
 | Il contesto - ISTITUTO COMPRENSIVO STATALE " ... | [sito](https://www.icgiuseppeimpastato.edu.it) | soggetto | — |
 | Informiamo castelverde | Rome | [pagina Facebook](https://www.facebook.com/p/Informiamo-castelverde-100090113997270) | soggetto | — |
@@ -2693,7 +2703,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | RL1 - Q3 - Biblioteca del Casale di Ponte di Nona | [sito](https://www.iccu.sbn.it) | soggetto | — |
 | Tenuta Nibea | [sito](https://www.tenutanibea.com/) · [eventi della pagina Facebook](https://www.facebook.com/tenutanibea/events) | soggetto | — |
 | Top 10 biblioteche vicino a Ponte di Nona | [sito](https://biblioteche.top10posti.it) | soggetto | — |
-| Vivere Porta Metronia significa avere la storia di Roma a pochi ... | [pagina Facebook](https://www.facebook.com/gruppotoscano/posts/vivere-porta-metronia-significa-avere-la-storia-di-roma-a-pochi-passi-senza-rinu/1498200865673040) | soggetto | — |
+| Vivere Porta Metronia significa avere la storia di Roma a pochi ... | [eventi della pagina Facebook](https://www.facebook.com/gruppotoscano/events) | soggetto | — |
 | Carmela Chiara Corso | — | organizzatore | FB 1 |
 | Palermo | — | luogo | FB 1 |
 | Associazione culturale Papillon Rebibbia | — | soggetto | — |
@@ -2730,7 +2740,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ASSOCIAZIONE DI PROMOZIONE SOCIALE STUDIO MARCONI | [pagina eventi del sito](https://psicologiaeriabilitazione.it/blog/news) · [sito](https://psicologiaeriabilitazione.it) · [eventi della pagina Facebook](https://www.facebook.com/studiomarconipsicologia/events) | organizzatore | — |
 | Associazione Il Sentiero aps | [sito](https://acilsentiero.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneculturaleilSentiero/events) | organizzatore | — |
 | ASSOCIAZIONE INSIEME A GIORDANO - APS | [pagina eventi del sito](https://insiemeagiordano.it/eventi/?ical=1) · [sito](https://insiemeagiordano.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneonlusinsiemeagiordano/events) | organizzatore | — |
-| Associazione Orti Urbani Valle Dei Casali APS | [sito](https://ortiurbanivalledeicasali.it) · [eventi della pagina Facebook](https://www.facebook.com/ortiurbani.valledeicasali/events) | organizzatore | — |
+| Associazione Orti Urbani Valle Dei Casali APS | [pagina eventi del sito](http://www.ortiurbanivalledeicasali.it/) · [sito](https://ortiurbanivalledeicasali.it) · [eventi della pagina Facebook](https://www.facebook.com/ortiurbani.valledeicasali/events) | organizzatore | — |
 | Associazione Parla con Noi Onlus | [sito](https://parlaconnoi.org) · [eventi della pagina Facebook](https://www.facebook.com/100068687251472/events) | organizzatore | — |
 | Associazione Ricerca e Cambiamento-ARCLazio | [eventi della pagina Facebook](https://www.facebook.com/laboratoriofamilia/events) | organizzatore | — |
 | Associazione Salvabebè - Salvamamme | [sito](https://salvamamme.it) · [eventi della pagina Facebook](https://www.facebook.com/salvamamme/events) | organizzatore | — |
@@ -2743,10 +2753,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | LiFra Associazione Culturale | [pagina eventi del sito](https://www.lifraweb.com/eventi/) · [sito](https://lifraweb.com) · [eventi della pagina Facebook](https://www.facebook.com/LiFraAssociazioneCulturale/events) | organizzatore | — |
 | Little World | [sito](https://littleworldroma.com) | soggetto | — |
 | MACROMICRO ASSOCIAZIONE DI PROMOZIONE SOCIALE - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://macromicro.it/attivita/) · [sito](https://macromicro.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneMacromicro/events) | organizzatore | — |
-| OFFICINA DELLE ARTI APS | [pagina eventi del sito](https://www.officinadellearti.org/corsi) · [sito](https://officinadellearti.org) · [eventi della pagina Facebook](https://www.facebook.com/Romaofficinadellearti/events) | organizzatore | — |
+| OFFICINA DELLE ARTI APS | [pagina eventi del sito](http://www.officinadellearti.org/) · [pagina eventi del sito](https://www.officinadellearti.org/corsi) · [sito](https://officinadellearti.org) | organizzatore | — |
 | PROTEZIONE CIVILE ARVALIA ODV | [pagina eventi del sito](https://www.protezionecivilearvalia.it/news/) · [sito](https://protezionecivilearvalia.it) · [eventi della pagina Facebook](https://www.facebook.com/protezionecivilearvalia.it/events) | organizzatore | — |
 | SCENARIO B APS | [pagina eventi del sito](https://www.scenariob.it/index.php/component/content/category/news) · [sito](https://scenariob.it) · [eventi della pagina Facebook](https://www.facebook.com/scenariobaps/events) | organizzatore | — |
 | SERVIZIO CIVILE INTERNAZIONALE - APS | [pagina eventi del sito](https://sci-italia.it/news/) · [sito](https://sci-italia.it) · [eventi della pagina Facebook](https://www.facebook.com/sci.italy/events) | organizzatore | — |
+| Società Cooperativa Magliana Solidale ETS | [sito](http://www.maglianasolidale.it/) · [eventi della pagina Facebook](https://www.facebook.com/magliana.solidale/events) · [Instagram](https://www.instagram.com/magliana_solidale_coop_soc) | soggetto | — |
 | SOL MANSI - ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.solmansi.org/category/eventi/) · [sito](https://solmansi.org) · [eventi della pagina Facebook](https://www.facebook.com/solmansionlus/events) | organizzatore | — |
 | WHITE PARK VILLAGE APS | [sito](https://white-park-village.com) | organizzatore | — |
 | L'Opificio | — | luogo | FB 1 |
@@ -2759,14 +2770,14 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Bellezze di Roma | [sito](https://bellezzediromatour.it) · [eventi della pagina Facebook](https://www.facebook.com/bellezzediroma1/events) | luogo, organizzatore | FB 29 |
-| AR.MA Teatro | [sito](https://www.armateatro.it/) · [pagina Facebook](https://www.facebook.com/events/27816811724664493) | luogo | RT 2 |
+| AR.MA Teatro | [sito](https://www.armateatro.it/) | luogo | RT 2 |
 | Francesca Grosso | [eventi della pagina Facebook](https://www.facebook.com/francescagrossoartpag/events) | organizzatore | FB 2 |
 | GUIDE & TREK ENJOY | [eventi della pagina Facebook](https://www.facebook.com/escursionienatura/events) | organizzatore | FB 2 |
 | Museo Nazionale di Castel Sant'Angelo | [pagina letta alla fonte (calendario)](https://direzionemuseiroma.cultura.gov.it/en/category/mostre-en/) · [sito](https://direzionemuseiroma.cultura.gov.it) | luogo | FL 2 |
 | TRAVERSATA delle MARCHE | [eventi della pagina Facebook](https://www.facebook.com/marchelocalguide/events) | organizzatore | FB 2 |
 | Vinoteca Tempere | [sito](https://dgexperience.it) | luogo | RT 2 |
 | Claude Mage | [pagina Facebook](https://www.facebook.com/people/Claude-Mage/100092869964959) | organizzatore | FB 1 |
-| Dott. Pietro Federico - IRMSO | [sito](https://irmso.it) · [eventi della pagina Facebook](https://www.facebook.com/PietroFederico.IRMSO/events) | organizzatore | FB 1 |
+| Dott. Pietro Federico - IRMSO | [pagina eventi del sito](http://www.irmso.it/) · [sito](https://irmso.it) · [eventi della pagina Facebook](https://www.facebook.com/PietroFederico.IRMSO/events) | organizzatore | FB 1 |
 | Duemila Voci | [eventi della pagina Facebook](https://www.facebook.com/duemilavoci/events) | organizzatore | FB 1 |
 | Elia Lisi | [eventi della pagina Facebook](https://www.facebook.com/elia.lisi/events) | organizzatore | FB 1 |
 | Fonclea Pub | [eventi della pagina Facebook](https://www.facebook.com/fonclea.pub/events) | luogo, organizzatore | FB 1 |
@@ -2781,7 +2792,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Paola Palaia | [eventi della pagina Facebook](https://www.facebook.com/paola.palaia/events) | organizzatore | FB 1 |
 | Parco Regionale dell'Appia Antica | [eventi della pagina Facebook](https://www.facebook.com/parcoappiaantica/events) | organizzatore | FB 1 |
 | Sala Vittoria Colonna | [pagina Facebook](https://www.facebook.com/pages/Sala-Vittoria-Colonna/344559046093654) | luogo | FB 1 |
-| Società Italiana Allineatori | [eventi della pagina Facebook](https://www.facebook.com/sialignpagina/events) | organizzatore | FB 1 |
+| Società Italiana Allineatori | [pagina eventi del sito](https://sialign.it/) · [eventi della pagina Facebook](https://www.facebook.com/sialignpagina/events) | organizzatore | FB 1 |
 | Tango alla Cripta | [pagina Facebook](https://www.facebook.com/groups/772171250436015) | organizzatore | FB 1 |
 | Teatro Ar.ma | [sito](https://eventibambinidiroma.it) | luogo | RT 1 |
 | ADISM Associazione Difesa Infortunati Stradali e Malasanità | [pagina eventi del sito](https://adism.it/./eventi/) · [sito](https://adism.it) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneDifesaInfortunati/events) | organizzatore | — |
@@ -2818,7 +2829,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Nazionale Carabinieri | [sito](https://assocarabinieri.it) · [eventi della pagina Facebook](https://www.facebook.com/AssoCarabinieri/events) | organizzatore | — |
 | ASSOCIAZIONE NAZIONALE COUNSELOR RELAZIONALI ANCORE | [sito](https://ancore.org) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneCounselorRelazionaliANCoRe/events) | organizzatore | — |
 | Associazione Nazionale Famiglie Caduti e Dispersi in Guerra | [pagina eventi del sito](https://anfcdg.it/eventi/?ical=1) · [sito](https://anfcdg.it) · [eventi della pagina Facebook](https://www.facebook.com/anfcdg/events) | organizzatore | — |
-| ASSOCIAZIONE NAZIONALE PARTIGIANI D'ITALIA ETS | [pagina eventi del sito](https://www.anpi.it/notizie) · [sito](https://anpi.it) · [eventi della pagina Facebook](https://www.facebook.com/anpinaz/events) | organizzatore | — |
+| ASSOCIAZIONE NAZIONALE PARTIGIANI D'ITALIA ETS | [pagina eventi del sito](http://www.anpi.it/eventi/) · [pagina eventi del sito](https://www.anpi.it/notizie) · [sito](https://anpi.it) | organizzatore | — |
 | ASSOCIAZIONE NAZIONALE VOLONTARIE DEL TELEFONO ROSA - APS | [pagina eventi del sito](https://www.telefonorosa.it/events/?ical=1) · [sito](https://telefonorosa.it) · [eventi della pagina Facebook](https://www.facebook.com/telefonorosa/events) | organizzatore | — |
 | Associazione PACI | [pagina eventi del sito](https://associazionepaci.it/news/) · [sito](https://associazionepaci.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionepaci/events) | organizzatore | — |
 | ASSOCIAZIONE POIC E DINTORNI APS | [pagina eventi del sito](https://poic-e-dintorni.org/iniziative/) · [sito](https://poic-e-dintorni.org) · [eventi della pagina Facebook](https://www.facebook.com/poicedintorni/events) | organizzatore | — |
@@ -2836,12 +2847,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CENTRO ITALIANO GESTALT - ETS | [sito](https://centroitalianogestalt.it) · [eventi della pagina Facebook](https://www.facebook.com/centroitalianogestaltrm/events) | organizzatore | — |
 | CENTRO RICERCHE STUDI | [pagina eventi del sito](https://www.adottaunangelo.it/category/news/) · [sito](https://adottaunangelo.it) · [eventi della pagina Facebook](https://www.facebook.com/adottaunangelo.cers/events) | organizzatore | — |
 | Cidim - Comitato Nazionale Italiano Musica | [sito](https://cidim.it) · [eventi della pagina Facebook](https://www.facebook.com/cidim.comitato/events) | organizzatore | — |
-| Cidim Comitato Nazionale Musica | [sito](https://cidim.it) · [eventi della pagina Facebook](https://www.facebook.com/cidim.it/events) | organizzatore | — |
+| Cidim Comitato Nazionale Musica | [pagina eventi del sito](http://www.cidim.it/cidim/content/) · [sito](https://cidim.it) · [eventi della pagina Facebook](https://www.facebook.com/cidim.it/events) | organizzatore | — |
 | CODACONS  APS | [pagina eventi del sito](https://codacons.it/category/news/) · [sito](https://codacons.it) · [eventi della pagina Facebook](https://www.facebook.com/CodaconsOfficial/events) | organizzatore | — |
 | Comitato Elettorale Pierluca Dionisi | [sito](https://pierlucadionisi.it) · [eventi della pagina Facebook](https://www.facebook.com/100068907532231/events) | organizzatore | — |
 | Comitato Frutta fresca Sud Italia | [pagina eventi del sito](https://fruitimprese.it/category/eventi/) · [sito](https://fruitimprese.it) · [eventi della pagina Facebook](https://www.facebook.com/fruttasud/events) | organizzatore | — |
 | CONSUMERS' FORUM ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://consumersforum.it/news.html) · [sito](https://consumersforum.it) · [eventi della pagina Facebook](https://www.facebook.com/consumforum/events) | organizzatore | — |
-| DOCEM ETS | [sito](https://genitori.it) · [eventi della pagina Facebook](https://www.facebook.com/MoigeOnlus/events) | organizzatore | — |
+| DOCEM ETS | [pagina eventi del sito](http://www.moige.it/news-e-comunicati/) · [sito](https://genitori.it) · [eventi della pagina Facebook](https://www.facebook.com/MoigeOnlus/events) | organizzatore | — |
 | EDGE - EXCELLENCE E DIVERSITY BY GLBT EXECUTIVES | [pagina eventi del sito](https://www.edge-glbt.it/news/) · [sito](https://edge-glbt.it) · [eventi della pagina Facebook](https://www.facebook.com/edgeleadersforchange/events) | organizzatore | — |
 | END CHILD PROSTITUTION PORNOGRAPHY AND TRAFFICKING  IN CHILDREN FOR SEXUAL PURPOSES ENTE DI TERZO SETTORE | [sito](https://ecpat.it) · [eventi della pagina Facebook](https://www.facebook.com/EcpatITALY/events) | organizzatore | — |
 | ENPA - ENTE NAZIONALE PROTEZIONE ANIMALI ODV | [pagina eventi del sito](https://enpa.org/wp-content/plugins/bearsthemes-addons/assets/css/events.css?ver=7.1.3) · [sito](https://enpa.org) · [eventi della pagina Facebook](https://www.facebook.com/enpaonlus/events) | organizzatore | — |
@@ -2867,7 +2878,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ITALIAN NATIONAL COMMITTEE FOR UN WOMEN - ETS FONDAZIONE DI PARTECIPAZIONE | [pagina eventi del sito](https://unwomenitaly.org/news/) · [sito](https://unwomenitaly.org) | organizzatore | — |
 | JAMES NON MORIRA' - ETS | [pagina eventi del sito](https://jamesnonmorira.org/attivita/la-strada-per-magauma/) · [sito](https://jamesnonmorira.org) · [eventi della pagina Facebook](https://www.facebook.com/jamesnonmorira/events) | organizzatore | — |
 | L.espressione | [eventi della pagina Facebook](https://www.facebook.com/AssociazioneCulturaleLEspressione/events) | organizzatore | — |
-| La 4° domenica – Mercatino dell'Antiquariato 'Il Salotto di Prati' | [sito](https://mercatinopiazzadeiquiriti.it) · [eventi della pagina Facebook](https://www.facebook.com/mercatinidiroma/events) | soggetto | — |
+| La 4° domenica – Mercatino dell'Antiquariato 'Il Salotto di Prati' | [pagina eventi del sito](http://www.mercatinopiazzadeiquiriti.it/) · [sito](https://mercatinopiazzadeiquiriti.it) · [eventi della pagina Facebook](https://www.facebook.com/mercatinidiroma/events) | soggetto | — |
 | La Caverna di Platone - Associazione culturale | [eventi della pagina Facebook](https://www.facebook.com/AllaCavernaDiPlatone/events) | organizzatore | — |
 | LABORATORIO ITALIANO DI PSICOANALISI MULTIFAMILIARE (L.I.PSI.M.) APS | [sito](https://lipsim.it) · [eventi della pagina Facebook](https://www.facebook.com/LaboratorioItalianodiPsicoanalisiMultifamiliare/events) | organizzatore | — |
 | LESSICO DI DIRITTO DI FAMIGLIA E.T.S. | [pagina eventi del sito](https://lessicodidirittodifamiglia.com/eventi) · [sito](https://lessicodidirittodifamiglia.com) · [eventi della pagina Facebook](https://www.facebook.com/lessicodifamiglia/events) | organizzatore | — |
@@ -2878,7 +2889,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | MARY'S MEALS ITALIA ODV - ORGANIZZAZIONE DI VOLONTARIATO | [pagina eventi del sito](https://www.marysmeals.it/eventi) · [sito](https://marysmeals.it) · [eventi della pagina Facebook](https://www.facebook.com/MarysMealsItalia/events) | organizzatore | — |
 | MOVIMENTO PER LA GIUSTIZIA - ARTICOLO 3 - ETS | [pagina eventi del sito](https://movimentoperlagiustizia-art3.it/eventi/arte-oltre-le-mura) · [sito](https://movimentoperlagiustizia-art3.it) | organizzatore | — |
 | OSSERVATORIO ITALIAN WELFARE - FONDAZIONE ETS | [pagina eventi del sito](https://osservatorio.italianwelfare.it/news/) · [sito](https://osservatorio.italianwelfare.it) | organizzatore | — |
-| PratiBus District | [sito](https://pratibusdistrict.com) · [eventi della pagina Facebook](https://www.facebook.com/PratiBusDistrict/events) | soggetto | — |
+| PratiBus District | [pagina eventi del sito](https://www.pratibusdistrict.com/eventi/) · [sito](https://pratibusdistrict.com) · [eventi della pagina Facebook](https://www.facebook.com/PratiBusDistrict/events) | soggetto | — |
 | SCUOLA ITALIANA DI CICLOTURISMO ENTE DEL TERZO SETTORE | [sito](https://scuolaitalianacicloturismo.it) · [eventi della pagina Facebook](https://www.facebook.com/scuolaitalianadicicloturismo/events) | organizzatore | — |
 | SHIATSU IGEA APS | [pagina eventi del sito](https://www.shiatsuigea.com/events/?ical=1) · [sito](https://shiatsuigea.com) · [eventi della pagina Facebook](https://www.facebook.com/shiatsuigearoma/events) | organizzatore | — |
 | SILLABE DI SETA - APS | [pagina eventi del sito](https://www.sillabediseta.it/news/) · [sito](https://sillabediseta.it) | organizzatore | — |
@@ -2886,7 +2897,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | SOCIETA ITALIANA SCIENZE MEDICHE ETS | [pagina eventi del sito](https://www.sismed-it.com/argomenti/news/) · [sito](https://sismed-it.com) · [eventi della pagina Facebook](https://www.facebook.com/societaitalianascienzemediche/events) | organizzatore | — |
 | SOCIETA' INTERNAZIONALE PER LA COMUNICAZIONE AUMENTATIVA E ALTERNATIVA ISAAC ITALY - ASSOCIAZIONE DI PROMOZIONE SOCIALE - ETS | [pagina eventi del sito](https://www.isaacitaly.it/eventi/) · [sito](https://isaacitaly.it) · [eventi della pagina Facebook](https://www.facebook.com/IsaacItaly/events) | organizzatore | — |
 | SOS ARCHIVI ETS | [pagina eventi del sito](https://sosarchivi.it/events/?ical=1) · [sito](https://sosarchivi.it) · [eventi della pagina Facebook](https://www.facebook.com/Sosarchivi/events) | organizzatore | — |
-| SPAZI CIRCOLARI APS | [pagina eventi del sito](https://www.spazicircolari.it/iniziative) · [sito](https://spazicircolari.it) · [eventi della pagina Facebook](https://www.facebook.com/Spazi-Circolari-440548996728198/events) | organizzatore | — |
+| SPAZI CIRCOLARI APS | [pagina eventi del sito](https://www.spazicircolari.it/) · [pagina eventi del sito](https://www.spazicircolari.it/iniziative) · [sito](https://spazicircolari.it) | organizzatore | — |
 | SUNSEA STUDIO APS | [pagina eventi del sito](https://www.sunsea-studio.com/calendar) · [sito](https://sunsea-studio.com) | organizzatore | — |
 | THINK PINK ITALY - ETS | [sito](https://raceforthecure.it) · [eventi della pagina Facebook](https://www.facebook.com/komenitalia/events) | organizzatore | — |
 | TRITON ETS | [pagina eventi del sito](https://associazionetriton.it/news/) · [sito](https://associazionetriton.it) · [eventi della pagina Facebook](https://www.facebook.com/triton.italy/events) | organizzatore | — |
@@ -2930,7 +2941,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ASSOCIAZIONE DI PROMOZIONE SOCIALE VILLA DE SANTIS | [eventi della pagina Facebook](https://www.facebook.com/100028153676709/events) | organizzatore | — |
 | ASSOCIAZIONE GUIDA PER GENITORI ENTE DEL TERZO SETTORE | [sito](https://guidagenitori.it) · [eventi della pagina Facebook](https://www.facebook.com/guidagenitori/events) | organizzatore | — |
 | Associazione Italiana di Ingegneria Agraria - AIIA | [sito](https://aiia.it) · [eventi della pagina Facebook](https://www.facebook.com/AIIA.org/events) | organizzatore | — |
-| Associazione Ludica Romana | [pagina eventi del sito](https://www.ludicaromana.it/appuntamenti/) · [sito](https://ludicaromana.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneludicaromana/events) | organizzatore | — |
+| Associazione Ludica Romana | [pagina eventi del sito](https://www.ludicaromana.it/appuntamenti/eventi/) · [pagina eventi del sito](https://www.ludicaromana.it/appuntamenti/) · [sito](https://ludicaromana.it) | organizzatore | — |
 | Associazione Musicale e Culturale Sette Note Romane | [sito](https://settenoteromane.com) · [eventi della pagina Facebook](https://www.facebook.com/SetteNoteRomane/events) | organizzatore | — |
 | Associazione Nazionale Sottufficiali d'Italia Pagina Ufficiale | [pagina eventi del sito](https://www.sottufficiali-ansi.it/category/notizie/) · [sito](https://sottufficiali-ansi.it) · [eventi della pagina Facebook](https://www.facebook.com/61583774165609/events) | organizzatore | — |
 | AUSER PRENESTINO ODV - ETS | [pagina eventi del sito](https://www.auserprenestino.it/index.php/attivita) · [sito](https://auserprenestino.it) · [eventi della pagina Facebook](https://www.facebook.com/auserprenestino/events) | organizzatore | — |
@@ -2944,11 +2955,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | FONDAZIONE L'ARCOBALENO DI MARIKA APS | [pagina eventi del sito](https://www.arcobalenodimarika.it/corsi/) · [sito](https://arcobalenodimarika.it) · [eventi della pagina Facebook](https://www.facebook.com/arcobalenodimarika/events) | organizzatore | — |
 | FONDAZIONE RAGAZZI DI DON BOSCO A ROMA - E.T.S. | [sito](https://fondazioneragazzidonbosco.it) · [eventi della pagina Facebook](https://www.facebook.com/OratorioBorgoRagazziDonBosco/events) | organizzatore | — |
 | FORUM EUROPEO - APS | [pagina eventi del sito](https://www.forumeuropeo.it/attivita.html) · [sito](https://forumeuropeo.it) · [eventi della pagina Facebook](https://www.facebook.com/ForumEuropeo/events) | organizzatore | — |
-| I Meet | [sito](https://imeet.netsons.org) · [pagina Facebook](https://www.facebook.com/pg/imeetgardenie/reviews) | soggetto | — |
+| I Meet | [sito](https://imeet.netsons.org) · [eventi della pagina Facebook](https://www.facebook.com/pg/events) | soggetto | — |
 | Informadarte - associazione culturale | [sito](https://informadarte.it) · [eventi della pagina Facebook](https://www.facebook.com/informadartefb/events) | organizzatore | — |
 | ISLA NG BATA ODV | [sito](https://islangbata.it) · [eventi della pagina Facebook](https://www.facebook.com/islangbata/events) | organizzatore | — |
 | ITINERA - Associazione Culturale | [pagina eventi del sito](https://www.itinera.biz/programma.htm) · [sito](https://itinera.biz) · [eventi della pagina Facebook](https://www.facebook.com/itinera.associazione/events) | organizzatore | — |
-| Kintsugi -ODV | [pagina eventi del sito](https://www.kintsugi-associazione.org/eventi/calendario-incontri-gruppi-kintsugi-a-sostegno-della-genitorialita-adottiva-2022-2023/) · [sito](https://kintsugi-associazione.org) · [eventi della pagina Facebook](https://www.facebook.com/kintsugi.associazione/events) | organizzatore | — |
+| Kintsugi -ODV | [pagina eventi del sito](http://www.kintsugi-associazione.org/) · [pagina eventi del sito](https://www.kintsugi-associazione.org/eventi/calendario-incontri-gruppi-kintsugi-a-sostegno-della-genitorialita-adottiva-2022-2023/) · [sito](https://kintsugi-associazione.org) | organizzatore | — |
 | LA PAGINA BIANCA Ente del  Terzo Settore | [pagina eventi del sito](https://lapaginabianca.weebly.com/attivita.html) · [sito](https://lapaginabianca.weebly.com) | organizzatore | — |
 | LA SCIMMIETTA APS | [pagina eventi del sito](https://www.lascimmietta.org/attivita/) · [sito](https://lascimmietta.org) | organizzatore | — |
 | LA SCUOLA CHE VERRA' APS | [pagina eventi del sito](https://lascuolacheverra.org/news.html) · [sito](https://lascuolacheverra.org) · [eventi della pagina Facebook](https://www.facebook.com/lascuolacheverra/events) | organizzatore | — |
@@ -2956,7 +2967,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | MEDICI PER I DIRITTI UMANI ETS | [sito](https://mediciperidirittiumani.org) · [eventi della pagina Facebook](https://www.facebook.com/MEDUonlus/events) | organizzatore | — |
 | METRO CORE APS (EX iL SOPPALCO) | [eventi della pagina Facebook](https://www.facebook.com/M3troC0re/events) | organizzatore | — |
 | MISSIONE EFFATA' APS | [pagina eventi del sito](https://missioneeffata.it/category/news/) · [sito](https://missioneeffata.it) · [eventi della pagina Facebook](https://www.facebook.com/MissioneEffataAPS/events) | organizzatore | — |
-| MIXO' APS | [pagina eventi del sito](https://www.fivizzano27.it/./laboratori/) · [sito](https://fivizzano27.it) · [eventi della pagina Facebook](https://www.facebook.com/fivizzano27/events) | organizzatore | — |
+| MIXO' APS | [pagina eventi del sito](https://www.fivizzano27.it/./eventi/) · [pagina eventi del sito](https://www.fivizzano27.it/./laboratori/) · [sito](https://fivizzano27.it) | organizzatore | — |
 | NATI PER LOTTARE ODV | [pagina eventi del sito](https://natiperlottare.org/category/iniziative/) · [sito](https://natiperlottare.org) | organizzatore | — |
 | NUCLEO OPERATIVO ALFREDO RAMPI ODV | [sito](https://noar.it) · [eventi della pagina Facebook](https://www.facebook.com/NucleoOperativoAlfredoRampi/events) | organizzatore | — |
 | OFFICINA DELLE CULTURE APS | [sito](https://officinadelleculture.org) · [eventi della pagina Facebook](https://www.facebook.com/officinadelleculture/events) | organizzatore | — |
@@ -2968,7 +2979,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | SCUOLA POPOLARE DI MUSICA DI VILLA GORDIANI - APS | [pagina eventi del sito](https://www.spmvillagordiani.it/laboratori/) · [sito](https://spmvillagordiani.it) · [eventi della pagina Facebook](https://www.facebook.com/ScuolaVillaGordiani/events) | organizzatore | — |
 | SICUREZZA SOCIALE ROMA | [pagina eventi del sito](https://sicurezzasocialeroma.wixsite.com/ssr-onlus/attivita) · [sito](https://sicurezzasocialeroma.wixsite.com) · [eventi della pagina Facebook](https://www.facebook.com/Sicurezza-Sociale-Roma-Onlus-228907657296440/events) | organizzatore | — |
 | SPAZIO COSMO APS | [pagina eventi del sito](https://www.spaziocosmopigneto.it/eventi/?ical=1) · [sito](https://spaziocosmopigneto.it) | organizzatore | — |
-| TEATRO HAMLET APS | [pagina eventi del sito](https://www.teatrohamlet.it/Spettacoli/quartovuoto.html) · [sito](https://teatrohamlet.it) · [eventi della pagina Facebook](https://www.facebook.com/teatrohamletroma/events) | organizzatore | — |
+| TEATRO HAMLET APS | [pagina eventi del sito](http://www.teatrohamlet.it/Spettacoli/STAGIONE.htm/) · [pagina eventi del sito](https://www.teatrohamlet.it/Spettacoli/quartovuoto.html) · [sito](https://teatrohamlet.it) | organizzatore | — |
 | TUtt'ALTRO. Arte e Linguaggi Espressivi. | [pagina eventi del sito](https://www.tuttaltro.education/category/eventi/) · [sito](https://tuttaltro.education) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneTUttALTRO/events) | organizzatore | — |
 | ULAIA ARTESUD ODV | [pagina eventi del sito](https://www.ulaia.org/category/eventi/) · [sito](https://ulaia.org) · [eventi della pagina Facebook](https://www.facebook.com/ULAIAodv/events) | organizzatore | — |
 | VA A FA'N BENE - ODV | [eventi della pagina Facebook](https://www.facebook.com/Vaafanbene/events) | organizzatore | — |
@@ -2988,7 +2999,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Centro Sportivo Ernesto Dezi - ASD Prima Porta | [sito](https://asdprimaporta.com/) | soggetto | — |
 | Chiesa Parrocchiale dei Santi Urbano e Lorenzo | [sito](http://www.santiurbanoelorenzo.com/) · [eventi della pagina Facebook](https://www.facebook.com/urbanoelorenzo/events) | soggetto | — |
 | Chiesa Parrocchiale dei SS. Elisabetta e Zaccaria | [sito](http://www.sselisabettaezaccaria.org/) | soggetto | — |
-| Comitato Cittadini XV Municipio | [sito](https://www.comitatoromaxx.it/) · [pagina Facebook](https://www.facebook.com/hashtag/casali) | soggetto | — |
+| Comitato Cittadini XV Municipio | [sito](https://www.comitatoromaxx.it/) | soggetto | — |
 | Comitato di quartiere Labaro | [Instagram](https://www.instagram.com/comitato_labaro) | soggetto | — |
 | Comitato Mobilità Labaro e Prima Porta | [eventi della pagina Facebook](https://www.facebook.com/comitatolabaroprimaporta/events) | organizzatore | — |
 | Felicilandia Roma – Family club – Party space | [sito](https://felicilandiaroma.it) · [eventi della pagina Facebook](https://www.facebook.com/felicilandiaroma/events) | soggetto | — |
@@ -2996,7 +3007,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | LA BANDA FACLO ODV | [pagina eventi del sito](https://labandafaclo.it/eventi/) · [sito](https://labandafaclo.it) · [eventi della pagina Facebook](https://www.facebook.com/labandafaclo/events) | organizzatore | — |
 | ORTI DI MALBORGHETTO E.T.S. | [pagina eventi del sito](https://www.ortidimalborghetto.it/attivita) · [sito](https://ortidimalborghetto.it) · [eventi della pagina Facebook](https://www.facebook.com/ortidimalborghetto/events) | organizzatore | — |
 | Panoramica Scuola | [sito](https://www.istitutobaccano.edu.it) | soggetto | — |
-| PARCO DI VALLE MURICANA – AREA C6. A BREVE SARA ... | [pagina Facebook](https://www.facebook.com/CittadiniAttiviRomaXV/videos/parco-di-valle-muricana-area-c6-a-breve-sara-usufruibile-larea-giochi-del-primo-/177766664512736) | soggetto | — |
+| PARCO DI VALLE MURICANA – AREA C6. A BREVE SARA ... | [eventi della pagina Facebook](https://www.facebook.com/CittadiniAttiviRomaXV/events) | soggetto | — |
 | Polisportiva Dil. Saxa Flaminia Labaro | [sito](https://www.saxaflaminialabaro.it/) · [eventi della pagina Facebook](https://www.facebook.com/Pol.dil.saxaflaminialabaro/events) | soggetto | — |
 | SAXA RUBRA Ginnastica Artistica | Rome | [eventi della pagina Facebook](https://www.facebook.com/lidiasaxarubra/events) | soggetto | — |
 | Via Brembio | — | luogo | FB 1 |
@@ -3023,7 +3034,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Cantieri dello Spettacolo E.T.S. | [sito](https://cantieridellospettacolo.it) · [pagina Facebook](https://www.facebook.com/people/Teatro-la-casetta/100057039626820) · [Instagram](https://www.instagram.com/teatrolacasetta) | organizzatore | CR 8 |
-| "Il Comitato di Quartiere Torresina non pretende nulla ... | [pagina Facebook](https://www.facebook.com/UrbanBlogTorresina/videos/il-comitato-di-quartiere-torresina-non-pretende-nulla-anche-perch%C3%A9-un-riaffido-t/2092451640871955) | soggetto | — |
+| "Il Comitato di Quartiere Torresina non pretende nulla ... | [eventi della pagina Facebook](https://www.facebook.com/UrbanBlogTorresina/events) | soggetto | — |
 | ASSOCIAZIONE  UNA BRECCIA NEL MURO | [pagina eventi del sito](https://www.unabreccianelmuro.org/news) · [sito](https://unabreccianelmuro.org) · [eventi della pagina Facebook](https://www.facebook.com/associazioneunabreccianelmuro/events) | organizzatore | — |
 | Associazione Andrea Soldani | [pagina eventi del sito](https://associazioneandreasoldani.com/eventi/) · [sito](https://change.org) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneAndreaSoldani/events) | organizzatore | — |
 | Associazione Andrologi Italiani (ASS.A.I.) | [pagina eventi del sito](https://www.associazioneandrologi.it/eventi/) · [sito](https://associazioneandrologi.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneandrologi/events) | organizzatore | — |
@@ -3037,7 +3048,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CASPEL | [sito](http://caspel.it/) | soggetto | — |
 | Centro Anziani Primavalle | [sito](https://peranziani.it) | soggetto | — |
 | Chiesa di Santa Maria Assunta e San Giuseppe a Primavalle | [sito](https://www.turismoroma.it) | soggetto | — |
-| Diritti Al Cuore Onlus | [sito](https://www.dirittialcuore.it/) · [eventi della pagina Facebook](https://www.facebook.com/dirittialcuoreonlus/events) | soggetto | — |
+| Diritti Al Cuore Onlus | [pagina eventi del sito](https://dirittialcuore.it/it/chi-siamo/news/) · [sito](https://www.dirittialcuore.it/) · [eventi della pagina Facebook](https://www.facebook.com/dirittialcuoreonlus/events) | soggetto | — |
 | FONDAZIONE MAESTRE PIE DELL’ADDOLORATA E.T.S. | [pagina eventi del sito](https://fondazionempda.org/news/) · [sito](https://fondazionempda.org) · [eventi della pagina Facebook](https://www.facebook.com/scuolamaestrepie/events) | organizzatore | — |
 | FORUM NAZIONALE PER L'EDUCAZIONE MUSICALE | [sito](https://forumeducazionemusicale.it) · [eventi della pagina Facebook](https://www.facebook.com/forumeducazionemusicale/events) | organizzatore | — |
 | I GATTI DI VAL CANNUTA - ODV | [pagina eventi del sito](https://www.igattidivalcannuta.org/category/eventi/) · [sito](https://igattidivalcannuta.org) · [eventi della pagina Facebook](https://www.facebook.com/igattidivalcannuta/events) | organizzatore | — |
@@ -3046,6 +3057,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | IL SUO DOPPIO APS | [pagina eventi del sito](https://ilsuodoppioaps.it/eventi) · [sito](https://ilsuodoppioaps.it) | organizzatore | — |
 | Istituto Comprensivo "Via Maffi" | [sito](https://www.icmaffi.edu.it) | soggetto | — |
 | LA FABBRICA DEL CUORE STP -  SOCIETA' COOPERATIVA SOCIALE TRA PROFESSIONISTI | [pagina eventi del sito](https://www.lafabbricadelcuore.com/category/news/) · [sito](https://lafabbricadelcuore.com) · [pagina Facebook](https://www.facebook.com/La-Fabbrica-del-Cuore-Amici-per-lAutismo-onlus/1425630350982280) | organizzatore | — |
+| Magazzino Cooperativa Sociale Integrata Onlus | [sito](http://coopmagazzino.it/) · [eventi della pagina Facebook](https://www.facebook.com/CooperativaMagazzino/events) · [Instagram](https://www.instagram.com/magazzino_cooperativa_sociale) | soggetto | — |
 | Parrocchia Santa Maria Assunta e San Giuseppe | [eventi della pagina Facebook](https://www.facebook.com/parrocchia.primavalle/events) | soggetto | — |
 | PARTECIPANDOCI  APS | [pagina eventi del sito](https://www.partecipandoci.it/news/) · [sito](https://partecipandoci.it) · [eventi della pagina Facebook](https://www.facebook.com/PartecipandociAPS/events) | organizzatore | — |
 | Primaria Venticinque Aprile - Scuola | [sito](https://www.icrosettarossi.edu.it) | soggetto | — |
@@ -3079,10 +3091,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato di Quartiere Comprensorio PratoLungo | [eventi della pagina Facebook](https://www.facebook.com/ComitatoPratoLungo/events) | organizzatore | — |
 | FONDAZIONE AIDR - ASSOCIATION ITALIAN DIGITAL REVOLUTION ETS | [pagina eventi del sito](https://aidr.it/iniziative/) · [sito](https://aidr.it) · [eventi della pagina Facebook](https://www.facebook.com/ItalianDigitalRevolution/events) | organizzatore | — |
 | GRUPPO ROMA 1 ODV | [eventi della pagina Facebook](https://www.facebook.com/odvgrupporoma1/events) | organizzatore | — |
-| INSIEME PER L'ANIENE ASSOCIAZIONE DI PROMOZIONE SOCIALE | [sito](https://aniene.it) · [eventi della pagina Facebook](https://www.facebook.com/insieme.p.onlus/events) | organizzatore | — |
+| INSIEME PER L'ANIENE ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](http://www.aniene.it/) · [sito](https://aniene.it) · [eventi della pagina Facebook](https://www.facebook.com/insieme.p.onlus/events) | organizzatore | — |
 | PSICOLOGI PER I POPOLI -  REGIONE LAZIO - ODV | [pagina eventi del sito](https://www.psicologiperipopolilazio.it/wp/attivita/) · [sito](https://psicologiperipopolilazio.it) | organizzatore | — |
 | TOMMASO FASCIANI ETS | [pagina eventi del sito](https://tommasofasciani.it/notizie/) · [sito](https://tommasofasciani.it) | organizzatore | — |
-| Zètema | [sito](https://zetema.it) · [eventi della pagina Facebook](https://www.facebook.com/zetemaprogettocultura/events) | soggetto | — |
+| Zètema | [pagina eventi del sito](https://www.zetema.it/feed/) · [sito](https://zetema.it) · [eventi della pagina Facebook](https://www.facebook.com/zetemaprogettocultura/events) | soggetto | — |
 | Casa del Municipio Roma IV Ipazia d'Alessandria | — | luogo | RT 1 |
 
 ## Roma Nord `roma-nord` — Municipio XV
@@ -3131,7 +3143,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato di Quartiere La Romanina | [sito](https://pianostrategico.cittametropolitanaroma.it) | soggetto | — |
 | Comitato di Quartiere La Romanina – CdQ La Romanina | [sito](https://cdqlaromanina.wordpress.com) | soggetto | — |
 | IC Antoniomontinaro | [sito](https://icantoniomontinaro.edu.it) | soggetto | — |
-| La Romanina | [sito](https://centrolaromanina.it) · [eventi della pagina Facebook](https://www.facebook.com/laromaninacc/events) | soggetto | — |
+| La Romanina | [pagina eventi del sito](https://www.centrolaromanina.it/) · [sito](https://centrolaromanina.it) · [eventi della pagina Facebook](https://www.facebook.com/laromaninacc/events) | soggetto | — |
 | La Scuola – Istituto Comprensivo Raffaello | [sito](https://www.icraffaello.edu.it) | soggetto | — |
 | Parrocchia Santi Mario e Famiglia Martiri | [sito](https://parrocchiasanmario.it) | soggetto | — |
 | Romanina - Centri Sociali Anziani di Roma | [sito](https://www.16nonni.it) | soggetto | — |
@@ -3159,7 +3171,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Post-Comunione - Parrocchia San Basilio Roma | [sito](https://www.parrocchiasanbasilio.it) | soggetto | — |
 | San Basilio - Biblioteca comunale | [sito](https://www.sardegnabiblioteche.it) | soggetto | — |
 | Sede distaccata Aldo Fabrizi | [sito](https://www.bibliotechediroma.it/opac/news/sede-distaccata-aldo-fabrizi/4807) | soggetto | — |
-| THE BASE | Concerti roma concerti roma organizzazione concerti the-base musica roma musica | [sito](https://the-base.it) · [eventi della pagina Facebook](https://www.facebook.com/thebaseconcerti/events) | soggetto | — |
+| THE BASE | Concerti roma concerti roma organizzazione concerti the-base musica roma musica | [pagina eventi del sito](https://the-base.it/tutti-gli-eventi/) · [sito](https://the-base.it) · [eventi della pagina Facebook](https://www.facebook.com/thebaseconcerti/events) | soggetto | — |
 | TORRACCIA INSIEME ODV | [pagina eventi del sito](https://torracciainsieme.webnode.it/eventi/) · [sito](https://torracciainsieme.webnode.it) | organizzatore | — |
 | Centro sociale anziani San Basilio | — | soggetto | — |
 | Mahatma Gandhi | — | soggetto | — |
@@ -3193,7 +3205,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Sapienza Università di Roma | [pagina letta alla fonte (calendario)](https://www.uniroma1.it/it/) · [sito](https://uniroma1.it) | luogo | FL 7 RT 1 |
-| PAV snc di Claudia Di Giacomo e Roberta Scaglione | [sito](https://pav-it.eu) · [eventi della pagina Facebook](https://www.facebook.com/PAVsnc/events) · [Instagram](https://www.instagram.com/pavroma) | organizzatore | CR 5 |
+| PAV snc di Claudia Di Giacomo e Roberta Scaglione | [pagina eventi del sito](https://www.pav-it.eu/attivita/favola-sismica/) · [sito](https://pav-it.eu) · [eventi della pagina Facebook](https://www.facebook.com/PAVsnc/events) | organizzatore | CR 5 |
 | Savoy Swing Italy | [eventi della pagina Facebook](https://www.facebook.com/SavoySwingItaly/events) | organizzatore | FB 2 |
 | CAFM Centro Anziani Frattocchie di Marino APS | [pagina Facebook](https://www.facebook.com/people/CAFM-Centro-Anziani-Frattocchie-di-Marino-APS/100083408847809) | organizzatore | FB 1 |
 | Cimitero Monumentale del Verano | [pagina Facebook](https://www.facebook.com/pages/Cimitero-Monumentale-del-Verano/125221991471246) | luogo | FB 1 |
@@ -3219,16 +3231,16 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Associazione Culturale Calipso | [pagina eventi del sito](https://www.associazioneculturalecalipso.it/calendario/) · [sito](https://associazioneculturalecalipso.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneculturalecalipso/events) | organizzatore | FB 4 |
+| Associazione Culturale Calipso | [pagina eventi del sito](https://www.associazioneculturalecalipso.it/) · [pagina eventi del sito](https://www.associazioneculturalecalipso.it/calendario/) · [sito](https://associazioneculturalecalipso.it) | organizzatore | FB 4 |
 | a Selva Candida un comitato adotta un parco - Roma | [sito](https://www.affaritaliani.it) | soggetto | — |
-| ASD Laghi delle Colline | [sito](https://www.laghidellecolline.com/) | soggetto | — |
+| ASD Laghi delle Colline | [pagina eventi del sito](https://www.laghidellecolline.com/news/) · [sito](https://www.laghidellecolline.com/) | soggetto | — |
 | ASD Roma Pattinaggio Arcoiris | [sito](https://www.romapattinaggioarcoiris.com/) | soggetto | — |
 | Associazione Cornelia Antiqua | [sito](http://www.corneliaantiqua.org/) · [eventi della pagina Facebook](https://www.facebook.com/cornelia.antiqua.roma/events) | soggetto | — |
 | Associazione Teatrale Sogni di Scena | [sito](http://www.compagniateatralesognidiscena.it/) | soggetto | — |
 | Associazioni Culturali, Artistiche e Ricreative nella zona Valle ... | [sito](https://m.reteimprese.it/associazioni-culturali-artistiche-ricreative/roma/zona/valle-santa) | soggetto | — |
 | BASE SCOUT LA VALLETTA | [sito](http://www.basescoutlavalletta.it/) · [pagina Facebook](https://www.facebook.com/people/MASCI-ROMA-25-La-Storta/100069571410634) | soggetto | — |
 | Biblioteca Selva Candida | [sito](https://www.romasitrasforma.it) | soggetto | — |
-| Casa Arca degli Esposti | [sito](https://www.progettoarca.org/news/tutte-le-notizie/412-nasce-a-roma-il-condominio-sociale-casa-arca-degli-esposti.html) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneprogettoarca/events) | soggetto | — |
+| Casa Arca degli Esposti | [pagina eventi del sito](https://www.progettoarca.org/) · [sito](https://www.progettoarca.org/news/tutte-le-notizie/412-nasce-a-roma-il-condominio-sociale-casa-arca-degli-esposti.html) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneprogettoarca/events) | soggetto | — |
 | Chiesa Santi Martiri di Selva Candida | [sito](https://gcatholic.org) | soggetto | — |
 | Comitato Selva Candida (@ComitatoSelvaCandida) | [eventi della pagina Facebook](https://www.facebook.com/ComitatoSelvaCandida/events) | soggetto | — |
 | Comitato Valle Santa | [sito](https://vallesantarm.it) · [eventi della pagina Facebook](https://www.facebook.com/comitatovallesantaroma/events) | organizzatore | — |
@@ -3236,7 +3248,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Festa di Selva Candida | [eventi della pagina Facebook](https://www.facebook.com/100069886809114/events) | soggetto | — |
 | IC Pabloneruda | [sito](https://www.icpabloneruda.edu.it) | soggetto | — |
 | Open Day del Progetto Selva Candida Roma Nord CMB. Non ... | [eventi della pagina Facebook](https://www.facebook.com/ilovecasalotti/events) | soggetto | — |
-| Parrocchia Natività di Maria Santissima | [sito](https://parrocchiaselvacandida.com) · [eventi della pagina Facebook](https://www.facebook.com/NativitaDiMariaSantissima/events) | soggetto | — |
+| Parrocchia Natività di Maria Santissima | [pagina eventi del sito](http://www.parrocchiaselvacandida.com/parrocchia/) · [sito](https://parrocchiaselvacandida.com) · [eventi della pagina Facebook](https://www.facebook.com/NativitaDiMariaSantissima/events) | soggetto | — |
 | Scuola Elementare Pablo Neruda, Plesso Selva Candida | [sito](https://www.reteimprese.it) | soggetto | — |
 | Selva Candida: Una nuova biblioteca comunale per ... | [sito](https://www.casalottiroma.it) | soggetto | — |
 | Voce alle fonti Selva Candida (@VoceallefontiSelvaCandida) | [eventi della pagina Facebook](https://www.facebook.com/VoceallefontiSelvaCandida/events) | soggetto | — |
@@ -3269,7 +3281,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Chiesa parrocchiale di Sant'Alessio a Case Rosse | [sito](http://www.parrocchiasantalessio.com/) · [eventi della pagina Facebook](https://www.facebook.com/Parrocchia-Sant-Alessio-115256323195552/events) | soggetto | — |
 | Comitato di Quartiere di Settecamini | [eventi della pagina Facebook](https://www.facebook.com/comitatosettecamini/events) | soggetto | — |
 | Comitato di quartiere di Settecamini: Home | [sito](https://www.settecamini.org) | soggetto | — |
-| Comitato di Quartiere Monteverde Nuovo | Un impegno in ... | [sito](https://www.comitatomonteverdenuovo.it/wordpress/) · [eventi della pagina Facebook](https://www.facebook.com/comitatomonteverdenuovo/events) | soggetto | — |
+| Comitato di Quartiere Monteverde Nuovo | Un impegno in ... | [pagina eventi del sito](https://www.comitatomonteverdenuovo.it/wordpress/category/eventi/) · [sito](https://www.comitatomonteverdenuovo.it/wordpress/) · [eventi della pagina Facebook](https://www.facebook.com/comitatomonteverdenuovo/events) | soggetto | — |
 | Comitato di Quartiere Settecamini Archivi | [sito](https://tiburno.tv) | soggetto | — |
 | Csa Settecamini | [eventi della pagina Facebook](https://www.facebook.com/MassimilianoUmberti/events) | soggetto | — |
 | ECHOES - CAPITOLINE CENTRE FOR MARINE RESEARCH ETS | [sito](https://echoes-ccmr.com) | organizzatore | — |
@@ -3344,7 +3356,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione di Promozione Sociale Comitato Vigne Nuove | [pagina eventi del sito](https://cdqvignenuove.wordpress.com/eventi/) · [sito](https://cdqvignenuove.wordpress.com) · [eventi della pagina Facebook](https://www.facebook.com/AssociazionePromozioneSocialeComitatoVigneNuove/events) | organizzatore | — |
 | Associazione Spazioerre | [pagina eventi del sito](https://spazioerre.com/eventi) · [eventi della pagina Facebook](https://www.facebook.com/Spazioerre.plastic/events) | organizzatore | — |
 | Chiesa di Sant'Achille | [sito](http://www.santachille.com/) | soggetto | — |
-| Chiesa Parrocchiale di S. Giovanni Crisostomo | [sito](http://www.sangiovannicrisostomo.it/) | soggetto | — |
+| Chiesa Parrocchiale di S. Giovanni Crisostomo | [pagina eventi del sito](https://www.sangiovannicrisostomo.it/category/spettacoli/) · [sito](http://www.sangiovannicrisostomo.it/) | soggetto | — |
 | Chiesa Parrocchiale di San Ponziano in Roma | [sito](http://www.sanponziano.net/) · [eventi della pagina Facebook](https://www.facebook.com/sanponziano.net/events) | soggetto | — |
 | Comitato di Quartiere Antamoro | [eventi della pagina Facebook](https://www.facebook.com/ComitatodiquartiereAntamoro/events) · [Instagram](https://www.instagram.com/comitato.antamoro) | organizzatore | — |
 | Comitato di Quartiere Salviamo Talenti | [sito](https://comitatosalviamotalenti.blogspot.com) | soggetto | — |
@@ -3359,6 +3371,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Parrocchia San Mattia Apostolo | [sito](https://digilander.libero.it/sanmattiaapostolo/) · [eventi della pagina Facebook](https://www.facebook.com/libero.it/events) | soggetto | — |
 | Polisportiva Achillea 2002 | [sito](http://www.achillea2002.it/) | soggetto | — |
 | SESSANTOTTO VILLAGE PARCO TALENTI  ... | [eventi della pagina Facebook](https://www.facebook.com/SessantottoVillage/events) | soggetto | — |
+| Spes contra spem Onlus | [sito](http://www.spescontraspem.it/) · [eventi della pagina Facebook](https://www.facebook.com/Spescontraspem/events) · [Instagram](https://www.instagram.com/spes_contra_spem) | soggetto | — |
 | Talenti - Centri Sociali Anziani di Roma | [sito](https://www.16nonni.it) | soggetto | — |
 | UNICI - Associazione | [sito](https://uniciassociazione.it) · [eventi della pagina Facebook](https://www.facebook.com/unici.associazione/events) | organizzatore | — |
 | Viale Risorgimento 5, 00041 Albano, Italy | — | luogo | FB 2 |
@@ -3377,19 +3390,19 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Fondazione RomaEuropa | [sito](https://romaeuropa.net) · [eventi della pagina Facebook](https://www.facebook.com/RomaeuropaFestival/events) · [Instagram](https://instagram.com/Romaeuropa) | organizzatore | CR 54 |
+| Fondazione RomaEuropa | [pagina eventi del sito](http://romaeuropa.net/) · [sito](https://romaeuropa.net) · [eventi della pagina Facebook](https://www.facebook.com/RomaeuropaFestival/events) | organizzatore | CR 54 |
 | Mattatoio | [pagina letta alla fonte (calendario)](https://www.mattatoioroma.it/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/mattatoio/) · [sito](https://mattatoioroma.it) | luogo | CR 38 FL 5 |
 | Casa del Jazz | [pagina letta alla fonte (calendario)](https://www.casadeljazz.com/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/casa-del-jazz/) · [sito](https://casadeljazz.com) | luogo | CR 14 FB 1 FL 9 RT 1 |
 | Teatro Petrolini | [pagina letta alla fonte (calendario)](https://www.teatropetrolini.it/spettacoli/) · [sito](https://teatropetrolini.it) | luogo | FL 9 RT 1 |
 | New Generations | [sito](https://newgenerationsweb.com) · [Instagram](https://www.instagram.com/newgens) | organizzatore | CR 4 |
 | Teatro di Documenti | [pagina letta alla fonte (calendario)](https://www.teatrodidocumenti.org/) · [sito](https://teatrodidocumenti.org) | luogo | FL 3 RT 1 |
 | Eventi Roma | [eventi della pagina Facebook](https://www.facebook.com/EventiRoma.net/events) | organizzatore | FB 3 |
-| FisioMaster | [eventi della pagina Facebook](https://www.facebook.com/corsifisiomaster/events) | organizzatore | FB 3 |
+| FisioMaster | [pagina eventi del sito](http://www.fisiomaster.it/) · [eventi della pagina Facebook](https://www.facebook.com/corsifisiomaster/events) | organizzatore | FB 3 |
 | Circo Massimo | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/circo-massimo/) · [sito](https://fao.org) | luogo | CR 1 RT 1 |
 | Città dell'Altra Economia | [Instagram](https://www.instagram.com/mercatino_delle_streghe) | luogo | RT 2 |
 | Museo delle Mura | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/museo-delle-mura/) · [sito](https://museodellemuraroma.it) · [eventi della pagina Facebook](https://www.facebook.com/MuseoDelleMura/events) | luogo | CR 2 |
 | Prospettiva Europea | [eventi della pagina Facebook](https://www.facebook.com/prospettivaeuropea.europalab/events) | organizzatore | FB 2 |
-| Roma Capitale | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [sito](https://romehalfmarathon.it) · [eventi della pagina Facebook](https://www.facebook.com/RomaCapitaleOfficialPage/events) | organizzatore | RT 2 |
+| Roma Capitale | [pagina eventi del sito](https://www.museodiroma.it/it/mostre_ed_eventi/mostre) · [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [sito](https://romehalfmarathon.it) | organizzatore | RT 2 |
 | Testaccio | [sito](https://ottavocolle.com) | luogo | RT 2 |
 | Testaccio Estate | [eventi della pagina Facebook](https://www.facebook.com/TestaccioEstate/events) | luogo, organizzatore | FB 1 RT 1 |
 | Alunni del Sole in ricordo di Paolo Morelli | [pagina Facebook](https://www.facebook.com/groups/417014838676109) | organizzatore | FB 1 |
@@ -3416,7 +3429,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione FLAP | [eventi della pagina Facebook](https://www.facebook.com/100067802040050/events) | organizzatore | — |
 | Associazione genitori Giardinieri | [pagina eventi del sito](https://www.genitorigiardinieri.it/news/) · [sito](https://genitorigiardinieri.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionegenitorigiardinieri/events) | organizzatore | — |
 | Associazione Il Nido - Casa Maternità a Testaccio | [sito](https://associazioneilnido.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneilnido/events) | organizzatore | — |
-| Associazione Italiana Gelatieri | [pagina eventi del sito](https://www.associazioneitalianagelatieri.it/events/?ical=1) · [sito](https://associazioneitalianagelatieri.it) · [eventi della pagina Facebook](https://www.facebook.com/aigelatieri/events) | organizzatore | — |
+| Associazione Italiana Gelatieri | [pagina eventi del sito](https://www.associazioneitalianagelatieri.it/) · [pagina eventi del sito](https://www.associazioneitalianagelatieri.it/events/?ical=1) · [sito](https://associazioneitalianagelatieri.it) | organizzatore | — |
 | Associazione Romana Arbitri - A.R.A. | [sito](https://associazioneromanaarbitri.it) · [eventi della pagina Facebook](https://www.facebook.com/associazioneromanaarbitri/events) | organizzatore | — |
 | ASSOCIAZIONE SETTIMO CIELO ETS | [pagina eventi del sito](https://settimocielo.net/attivita/) · [sito](https://settimocielo.net) · [eventi della pagina Facebook](https://www.facebook.com/set.cielo/events) | organizzatore | — |
 | Biblioteca Enzo Tortora | [eventi della pagina Facebook](https://www.facebook.com/bibliotecaenzotortora/events) | soggetto | — |
@@ -3456,7 +3469,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Anomalie Circus Fest | [sito](https://anomaliecircusfest.net) · [eventi della pagina Facebook](https://www.facebook.com/kollatino.underground/events) | soggetto | — |
+| Anomalie Circus Fest | [pagina eventi del sito](https://kollatinounderground.eu/programma-laboratori-haiku/) · [sito](https://anomaliecircusfest.net) · [eventi della pagina Facebook](https://www.facebook.com/kollatino.underground/events) | soggetto | — |
 | Cubo Libro | [pagina eventi del sito](https://cubolibro.org/eventi/) · [sito](https://cubolibro.org) · [eventi della pagina Facebook](https://www.facebook.com/CuboLibro/events) | organizzatore | — |
 | Parrocchia Santa Rita | [eventi della pagina Facebook](https://www.facebook.com/SantaRitaRm/events) | soggetto | — |
 | Periferia : abitare Tor Bella Monaca | [sito](https://www.bibliotechediroma.it/opac/resource/periferia-abitare-tor-bella-monaca/RMB00951311) | soggetto | — |
@@ -3474,7 +3487,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Chiesa Karisma Via di Tor Cervara 34 | [eventi della pagina Facebook](https://www.facebook.com/chiesakarisma/events) | soggetto | — |
 | Comitato Regionale Arbitri Lazio | [sito](https://cra-lazio.it) · [eventi della pagina Facebook](https://www.facebook.com/AIACraLazio/events) | organizzatore | — |
 | Parrocchia Gesù di Nazareth | [sito](https://parrocchia.gesudinazareth.eu/) · [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaGesuDiNazareth/events) | soggetto | — |
-| Peppe A Tor Cervara | [sito](https://peppeatorcervara.it) | soggetto | — |
+| Peppe A Tor Cervara | [pagina eventi del sito](https://www.peppeatorcervara.it/event-details/cena-social/) · [sito](https://peppeatorcervara.it) | soggetto | — |
 | STA ARRIVANDO… LA SAGRA DEL TARTUFO DI CERVARA ... | [eventi della pagina Facebook](https://www.facebook.com/prolococervara/events) | soggetto | — |
 | TRASPORTOUNITO | [sito](https://www.trasportounito.net/contatti/) · [eventi della pagina Facebook](https://www.facebook.com/trasportounitoroma/events) | soggetto | — |
 | Chiesa di Santa Maria Immacolata alla Cervelletta | — | soggetto | — |
@@ -3553,11 +3566,11 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Scuderia Tor Vergata | [sito](https://scuderiatorvergata.com/) · [eventi della pagina Facebook](https://www.facebook.com/ScuderiaTorVergata/events) | soggetto | — |
 | Studio legale CDD | [sito](https://www.studiolegalecdd.it/) | soggetto | — |
 | Tor Vergata Library Search - Biblioteca Area Ingegneria | [sito](https://ingegneria.biblio.uniroma2.it) | soggetto | — |
-| TorVergata40 | [sito](https://torvergata40.uniroma2.it) · [eventi della pagina Facebook](https://www.facebook.com/unitorvergata/events) | soggetto | — |
+| TorVergata40 | [pagina eventi del sito](http://www.web.uniroma2.it/) · [sito](https://torvergata40.uniroma2.it) · [eventi della pagina Facebook](https://www.facebook.com/unitorvergata/events) | soggetto | — |
 | UniRete Tor Vergata | [eventi della pagina Facebook](https://www.facebook.com/unirete/events) | soggetto | — |
 | Universitor Tor Vergata | [sito](https://www.universitor.it/) · [eventi della pagina Facebook](https://www.facebook.com/universitor/events) | soggetto | — |
-| VILLAGGIO BREDA NON È UN OUTLET parte 2° Vi ... | [pagina Facebook](https://www.facebook.com/NicolaFrancoPresidente/posts/villaggio-breda-non-%C3%A8-un-outlet-parte-2vi-ricordate-quanto-accaduto-un-mese-fa-c/377346654431240) | soggetto | — |
-| 🔴 Quartiere Valle Fiorita 🔴 Ieri abbiamo effettuato un sopralluogo ... | [pagina Facebook](https://www.facebook.com/61555244940846/posts/-quartiere-valle-fiorita-ieri-abbiamo-effettuato-un-sopralluogo-per-visionare-i-/122228295548174831) | soggetto | — |
+| VILLAGGIO BREDA NON È UN OUTLET parte 2° Vi ... | [eventi della pagina Facebook](https://www.facebook.com/NicolaFrancoPresidente/events) | soggetto | — |
+| 🔴 Quartiere Valle Fiorita 🔴 Ieri abbiamo effettuato un sopralluogo ... | [eventi della pagina Facebook](https://www.facebook.com/61555244940846/events) | soggetto | — |
 | Ass Virtus Italia Consorzio Di Solidarieta' Sociale Onlus | — | soggetto | — |
 | Associazione Culturale Valle Fiorita - Due Leoni | — | soggetto | — |
 | Centro Anziani TENUTA DI TORRENOVA | — | soggetto | — |
@@ -3597,7 +3610,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione 21 luglio | [pagina eventi del sito](https://www.21luglio.org/news/) · [eventi della pagina Facebook](https://www.facebook.com/Associazione21luglio/events) | organizzatore | — |
 | Associazione Culturale Seven Cults | [sito](http://www.sevencults.it/) | soggetto | — |
 | Associazione Italiana Podologi | [pagina eventi del sito](https://www.associazionepodologi.it/category/corsi/) · [sito](https://associazionepodologi.it) · [eventi della pagina Facebook](https://www.facebook.com/61556074521332/events) | organizzatore | — |
-| Associazione La Via del Fare | [sito](https://laviadelfare.org/) | soggetto | — |
+| Associazione La Via del Fare | [pagina eventi del sito](https://laviadelfare.org/category/eventi/) · [sito](https://laviadelfare.org/) | soggetto | — |
 | Associazione M.A.R.E.L. | [sito](http://www.associazionemarel.net/) | soggetto | — |
 | Associazione Pianoterra ETS - Centro per famiglie Tor Bella Monaca | [sito](http://www.pianoterra.net/) · [eventi della pagina Facebook](https://www.facebook.com/pianoterra.ETS/events) | soggetto | — |
 | Associazione Socio Culturale Valle Fiorita | [eventi della pagina Facebook](https://www.facebook.com/100054579153879/events) | organizzatore | — |
@@ -3615,12 +3628,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Parrocchia di San Giovanni Leonardi | [sito](http://www.sangiovannileonardi.com/dove-siamo/) | soggetto | — |
 | Parrocchia S. Maria Madre dell’Ospitalita' | [eventi della pagina Facebook](https://www.facebook.com/Mariamadrediospitalita/events) | soggetto | — |
 | Parrocchia Santa Maria Madre del Redentore | [sito](http://www.smmr.it/) · [eventi della pagina Facebook](https://www.facebook.com/santamariamadreredentore/events) | soggetto | — |
-| Parrocchia Santi Simone e Giuda Taddeo a Torre Angela | [sito](http://www.santisimoneegiudataddeo.it/) | soggetto | — |
-| PENSIERO ARMONICO ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.pensieroarmonico.com/eventi) · [sito](https://pensieroarmonico.com) · [eventi della pagina Facebook](https://www.facebook.com/pensieroarmonicoscuoladimusica/events) | organizzatore | — |
+| Parrocchia Santi Simone e Giuda Taddeo a Torre Angela | [pagina eventi del sito](http://www.santisimoneegiudataddeo.it/feed/) · [sito](http://www.santisimoneegiudataddeo.it/) | soggetto | — |
+| PENSIERO ARMONICO ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.pensieroarmonico.com/news/) · [pagina eventi del sito](https://www.pensieroarmonico.com/eventi) · [sito](https://pensieroarmonico.com) | organizzatore | — |
 | PICCOLI FRATELLI DELL'ACCOGLIENZA APS | [pagina eventi del sito](https://www.piccolifratelli.org/news/) · [sito](https://piccolifratelli.org) · [eventi della pagina Facebook](https://www.facebook.com/piccolifratelli.org/events) | organizzatore | — |
-| SCUOLA POPOLARE DI TOR BELLA MONACA APS | [pagina eventi del sito](http://scuolapopolaretbm.altervista.org/calendario.php) · [sito](https://scuolapopolaretbm.altervista.org) · [pagina Facebook](https://www.facebook.com/category/Coach/Tor-Bella-Monaca-Scuola-Popolare-349948882257157) | organizzatore | — |
+| SCUOLA POPOLARE DI TOR BELLA MONACA APS | [pagina eventi del sito](http://scuolapopolaretbm.altervista.org/calendario.php) · [sito](https://scuolapopolaretbm.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/category/events) | organizzatore | — |
 | TOR PIU' BELLA' - APS | [pagina eventi del sito](https://torpiubella.it/news/) · [sito](https://torpiubella.it) · [eventi della pagina Facebook](https://www.facebook.com/TorPiuBella/events) | organizzatore | — |
-| TORRE GAIA - ATER Roma | [pagina Facebook](https://www.facebook.com/aterroma/posts/torre-gaia-inaugurato-insieme-alla-regione-lazio-un-nuovo-playground-con-parco-g/260419058975376) | soggetto | — |
+| TORRE GAIA - ATER Roma | [eventi della pagina Facebook](https://www.facebook.com/aterroma/events) | soggetto | — |
 | Vides Mic Mag Tbm Onlus | [sito](https://www.videstbm.org/) | soggetto | — |
 | web.uniroma2.it | [sito](https://web.uniroma2.it) | soggetto | — |
 | Iolanda Lorenzetti | — | organizzatore | FB 1 |
@@ -3661,7 +3674,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
 | Eur Torrino via Fiume Bianco | [pagina Facebook](https://www.facebook.com/pages/Eur-Torrino-via-Fiume-Bianco/364806733720516) | luogo | FB 1 |
-| Yoga Flow | [sito](https://yogaflow.it) · [eventi della pagina Facebook](https://www.facebook.com/romayogaflow/events) | organizzatore | FB 1 |
+| Yoga Flow | [pagina eventi del sito](https://romayogaflow.jimdofree.com/workshops-events/) · [sito](https://yogaflow.it) · [eventi della pagina Facebook](https://www.facebook.com/romayogaflow/events) | organizzatore | FB 1 |
 | AECI Roma Eur associazione europea consumatori indipendenti | [sito](https://euroconsumatori.eu) · [eventi della pagina Facebook](https://www.facebook.com/aeciroma/events) | organizzatore | — |
 | AIFES Associazione Italiana Formatori Esperti in Sicurezza sul Lavoro | [pagina eventi del sito](https://www.aifesformazione.it/corsi?category=Sicurezza+lavoratori) · [sito](https://aifesformazione.it) · [eventi della pagina Facebook](https://www.facebook.com/aifesformazione/events) | organizzatore | — |
 | Algarve Roma Torrino | [sito](https://www.algarvetorrino.it/) · [eventi della pagina Facebook](https://www.facebook.com/basketgruppoalgarveroma9/events) | soggetto | — |
@@ -3672,7 +3685,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Sarknos | [pagina eventi del sito](https://www.sarknos.it/notizie/) · [sito](https://sarknos.it) · [eventi della pagina Facebook](https://www.facebook.com/associazione.sarknos/events) | organizzatore | — |
 | Associazione Serendipity | [sito](https://www.serendipity-arche.it/) · [eventi della pagina Facebook](https://www.facebook.com/associazioneserendipity2016/events) | soggetto | — |
 | Associazione Simpatiche Canaglie | [pagina eventi del sito](https://www.simpatichecanaglie.org/events/?ical=1) · [sito](https://simpatichecanaglie.org) · [eventi della pagina Facebook](https://www.facebook.com/assimpatichecanaglie/events) | organizzatore | — |
-| ASSOCIAZIONE SPORTIVA DILETTANTISTICA SPECIAL OLYMPICS ITALIA ENTE DEL TERZO SETTORE | [sito](https://specialolympics.it) · [eventi della pagina Facebook](https://www.facebook.com/Special.Olympics.Italia/events) | organizzatore | — |
+| ASSOCIAZIONE SPORTIVA DILETTANTISTICA SPECIAL OLYMPICS ITALIA ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://specialolympics.it/tutti-gli-eventi/) · [sito](https://specialolympics.it) · [eventi della pagina Facebook](https://www.facebook.com/Special.Olympics.Italia/events) | organizzatore | — |
 | ASSOCIAZIONE TOPONOMASTICA FEMMINILE APS-ETS | [pagina eventi del sito](https://toponomasticafemminile.com/sito/index.php/iniziative) · [sito](https://toponomasticafemminile.com) | organizzatore | — |
 | ATENA - Associazione Italiana di TEcnica NAvale | [pagina eventi del sito](http://www.atenanazionale.it/news/2023/20230900-LIFE-PIAQUO-LOCANDINA.pdf) · [sito](https://atenanazionale.it) · [eventi della pagina Facebook](https://www.facebook.com/associazione.di.tecnica.navale/events) | organizzatore | — |
 | CdQ Eur Torrino - Comitato di Quartiere | [pagina eventi del sito](https://www.cdqeurtorrino.com/eventi) · [sito](https://cdqeurtorrino.com) · [eventi della pagina Facebook](https://www.facebook.com/CdQeurtorrino/events) | organizzatore | — |
@@ -3683,21 +3696,21 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Chiesa di Santa Maria Mater Ecclesiae al Torrino | [sito](https://www.turismoroma.it) | soggetto | — |
 | Chiesa Parrocchiale di San Giovanni XXIII | [sito](http://www.parrocchiasangiovannixxiii.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiasangiovannixxiii/events) | soggetto | — |
 | Comitato di Quartiere EUR Vallerano (@CdqEurVallerano) | [eventi della pagina Facebook](https://www.facebook.com/CdqEurVallerano/events) | soggetto | — |
-| Comitato di Quartiere Mezzocammino | [eventi della pagina Facebook](https://www.facebook.com/cdqMezzocammino/events) | soggetto | — |
+| Comitato di Quartiere Mezzocammino | [pagina eventi del sito](https://www.cdqtorrinomezzocammino.it/) · [eventi della pagina Facebook](https://www.facebook.com/cdqMezzocammino/events) | soggetto | — |
 | Comitato di Quartiere Torrino Decima | [sito](https://www.cdqtorrinodecima.it/) · [pagina Facebook](https://www.facebook.com/p/CdQ-Torrino-Decima-100064347923014) · [Instagram](https://www.instagram.com/cdq.torrinodecima) | soggetto | — |
 | Comitato di Quartiere Torrino Nord | [eventi della pagina Facebook](https://www.facebook.com/cdqtorrinonord/events) | soggetto | — |
 | INCESSANTE SOGNAR ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.incessantesognar.it/iniziative) · [sito](https://incessantesognar.it) | organizzatore | — |
 | INSIEMEMUSICA - A.P.S. | [pagina eventi del sito](https://www.insiememusica.org/category/eventi/) · [sito](https://insiememusica.org) · [eventi della pagina Facebook](https://www.facebook.com/insiememusica.aps/events) | organizzatore | — |
 | ISTITUTO SUORE FRANCESCANE MISSIONARIE D'EGITTO | [pagina eventi del sito](https://www.istitutosc.com/events) · [sito](https://istitutosc.com) | organizzatore | — |
 | La Scuola – Ic Leonardo da Vinci | [sito](https://www.icleonardodavinci.edu.it) | soggetto | — |
-| Mercoledì 18 giugno presso il CSAQ "Decima Torrino" di ... | [eventi della pagina Facebook](https://www.facebook.com/municipioromanove/events) | soggetto | — |
+| Mercoledì 18 giugno presso il CSAQ "Decima Torrino" di ... | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/municipioromanove/events) | soggetto | — |
 | OPES Comitato Provinciale Roma | [pagina eventi del sito](https://www.opesroma.it/eventi/) · [sito](https://opesroma.it) · [eventi della pagina Facebook](https://www.facebook.com/Opesroma/events) | organizzatore | — |
-| Palatorrino | [sito](https://palatorrino.it) · [eventi della pagina Facebook](https://www.facebook.com/Palatorrino/events) | soggetto | — |
+| Palatorrino | [pagina eventi del sito](http://www.palatorrino.IT/) · [sito](https://palatorrino.it) · [eventi della pagina Facebook](https://www.facebook.com/Palatorrino/events) | soggetto | — |
 | Parrocchia di Santa Maria del Carmelo | [sito](http://www.parrocchiasantamariadelcarmelo.it/) · [eventi della pagina Facebook](https://www.facebook.com/santamariadelcarmelo.roma/events) | soggetto | — |
 | Parrocchia Santa Maria Mater Ecclesiae Torrino Roma | [sito](https://www.santamariamaterecclesiaealtorrino.org) | soggetto | — |
 | Parrocchia Santa Maria Stella dell'Evangelizzazione | [sito](https://www.stelladellevangelizzazione.org/) · [eventi della pagina Facebook](https://www.facebook.com/parrocchiasmse/events) | soggetto | — |
 | Sentiero Lavoro | [sito](http://www.sentierolavoro.it/) | soggetto | — |
-| Sull'incendio di Mezzocammino Comitato di quartiere Torrino ... | [pagina Facebook](https://www.facebook.com/disalvotitti/videos/dichiarazione-sullincendio-di-mezzocammino/259197293645996) | soggetto | — |
+| Sull'incendio di Mezzocammino Comitato di quartiere Torrino ... | [eventi della pagina Facebook](https://www.facebook.com/disalvotitti/events) | soggetto | — |
 | Teatro del Torrino | [sito](https://teatriromaeur.it/teatro-del-torrino/) | soggetto | — |
 | Torrino Cultura | [eventi della pagina Facebook](https://www.facebook.com/TorrinoCultura/events) | soggetto | — |
 | ViviAmo Torrino Mezzocammino (@viviamotmc) | [eventi della pagina Facebook](https://www.facebook.com/viviamotmc/events) | soggetto | — |
@@ -3723,7 +3736,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | APS Zalib & i ragazzi di Via della Gatta | [pagina eventi del sito](https://www.centrogiovaniroma.com/eventi) · [sito](https://centrogiovaniroma.com) · [eventi della pagina Facebook](https://www.facebook.com/RagazziViaGatta/events) | organizzatore | CR 7 |
 | Teatro Le Maschere | [pagina letta alla fonte (calendario)](https://www.teatrolemaschere.it/) · [sito](https://teatrolemaschere.it) | luogo | FL 2 RT 1 |
 | Palazzo Velli Expo | [pagina letta alla fonte (calendario)](http://www.palazzovelliexpo.it/) · [sito](https://palazzovelliexpo.it) | luogo | FL 1 RT 1 |
-| Samavira Meditation | [sito](https://community.samavirameditation.com) · [eventi della pagina Facebook](https://www.facebook.com/samavira.meditation/events) | organizzatore | FB 2 |
+| Samavira Meditation | [pagina eventi del sito](https://samavirameditation.com/) · [sito](https://community.samavirameditation.com) · [eventi della pagina Facebook](https://www.facebook.com/samavira.meditation/events) | organizzatore | FB 2 |
 | BlaBla Language Exchange - Italy | [sito](https://blablacommunity.com) · [eventi della pagina Facebook](https://www.facebook.com/BlaBlaItaly/events) | organizzatore | FB 1 |
 | Casa dello Spettatore | [sito](https://casadellospettatore.it) · [eventi della pagina Facebook](https://www.facebook.com/CasadelloSpettatore/events) | organizzatore | CR 1 |
 | Expolive Project | [eventi della pagina Facebook](https://www.facebook.com/expoliveproject/events) | organizzatore | FB 1 |
@@ -3743,7 +3756,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Associazione Culturale Olio 9 | [eventi della pagina Facebook](https://www.facebook.com/noveolio/events) | organizzatore | — |
 | ASSOCIAZIONE CULTURALE STAMPERIA RIPA 69 ETS | [pagina eventi del sito](https://www.stamperiaripa69.it/attivita/) · [sito](https://stamperiaripa69.it) · [eventi della pagina Facebook](https://www.facebook.com/Stamperia-Ripa-69-294160651433560/events) | organizzatore | — |
 | ASSOCIAZIONE DI PROMOZIONE SOCIALE TEVERETERNO ONLUS | [eventi della pagina Facebook](https://www.facebook.com/Tevereterno/events) | organizzatore | — |
-| Associazione Italiana Santa Cecilia | [pagina eventi del sito](https://www.aiscroma.it/eventi/convegno-nazionale-scholae-cantorum-11/) · [sito](https://aiscroma.it) · [eventi della pagina Facebook](https://www.facebook.com/100095533747618/events) | organizzatore | — |
+| Associazione Italiana Santa Cecilia | [pagina eventi del sito](http://www.aiscroma.it/) · [pagina eventi del sito](https://www.aiscroma.it/eventi/convegno-nazionale-scholae-cantorum-11/) · [sito](https://aiscroma.it) | organizzatore | — |
 | Associazione Librai Italiani | [pagina eventi del sito](https://libraitaliani.it/news/) · [sito](https://libraitaliani.it) · [eventi della pagina Facebook](https://www.facebook.com/libraitaliani/events) | organizzatore | — |
 | Associazione Nazionale Bersaglieri Presidenza Nazionale | [pagina eventi del sito](https://www.assobersaglieri.it/events/?ical=1) · [sito](https://assobersaglieri.it) · [eventi della pagina Facebook](https://www.facebook.com/assobersaglieri/events) | organizzatore | — |
 | ASSOCIAZIONE ROTTA DI ENEA ETS | [pagina eventi del sito](https://www.aeneasroute.org/news/) · [sito](https://aeneasroute.org) | organizzatore | — |
@@ -3754,19 +3767,20 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CIRCOLO SAN PIETRO - TERZO SETTORE | [pagina eventi del sito](https://www.circolosanpietro.org/eventi) · [sito](https://circolosanpietro.org) · [eventi della pagina Facebook](https://www.facebook.com/Circolo-SPietro-374865252931001/events) | organizzatore | — |
 | CONSORZIO CASA INTERNAZIONALE DELLE DONNE ETS | [pagina eventi del sito](https://www.casainternazionaledelledonne.org/formazione/corsi/) · [sito](https://casainternazionaledelledonne.org) · [eventi della pagina Facebook](https://www.facebook.com/casaintdelledonneroma/events) | organizzatore | — |
 | COORDINAMENTO ENTI E ASSOCIAZIONI DI VOLONTARIATO PENITENZIARIO - SEAC ODV | [pagina eventi del sito](https://www.volontariatoseac.it/news) · [sito](https://volontariatoseac.it) · [eventi della pagina Facebook](https://www.facebook.com/volontariatoseac/events) | organizzatore | — |
-| DONNE IN MOVIMENTO APS | [pagina eventi del sito](https://www.noidonne.org/agenda/include/js/dropdown/style.css) · [sito](https://noidonne.org) · [eventi della pagina Facebook](https://www.facebook.com/Noidonne-38907601699/events) | organizzatore | — |
+| DONNE IN MOVIMENTO APS | [pagina eventi del sito](http://www.noidonne.org/agenda.php/) · [pagina eventi del sito](https://www.noidonne.org/agenda/include/js/dropdown/style.css) · [sito](https://noidonne.org) | organizzatore | — |
 | EDUCATION SPORT ASD APS | [sito](https://educationsport.it) · [eventi della pagina Facebook](https://www.facebook.com/educationsport.it/events) | organizzatore | — |
 | ETA' GRANDE ETS | [pagina eventi del sito](https://www.fondazioneetagrande.it/eventi/?ical=1) · [sito](https://fondazioneetagrande.it) · [eventi della pagina Facebook](https://www.facebook.com/fondazioneetagrande/events) | organizzatore | — |
 | FACTORYA ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://factorya.org/wp-json/wp/v2/eventi/5071) · [sito](https://factorya.org) · [eventi della pagina Facebook](https://www.facebook.com/factoryalab/events) | organizzatore | — |
 | FONDAZIONE COMITANS - E.T.S. | [pagina eventi del sito](https://fondazionecomitans.org/notizie/) · [sito](https://fondazionecomitans.org) | organizzatore | — |
 | FONDAZIONE MASSIMO FAGIOLI ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://fondazionemassimofagioli.it/laboratori/) · [sito](https://fondazionemassimofagioli.it) · [eventi della pagina Facebook](https://www.facebook.com/FondazioneMassimoFagioli/events) | organizzatore | — |
-| FONDAZIONE PICCOLO AMERICA - ETS | [pagina eventi del sito](https://piccoloamerica.it/news) · [sito](https://piccoloamerica.it) · [eventi della pagina Facebook](https://www.facebook.com/fondazionepiccoloamerica/events) | organizzatore | — |
+| FONDAZIONE PICCOLO AMERICA - ETS | [pagina eventi del sito](https://piccoloamerica.it/condorello/) · [pagina eventi del sito](https://piccoloamerica.it/news) · [sito](https://piccoloamerica.it) | organizzatore | — |
 | IT DIFESA | [pagina eventi del sito](https://itdifesa.it/news/) · [sito](https://itdifesa.it) | organizzatore | — |
 | LINARIA ETS | [eventi della pagina Facebook](https://www.facebook.com/Linariarete/events) | organizzatore | — |
+| Mirjac Onlus | [sito](http://mirjac.eu/) · [eventi della pagina Facebook](https://www.facebook.com/MirjacOnlus/events) · [Instagram](https://www.instagram.com/mirjac_onlus) | soggetto | — |
 | OPERA NAZIONALE MONTESSORI - ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://operanazionalemontessori.it/news/) · [sito](https://operanazionalemontessori.it) · [eventi della pagina Facebook](https://www.facebook.com/OperaMontessori/events) | organizzatore | — |
 | PETER PAN - ODV | [pagina eventi del sito](https://www.peterpanodv.it/articoli/news/oncologia-pediatrica/) · [sito](https://peterpanodv.it) · [eventi della pagina Facebook](https://www.facebook.com/Peter.Pan.Odv.Roma/events) | organizzatore | — |
 | QUARTA PARETE EDIZIONI ETS | [pagina eventi del sito](https://quartapareteroma.it/events/?ical=1) · [sito](https://quartapareteroma.it) · [eventi della pagina Facebook](https://www.facebook.com/quartapareteroma/events) | organizzatore | — |
-| Roma a piedi | [sito](https://romaapiedi.jimdoweb.com) | soggetto | — |
+| Roma a piedi | [pagina eventi del sito](https://romaapiedi.jimdoweb.com/news/) · [sito](https://romaapiedi.jimdoweb.com) | soggetto | — |
 | SCOSSE - Associazione di Promozione Sociale | [pagina eventi del sito](https://www.scosse.org/attivita/progetti-infanzia/) · [sito](https://scosse.org) · [eventi della pagina Facebook](https://www.facebook.com/scosseaps/events) | organizzatore | — |
 | Shalom | [sito](https://shalom.it) · [eventi della pagina Facebook](https://www.facebook.com/shalomCER.it/events) | soggetto | — |
 | SOCIETA ITALIANA DELLE STORICHE ETS | [eventi della pagina Facebook](https://www.facebook.com/SISstoriche.1989/events) | organizzatore | — |
@@ -3791,7 +3805,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Spazio Culturale Nous | [pagina letta alla fonte (calendario)](https://www.spazioculturalenous.it/) · [sito](https://spazioculturalenous.it) | luogo | FL 1 RT 1 |
 | Tatami | [eventi della pagina Facebook](https://www.facebook.com/TatamiShiatsuRoma/events) | organizzatore | FB 2 |
 | Una Striscia Di Terra Feconda | [eventi della pagina Facebook](https://www.facebook.com/UnaStrisciaDiTerraFeconda/events) | organizzatore | FB 2 |
-| BF Outdoor SHOP | [eventi della pagina Facebook](https://www.facebook.com/bfoutdoorshop/events) | organizzatore | FB 1 |
+| BF Outdoor SHOP | [pagina eventi del sito](http://www.bfoutdoorshop.com/blogs/news/) · [eventi della pagina Facebook](https://www.facebook.com/bfoutdoorshop/events) | organizzatore | FB 1 |
 | Fitlosophia Studio | [eventi della pagina Facebook](https://www.facebook.com/fitlosophia/events) | luogo | FB 1 |
 | Hogrefe Editore | [sito](https://hogrefe.com) · [eventi della pagina Facebook](https://www.facebook.com/hogrefe.editore/events) | organizzatore | FB 1 |
 | Libreria Eli | [sito](https://libreriaeli.it) | luogo | RT 1 |
@@ -3805,7 +3819,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | AIMAR - Associazione Italiana Malformazioni Anorettali | [sito](https://aimar.eu) · [eventi della pagina Facebook](https://www.facebook.com/aimar2/events) | organizzatore | — |
 | AMICI DELLA FITEL APS | [pagina eventi del sito](https://fitel.it/notizie/) · [sito](https://convenzionifitel.it) · [eventi della pagina Facebook](https://www.facebook.com/Federazione.Italiana.Tempo.Libero/events) | organizzatore | — |
 | ANTEAS LAZIO APS | [pagina eventi del sito](https://www.anteaslazio.it/news/) · [eventi della pagina Facebook](https://www.facebook.com/anteasdellazio/events) | organizzatore | — |
-| ARCHEOCLUB D'ITALIA APS | [pagina eventi del sito](https://www.archeoclubitalia.org/events/?ical=1) · [sito](https://archeoclubitalia.org) · [pagina Facebook](https://www.facebook.com/100961885831157/posts/143422718251740) | organizzatore | — |
+| ARCHEOCLUB D'ITALIA APS | [pagina eventi del sito](https://www.archeoclubitalia.org/events/?ical=1) · [sito](https://archeoclubitalia.org) · [eventi della pagina Facebook](https://www.facebook.com/100961885831157/events) | organizzatore | — |
 | ARPAd Associazione Romana per la Psicoterapia dell'Adolescenza | [pagina eventi del sito](https://associazionearpad.it/category/news/) · [sito](https://associazionearpad.it) · [eventi della pagina Facebook](https://www.facebook.com/arpadroma/events) | organizzatore | — |
 | Associazione "Arte per l'arte" | [sito](https://arteperlarte.com) · [eventi della pagina Facebook](https://www.facebook.com/AssociazioneArteperlarte/events) | organizzatore | — |
 | Associazione Botteghe Storiche Roma | [pagina eventi del sito](https://www.botteghestoricheroma.com/category/eventi/) · [sito](https://botteghestoricheroma.com) · [eventi della pagina Facebook](https://www.facebook.com/100057109373818/events) | organizzatore | — |
@@ -3855,10 +3869,10 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | FONDAZIONE SMART - POLO PER L'ARTE  - ETS | [pagina eventi del sito](http://www.fondazionesmart.org/articolo/news/una-storia-comune-interventi-a-parole-nello-spazio-pubblico/407) · [sito](https://fondazionesmart.org) · [pagina Facebook](https://www.facebook.com/smART-polo-per-larte/583914514966507) | organizzatore | — |
 | GAYCS LGBT APS | [pagina eventi del sito](https://www.gaycs.org/eventi/) · [sito](https://gaycs.org) · [eventi della pagina Facebook](https://www.facebook.com/gaycslgbt/events) | organizzatore | — |
 | GRUPPO EVENTI SOSTEGNO E FORMAZIONE APS | [pagina eventi del sito](https://www.sostegnolutto.it/notizie/) · [sito](https://sostegnolutto.it) · [eventi della pagina Facebook](https://www.facebook.com/gruppoeventilutto/events) | organizzatore | — |
-| I BUGIARDINI APS | [eventi della pagina Facebook](https://www.facebook.com/ibugiardini/events) | organizzatore | — |
+| I BUGIARDINI APS | [pagina eventi del sito](http://www.bugiardini.it/) · [eventi della pagina Facebook](https://www.facebook.com/ibugiardini/events) | organizzatore | — |
 | IL TULIPANO BIANCO APS | [eventi della pagina Facebook](https://www.facebook.com/iltulipanobiancoaps/events) | organizzatore | — |
 | IsMeS Istituto per la Mediazione Sistemica-ETS | [pagina eventi del sito](https://www.mediazioneismes.it/ismes/eventi/) · [sito](https://mediazioneismes.it) · [eventi della pagina Facebook](https://www.facebook.com/mediazionepenaleismes/events) | organizzatore | — |
-| LAV LEGA ANTI VIVISEZIONE ENTE DEL TERZO SETTORE | [pagina eventi del sito](https://www.lav.it/appuntamenti) · [sito](https://lav.it) · [eventi della pagina Facebook](https://www.facebook.com/LAVonlus/events) | organizzatore | — |
+| LAV LEGA ANTI VIVISEZIONE ENTE DEL TERZO SETTORE | [pagina eventi del sito](http://www.lav.it/appuntamenti/) · [pagina eventi del sito](https://www.lav.it/appuntamenti) · [sito](https://lav.it) | organizzatore | — |
 | MAG - MOVIMENTO ARTISTICO GIOVANILE APS | [sito](https://movimentomag.com) · [eventi della pagina Facebook](https://www.facebook.com/MagMovimentoArtisticoGiovanile/events) | organizzatore | — |
 | MUSA ETS | [pagina eventi del sito](https://www.musaonlus.it/events/?ical=1) · [sito](https://musaonlus.it) | organizzatore | — |
 | NOMAS FOUNDATION O.N.L.U.S. | [pagina eventi del sito](https://nomasfoundation.com/category/news/) · [sito](https://nomasfoundation.com) · [eventi della pagina Facebook](https://www.facebook.com/nomasfoundation/events) | organizzatore | — |
@@ -3894,15 +3908,15 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | ITALO SANTILLI - comitato di quartiere trigoria | [sito](https://www.romacura.roma.it) | soggetto | — |
 | Municipio | [eventi della pagina Facebook](https://www.facebook.com/municipioromanove/events) | soggetto | — |
 | Municipioromanove | [eventi della pagina Facebook](https://www.facebook.com/municipioromanove/events) | soggetto | — |
-| Trasporti a Roma | [sito](https://romaatac.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/romaatac/events) | soggetto | — |
+| Trasporti a Roma | [pagina eventi del sito](https://romaatac.altervista.org/) · [sito](https://romaatac.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/romaatac/events) | soggetto | — |
 | XXVII festa della parrocchia di Trigoria | [sito](https://www.oggiroma.it) | soggetto | — |
 
 ## Tuscolano `tuscolano` — Municipio VII
 
 | fonte | dove cercare | ruolo | eventi ott 2026 |
 |---|---|---|---|
-| Casa di Cura Villa Fulvia | [sito](https://villafulvia.it) · [eventi della pagina Facebook](https://www.facebook.com/casadicuravillafulvia/events) | organizzatore | FB 3 |
-| Università degli Studi Internazionali di Roma - UNINT | [sito](https://unint.eu) · [eventi della pagina Facebook](https://www.facebook.com/unintuniversita/events) | organizzatore | FB 2 |
+| Casa di Cura Villa Fulvia | [pagina eventi del sito](http://www.villafulvia.it/) · [sito](https://villafulvia.it) · [eventi della pagina Facebook](https://www.facebook.com/casadicuravillafulvia/events) | organizzatore | FB 3 |
+| Università degli Studi Internazionali di Roma - UNINT | [pagina eventi del sito](http://www.unint.eu/) · [sito](https://unint.eu) · [eventi della pagina Facebook](https://www.facebook.com/unintuniversita/events) | organizzatore | FB 2 |
 | Anna Maria Ferrara Tango | [eventi della pagina Facebook](https://www.facebook.com/annamariaferraratango/events) | organizzatore | FB 1 |
 | Biblioteca Nelson Mandela | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-nelson-mandela/) · [eventi della pagina Facebook](https://www.facebook.com/BibliotecaNelsonMandela/events) | luogo | CR 1 |
 | Galactus Tuscolana | [eventi della pagina Facebook](https://www.facebook.com/galactustuscolana/events) | organizzatore | FB 1 |
@@ -3944,7 +3958,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | CENTRO REGIONALE DANZA LAZIO ASSOCIAZIONE DI PROMOZIONE SOCIALE - ASSOCIAZIONE SPORTIVA DILETTANTISTICA | [pagina eventi del sito](https://www.metadanze.it/calendario) · [sito](https://metadanze.it) · [pagina Facebook](https://www.facebook.com/people/MetaDanze/61556513550113) | organizzatore | — |
 | Chiesa Parrocchiale del Santissimo Corpo e Sangue di Cristo | [sito](https://sangaspare.it/) | soggetto | — |
 | Chiesa Parrocchiale di S. Gaspare del Bufalo | [sito](http://www.parrocchiasangaspare.it/) · [eventi della pagina Facebook](https://www.facebook.com/parrocosangaspare/events) | soggetto | — |
-| Chiesa Parrocchiale di San Giuda Taddeo Apostolo | [sito](http://www.parrocchiasangiudataddeo.it/) · [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaSanGiuda/events) | soggetto | — |
+| Chiesa Parrocchiale di San Giuda Taddeo Apostolo | [pagina eventi del sito](http://parrocchiasangiudataddeo.it/) · [sito](http://www.parrocchiasangiudataddeo.it/) · [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaSanGiuda/events) | soggetto | — |
 | CINECIRCOLI GIOVANILI SOCIOCULTURALI - APS | [pagina eventi del sito](https://www.cgsweb.it/category/news/) · [sito](https://cgsweb.it) · [eventi della pagina Facebook](https://www.facebook.com/cgsaps/events) | organizzatore | — |
 | Comitato Salute San Policarpo | [eventi della pagina Facebook](https://www.facebook.com/100076164172190/events) | soggetto | — |
 | Comitato San Giovanni per Renzi | [sito](https://sangiovanniperrenzi.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/100064785393782/events) | organizzatore | — |
@@ -3957,7 +3971,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Il Filo di Arianna | [sito](http://www.ilfilodiariannaonlus.it/) | soggetto | — |
 | IL MELOGRANO APS | [pagina eventi del sito](https://www.melogranoarte.it/corsi/recitazione/) · [sito](https://melogranoarte.it) · [eventi della pagina Facebook](https://www.facebook.com/melogranoarte/events) | organizzatore | — |
 | IL SOLE E LA LUNA | [pagina eventi del sito](https://www.ilsoleelalunadanza.it/category/news/) · [sito](https://ilsoleelalunadanza.it) · [eventi della pagina Facebook](https://www.facebook.com/ilcannolosicilianoroma/events) | organizzatore | — |
-| inITALY | [sito](https://initaly.it) · [eventi della pagina Facebook](https://www.facebook.com/initalyofficial/events) | soggetto | — |
+| inITALY | [pagina eventi del sito](https://www.initaly.it/it/categoria/eventi/mostre-21/) · [sito](https://initaly.it) · [eventi della pagina Facebook](https://www.facebook.com/initalyofficial/events) | soggetto | — |
 | KLIMAX THEATRE COMPANY ETS | [pagina eventi del sito](https://www.klimaxtheatre.it/spettacoli/falstaff-e-il-suo-re/) · [sito](https://klimaxtheatre.it) · [eventi della pagina Facebook](https://www.facebook.com/klimaxtheatrecompany/events) | organizzatore | — |
 | LA GIUSTA DIFESA APS | [pagina eventi del sito](https://www.lagiustadifesa.it/category/eventi/) · [sito](https://lagiustadifesa.it) · [eventi della pagina Facebook](https://www.facebook.com/LAGIUSTADIFESA/events) | organizzatore | — |
 | LOTTOUNICO A.P.S. | [pagina eventi del sito](https://lottounico.it/attivita/) · [sito](https://lottounico.it) · [eventi della pagina Facebook](https://www.facebook.com/LottounicoAps/events) | organizzatore | — |
@@ -4013,12 +4027,12 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Comitato di Quartiere Acqua Traversa — XV Municipio, Roma | [sito](https://www.comitatoacquatraversa.it/) | soggetto | — |
 | Comitato di quartiere Vigna Clara | [eventi della pagina Facebook](https://www.facebook.com/CDQVignaclara/events) | soggetto | — |
 | Comitato di quartiere Vigna Clara (@CDQVignaclara) | [eventi della pagina Facebook](https://www.facebook.com/CDQVignaclara/events) | soggetto | — |
-| Eventi di musica e intrattenimento a Vigna Clara e Labaro .. | [eventi della pagina Facebook](https://www.facebook.com/61563304190618/events) | soggetto | — |
+| Eventi di musica e intrattenimento a Vigna Clara e Labaro .. | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) · [eventi della pagina Facebook](https://www.facebook.com/61563304190618/events) | soggetto | — |
 | Fondazione Manlio Resta Onlus | [sito](http://www.fondazioneresta.it/) | soggetto | — |
 | Parrocchia San Gabriele Arcangelo | [sito](https://www.sangabrielearcangelo.it/) | soggetto | — |
 | Parrocchia Santa Chiara | [eventi della pagina Facebook](https://www.facebook.com/parrocchiasantachiara/events) | soggetto | — |
 | Roberto Gualtieri Eu | [eventi della pagina Facebook](https://www.facebook.com/roberto.gualtieri.eu/events) | soggetto | — |
-| Tiro a Segno Nazionale di Roma | [sito](https://www.tsnroma.it/) · [pagina Facebook](https://www.facebook.com/people/Tiro-a-Segno-Nazionale-Sezione-di-Roma/61560434747578) | soggetto | — |
+| Tiro a Segno Nazionale di Roma | [pagina eventi del sito](http://www.tsnroma.it/) · [sito](https://www.tsnroma.it/) · [pagina Facebook](https://www.facebook.com/people/Tiro-a-Segno-Nazionale-Sezione-di-Roma/61560434747578) | soggetto | — |
 | Unione Nazionale Per La Lotta Contro L'Analfabetismo | [sito](http://www.unla.it/) · [eventi della pagina Facebook](https://www.facebook.com/unla.entemorale/events) | soggetto | — |
 | Chiesa del Preziosissimo Sangue di Nostro Signore Gesù Cristo | — | soggetto | — |
 | Chiesa di San Gaetano | — | soggetto | — |

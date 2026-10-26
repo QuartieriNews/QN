@@ -7,7 +7,7 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
 | Biblioteca Vaccheria Nardi | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/biblioteca-vaccheria-nardi/) · [eventi della pagina Facebook](https://www.facebook.com/bibliotecavaccherianardi/events) | luogo | biblioteca | CR 1 | 100% | tenere (facebook) | `S-FE-0056` |
-| CENTRO PILATES Yoga Roma - Ginnastica per il Corpo e per la Mente | [eventi della pagina Facebook](https://www.facebook.com/CentroPILATES.Roma/events) | organizzatore | centro | FB 1 | 0% | — | `S-EV-1257` |
+| CENTRO PILATES Yoga Roma - Ginnastica per il Corpo e per la Mente | [pagina eventi del sito](http://www.centropilatesyogaroma.com/1/prossimi_appuntamenti_611736.html/) · [eventi della pagina Facebook](https://www.facebook.com/CentroPILATES.Roma/events) | organizzatore | centro | FB 1 | 0% | — | `S-EV-1257` |
 | Colli dell'Aniene, Roma | [pagina Facebook](https://www.facebook.com/pages/Colli-dellAniene-Roma/2555296921208671) | luogo | altro | FB 1 | 0% | — | `S-EV-1342` |
 | OPERA E GRANDI COMPOSITORI DI MÚSICA CLASSICA | [pagina Facebook](https://www.facebook.com/groups/1395662270467019) | organizzatore | altro | FB 1 | 0% | — | `S-EV-2615` |
 | Raffaele Sorbo | — | organizzatore | altro | FB 1 | 0% | — | `S-EV-2835` |
@@ -29,7 +29,7 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | Parrocchia di Santa Bernadette Soubirous | [sito](https://www.santabernadette.it/) · [eventi della pagina Facebook](https://www.facebook.com/ArquidiocesisCordoba/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1150` |
 | Parrocchia di Santa Maria del Soccorso | [sito](http://smariadelsoccorso.altervista.org/) · [eventi della pagina Facebook](https://www.facebook.com/SMSParrocchia/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1151` |
 | Roma Dodgeball ASD - Colli Aniene | [sito](https://asdromadodgeball.wixsite.com/my-site) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1153` |
-| Sezione A.I.A. Roma 2 "Riccardo Lattanzi" | [sito](http://www.aiaroma2.it/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1154` |
+| Sezione A.I.A. Roma 2 "Riccardo Lattanzi" | [pagina eventi del sito](https://www.aiaroma2.it/news/) · [sito](http://www.aiaroma2.it/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1154` |
 | teatroaniene.it | [sito](https://teatroaniene.it) · [eventi della pagina Facebook](https://www.facebook.com/teatroaniene/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0918` |
 | Vaccheria Nardi a Colli Aniene: storia della biblioteca e dell ... | [sito](https://www.fabriziocolarossi.com) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0724` |
 | Villa Sant'Agostino | — | soggetto | centro_anziani | — | — | candidata (da_trovare) | `S-FE-1145` |
@@ -48,7 +48,7 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | Galactus Tiburtina | [eventi della pagina Facebook](https://www.facebook.com/GalactusTiburtina/events) | organizzatore | altro | FB 18 | 0% | — | `S-EV-1915` |
 | via Alessandro Malladra 16, 00157 Rome, Italy | — | luogo | altro | FB 18 | 0% | — | `S-EV-3323` |
 | IL NAUFRAGARMEDOLCE ETS | [pagina eventi del sito](https://www.ilnaufragarmedolce.it/spettacoli/zit/) · [sito](https://ilnaufragarmedolce.it) · [eventi della pagina Facebook](https://www.facebook.com/ilnaufragarmedolce/events) | organizzatore | altro | CR 11 | 100% | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2090` |
-| Associazione Culturale ZERKALO | [sito](https://zerkaloteatro.com) | organizzatore | altro | CR 4 | 100% | — | `S-EV-0568` |
+| Associazione Culturale ZERKALO | [pagina eventi del sito](https://www.zerkaloteatro.com/spettacoli-ed-eventi/) · [sito](https://zerkaloteatro.com) | organizzatore | altro | CR 4 | 100% | — | `S-EV-0568` |
 | Primo Piano | [eventi della pagina Facebook](https://www.facebook.com/primo1piano/events) | luogo, organizzatore | altro | FB 4 | 75% | — | `S-EV-2771` |
 | Hacienda | [sito](https://www.haciendaroma.it/) · [Instagram](https://www.instagram.com/the_green_market_roma) | luogo | club_musica | RT 3 | 0% | tenere (sito) | `S-FE-0121` |
 | hacienda_rome | [eventi della pagina Facebook](https://www.facebook.com/HcndRm/events) | luogo, organizzatore | altro | FB 3 | 0% | — | `S-EV-2020` |
@@ -75,7 +75,7 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | ARCI LAZIO A.P.S. | [eventi della pagina Facebook](https://www.facebook.com/arcilazio/events) | organizzatore | locale | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-0300` |
 | ASSOCIAZIONE ARS LUDI ETS | [pagina eventi del sito](https://www.arsludi.eu/news.asp?sez=Produzioni) · [sito](https://arsludi.eu) · [eventi della pagina Facebook](https://www.facebook.com/ensemble.arsludi/events) | organizzatore | altro | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-0434` |
 | ASSOCIAZIONE DI PROMOZIONE SOCIALE NUOVO 1 MAGGIO ETS | [eventi della pagina Facebook](https://www.facebook.com/100063579340226/events) | organizzatore | altro | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-0614` |
-| ASSOCIAZIONE DI PROMOZIONE SOCIALE ZEFIRA | [sito](https://associazionezefira.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionezefira/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-0626` |
+| ASSOCIAZIONE DI PROMOZIONE SOCIALE ZEFIRA | [pagina eventi del sito](https://associazionezefira.it/) · [sito](https://associazionezefira.it) · [eventi della pagina Facebook](https://www.facebook.com/associazionezefira/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-0626` |
 | Associazione Libera-mente | [sito](https://teatroliberamente.com) · [eventi della pagina Facebook](https://www.facebook.com/pietro.liberamente/events) | organizzatore | altro | — | — | censimento: da valutare | `S-EV-0807` |
 | Associazione Spazio B A S E | [eventi della pagina Facebook](https://www.facebook.com/AssociazioneSpazioBASE/events) | organizzatore | locale | — | — | censimento: locale: solo se organizza eventi | `S-EV-0984` |
 | Atelier Montez | [sito](https://www.montez.it/) | soggetto | centro_culturale | — | — | tenere (sito) | `S-FE-0117` |
@@ -107,10 +107,10 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | Comitato di Quartiere Comprensorio PratoLungo | [eventi della pagina Facebook](https://www.facebook.com/ComitatoPratoLungo/events) | organizzatore | comitato_quartiere | — | — | tenere (facebook) | `S-FE-0229` |
 | FONDAZIONE AIDR - ASSOCIATION ITALIAN DIGITAL REVOLUTION ETS | [pagina eventi del sito](https://aidr.it/iniziative/) · [sito](https://aidr.it) · [eventi della pagina Facebook](https://www.facebook.com/ItalianDigitalRevolution/events) | organizzatore | altro | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-1699` |
 | GRUPPO ROMA 1 ODV | [eventi della pagina Facebook](https://www.facebook.com/odvgrupporoma1/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2005` |
-| INSIEME PER L'ANIENE ASSOCIAZIONE DI PROMOZIONE SOCIALE | [sito](https://aniene.it) · [eventi della pagina Facebook](https://www.facebook.com/insieme.p.onlus/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2121` |
+| INSIEME PER L'ANIENE ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](http://www.aniene.it/) · [sito](https://aniene.it) · [eventi della pagina Facebook](https://www.facebook.com/insieme.p.onlus/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2121` |
 | PSICOLOGI PER I POPOLI -  REGIONE LAZIO - ODV | [pagina eventi del sito](https://www.psicologiperipopolilazio.it/wp/attivita/) · [sito](https://psicologiperipopolilazio.it) | organizzatore | altro | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-2810` |
 | TOMMASO FASCIANI ETS | [pagina eventi del sito](https://tommasofasciani.it/notizie/) · [sito](https://tommasofasciani.it) | organizzatore | altro | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-3226` |
-| Zètema | [sito](https://zetema.it) · [eventi della pagina Facebook](https://www.facebook.com/zetemaprogettocultura/events) | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0822` |
+| Zètema | [pagina eventi del sito](https://www.zetema.it/feed/) · [sito](https://zetema.it) · [eventi della pagina Facebook](https://www.facebook.com/zetemaprogettocultura/events) | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0822` |
 
 ## San Basilio `san-basilio`
 
@@ -138,7 +138,7 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | Post-Comunione - Parrocchia San Basilio Roma | [sito](https://www.parrocchiasanbasilio.it) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0619` |
 | San Basilio - Biblioteca comunale | [sito](https://www.sardegnabiblioteche.it) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0607` |
 | Sede distaccata Aldo Fabrizi | [sito](https://www.bibliotechediroma.it/opac/news/sede-distaccata-aldo-fabrizi/4807) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0608` |
-| THE BASE | Concerti roma concerti roma organizzazione concerti the-base musica roma musica | [sito](https://the-base.it) · [eventi della pagina Facebook](https://www.facebook.com/thebaseconcerti/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0899` |
+| THE BASE | Concerti roma concerti roma organizzazione concerti the-base musica roma musica | [pagina eventi del sito](https://the-base.it/tutti-gli-eventi/) · [sito](https://the-base.it) · [eventi della pagina Facebook](https://www.facebook.com/thebaseconcerti/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0899` |
 | TORRACCIA INSIEME ODV | [pagina eventi del sito](https://torracciainsieme.webnode.it/eventi/) · [sito](https://torracciainsieme.webnode.it) | organizzatore | altro | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-3231` |
 
 ## Settecamini `settecamini`
@@ -160,7 +160,7 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | Chiesa parrocchiale di Sant'Alessio a Case Rosse | [sito](http://www.parrocchiasantalessio.com/) · [eventi della pagina Facebook](https://www.facebook.com/Parrocchia-Sant-Alessio-115256323195552/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1458` |
 | Comitato di Quartiere di Settecamini | [eventi della pagina Facebook](https://www.facebook.com/comitatosettecamini/events) | soggetto | comitato_quartiere | — | — | tenere (facebook) | `S-FE-0147` |
 | Comitato di quartiere di Settecamini: Home | [sito](https://www.settecamini.org) | soggetto | comitato_quartiere | — | — | candidata (sito) | `S-FE-0690` |
-| Comitato di Quartiere Monteverde Nuovo | Un impegno in ... | [sito](https://www.comitatomonteverdenuovo.it/wordpress/) · [eventi della pagina Facebook](https://www.facebook.com/comitatomonteverdenuovo/events) | soggetto | comitato_quartiere | — | — | candidata (sito) | `S-FE-1454` |
+| Comitato di Quartiere Monteverde Nuovo | Un impegno in ... | [pagina eventi del sito](https://www.comitatomonteverdenuovo.it/wordpress/category/eventi/) · [sito](https://www.comitatomonteverdenuovo.it/wordpress/) · [eventi della pagina Facebook](https://www.facebook.com/comitatomonteverdenuovo/events) | soggetto | comitato_quartiere | — | — | candidata (sito) | `S-FE-1454` |
 | Comitato di Quartiere Settecamini Archivi | [sito](https://tiburno.tv) | soggetto | comitato_quartiere | — | — | candidata (sito) | `S-FE-0689` |
 | Csa Settecamini | [eventi della pagina Facebook](https://www.facebook.com/MassimilianoUmberti/events) | soggetto | centro_anziani | — | — | candidata (facebook) | `S-FE-0686` |
 | ECHOES - CAPITOLINE CENTRE FOR MARINE RESEARCH ETS | [sito](https://echoes-ccmr.com) | organizzatore | altro | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-1523` |
@@ -188,7 +188,7 @@ Fonti: 182 · eventi nel mese: 137. Sigle degli aggregatori: FB Facebook, CR cul
 | Comitato Regionale Arbitri Lazio | [sito](https://cra-lazio.it) · [eventi della pagina Facebook](https://www.facebook.com/AIACraLazio/events) | organizzatore | associazione | — | — | censimento: rientra: attiva negli ultimi 6 mesi (sito) | `S-EV-1358` |
 | Gruppo Scout FSE Roma 21 | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1496` |
 | Parrocchia Gesù di Nazareth | [sito](https://parrocchia.gesudinazareth.eu/) · [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaGesuDiNazareth/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1495` |
-| Peppe A Tor Cervara | [sito](https://peppeatorcervara.it) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0857` |
+| Peppe A Tor Cervara | [pagina eventi del sito](https://www.peppeatorcervara.it/event-details/cena-social/) · [sito](https://peppeatorcervara.it) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0857` |
 | STA ARRIVANDO… LA SAGRA DEL TARTUFO DI CERVARA ... | [eventi della pagina Facebook](https://www.facebook.com/prolococervara/events) | soggetto | organizzatore | — | — | candidata (facebook) | `S-FE-0819` |
 | TRASPORTOUNITO | [sito](https://www.trasportounito.net/contatti/) · [eventi della pagina Facebook](https://www.facebook.com/trasportounitoroma/events) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1492` |
 | Verderocca | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1493` |

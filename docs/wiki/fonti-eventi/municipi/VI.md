@@ -6,7 +6,7 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| 22/10/2026 𝘿𝙪𝙚 𝙡𝙚𝙤𝙣𝙞 Un'emozione unica il ritorno a ... | [pagina Facebook](https://www.facebook.com/100009514943505/videos/22102026%F0%9D%98%BF%F0%9D%99%AA%F0%9D%99%9A-%F0%9D%99%A1%F0%9D%99%9A%F0%9D%99%A4%F0%9D%99%A3%F0%9D%99%9E-unemozione-unica-il-ritorno-a-casa-di-un-simbolo-identificativ/1683634019992438) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-0996` |
+| 22/10/2026 𝘿𝙪𝙚 𝙡𝙚𝙤𝙣𝙞 Un'emozione unica il ritorno a ... | [eventi della pagina Facebook](https://www.facebook.com/100009514943505/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-0996` |
 | Aemme Tennis Roma Asd Borghesiana | — | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1023` |
 | Associazione Culturale L'Armonia Dell'Arte | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-0998` |
 | ASSOCIAZIONE CULTURALE L'ARTIGIANO | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-0997` |
@@ -15,7 +15,7 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | Associazione Onda Telematica | [sito](http://ondatelematica.it/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1000` |
 | ASSOCIAZIONE ROMNI APS | [eventi della pagina Facebook](https://www.facebook.com/RomniAPS/events) | organizzatore | associazione | — | — | censimento: da verificare: un solo segnale di eventi | `S-EV-0959` |
 | Associazione Valle degli Ulivi Roma | [sito](https://valledegliuliviroma.com) · [eventi della pagina Facebook](https://www.facebook.com/valledegliuliviroma/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-1026` |
-| Biblioteca Borghesiana (Municipio VI) | — | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0394` |
+| Biblioteca Borghesiana (Municipio VI) | [pagina eventi del sito](https://www.comune.roma.it/web/it/notizie.page) | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0394` |
 | Biblioteca Collina della Pace | [eventi della pagina Facebook](https://www.facebook.com/bibliotecacollinadellapace/events) | soggetto | biblioteca | — | — | tenere (facebook) | `S-FE-0017` |
 | Biblioteca comunale Borghesiana | [sito](https://anagrafe.iccu.sbn.it) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0384` |
 | Borghesiana - Centri Sociali Anziani di Roma | [sito](https://16nonni.it) | soggetto | centro_anziani | — | — | candidata (sito) | `S-FE-0385` |
@@ -50,7 +50,7 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | ISTITUTO CASA DEI POVERI DEL SERVO LORENZO AGRIPPINO - APS | [pagina eventi del sito](https://www.istitutocasadeipoveridilorenzo.it/news/) · [sito](https://istitutocasadeipoveridilorenzo.it) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2149` |
 | KONSUMER ITALIA APS | [pagina eventi del sito](https://www.konsumer.it/category/eventi/) · [sito](https://konsumer.it) · [eventi della pagina Facebook](https://www.facebook.com/KonsumerItalia/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2204` |
 | La BatCaverna | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1018` |
-| La Capitale | [sito](https://lacapitale.it) · [eventi della pagina Facebook](https://www.facebook.com/lacapitalenews/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0886` |
+| La Capitale | [pagina eventi del sito](https://www.lacapitale.it/temi/eventi/) · [sito](https://lacapitale.it) · [eventi della pagina Facebook](https://www.facebook.com/lacapitalenews/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0886` |
 | Laboratorio Fontana Candida Snc | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1019` |
 | Maurizioveloccia1 | [eventi della pagina Facebook](https://www.facebook.com/MaurizioVeloccia1/events) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-0388` |
 | Mosca Andrea | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1006` |
@@ -105,7 +105,7 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | Ic Emma Castelnuovo | — | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0474` |
 | Ic Villaggio Prenestino | — | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0475` |
 | Il Fantastico Mondo del Fantastico - Castello di Lunghezza | [sito](https://www.fantasticomondo.it/spettacoli/) | soggetto | altro | — | — | tenere (da_trovare) | `S-FE-0079` |
-| Insieme per lunghezza | Associazione Culturale Insieme per Lunghezza | [sito](https://insiemeperlunghezza.com) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0850` |
+| Insieme per lunghezza | Associazione Culturale Insieme per Lunghezza | [pagina eventi del sito](https://www.insiemeperlunghezza.com/eventi/) · [sito](https://insiemeperlunghezza.com) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0850` |
 | IO VIVO A CORCOLLE | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1269` |
 | Lunghezza | [eventi della pagina Facebook](https://www.facebook.com/151852678185016/events) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-0472` |
 | Parrocchia della Santissima Trinità a Lunghezza | [sito](https://annuariocattolico.it) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-0478` |
@@ -140,8 +140,8 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | Chiesa parrocchiale di Santa Maria Josefa del Cuore di Gesù | [sito](https://parrocchiasantamariajosefa.wordpress.com/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1376` |
 | Chiesa Parrocchiale di Santa Maria Madre della Chiesa | [eventi della pagina Facebook](https://www.facebook.com/ParrocchiaPantanoBorghese/events) | soggetto | parrocchia | — | — | candidata (facebook) | `S-FE-1368` |
 | Chiesa Parrocchiale di Santa Teresa di Calcutta | [sito](http://parrocchiateresadicalcutta.it/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1370` |
-| Comitato - #cdqcastelverde | [pagina Facebook](https://m.facebook.com/100070918081960/photos/598128502561081) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-1360` |
-| Comitato di Quartiere Castelverde di Roma | [sito](https://cdqcastelverde.it) · [eventi della pagina Facebook](https://www.facebook.com/cdqcastelverderoma/events) | organizzatore | comitato_quartiere | — | — | tenere (facebook) | `S-FE-0214` |
+| Comitato - #cdqcastelverde | [pagina Facebook](https://m.facebook.com/100070918081960) | soggetto | comitato_quartiere | — | — | candidata (facebook) | `S-FE-1360` |
+| Comitato di Quartiere Castelverde di Roma | [pagina eventi del sito](https://cdqcastelverde.it/) · [sito](https://cdqcastelverde.it) · [eventi della pagina Facebook](https://www.facebook.com/cdqcastelverderoma/events) | organizzatore | comitato_quartiere | — | — | tenere (facebook) | `S-FE-0214` |
 | Comitato di Quartiere di Castelverde | [Instagram](https://www.instagram.com/comitatodiquartierecastelverde) | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1355` |
 | Comitato di quartiere Fosso San Giuliano (real) | — | soggetto | comitato_quartiere | — | — | candidata (da_trovare) | `S-FE-1361` |
 | Ic Giuseppe Impastato | — | soggetto | istituto_comprensivo | — | — | candidata (sito) | `S-FE-0603` |
@@ -159,13 +159,13 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | Santuario Nostra Signora di Fatima | — | soggetto | parrocchia | — | — | candidata (da_trovare) | `S-FE-1378` |
 | Tenuta Nibea | [sito](https://www.tenutanibea.com/) · [eventi della pagina Facebook](https://www.facebook.com/tenutanibea/events) | soggetto | centro_culturale | — | — | candidata (sito) | `S-FE-1363` |
 | Top 10 biblioteche vicino a Ponte di Nona | [sito](https://biblioteche.top10posti.it) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0599` |
-| Vivere Porta Metronia significa avere la storia di Roma a pochi ... | [pagina Facebook](https://www.facebook.com/gruppotoscano/posts/vivere-porta-metronia-significa-avere-la-storia-di-roma-a-pochi-passi-senza-rinu/1498200865673040) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1357` |
+| Vivere Porta Metronia significa avere la storia di Roma a pochi ... | [eventi della pagina Facebook](https://www.facebook.com/gruppotoscano/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1357` |
 
 ## Tor Bella Monaca `tor-bella-monaca`
 
 | fonte | dove cercare | ruolo | tipo | eventi | quota diretta | registro | id |
 |---|---|---|---|---|---|---|---|
-| Anomalie Circus Fest | [sito](https://anomaliecircusfest.net) · [eventi della pagina Facebook](https://www.facebook.com/kollatino.underground/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0925` |
+| Anomalie Circus Fest | [pagina eventi del sito](https://kollatinounderground.eu/programma-laboratori-haiku/) · [sito](https://anomaliecircusfest.net) · [eventi della pagina Facebook](https://www.facebook.com/kollatino.underground/events) | soggetto | organizzatore | — | — | candidata (sito) | `S-FE-0925` |
 | Cubo Libro | [pagina eventi del sito](https://cubolibro.org/eventi/) · [sito](https://cubolibro.org) · [eventi della pagina Facebook](https://www.facebook.com/CuboLibro/events) | organizzatore | biblioteca | — | — | candidata (facebook) | `S-FE-0526` |
 | Libreria Le Torri (Tor Bella Monaca) | — | soggetto | libreria | — | — | da_verificare (nessuno) | `S-FE-0218` |
 | Parrocchia Santa Rita | [eventi della pagina Facebook](https://www.facebook.com/SantaRitaRm/events) | soggetto | parrocchia | — | — | candidata (facebook) | `S-FE-0530` |
@@ -226,11 +226,11 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | Scuderia Tor Vergata | [sito](https://scuderiatorvergata.com/) · [eventi della pagina Facebook](https://www.facebook.com/ScuderiaTorVergata/events) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1520` |
 | Studio legale CDD | [sito](https://www.studiolegalecdd.it/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1521` |
 | Tor Vergata Library Search - Biblioteca Area Ingegneria | [sito](https://ingegneria.biblio.uniroma2.it) | soggetto | biblioteca | — | — | candidata (sito) | `S-FE-0631` |
-| TorVergata40 | [sito](https://torvergata40.uniroma2.it) · [eventi della pagina Facebook](https://www.facebook.com/unitorvergata/events) | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0823` |
+| TorVergata40 | [pagina eventi del sito](http://www.web.uniroma2.it/) · [sito](https://torvergata40.uniroma2.it) · [eventi della pagina Facebook](https://www.facebook.com/unitorvergata/events) | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0823` |
 | UniRete Tor Vergata | [eventi della pagina Facebook](https://www.facebook.com/unirete/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1522` |
 | Universitor Tor Vergata | [sito](https://www.universitor.it/) · [eventi della pagina Facebook](https://www.facebook.com/universitor/events) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1523` |
-| VILLAGGIO BREDA NON È UN OUTLET parte 2° Vi ... | [pagina Facebook](https://www.facebook.com/NicolaFrancoPresidente/posts/villaggio-breda-non-%C3%A8-un-outlet-parte-2vi-ricordate-quanto-accaduto-un-mese-fa-c/377346654431240) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1524` |
-| 🔴 Quartiere Valle Fiorita 🔴 Ieri abbiamo effettuato un sopralluogo ... | [pagina Facebook](https://www.facebook.com/61555244940846/posts/-quartiere-valle-fiorita-ieri-abbiamo-effettuato-un-sopralluogo-per-visionare-i-/122228295548174831) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1525` |
+| VILLAGGIO BREDA NON È UN OUTLET parte 2° Vi ... | [eventi della pagina Facebook](https://www.facebook.com/NicolaFrancoPresidente/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1524` |
+| 🔴 Quartiere Valle Fiorita 🔴 Ieri abbiamo effettuato un sopralluogo ... | [eventi della pagina Facebook](https://www.facebook.com/61555244940846/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1525` |
 
 ## Torre Angela `torre-angela`
 
@@ -252,7 +252,7 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | Associazione 21 luglio | [pagina eventi del sito](https://www.21luglio.org/news/) · [eventi della pagina Facebook](https://www.facebook.com/Associazione21luglio/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-0391` |
 | Associazione Culturale Seven Cults | [sito](http://www.sevencults.it/) | soggetto | centro_culturale | — | — | candidata (sito) | `S-FE-1555` |
 | Associazione Italiana Podologi | [pagina eventi del sito](https://www.associazionepodologi.it/category/corsi/) · [sito](https://associazionepodologi.it) · [eventi della pagina Facebook](https://www.facebook.com/61556074521332/events) | organizzatore | associazione | — | — | censimento: rientra: attiva, calendario sul sito | `S-EV-0774` |
-| Associazione La Via del Fare | [sito](https://laviadelfare.org/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1546` |
+| Associazione La Via del Fare | [pagina eventi del sito](https://laviadelfare.org/category/eventi/) · [sito](https://laviadelfare.org/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1546` |
 | Associazione M.A.R.E.L. | [sito](http://www.associazionemarel.net/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1547` |
 | Associazione Pianoterra ETS - Centro per famiglie Tor Bella Monaca | [sito](http://www.pianoterra.net/) · [eventi della pagina Facebook](https://www.facebook.com/pianoterra.ETS/events) | soggetto | centro_culturale | — | — | candidata (sito) | `S-FE-1556` |
 | Associazione Socio Culturale Valle Fiorita | [eventi della pagina Facebook](https://www.facebook.com/100054579153879/events) | organizzatore | locale | — | — | censimento: locale: solo se organizza eventi | `S-EV-0980` |
@@ -275,13 +275,13 @@ Fonti: 246 · eventi nel mese: 54. Sigle degli aggregatori: FB Facebook, CR cult
 | Parrocchia di San Giovanni Leonardi | [sito](http://www.sangiovannileonardi.com/dove-siamo/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1565` |
 | Parrocchia S. Maria Madre dell’Ospitalita' | [eventi della pagina Facebook](https://www.facebook.com/Mariamadrediospitalita/events) | soggetto | parrocchia | — | — | candidata (facebook) | `S-FE-1562` |
 | Parrocchia Santa Maria Madre del Redentore | [sito](http://www.smmr.it/) · [eventi della pagina Facebook](https://www.facebook.com/santamariamadreredentore/events) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1563` |
-| Parrocchia Santi Simone e Giuda Taddeo a Torre Angela | [sito](http://www.santisimoneegiudataddeo.it/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1564` |
-| PENSIERO ARMONICO ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.pensieroarmonico.com/eventi) · [sito](https://pensieroarmonico.com) · [eventi della pagina Facebook](https://www.facebook.com/pensieroarmonicoscuoladimusica/events) | organizzatore | club_musica | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2704` |
+| Parrocchia Santi Simone e Giuda Taddeo a Torre Angela | [pagina eventi del sito](http://www.santisimoneegiudataddeo.it/feed/) · [sito](http://www.santisimoneegiudataddeo.it/) | soggetto | parrocchia | — | — | candidata (sito) | `S-FE-1564` |
+| PENSIERO ARMONICO ASSOCIAZIONE DI PROMOZIONE SOCIALE | [pagina eventi del sito](https://www.pensieroarmonico.com/news/) · [pagina eventi del sito](https://www.pensieroarmonico.com/eventi) · [sito](https://pensieroarmonico.com) | organizzatore | club_musica | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2704` |
 | PICCOLI FRATELLI DELL'ACCOGLIENZA APS | [pagina eventi del sito](https://www.piccolifratelli.org/news/) · [sito](https://piccolifratelli.org) · [eventi della pagina Facebook](https://www.facebook.com/piccolifratelli.org/events) | organizzatore | parrocchia | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-2739` |
 | Polo Civico Torre Maura | — | soggetto | associazione_locale | — | — | candidata (da_trovare) | `S-FE-1548` |
-| SCUOLA POPOLARE DI TOR BELLA MONACA APS | [pagina eventi del sito](http://scuolapopolaretbm.altervista.org/calendario.php) · [sito](https://scuolapopolaretbm.altervista.org) · [pagina Facebook](https://www.facebook.com/category/Coach/Tor-Bella-Monaca-Scuola-Popolare-349948882257157) | organizzatore | scuola | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-2975` |
+| SCUOLA POPOLARE DI TOR BELLA MONACA APS | [pagina eventi del sito](http://scuolapopolaretbm.altervista.org/calendario.php) · [sito](https://scuolapopolaretbm.altervista.org) · [eventi della pagina Facebook](https://www.facebook.com/category/events) | organizzatore | scuola | — | — | censimento: da verificare: pagina eventi sul sito senza date leggibili | `S-EV-2975` |
 | TOR PIU' BELLA' - APS | [pagina eventi del sito](https://torpiubella.it/news/) · [sito](https://torpiubella.it) · [eventi della pagina Facebook](https://www.facebook.com/TorPiuBella/events) | organizzatore | associazione | — | — | censimento: rientra: annuncia eventi nei post Facebook | `S-EV-3228` |
-| TORRE GAIA - ATER Roma | [pagina Facebook](https://www.facebook.com/aterroma/posts/torre-gaia-inaugurato-insieme-alla-regione-lazio-un-nuovo-playground-con-parco-g/260419058975376) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1549` |
+| TORRE GAIA - ATER Roma | [eventi della pagina Facebook](https://www.facebook.com/aterroma/events) | soggetto | associazione_locale | — | — | candidata (facebook) | `S-FE-1549` |
 | Vides Mic Mag Tbm Onlus | [sito](https://www.videstbm.org/) | soggetto | associazione_locale | — | — | candidata (sito) | `S-FE-1550` |
 | web.uniroma2.it | [sito](https://web.uniroma2.it) | soggetto | istituzione | — | — | candidata (sito) | `S-FE-0821` |
 

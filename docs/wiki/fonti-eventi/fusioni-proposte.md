@@ -2,10 +2,11 @@
 
 Coppie di voci che probabilmente sono la stessa fonte scritta in due modi. Il build non le fonde (regola: le fusioni dubbie le decide una persona); chi decide registra la fusione nel registro fonti con la chiave forte comune (URL Facebook, pagina del luogo su culture.roma.it) e il build la applica alla rigenerazione successiva. Coppie con Municipi diversi non sono proposte.
 
-Coppie proposte: 376
+Coppie proposte: 401
 
 | voce A | voce B | motivo | municipio | ruoli |
 |---|---|---|---|---|
+| 90' LEGEND STAFF `S-EV-0008` | Federico CarfedeDj Cardaio, 90' LEGEND STAFF `S-PR-0049` | un nome contiene l'altro | — | organizzatore, soggetto |
 | A.D.I. ASSOCIAZIONE ITALIANA DI DIETETICA E NUTRIZONE CLINICA ENTE DEL TERZO SETTORE `S-EV-0017` | FONDAZIONE DELL'ASSOCIAZIONE ITALIANA DI DIETETICA E NUTRIZIONE CLINICA - ENTE DEL TERZO SETTORE `S-EV-1738` | grafie a distanza di un refuso | II | organizzatore |
 | ACCADEMIA DI COSTUME E DI MODA ENTE DEL TERZO SETTORE `S-EV-0054` | ASSOCIAZIONE C.A.I.R.O.S. ENTE DEL TERZO SETTORE `S-EV-0453` | un nome contiene l'altro | I | organizzatore |
 | Accademia di Francia a Roma — Villa Medici `S-EV-0055` | Villa Medici - Accademia di Francia a Roma `S-FE-0049` | stesso nome senza forme giuridiche e parole generiche | I | luogo |
@@ -102,6 +103,7 @@ Coppie proposte: 376
 | Associazione CdQ Villaggio Prenestino OdV `S-EV-0461` | Ic Villaggio Prenestino `S-FE-0475` | un nome contiene l'altro | VI | organizzatore, soggetto |
 | ASSOCIAZIONE COMITATO QUARTIERE INCIS PISANA ODV `S-EV-0478` | INCIS Pisana OdV - Associazione INCIS Pisana ... `S-FE-0504` | stesso nome senza forme giuridiche e parole generiche | XI | organizzatore, soggetto |
 | Associazione culturale "teatriamo col cuore"Barbara Bergonzoni `S-EV-0490` | Teatriamo col cuore `S-FE-1295` | un nome contiene l'altro | XIV | organizzatore, soggetto |
+| Associazione culturale Arcobaleno 96 `S-EV-0497` | Teatro Arcobaleno `S-PR-0129` | stesso nome senza forme giuridiche e parole generiche | I | organizzatore, soggetto |
 | Associazione Culturale L'Attico `S-EV-0532` | Galleria L'Attico `S-EV-1925` | stesso nome senza forme giuridiche e parole generiche | I | luogo, organizzatore |
 | Associazione Culturale Scuola Popolare di Musica Donna Olimpia `S-EV-0557` | SCUOLA POPOLARE DI MUSICA DONNA OLIMPIA IMPRESA SOCIALE `S-EV-2974` | un nome contiene l'altro | XII | organizzatore |
 | Associazione delle Arti e Professioni `S-EV-0583` | FONDAZIONE F.I.D.A.P.A. (FONDAZIONE ITALIANA DONNE, ARTI, PROFESSIONI, AFFARI) ETS `S-EV-1754` | un nome contiene l'altro | II | organizzatore |
@@ -111,7 +113,9 @@ Coppie proposte: 376
 | Associazione di Volontariato Europeo Solidale `S-EV-0633` | AVES - ASSOCIAZIONE DI VOLONTARIATO EUROPEO SOLIDALE - ODV `S-EV-1074` | un nome contiene l'altro | I | organizzatore |
 | Associazione di Volontariato Puer Odv `S-EV-0636` | ASSOCIAZIONE DI VOLONTARIATO PUER ODV ENTE MORALE `S-EV-0637` | un nome contiene l'altro | XII | organizzatore |
 | Associazione Donna Vita Libertà `S-EV-0649` | Associazione Vita di Donna OdV `S-EV-1028` | un nome contiene l'altro | I | organizzatore |
+| ASSOCIAZIONE FIGLI INABILI BANCA D'ITALIA (AFIBI) - ENTE FILANTROPICO `S-EV-0669` | Associazione Figli Inabili Banca d'Italia Ente Filantropico - AFIBI ETS `S-PR-0010` | stesso nome senza forme giuridiche e parole generiche | I | organizzatore, soggetto |
 | ASSOCIAZIONE FILIPPO NERI ODV `S-EV-0671` | San Filippo Neri all'Olgiata `S-FE-1352` | un nome contiene l'altro | XV | organizzatore, soggetto |
+| ASSOCIAZIONE FONDO ANDREA CAMILLERI - ENTE DEL TERZO SETTORE `S-EV-0674` | Fondo Andrea Camilleri `S-PR-0051` | un nome contiene l'altro | — | organizzatore, soggetto |
 | Associazione Fortuna `S-EV-0676` | ASSOCIAZIONE FORTUNA - A.P.S. `S-EV-0677` | stesso nome senza forme giuridiche e parole generiche | — | organizzatore |
 | Associazione Genitori Scuola "Di Donato" `S-EV-0689` | GENITORI X LA SCUOLA APS `S-EV-1943` | un nome contiene l'altro | I | organizzatore |
 | ASSOCIAZIONE ITALIANA FAMILIARI E VITTIME DELLA STRADA APS `S-EV-0761` | ASSOCIAZIONE NAZIONALE VITTIME DELLA STRADA APS `S-EV-0881` | un nome contiene l'altro | — | organizzatore |
@@ -154,18 +158,23 @@ Coppie proposte: 376
 | CONSORZIO SOLIDARIETA' SOCIALE SOCIETA' COOPERATIVA SOCIALE ONLUS `S-EV-1395` | CONSORZIO UMANA SOLIDARIETA' SOCIETA' COOPERATIVA SOCIALE `S-EV-1396` | un nome contiene l'altro | — | organizzatore |
 | CONSORZIO SOLIDARIETA' SOCIALE SOCIETA' COOPERATIVA SOCIALE ONLUS `S-EV-1395` | COOPERATIVA ROMA SOLIDARIETA' - SOCIETA' COOPERATIVA SOCIALE `S-EV-1400` | un nome contiene l'altro | VII | organizzatore |
 | CONSORZIO UMANA SOLIDARIETA' SOCIETA' COOPERATIVA SOCIALE `S-EV-1396` | COOPERATIVA ROMA SOLIDARIETA' - SOCIETA' COOPERATIVA SOCIALE `S-EV-1400` | un nome contiene l'altro | VII | organizzatore |
+| CONSUMERS' FORUM ENTE DEL TERZO SETTORE `S-EV-1399` | Forum Terzo Settore Nazionale `S-PR-0052` | un nome contiene l'altro | I | organizzatore, soggetto |
 | D&C Eventi `S-EV-1445` | Eventi Roma `S-EV-1598` | stesso nome senza forme giuridiche e parole generiche | I | organizzatore |
 | Dipendenza della Casina delle Civette – Musei di Villa Torlonia `S-EV-1482` | Musei di Villa Torlonia - Casina delle Civette `S-FE-0095` | un nome contiene l'altro | II | luogo |
 | Eden Hotel `S-EV-1527` | Hotel Eden Rome `S-EV-2036` | un nome contiene l'altro | I | organizzatore |
 | EIP ITALIA SCUOLA STRUMENTO DI PACE ETS `S-EV-1532` | LA SCUOLA DI PACE - ODV `S-EV-2255` | un nome contiene l'altro | I | organizzatore |
 | FEDERAZIONE ITALIANA DEL TEATRO E DELLE ARTI APS `S-EV-1636` | FEDERAZIONE NAZIONALE ARTI IN STRADA `S-EV-1646` | un nome contiene l'altro | II | organizzatore |
 | FEDERCONSUMATORI - APS `S-EV-1650` | FEDERCONSUMATORI LAZIO APS `S-EV-1651` | stesso nome senza forme giuridiche e parole generiche | I | organizzatore |
+| Federico CarfedeDj Cardaio `S-EV-1654` | Federico CarfedeDj Cardaio, 90' LEGEND STAFF `S-PR-0049` | un nome contiene l'altro | — | organizzatore, soggetto |
+| FONDAZIONE MARCO GUZZI - DARSI PACE ETS `S-EV-1806` | Marco Guzzi `S-PR-0089` | un nome contiene l'altro | — | organizzatore, soggetto |
 | FONDAZIONE SINCRONIA - MUSICA ARTE BELLEZZA E.T.S. `S-EV-1864` | MUSICA E ARTE ETS `S-EV-2524` | un nome contiene l'altro | II | organizzatore |
 | Foro Italico `S-EV-1884` | Foro Italico (Tennis & Friends) `S-FE-0261` | un nome contiene l'altro | XV | luogo, soggetto |
 | Forte Trionfale `S-EV-1886` | Forte! Trionfale Urban Factory `S-FE-0208` | un nome contiene l'altro | XIV | luogo |
+| FORUM NAZIONALE DEL TERZO SETTORE ENTE DEL TERZO SETTORE `S-EV-1889` | Forum Terzo Settore Nazionale `S-PR-0052` | un nome contiene l'altro | II | organizzatore, soggetto |
 | FUTURE WEEK APS `S-EV-1913` | Rome Future Week `S-FE-0367` | un nome contiene l'altro | — | organizzatore, soggetto |
 | Galleria d'Arte Moderna `S-EV-1921` | Galleria d'Arte Moderna di Roma Capitale `S-FE-0030` | un nome contiene l'altro | I | luogo |
 | Galleria Dell ' Academia Di Firenze `S-EV-1922` | Galleria dell'Accademia di Firenze `S-EV-1923` | grafie a distanza di un refuso | I | luogo, organizzatore |
+| Galleria Triphè `S-EV-1927` | triphe.it `S-PR-0133` | stesso nome senza forme giuridiche e parole generiche | I | luogo, soggetto |
 | Galleria Vittoria `S-EV-1929` | Teatro Vittoria `S-EV-3176` | stesso nome senza forme giuridiche e parole generiche | I | luogo |
 | Giancarlo Conte `S-EV-1954` | Giancarlo Conte Trekking Divertimento `S-EV-1955` | un nome contiene l'altro | — | organizzatore |
 | Giancarlo Conte Trekking Divertimento `S-EV-1955` | Trekking & Divertimento `S-EV-3240` | un nome contiene l'altro | — | organizzatore |
@@ -176,6 +185,7 @@ Coppie proposte: 376
 | Il suono di Liszt a Villa d'Este `S-EV-2100` | Villa d'Este `S-EV-3429` | un nome contiene l'altro | — | luogo, organizzatore |
 | Italy, Rome. `S-EV-2183` | Rome, Italy `S-EV-2902` | stesso nome senza forme giuridiche e parole generiche | I | luogo |
 | L'ALBERO DELLA VITA ETS `S-EV-2208` | L'ALBERO VERDE DELLA VITA APS `S-EV-2209` | un nome contiene l'altro | I | organizzatore |
+| L'ISOLA CHE C'E' APS `S-EV-2214` | Società Cooperativa Sociale "L'Isola che c'è" `S-PR-0122` | un nome contiene l'altro | — | organizzatore, soggetto |
 | LEGA ITALIANA FIBROSI CISTICA  LAZIO - ODV `S-EV-2307` | LEGA ITALIANA FIBROSI CISTICA OFFICIUM - ODV `S-EV-2308` | un nome contiene l'altro | II | organizzatore |
 | Lido di Ostia `S-EV-2338` | Teatro del Lido di Ostia `S-EV-3154` | stesso nome senza forme giuridiche e parole generiche | X | luogo, organizzatore |
 | M.G.A. MUTUA GENERALE DI ASSISTENZA ENTE DEL TERZO SETTORE ETS `S-EV-2369` | MUTUA ITALIA ENTE DEL TERZO SETTORE `S-EV-2530` | un nome contiene l'altro | I | organizzatore |
@@ -194,9 +204,11 @@ Coppie proposte: 376
 | NUOVA ACROPOLI ITALIA ODV (ETS) `S-EV-2577` | NUOVA ACROPOLI ROMA ODV `S-EV-2578` | stesso nome senza forme giuridiche e parole generiche | — | organizzatore |
 | OFFICINA DELLE ARTI APS `S-EV-2595` | OFFICINA DELLE ARTI SCENICHE APS `S-EV-2596` | un nome contiene l'altro | XI | organizzatore |
 | Orto Botanico di villa Corsini `S-EV-2631` | Orto Botanico. `S-EV-2632` | un nome contiene l'altro | I | luogo |
+| Parco Avventura Fregene `S-EV-2675` | Parco Avventura Fregene e BackFlip Fregene `S-PR-0105` | un nome contiene l'altro | — | luogo, soggetto |
 | PENELOPE ITALIA ODV - ASSOCIAZIONE NAZIONALE DELLE FAMIGLIE E DEGLI AMICI DELLE PERSONE SCOMPARSE `S-EV-2702` | PENELOPE LAZIO - ASSOCIAZIONE FAMIGLIE ED AMICI PERSONE SCOMPARSE - ODV - SEZIONE TERITORIALE DI PENELOPE ITALIA `S-EV-2703` | un nome contiene l'altro | — | organizzatore |
 | Quadrifoglio Immobiliare `S-EV-2820` | Quadrifoglio Immobiliare - Casal Bertone `S-EV-2821` | un nome contiene l'altro | IV | luogo, organizzatore |
 | REPAIR CAFE' ROMA SAN PAOLO APS `S-EV-2851` | Roma San Paolo `S-EV-2891` | un nome contiene l'altro | VIII | luogo, organizzatore |
+| ROSEN APS `S-EV-2906` | Spazio Rosen `S-PR-0123` | stesso nome senza forme giuridiche e parole generiche | II | organizzatore, soggetto |
 | Sala Teatro Il Majorana `S-EV-2926` | Sala Teatro Il Majorana (Istituto Piaget-Majorana) `S-FE-0211` | un nome contiene l'altro | III | luogo, soggetto |
 | Salone Bernini a Palazzo Ripetta `S-EV-2932` | Salone Bernini a Palazzo Ripetta, 00186 `S-EV-2933` | un nome contiene l'altro | I | luogo |
 | SCUOLA POPOLARE DI TOR BELLA MONACA APS `S-EV-2975` | Tor Bella Monaca `S-EV-3227` | un nome contiene l'altro | VI | luogo, organizzatore |
@@ -243,6 +255,7 @@ Coppie proposte: 376
 | Croce Rossa Italiana - Comitato Municipi 2 e 3 di Roma `S-FE-0176` | Croce Rossa Italiana - Comitato Municipi 8 11 12 di Roma `S-FE-0177` | stesso nome senza forme giuridiche e parole generiche | II | organizzatore |
 | Croce Rossa Italiana - Comitato Municipi 8 11 12 di Roma `S-FE-0177` | CROCE ROSSA ITALIANA COMITATO MUNICIPI 8-11-12 DI ROMA ORGANIZZAZIONE DI VOLONTARIATO `S-EV-1434` | un nome contiene l'altro | XIII | organizzatore |
 | Istituzione Biblioteche di Roma `S-FE-0185` | Istituzione Biblioteche di Roma in collaborazione con Pav `S-EV-2171` | un nome contiene l'altro | I | organizzatore, soggetto |
+| Musei in Comune Roma `S-FE-0186` | Museo di Roma in Trastevere, Musei in Comune Roma `S-PR-0098` | un nome contiene l'altro | VIII | organizzatore, soggetto |
 | Mercato Rionale del Tufello `S-FE-0210` | Mercato Rionale del Tufello “Gigi Proietti” `S-EV-2433` | un nome contiene l'altro | III | luogo, soggetto |
 | Comitato di Quartiere Castelverde di Roma `S-FE-0214` | Comitato di Quartiere di Castelverde `S-FE-1355` | stesso nome senza forme giuridiche e parole generiche | VI | organizzatore, soggetto |
 | Libreria Le Torri (Tor Bella Monaca) `S-FE-0218` | Tor Bella Monaca `S-EV-3227` | un nome contiene l'altro | VI | luogo, soggetto |
@@ -346,6 +359,7 @@ Coppie proposte: 376
 | CdQ Montagnola `S-FE-0799` | CdQ Montagnola (@CdQMontagnola) `S-FE-0795` | un nome contiene l'altro | VIII | soggetto |
 | CdQ Montagnola `S-FE-0799` | Cdqmontagnola `S-FE-0797` | grafie a distanza di un refuso | VIII | soggetto |
 | Istituto Comprensivo - Montagnola - Gramsci `S-FE-0801` | Istituto Comprensivo Statale "Montagnola Gramsci" - Firenze (FI) `S-FE-0802` | un nome contiene l'altro | VIII | soggetto |
+| SESSANTOTTO VILLAGE PARCO TALENTI  ... `S-FE-0806` | Talenti Village `S-PR-0128` | un nome contiene l'altro | III | soggetto |
 | ASSOCIAZIONE ANZIANI TALENTI APS (Roma) `S-FE-0808` | Talenti - Centri Sociali Anziani di Roma `S-FE-0812` | un nome contiene l'altro | III | soggetto |
 | Fondazione Tor Vergata `S-FE-0856` | Inaugura a Tor Vergata il Circolo Culturale “Kepos” `S-FE-0632` | un nome contiene l'altro | VI | soggetto |
 | Fondazione Tor Vergata `S-FE-0856` | Scuderia Tor Vergata `S-FE-1520` | un nome contiene l'altro | VI | soggetto |
@@ -363,6 +377,7 @@ Coppie proposte: 376
 | ASD Cesano `S-FE-1127` | Comitato di Quartiere Cesano di Roma `S-FE-1219` | stesso nome senza forme giuridiche e parole generiche | XV | soggetto |
 | Circolo Arci Concetto Marchesi `S-FE-1142` | CONCETTO MARCHESI APS `S-EV-1376` | un nome contiene l'altro | IV | organizzatore, soggetto |
 | Comitato di Quartiere Verderocca `S-FE-1146` | Verderocca `S-FE-1493` | stesso nome senza forme giuridiche e parole generiche | IV | soggetto |
+| Circolo Culturale Arcobaleno `S-FE-1160` | Teatro Arcobaleno `S-PR-0129` | stesso nome senza forme giuridiche e parole generiche | X | soggetto |
 | Associazione The Bull's Family `S-FE-1168` | The Bull's Family - Associazione di Volontariato `S-EV-3200` | un nome contiene l'altro | III | organizzatore, soggetto |
 | A.S.D. Polisportiva La Rustica `S-FE-1212` | polisportiva "la rustica" asd - Registro 2.0 `S-FE-0460` | un nome contiene l'altro | V | soggetto |
 | Comitato di Quartiere Cesano di Roma `S-FE-1219` | Comitato di Quartiere di Cesano di Roma `S-FE-0435` | stesso nome senza forme giuridiche e parole generiche | XV | soggetto |
@@ -382,3 +397,13 @@ Coppie proposte: 376
 | Associazione Pianoterra ETS - Centro per famiglie Tor Bella Monaca `S-FE-1556` | Tor Bella Monaca `S-EV-3227` | un nome contiene l'altro | VI | luogo, soggetto |
 | Associazione Pianoterra ETS - Centro per famiglie Tor Bella Monaca `S-FE-1556` | Teatro Tor Bella Monaca `S-FE-0157` | un nome contiene l'altro | VI | luogo, organizzatore, soggetto |
 | Casa Santa Giacinta `S-FE-1596` | Chiesa di Santa Giacinta `S-FE-1607` | un nome contiene l'altro | VII | soggetto |
+| APS Equites Errantes `S-PR-0008` | EQUITES ERRANTES ASSOCIAZIONE PROMOZIONE SOCIALE APS `S-EV-1566` | un nome contiene l'altro | — | organizzatore, soggetto |
+| Attraverso - musica arte eventi `S-PR-0013` | MUSICA E ARTE ETS `S-EV-2524` | un nome contiene l'altro | — | organizzatore, soggetto |
+| Biblioteca Casa della Memoria e della Storia `S-PR-0014` | Casa della Memoria e della Storia `S-FE-0161` | un nome contiene l'altro | I | soggetto |
+| Black Liquid Art `S-PR-0017` | Black Liquid Art Gallery `S-EV-1123` | un nome contiene l'altro | I | luogo, soggetto |
+| Break Pro Wrestling `S-PR-0020` | Pro Wrestling Roma `S-EV-2777` | un nome contiene l'altro | XIV | organizzatore, soggetto |
+| Fondazione Dignitas Curae - ETS `S-PR-0050` | FONDAZIONE DIGNITAS CURAE E.T.S. `S-EV-1744` | stesso nome senza forme giuridiche e parole generiche | — | organizzatore, soggetto |
+| Insieme per Mezzocammino `S-PR-0071` | INSIEME PER MEZZOCAMMINO A.P.S. `S-EV-2123` | stesso nome senza forme giuridiche e parole generiche | — | organizzatore, soggetto |
+| O.Ma.R - Osservatorio Malattie Rare `S-PR-0100` | OMAR Osservatorio Malattie Rare ETS `S-EV-2609` | un nome contiene l'altro | II | organizzatore, soggetto |
+| Opera e Lirica `S-PR-0102` | Opera e Lirica Concerti a Roma `S-PR-0103` | un nome contiene l'altro | — | soggetto |
+| Rino Gaetano Band `S-PR-0111` | RINO GAETANO ETS `S-EV-2873` | un nome contiene l'altro | — | organizzatore, soggetto |

@@ -82,6 +82,29 @@ PROMOTORI_FILE = "promotori.json"
 DIFFUSIONE = ("riproduzione vietata", "raccolta automatica vietata", "licenza richiesta", "termini della piattaforma",
               "diritti riservati (generico)", "licenza aperta", "nessuna indicazione", "non verificabile")
 PROMO_MAX = 220   # a short description is a label line, never a pasted text
+# where to look for a promoter's next events (channel test of 26 October 2026), cheapest channel first;
+# the site kinds are the ones the site reader can be pointed at
+CANALI_LETTURA = ("feed del sito", "calendario del sito (schema.org)", "pagina eventi del sito", "notizie del sito (RSS)",
+                  "agenda Biblioteche di Roma", "culture.roma.it", "eventi Facebook", "post Facebook", "Instagram (non letto)",
+                  "solo aggregatore", "nessun canale")
+CANALI_SITO = ("calendario del sito (schema.org)", "pagina eventi del sito")
+NEVER_SITE = re.compile(r"(facebook\.com|instagram\.com|tiktok\.com|x\.com|twitter\.com|linkedin\.com|youtube\.com|t\.me|wa\.me)", re.I)
+PROVE_CANALE = ("storico", "confermato", "probabile", "solo pagina", "nessun canale gratuito", "nessun canale proprio")
+
+
+def dove_cercare_promotore(d):
+    """The where-to-look rule of one promoter, enums only; the page is kept if it is a web address that is
+    neither a personal profile nor a licensed aggregator."""
+    d = d or {}
+    if d.get("canale") not in CANALI_LETTURA:
+        return None
+    u = d.get("pagina")
+    ok = is_web_url(u) and not EMAIL_RX.search(u) and not personal_profile(u) and "linkedin.com/in/" not in u and not re.search(r"romatoday|citynews|today\.it", u, re.I)
+    if ok and "facebook.com" in u:   # the page or its events view, never a post or a video
+        base = fb_page_url(re.sub(r"/events/?$", "", u))
+        ok = bool(base) and u.rstrip("/") in (base.rstrip("/"), base.rstrip("/") + "/events")
+    return {"canale": d["canale"], "prova": d.get("prova") if d.get("prova") in PROVE_CANALE else None, "pagina": u if ok else None,
+            "controllo": d.get("controllo") if d.get("controllo") in CANALI_LETTURA else None}
 
 
 def clean_promotore(p, ids, zones):
@@ -97,6 +120,8 @@ def clean_promotore(p, ids, zones):
     canali = {}
     for k in ("sito", "facebook", "instagram", "youtube", "x", "tiktok", "linkedin"):
         u = (p.get("canali") or {}).get(k)
+        if k == "facebook":
+            u = fb_page_url(u)
         if is_web_url(u) and not EMAIL_RX.search(u) and not (k == "facebook" and personal_profile(u)) and not (k == "linkedin" and "linkedin.com/in/" in u):
             canali[k] = u
     contatti = p.get("contatti") or {}
@@ -109,7 +134,8 @@ def clean_promotore(p, ids, zones):
             "eventi": int(p.get("eventi") or 0), "canali": canali,
             "contatti": {"email": bool(contatti.get("email")), "telefono": bool(contatti.get("telefono"))},
             "diffusione": p.get("diffusione") if p.get("diffusione") in DIFFUSIONE else "non verificabile",
-            "diffusione_prova": p.get("diffusione_prova") if is_web_url(p.get("diffusione_prova")) else None}
+            "diffusione_prova": p.get("diffusione_prova") if is_web_url(p.get("diffusione_prova")) else None,
+            "dove_cercare": dove_cercare_promotore(p.get("dove_cercare"))}
 
 
 FB_CATEGORIA_TIPO = (("theat", "teatro"), ("cinema", "cinema"), ("librar", "biblioteca"), ("museum", "museo"), ("art gallery", "galleria"),
@@ -160,6 +186,24 @@ def personal_profile(url):
     """A Facebook personal profile (profile.php?id=…). A people/ URL is not treated as
     one: Facebook uses it for pages without a username too."""
     return bool(url) and "facebook.com/profile.php" in str(url)
+
+
+FB_NOT_PAGE = ("events", "watch", "share", "sharer.php", "photo.php", "permalink.php", "story.php", "hashtag", "reel", "reels", "login", "media", "plugins", "help")
+
+
+def fb_page_url(url):
+    """The Facebook page a link belongs to: the path to a video, a post or a photo is cut (it carries the source's text);
+    people/<name>/<id>, pages/<name>/<id>, groups/<name>, p/<name-id> and the old <name>/<id> form keep their parts;
+    a link that is not a page (an event, a story, a share) gives None; a personal profile is returned as it is."""
+    u = str(url or "").strip()
+    m = re.match(r"(https?://(?:[\w-]+\.)?facebook\.com/)([^?#]*)", u)
+    if not m or personal_profile(u):
+        return u
+    segs = [x for x in m.group(2).split("/") if x]
+    if not segs or segs[0].lower() in FB_NOT_PAGE:
+        return None
+    keep = 3 if segs[0] in ("people", "pages") else 2 if segs[0] in ("groups", "p") or (len(segs) > 1 and re.fullmatch(r"\d{6,}", segs[1])) else 1
+    return m.group(1) + "/".join(segs[:keep]) if len(segs) > keep else u
 
 
 def fb_page_key(url):
@@ -306,6 +350,10 @@ class Registry:
             url = "https://" + d
         if kind == "facebook" and personal_profile(url):
             return   # a private profile is not a publication channel (same rule for every source)
+        if kind == "facebook":
+            url = fb_page_url(url)
+            if not url:
+                return
         if kind in ("facebook", "instagram"):
             url = re.sub(r"[?#].*$", "", url).rstrip("/")
         if kind == "facebook":
@@ -693,7 +741,13 @@ def build(input_dir, out_dir, gazetteer_path):
         by_id = {p["id"]: p for p in promotori if p["id"]}
         for e in out_entries:
             if e["id"] in by_id:
-                e["promotore"] = {k: by_id[e["id"]][k] for k in ("categoria", "sottocategoria", "ambito", "descrizione_breve", "diffusione")}
+                e["promotore"] = {k: by_id[e["id"]][k] for k in ("categoria", "sottocategoria", "ambito", "descrizione_breve", "diffusione", "dove_cercare")}
+                # a site page proven to carry the promoter's events comes after the pages already read (at the source, on
+                # culture.roma.it) and before any other events page, so it is the one the site reader reads
+                dc = by_id[e["id"]]["dove_cercare"]
+                if dc and dc["canale"] in CANALI_SITO and dc["pagina"] and not NEVER_SITE.search(dc["pagina"]) and all(d["url"] != dc["pagina"] for d in e["dove_cercare"]):
+                    at = sum(1 for d in e["dove_cercare"] if d["cosa"] in ("pagina letta alla fonte (calendario)", "pagina del luogo su culture.roma.it"))
+                    e["dove_cercare"].insert(at, {"url": dc["pagina"], "cosa": "pagina eventi del sito"})
 
     # ---- aggregator cards: numbers from the workbook ------------------------------------------------
     per_src = Counter(); traced = defaultdict(Counter); geo_ok = Counter(); fuori = Counter()
@@ -861,15 +915,31 @@ def write_promotori(sched, out_dir, zones):
         out.append(f"| [{c}](#{re.sub(r'[^a-z0-9 -]', '', norm(c)).replace(' ', '-')}) | {len(by_cat[c])} | {sum(p['eventi'] for p in by_cat[c])} |")
     dif = Counter(p["diffusione"] for p in ps)
     out += ["", "| diffusione dei contenuti | promotori |", "|---|---|"] + [f"| {k} | {v} |" for k, v in sorted(dif.items(), key=lambda kv: (-kv[1], kv[0]))]
+    regola = Counter((p["dove_cercare"] or {}).get("canale") for p in ps)
+    prove = defaultdict(Counter)
+    for p in ps:
+        prove[(p["dove_cercare"] or {}).get("canale")][(p["dove_cercare"] or {}).get("prova") or "—"] += 1
+    out += ["", "Dove cercare i prossimi eventi: il canale più economico che porta gli eventi del promotore, nell'ordine "
+            "feed del sito, calendario o pagina eventi del sito, notizie del sito, agende già lette ogni giorno (culture.roma.it, "
+            "Biblioteche di Roma), eventi Facebook, post Facebook. La prova dice perché: «storico» se a ottobre gli eventi sono già "
+            "arrivati da quel canale, «confermato» se la prova del 26 ottobre ha ritrovato sul sito eventi noti (titolo e data), "
+            "«probabile» se il sito pubblica date future ma nessuno degli eventi noti. Il controllo è il canale da guardare "
+            "a cadenza più lenta quando quello gratuito non porta tutti gli eventi.", "",
+            "| dove cercare | promotori | prova |", "|---|---|---|"]
+    for k in [c for c in CANALI_LETTURA if regola[c]] + ([None] if regola[None] else []):
+        out.append(f"| {k or 'non provato'} | {regola[k]} | " + ", ".join(f"{a} {b}" for a, b in sorted(prove[k].items(), key=lambda kv: (-kv[1], kv[0]))) + " |")
     for c in cats:
-        out += ["", f"## {c}", "", "| promotore | descrizione breve | ambito | municipio · pagina QN | eventi | canali | email | diffusione | id |",
-                "|---|---|---|---|---|---|---|---|---|"]
+        out += ["", f"## {c}", "", "| promotore | descrizione breve | ambito | municipio · pagina QN | eventi | canali | email | diffusione | dove cercare | id |",
+                "|---|---|---|---|---|---|---|---|---|---|"]
         for p in by_cat[c]:
             can = " · ".join(md_link(u, k) for k, u in p["canali"].items()) or "—"
             zona = zones[p["zona"]]["name_display"] if p["zona"] in zones else "—"
             dif_s = md_link(p["diffusione_prova"], p["diffusione"]) if p["diffusione_prova"] else p["diffusione"]
+            dc = p["dove_cercare"]
+            dove_s = "—" if not dc else " · ".join(x for x in (md_link(dc["pagina"], dc["canale"]) if dc["pagina"] else dc["canale"], dc["prova"],
+                                                                   f"controllo: {dc['controllo']}" if dc["controllo"] else None) if x)
             out.append(f"| {cell_(p['nome'])} | {cell_(p['descrizione_breve'] or '—')} | {p['ambito'] or '—'} | {p['municipio'] or '—'} · {zona} | {p['eventi']} | "
-                       f"{can} | {'sì' if p['contatti']['email'] else 'no'} | {dif_s} | {('`' + p['id'] + '`') if p['id'] else '—'} |")
+                       f"{can} | {'sì' if p['contatti']['email'] else 'no'} | {dif_s} | {dove_s} | {('`' + p['id'] + '`') if p['id'] else '—'} |")
     open(os.path.join(out_dir, "promotori.md"), "w", encoding="utf-8").write("\n".join(out) + "\n")
 
 

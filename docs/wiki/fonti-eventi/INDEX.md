@@ -2,41 +2,41 @@
 
 Pagine generate da `fonti_eventi.json`; non modificare a mano, rigenerare con `tools/wiki/build_fonti_eventi.py`. Una *fonte* è un luogo che ospita eventi, un organizzatore che li promuove o un aggregatore che li elenca. Qui stanno nomi, canali e conteggi; gli eventi restano nel foglio su Drive (DEC-022).
 
-Fonti: 5099 · nel registro del 13 ottobre: 1606 · luoghi: 644 · organizzatori: 3112 · con sito web: 3213 · con pagina QN: 3585 · candidate dai censimenti del 24 ottobre: 2526 (vedi [censimento-pagine.md](censimento-pagine.md))
+Fonti: 5238 · nel registro del 13 ottobre: 1745 · luoghi: 644 · organizzatori: 3112 · con sito web: 3306 · con pagina QN: 3599 · candidate dai censimenti del 24 ottobre: 2526 (vedi [censimento-pagine.md](censimento-pagine.md))
 
 Aggregatori: vedi [aggregatori.md](aggregatori.md). Promotori degli eventi, per categoria: vedi [promotori.md](promotori.md).
 
 | Municipio | fonti | luoghi | organizzatori | eventi ott 2026 | con sito | con pagina QN |
 |---|---|---|---|---|---|---|
-| [I](municipi/I.md) | 894 | 203 | 667 | 817 | 634 | 854 |
-| [II](municipi/II.md) | 388 | 69 | 309 | 495 | 274 | 357 |
-| [III](municipi/III.md) | 184 | 8 | 83 | 35 | 119 | 183 |
+| [I](municipi/I.md) | 898 | 203 | 667 | 817 | 636 | 857 |
+| [II](municipi/II.md) | 391 | 69 | 309 | 495 | 275 | 359 |
+| [III](municipi/III.md) | 188 | 8 | 83 | 35 | 122 | 187 |
 | [IV](municipi/IV.md) | 182 | 17 | 86 | 137 | 95 | 162 |
-| [V](municipi/V.md) | 206 | 25 | 140 | 197 | 111 | 190 |
+| [V](municipi/V.md) | 207 | 25 | 140 | 197 | 111 | 191 |
 | [VI](municipi/VI.md) | 246 | 6 | 47 | 54 | 124 | 243 |
 | [VII](municipi/VII.md) | 297 | 28 | 152 | 90 | 183 | 280 |
 | [VIII](municipi/VIII.md) | 210 | 36 | 124 | 133 | 132 | 204 |
 | [IX](municipi/IX.md) | 273 | 31 | 89 | 72 | 138 | 249 |
-| [X](municipi/X.md) | 130 | 11 | 45 | 78 | 75 | 117 |
-| [XI](municipi/XI.md) | 135 | 12 | 51 | 86 | 78 | 129 |
+| [X](municipi/X.md) | 131 | 11 | 45 | 78 | 76 | 117 |
+| [XI](municipi/XI.md) | 136 | 12 | 51 | 86 | 79 | 130 |
 | [XII](municipi/XII.md) | 148 | 17 | 89 | 106 | 97 | 73 |
-| [XIII](municipi/XIII.md) | 153 | 13 | 85 | 67 | 90 | 144 |
-| [XIV](municipi/XIV.md) | 177 | 6 | 59 | 19 | 102 | 160 |
+| [XIII](municipi/XIII.md) | 154 | 13 | 85 | 67 | 90 | 145 |
+| [XIV](municipi/XIV.md) | 179 | 6 | 59 | 19 | 104 | 162 |
 | [XV](municipi/XV.md) | 231 | 8 | 64 | 22 | 133 | 221 |
-| [senza municipio](municipi/senza-municipio.md) | 1245 | 154 | 1022 | 409 | 828 | 19 |
+| [senza municipio](municipi/senza-municipio.md) | 1367 | 154 | 1022 | 409 | 911 | 19 |
 
 ## Dove cercare per primi: le 60 fonti più produttive con un indirizzo da controllare
 
 | fonte | dove cercare | municipio | pagina QN | eventi ott 2026 |
 |---|---|---|---|---|
 | Casa del Cinema | [pagina letta alla fonte (calendario)](https://www.casadelcinema.it/en/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/casa-del-cinema/) · [sito](https://casadelcinema.it) | II | Parioli-Flaminio | CR 49 FL 51 |
-| Fondazione RomaEuropa | [sito](https://romaeuropa.net) · [eventi della pagina Facebook](https://www.facebook.com/RomaeuropaFestival/events) · [Instagram](https://instagram.com/Romaeuropa) | I | Testaccio | CR 54 |
+| Fondazione RomaEuropa | [pagina eventi del sito](http://romaeuropa.net/) · [sito](https://romaeuropa.net) · [eventi della pagina Facebook](https://www.facebook.com/RomaeuropaFestival/events) | I | Testaccio | CR 54 |
 | Fondazione Cinema per Roma | [sito](https://casadelcinema.it) · [eventi della pagina Facebook](https://www.facebook.com/CasaDelCinema/events) · [Instagram](https://www.instagram.com/casadelcinema) | II | Parioli-Flaminio | CR 50 |
 | Teatro Villa Pamphilj | [pagina letta alla fonte (calendario)](https://teatriincomune.roma.it/prossimi-eventi/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-villa-pamphilj/) · [pagina Facebook](https://it-it.facebook.com/TSVCorsini) | XII | Monteverde | CR 2 FL 45 RT 1 |
-| Fondazione Musica per Roma | [sito](https://auditorium.com) · [eventi della pagina Facebook](https://www.facebook.com/AuditoriumParcodellaMusica/events) · [Instagram](https://www.instagram.com/auditoriumparcodellamusica) | II | Parioli-Flaminio | CR 46 |
+| Fondazione Musica per Roma | [pagina eventi del sito](https://casadeljazz.com) · [sito](https://auditorium.com) · [eventi della pagina Facebook](https://www.facebook.com/AuditoriumParcodellaMusica/events) | II | Parioli-Flaminio | CR 46 |
 | Mattatoio | [pagina letta alla fonte (calendario)](https://www.mattatoioroma.it/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/mattatoio/) · [sito](https://mattatoioroma.it) | I | Testaccio | CR 38 FL 5 |
 | Auditorium Parco della Musica Ennio Morricone | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/auditorium-parco-della-musica/) · [eventi della pagina Facebook](https://www.facebook.com/AuditoriumParcodellaMusica/events) | II | Parioli-Flaminio | CR 35 FB 5 |
-| Tuttoteatro.com | [sito](https://tuttoteatro.com) · [eventi della pagina Facebook](https://www.facebook.com/tuttoteatrocom/events) · [Instagram](https://www.instagram.com/tuttoteatrocom) | VIII | Ostiense-San Paolo | CR 30 |
+| Tuttoteatro.com | [pagina eventi del sito](http://www.tuttoteatro.com/) · [sito](https://tuttoteatro.com) · [eventi della pagina Facebook](https://www.facebook.com/tuttoteatrocom/events) | VIII | Ostiense-San Paolo | CR 30 |
 | Bellezze di Roma | [sito](https://bellezzediromatour.it) · [eventi della pagina Facebook](https://www.facebook.com/bellezzediroma1/events) | I | Prati | FB 29 |
 | Casa del Jazz | [pagina letta alla fonte (calendario)](https://www.casadeljazz.com/) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/casa-del-jazz/) · [sito](https://casadeljazz.com) | I | Testaccio | CR 14 FB 1 FL 9 RT 1 |
 | MONK Roma | [pagina letta alla fonte (calendario)](https://www.monkroma.it/programma/) · [sito](https://monkroma.it) · [eventi della pagina Facebook](https://www.facebook.com/monkclubroma/events) | IV | Pietralata | FB 4 FL 20 RT 1 |
@@ -45,7 +45,7 @@ Aggregatori: vedi [aggregatori.md](aggregatori.md). Promotori degli eventi, per 
 | Teatro del Lido | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-del-lido/) | X | Ostia | CR 20 |
 | Associazione Culturale Artenova ETS | [sito](https://compagniartenova.it) · [Instagram](https://www.instagram.com/compagnia_artenova) | XI | Portuense | CR 19 |
 | MAXXI - Museo nazionale delle arti del XXI secolo | [pagina letta alla fonte (calendario)](https://www.maxxi.art/) · [sito](https://maxxi.art) · [eventi della pagina Facebook](https://www.facebook.com/MAXXImuseo/events) | II | Parioli-Flaminio | FL 19 |
-| Teatro di Roma – Teatro Nazionale | [sito](https://teatrodiroma.net) · [pagina Facebook](https://it-it.facebook.com/TeatroIndia) · [Instagram](https://www.instagram.com/fondazioneteatrodiroma) | XI | Marconi | CR 19 |
+| Teatro di Roma – Teatro Nazionale | [pagina eventi del sito](http://www.teatrodiroma.net/) · [sito](https://teatrodiroma.net) · [pagina Facebook](https://it-it.facebook.com/TeatroIndia) | XI | Marconi | CR 19 |
 | Galactus Tiburtina | [eventi della pagina Facebook](https://www.facebook.com/GalactusTiburtina/events) | IV | Pietralata | FB 18 |
 | Accademia Nazionale di Santa Cecilia | [pagina letta alla fonte (calendario)](https://santacecilia.it/) · [sito](https://santacecilia.it) · [eventi della pagina Facebook](https://www.facebook.com/accademiadisantacecilia/events) | II | Parioli-Flaminio | CR 8 FL 7 |
 | Balletto di Roma | [sito](https://ballettodiroma.com) · [eventi della pagina Facebook](https://www.facebook.com/BallettodiRoma/events) · [Instagram](https://www.instagram.com/ballettodiroma) | XIII | Montespaccato | CR 15 |
@@ -55,22 +55,22 @@ Aggregatori: vedi [aggregatori.md](aggregatori.md). Promotori degli eventi, per 
 | Biblioteche di Roma | [sito](https://bibliotechediroma.it) · [eventi della pagina Facebook](https://www.facebook.com/biblioteche.roma/events) · [Instagram](https://www.instagram.com/bibliotechediroma) | I | Centro Storico | CR 14 |
 | Margine Operativo | [sito](https://margineoperativo.net) · [eventi della pagina Facebook](https://www.facebook.com/margine.operativo/events) · [Instagram](https://www.instagram.com/margineoperativo) | V | Cinecittà | CR 14 |
 | Sovrintendenza Capitolina | [sito](https://sovraintendenzaroma.it) · [eventi della pagina Facebook](https://www.facebook.com/SovrintendenzaCapitolina/events) · [Instagram](https://www.instagram.com/sovrintendenzacapitolina) | I | Centro Storico | CR 14 |
-| Ars in Urbe APS | [sito](https://arsinurbe.org) · [eventi della pagina Facebook](https://www.facebook.com/ArsinUrbeRoma/events) | I | Centro Storico | FB 13 |
+| Ars in Urbe APS | [pagina eventi del sito](https://www.arsinurbe.org/calendario/) · [sito](https://arsinurbe.org) · [eventi della pagina Facebook](https://www.facebook.com/ArsinUrbeRoma/events) | I | Centro Storico | FB 13 |
 | MACRO - Museo d'Arte Contemporanea Roma | [pagina letta alla fonte (calendario)](https://www.museomacro.it/) · [sito](https://museomacro.it) · [eventi della pagina Facebook](https://www.facebook.com/macromuseoroma/events) | II | Trieste-Salario | FB 1 FL 9 RT 2 |
 | Nightswim S.r.l. | [sito](https://nightswim.eu) · [eventi della pagina Facebook](https://www.facebook.com/nightswimproduction/events) · [Instagram](https://www.instagram.com/nightswim_production) | I | Centro Storico | CR 12 |
-| Nuovo Cinema Aquila | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/nuovo-cinema-aquila/) · [sito](https://cinemaaquila.it) · [eventi della pagina Facebook](https://www.facebook.com/cinemaaquila/events) | V | Pigneto-Torpignattara | CR 12 |
+| Nuovo Cinema Aquila | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/nuovo-cinema-aquila/) · [pagina eventi del sito](http://www.cinemaaquila.it/) · [sito](https://cinemaaquila.it) | V | Pigneto-Torpignattara | CR 12 |
 | Associazione AREA06 – ETS | [sito](https://area06.com) · [eventi della pagina Facebook](https://www.facebook.com/area06/events) · [Instagram](https://www.instagram.com/area06ets) | III | Montesacro | CR 11 |
 | bellaroma.info | [sito](https://bellaroma.info) · [eventi della pagina Facebook](https://www.facebook.com/bellaroma.info/events) | I | Centro Storico | FB 11 |
 | IL NAUFRAGARMEDOLCE ETS | [pagina eventi del sito](https://www.ilnaufragarmedolce.it/spettacoli/zit/) · [sito](https://ilnaufragarmedolce.it) · [eventi della pagina Facebook](https://www.facebook.com/ilnaufragarmedolce/events) | IV | Pietralata | CR 11 |
-| Laboratorio 104 tour e visite guidate a Roma | [sito](https://laboratorio104.it) · [eventi della pagina Facebook](https://www.facebook.com/Laboratorio104/events) | I | Esquilino-Termini | FB 11 |
+| Laboratorio 104 tour e visite guidate a Roma | [pagina eventi del sito](https://www.laboratorio104.it/visite-in-programma/) · [sito](https://laboratorio104.it) · [eventi della pagina Facebook](https://www.facebook.com/Laboratorio104/events) | I | Esquilino-Termini | FB 11 |
 | Orbita | Spellbound - Centro Nazionale di Produzione della Danza (rassegna Reverse) | [pagina letta alla fonte (calendario)](https://orbitaspellbound.com/orbita-spellbound/agenda/) · [sito](https://orbitaspellbound.com) | — | — | FL 11 |
 | Parco archeologico del Colosseo | [pagina letta alla fonte (calendario)](https://colosseo.it/eventi/) · [sito](https://colosseo.it) · [Instagram](https://www.instagram.com/parcocolosseo) | I | Centro Storico | FB 1 FL 9 RT 1 |
 | Spazio Diamante | [pagina letta alla fonte (calendario)](https://spaziodiamante.it/) · [sito](https://spaziodiamante.it) | V | Pigneto-Torpignattara | FL 9 RT 2 |
 | Teatro del Lido di Ostia | [eventi della pagina Facebook](https://www.facebook.com/TeatroDelLidoDiOstia/events) · [Instagram](https://www.instagram.com/teatrodellido) | X | Ostia | CR 11 |
-| Associazione culturale Il Triangolo Scaleno | [sito](https://teatridivetro.it) · [eventi della pagina Facebook](https://www.facebook.com/teatridivetro/events) · [Instagram](https://www.instagram.com/teatridivetro) | X | Ostia | CR 10 |
+| Associazione culturale Il Triangolo Scaleno | [pagina eventi del sito](https://teatridivetro.it/programma-2026/) · [sito](https://teatridivetro.it) · [eventi della pagina Facebook](https://www.facebook.com/teatridivetro/events) | X | Ostia | CR 10 |
 | Fondamenta Srl | [sito](https://teatrovillalazzaroni.com) · [eventi della pagina Facebook](https://www.facebook.com/teatrovillalazzaroni/events) · [Instagram](https://www.instagram.com/teatrovillalazzaroni) | VII | — | CR 10 |
 | Kollatino Underground ETS | [sito](https://kollatinounderground.eu) · [eventi della pagina Facebook](https://www.facebook.com/kollatino.underground/events) · [Instagram](https://www.instagram.com/kollatinounderground) | VI | Torre Angela | CR 10 |
-| MRF 5 s.r.l. | [sito](https://mrf5.com) | XI | Corviale | CR 10 |
+| MRF 5 s.r.l. | [pagina eventi del sito](https://www.mrf5.com/) · [sito](https://mrf5.com) | XI | Corviale | CR 10 |
 | Musei Capitolini | [pagina letta alla fonte (calendario)](https://www.museicapitolini.org/it/mostre_ed_eventi/mostre) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/musei-capitolini/) · [sito](https://museicapitolini.org) | I | Centro Storico | CR 4 FB 1 FL 5 |
 | Teatro Petrolini | [pagina letta alla fonte (calendario)](https://www.teatropetrolini.it/spettacoli/) · [sito](https://teatropetrolini.it) | I | Testaccio | FL 9 RT 1 |
 | Traffic Live | [eventi della pagina Facebook](https://www.facebook.com/traffic.live/events) | V | Alessandrino | FB 9 RT 1 |
@@ -85,7 +85,7 @@ Aggregatori: vedi [aggregatori.md](aggregatori.md). Promotori degli eventi, per 
 | Medina Art Gallery | [pagina letta alla fonte (calendario)](https://www.medinaroma.com/) · [sito](https://medinaroma.com) | I | Esquilino-Termini | FL 4 RT 5 |
 | Museo di Roma in Trastevere | [pagina letta alla fonte (calendario)](https://www.museodiromaintrastevere.it/it/mostre_ed_eventi/mostre) · [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/museo-di-roma-in-trastevere/) · [sito](https://museodiromaintrastevere.it) | I | Trastevere | CR 5 FL 2 RT 2 |
 | Palazzo delle Esposizioni | [pagina letta alla fonte (calendario)](https://www.palazzoesposizioniroma.it/) · [sito](https://palazzoesposizioniroma.it) · [eventi della pagina Facebook](https://www.facebook.com/palazzoesposizioni/events) | I | Esquilino-Termini | FL 9 |
-| Ruotalibera cooperativa sociale | [sito](https://centraleprenesteteatro.it) · [eventi della pagina Facebook](https://www.facebook.com/CentralePrenesteTeatro/events) · [Instagram](https://www.instagram.com/centralepreneste) | V | Pigneto-Torpignattara | CR 9 |
+| Ruotalibera cooperativa sociale | [pagina eventi del sito](https://centraleprenesteteatro.it/calendario-eventi/) · [sito](https://centraleprenesteteatro.it) · [eventi della pagina Facebook](https://www.facebook.com/CentralePrenesteTeatro/events) | V | Pigneto-Torpignattara | CR 9 |
 | Teatro Argentina | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-argentina/) | I | Centro Storico | CR 9 |
 | Teatro Biblioteca Quarticciolo | [pagina del luogo su culture.roma.it](https://culture.roma.it/luogo/teatro-biblioteca-quarticciolo/) · [eventi della pagina Facebook](https://www.facebook.com/teatrobibliotecaquarticciolo/events) · [Instagram](https://www.instagram.com/teatrobibliotecaquarticciolo) | V | Centocelle | CR 9 |
 | Teatro Vascello | [eventi della pagina Facebook](https://www.facebook.com/cristinadaqua/events) | XII | Monteverde | FB 9 |
