@@ -255,11 +255,11 @@ ricerca Google 0,9).
 
 ## 1 nonies. Promotori degli eventi, categorie, ricerche integrative, immagini e diffusione (M, 25 ottobre 2026)
 
-**Promotori.** Chi organizza i 2.563 eventi futuri della pagina degli eventi di quartiere: host degli
+**Promotori.** Chi organizza i 2.585 eventi futuri della pagina degli eventi di quartiere: host degli
 eventi Facebook (con il link alla pagina), pagina che annuncia nel post, «a cura di» di culture.roma.it, la
-sede per l'agenda delle Biblioteche di Roma, la fonte per i siti; i co-organizzatori sono separati. 1.241 promotori; per 935 c'è un'email
-(75%), per 893 un sito, per 1.154 una pagina Facebook, per 729 un profilo
-Instagram, per 655 un telefono. Dati da: profili Facebook già letti nei censimenti e 425 letti ora,
+sede per l'agenda delle Biblioteche di Roma, la fonte per i siti; i co-organizzatori sono separati. 1.246 promotori; per 938 c'è un'email
+(75%), per 898 un sito, per 1.157 una pagina Facebook, per 732 un profilo
+Instagram, per 657 un telefono. Dati da: profili Facebook già letti nei censimenti e 425 letti ora,
 RUNTS, censimento associazioni, lista supplementare, contatti per evento di culture.roma.it, siti dei
 promotori letti ora (homepage, contatti, chi siamo, note legali; robots.txt rispettato) e una ricerca Google
 dei canali per chi non ne aveva. Ogni promotore ha una categoria, un ambito, le attività prevalenti, una
@@ -271,18 +271,18 @@ DEC-109; test T-FE-10).
 
 **Geografia.** Dal 25 ottobre, per decisione dell'owner, la pagina pubblicata usa la geografia delle zone
 urbanistiche, la stessa degli abitanti (§1 septies): un evento con coordinate va nella pagina del toponimo
-del gazetteer più vicino dentro la sua zona urbanistica ufficiale. Cambiano pagina 460 eventi su 2.563;
-quelli con una pagina QN sono 2.081 (1.907 con le suddivisioni toponomastiche), le pagine con 10 o più eventi
-49 (40), quelle a zero 5 (La Rustica, La Storta, Lunghezza, Marcigliana, Vitinia). Le quote qui sotto usano questa geografia. È la
+del gazetteer più vicino dentro la sua zona urbanistica ufficiale. Cambiano pagina 457 eventi su 2.585;
+quelli con una pagina QN sono 2.100 (1.942 con le suddivisioni toponomastiche), le pagine con 10 o più eventi
+49 (41), quelle a zero 5 (La Rustica, La Storta, Lunghezza, Marcigliana, Vitinia). Le quote qui sotto usano questa geografia. È la
 geografia dell'anteprima: quella di produzione resta il pacchetto Metodo QN (`tools/geo-assign/qngeo.py punto`).
 
 | Categoria | Promotori | Eventi | Quota nelle 41 pagine deboli |
 |---|---|---|---|
-| Associazioni culturali e artistiche | 284 | 601 | 10% |
-| Istituzioni pubbliche | 73 | 293 | 11% |
-| Terzo settore sociale e sanitario | 167 | 267 | 11% |
-| Teatri, cinema e spazi di spettacolo | 79 | 265 | 13% |
-| Grandi istituzioni culturali e fondazioni | 34 | 201 | 2% |
+| Associazioni culturali e artistiche | 286 | 606 | 10% |
+| Istituzioni pubbliche | 74 | 295 | 11% |
+| Teatri, cinema e spazi di spettacolo | 79 | 272 | 12% |
+| Terzo settore sociale e sanitario | 168 | 269 | 11% |
+| Grandi istituzioni culturali e fondazioni | 34 | 207 | 2% |
 | Non classificato | 95 | 158 | 9% |
 | Persone (artisti, autori, guide) | 134 | 157 | 8% |
 | Intermediari: biglietterie, aggregatori e media | 36 | 115 | 3% |
@@ -290,10 +290,10 @@ geografia dell'anteprima: quella di produzione resta il pacchetto Metodo QN (`to
 | Sport e movimento | 63 | 87 | 28% |
 | Parrocchie e realtà religiose | 45 | 76 | 43% |
 | Scuole, università e formazione | 44 | 72 | 8% |
-| Musei, gallerie e spazi espositivi | 20 | 60 | 0% |
+| Musei, gallerie e spazi espositivi | 21 | 64 | 0% |
 | Locali e attività commerciali | 39 | 56 | 9% |
+| Ambiente, natura e animali | 29 | 43 | 7% |
 | Centri sociali, centri anziani e spazi di comunità | 15 | 43 | 12% |
-| Ambiente, natura e animali | 29 | 42 | 7% |
 | Comitati di quartiere e reti civiche | 24 | 42 | 24% |
 | Politica e sindacati | 7 | 10 | 0% |
 
@@ -304,7 +304,7 @@ le più legate alle periferie sono parrocchie e realtà religiose (43%), sport e
 
 | Idea | Stato | Costo | Esito |
 |---|---|---|---|
-| Agenda delle Biblioteche di Roma (news dell'OPAC, eventi schema.org per sede) | eseguita | 0 $ (lettura del sito, una richiesta al secondo; il sito non ha robots.txt) | 110 eventi futuri nella pagina, 15 nelle 41 pagine deboli, da 30 sedi |
+| Agenda delle Biblioteche di Roma (news dell'OPAC, eventi schema.org per sede) | eseguita | 0 $ (lettura del sito, una richiesta al secondo; il sito non ha robots.txt) | 110 eventi futuri nella pagina, 16 nelle 41 pagine deboli, da 30 sedi |
 | Eventi futuri delle pagine Facebook mai lette (lista supplementare e promotori) | eseguita | 0,14 $ | lette tutte le 226 pagine della lista supplementare e 13 delle 384 dei promotori (lettura interrotta: circa 5 pagine al minuto, e i promotori sono già nel calendario); 36 eventi letti, 32 futuri a Roma: 2 dalle 226 pagine dei quartieri deboli, 30 dalle 13 dei promotori; 30 entrati nella pagina dopo filtri e doppioni. Conferma che i piccoli soggetti annunciano nei post, non negli eventi Facebook |
 | Profili Facebook dei promotori senza dati (descrizione, email, sito, Instagram) | eseguita | 3,51 $ | 425 profili letti: 367 con email, 403 con descrizione |
 | Ricerca Google dei canali per i promotori senza sito né Facebook | eseguita | 0,39 $ | canali trovati per 56 promotori: 45 siti, 34 pagine Facebook, 27 Instagram |
@@ -328,9 +328,9 @@ supplementare e nella raccolta degli eventi. Gli eventi della lista supplementar
 
 **Immagini (DEC-101).** Per ogni evento della pagina l'immagine della fonte è scaricata una volta e
 salvata a risoluzione da card (lato lungo 800 px), con `source_image_url`, `image_fetched_at`,
-`image_local_path`, `image_credit` e `image_removed`: 2.149 immagini. Non scaricate: Roma Today
+`image_local_path`, `image_credit` e `image_removed`: 2.166 immagini. Non scaricate: Roma Today
 (licenza Citynews, DEC-026), eventi Fever (asset commerciali), blocchi di testo dei siti senza pagina
-dell'evento; 190 eventi non hanno immagine alla fonte. Archivio e manifest su Drive
+dell'evento; 200 eventi non hanno immagine alla fonte. Archivio e manifest su Drive
 (`immagini_eventi.zip`, `immagini_eventi_manifest.xlsx`), mai nel repository.
 
 **Diffusione.** Posizione di ogni fonte sui propri contenuti, dal sito (note legali, termini, piè di
@@ -338,14 +338,14 @@ pagina, robots.txt, riserva di estrazione TDM) o dai termini della piattaforma:
 
 | Posizione | Promotori | Eventi (posizione più restrittiva fra i promotori dell'evento) |
 |---|---|---|
-| riproduzione vietata | 5 | 36 |
+| riproduzione vietata | 6 | 37 |
 | raccolta automatica vietata | 1 | 1 |
 | licenza richiesta | 0 | 0 |
-| termini della piattaforma | 395 | 513 |
-| diritti riservati (generico) | 465 | 1018 |
+| termini della piattaforma | 394 | 513 |
+| diritti riservati (generico) | 466 | 1029 |
 | licenza aperta | 9 | 12 |
-| nessuna indicazione | 330 | 831 |
-| non verificabile | 36 | 73 |
+| nessuna indicazione | 331 | 839 |
+| non verificabile | 39 | 80 |
 
 Gli stessi eventi per canale da cui li leggiamo (la posizione del canale vale anche quando il promotore non dice nulla):
 
@@ -353,18 +353,18 @@ Gli stessi eventi per canale da cui li leggiamo (la posizione del canale vale an
 |---|---|---|
 | Facebook (termini di Meta) | termini della piattaforma | 1576 |
 | culture.roma.it (Roma Capitale) | diritti riservati (generico) | 356 |
-| siti delle fonti | diritti riservati (generico) | 187 |
-| siti delle fonti | nessuna indicazione | 174 |
+| siti delle fonti | diritti riservati (generico) | 195 |
+| siti delle fonti | nessuna indicazione | 180 |
 | Biblioteche di Roma | nessuna indicazione | 110 |
 | Roma Today (Citynews) | licenza richiesta | 82 |
-| siti delle fonti | non verificabile | 72 |
-| siti delle fonti | riproduzione vietata | 4 |
+| siti delle fonti | non verificabile | 79 |
+| siti delle fonti | riproduzione vietata | 5 |
 | siti delle fonti | licenza aperta | 2 |
 
-Vietano esplicitamente la riproduzione dei contenuti: Romaeuropa Festival (26 eventi), Teatro Degli Audaci (6 eventi), VignaClaraBlog.it Il primo quotidiano on line di Roma Nord (2 eventi), Indipendente Concerti (1 evento), Azione Cattolica Italiana (1 evento)
+Vietano esplicitamente la riproduzione dei contenuti: Romaeuropa Festival (26 eventi), Teatro Degli Audaci (6 eventi), VignaClaraBlog.it Il primo quotidiano on line di Roma Nord (2 eventi), Indipendente Concerti (1 evento), CREI Cooperativa Sociale — Interpretariato LIS, formazione e accessibilità (1 evento), Azione Cattolica Italiana (1 evento)
 (clausole rilette una per una: Romaeuropa non consente di usare contenuti e marchi del sito per scopi diversi da quelli del sito; il Teatro degli Audaci vieta riproduzione e diffusione senza autorizzazione scritta, ma ammette un estratto fino al 15% del testo con link all'originale e nome dell'autore; VignaClaraBlog vieta la riproduzione anche parziale senza approvazione scritta; il sito di riferimento è quello di Live Nation, i cui termini vietano di copiare o distribuire parti del sito senza autorizzazione scritta; Azione Cattolica consente solo usi personali dei contenuti).
 Vietano la raccolta automatica (termini o robots.txt): Intersos Lab. Facebook e Instagram
-(termini di Meta: raccolta automatica vietata senza permesso) portano 1.576 eventi su 2.563; Roma Today
+(termini di Meta: raccolta automatica vietata senza permesso) portano 1.576 eventi su 2.585; Roma Today
 richiede licenza (DEC-026); le note legali di Roma Capitale (anche per culture.roma.it) riservano i diritti
 sui contenuti senza licenza di riuso; il sito delle Biblioteche di Roma non dice nulla sui contenuti (il suo
 «copyright» riguarda il software del catalogo). Nessuna delle clausole lette vieta di dare notizia di un evento: i fatti (cosa,
@@ -388,25 +388,27 @@ Otto esploratori AI indipendenti hanno proposto 60 leve (dati già raccolti, cat
 | L01 | Recupero della pagina QN per i 518 eventi senza pagina con regole sui dati già in casa | 11 eventi senza pagina assegnati per luogo già visto con una sola pagina |
 | L02 | Geocodifica degli indirizzi stradali residui (Nominatim con cache o pacchetto Metodo QN) e scarto dei luoghi fuori Roma | 89 eventi senza pagina assegnati geocodificando l'indirizzo con civico (Nominatim, cache, una richiesta al secondo; 7 fuori dal Comune, 11 non risolti); attribuzione ODbL nella pagina |
 | L17 | culture.roma.it: lettore per differenza in calendario ogni 2 giorni, esteso a manifestazioni, tassonomia Municipio e luoghi | lettura per differenza dal 23 ottobre: 0 schede nuove o modificate in tre giorni (fine settimana); da ripetere a cadenza |
+| L59 | Regione Lazio: eventi JSON-LD di VisitLazio (LazioCrea) filtrati su Roma | VisitLazio: 68 eventi futuri nella pagina, 2 nel Comune di Roma, entrati entrambi |
+| L06 | Doppioni: fondere invece di scartare, chiave con il luogo e dedupe semantico fra canali con arricchimento | i doppioni completano il gemello invece di sparire: 23 campi e 2 pagine completati; la fusione dei quasi-doppioni resta da decidere (DEC-025) |
+| L43 | Avvisi parrocchiali: lettura settimanale a modello di 39 pagine avvisi HTML, 6 calendari iCal e 3 PDF (i bollettini PDF sono rari) | prova su 16 parrocchie fuori dal centro: 9 pagine avvisi lette, nessun appuntamento datato riconoscibile con le regole; serve la lettura con un modello |
+| L03 | Gazetteer dei luoghi (open data + luoghi già visti + luoghi di culture.roma.it) con modello per i nomi di sede | luoghi di culture.roma.it e biblioteche per nome: 6 eventi senza pagina assegnati |
+| L40 | Pagine Facebook ufficiali dei 15 Municipi (e di 3 presidenti) lette ogni settimana | 12 delle 15 pagine dei Municipi già lette il 25 ottobre: una seconda lettura oggi renderebbe quasi nulla; il valore è la cadenza settimanale (budget) |
+| L56 | Musei civici e statali, parchi archeologici, MAXXI e Bioparco: calendari letti dai siti e dalle API | compresa in L19: MAXXI, Bioparco e Teatro di Documenti letti dalle pagine evento; quasi tutti già in calendario |
+| L05 | Scarti a monte di collect.py: eventi Facebook senza luogo, coordinate prima del testo, scoperta per parole chiave, voce wiki S-EV-1383 | non eseguita: resa 4-24 una tantum |
+| L19 | Tipi di contenuto «evento» via WordPress REST con after/modified_after (MEC, EventON, CPT personalizzati) | tipi evento di WordPress di 33 siti, 401 pagine evento lette in schema.org (MAXXI e Bioparco compresi, L56): 106 righe, 16 eventi nuovi in pagina dopo doppioni e filtri; ilparioli.it escluso (aggregatore) |
+| L49 | Cinema: rassegne e appuntamenti speciali delle 47 sale romane (8 nella wiki) | non eseguita: separare rassegne e incontri dalle proiezioni richiede un modello |
+| L48 | Università e accademie: agende dei 4 atenei statali, Santa Cecilia, privati e pontifici | feed RSS di Tor Vergata (ottobre-dicembre): 1 candidato con data futura, senza luogo: non in pagina |
+| L57 | ASL Roma 1-2-3, ospedali, Croce Rossa e Caritas: notizie e feed letti ogni settimana per open day, screening e incontri pubblici | feed RSS di ASL Roma 3 e Caritas: 4 candidati con data futura, senza luogo: non in pagina |
+| L11 | Seguire i link esterni dei post alle pagine evento ufficiali (biglietterie, biblioteche, culture.roma.it, teatri) | 256 link esterni dei post con un evento futuro, 237 pagine lette (biglietterie, social e Roma Today esclusi): 16 righe, 4 eventi nuovi |
 
-**Classifica.** 7 eseguite, 12 da eseguire subito (costo zero o quasi), 35 da verificare con l'owner, 6 scartate. Nessuna delle 30 leve verificate la sera cambia l'ordine di grandezza: le migliori sono fonti strutturate gratuite e piccole.
+**Classifica.** 16 eseguite, 0 da eseguire subito (costo zero o quasi), 38 da verificare con l'owner, 6 scartate. Nessuna delle 30 leve verificate la sera cambia l'ordine di grandezza: le migliori sono fonti strutturate gratuite e piccole.
 
 | Da eseguire subito | Probabilità | Resa dopo verifica | Apify |
 |---|---|---|---|
-| L59 Regione Lazio: eventi JSON-LD di VisitLazio filtrati su Roma | 0,7 | 2-5 eventi al mese a Roma (2 trovati su 86 non finiti), per lo più centrali. | 0 $ |
-| L06 Doppioni: fondere invece di scartare, chiave con il luogo, dedupe semantico | 0,7 | 0 eventi in più; 5-11 eventi distinti recuperati; 25-55 doppioni residui tolti dal conteggio; campi arricchiti. | 0 $ |
-| L43 Avvisi parrocchiali: lettura a modello di 39 pagine avvisi HTML | 0,6 | 30-80 eventi al mese a regime (non 80-200); i 6 iCal sono già nei feed di oggi; quota di periferia sotto il 46%. | 0 $ |
-| L03 Gazetteer dei luoghi (open data, luoghi già visti, luoghi di culture.roma.it) co | 0,6 | 30-40 eventi una tantum (oltre metà scaduti prima della verifica); a regime 15-30 al mese. | 0 $ |
-| L40 Pagine Facebook ufficiali dei 15 Municipi lette ogni settimana | 0,6 | 15-35 eventi futuri nuovi al mese con pagina QN (lordo 40-60). | 0,3 $ |
-| L56 Musei civici e statali, parchi archeologici, MAXXI e Bioparco | 0,6 | 10-25 eventi netti al mese, concentrati nei Municipi I e II. | 0 $ |
-| L05 Scarti a monte di collect.py: eventi FB senza luogo, coordinate prima del testo | 0,6 | 4-24 eventi una tantum su 7-8 pagine; a regime 2-3 per lettura. | 0 $ |
-| L19 Tipi di contenuto evento via WordPress REST (MEC, EventON, CPT) | 0,55 | 40-80 eventi futuri netti al mese, concentrati in 15 pagine dei Municipi I e II. | 0 $ |
-| L49 Cinema: rassegne e appuntamenti speciali delle sale romane | 0,55 | 30-70 appuntamenti speciali al mese su 8-12 pagine, soprattutto Municipi I, II, VII, XII. | 0 $ |
-| L48 Università e accademie: agende degli atenei | 0,55 | 6-20 eventi aperti al mese, soprattutto dal feed di Tor Vergata (VI Municipio). | 0 $ |
-| L57 ASL Roma 1-2-3, Croce Rossa e Caritas: feed settimanali | 0,55 | 8-18 eventi pubblici al mese, in prevalenza di periferia. | 0 $ |
-| L11 Seguire i link esterni dei post alle pagine evento ufficiali | 0,55 | 10-40 eventi nuovi una tantum, più ora o luogo completati per 20-35 eventi già presenti. | 0 $ |
 
-**Da verificare con l'owner**, in ordine di probabilità: L16 Definizione onesta di evento contato; L04 Fascia «altri eventi nel Municipio» per gli eventi con il so; L26 Ricerca degli eventi Facebook per luogo e parola chiave (Api; L13 Lettura settimanale dei post Facebook per differenza; L12 Coda settimanale di verifica dei candidati con modello; L14 Livelli di cadenza per produttività misurata; L38 Iscrizione alle newsletter dei promotori e delle reti, lettu; L07 Blocchi datati dei siti del registro promossi a candidati; L09 Lettura dei post Facebook con un modello; L15 Modello a regime: fabbisogno settimanale e cadenze per canal; L47 Centri commerciali di periferia con calendario eventi; L52 Accademie straniere e istituti di cultura; L10 Visione sulle locandine dei post senza data nel testo; L21 Post dei siti via WordPress REST e RSS; L23 Zero.eu: sitemap mensile e schema.org Event; L53 Locali live e club: siti dei locali; L35 Invito ai promotori già pubblicati, con lettura delle rispos; L37 Modulo pubblico «segnala il tuo evento» e numero WhatsApp di; L44 CSV Lazio e reti del terzo settore come moltiplicatori; L30 Canali Telegram pubblici letti dall'anteprima web; L32 Gruppi Facebook di quartiere: sonda Apify sui gruppi pubblic; L50 Librerie: presentazioni annunciate sui social; L54 Mercati rionali, mercati contadini e fiere; L55 Teatri non ancora censiti; L25 Meetup: iCal pubblico per gruppo; L27 Instagram delle fonti censite letto con Apify; L28 Instagram via API ufficiale Meta (Business Discovery); L31 Canali e community WhatsApp (lettura umana); L41 Accordo con l'Istituzione Biblioteche di Roma; L46 Scuole statali: open day e feste dall'anagrafe MIM; L39 Accordo con i 15 Municipi: elenco mensile delle manifestazio; L42 Diocesi di Roma: calendario in formato dati; L36 Invito ai soggetti attivi dei censimenti (RUNTS, associazion; L45 Scambio con le testate e i blog di quartiere; L58 Richieste di licenza a Roma Capitale e a Citynews.
+**Da verificare con l'owner**, in ordine di probabilità: L16 Definizione onesta di evento contato; L04 Fascia «altri eventi nel Municipio» per gli eventi con il so; L26 Ricerca degli eventi Facebook per luogo e parola chiave (Api; L13 Lettura settimanale dei post Facebook per differenza; L12 Coda settimanale di verifica dei candidati con modello; L40 Pagine Facebook ufficiali dei 15 Municipi lette ogni settima; L05 Scarti a monte di collect.py: eventi FB senza luogo, coordin; L49 Cinema: rassegne e appuntamenti speciali delle sale romane; L14 Livelli di cadenza per produttività misurata; L38 Iscrizione alle newsletter dei promotori e delle reti, lettu; L07 Blocchi datati dei siti del registro promossi a candidati; L09 Lettura dei post Facebook con un modello; L15 Modello a regime: fabbisogno settimanale e cadenze per canal; L47 Centri commerciali di periferia con calendario eventi; L52 Accademie straniere e istituti di cultura; L10 Visione sulle locandine dei post senza data nel testo; L21 Post dei siti via WordPress REST e RSS; L23 Zero.eu: sitemap mensile e schema.org Event; L53 Locali live e club: siti dei locali; L35 Invito ai promotori già pubblicati, con lettura delle rispos; L37 Modulo pubblico «segnala il tuo evento» e numero WhatsApp di; L44 CSV Lazio e reti del terzo settore come moltiplicatori; L30 Canali Telegram pubblici letti dall'anteprima web; L32 Gruppi Facebook di quartiere: sonda Apify sui gruppi pubblic; L50 Librerie: presentazioni annunciate sui social; L54 Mercati rionali, mercati contadini e fiere; L55 Teatri non ancora censiti; L25 Meetup: iCal pubblico per gruppo; L27 Instagram delle fonti censite letto con Apify; L28 Instagram via API ufficiale Meta (Business Discovery); L31 Canali e community WhatsApp (lettura umana); L41 Accordo con l'Istituzione Biblioteche di Roma; L46 Scuole statali: open day e feste dall'anagrafe MIM; L39 Accordo con i 15 Municipi: elenco mensile delle manifestazio; L42 Diocesi di Roma: calendario in formato dati; L36 Invito ai soggetti attivi dei censimenti (RUNTS, associazion; L45 Scambio con le testate e i blog di quartiere; L58 Richieste di licenza a Roma Capitale e a Citynews.
+
+**Leve gratuite eseguite la sera.** Tipi evento di WordPress (33 siti, MAXXI e Bioparco compresi), link esterni dei post, VisitLazio, feed RSS di Tor Vergata, ASL Roma 3 e Caritas, prova degli avvisi parrocchiali, luoghi noti per nome, doppioni che completano il gemello: eventi futuri da 2.563 a 2.585, con pagina QN da 2.081 a 2.100. Rendono poco, come aveva previsto la verifica: le pagine evento dei grandi enti erano già in calendario, i feed delle istituzioni sono notizie più che eventi, gli avvisi parrocchiali senza un modello non danno appuntamenti riconoscibili. Le pagine dei Municipi non sono state rilette: 12 su 15 erano già state lette il 25 ottobre.
 
 **Cosa dice la verifica sul lungo periodo.** Lo stock di oggi è una foto: una parte viene da letture una tantum che non si ripetono, e senza rileggere i canali Facebook scende verso 1.700-1.900 a metà novembre. Con letture settimanali di tutti i canali (75-95 dollari al mese di Apify) lo stock a regime stimato è 1.100-1.300 eventi (L15), non 2.000; una lettura ridotta alle circa 200 pagine che hanno prodotto il 60% degli annunci futuri costa 8-12 dollari al mese e coglie il 30-45% del flusso fresco dei post (L14). Le decisioni che servono all'owner: budget Apify mensile, regola di conteggio (doppioni fusi, orizzonte di 60 giorni, serie contate una volta: sulla foto del mattino 2.384 diventano circa 1.940), letture automatiche settimanali di siti e feed pubblici, contatto in uscita con i promotori (prima i canali a consenso: modulo e newsletter), permesso scritto per Zero.eu.
 

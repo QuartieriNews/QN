@@ -19871,7 +19871,14 @@
    "chiavi": [
     "cf:96139590580",
     "fb-page:bandatestaccio"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "compagnia, coro, banda o ensemble",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Compagnia, coro, banda o ensemble (associazione di promozione sociale) di Testaccio (Municipio I): musica, teatro.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-0272",
@@ -81204,7 +81211,7 @@
     "categoria": "Istituzioni pubbliche",
     "sottocategoria": "biblioteca pubblica",
     "ambito": "cittadino",
-    "descrizione_breve": "Biblioteca pubblica (ente del terzo settore) con sede a Pigneto-Torpignattara (Municipio V): libri e letture, storia e memoria, feste e mercatini.",
+    "descrizione_breve": "Biblioteca pubblica (ente del terzo settore) con sede a Pigneto-Torpignattara (Municipio V): libri e letture, storia e memoria, arte e mostre.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -83161,7 +83168,7 @@
     "categoria": "Grandi istituzioni culturali e fondazioni",
     "sottocategoria": "grande istituzione culturale",
     "ambito": "cittadino",
-    "descrizione_breve": "Grande istituzione culturale con sede a Parioli-Flaminio (Municipio II): ambiente e natura; per bambini e famiglie.",
+    "descrizione_breve": "Grande istituzione culturale con sede a Parioli-Flaminio (Municipio II): ambiente e natura, salute e benessere; per bambini e famiglie.",
     "diffusione": "nessuna indicazione"
    }
   },
@@ -97149,7 +97156,14 @@
    "chiavi": [
     "cf:97782270587",
     "fb-page:jonasitaliacentridiclinicapsicoanalitica"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Associazioni culturali e artistiche",
+    "sottocategoria": "ente del terzo settore",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Associazione di promozione sociale: laboratori e corsi; per bambini e famiglie.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-1251",
@@ -107593,7 +107607,14 @@
    "censimento": null,
    "chiavi": [
     "registro:FE-0026"
-   ]
+   ],
+   "promotore": {
+    "categoria": "Musei, gallerie e spazi espositivi",
+    "sottocategoria": "museo",
+    "ambito": "di quartiere",
+    "descrizione_breve": "Museo attivo a Centro Storico: arte e mostre, cibo e degustazioni.",
+    "diffusione": "non verificabile"
+   }
   },
   {
    "id": "S-EV-1289",
@@ -195895,7 +195916,7 @@
     "categoria": "Associazioni culturali e artistiche",
     "sottocategoria": "compagnia, coro, banda o ensemble",
     "ambito": "di quartiere",
-    "descrizione_breve": "Compagnia, coro, banda o ensemble (ente del terzo settore): teatro.",
+    "descrizione_breve": "Compagnia, coro, banda o ensemble (ente del terzo settore) attivo a Centro Storico (Municipio I): teatro.",
     "diffusione": "termini della piattaforma"
    }
   },
@@ -269722,8 +269743,8 @@
     "categoria": "Teatri, cinema e spazi di spettacolo",
     "sottocategoria": "teatro",
     "ambito": "di quartiere",
-    "descrizione_breve": "Teatro di Aurelio (Municipio XIII).",
-    "diffusione": "termini della piattaforma"
+    "descrizione_breve": "Teatro: teatro, storia e memoria.",
+    "diffusione": "nessuna indicazione"
    }
   },
   {
@@ -297413,6 +297434,34 @@
    "diffusione_prova": "https://bellezzediromatour.it/"
   },
   {
+   "nome": "Biblioteca Goffredo Mameli",
+   "id": "S-FE-0123",
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "biblioteca pubblica",
+   "ambito": "cittadino",
+   "descrizione_breve": "Biblioteca pubblica (ente del terzo settore) con sede a Pigneto-Torpignattara (Municipio V): libri e letture, storia e memoria, arte e mostre.",
+   "attivita": [
+    "libri e letture",
+    "storia e memoria",
+    "arte e mostre"
+   ],
+   "pubblico": [],
+   "municipio": "V",
+   "zona": "pigneto-torpignattara",
+   "eventi": 22,
+   "canali": {
+    "sito": "https://www.bibliotechediroma.it/opac/library/biblioteca-goffredo-mameli/RMBF1",
+    "facebook": "https://www.facebook.com/goffredomameli.it",
+    "instagram": "https://www.instagram.com/biblioteca_goffredo_mameli"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
+  },
+  {
    "nome": "Teatro Petrolini",
    "id": "S-FE-0153",
    "categoria": "Teatri, cinema e spazi di spettacolo",
@@ -297437,34 +297486,6 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://teatropetrolini.it/"
-  },
-  {
-   "nome": "Biblioteca Goffredo Mameli",
-   "id": "S-FE-0123",
-   "categoria": "Istituzioni pubbliche",
-   "sottocategoria": "biblioteca pubblica",
-   "ambito": "cittadino",
-   "descrizione_breve": "Biblioteca pubblica (ente del terzo settore) con sede a Pigneto-Torpignattara (Municipio V): libri e letture, storia e memoria, feste e mercatini.",
-   "attivita": [
-    "libri e letture",
-    "storia e memoria",
-    "feste e mercatini"
-   ],
-   "pubblico": [],
-   "municipio": "V",
-   "zona": "pigneto-torpignattara",
-   "eventi": 21,
-   "canali": {
-    "sito": "https://www.bibliotechediroma.it/opac/library/biblioteca-goffredo-mameli/RMBF1",
-    "facebook": "https://www.facebook.com/goffredomameli.it",
-    "instagram": "https://www.instagram.com/biblioteca_goffredo_mameli"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
   },
   {
    "nome": "Accademia dell'Arcadia",
@@ -297556,6 +297577,35 @@
    "diffusione_prova": "https://tuttoteatro.com/"
   },
   {
+   "nome": "Bioparco di Roma",
+   "id": "S-FE-0104",
+   "categoria": "Grandi istituzioni culturali e fondazioni",
+   "sottocategoria": "grande istituzione culturale",
+   "ambito": "cittadino",
+   "descrizione_breve": "Grande istituzione culturale con sede a Parioli-Flaminio (Municipio II): ambiente e natura, salute e benessere; per bambini e famiglie.",
+   "attivita": [
+    "ambiente e natura",
+    "salute e benessere"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "II",
+   "zona": "parioli-flaminio",
+   "eventi": 17,
+   "canali": {
+    "sito": "http://www.bioparco.it/",
+    "facebook": "https://www.facebook.com/bioparcoroma",
+    "instagram": "https://www.instagram.com/bioparcoroma"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://bioparco.it/"
+  },
+  {
    "nome": "Fever",
    "id": "S-EV-1664",
    "categoria": "Intermediari: biglietterie, aggregatori e media",
@@ -297585,6 +297635,34 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://feverup.com/legal/terms"
+  },
+  {
+   "nome": "Teatro di Documenti",
+   "id": "S-FE-0154",
+   "categoria": "Teatri, cinema e spazi di spettacolo",
+   "sottocategoria": "teatro",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Teatro attivo a Testaccio (Municipio I): teatro, arte e mostre, visite e passeggiate.",
+   "attivita": [
+    "teatro",
+    "arte e mostre",
+    "visite e passeggiate"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "testaccio",
+   "eventi": 16,
+   "canali": {
+    "sito": "https://teatrodidocumenti.org",
+    "facebook": "https://www.facebook.com/TeatroDiDocumenti",
+    "instagram": "https://www.instagram.com/teatro.di.documenti"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://teatrodidocumenti.org/"
   },
   {
    "nome": "Fanfulla 5/a - Circolo Arci",
@@ -297758,34 +297836,6 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://www.bibliotechediroma.it/opac/news/x/39537"
-  },
-  {
-   "nome": "Bioparco di Roma",
-   "id": "S-FE-0104",
-   "categoria": "Grandi istituzioni culturali e fondazioni",
-   "sottocategoria": "grande istituzione culturale",
-   "ambito": "cittadino",
-   "descrizione_breve": "Grande istituzione culturale con sede a Parioli-Flaminio (Municipio II): ambiente e natura; per bambini e famiglie.",
-   "attivita": [
-    "ambiente e natura"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "II",
-   "zona": "parioli-flaminio",
-   "eventi": 12,
-   "canali": {
-    "sito": "http://www.bioparco.it/",
-    "facebook": "https://www.facebook.com/bioparcoroma",
-    "instagram": "https://www.instagram.com/bioparcoroma"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://bioparco.it/"
   },
   {
    "nome": "Il talento di Roma",
@@ -298203,6 +298253,37 @@
    "diffusione_prova": "https://ottavocolle.com/"
   },
   {
+   "nome": "Palazzo Esposizioni Roma",
+   "id": "S-FE-0063",
+   "categoria": "Grandi istituzioni culturali e fondazioni",
+   "sottocategoria": "grande istituzione culturale",
+   "ambito": "cittadino",
+   "descrizione_breve": "Grande istituzione culturale con sede a Esquilino-Termini (Municipio I): arte e mostre, visite e passeggiate, libri e letture; per bambini e famiglie.",
+   "attivita": [
+    "arte e mostre",
+    "visite e passeggiate",
+    "libri e letture"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "I",
+   "zona": "esquilino-termini",
+   "eventi": 10,
+   "canali": {
+    "sito": "https://www.palazzoesposizioniroma.it/",
+    "facebook": "https://www.facebook.com/palazzoesposizioni",
+    "instagram": "https://www.instagram.com/palazzoesposizioni",
+    "youtube": "https://www.youtube.com/@palazzoesposizioni"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://palazzoesposizioniroma.it/"
+  },
+  {
    "nome": "Palazzo Merulana",
    "id": "S-FE-0062",
    "categoria": "Musei, gallerie e spazi espositivi",
@@ -298260,34 +298341,6 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://parrocchiasanmario.it/"
-  },
-  {
-   "nome": "Teatro di Documenti",
-   "id": "S-FE-0154",
-   "categoria": "Teatri, cinema e spazi di spettacolo",
-   "sottocategoria": "teatro",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Teatro attivo a Testaccio (Municipio I): teatro, arte e mostre, visite e passeggiate.",
-   "attivita": [
-    "teatro",
-    "arte e mostre",
-    "visite e passeggiate"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "testaccio",
-   "eventi": 10,
-   "canali": {
-    "sito": "https://teatrodidocumenti.org",
-    "facebook": "https://www.facebook.com/TeatroDiDocumenti",
-    "instagram": "https://www.instagram.com/teatro.di.documenti"
-   },
-   "contatti": {
-    "email": false,
-    "telefono": false
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://teatrodidocumenti.org/"
   },
   {
    "nome": "Kollatino Underground",
@@ -298376,37 +298429,6 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://cinemaaquila.it/"
-  },
-  {
-   "nome": "Palazzo Esposizioni Roma",
-   "id": "S-FE-0063",
-   "categoria": "Grandi istituzioni culturali e fondazioni",
-   "sottocategoria": "grande istituzione culturale",
-   "ambito": "cittadino",
-   "descrizione_breve": "Grande istituzione culturale con sede a Esquilino-Termini (Municipio I): arte e mostre, visite e passeggiate, libri e letture; per bambini e famiglie.",
-   "attivita": [
-    "arte e mostre",
-    "visite e passeggiate",
-    "libri e letture"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "I",
-   "zona": "esquilino-termini",
-   "eventi": 9,
-   "canali": {
-    "sito": "https://www.palazzoesposizioniroma.it/",
-    "facebook": "https://www.facebook.com/palazzoesposizioni",
-    "instagram": "https://www.instagram.com/palazzoesposizioni",
-    "youtube": "https://www.youtube.com/@palazzoesposizioni"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "nessuna indicazione",
-   "diffusione_prova": "https://palazzoesposizioniroma.it/"
   },
   {
    "nome": "Teatro Vascello",
@@ -298933,8 +298955,8 @@
     "laboratori e corsi"
    ],
    "pubblico": [],
-   "municipio": "V",
-   "zona": "centocelle",
+   "municipio": "II",
+   "zona": "nomentano",
    "eventi": 7,
    "canali": {
     "sito": "https://culture.roma.it/",
@@ -300041,6 +300063,32 @@
    "diffusione_prova": "https://maxxi.art/"
   },
   {
+   "nome": "Musei Capitolini",
+   "id": "S-FE-0033",
+   "categoria": "Musei, gallerie e spazi espositivi",
+   "sottocategoria": "museo",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Museo di Centro Storico (Municipio I): musica.",
+   "attivita": [
+    "musica"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 5,
+   "canali": {
+    "sito": "http://www.museicapitolini.org/",
+    "facebook": "https://www.facebook.com/MuseiCapitolini",
+    "instagram": "https://www.instagram.com/museicapitolini"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://museicapitolini.org/"
+  },
+  {
    "nome": "Museo Carlo Bilotti",
    "id": "S-FE-0113",
    "categoria": "Musei, gallerie e spazi espositivi",
@@ -300239,6 +300287,33 @@
    "diffusione_prova": "https://tuttoteatro.com/"
   },
   {
+   "nome": "Aiisa",
+   "id": "S-EV-0130",
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "terzo settore sociale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Terzo settore sociale di Prati (Municipio I): musica, laboratori e corsi.",
+   "attivita": [
+    "musica",
+    "laboratori e corsi"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "prati",
+   "eventi": 4,
+   "canali": {
+    "sito": "https://aiisa.eu/",
+    "facebook": "https://www.facebook.com/a.i.i.s.a.associazione",
+    "instagram": "https://www.instagram.com/aiisa_associazione"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://aiisa.eu/"
+  },
+  {
    "nome": "AIPA - Associazione Italiana di Psicologia Analitica",
    "id": "S-EV-0137",
    "categoria": "Terzo settore sociale e sanitario",
@@ -300435,6 +300510,32 @@
    "diffusione_prova": "https://dalcroze.it/"
   },
   {
+   "nome": "Banda della Scuola Popolare di Musica di Testaccio",
+   "id": "S-EV-0271",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "compagnia, coro, banda o ensemble",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Compagnia, coro, banda o ensemble (associazione di promozione sociale) di Testaccio (Municipio I): musica, teatro.",
+   "attivita": [
+    "musica",
+    "teatro"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "testaccio",
+   "eventi": 4,
+   "canali": {
+    "sito": "http://www.myspace.com/bandatestaccio",
+    "facebook": "https://www.facebook.com/bandatestaccio"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Biblioteca Casa delle Traduzioni",
    "id": null,
    "categoria": "Istituzioni pubbliche",
@@ -300538,6 +300639,37 @@
    },
    "diffusione": "nessuna indicazione",
    "diffusione_prova": "https://charlottespettacoli.it/"
+  },
+  {
+   "nome": "Cinecittà World",
+   "id": null,
+   "categoria": "Ambiente, natura e animali",
+   "sottocategoria": "ambiente e natura",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Ambiente e natura attivo a Cinecittà (Municipio VII): visite e passeggiate, cinema, ambiente e natura; per bambini e famiglie.",
+   "attivita": [
+    "visite e passeggiate",
+    "cinema",
+    "ambiente e natura"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "VII",
+   "zona": "cinecitta",
+   "eventi": 4,
+   "canali": {
+    "sito": "http://www.cinecittaworld.it/",
+    "facebook": "https://www.facebook.com/cinecittaworld",
+    "instagram": "https://www.instagram.com/cinecittaworld",
+    "youtube": "https://youtube.com/@cinecittaworldpark"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://www.cinecittaworld.it/it/info/condizioni"
   },
   {
    "nome": "Danza Sì",
@@ -301037,32 +301169,6 @@
    "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
   },
   {
-   "nome": "Musei Capitolini",
-   "id": "S-FE-0033",
-   "categoria": "Musei, gallerie e spazi espositivi",
-   "sottocategoria": "museo",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Museo di Centro Storico (Municipio I): musica.",
-   "attivita": [
-    "musica"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "centro-storico",
-   "eventi": 4,
-   "canali": {
-    "sito": "http://www.museicapitolini.org/",
-    "facebook": "https://www.facebook.com/MuseiCapitolini",
-    "instagram": "https://www.instagram.com/museicapitolini"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://museicapitolini.org/"
-  },
-  {
    "nome": "Notte & Musica Italia",
    "id": "S-EV-2570",
    "categoria": "Associazioni culturali e artistiche",
@@ -301498,33 +301604,6 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://web.uniroma2.it/"
-  },
-  {
-   "nome": "Aiisa",
-   "id": "S-EV-0130",
-   "categoria": "Terzo settore sociale e sanitario",
-   "sottocategoria": "terzo settore sociale",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Terzo settore sociale di Prati (Municipio I): musica, laboratori e corsi.",
-   "attivita": [
-    "musica",
-    "laboratori e corsi"
-   ],
-   "pubblico": [],
-   "municipio": "I",
-   "zona": "prati",
-   "eventi": 3,
-   "canali": {
-    "sito": "https://aiisa.eu/",
-    "facebook": "https://www.facebook.com/a.i.i.s.a.associazione",
-    "instagram": "https://www.instagram.com/aiisa_associazione"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": true
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://aiisa.eu/"
   },
   {
    "nome": "Amnesty International - Italia",
@@ -302145,37 +302224,6 @@
    },
    "diffusione": "termini della piattaforma",
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
-  },
-  {
-   "nome": "Cinecittà World",
-   "id": null,
-   "categoria": "Ambiente, natura e animali",
-   "sottocategoria": "ambiente e natura",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Ambiente e natura attivo a Cinecittà (Municipio VII): visite e passeggiate, cinema, ambiente e natura; per bambini e famiglie.",
-   "attivita": [
-    "visite e passeggiate",
-    "cinema",
-    "ambiente e natura"
-   ],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
-   "municipio": "VII",
-   "zona": "cinecitta",
-   "eventi": 3,
-   "canali": {
-    "sito": "http://www.cinecittaworld.it/",
-    "facebook": "https://www.facebook.com/cinecittaworld",
-    "instagram": "https://www.instagram.com/cinecittaworld",
-    "youtube": "https://youtube.com/@cinecittaworldpark"
-   },
-   "contatti": {
-    "email": true,
-    "telefono": false
-   },
-   "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://www.cinecittaworld.it/it/info/condizioni"
   },
   {
    "nome": "CoderDojo Roma SPQR",
@@ -305083,6 +305131,31 @@
    "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
+   "nome": "Chiostro del Bramante",
+   "id": "S-FE-0026",
+   "categoria": "Musei, gallerie e spazi espositivi",
+   "sottocategoria": "museo",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Museo attivo a Centro Storico: arte e mostre, cibo e degustazioni.",
+   "attivita": [
+    "arte e mostre",
+    "cibo e degustazioni"
+   ],
+   "pubblico": [],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://www.chiostrodelbramante.it/"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Circo VolaVoilà Roma",
    "id": "S-FE-0884",
    "categoria": "Teatri, cinema e spazi di spettacolo",
@@ -307002,8 +307075,8 @@
     "teatro"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "I",
+   "zona": "testaccio",
    "eventi": 2,
    "canali": {
     "sito": "http://www.musicisti-jazz.it/",
@@ -307173,6 +307246,31 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://museivillatorlonia.it/"
+  },
+  {
+   "nome": "Museo di Roma - Palazzo Braschi",
+   "id": "S-FE-0037",
+   "categoria": "Musei, gallerie e spazi espositivi",
+   "sottocategoria": "museo",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Museo di Centro Storico (Municipio I); per bambini e famiglie.",
+   "attivita": [],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": "I",
+   "zona": "centro-storico",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://museodiroma.it",
+    "facebook": "https://www.facebook.com/408668332527637"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": false
+   },
+   "diffusione": "diritti riservati (generico)",
+   "diffusione_prova": "https://museodiroma.it/"
   },
   {
    "nome": "Museo Nazionale Etrusco di Villa Giulia",
@@ -308285,6 +308383,33 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://eliseoteatro.it/"
+  },
+  {
+   "nome": "Teatro Ghione",
+   "id": "S-EV-3160",
+   "categoria": "Teatri, cinema e spazi di spettacolo",
+   "sottocategoria": "teatro",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Teatro: teatro, storia e memoria.",
+   "attivita": [
+    "teatro",
+    "storia e memoria"
+   ],
+   "pubblico": [],
+   "municipio": "XIII",
+   "zona": "aurelio",
+   "eventi": 2,
+   "canali": {
+    "sito": "https://teatroghione.it",
+    "facebook": "https://www.facebook.com/GhioneTeatroRoma",
+    "instagram": "https://www.instagram.com/teatroghione"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "nessuna indicazione",
+   "diffusione_prova": "https://teatroghione.it/"
   },
   {
    "nome": "Teatro Hamlet",
@@ -314236,6 +314361,34 @@
    "diffusione_prova": "https://cometastudio.it/"
   },
   {
+   "nome": "CENTRO JONAS ROMA",
+   "id": "S-EV-1250",
+   "categoria": "Associazioni culturali e artistiche",
+   "sottocategoria": "ente del terzo settore",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Associazione di promozione sociale: laboratori e corsi; per bambini e famiglie.",
+   "attivita": [
+    "laboratori e corsi"
+   ],
+   "pubblico": [
+    "bambini e famiglie"
+   ],
+   "municipio": null,
+   "zona": null,
+   "eventi": 1,
+   "canali": {
+    "sito": "https://jonasitalia.it",
+    "facebook": "https://www.facebook.com/jonasitaliacentridiclinicapsicoanalitica",
+    "instagram": "https://www.instagram.com/jonas.italia"
+   },
+   "contatti": {
+    "email": false,
+    "telefono": false
+   },
+   "diffusione": "non verificabile",
+   "diffusione_prova": null
+  },
+  {
    "nome": "Centro Nazionale Sportivo Libertas",
    "id": "S-EV-1231",
    "categoria": "Sport e movimento",
@@ -315129,13 +315282,13 @@
    "categoria": "Associazioni culturali e artistiche",
    "sottocategoria": "compagnia, coro, banda o ensemble",
    "ambito": "di quartiere",
-   "descrizione_breve": "Compagnia, coro, banda o ensemble (ente del terzo settore): teatro.",
+   "descrizione_breve": "Compagnia, coro, banda o ensemble (ente del terzo settore) attivo a Centro Storico (Municipio I): teatro.",
    "attivita": [
     "teatro"
    ],
    "pubblico": [],
-   "municipio": null,
-   "zona": null,
+   "municipio": "I",
+   "zona": "centro-storico",
    "eventi": 1,
    "canali": {
     "sito": "https://www.lacasadargilla.com/",
@@ -315352,6 +315505,37 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://segnaverso.it/"
+  },
+  {
+   "nome": "CREI Cooperativa Sociale — Interpretariato LIS, formazione e accessibilità",
+   "id": null,
+   "categoria": "Terzo settore sociale e sanitario",
+   "sottocategoria": "cooperativa o impresa sociale",
+   "ambito": "di quartiere",
+   "descrizione_breve": "Cooperativa o impresa sociale attivo a San Lorenzo (Municipio II): laboratori e corsi, ambiente e natura, solidarietà e sociale; per persone con disabilità.",
+   "attivita": [
+    "laboratori e corsi",
+    "ambiente e natura",
+    "solidarietà e sociale"
+   ],
+   "pubblico": [
+    "persone con disabilità"
+   ],
+   "municipio": "II",
+   "zona": "san-lorenzo",
+   "eventi": 1,
+   "canali": {
+    "sito": "https://cooperativacrei.it",
+    "facebook": "https://www.facebook.com/interpretiliscrei",
+    "instagram": "https://www.instagram.com/interpretilis",
+    "youtube": "https://www.youtube.com/@CoopCREI"
+   },
+   "contatti": {
+    "email": true,
+    "telefono": true
+   },
+   "diffusione": "riproduzione vietata",
+   "diffusione_prova": "https://cooperativacrei.it/termini"
   },
   {
    "nome": "Croce Rossa Italiana - Comitato Municipio 6 di Roma ODV",
@@ -322948,29 +323132,24 @@
    "diffusione_prova": "https://www.comune.roma.it/web/it/note-legali.page"
   },
   {
-   "nome": "Museo di Roma - Palazzo Braschi",
-   "id": "S-FE-0037",
-   "categoria": "Musei, gallerie e spazi espositivi",
-   "sottocategoria": "museo",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Museo di Centro Storico (Municipio I); per bambini e famiglie.",
+   "nome": "Museo di Roma in Trastevere, Musei in Comune Roma",
+   "id": null,
+   "categoria": "Istituzioni pubbliche",
+   "sottocategoria": "beni culturali pubblici",
+   "ambito": "cittadino",
+   "descrizione_breve": "Beni culturali pubblici.",
    "attivita": [],
-   "pubblico": [
-    "bambini e famiglie"
-   ],
+   "pubblico": [],
    "municipio": "I",
-   "zona": "centro-storico",
+   "zona": "trastevere",
    "eventi": 1,
-   "canali": {
-    "sito": "https://museodiroma.it",
-    "facebook": "https://www.facebook.com/408668332527637"
-   },
+   "canali": {},
    "contatti": {
-    "email": true,
+    "email": false,
     "telefono": false
    },
    "diffusione": "diritti riservati (generico)",
-   "diffusione_prova": "https://museodiroma.it/"
+   "diffusione_prova": "https://museodiromaintrastevere.it/"
   },
   {
    "nome": "Museo Nazionale di Castel Sant'Angelo",
@@ -328038,28 +328217,6 @@
    },
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://teatrogarbatella.it/"
-  },
-  {
-   "nome": "Teatro Ghione",
-   "id": "S-EV-3160",
-   "categoria": "Teatri, cinema e spazi di spettacolo",
-   "sottocategoria": "teatro",
-   "ambito": "di quartiere",
-   "descrizione_breve": "Teatro di Aurelio (Municipio XIII).",
-   "attivita": [],
-   "pubblico": [],
-   "municipio": "XIII",
-   "zona": "aurelio",
-   "eventi": 1,
-   "canali": {
-    "facebook": "https://facebook.com/GhioneTeatroRoma"
-   },
-   "contatti": {
-    "email": false,
-    "telefono": false
-   },
-   "diffusione": "termini della piattaforma",
-   "diffusione_prova": "https://www.facebook.com/legal/automated_data_collection_terms"
   },
   {
    "nome": "Teatro Le Maschere",

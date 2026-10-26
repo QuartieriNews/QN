@@ -36,7 +36,7 @@ def zone_from_text(t):
 def s(v): v=None if v in (None,'None','') else str(v).strip(); return v
 CITYNEWS=re.compile(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$')   # Roma Today e Citynews: solo la lettura una tantum autorizzata (DEC-026)
 PROVT=re.compile(r"(?<!Via )(?<!Viale )(?<!Piazza )(?<!Largo )(?<!Via di )\b(Albano Laziale|Albano|Marino|Frascati|Ciampino|Castel Gandolfo|Genzano|Ariccia|Rocca di Papa|Rocca Priora|Grottaferrata|Monte Porzio|Monte Compatri|Fiumicino|Guidonia|Tivoli|Monterotondo|Pomezia|Ardea|Anzio|Nettuno|Velletri|Ladispoli|Cerveteri|Bracciano|Mentana|Fonte Nuova|Zagarolo|Palestrina|Colleferro|Valmontone|Lariano|Nemi|Formello|Sacrofano|Campagnano|Anguillara|Trevignano|Santa Marinella|Civitavecchia|Subiaco)\b")
-ev=[]; seen=set(); stat=collections.Counter()
+ev=[]; seen={}; stat=collections.Counter()
 def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=None):
     t=s(t); d1=s(d1); d2=s(d2) or d1
     if not t or not d1: stat['senza titolo o data']+=1; return
@@ -49,8 +49,13 @@ def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=Non
     cap=re.findall(r'(?<![\d.])(\d{5})(?!\d)',f"{luogo or ''} {ind or ''}")
     if cap and not any('00100'<=c<='00199' for c in cap): stat['fuori Roma (CAP)']+=1; return   # widget di eventi altrui (AICP: eventi negli Stati Uniti), Fever all'estero
     k=(norm(t)[:45],d1[:10])
-    if k in seen: stat['doppioni']+=1; return
-    seen.add(k)
+    if k in seen:   # doppione: completa i campi vuoti del gemello già tenuto (leva L06)
+        stat['doppioni']+=1; g=ev[seen[k]]
+        for f_,v_ in (('ind',s(ind)),('org',s(org)),('ora',s(ora)),('luogo',s(luogo))):
+            if not g.get(f_) and v_: g[f_]=v_; stat['doppioni: campo completato']+=1
+        if not g['z'] and z in pages: g['z']=z; g['m']=g['m'] or mun or pages[z]['primary_municipality']; stat['doppioni: pagina completata']+=1
+        return
+    seen[k]=len(ev)
     if z not in pages: z=None
     if not ora and len(d1)>10 and d1[11:16]!='00:00': ora=d1[11:16]
     ev.append({'z':z,'m':mun or (pages[z]['primary_municipality'] if z else None),'t':t[:160],'d1':d1[:10],'d2':d2[:10],'ora':s(ora),'luogo':s(luogo),'ind':s(ind),'org':s(org),'url':s(fonte_url) or s(url),'src':src,'free':gratis,'o':o or src})
@@ -175,6 +180,25 @@ if os.path.exists(PF):
     for x in json.load(open(PF)):
         z,m=(x['zona'],x['municipio']) if x.get('zona') else (zone_ll(x['lat'],x['lon']) if x.get('lat') else zone_from_text(x.get('luogo') or ''))
         add('sito della fonte',x['titolo'],x['inizio'],x['fine'],x.get('ora'),x.get('luogo'),None,x.get('org'),x.get('url'),z,m,o='feed iCal e REST dei siti (26 ott)')
+# 12 b. fonti gratuite della sera del 26 ottobre (leve L19, L56, L11, L48, L57, L59): pagine evento schema.org dei tipi «evento» di
+# WordPress, link esterni dei post, feed RSS di enti (candidati), VisitLazio. ilparioli.it escluso (aggregatore, verifica di L05/L19).
+PG=f'{S}/feed/fonti_gratis.json'
+if os.path.exists(PG):
+    SEDE={}
+    for f_ in json.load(open('/home/user/QN/docs/wiki/fonti-eventi/fonti_eventi.json'))['fonti']:
+        for u_ in (f_.get('canali') or {}).get('sito') or []:
+            h_=re.sub(r'^https?://(www\.)?','',u_).split('/')[0].lower()
+            if f_.get('lat') and h_ not in SEDE: SEDE[h_]=(f_['lat'],f_['lon'])
+    SEDE_UNICA={'bioparco.it','ambrajovinelli.org','teatroghione.it','teatrodidocumenti.org','scuolamusicatestaccio.it','cometaoff.it'}   # siti di un luogo solo
+    ORIG={'tipi evento WordPress':'siti: tipi evento di WordPress (26 ott)','link dei post':'siti: pagine ufficiali linkate dai post (26 ott)','feed RSS di enti':'feed RSS di enti (26 ott)','VisitLazio':'VisitLazio (26 ott)'}
+    for x in json.load(open(PG)):
+        h_=x['host'].replace('www.','')
+        if h_=='ilparioli.it': stat['fonti gratuite: aggregatore escluso']+=1; continue
+        z,m=zone_from_text(f"{x.get('luogo') or ''} {x.get('indirizzo') or ''}")
+        if not z and h_ in SEDE_UNICA and h_ in SEDE: z,m=zone_ll(*SEDE[h_])
+        if x['canale']!='VisitLazio' and not z and not (x.get('luogo') or x.get('indirizzo')) and h_ not in SEDE_UNICA: stat['fonti gratuite: senza luogo né sede unica']+=1; continue
+        add('sito della fonte',x['titolo'],x['inizio'],x.get('fine'),x.get('ora'),x.get('luogo'),x.get('indirizzo'),x.get('org'),x.get('url'),z,m,o=ORIG.get(x['canale'],x['canale']))
+        if x.get('dv') and ev and ev[-1]['url']==x.get('url'): ev[-1]['dv']=True
 # 13. recupero geografico degli eventi senza pagina (26 ottobre, leve L01 e L02): luogo già visto con una sola pagina;
 # indirizzo con civico geocodificato con Nominatim (cache, un'interrogazione al secondo, © OpenStreetMap contributors, ODbL).
 # Le schede di Roma Today restano senza pagina (DEC-026 aperta).
@@ -198,10 +222,21 @@ def nominatim(street):
             GC[k]=d[0] if d else None
         except Exception: GC[k]=None
     return GC[k]
+LUOGHI={}   # gazetteer dei luoghi (leva L03): luoghi di culture.roma.it e biblioteche, nome -> coordinate
+for v_ in json.load(open('/mnt/user-data/outputs/culture_luoghi.json')).values():
+    for n_ in [v_.get('titolo') or ''] + (v_.get('titolo') or '').split(' - ')[:1]:
+        if len(norm(n_))>=10 and v_.get('lat'): LUOGHI.setdefault(norm(n_),(v_['lat'],v_['lon']))
+for b_ in json.load(open(f'{S}/mirate/bib.json')):
+    c_=str(b_.get('sito') or '').rstrip('/').split('/')[-1]
+    if c_ in BIB and len(norm(b_['nome']))>=8: LUOGHI.setdefault(norm('biblioteca '+b_['nome']),BIB[c_][:2]); LUOGHI.setdefault(norm(b_['nome']),BIB[c_][:2])
 for e in ev:
     if e['z'] or e['src']=='Roma Today': continue
     lu=norm(e.get('luogo'))
     if lu in visti and len(visti[lu])==1: e['z']=next(iter(visti[lu])); e['m']=e['m'] or pages[e['z']]['primary_municipality']; stat['recupero: luogo già visto']+=1; continue
+    hit=next((LUOGHI[k_] for k_ in ([lu]+[k for k in LUOGHI if len(k)>=14 and f' {k} ' in f' {lu} ']) if k_ in LUOGHI),None) if lu else None
+    if hit:
+        z,mun=zone_ll(*hit)
+        if z: e['z']=z; e['m']=mun or e['m']; stat['recupero: luogo noto per nome']+=1; continue
     txt=f"{e.get('luogo') or ''} {e.get('ind') or ''}"
     if PROVT.search(txt) or not CIV.search(txt): continue
     m=CIV.search(txt); r=nominatim(f"{m.group(1)} {m.group(2).strip()} {m.group(3)}")
