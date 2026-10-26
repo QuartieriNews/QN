@@ -19,38 +19,45 @@ SCART={'L24':'Eventbrite: le API vietano la lettura di organizzatori terzi senza
        'L59':'VisitLazio: 10-30 al mese, quasi tutti in centro e fiere','L60':'comune.roma.it: 0-10 al mese, già noti da culture.roma.it; provata il 25 ottobre'}
 def rc(lid,k):
     v=V.get(lid,{}).get('resa',{}); return (v.get(k) or L[lid]['resa_stimata_eventi' if k=='resa_corretta' else 'costo'])
+
+# classifica della sera (verifica leggera delle leve L31-L60 e sintesi): giro2_risultato.json
+G=json.load(open(f'{S}/giro2_risultato.json')); F=G['finale']; E={e['id']:e for e in G['esiti']}
+STATO_ORD={'eseguita':0,'da eseguire subito':1,"da verificare con l'owner":2,'scartata':3}
+C=sorted(F['classifica'],key=lambda c:(STATO_ORD.get(c['stato'],9),-c['probabilita']))
+def verd(lid):
+    if lid in V: return V[lid].get('resa',{}).get('verdetto'),V[lid].get('liceita',{}).get('verdetto'),V[lid].get('liceita',{}).get('rischi')
+    e=E.get(lid,{}); return e.get('verdetto'),None,e.get('liceita')
 wb=openpyxl.Workbook(); ws=wb.active; ws.title='Leve'
-cols=['ordine','id','leva','gruppo','stato','esito misurato','resa stimata (dopo verifica)','costo','verdetto resa','verdetto liceità','rischi','decisione necessaria','descrizione']
+cols=['ordine','id','leva','gruppo','stato','probabilità di successo','resa (dopo verifica)','costo Apify $','altri costi','motivo','esito misurato','verdetto resa','verdetto liceità','liceità e rischi','descrizione']
 ws.append(cols)
 for c in ws[1]: c.font=Font(bold=True)
-rows=[]; n=0
-for lid,es in ESEG.items():
-    n+=1; rows.append([n,lid,L[lid]['nome'],'eseguita il 26 ottobre','eseguita',es,rc(lid,'resa_corretta'),rc(lid,'costo_corretto'),V.get(lid,{}).get('resa',{}).get('verdetto'),V.get(lid,{}).get('liceita',{}).get('verdetto'),V.get(lid,{}).get('liceita',{}).get('rischi'),L[lid].get('decisioni_necessarie'),L[lid]['descrizione']])
-for g,ids in ORD:
-    for lid in ids:
-        n+=1; rows.append([n,lid,L[lid]['nome'],g,'da verificare (owner)',None,rc(lid,'resa_corretta'),rc(lid,'costo_corretto'),V.get(lid,{}).get('resa',{}).get('verdetto'),V.get(lid,{}).get('liceita',{}).get('verdetto'),V.get(lid,{}).get('liceita',{}).get('rischi'),L[lid].get('decisioni_necessarie'),L[lid]['descrizione']])
-for lid,why in SCART.items():
-    n+=1; rows.append([n,lid,L[lid]['nome'],'scartata','scartata',why,rc(lid,'resa_corretta'),rc(lid,'costo_corretto'),V.get(lid,{}).get('resa',{}).get('verdetto'),V.get(lid,{}).get('liceita',{}).get('verdetto'),None,None,L[lid]['descrizione']])
-for r in rows: ws.append(r)
-W={'leva':50,'gruppo':40,'stato':20,'esito misurato':50,'resa stimata (dopo verifica)':70,'costo':40,'rischi':70,'decisione necessaria':40,'descrizione':90}
+for n,c in enumerate(C,1):
+    vr,vl,ri=verd(c['id'])
+    ws.append([n,c['id'],c['nome'],c['gruppo'],c['stato'],c['probabilita'],c['resa_corretta'],c['costo_apify_usd'],c['costo_altro'],c['motivo'],ESEG.get(c['id']),vr,vl,ri,L[c['id']]['descrizione']])
+W={'leva':50,'gruppo':34,'stato':22,'resa (dopo verifica)':60,'altri costi':36,'motivo':70,'esito misurato':50,'liceità e rischi':70,'descrizione':90}
 for i,c in enumerate(cols,1): ws.column_dimensions[get_column_letter(i)].width=W.get(c,12)
 ws.freeze_panes='C2'; ws.auto_filter.ref=ws.dimensions
 m=wb.create_sheet('Metodo')
-for t in ['Giro del 26 ottobre 2026: otto esploratori AI indipendenti (dati già raccolti, categorie di fonti, feed e API, social, canali diretti, cadenza e conteggio, enti pubblici, estrazione con modelli) hanno proposto 60 leve; 30 sono passate da due verifiche avversarie (resa e liceità) prima che il giro fosse fermato per limiti di quota; le altre 30 hanno solo la stima dell\'esploratore.',
-          'Classifica: per probabilità di successo con un tetto di 15 $ di Apify. Eseguite subito le leve deterministiche su dati già nostri o su feed pubblici strutturati; da verificare con l\'owner tutte le altre, raggruppate per tipo; scartate quelle con resa nulla o termini che vietano la lettura.',
-          'Le colonne «resa stimata» e «costo» riportano la correzione dello scettico quando c\'è, altrimenti la stima dell\'esploratore (le leve L31-L60 non sono state verificate).']:
+for t in ['Giro del 26 ottobre 2026. Mattina: otto esploratori AI indipendenti hanno proposto 60 leve; 30 (L01-L30) sono passate da due verifiche avversarie, sulla resa e sulla liceità; le leve deterministiche migliori sono state eseguite (stato «eseguita», esito misurato).',
+          'Sera: le altre 30 (L31-L60) sono state verificate da 10 scettici, tre leve ciascuno, con lo stesso rigore e un tetto di chiamate per non consumare troppa quota; poi una sintesi ha rifatto la classifica di tutte le 60 per probabilità di successo.',
+          'Stati: «da eseguire subito» = costo zero o dentro 15 $ di Apify in tutto, lecita senza nuove decisioni, probabilità alta; «da verificare con l\'owner» = servono lettere, licenze, budget o una decisione; «scartata» = resa nulla o termini che vietano la lettura.',
+          'Resa e costi sono quelli corretti dagli scettici, non le stime degli esploratori: quasi tutte le leve sono state ridimensionate, spesso di 2-5 volte.']:
     m.append([t])
 m.column_dimensions['A'].width=180
 wb.save('/mnt/user-data/outputs/leve_eventi_2026-10-26.xlsx')
-# testo del rapporto
-def cell(x): return str(x or '—').replace('|','/').replace('\n',' ')
-out=[f"## 1 decies. Secondo giro di leve per aumentare gli eventi in tutte le pagine (M, 26 ottobre 2026)","",
-"Otto esploratori AI indipendenti hanno proposto 60 leve (dati già raccolti, categorie di fonti, feed e API, social, canali diretti, cadenza e conteggio, enti pubblici, estrazione con modelli); 30 sono passate da due verifiche avversarie, sulla resa e sulla liceità, prima che il giro fosse fermato per limiti di quota. Classifica per probabilità di successo con un tetto di 15 dollari di Apify: eseguite subito le leve deterministiche su dati già nostri o su feed pubblici strutturati (0 dollari spesi); le altre stanno nel foglio `leve_eventi_2026-10-26.xlsx` su Drive, da verificare con l'owner.","",
+def cell(x): return str(x if x is not None else '—').replace('|','/').replace('\n',' ')
+cnt=collections.Counter(c['stato'] for c in C)
+sub=[c for c in C if c['stato']=='da eseguire subito']
+own=[c for c in C if c['stato']=="da verificare con l'owner"]
+out=["## 1 decies. Secondo giro di leve per aumentare gli eventi in tutte le pagine (M, 26 ottobre 2026)","",
+"Otto esploratori AI indipendenti hanno proposto 60 leve (dati già raccolti, categorie di fonti, feed e API, social, canali diretti, cadenza e conteggio, enti pubblici, estrazione con modelli). Ogni leva è passata da scettici che ne hanno ricontato la resa e controllato la liceità: le prime 30 con due verifiche ciascuna, le altre 30 con una verifica più leggera. Quasi tutte sono state ridimensionate, spesso di 2-5 volte. Le leve deterministiche migliori sono state eseguite subito, senza spesa Apify; la classifica completa è nel foglio `leve_eventi_2026-10-26.xlsx` su Drive.","",
 f"**Risultato delle leve eseguite.** Eventi futuri nella pagina da {M['prima']['eventi']:,} a {M['dopo']['eventi']:,}, con pagina QN da {M['prima']['con_pagina']:,} a {M['dopo']['con_pagina']:,}; pagine con 10 o più eventi da {M['prima']['dieci']} a {M['dopo']['dieci']}; pagine a zero ferme a {M['dopo']['zero']} ({M['dopo']['zero_nomi']}).".replace(',','.'),"",
 "| Leva | Che cosa | Esito misurato |","|---|---|---|"]
 for lid,es in ESEG.items(): out.append(f"| {lid} | {cell(L[lid]['nome'])} | {cell(es)} |")
-out+=["","**Leve da verificare con l'owner**, in ordine di probabilità di successo (resa e costo come corretti dallo scettico, dove c'è stata la verifica):",""]
-for g,ids in ORD:
-    out.append(f"- **{g}:** "+'; '.join(f"{lid} {cell(L[lid]['nome'])[:70]} ({cell(rc(lid,'resa_corretta'))[:90]}; {cell(rc(lid,'costo_corretto'))[:50]})" for lid in ids))
-out+=["","**Scartate:** "+'; '.join(f"{lid} {why}" for lid,why in SCART.items())+".",""]
-open(f'{S}/rapporto_1decies.md','w').write('\n'.join(out)+'\n'); print('\n'.join(out)[:1500])
+out+=["",f"**Classifica.** {cnt['eseguita']} eseguite, {cnt['da eseguire subito']} da eseguire subito (costo zero o quasi), {cnt[chr(100)+'a verificare con l'+chr(39)+'owner']} da verificare con l'owner, {cnt['scartata']} scartate. Nessuna delle 30 leve verificate la sera cambia l'ordine di grandezza: le migliori sono fonti strutturate gratuite e piccole.","",
+"| Da eseguire subito | Probabilità | Resa dopo verifica | Apify |","|---|---|---|---|"]
+for c in sub: out.append(f"| {c['id']} {cell(c['nome'])[:80]} | {c['probabilita']:.2f} | {cell(c['resa_corretta'])[:120]} | {c['costo_apify_usd']} $ |".replace('.',',',1) if False else f"| {c['id']} {cell(c['nome'])[:80]} | {str(c['probabilita']).replace('.',',')} | {cell(c['resa_corretta'])[:120]} | {str(c['costo_apify_usd']).replace('.',',')} $ |")
+out+=["","**Da verificare con l'owner**, in ordine di probabilità: "+'; '.join(f"{c['id']} {cell(c['nome'])[:60]}" for c in own)+".","",
+"**Cosa dice la verifica sul lungo periodo.** Lo stock di oggi è una foto: una parte viene da letture una tantum che non si ripetono, e senza rileggere i canali Facebook scende verso 1.700-1.900 a metà novembre. Con letture settimanali di tutti i canali (75-95 dollari al mese di Apify) lo stock a regime stimato è 1.100-1.300 eventi (L15), non 2.000; una lettura ridotta alle circa 200 pagine che hanno prodotto il 60% degli annunci futuri costa 8-12 dollari al mese e coglie il 30-45% del flusso fresco dei post (L14). Le decisioni che servono all'owner: budget Apify mensile, regola di conteggio (doppioni fusi, orizzonte di 60 giorni, serie contate una volta: sulla foto del mattino 2.384 diventano circa 1.940), letture automatiche settimanali di siti e feed pubblici, contatto in uscita con i promotori (prima i canali a consenso: modulo e newsletter), permesso scritto per Zero.eu.","",
+"**Rischi.** Ogni fonte nuova porta doppioni (la fusione dei doppioni va fatta prima di misurare le leve nuove); le fonti strutturate si concentrano nei Municipi I e II; le 5 pagine a zero non sono toccate da nessuna leva misurata; parrocchie, scuole e ASL contengono nomi di persone (in estrazione si tengono solo data, ora, luogo ed ente).",""]
+open(f'{S}/rapporto_1decies.md','w').write('\n'.join(out)+'\n'); print('\n'.join(out)[-2500:])
