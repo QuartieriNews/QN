@@ -51,12 +51,15 @@ TITOLO_LUNGO = 90
 # a place that is not a place in Rome: online, a postcode outside 001xx, a province code other than RM, a comune of the
 # province without Roma, "<city>, <another region>, Italia"; streets named after cities are not places (T-VE-3)
 ONLINE = re.compile(r"^\s*(?:(?:evento\s+)?on\s?line\b.*|(?:in |diretta )?streaming|webinar|zoom(?: meeting)?|google meet|(?:microsoft )?teams)\s*$", re.I)
-COMUNI_PROVINCIA = re.compile(
-    r"(?<!Via )(?<!Viale )(?<!Piazza )(?<!Largo )(?<!Via di )(?<!San )(?<!del )\b(Albano Laziale|Albano|Marino|Frascati|Ciampino|Castel Gandolfo|Genzano|Ariccia"
+COMUNI_PROVINCIA = re.compile(   # any case; Marino only capitalised, since «marino» is also an adjective
+    r"(?<!Via )(?<!Viale )(?<!Piazza )(?<!Largo )(?<!Via di )(?<!San )(?<!del )\b(Albano Laziale|Albano|(?-i:Marino)|Frascati|Ciampino|Castel Gandolfo|Genzano|Ariccia"
     r"|Rocca di Papa|Rocca Priora|Grottaferrata|Monte Porzio|Monte Compatri|Fiumicino|Guidonia|Tivoli|Monterotondo|Pomezia|Ardea|Anzio"
     r"|Nettuno|Velletri|Ladispoli|Cerveteri|Bracciano|Mentana|Fonte Nuova|Zagarolo|Palestrina|Colleferro|Valmontone|Lariano|Nemi|Formello"
-    r"|Sacrofano|Campagnano|Anguillara|Trevignano|Santa Marinella|Civitavecchia|Subiaco)\b")
-SIGLA = re.compile(r"\((?!RM\)|Rm\)|IT\))([A-Z]{2})\)")
+    r"|Sacrofano|Campagnano|Anguillara|Trevignano|Santa Marinella|Civitavecchia|Subiaco)\b", re.I)
+SIGLA = re.compile(   # province codes other than RM, any case
+    r"\((AG|AL|AN|AO|AP|AQ|AR|AT|AV|BA|BG|BI|BL|BN|BO|BR|BS|BT|BZ|CA|CB|CE|CH|CL|CN|CO|CR|CS|CT|CZ|EN|FC|FE|FG|FI|FM|FR|GE|GO|GR|IM|IS"
+    r"|KR|LC|LE|LI|LO|LT|LU|MB|MC|ME|MI|MN|MO|MS|MT|NA|NO|NU|OR|PA|PC|PD|PE|PG|PI|PN|PO|PR|PT|PU|PV|PZ|RA|RC|RE|RG|RI|RN|RO|SA|SI|SO"
+    r"|SP|SR|SS|SU|SV|TA|TE|TN|TO|TP|TR|TS|TV|UD|VA|VB|VC|VE|VI|VR|VT|VV)\)", re.I)
 CAP = re.compile(r"(?<![\d.,])(\d{5})(?!\d)")
 ALTRA_REGIONE = re.compile(
     r",\s*(?:Abruzzo|Basilicata|Calabria|Campania|Emilia[- ]Romagna|Friuli[- ]Venezia Giulia|Liguria|Lombardia|Lombardy|Marche|Molise"

@@ -15,7 +15,7 @@ Qui ci sono solo metodo e numeri. Le righe del campione, con i titoli e i testi 
 | stessa quota pesata per canale sulla pagina | 31% | 26% |
 | senza gli annunci estratti dai post | 29 su 120: 24% (17-33%) | 17 su 108: 16% (10-24%) |
 | eventi Facebook con l'ora sbagliata, campione | 37 su 45 | 1 su 36, secondo le note dei revisori (un orario segnaposto nella fonte) |
-| righe gravi per il validatore, pagina intera | 49 su 2.585 | 32 su 2.489, tutte schede di Roma Today senza link |
+| righe gravi per il validatore, pagina intera | 51 su 2.585 | 32 su 2.489, tutte schede di Roma Today senza link |
 
 L'errore più diffuso era sistematico: tutti gli orari degli eventi Facebook erano in UTC, quindi una o due ore indietro. Il
 canale più debole resta quello degli annunci estratti dai post, con il 43% di errori gravi.
@@ -103,8 +103,8 @@ canale più debole resta quello degli annunci estratti dai post, con il 43% di e
 
 **Effetto sulla pagina**, con la stessa data di riferimento del 25 ottobre:
 - 97 eventi tolti:
-  - 71 con le coordinate fuori dal Comune;
-  - 15 con il luogo online o fuori Roma;
+  - 69 con le coordinate fuori dal Comune;
+  - 17 con il luogo online o fuori Roma;
   - 11 blocchi di testo d'archivio.
 - L'ora di 540 eventi Facebook su 541 è stata convertita all'ora di Roma; 11 cambiano anche giorno.
 - Le pagine QN con almeno un evento restano 84, quelle con almeno 10 eventi restano 49.
@@ -115,14 +115,14 @@ dividono gli errori in gravi e avvisi.
 - `--severo` termina con un errore se c'è anche una sola riga grave.
 - L'elenco delle righe segnalate va fuori dal repository.
 
-I test di accettazione sono `tests/test_valida_eventi.py` (T-VE-1…8, 57 controlli) e `tests/test_leggi_eventi_siti.py`
+I test di accettazione sono `tests/test_valida_eventi.py` (T-VE-1…8, 62 controlli) e `tests/test_leggi_eventi_siti.py`
 (T-LS-1…6, 42 controlli).
 
 | Validatore, pagina intera (per regola: una riga può romperne più d'una) | Prima | Dopo |
 |---|---|---|
 | righe | 2.585 | 2.489 |
-| righe con un errore grave | 49 | 32 |
-| — luogo online o fuori dal Comune (V-GEO-5) | 15 | 0 |
+| righe con un errore grave | 51 | 32 |
+| — luogo online o fuori dal Comune (V-GEO-5) | 17 | 0 |
 | — senza link alla fonte (V-LINK-1, Roma Today) | 33 | 32 |
 | — fine prima dell'inizio, recapito in un campo | 2 | 0 |
 | avviso: senza pagina QN | 485 | 400 |

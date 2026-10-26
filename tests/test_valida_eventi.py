@@ -78,6 +78,7 @@ def main():
     check("T-VE-3 no page is a warning", codes(z=None, m=None), ["V-GEO-4"])
     for label, luogo, ind, why in (("online event", "Online event", None, "online"), ("Google Meet", "Google Meet", None, "online"),
                                    ("online with the platform", "Online su Zoom", None, "online"),
+                                   ("comune in lower case", "Villa adriana, tivoli", None, "comune"), ("province code in lower case", "Tuscania (vt)", None, "provincia"),
                                    ("postcode of the province", "Sala civica", "Via Roma 1, 00054 Fiumicino", "CAP"),
                                    ("province code", "Cinema Prova - Tuscania (VT)", None, "provincia"),
                                    ("comune of the province", "Villa Adriana, Tivoli", None, "comune"),
@@ -88,7 +89,8 @@ def main():
                               ("square named after a city", "Piazza Bologna", None), ("Rome postcode", "Sala", "Via Prova 1, 00153"),
                               ("Ostia, Lazio", "Ostia, Lazio, Italy", None), ("street named after a region", "Bar", "Via Toscana 1, Roma"),
                               ("venue whose name starts like an online tool", "Zoom Bar", "Via Prova 1"), ("fountain named after a comune", "Fontana del Nettuno", None),
-                              ("country code", "Teatro Prova, Roma (IT)", None),
+                              ("country code", "Teatro Prova, Roma (IT)", None), ("street named after a comune, lower case", "Bar", "via tivoli 3"),
+                              ("«marino» as an adjective", "Parco marino", None), ("two letters in brackets that are not a province", "Teatro (ex) Prova", None),
                               ("place with Roma", "Biblioteca, Roma (RM)", None), ("plain place", "Teatro Prova", "Via Prova 1")):
         check(f"T-VE-3 in Rome: {label}", ve.luogo_fuori_roma(luogo, ind), None)
 
