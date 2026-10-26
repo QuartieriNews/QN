@@ -85,12 +85,14 @@ const ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII',
 const MESI=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
 const MESI_L=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
 const GG=['dom','lun','mar','mer','gio','ven','sab'];
-const today=D.oggi;
+const oggiRoma=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Rome'});
+const today=oggiRoma>D.oggi?oggiRoma:D.oggi;
+D.eventi=D.eventi.filter(e=>(e.d2||e.d1)>=today);   // eventi già finiti nascosti anche quando i dati non sono stati rigenerati
 const byZ={}; D.eventi.forEach(e=>{const k=e.z||'senza-quartiere';(byZ[k]=byZ[k]||[]).push(e)});
 const cnt=z=>(byZ[z]||[]).length;
 const fcls=n=>n===0?'f0':n<5?'f1':n<10?'f5':'f10';
 const pages=D.pagine; const pById=Object.fromEntries(pages.map(p=>[p.id,p]));
-document.getElementById('stamp').textContent=`${D.eventi.length.toLocaleString('it-IT')} eventi futuri noti al ${fmtLong(today)} · ${pages.length} pagine di quartiere`;
+document.getElementById('stamp').textContent=`${D.eventi.length.toLocaleString('it-IT')} eventi in corso o futuri al ${fmtLong(today)} · dati raccolti al ${fmtLong(D.oggi)} · ${pages.length} pagine di quartiere`;
 function fmtLong(s){const d=new Date(s+'T12:00:00');return `${d.getDate()} ${MESI_L[d.getMonth()]} ${d.getFullYear()}`}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function rail(){

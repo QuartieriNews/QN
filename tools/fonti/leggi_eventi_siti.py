@@ -40,11 +40,16 @@ import urllib.request
 import urllib.robotparser
 from datetime import date, datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 UA = "QuartieriNews-fonti/1.0 (+https://github.com/quartierinews/qn; contatto: redazione)"
 MESI = "gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre"
 MESE_N = {m: i + 1 for i, m in enumerate(MESI.split("|"))}
 GIORNI = r"luned[iì]|marted[iì]|mercoled[iì]|gioved[iì]|venerd[iì]|sabato|domenica"
+GIORNO_N = {g: i for i, g in enumerate(("lun", "mar", "mer", "gio", "ven", "sab", "dom"))}
+GIORNO_PRIMA = re.compile(r"\b(" + GIORNI + r")\s*,?\s*$", re.I)
+ARCHIVIO = 180   # days: a block whose dated mentions are all older than this is an archive entry
+ROMA = ZoneInfo("Europe/Rome")
 DATA_TESTO = re.compile(r"\b(\d{1,2})\s+(" + MESI + r")(?:\s+(\d{4}))?\b|\b(\d{1,2})[/.](\d{1,2})[/.](\d{4})\b", re.I)
 NEVER = re.compile(r"(romatoday|citynews|facebook\.com|instagram\.com|tiktok\.com|x\.com|twitter\.com|linkedin\.com|youtube\.com|t\.me|wa\.me)", re.I)
 EVENT_TYPES = ("Event", "MusicEvent", "TheaterEvent", "ExhibitionEvent", "Festival", "SocialEvent", "EducationEvent",
@@ -64,6 +69,21 @@ def fetch(url, timeout=30):
         return raw.decode(enc, errors="replace")
     except LookupError:
         return raw.decode("utf-8", errors="replace")
+
+
+def data_ora_roma(s):
+    """A schema.org or Facebook date/datetime as Rome wall-clock time, 'YYYY-MM-DD' or 'YYYY-MM-DDTHH:MM'.
+    A time in UTC (Z, +00:00) is converted to Europe/Rome; a time with another offset is already local (T-LS-1)."""
+    s = str(s or "").strip()
+    m = re.match(r"(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}:\d{2})(?::\d{2}(?:\.\d+)?)?\s*(Z|[+-]00:?00)?)?", s)
+    if not m:
+        return s[:16]
+    if m.group(2) and m.group(3):
+        try:
+            return datetime.fromisoformat(f"{m.group(1)}T{m.group(2)}+00:00").astimezone(ROMA).strftime("%Y-%m-%dT%H:%M")
+        except ValueError:
+            pass
+    return m.group(1) + (f"T{m.group(2)}" if m.group(2) else "")
 
 
 def parse_iso_date(s):
@@ -114,7 +134,7 @@ def event_row(ev, fonte, pagina):
     if isinstance(addr, dict):
         addr = ", ".join(str(addr.get(k)) for k in ("streetAddress", "postalCode", "addressLocality") if addr.get(k))
     return {"fonte_id": fonte["id"], "fonte": fonte["nome"], "pagina": pagina, "prova": "jsonld",
-            "evento": str(ev.get("name") or "").strip(), "inizio": str(ev.get("startDate") or "")[:16], "fine": str(ev.get("endDate") or "")[:16],
+            "evento": str(ev.get("name") or "").strip(), "inizio": data_ora_roma(ev.get("startDate")), "fine": data_ora_roma(ev.get("endDate")),
             "luogo": loc_name, "indirizzo": addr, "url": ev.get("url") if isinstance(ev.get("url"), str) else None}
 
 
@@ -132,6 +152,9 @@ def text_blocks(doc):
 
 
 def dates_in_block(t, today):
+    """Dates written in a text block. A day-month without a year is its next occurrence, and is dropped when the
+    weekday written before it does not fall on that day, or when every date with a year in the block is older than
+    ARCHIVIO days: both mark an archive entry of a past year (T-LS-2, quality audit of 26 October 2026)."""
     found = []
     for m in DATA_TESTO.finditer(t):
         try:
@@ -144,8 +167,14 @@ def dates_in_block(t, today):
                 d = date(int(m.group(6)), int(m.group(5)), int(m.group(4)))
         except ValueError:
             continue
-        found.append(d)
-    return found
+        senza_anno = bool(m.group(2)) and not m.group(3)
+        g = GIORNO_PRIMA.search(t, 0, m.start()) if senza_anno else None
+        if g and GIORNO_N[g.group(1).lower()[:3]] != d.weekday():
+            continue
+        found.append((d, senza_anno))
+    con_anno = [d for d, senza in found if not senza]
+    archivio = bool(con_anno) and max(con_anno) < today - timedelta(days=ARCHIVIO)
+    return [d for d, senza in found if not (senza and archivio)]
 
 
 def read_page(fonte, pagina, doc, today, orizzonte, solo_jsonld=False):
@@ -154,7 +183,7 @@ def read_page(fonte, pagina, doc, today, orizzonte, solo_jsonld=False):
     seen = set()
     limite = today + timedelta(days=orizzonte)
     for ev in jsonld_events(doc):
-        d = parse_iso_date(ev.get("startDate"))
+        d = parse_iso_date(data_ora_roma(ev.get("startDate")))
         if d is None or d < today or d > limite:
             continue
         r = event_row(ev, fonte, pagina)

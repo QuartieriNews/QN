@@ -12,7 +12,8 @@ rows carry event titles (DEC-022, DEC-109).
 Rules (codes in the report):
   grave   V-DATA-1 start missing or not a date      V-DATA-2 end before start
           V-DATA-3 event already over               V-GEO-1  page not a gazetteer page id
-          V-GEO-2  municipio not I-XV               V-LINK-1 link missing or not http(s)
+          V-GEO-2  municipio not I-XV               V-GEO-5  place online or outside the Comune
+          V-LINK-1 link missing or not http(s)
           V-LINK-2 Roma Today link outside its channel (DEC-026)
           V-PRIV-1 email or phone number in a published field
           V-TIT-1  empty title
@@ -36,7 +37,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "wiki"))
 from leggi_eventi_siti import inside_repo  # noqa: E402
 from build_fonti_eventi import EMAIL_RX, PHONE_RX  # noqa: E402
 
-GRAVI = ("V-DATA-1", "V-DATA-2", "V-DATA-3", "V-GEO-1", "V-GEO-2", "V-LINK-1", "V-LINK-2", "V-PRIV-1", "V-TIT-1")
+GRAVI = ("V-DATA-1", "V-DATA-2", "V-DATA-3", "V-GEO-1", "V-GEO-2", "V-GEO-5", "V-LINK-1", "V-LINK-2", "V-PRIV-1", "V-TIT-1")
 AVVISI = ("V-DATA-4", "V-DATA-5", "V-ORA-1", "V-GEO-3", "V-GEO-4", "V-TIT-2", "V-DUP-1")
 ROMAN = ("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV")
 CITYNEWS = re.compile(r"(^|\.)(romatoday\.it|citynews\.it|today\.it)$", re.I)
@@ -47,6 +48,37 @@ FRASE = re.compile(
     r"|^\s*(?:" + GIORNI + r")\b|^\s*\d{1,2}\s+(?:gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)\b"
     r"|(?:\.\.\.|…)\s*$|https?://|www\.|#\w", re.I)
 TITOLO_LUNGO = 90
+# a place that is not a place in Rome: online, a postcode outside 001xx, a province code other than RM, a comune of the
+# province without Roma, "<city>, <another region>, Italia"; streets named after cities are not places (T-VE-3)
+ONLINE = re.compile(r"^\s*(?:(?:evento\s+)?on\s?line\b.*|(?:in |diretta )?streaming|webinar|zoom(?: meeting)?|google meet|(?:microsoft )?teams)\s*$", re.I)
+COMUNI_PROVINCIA = re.compile(
+    r"(?<!Via )(?<!Viale )(?<!Piazza )(?<!Largo )(?<!Via di )(?<!San )(?<!del )\b(Albano Laziale|Albano|Marino|Frascati|Ciampino|Castel Gandolfo|Genzano|Ariccia"
+    r"|Rocca di Papa|Rocca Priora|Grottaferrata|Monte Porzio|Monte Compatri|Fiumicino|Guidonia|Tivoli|Monterotondo|Pomezia|Ardea|Anzio"
+    r"|Nettuno|Velletri|Ladispoli|Cerveteri|Bracciano|Mentana|Fonte Nuova|Zagarolo|Palestrina|Colleferro|Valmontone|Lariano|Nemi|Formello"
+    r"|Sacrofano|Campagnano|Anguillara|Trevignano|Santa Marinella|Civitavecchia|Subiaco)\b")
+SIGLA = re.compile(r"\((?!RM\)|Rm\)|IT\))([A-Z]{2})\)")
+CAP = re.compile(r"(?<![\d.,])(\d{5})(?!\d)")
+ALTRA_REGIONE = re.compile(
+    r",\s*(?:Abruzzo|Basilicata|Calabria|Campania|Emilia[- ]Romagna|Friuli[- ]Venezia Giulia|Liguria|Lombardia|Lombardy|Marche|Molise"
+    r"|Piemonte|Piedmont|Puglia|Apulia|Sardegna|Sardinia|Sicilia|Sicily|Toscana|Tuscany|Trentino[- ]Alto Adige|Umbria|Valle d'Aosta"
+    r"|Aosta Valley|Veneto)\s*,\s*(?:Italy|Italia)\s*$", re.I)
+ROMA = re.compile(r"\b(Roma|Rome)\b", re.I)
+
+
+def luogo_fuori_roma(luogo, ind=None):
+    """Why the place of an event is not in the Comune di Roma ("online", "CAP", "provincia", "comune"), or None."""
+    parti = [str(x).strip() for x in (luogo, ind) if x and str(x).strip()]
+    if any(ONLINE.search(x) for x in parti):
+        return "online"
+    testo = " ".join(parti)
+    cap = CAP.findall(testo)
+    if cap and not any("00100" <= c <= "00199" for c in cap):
+        return "CAP"
+    if SIGLA.search(testo):
+        return "provincia"
+    if any(ALTRA_REGIONE.search(x) for x in parti) or (COMUNI_PROVINCIA.search(testo) and not ROMA.search(testo)):
+        return "comune"
+    return None
 
 
 def _date(s):
@@ -106,6 +138,8 @@ def check_row(e, oggi, orizzonte, zones):
             out.append("V-GEO-3")
     if not z:
         out.append("V-GEO-4")
+    if luogo_fuori_roma(e.get("luogo"), e.get("ind")):
+        out.append("V-GEO-5")
     url = e.get("url")
     if not url or not str(url).startswith(("http://", "https://")):
         out.append("V-LINK-1")

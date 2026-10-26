@@ -2,7 +2,11 @@
 import json,re,sys,glob,unicodedata,collections,openpyxl,os,ast,urllib.parse
 S='/tmp/claude-0/-home-user-QN/6ddd5f5b-029a-56ef-ba4a-9ebf9ede2447/scratchpad'; sys.path.insert(0,f'{S}/scripts')
 from mirate_liste import place
-TODAY='2026-10-25'
+sys.path.insert(0,'/home/user/QN/tools/fonti')
+from leggi_eventi_siti import data_ora_roma,dates_in_block   # ora di Roma dalle date in UTC; date d'archivio dei blocchi di testo
+from valida_eventi import luogo_fuori_roma,COMUNI_PROVINCIA,EMAIL_RX,PHONE_RX   # luogo online o fuori dal Comune (stessa regola del validatore, V-GEO-5)
+from datetime import date
+TODAY='2026-10-25'; TODAY_D=date.fromisoformat(TODAY)
 gz=json.load(open('/home/user/QN/gazetteer/gazetteer.json')); zones={z['publication_zone_id']:z for z in gz['publication_zones']}
 pages={z:p for z,p in zones.items() if p.get('is_page')}
 def norm(s): return re.sub(r'\s+',' ',re.sub(r'[^a-z0-9 ]+',' ',unicodedata.normalize('NFKD',str(s or '')).encode('ascii','ignore').decode().lower())).strip()
@@ -26,6 +30,15 @@ def zone_ll(lat,lon):
     except (TypeError,ValueError): return None,None
     if GEO=='zu': return _pagina(lat,lon)
     mun,sd,_=place(lat,lon); return match(sd,mun),mun
+def fuori_comune(lat,lon,citta=None,titolo=None):   # coordinate fuori dalle zone urbanistiche del Comune, città non Roma (audit di qualità del 26 ottobre)
+    try: float(lat),float(lon)
+    except (TypeError,ValueError): return False
+    if re.search(r'\b(Rome|Roma)\b',str(citta or '')): return False
+    if re.search(r'\b(Rome|Roma)\b',str(titolo or '')) and not COMUNI_PROVINCIA.search(str(titolo)): return False   # visite in città di chi ha come luogo la propria pagina
+    return GEO=='zu' and zone_ll(lat,lon)==(None,None)
+def archivio(testo,inizio):   # blocco datato rimasto da un anno passato: giorno della settimana che non torna o date tutte vecchie
+    try: return date.fromisoformat(str(inizio)[:10]) not in dates_in_block(testo,TODAY_D)
+    except ValueError: return False
 NAMES5={k:v for k,v in names.items() if len(k)>=6 and v.get('publishable',True) and k not in ('centro','roma','italia','parco','villa')}
 def zone_from_text(t):
     tt=' '+norm(t)+' '; best=None
@@ -35,19 +48,23 @@ def zone_from_text(t):
     z=best[1]['publication_zone_id']; return (z if z in pages else None), best[1].get('municipality_code')
 def s(v): v=None if v in (None,'None','') else str(v).strip(); return v
 CITYNEWS=re.compile(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$')   # Roma Today e Citynews: solo la lettura una tantum autorizzata (DEC-026)
-PROVT=re.compile(r"(?<!Via )(?<!Viale )(?<!Piazza )(?<!Largo )(?<!Via di )\b(Albano Laziale|Albano|Marino|Frascati|Ciampino|Castel Gandolfo|Genzano|Ariccia|Rocca di Papa|Rocca Priora|Grottaferrata|Monte Porzio|Monte Compatri|Fiumicino|Guidonia|Tivoli|Monterotondo|Pomezia|Ardea|Anzio|Nettuno|Velletri|Ladispoli|Cerveteri|Bracciano|Mentana|Fonte Nuova|Zagarolo|Palestrina|Colleferro|Valmontone|Lariano|Nemi|Formello|Sacrofano|Campagnano|Anguillara|Trevignano|Santa Marinella|Civitavecchia|Subiaco)\b")
+PROVT=COMUNI_PROVINCIA
+def senza_recapiti(v):   # niente email né telefoni nei campi pubblicati (V-PRIV-1)
+    if not v: return v
+    w=PHONE_RX.sub('',EMAIL_RX.sub('',str(v)))
+    return re.sub(r'\s{2,}',' ',w).strip() if w!=str(v) else v
 ev=[]; seen={}; stat=collections.Counter()
 def add(src,t,d1,d2,ora,luogo,ind,org,url,z,mun,fonte_url=None,gratis=None,o=None):
-    t=s(t); d1=s(d1); d2=s(d2) or d1
+    t=s(t); d1=data_ora_roma(s(d1)) if s(d1) else None; d2=data_ora_roma(s(d2)) if s(d2) else d1   # eventi Facebook in UTC -> ora di Roma
     if not t or not d1: stat['senza titolo o data']+=1; return
     d1=d1[:16].replace('T',' '); d2=(d2 or d1)[:16].replace('T',' ')
+    if d2[:10]<d1[:10]: d2=d1; stat['fine prima dell\'inizio: un giorno solo']+=1   # V-DATA-2
+    t,luogo,ind,org=(senza_recapiti(v) for v in (t,luogo,ind,org))
     if max(d1[:10],d2[:10])<TODAY: stat['passati']+=1; return
     if re.search(r'comune\.[a-z-]+\.rm\.it',str(url or '')+str(fonte_url or '')): stat['fuori Roma (sito di un altro comune)']+=1; return
     if src!='Roma Today' and any(CITYNEWS.search(urllib.parse.urlsplit(str(u or '')).netloc.lower()) for u in (url,fonte_url)): stat['Roma Today fuori dalla lettura autorizzata (DEC-026)']+=1; return
-    lu=f"{luogo or ''} {ind or ''}"
-    if PROVT.search(lu) and not re.search(r'\b(Roma|Rome)\b',lu): stat['fuori Roma (luogo in un comune della provincia)']+=1; return
-    cap=re.findall(r'(?<![\d.])(\d{5})(?!\d)',f"{luogo or ''} {ind or ''}")
-    if cap and not any('00100'<=c<='00199' for c in cap): stat['fuori Roma (CAP)']+=1; return   # widget di eventi altrui (AICP: eventi negli Stati Uniti), Fever all'estero
+    perche=luogo_fuori_roma(luogo,ind)   # online, CAP, sigla di provincia, comune della provincia, altra regione (widget altrui, Fever all'estero)
+    if perche: stat[f'fuori Roma o online ({perche})']+=1; return
     k=(norm(t)[:45],d1[:10])
     if k in seen:   # doppione: completa i campi vuoti del gemello già tenuto (leva L06)
         stat['doppioni']+=1; g=ev[seen[k]]
@@ -71,6 +88,7 @@ for row in rr[1:]:
     if r.get('riga_principale_proposta') not in ('sì',None): continue
     src=next((v for k,v in SRC.items() if str(r['fonte']).startswith(k)),'altro')
     z=s(r.get('zona_qn')) or s(r.get('zona_qn_metodo2')); m=s(r.get('municipio_assegnato'))
+    if fuori_comune(r.get('lat'),r.get('lon'),r.get('città'),r['nome']): stat['fuori Roma (coordinate)']+=1; continue
     if GEO=='zu' and r.get('lat'): z,m=zone_ll(r['lat'],r['lon'])
     url=s(r.get('link_fonte_diretta')) or (None if src=='Roma Today' else s(r.get('url')))
     o={'culture.roma.it':'culture.roma.it: lettura completa 20 ott','Facebook':'Facebook: eventi raccolti a mano dall\'owner','Roma Today':'Roma Today: lettura una tantum','sito della fonte':'siti delle fonti: lettura diretta 13-31 ott'}.get(src,src)
@@ -85,6 +103,8 @@ for r in json.load(open(f'{S}/siti/eventi_siti_tutti.json')):
 # 4. eventi Facebook delle pagine (censimento associazioni)
 for u,v in json.load(open(f'{S}/assoc/events.json')).items():
     for x in v['eventi']:
+        if x.get('online'): stat['fuori Roma o online (online)']+=1; continue
+        if fuori_comune(x.get('lat'),x.get('lon'),x.get('citta'),x['nome']): stat['fuori Roma (coordinate)']+=1; continue
         add('Facebook',x['nome'],x['inizio'],None,None,x['luogo'],x['indirizzo'],x['host'],x['url'],*(zone_ll(x['lat'],x['lon']) if GEO=='zu' and x.get('lat') else (match(x.get('suddivisione'),x.get('municipio')),x.get('municipio'))),o='Facebook: pagine del censimento associazioni')
 # 5. eventi Facebook degli enti RUNTS
 def key(u):
@@ -95,6 +115,7 @@ for f in sorted(glob.glob(f'{S}/runts/work/fb_events/*.json')):
     for x in json.load(open(f)):
         if key((x.get('_metadata') or {}).get('query'))=='feverup' or str(x.get('is_past'))=='True': continue
         if 'Rome' not in str(x.get('city') or '') and 'Roma' not in str(x.get('address') or ''): continue
+        if fuori_comune(x.get('latitude'),x.get('longitude'),x.get('city'),x.get('name')): stat['fuori Roma (coordinate)']+=1; continue
         z,m=zone_ll(x.get('latitude'),x.get('longitude'))
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),', '.join(x.get('host_names') or []) if isinstance(x.get('host_names'),list) else x.get('host_names'),x.get('url'),z,m,o='Facebook: pagine degli enti RUNTS')
 # 6. scoperta per parole chiave
@@ -102,11 +123,12 @@ wb=openpyxl.load_workbook('/mnt/user-data/outputs/facebook_scoperta_organizzator
 for row in rr[1:]:
     r=dict(zip(h,row))
     if r.get('online') or not r.get('municipio'): continue
-    add('Facebook',r['nome'],r['inizio'],None,None,r['luogo'],None,r['organizzatori'],r['url'],r.get('zona_qn'),r.get('municipio'),o='Facebook: ricerca per parole chiave')
+    ini=r['inizio']+'Z' if re.fullmatch(r'\d{4}-\d\d-\d\dT\d\d:\d\d',str(r['inizio'] or '')) else r['inizio']   # start_utc tagliato senza la Z
+    add('Facebook',r['nome'],ini,None,None,r['luogo'],None,r['organizzatori'],r['url'],r.get('zona_qn'),r.get('municipio'),o='Facebook: ricerca per parole chiave')
 # 7. fonti nuove dalla ricerca «evento / eventi / festa + quartiere» (24 ottobre): siti letti e pagine Facebook
 import os
 RQ=f'{S}/ricerca_quartieri'
-OTHERC=re.compile(r'\b(Mestre|Venezia|Milano|Torino|Bologna|Napoli|Firenze|Genova|Trieste|Verona|Padova|Bari|Palermo|Catania|Frascati|Fiumicino|Ostia Antica|Tivoli|Latina|Viterbo|Rieti|Frosinone|Cervara di Roma)\b')
+OTHERC=re.compile(r'\b(Mestre|Venezia|Milano|Torino|Bologna|Napoli|Firenze|Genova|Trieste|Verona|Padova|Bari|Palermo|Catania|Frascati|Fiumicino|Tivoli|Latina|Viterbo|Rieti|Frosinone|Cervara di Roma)\b')
 EVW=re.compile(r'\b(evento|eventi|festa|sagra|concerto|spettacolo|mostra|incontro|presentazione|laboratorio|visita|passeggiata|torneo|mercatino|cinema|proiezione|teatro|reading|conferenza|festival|rassegna|apertura|inaugurazione)\b',re.I)
 if os.path.exists(f'{RQ}/fonti_lette.json'):
     FIL=json.load(open(f'{RQ}/filtro.json')) if os.path.exists(f'{RQ}/filtro.json') else {}
@@ -119,11 +141,13 @@ if os.path.exists(f'{RQ}/fonti_lette.json'):
             dv=x['prova']!='jsonld'
             zx,mx=(zone_from_text(x['evento']) if dv else (z,m))
             if OTHERC.search(x['evento']) or (dv and not EVW.search(x['evento'])): continue
+            if dv and archivio(x['evento'],x['inizio']): stat['blocchi datati: archivio di un anno passato']+=1; continue
             add('sito della fonte',x['evento'],x['inizio'],x.get('fine'),None,x.get('luogo') or (None if dv else r.get('nome')),x.get('indirizzo') or (None if dv else r.get('indirizzo')),r.get('nome'),x.get('url') or x['pagina'],zx,mx,o='ricerca evento+quartiere: siti nuovi'+(' (blocchi datati)' if dv else ''))
             if dv and ev and ev[-1]['t']==str(x['evento']).strip()[:160]: ev[-1]['dv']=True
 for f in sorted(glob.glob(f'{RQ}/fb_events_*.json')):
     for x in json.load(open(f)):
         if str(x.get('is_past'))=='True' or ('Rome' not in str(x.get('city') or '') and 'Roma' not in str(x.get('address') or '')): continue
+        if fuori_comune(x.get('latitude'),x.get('longitude'),x.get('city'),x.get('name')): stat['fuori Roma (coordinate)']+=1; continue
         z,m=zone_ll(x.get('latitude'),x.get('longitude'))
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),', '.join(x.get('host_names') or []) if isinstance(x.get('host_names'),list) else x.get('host_names'),x.get('url'),z,m,o='ricerca evento+quartiere: pagine Facebook nuove')
 # 8. eventi annunciati nei post Facebook (ultimi post di 4.204 pagine; estrazione dal testo, da verificare)
@@ -147,6 +171,7 @@ PS=f'{S}/supplementare/eventi_suppl.json'
 if os.path.exists(PS):
     for x in json.load(open(PS)):
         n0=len(ev); post=x['canale']=='Facebook (post)'
+        if not post and x.get('prova')!='jsonld' and archivio(x.get('testo') or x.get('titolo') or '',x['inizio']): stat['blocchi datati: archivio di un anno passato']+=1; continue
         add('Facebook (post)' if post else 'sito della fonte',x.get('titolo') or (x.get('testo') or '')[:90],x['inizio'],x['fine'],x.get('ora'),x.get('luogo'),None,x.get('fonte'),x.get('url'),x.get('zona'),x.get('municipio'),o='lista supplementare: '+x['canale'])
         if len(ev)>n0:
             if post:
@@ -171,6 +196,7 @@ if os.path.exists(PB):
 for f in sorted(glob.glob(f'{S}/promotori/fbevents_ev_*.json')):
     for x in json.load(open(f)):
         if str(x.get('is_past'))=='True' or ('Rome' not in str(x.get('city') or '') and 'Roma' not in str(x.get('address') or '')): continue
+        if fuori_comune(x.get('latitude'),x.get('longitude'),x.get('city'),x.get('name')): stat['fuori Roma (coordinate)']+=1; continue
         z,m=zone_ll(x.get('latitude'),x.get('longitude'))
         hn=x.get('host_names'); hn=', '.join(hn) if isinstance(hn,list) else (', '.join(ast.literal_eval(hn)) if isinstance(hn,str) and hn.startswith('[') else hn)
         add('Facebook',x.get('name'),x.get('start_utc'),None,None,x.get('location_name'),x.get('address'),hn,x.get('url'),z,m,o='Facebook: pagine mai lette (lista supplementare e promotori)')

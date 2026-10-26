@@ -555,6 +555,22 @@ notizie per gli altri blocchi del sito.
 Metodo, numeri, fonti e decisione aperta sono in `docs/sources/NOTIZIE_DAI_DATI_2026-10-26.md`. Il foglio con le sintesi
 scritte da noi e il link alla fonte è su Drive.
 
+## 1 terdecies. Qualità della pagina «Eventi dei quartieri» (M, 26 ottobre 2026)
+
+Un campione di 155 eventi, diviso per canale, è stato confrontato con il testo della fonte da un revisore AI; un secondo
+revisore indipendente ne ha riletti 47 (kappa 0,78 sull'errore grave).
+
+- Errori gravi (data sbagliata, già passato, non è un evento, fuori Roma o online, pagina incoerente): 28% del campione
+  prima delle correzioni, 22% dopo.
+- L'ora degli eventi Facebook era in UTC: ora è convertita all'ora di Roma.
+- Sono tolti 97 eventi fuori dal Comune, online o presi da pagine d'archivio.
+- La pagina nasconde da sola gli eventi finiti.
+- Il validatore `tools/fonti/valida_eventi.py` e i suoi test controllano ogni riga pubblicata. Restano gravi solo le 32 schede
+  di Roma Today senza link (DEC-026).
+- Gli annunci estratti dai post restano al 43% di errori gravi.
+
+Metodo, numeri, correzioni e decisioni aperte sono in `docs/sources/QUALITA_EVENTI_2026-10-26.md`.
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |
@@ -713,26 +729,28 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
    secondo DEC-024 Q1; aggiungere Estate Romana come fonte istituzionale.
 3. Mettere in calendario la lettura settimanale dei siti (§4) e misurare per quattro settimane
    quante fonti producono davvero; poi rileggere le candidate «pagina eventi senza date».
-4. Scrivere la lettura per differenza di culture.roma.it.
-5. Portare il pacchetto Metodo QN nell'ambiente e riassegnare la geografia degli eventi con
+4. Portare il pacchetto Metodo QN nell'ambiente e riassegnare la geografia degli eventi con
    `qngeo.py punto`.
-6. Rimisurare a fine novembre: eventi futuri per pagina QN con le sole righe principali.
-7. Promotori (§1 nonies): per le fonti che vietano la riproduzione usare la card generata e i
+5. Rimisurare a fine novembre: eventi futuri per pagina QN con le sole righe principali.
+6. Promotori (§1 nonies): per le fonti che vietano la riproduzione usare la card generata e i
    nostri testi; prossime ricerche gratuite: calendari dei tornei delle società (UISP, CSI) e
    bollettini parrocchiali; per i centri anziani, contatto diretto.
-8. Leve del 26 ottobre (§1 decies): lettura settimanale dei feed iCal e REST dei siti e del
+7. Leve del 26 ottobre (§1 decies): lettura settimanale dei feed iCal e REST dei siti e del
    delta di culture.roma.it; 12 leve da eseguire a costo zero, 35 da verificare con l'owner, nel
    foglio `leve_eventi_2026-10-26.xlsx`.
-9. Dove cercare (§1 undecies). Owner:
+8. Dove cercare (§1 undecies). Owner:
    - cadenza (ogni giorno o ogni settimana) e budget mensile Apify della lettura dei promotori;
    - decidere i 139 candidati `PR-…` del registro v6;
    - correggere il nome della riga FE-1216.
 
    Builder: ripetere la prova del canale ogni mese, e portare la regola nel workflow n8n di
    staging quando le decisioni ci sono.
-10. Notizie dai dati (§1 duodecies). Owner: decidere se un post di un comitato o di
+9. Notizie dai dati (§1 duodecies). Owner: decidere se un post di un comitato o di
     un'associazione può essere fonte dei blocchi Notizie e Segnalazioni (OWNER_DECISION_REQUIRED
     in `NOTIZIE_DAI_DATI_2026-10-26.md`).
-11. Timeline di brevi per quartiere (`TIMELINE_BREVI_2026-10-26.md`). Owner: forma della timeline
+10. Timeline di brevi per quartiere (`TIMELINE_BREVI_2026-10-26.md`). Owner: forma della timeline
     (solo quartiere; quartiere, municipio e città insieme; timeline del municipio), monitoraggio delle
     pagine politiche, misura del loro ritmo prima di decidere.
+11. Qualità della pagina eventi (§1 terdecies). Owner: annunci estratti dai post (toglierli, tenerli «da verificare»,
+    rifarne l'estrazione con verifica), regola di conteggio di corsi e attività ricorrenti (OWNER_DECISION_REQUIRED in
+    `QUALITA_EVENTI_2026-10-26.md`). Builder: far girare il validatore con `--severo` prima di ogni pubblicazione.

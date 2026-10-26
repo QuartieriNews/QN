@@ -4,8 +4,9 @@
 - T-VE-1  dates: a missing or unreadable start, an end before the start and an event already over
           are grave; a start beyond the horizon and a period longer than 31 days are warnings.
 - T-VE-2  time: a time that is not HH:MM, or 00:00, is a warning; a normal time passes.
-- T-VE-3  geography: a page that is not a gazetteer page and a municipio outside I-XV are grave;
-          a page in another municipio (outside its spans) and a row without a page are warnings.
+- T-VE-3  geography: a page that is not a gazetteer page, a municipio outside I-XV and a place
+          online or outside the Comune are grave; a page in another municipio (outside its spans)
+          and a row without a page are warnings; Rome streets named after cities stay in Rome.
 - T-VE-4  link: a missing or non-http link is grave; a Roma Today link outside the Roma Today
           channel is grave (DEC-026); the same link in its own channel passes.
 - T-VE-5  privacy: an email or a phone number in a published field is grave; a postcode, a year
@@ -75,6 +76,21 @@ def main():
     check("T-VE-3 page in another municipio is a warning", "V-GEO-3" in codes(m="I"), True)
     check("T-VE-3 a municipio in the page's spans passes", "V-GEO-3" in codes(z="eur", m="VIII"), False)
     check("T-VE-3 no page is a warning", codes(z=None, m=None), ["V-GEO-4"])
+    for label, luogo, ind, why in (("online event", "Online event", None, "online"), ("Google Meet", "Google Meet", None, "online"),
+                                   ("online with the platform", "Online su Zoom", None, "online"),
+                                   ("postcode of the province", "Sala civica", "Via Roma 1, 00054 Fiumicino", "CAP"),
+                                   ("province code", "Cinema Prova - Tuscania (VT)", None, "provincia"),
+                                   ("comune of the province", "Villa Adriana, Tivoli", None, "comune"),
+                                   ("city, region, Italy", "Pisa, Toscana, Italia", None, "comune"),
+                                   ("region in the address", "Abruzzo, Trasacco", "Trasacco, Abruzzo, Italy", "comune")):
+        check(f"T-VE-3 outside the Comune: {label}", (ve.luogo_fuori_roma(luogo, ind), "V-GEO-5" in codes(luogo=luogo, ind=ind)), (why, True))
+    for label, luogo, ind in (("street named after a comune", "Teatro", "Via Tivoli 3, 00179 Roma"), ("Rome, Italy", "Rome, Italy", None),
+                              ("square named after a city", "Piazza Bologna", None), ("Rome postcode", "Sala", "Via Prova 1, 00153"),
+                              ("Ostia, Lazio", "Ostia, Lazio, Italy", None), ("street named after a region", "Bar", "Via Toscana 1, Roma"),
+                              ("venue whose name starts like an online tool", "Zoom Bar", "Via Prova 1"), ("fountain named after a comune", "Fontana del Nettuno", None),
+                              ("country code", "Teatro Prova, Roma (IT)", None),
+                              ("place with Roma", "Biblioteca, Roma (RM)", None), ("plain place", "Teatro Prova", "Via Prova 1")):
+        check(f"T-VE-3 in Rome: {label}", ve.luogo_fuori_roma(luogo, ind), None)
 
     print("T-VE-4 link")
     check("T-VE-4 link missing", "V-LINK-1" in codes(url=None), True)

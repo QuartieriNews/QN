@@ -2,9 +2,12 @@
 """Executable acceptance for tools/fonti/leggi_eventi_siti.py (reading event pages of the sources' sites).
 
 - T-LS-1  schema.org events are read from ld+json (plain, @graph, list), with the date
-          window applied: past events and events beyond the horizon are dropped.
+          window applied: past events and events beyond the horizon are dropped; a time in
+          UTC becomes Rome time (window included), a time with a local offset is kept.
 - T-LS-2  dated text blocks become candidate rows ("data nel testo"); a day-month without
-          a year is read as the next occurrence; --solo-jsonld drops them.
+          a year is read as the next occurrence, and dropped when the weekday before it does
+          not match or when the block's dated mentions are all from a past season (archive
+          pages); --solo-jsonld drops them.
 - T-LS-3  the page to check is chosen in order: events page of the site, page read at the
           source, site root; social networks and licensed aggregators are never fetched.
 - T-LS-4  a source whose page cannot be fetched is counted and skipped, never fatal; one
@@ -94,6 +97,12 @@ def main():
           ("Teatro Prova", "Via Prova 1, 00100, Roma", "https://teatroprova.it/uno"))
     check("T-LS-1 string location kept", rows[1]["luogo"], "Sala Grande")
     check("T-LS-1 past and beyond-horizon events dropped", any(r["evento"] in ("Evento Passato", "Evento Lontano") for r in rows), False)
+    for label, v, want in (("UTC in winter", "2026-10-29T16:30:00.000Z", "2026-10-29T17:30"), ("UTC in summer", "2026-07-01T19:00:00Z", "2026-07-01T21:00"),
+                           ("UTC as +00:00", "2026-11-02T20:00:00+00:00", "2026-11-02T21:00"), ("local offset kept", "2026-11-02T21:00:00+01:00", "2026-11-02T21:00"),
+                           ("no offset kept", "2026-11-02T21:00", "2026-11-02T21:00"), ("date only", "2026-11-20", "2026-11-20"), ("missing", None, "")):
+        check(f"T-LS-1 Rome time: {label}", ls.data_ora_roma(v), want)
+    utc = ls.read_page(FONTI[0], "x", '<script type="application/ld+json">{"@type":"Event","name":"Notte","startDate":"2026-10-23T23:30:00Z"}</script>', TODAY, 60)
+    check("T-LS-1 a UTC start late on the eve is today in Rome, kept in the window", [r["inizio"] for r in utc], ["2026-10-24T01:30"])
 
     print("T-LS-2 dated text blocks")
     rows = ls.read_page(FONTI[0], "https://teatroprova.it/eventi/", PAGE_A, TODAY, 60)
@@ -105,6 +114,15 @@ def main():
     check("T-LS-2 past date in text dropped", any("stagione passata" in r["evento"] for r in rows), False)
     check("T-LS-2 --solo-jsonld drops text rows", [r["prova"] for r in ls.read_page(FONTI[0], "x", PAGE_A, TODAY, 60, solo_jsonld=True)], ["jsonld", "jsonld"])
     check("T-LS-2 next-year rule", ls.dates_in_block("il 20 gennaio torna", date(2026, 11, 15)), [date(2027, 1, 20)])
+    check("T-LS-2 weekday that matches keeps the date", ls.dates_in_block("Vi aspettiamo giovedì 26 novembre in piazza", TODAY), [date(2026, 11, 26)])
+    check("T-LS-2 weekday that does not match: an earlier year's post, dropped", ls.dates_in_block("Vi aspettiamo sabato 26 novembre in piazza", TODAY), [])
+    check("T-LS-2 weekday check also after the next-year rule", ls.dates_in_block("Sabato, 9 gennaio concerto", date(2026, 11, 15)), [date(2027, 1, 9)])
+    check("T-LS-2 archive block: the day-month without year is not this year",
+          date(2026, 12, 31) in ls.dates_in_block("31 dicembre 2015 - 10 gennaio 2016 Capodanno (solo 31 dicembre fuori abbonamento)", TODAY), False)
+    check("T-LS-2 a recent dated mention is not an archive", ls.dates_in_block("dal 31 dicembre 2026 al 6 gennaio", date(2027, 1, 2)),
+          [date(2026, 12, 31), date(2027, 1, 6)])
+    archivio = ls.read_page(FONTI[0], "x", "<p>Capodanno 31 dicembre 2015: replica il 31 dicembre</p><p>Notte bianca, sabato 26 novembre in piazza</p>", TODAY, 90)
+    check("T-LS-2 archive entries give no rows", archivio, [])
 
     print("T-LS-4 run, errors, output")
     with tempfile.TemporaryDirectory() as tmp:
