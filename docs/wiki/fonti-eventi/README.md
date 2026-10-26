@@ -116,9 +116,9 @@ pagine dormienti restano fuori e si rileggono a marzo 2027.
 L'analisi dei promotori del 25 ottobre (`promotori.md`, rigenerata il 26) dice chi organizza i 2.585 eventi
 futuri della pagina «Eventi dei quartieri»: 1.246 promotori in 17 categorie, 1.245 con una voce nello
 schedario (139 entrate il 26 ottobre come candidate del registro v6). Per ognuno `promotori.md` dice dove
-cercare i prossimi eventi: il canale gratuito con una prova per 413 (feed, calendario o pagina eventi
+cercare i prossimi eventi: il canale gratuito con una prova per 414 (feed, calendario o pagina eventi
 del sito, notizie del sito, culture.roma.it, Biblioteche di Roma), un sito che pubblica date future ma
-non ancora i loro eventi per 97, Facebook per 655, nessun canale proprio per 81 (rapporto, §1 undecies). Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
+non ancora i loro eventi per 97, Facebook per 654, nessun canale proprio per 81 (rapporto, §1 undecies). Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
 nelle 41 pagine deboli (geografia delle zone urbanistiche); musei, grandi istituzioni e
 intermediari quasi solo nel centro. Sulla diffusione dei propri contenuti
 cinque fonti vietano la riproduzione e una la raccolta automatica; nessuna clausola letta vieta di

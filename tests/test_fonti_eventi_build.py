@@ -316,7 +316,11 @@ def main():
                                             "https://www.facebook.com/pagina/posts/987654321")],
               ["https://www.facebook.com/Nome-Pagina/1234567890", "https://www.facebook.com/people/Nome/61500000000000", "https://www.facebook.com/groups/gruppo",
                None, None, "https://www.facebook.com/pagina"])
-        check("T-FE-11 a Facebook post is never the page to read", bfe.dove_cercare_promotore({"canale": "post Facebook", "pagina": "https://www.facebook.com/pagina/posts/987654321"})["pagina"], None)
+        check("T-FE-11 a Facebook post as page to read is cut to its page, the events view is kept, a story is dropped",
+              [bfe.dove_cercare_promotore({"canale": "post Facebook", "pagina": u})["pagina"] for u in
+               ("https://www.facebook.com/pagina/posts/987654321", "https://www.facebook.com/pagina/videos/un-titolo-fittizio-lungo/123456/events",
+                "https://www.facebook.com/pagina/events", "https://www.facebook.com/story.php")],
+              ["https://www.facebook.com/pagina", "https://www.facebook.com/pagina/events", "https://www.facebook.com/pagina/events", None])
         check("T-FE-11 schedario entry carries the rule", vas["promotore"]["dove_cercare"]["canale"], "calendario del sito (schema.org)")
         check("T-FE-11 promoters page: rule column with link, evidence and check channel",
               "[calendario del sito (schema.org)](https://www.teatrovascello.it/calendario/) · confermato · controllo: eventi Facebook" in prom, True)

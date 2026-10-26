@@ -3810,7 +3810,7 @@ Per ogni pagina QN, le fonti che a ottobre 2026 hanno prodotto eventi in quella 
 | Hogrefe Editore | [sito](https://hogrefe.com) · [eventi della pagina Facebook](https://www.facebook.com/hogrefe.editore/events) | organizzatore | FB 1 |
 | Libreria Eli | [sito](https://libreriaeli.it) | luogo | RT 1 |
 | Libreria Tra le Righe | [eventi della pagina Facebook](https://www.facebook.com/tralerighe/events) | organizzatore | FB 1 |
-| Strategia E Tattica | [eventi della pagina Facebook](https://www.facebook.com/strategia.tattica/events) | luogo, organizzatore | FB 1 |
+| Strategia E Tattica | [pagina eventi del sito](https://www.strategia2.it/events/) · [eventi della pagina Facebook](https://www.facebook.com/strategia.tattica/events) | luogo, organizzatore | FB 1 |
 | Suono dell'Anima | [eventi della pagina Facebook](https://www.facebook.com/suonodellanimayoga/events) | organizzatore | FB 1 |
 | A.D.I. ASSOCIAZIONE ITALIANA DI DIETETICA E NUTRIZONE CLINICA ENTE DEL TERZO SETTORE | [sito](https://adiitalia.org) · [eventi della pagina Facebook](https://www.facebook.com/adiitalia.net/events) | organizzatore | — |
 | A.S.C. - ATTIVITA' SPORTIVE CONFEDERATE | [pagina eventi del sito](https://www.ascsport.it/news/?categoria=5994&) · [sito](https://ascsport.it) · [eventi della pagina Facebook](https://www.facebook.com/AttivitaSportiveConfederate/events) | organizzatore | — |

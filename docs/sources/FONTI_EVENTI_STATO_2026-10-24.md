@@ -431,7 +431,7 @@ mensile di cercare eventi ogni giorno.
   - ricerca interna di WordPress con le parole dei titoli (214 siti);
   - Chromium per i siti fatti in JavaScript (56; 13 con robots.txt che vieta, saltati).
 - **Riscontro.** Un evento futuro già noto del promotore è stato ritrovato sul sito con titolo e
-  data vicini per 136 promotori, con il titolo intero per 83. Su un campione di 25 controllato a
+  data vicini per 136 promotori, con il titolo intero per 84. Su un campione di 25 controllato a
   mano, 24 riscontri sono veri. L'unico falso era una data di un anno passato scritta senza
   anno, e ora è escluso.
 - **Pagina scritta.** È sempre una pagina indice, mai quella di un singolo evento, perché lo slug
@@ -451,24 +451,24 @@ tutti gli eventi.
 |---|---|---|---|
 | feed del sito (iCal, REST) | 36 | storico 30, confermato 2, probabile 4 | 204 |
 | calendario del sito (schema.org) | 28 | storico 15, confermato 3, probabile 10 | 133 |
-| pagina eventi del sito | 343 | storico 92, confermato 168, probabile 83 | 897 |
+| pagina eventi del sito | 344 | storico 92, confermato 169, probabile 83 | 898 |
 | notizie del sito (RSS) | 46 | confermato 46 | 70 |
 | agenda Biblioteche di Roma | 30 | storico 30 | 156 |
 | culture.roma.it | 27 | storico 27 | 124 |
-| eventi Facebook | 309 | storico 309 | 473 |
+| eventi Facebook | 308 | storico 308 | 472 |
 | post Facebook | 346 | storico 346 | 540 |
 | solo Instagram (non letto) | 17 | — | 22 |
 | solo aggregatore | 6 | — | 6 |
 | nessun canale proprio | 58 | — | 61 |
 
 In sintesi:
-- **Canale gratuito con prova: 413 promotori.** Per 194 la prova è storica, per 219 è confermata.
-  Di questi ultimi, 195 a ottobre arrivavano solo da Facebook: ora si leggono sul sito.
+- **Canale gratuito con prova: 414 promotori.** Per 194 la prova è storica, per 220 è confermata.
+  Di questi ultimi, 196 a ottobre arrivavano solo da Facebook: ora si leggono sul sito.
 - **Sito «probabile»: 97.** Pubblica date future ma non ancora i loro eventi: resta Facebook più
   il sito in prova.
-- **Facebook: 655.**
+- **Facebook: 654.**
   - 248 non hanno un sito;
-  - 286 hanno un sito senza date;
+  - 285 hanno un sito senza date;
   - 62 hanno un sito con date ma non i loro eventi;
   - 20 hanno un sito che vieta la lettura;
   - 39 hanno un sito irraggiungibile.
@@ -506,8 +506,8 @@ ogni giorno o ogni settimana costa quasi uguale. La cadenza pesa solo sugli even
 | Scenario | Ogni giorno | Ogni settimana |
 |---|---|---|
 | Oggi, tutto da Facebook: 1.123 pagine, eventi e post | 33,94 $ | 26,17 $ |
-| Regola: canale gratuito dove c'è la prova, Facebook per gli altri (328 pagine eventi, 423 post), controllo compreso | 15,50 $ | 13,19 $ |
-| Regola con anche i siti «probabili» al posto di Facebook | 15,35 $ | 13,17 $ |
+| Regola: canale gratuito dove c'è la prova, Facebook per gli altri (327 pagine eventi, 423 post), controllo compreso | 15,49 $ | 13,19 $ |
+| Regola con anche i siti «probabili» al posto di Facebook | 15,34 $ | 13,17 $ |
 
 Che cosa dice la tabella:
 - **Siti, feed, notizie, culture.roma.it e Biblioteche di Roma costano 0 dollari** a qualsiasi

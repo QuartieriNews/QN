@@ -41,11 +41,11 @@ Dove cercare i prossimi eventi: il canale più economico che porta gli eventi de
 |---|---|---|
 | feed del sito | 36 | storico 30, probabile 4, confermato 2 |
 | calendario del sito (schema.org) | 28 | storico 15, probabile 10, confermato 3 |
-| pagina eventi del sito | 343 | confermato 168, storico 92, probabile 83 |
+| pagina eventi del sito | 344 | confermato 169, storico 92, probabile 83 |
 | notizie del sito (RSS) | 46 | confermato 46 |
 | agenda Biblioteche di Roma | 30 | storico 30 |
 | culture.roma.it | 27 | storico 27 |
-| eventi Facebook | 309 | storico 309 |
+| eventi Facebook | 308 | storico 308 |
 | post Facebook | 346 | storico 346 |
 | Instagram (non letto) | 17 | nessun canale gratuito 17 |
 | solo aggregatore | 6 | nessun canale proprio 6 |
@@ -1287,7 +1287,7 @@ Dove cercare i prossimi eventi: il canale più economico che porta gli eventi de
 | Palazzo dello Sport (EUR SpA) | Impresa attivo a EUR (Municipio IX): partecipazione civica. | di quartiere | IX · EUR | 1 | [sito](https://eurspa.it) · [facebook](https://www.facebook.com/eurspa) · [instagram](https://www.instagram.com/eurspa) | no | [nessuna indicazione](https://eurspa.it/) | [pagina eventi del sito](https://www.eurspa.it/) · storico | `S-FE-0070` |
 | Peppe A Tor Cervara | Locale (bar, ristorante, pub) attivo a Tor Cervara. | di quartiere | IV · Tor Cervara | 1 | [sito](https://peppeatorcervara.it) | sì | [nessuna indicazione](https://peppeatorcervara.it/) | [calendario del sito (schema.org)](https://www.peppeatorcervara.it/event-details/cena-social/) · storico | `S-FE-0857` |
 | Rocco Toys | Locale o negozio attivo a Colli Portuensi (Municipio XII): feste e mercatini; per bambini e famiglie. | di quartiere | XII · Colli Portuensi | 1 | [sito](http://www.roccotoys.com/) · [facebook](https://www.facebook.com/RoccoToys) · [instagram](https://www.instagram.com/roccotoys_) | sì | [diritti riservati (generico)](https://roccotoys.com/) | [pagina eventi del sito](http://www.roccotoys.com/eventi/) · confermato | `S-FE-0921` |
-| Strategia E Tattica | Libreria o negozio di Trieste-Salario (Municipio II): storia e memoria; per bambini e famiglie. | di quartiere | II · Trieste-Salario | 1 | [sito](http://www.strategia2.it/) · [facebook](https://www.facebook.com/strategia.tattica) · [instagram](https://www.instagram.com/strategiaetattica) | sì | [diritti riservati (generico)](https://strategia2.it/) | [eventi Facebook](https://www.facebook.com/strategia.tattica/events) · storico | `S-EV-3112` |
+| Strategia E Tattica | Libreria o negozio di Trieste-Salario (Municipio II): storia e memoria; per bambini e famiglie. | di quartiere | II · Trieste-Salario | 1 | [sito](http://www.strategia2.it/) · [facebook](https://www.facebook.com/strategia.tattica) · [instagram](https://www.instagram.com/strategiaetattica) | sì | [diritti riservati (generico)](https://strategia2.it/) | [pagina eventi del sito](https://www.strategia2.it/events/) · confermato | `S-EV-3112` |
 | Sunsea Studio | Impresa (associazione di promozione sociale) di Prati (Municipio I): sport e movimento; per bambini e famiglie. | di quartiere | I · Prati | 1 | [sito](https://www.sunsea-studio.com/) · [instagram](https://www.instagram.com/sunsea_studio) | sì | [diritti riservati (generico)](https://sunsea-studio.com/) | [Instagram (non letto)](https://www.instagram.com/sunsea_studio) · nessun canale gratuito | `S-EV-3123` |
 | Wellness Top Management | Impresa: laboratori e corsi. | di quartiere | — · — | 1 | [facebook](https://www.facebook.com/Vendere.Valore) | no | [termini della piattaforma](https://www.facebook.com/legal/automated_data_collection_terms) | [eventi Facebook](https://www.facebook.com/Vendere.Valore/events) · storico | `S-EV-3468` |
 | Wildfire Store | Libreria o negozio di Laurentino (Municipio IX): sport e movimento. | di quartiere | IX · Laurentino | 1 | [facebook](https://www.facebook.com/Wildfirestore) · [instagram](https://www.instagram.com/wildfire_store) | sì | [termini della piattaforma](https://www.facebook.com/legal/automated_data_collection_terms) | [eventi Facebook](https://www.facebook.com/Wildfirestore/events) · storico | `S-EV-3475` |

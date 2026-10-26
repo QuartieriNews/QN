@@ -306,7 +306,7 @@ Fonti: 391 · eventi nel mese: 495. Sigle degli aggregatori: FB Facebook, CR cul
 | Libreria Tra le Righe | [eventi della pagina Facebook](https://www.facebook.com/tralerighe/events) | organizzatore | libreria | FB 1 | 0% | — | `S-EV-2336` |
 | MACRO - Museo Arte Contemporanea Roma | — | luogo | museo | RT 1 | 0% | — | `S-EV-2371` |
 | Negozio Enel | — | luogo | altro | RT 1 | 0% | — | `S-EV-2543` |
-| Strategia E Tattica | [eventi della pagina Facebook](https://www.facebook.com/strategia.tattica/events) | luogo, organizzatore | altro | FB 1 | 0% | — | `S-EV-3112` |
+| Strategia E Tattica | [pagina eventi del sito](https://www.strategia2.it/events/) · [eventi della pagina Facebook](https://www.facebook.com/strategia.tattica/events) | luogo, organizzatore | altro | FB 1 | 0% | — | `S-EV-3112` |
 | Suono dell'Anima | [eventi della pagina Facebook](https://www.facebook.com/suonodellanimayoga/events) | organizzatore | altro | FB 1 | 0% | — | `S-EV-3125` |
 | Via Dora, 2 | — | luogo | altro | FB 1 | 100% | — | `S-EV-3369` |
 | Viale Gorizia 29, 00198 Rome, Italy | — | luogo | altro | FB 1 | 0% | — | `S-EV-3416` |

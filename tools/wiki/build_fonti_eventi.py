@@ -100,9 +100,10 @@ def dove_cercare_promotore(d):
         return None
     u = d.get("pagina")
     ok = is_web_url(u) and not EMAIL_RX.search(u) and not personal_profile(u) and "linkedin.com/in/" not in u and not re.search(r"romatoday|citynews|today\.it", u, re.I)
-    if ok and "facebook.com" in u:   # the page or its events view, never a post or a video
+    if ok and "facebook.com" in u:   # cut to the page (a post or a video carries the source's text); the events view is kept
         base = fb_page_url(re.sub(r"/events/?$", "", u))
-        ok = bool(base) and u.rstrip("/") in (base.rstrip("/"), base.rstrip("/") + "/events")
+        ok = bool(base) and not personal_profile(base)
+        u = (base.rstrip("/") + "/events" if re.search(r"/events/?$", u) else base) if ok else None
     return {"canale": d["canale"], "prova": d.get("prova") if d.get("prova") in PROVE_CANALE else None, "pagina": u if ok else None,
             "controllo": d.get("controllo") if d.get("controllo") in CANALI_LETTURA else None}
 

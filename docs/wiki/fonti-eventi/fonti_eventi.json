@@ -280684,6 +280684,10 @@
    },
    "dove_cercare": [
     {
+     "url": "https://www.strategia2.it/events/",
+     "cosa": "pagina eventi del sito"
+    },
+    {
      "url": "https://www.facebook.com/strategia.tattica/events",
      "cosa": "eventi della pagina Facebook"
     }
@@ -280713,9 +280717,9 @@
     "descrizione_breve": "Libreria o negozio di Trieste-Salario (Municipio II): storia e memoria; per bambini e famiglie.",
     "diffusione": "diritti riservati (generico)",
     "dove_cercare": {
-     "canale": "eventi Facebook",
-     "prova": "storico",
-     "pagina": "https://www.facebook.com/strategia.tattica/events",
+     "canale": "pagina eventi del sito",
+     "prova": "confermato",
+     "pagina": "https://www.strategia2.it/events/",
      "controllo": null
     }
    }
@@ -352624,9 +352628,9 @@
    "diffusione": "diritti riservati (generico)",
    "diffusione_prova": "https://strategia2.it/",
    "dove_cercare": {
-    "canale": "eventi Facebook",
-    "prova": "storico",
-    "pagina": "https://www.facebook.com/strategia.tattica/events",
+    "canale": "pagina eventi del sito",
+    "prova": "confermato",
+    "pagina": "https://www.strategia2.it/events/",
     "controllo": null
    }
   },

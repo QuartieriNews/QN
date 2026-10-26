@@ -24,10 +24,15 @@ async function robots(origin){
   async function one(h){
     const root=roots[h]; const res={host:h,docs:[],errori:[],robots_vieta:0,giro:'browser'};
     const ok=await robots(new URL(root).origin);
-    const page=await ctx.newPage();
+    await new Promise(r=>setTimeout(r,1000));   // una richiesta al secondo per sito, anche fra robots.txt e la prima pagina
+    const page=await ctx.newPage(); let rifiuto=false;
     async function open(u,kind){
+      if(rifiuto) return null;
       if(!ok(u)){res.robots_vieta++; return null;}
-      try{await page.goto(u,{waitUntil:'networkidle',timeout:30000});}catch(e){try{await page.waitForTimeout(3000);}catch(_){}}
+      let resp=null;
+      try{resp=await page.goto(u,{waitUntil:'networkidle',timeout:30000});}catch(e){try{await page.waitForTimeout(3000);}catch(_){}}
+      const st=resp?resp.status():0;
+      if(st===401||st===403){rifiuto=true; res.errori.push([kind,u,'HTTP '+st+': rifiuto, non si aggira']); return null;}   // niente testo, niente link, niente altre pagine
       try{const t=await page.evaluate(()=>document.body?document.body.innerText:''); 
           const ld=await page.evaluate(()=>[...document.querySelectorAll('script[type="application/ld+json"]')].map(s=>s.textContent));
           const links=await page.evaluate(()=>[...document.querySelectorAll('a[href]')].map(a=>[a.href,(a.innerText||'').slice(0,60)]));
