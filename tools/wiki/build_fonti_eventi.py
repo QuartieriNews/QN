@@ -66,8 +66,8 @@ VENUE_WORDS = ("teatro", "cinema", "biblioteca", "museo", "parco", "villa", "mer
 SOCIAL = re.compile(r"(facebook\.com|instagram\.com|tiktok\.com|youtube\.com|youtu\.be|x\.com|twitter\.com|linkedin\.com|t\.me|wa\.me|whatsapp|threads\.net|telegram)", re.I)
 TICKET = re.compile(r"(vivaticket|ticketone|ticketmaster|dice\.fm|eventbrite|boxol|ticketsms|clappit|liveticket|ciaotickets|xceed|mailticket|tickettailor|ticketnation|i-ticket|oooh\.events|tiqets|getyourguide|musement|coopculture|museiincomuneroma)", re.I)
 EMAIL_RX = re.compile(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}")
-# Italian phone numbers (landline 0…, mobile 3…, optional +39/0039): a postcode, a year or a count never matches
-PHONE_RX = re.compile(r"(?<![\w.])(?:(?:\+|00)39[\s.\-]?)?(?:0\d{1,3}|3\d{2})[\s.\-/]?\d(?:[\s.\-]?\d){4,7}(?!\w)")
+# Italian phone numbers (landline 0…, mobile 3…, optional +39/0039): a postcode, a year, a count or a date (04.12.2026) never matches
+PHONE_RX = re.compile(r"(?<![\w.])(?!\d{1,2}[./]\d{1,2}[./]\d{2,4}(?!\d))(?:(?:\+|00)39[\s.\-]?)?(?:0\d{1,3}|3\d{2})[\s.\-/]?\d(?:[\s.\-]?\d){4,7}(?!\w)")
 CENSIMENTO_CANDIDATI = ("rientra", "locale", "da valutare", "da verificare")   # census verdicts that enter the registry as candidates
 # (file, sheet, origin label, column map onto the common fields; a key mapped to None is absent in that file)
 CENSUS_FILES = (

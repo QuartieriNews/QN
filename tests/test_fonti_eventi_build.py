@@ -288,9 +288,9 @@ def main():
         check("T-FE-10 personal profiles (Facebook, LinkedIn): name kept, url dropped; non-web link dropped", gp["canali"], {})
         check("T-FE-10 short description capped and stripped of the address", (len(gp["descrizione_breve"]) <= bfe.PROMO_MAX, "persona-fittizia" in gp["descrizione_breve"]), (True, False))
         check("T-FE-10 unknown zone and unknown label never written", (gp["zona"], gp["diffusione"]), (None, "non verificabile"))
-        check("T-FE-10 phone numbers stripped from free text, postcode, year and date kept",
-              bfe.PHONE_RX.sub("§", "tel. 06 5550 1234 o +39 333 123 4567, Via Roma 12, 00153 Roma, dal 2026, il 05/11/2026 ore 18.30"),
-              "tel. § o §, Via Roma 12, 00153 Roma, dal 2026, il 05/11/2026 ore 18.30")
+        check("T-FE-10 phone numbers stripped from free text, postcode, year and dates (slashes or dots) kept",
+              bfe.PHONE_RX.sub("§", "tel. 06 5550 1234 o +39 333 123 4567, Via Roma 12, 00153 Roma, dal 2026, il 05/11/2026 ore 18.30, il 04.12.2026, 06.5550.1234"),
+              "tel. § o §, Via Roma 12, 00153 Roma, dal 2026, il 05/11/2026 ore 18.30, il 04.12.2026, §")
         vas = next(e for e in s["fonti"] if e["id"] == "S-FE-0100")
         check("T-FE-10 schedario entry carries the promoter category", vas.get("promotore", {}).get("categoria"), "Teatri, cinema e spazi di spettacolo")
         check("T-FE-10 evidence link of the position kept", "[diritti riservati (generico)](https://www.teatrovascello.it/note-legali/)" in prom, True)
