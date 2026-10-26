@@ -59,13 +59,14 @@ for t in ['Giro del 26 ottobre 2026. Mattina: otto esploratori AI indipendenti h
     m.append([t])
 m.column_dimensions['A'].width=180
 wb.save('/mnt/user-data/outputs/leve_eventi_2026-10-26.xlsx')
+def it(n): return f'{n:,}'.replace(',','.')
 def cell(x): return str(x if x is not None else '—').replace('|','/').replace('\n',' ')
 cnt=collections.Counter(c['stato'] for c in C)
 sub=[c for c in C if c['stato']=='da eseguire subito']
 own=[c for c in C if c['stato']=="da verificare con l'owner"]
 out=["## 1 decies. Secondo giro di leve per aumentare gli eventi in tutte le pagine (M, 26 ottobre 2026)","",
 "Otto esploratori AI indipendenti hanno proposto 60 leve (dati già raccolti, categorie di fonti, feed e API, social, canali diretti, cadenza e conteggio, enti pubblici, estrazione con modelli). Ogni leva è passata da scettici che ne hanno ricontato la resa e controllato la liceità: le prime 30 con due verifiche ciascuna, le altre 30 con una verifica più leggera. Quasi tutte sono state ridimensionate, spesso di 2-5 volte. Le leve deterministiche migliori sono state eseguite subito, senza spesa Apify; la classifica completa è nel foglio `leve_eventi_2026-10-26.xlsx` su Drive.","",
-f"**Risultato delle leve eseguite.** Eventi futuri nella pagina da {M['prima']['eventi']:,} a {M['dopo']['eventi']:,}, con pagina QN da {M['prima']['con_pagina']:,} a {M['dopo']['con_pagina']:,}; pagine con 10 o più eventi da {M['prima']['dieci']} a {M['dopo']['dieci']}; pagine a zero ferme a {M['dopo']['zero']} ({M['dopo']['zero_nomi']}).".replace(',','.'),"",
+f"**Risultato delle leve eseguite la mattina.** Eventi futuri nella pagina da {it(M['prima']['eventi'])} a {it(M['dopo']['eventi'])}, con pagina QN da {it(M['prima']['con_pagina'])} a {it(M['dopo']['con_pagina'])}; pagine con 10 o più eventi da {M['prima']['dieci']} a {M['dopo']['dieci']}; pagine a zero ferme a {M['dopo']['zero']} ({M['dopo']['zero_nomi']}).","",
 "| Leva | Che cosa | Esito misurato |","|---|---|---|"]
 for lid,es in ESEG.items(): out.append(f"| {lid} | {cell(L[lid]['nome'])} | {cell(es)} |")
 out+=["",f"**Classifica.** {cnt['eseguita']} eseguite, {cnt['da eseguire subito']} da eseguire subito (costo zero o quasi), {cnt[chr(100)+'a verificare con l'+chr(39)+'owner']} da verificare con l'owner, {cnt['scartata']} scartate. Nessuna delle 30 leve verificate la sera cambia l'ordine di grandezza: le migliori sono fonti strutturate gratuite e piccole.","",

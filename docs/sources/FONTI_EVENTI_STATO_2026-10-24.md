@@ -377,7 +377,7 @@ sistematiche. Conseguenza operativa, già nelle regole: scriviamo i nostri testi
 
 Otto esploratori AI indipendenti hanno proposto 60 leve (dati già raccolti, categorie di fonti, feed e API, social, canali diretti, cadenza e conteggio, enti pubblici, estrazione con modelli). Ogni leva è passata da scettici che ne hanno ricontato la resa e controllato la liceità: le prime 30 con due verifiche ciascuna, le altre 30 con una verifica più leggera. Quasi tutte sono state ridimensionate, spesso di 2-5 volte. Le leve deterministiche migliori sono state eseguite subito, senza spesa Apify; la classifica completa è nel foglio `leve_eventi_2026-10-26.xlsx` su Drive.
 
-**Risultato delle leve eseguite.** Eventi futuri nella pagina da 2.384 a 2.563. con pagina QN da 1.866 a 2.081; pagine con 10 o più eventi da 46 a 49; pagine a zero ferme a 5 (La Rustica. La Storta. Lunghezza. Marcigliana. Vitinia).
+**Risultato delle leve eseguite la mattina.** Eventi futuri nella pagina da 2.384 a 2.563, con pagina QN da 1.866 a 2.081; pagine con 10 o più eventi da 46 a 49; pagine a zero ferme a 5 (La Rustica, La Storta, Lunghezza, Marcigliana, Vitinia).
 
 | Leva | Che cosa | Esito misurato |
 |---|---|---|

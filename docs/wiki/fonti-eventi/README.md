@@ -113,7 +113,7 @@ nei post (186 pagine con post datati di annuncio negli ultimi sei mesi) o sul si
 pagine ne espongono uno, 277 hanno una sezione eventi, 83 mostrano date future). Le 275
 pagine dormienti restano fuori e si rileggono a marzo 2027.
 
-L'analisi dei promotori del 25 ottobre (`promotori.md`. rigenerata il 26) dice chi organizza i 2.585 eventi
+L'analisi dei promotori del 25 ottobre (`promotori.md`, rigenerata il 26) dice chi organizza i 2.585 eventi
 futuri della pagina «Eventi dei quartieri»: 1.246 promotori in 17 categorie, 1.064 con una voce nello
 schedario. Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
 nelle 41 pagine deboli (geografia delle zone urbanistiche); musei, grandi istituzioni e
