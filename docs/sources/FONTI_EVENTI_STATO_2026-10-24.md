@@ -541,6 +541,19 @@ Uscite su Drive (cartella delle uscite della sessione):
 
 Gli script sono in `tools/fonti/lavoro-2026-10/canali/`.
 
+## 1 duodecies. Notizie di quartiere nei dati già raccolti (M, 26 ottobre 2026)
+
+Le 14.779 voci già raccolte sono state rilette a ritroso, senza letture nuove: post Facebook di associazioni, comitati,
+parrocchie, scuole, enti e luoghi, comprese le fonti scartate per gli eventi, e notizie dei loro siti. Lo scopo era trovare
+notizie per gli altri blocchi del sito.
+
+- 402 notizie confermate, pari a 347 fatti; 237 sono di ottobre.
+- 75 pagine QN su 89 ne hanno almeno una.
+- 194 fonti le producono; 176 di queste non avevano dato nessun evento.
+
+Metodo, numeri, fonti e decisione aperta sono in `docs/sources/NOTIZIE_DAI_DATI_2026-10-26.md`. Il foglio con le sintesi
+scritte da noi e il link alla fonte è su Drive.
+
 ## 2. Cosa ha detto il censimento delle pagine Facebook (M)
 
 | Misura | Pagine |
@@ -716,3 +729,6 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 
    Builder: ripetere la prova del canale ogni mese, e portare la regola nel workflow n8n di
    staging quando le decisioni ci sono.
+10. Notizie dai dati (§1 duodecies). Owner: decidere se un post di un comitato o di
+    un'associazione può essere fonte dei blocchi Notizie e Segnalazioni (OWNER_DECISION_REQUIRED
+    in `NOTIZIE_DAI_DATI_2026-10-26.md`).
