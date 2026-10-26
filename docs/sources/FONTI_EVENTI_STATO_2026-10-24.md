@@ -733,3 +733,6 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
 10. Notizie dai dati (§1 duodecies). Owner: decidere se un post di un comitato o di
     un'associazione può essere fonte dei blocchi Notizie e Segnalazioni (OWNER_DECISION_REQUIRED
     in `NOTIZIE_DAI_DATI_2026-10-26.md`).
+11. Timeline di brevi per quartiere (`TIMELINE_BREVI_2026-10-26.md`). Owner: forma della timeline
+    (solo quartiere; quartiere, municipio e città insieme; timeline del municipio), monitoraggio delle
+    pagine politiche, misura del loro ritmo prima di decidere.
