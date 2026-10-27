@@ -121,7 +121,7 @@ del sito, notizie del sito, culture.roma.it, Biblioteche di Roma), un sito che p
 non ancora i loro eventi per 97, Facebook per 654, nessun canale proprio per 81 (rapporto, §1 undecies). Parrocchie, sport e comitati sono le categorie con la quota più alta dei propri eventi
 nelle 41 pagine deboli (geografia delle zone urbanistiche); musei, grandi istituzioni e
 intermediari quasi solo nel centro. Sulla diffusione dei propri contenuti
-cinque fonti vietano la riproduzione e una la raccolta automatica; nessuna clausola letta vieta di
+sei promotori vietano la riproduzione e uno la raccolta automatica; nessuna clausola letta vieta di
 dare notizia di un evento (rapporto `docs/sources/FONTI_EVENTI_STATO_2026-10-24.md`, §1 nonies).
 
 ## Cosa manca, deliberatamente

@@ -736,8 +736,8 @@ ricerca «Italy Roma», va considerato un canale debole: conferma, non scoperta.
    nostri testi; prossime ricerche gratuite: calendari dei tornei delle società (UISP, CSI) e
    bollettini parrocchiali; per i centri anziani, contatto diretto.
 7. Leve del 26 ottobre (§1 decies): lettura settimanale dei feed iCal e REST dei siti e del
-   delta di culture.roma.it; 12 leve da eseguire a costo zero, 35 da verificare con l'owner, nel
-   foglio `leve_eventi_2026-10-26.xlsx`.
+   delta di culture.roma.it; dopo il giro della sera 16 leve eseguite, nessuna da eseguire subito, 38 da verificare con
+   l'owner e 6 scartate (§1 decies), nel foglio `leve_eventi_2026-10-26.xlsx`.
 8. Dove cercare (§1 undecies). Owner:
    - cadenza (ogni giorno o ogni settimana) e budget mensile Apify della lettura dei promotori;
    - decidere i 139 candidati `PR-…` del registro v6;

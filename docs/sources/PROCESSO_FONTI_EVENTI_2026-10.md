@@ -175,7 +175,7 @@ robots.txt lo vieti (DEC-026). Le scelte di ammissione sono nel §5.
 
 ## 5. Le scelte
 
-Qui ci sono le scelte che hanno pesato di più sui risultati. L'elenco completo, 257 scelte divise in 22 temi, ciascuna con la data,
+Qui ci sono le scelte che hanno pesato di più sui risultati. L'elenco completo, 259 scelte divise in 22 temi, ciascuna con la data,
 chi l'ha presa, il motivo e dove è scritta, è nell'allegato
 [`PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md`](https://github.com/QuartieriNews/QN/blob/claude/ecstatic-shannon-mjzxvq/docs/sources/PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md) §A.
 Trenta di quelle scelte sono scritte solo nel registro della sessione: l'allegato le segnala.
@@ -194,7 +194,8 @@ Trenta di quelle scelte sono scritte solo nel registro della sessione: l'allegat
   - nessun captcha aggirato: l'annuario della Diocesi si è fermato dopo 22 schede su 342 parrocchie.
 - **Repository** (regole del progetto, owner il 23 ottobre per i nomi):
   - solo metodo e numeri; titoli, testi e contatti stanno nei fogli (DEC-102, DEC-104, DEC-109);
-  - i nomi delle organizzazioni si scrivono; gli URL dei profili personali no (DEC-105).
+  - i nomi di persone e organizzazioni pertinenti si scrivono, senza anonimizzazione automatica (DEC-105);
+  - gli URL dei profili personali no: è una regola del builder, non di DEC-105 (T-FE-2, `tests/test_fonti_eventi_build.py`).
 
 **Apify**
 - **Attori** (builder):
@@ -275,7 +276,7 @@ Trenta di quelle scelte sono scritte solo nel registro della sessione: l'allegat
 
 ## 6. Errori trovati e corretti
 
-Qui ci sono gli errori che hanno cambiato numeri, spesa o regole. L'elenco completo, 144 voci con quando, come è stato trovato e
+Qui ci sono gli errori che hanno cambiato numeri, spesa o regole. L'elenco completo, 141 voci con quando, come è stato trovato e
 corretto e dove, è nell'allegato [`PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md`](https://github.com/QuartieriNews/QN/blob/claude/ecstatic-shannon-mjzxvq/docs/sources/PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md) §C.
 
 | Quando | Errore | Correzione |
@@ -293,6 +294,7 @@ corretto e dove, è nell'allegato [`PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md`]
 | 26 ott 10:57 | «Senza eventi» calcolato con lo schedario del 13 ottobre: 176 organizzazioni su 194, sovrastimato | Ricalcolato sulla pagina eventi: 111 su 194 (`e98d5aa`), dopo una domanda dell'owner |
 | 26 ott 14:24 | Le ore degli eventi Facebook erano in UTC, una o due ore indietro (37 su 45 nel campione); pagine d'archivio ridatate all'anno in corso; eventi fuori Roma con le coordinate; la pagina avrebbe mostrato eventi finiti | Correzioni con test (`3a7af96`, `abfce0b`); errori gravi dal 28% al 22% |
 | 26 ott 01:32 | Il workflow pesante di verifica delle leve ha consumato circa 6 milioni di token per due verifiche | Fermato, sostituito da un giro leggero |
+| 26 ott 00:45, trovato il 27 | Revisione Codex dei commit delle leve: il lettore dei feed (`feed_eventi.py`) trattava un 401/403 su robots.txt come permesso, leggeva robots.txt fuori dal ritmo di una richiesta al secondo per host e non escludeva Roma Today in modo esplicito; due riepiloghi con numeri vecchi (leve da eseguire nel rapporto, fonti che vietano la riproduzione nel README della wiki) | Lettore corretto il 27 ottobre con le regole del lettore dei siti; ricontrollati gli host da cui vengono gli eventi letti: 27 su 28 danno 200 su robots.txt e uno non risponde, nessuno lo chiude; riepiloghi riallineati |
 
 ## 7. File prodotti
 
@@ -327,7 +329,8 @@ documento con il suo allegato `PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md` e il 
 
 Il canale nativo (`@codex review` sulla PR) non ha mai risposto in questo periodo: ogni revisione è passata sul canale API
 (`tools/sources-study/codex_check.js`, gpt-5.3-codex, DEC-007), con il rapporto integrale pubblicato sulla PR. L'elenco con i link è
-nell'appendice C; tutti i commit sono nell'appendice B.
+nell'appendice C. L'appendice B elenca tutti i commit del ramo dopo `e9c01a9`, tranne quello che aggiorna per ultimo questo
+documento, che non può citare sé stesso.
 
 **Un buco.** I quattro commit delle leve del 26 ottobre (`49fb36b`, `db98b9a`, `d63c241`, `79af2f2`, perimetro `5e5c51c..79af2f2`)
 non sono passati da nessuna revisione: la richiesta successiva è partita da `79af2f2`. Toccano script di lavoro senza test
@@ -432,6 +435,7 @@ Le fasi sono quelle del §4. Gli input completi sono nel pacchetto (`apify_org/i
 
 | Data (UTC) | Commit | Oggetto |
 |---|---|---|
+| 10-23 10:37 | [`3c138cd`](https://github.com/QuartieriNews/QN/commit/3c138cde1565aa16dca2c69806b66ebf1244a3d5) | Consegna: verifica del 23 ottobre su API, PR, Actions e Codex (fuori tema: commit di un'altra sessione sullo stesso ramo) |
 | 10-23 16:03 | [`0dd6de8`](https://github.com/QuartieriNews/QN/commit/0dd6de8254c57c6689af4f8c2449a98e089af63b) | Wiki delle fonti eventi: schedario delle fonti, schede degli aggregatori, pagine "dove cercare" |
 | 10-23 16:11 | [`a86149c`](https://github.com/QuartieriNews/QN/commit/a86149cba1f1a869e940b0e96ce0fa14b0ba1e8f) | Wiki fonti eventi: nessuna anonimizzazione (DEC-105), via il filtro sui nomi di persona |
 | 10-23 16:11 | [`3e06376`](https://github.com/QuartieriNews/QN/commit/3e0637606435255603af897a887452b89cbb64d8) | Wiki fonti eventi: refuso nel README (virgola nel conteggio) |
@@ -478,6 +482,8 @@ Le fasi sono quelle del §4. Gli input completi sono nel pacchetto (`apify_org/i
 | 10-26 14:18 | [`ab96501`](https://github.com/QuartieriNews/QN/commit/ab965012eaf9ab26f3f94d2f81ee6940b060d740) | Validatore dei dati della pagina eventi, con test; date con i punti non sono telefoni |
 | 10-26 14:42 | [`3a7af96`](https://github.com/QuartieriNews/QN/commit/3a7af96cbb96c8f860674294a55bb7278ebf3e02) | Qualità della pagina eventi: audit a campione, correzioni con test |
 | 10-26 15:02 | [`abfce0b`](https://github.com/QuartieriNews/QN/commit/abfce0bdd444927ad30ce9b0f3bb2e460027c56d) | Validatore: comuni e sigle di provincia riconosciuti anche in minuscolo |
+| 10-27 14:23 | [`a2b51d7`](https://github.com/QuartieriNews/QN/commit/a2b51d7) | Processo delle fonti degli eventi (23-27 ottobre) e mandato di replica per Codex |
+| 10-27 14:59 | [`4a3ed53`](https://github.com/QuartieriNews/QN/commit/4a3ed53) | Mandato di replica per Codex: ordine dei commit coerente, pacchetto a tappe, istruzioni pratiche |
 
 ## Appendice C. Revisioni e richieste sulla PR 15
 
@@ -497,3 +503,4 @@ Le fasi sono quelle del §4. Gli input completi sono nel pacchetto (`apify_org/i
 | 2026-10-26 15:02 | Revisione dei commit `ab96501` e `3a7af96`: canale API (DEC-007), controllo PR15-qualita | CHANGES REQUESTED | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6419340569) |
 | 2026-10-26 15:02 | @codex review | — | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6419342185) |
 | 2026-10-26 15:19 | Revisione del commit `abfce0b`: canale API (DEC-007), controllo PR15-qualita-2 | APPROVED | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6419756738) |
+| 2026-10-27 14:23 | Richiesta di revisione: `abfce0b..a2b51d7` (questo documento e il mandato per Codex) e i commit delle leve `5e5c51c..79af2f2` | — | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6444526938) |

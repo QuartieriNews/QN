@@ -1,9 +1,13 @@
 # Feed strutturati dei siti delle fonti (leve L18, L20, L51 del giro del 26 ottobre): iCal di The Events Calendar e di
 # Events Manager, REST di The Events Calendar. Interfacce pubbliche pensate per i lettori di calendario; robots.txt
-# verificato sull'URL esatto; campi di contatto (ORGANIZER, ATTENDEE, email, telefoni) mai conservati; riti privati esclusi.
-import json,re,time,html,urllib.request,urllib.parse,urllib.robotparser,datetime,collections,sys
+# verificato sull'URL esatto con le regole del lettore dei siti (T-LS-6), una richiesta al secondo per host robots.txt compreso,
+# Roma Today e Citynews mai letti (DEC-026); campi di contatto (ORGANIZER, ATTENDEE, email, telefoni) mai conservati; riti
+# privati esclusi.
+import json,re,time,html,urllib.request,urllib.parse,datetime,collections,sys
 S='/tmp/claude-0/-home-user-QN/6ddd5f5b-029a-56ef-ba4a-9ebf9ede2447/scratchpad'
-UA="QuartieriNews-fonti/1.0 (+https://github.com/quartierinews/qn; contatto: redazione)"
+sys.path.insert(0,'/home/user/QN/tools/fonti'); import leggi_eventi_siti as ls
+UA=ls.UA
+NEVER=re.compile(r'(^|\.)(romatoday\.it|citynews\.it|today\.it)$')
 TODAY=datetime.date(2026,10,26)
 sys.path.insert(0,f'{S}/post_eventi'); import estrai as X   # OTHERC: città e comuni fuori Roma
 OTHERC=X.OTHERC
@@ -32,20 +36,17 @@ for l in open(f'{S}/giro3_feed/out/tutti.jsonl'):
             elif k.startswith('em'): cand.setdefault(r['host'],set()).add('em_ical')
 cand['teatriincomune.roma.it']={'em_ical'}
 print('host candidati',len(cand),collections.Counter(k for v in cand.values() for k in v))
-ROB={}
-def robots_ok(u):
-    p=urllib.parse.urlsplit(u)
-    if p.netloc not in ROB:
-        rp=urllib.robotparser.RobotFileParser()
-        try:
-            req=urllib.request.Request(f'{p.scheme}://{p.netloc}/robots.txt',headers={'User-Agent':UA})
-            with urllib.request.urlopen(req,timeout=20) as r: rp.parse(r.read(200000).decode('utf-8','replace').splitlines())
-        except Exception: rp=None
-        ROB[p.netloc]=rp
-    rp=ROB[p.netloc]; return rp is None or rp.can_fetch(UA,u)
-def get(u):
-    req=urllib.request.Request(u,headers={'User-Agent':UA,'Accept':'text/calendar,application/json,*/*;q=0.5'})
+ROB={}; last={}
+def wait(h):
+    w=last.get(h,0)+1.0-time.time()
+    if w>0: time.sleep(w)
+    last[h]=time.time()
+def _raw(u,accept='text/plain,*/*'):
+    req=urllib.request.Request(u,headers={'User-Agent':UA,'Accept':accept})
     with urllib.request.urlopen(req,timeout=30) as r: return r.read(3_000_000).decode('utf-8','replace')
+def robots_ok(u): return ls.robots_allows(u,_raw,ROB,wait)   # un 401/403 su robots.txt chiude l'host
+def get(u):
+    wait(urllib.parse.urlsplit(u).netloc); return _raw(u,'text/calendar,application/json,*/*;q=0.5')
 def unfold(txt): return re.sub(r'\r?\n[ \t]','',txt).split('\n')
 def ical_events(txt):
     ev=None
@@ -64,7 +65,7 @@ PRIV=re.compile(r'\b(battesim\w*|matrimon\w*|funeral\w*|esequie|cresim\w*|prima 
 NAZ={'agesci.it','masci.it','archeoclubitalia.org','federkarate.it','assobersaglieri.it','amnesty.it','associazionegeotecnica.it'}
 FUORI=re.compile(r'\((?!RM\))[A-Z]{2}\)|,\s*(Italy|Italia|Peru|Chile|Spain|Espa\w+|France|Francia|Germany|Germania|Portugal|Greece|Grecia|Switzerland|Svizzera|UK|USA|Austria|Belgi\w+)\b|\b(Toscana|Lombardia|Veneto|Piemonte|Sicilia|Sardegna|Puglia|Campania|Emilia|Liguria|Marche|Umbria|Abruzzo|Calabria|Basilicata|Molise|Friuli|Trentino|Caporetto)\b|\b(online|zoom|webinar|streaming|piattaforma)\b',re.I)
 TIC={'Villa Pamphilj':('monteverde','XII'),'Tor Bella Monaca':('tor-bella-monaca','VI'),'Lido':('ostia','X'),'Quarticciolo':('centocelle','V')}
-out=[]; st=collections.Counter(); last=0; SERIE=set()
+out=[]; st=collections.Counter(); SERIE=set()
 def row(h,kind,titolo,d1,d2,ora,luogo,url,cats=''):
     if not titolo or not d1: st['senza titolo o data']+=1; return
     d2=d2 or d1
@@ -87,6 +88,7 @@ def row(h,kind,titolo,d1,d2,ora,luogo,url,cats=''):
     out.append({'host':h,'feed':kind,'titolo':html.unescape(titolo)[:160],'inizio':d1,'fine':d2,'ora':ora,'luogo':luogo,'org':seat.get('nome') or h,'url':url,'zona':zona,'municipio':mun,'lat':lat,'lon':lon})
     st['tenuti']+=1
 for h,kinds in sorted(cand.items()):
+    if NEVER.search(h): st['host escluso (DEC-026)']+=1; continue
     urls=[]
     if 'tribe_rest' in kinds: urls.append(('tribe_rest',f'https://{h}/wp-json/tribe/events/v1/events?start_date={TODAY}&per_page=50'))
     if 'tribe_ical' in kinds: urls.append(('tribe_ical',f'https://{h}/?post_type=tribe_events&ical=1'))
@@ -94,9 +96,6 @@ for h,kinds in sorted(cand.items()):
     seen=set()
     for kind,u in urls:
         if not robots_ok(u): st['robots vieta']+=1; continue
-        w=last+1.0-time.time()
-        if w>0: time.sleep(w)
-        last=time.time()
         try: txt=get(u)
         except Exception as e: st['errore']+=1; continue
         if kind=='tribe_rest':
