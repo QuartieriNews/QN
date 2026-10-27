@@ -15,7 +15,7 @@ Le righe con titoli, testi o contatti non sono qui (DEC-102, DEC-109).
 Contenuto:
 - A. Le scelte (259 voci)
 - B. I dati letti e non usati (106)
-- C. Gli errori trovati e corretti (141)
+- C. Gli errori trovati e corretti (145)
 - D. Le decisioni lasciate all'owner e i costi (80)
 
 ## A. Le scelte
@@ -585,6 +585,10 @@ Contenuto:
 - [26 ott 08:13, Codex (rilievo bloccante, PR 15)] render.js non trattava un 401/403 come rifiuto e non aspettava un secondo fra robots.txt e la prima pagina. — 401/403 vale come rifiuto: niente testo, link o altre pagine. Aggiunta una pausa di un secondo. Giro ripetuto: 0 rifiuti, stessi 43 siti, un promotore confermato in più. *Dove:* tools/fonti/lavoro-2026-10/canali/render.js; commit 8ea3b08
 - [26 ott 14:57] Il mandato di revisione per Codex citava DEC-022 come file, ma non è nel ramo. — Corretto prima dell'invio: le regole sui testi delle fonti sono DEC-102 e DEC-109. *Dove:* Richiesta di revisione di ab96501 e 3a7af96 sulla PR 15
 - [26 ott 15:00, Codex (defect, PR15-qualita)] COMUNI_PROVINCIA e SIGLA erano sensibili alle maiuscole: «tivoli» e «(vt)» passavano come Roma. — re.I; Marino riconosciuto solo con la maiuscola; elenco esplicito delle sigle di provincia. 62 controlli. APPROVED in PR15-qualita-2. *Dove:* tools/fonti/valida_eventi.py; tests/test_valida_eventi.py; commit abfce0b
+- [27 ott 15:04, Codex (rilievo bloccante, PR15-leve)] feed_eventi.py, il lettore dei feed iCal e REST del 26 ottobre, non escludeva Roma Today e Citynews in modo esplicito. — Filtro NEVER su romatoday.it, citynews.it, today.it e sottodomini, prima di ogni richiesta, con contatore. Nei dati del 26 ottobre nessun host di Roma Today o Citynews. APPROVED in PR15-leve-2. *Dove:* tools/fonti/lavoro-2026-10/feed_eventi.py, commit e15a9ee
+- [27 ott 15:04, Codex (rilievo bloccante, PR15-leve)] feed_eventi.py trattava un 401/403 su robots.txt come permesso e leggeva robots.txt fuori dal ritmo di una richiesta al secondo per host. — ls.robots_allows (T-LS-6) con wait(host), robots.txt compreso; prova con orologio e fetcher finti. Riletti il 27 ottobre i robots.txt dei 28 host da cui vengono i 158 eventi tenuti: 27 danno 200, uno non risponde, nessuno 401/403. APPROVED in PR15-leve-2. *Dove:* tools/fonti/lavoro-2026-10/feed_eventi.py, commit e15a9ee; LEGGIMI.md del pacchetto
+- [27 ott 15:04, Codex (defect, PR15-leve)] Due riepiloghi con numeri vecchi: le leve da eseguire nell'elenco finale del rapporto (12 e 35 invece di 0 e 38) e le fonti che vietano la riproduzione nel README della wiki (cinque invece di sei promotori). — Riallineati al §1 decies e al §1 nonies. APPROVED in PR15-leve-2. *Dove:* docs/sources/FONTI_EVENTI_STATO_2026-10-24.md, docs/wiki/fonti-eventi/README.md, commit e15a9ee
+- [27 ott 15:04 e 15:28, Codex (defect, PR15-processo e PR15-processo-2)] Questo documento di processo: regola degli URL dei profili personali attribuita a DEC-105, conteggi diversi dall'allegato, appendice B incompleta; al secondo passaggio, §8 e questo allegato non allineati alla revisione delle leve. — Corretti in e15a9ee e nel commit successivo. *Dove:* docs/sources/PROCESSO_FONTI_EVENTI_2026-10.md, questo allegato
 
 ### qualità
 

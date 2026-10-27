@@ -276,7 +276,7 @@ Trenta di quelle scelte sono scritte solo nel registro della sessione: l'allegat
 
 ## 6. Errori trovati e corretti
 
-Qui ci sono gli errori che hanno cambiato numeri, spesa o regole. L'elenco completo, 141 voci con quando, come è stato trovato e
+Qui ci sono gli errori che hanno cambiato numeri, spesa o regole. L'elenco completo, 145 voci con quando, come è stato trovato e
 corretto e dove, è nell'allegato [`PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md`](https://github.com/QuartieriNews/QN/blob/claude/ecstatic-shannon-mjzxvq/docs/sources/PROCESSO_FONTI_EVENTI_2026-10_DETTAGLIO.md) §C.
 
 | Quando | Errore | Correzione |
@@ -332,11 +332,12 @@ Il canale nativo (`@codex review` sulla PR) non ha mai risposto in questo period
 nell'appendice C. L'appendice B elenca tutti i commit del ramo dopo `e9c01a9`, tranne quello che aggiorna per ultimo questo
 documento, che non può citare sé stesso.
 
-**Un buco.** I quattro commit delle leve del 26 ottobre (`49fb36b`, `db98b9a`, `d63c241`, `79af2f2`, perimetro `5e5c51c..79af2f2`)
-non sono passati da nessuna revisione: la richiesta successiva è partita da `79af2f2`. Toccano script di lavoro senza test
-(`feed_eventi.py`, `fonti_gratis.py`, `leve_classifica.py`, `pagina_collect.py`, `pagina_template.html`, `post_estrai.py`, il
-README della cartella), il rapporto §1 decies e la wiki rigenerata (`fonti_eventi.json`, `promotori.md`, README). Vanno rivisti
-con il prossimo controllo.
+**Un buco, chiuso il 27 ottobre.** I quattro commit delle leve del 26 ottobre (`49fb36b`, `db98b9a`, `d63c241`, `79af2f2`,
+perimetro `5e5c51c..79af2f2`) non sono passati da nessuna revisione fino al 27 ottobre: la richiesta successiva era partita da
+`79af2f2`. Toccano script di lavoro senza test (`feed_eventi.py`, `fonti_gratis.py`, `leve_classifica.py`, `pagina_collect.py`,
+`pagina_template.html`, `post_estrai.py`, il README della cartella), il rapporto §1 decies e la wiki rigenerata
+(`fonti_eventi.json`, `promotori.md`, README). Il 27 ottobre il controllo PR15-leve li ha rivisti; esito nella tabella e
+nell'appendice C.
 
 | Perimetro | Primo verdetto | Rilievi | Esito |
 |---|---|---|---|
@@ -345,6 +346,8 @@ con il prossimo controllo.
 | `d95572b`, `e98d5aa` (notizie) | APPROVED | nessuno | — |
 | `d75fdea` (timeline) | APPROVED | nessuno | — |
 | `ab96501`, `3a7af96` (qualità) | CHANGES REQUESTED | 1 defect: comuni e sigle in minuscolo | corretto in `abfce0b`, APPROVED |
+| `5e5c51c..79af2f2` (leve del 26 ottobre) | CHANGES REQUESTED | 2 blocking, 1 defect: lettore dei feed (Roma Today non escluso in modo esplicito; robots.txt con 401/403 e ritmo), numeri vecchi nel rapporto e nel README della wiki | corretti in `e15a9ee`, APPROVED |
+| `abfce0b..4a3ed53` (questo documento e il mandato per Codex) | CHANGES REQUESTED | 3 defect: regola dei profili attribuita a DEC-105, conteggi, appendice B; al secondo passaggio 2 defect: §8 e allegato non allineati alla revisione delle leve | corretti in `e15a9ee` e nel commit successivo; terzo passaggio sulla PR |
 
 ## 9. Decisioni aperte
 
@@ -504,3 +507,6 @@ Le fasi sono quelle del §4. Gli input completi sono nel pacchetto (`apify_org/i
 | 2026-10-26 15:02 | @codex review | — | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6419342185) |
 | 2026-10-26 15:19 | Revisione del commit `abfce0b`: canale API (DEC-007), controllo PR15-qualita-2 | APPROVED | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6419756738) |
 | 2026-10-27 14:23 | Richiesta di revisione: `abfce0b..a2b51d7` (questo documento e il mandato per Codex) e i commit delle leve `5e5c51c..79af2f2` | — | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6444526938) |
+| 2026-10-27 15:11 | Revisione dei commit `a2b51d7` e `4a3ed53`: canale API (DEC-007), controllo PR15-processo | CHANGES REQUESTED | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6445671140) |
+| 2026-10-27 15:11 | Revisione dei commit delle leve `5e5c51c..79af2f2`: canale API (DEC-007), controllo PR15-leve | CHANGES REQUESTED | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6445679311) |
+| 2026-10-27 15:29 | Secondo passaggio sulle leve (`79af2f2..e15a9ee`): canale API (DEC-007), controllo PR15-leve-2 | APPROVED | [commento](https://github.com/QuartieriNews/QN/pull/15#issuecomment-6446126960) |
