@@ -1,6 +1,6 @@
 # Municipio IX — contesto di giugno 2026
 
-Voci di diario: 202 · questioni aperte: 28 · luoghi citati: 245 · soggetti registrati: 11
+Voci di diario: 205 · questioni aperte: 29 · luoghi citati: 252 · soggetti registrati: 11
 
 ## Questioni aperte
 
@@ -221,6 +221,13 @@ Luoghi: via Pianeta Saturno; Torrino Nord; via degli Astri; via del Sole; Spinac
 - 2026-06-04 · [A2] Torrino Nord, la chiusura del locale di via Pianeta Saturno in commissione — TU1W&par2=NjA4MDA= p. 1
 - 2026-06-04 · [A2] Sopralluogo in via Pianeta Saturno dopo la chiusura del Mercado — TU1D&par2=NDUxMDE= p. 1
 
+### Conclusi i restauri PNRR su nove siti archeologici capitolini  `Q-V046`
+*altro* · dal 2026-06-04 al 2026-06-05 · 2 voci · fonti: A1 · zona: spinaceto · coerenza del raggruppamento: **alta**
+Luoghi: Tor de' Cenci; Circo Massimo; via delle Botteghe Oscure; Sant'Urbano alla Caffarella; Ninfeo di Egeria; Torrione Prenestino
+
+- 2026-06-04 · [A1] Conclusi i restauri PNRR su nove siti archeologici capitolini — https://www.comune.roma.it/web/it/notizia/siti-archeologici-restaurati-pnrr-aperture-straordinarie-2026.page
+- 2026-06-05 · [A1] Notte bianca di quartiere venerdi 5 giugno dalle 16 — https://www.comune.roma.it/web/it/informazione-di-servizio.page?contentId=IDS1596585
+
 ### Bocciodromo di Decima occupato e sei impianti sportivi verso il Municipio  `Q-V486`
 *altro* · dal 2026-06-11 al 2026-06-11 · 2 voci · fonti: A2, A4 · coerenza del raggruppamento: **alta**
 Luoghi: via Cina; campo di Tor de Cenci; bocciodromo di Decima; impianti di Tre Fontane; Laghetto dell'EUR; via De Vitiis
@@ -313,6 +320,7 @@ Luoghi: Biblioteca Laurentina; Piazzale Elsa Morante
 | Nuvola | luogo | — | 5 |
 | Falcognana | luogo | — | 5 |
 | Roma | luogo | — | 5 |
+| Tor de' Cenci | luogo | spinaceto | 4 |
 | Torrino Nord | luogo | — | 4 |
 | Via della Fotografia | strada | — | 4 |
 | Via di Fioranello | strada | — | 4 |
@@ -322,7 +330,6 @@ Luoghi: Biblioteca Laurentina; Piazzale Elsa Morante
 | Torrino | luogo | torrino | 4 |
 | Vitinia | luogo | vitinia | 3 |
 | Casale della Massima | luogo | — | 3 |
-| Tor de' Cenci | luogo | spinaceto | 3 |
 | Istituto Comprensivo Pallavicini | luogo | — | 3 |
 | Castel di Leva | luogo | castel-di-leva | 3 |
 
@@ -347,6 +354,7 @@ Luoghi: Biblioteca Laurentina; Piazzale Elsa Morante
 - 2026-06-01 · [A1] Iscrizioni fuori termine alla scuola dell'infanzia dal 1 giugno
 - 2026-06-02 · [E2] Programmazione del Planetario dal 2 al 30 giugno
 - 2026-06-03 · [A2] Tor di Valle, il municipio verso una risoluzione di tutela dell'ansa
+- 2026-06-04 · [A1] Conclusi i restauri PNRR su nove siti archeologici capitolini (→ Q-V046)
 - 2026-06-04 · [A2] Torrino Nord, la chiusura del locale di via Pianeta Saturno in commissione (→ Q-V324)
 - 2026-06-04 · [A2] Parere su strutture agricole e centro per cani in via Ardeatina
 - 2026-06-04 · [A2] Sopralluogo in via Pianeta Saturno dopo la chiusura del Mercado (→ Q-V324)
@@ -419,6 +427,7 @@ Luoghi: Biblioteca Laurentina; Piazzale Elsa Morante
 - 2026-06-12 · [A4] Non più di quattro punti vendita e ventimila euro di libri
 - 2026-06-12 · [A4] Il timore: due librerie nello stesso quartiere, regole diverse
 - 2026-06-12 · [A4] «L'eccezione è quando gli uffici vengono» (→ Q-V492)
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [E3] Musica nel mercato di Spinaceto il 13 giugno (→ Q-V206)
 - 2026-06-13 · [E3] Musica nel mercato di Laurentino il 13 giugno
 - 2026-06-13 · [E3] Musica nel mercato di Vigna Murata il 13 giugno
@@ -502,6 +511,7 @@ Luoghi: Biblioteca Laurentina; Piazzale Elsa Morante
 - 2026-06-19 · [A2] Il Ponte dei Congressi presentato anche in commissione al Municipio IX (→ Q-V272)
 - 2026-06-19 · [A2] Ponte dei Congressi, appalto da 211 milioni e cantiere al 2027 (→ Q-V425)
 - 2026-06-19 · [A4] Gli asili diurni per cani non sono normati e restano tutti privati (→ Q-V508)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [A1] «Giochi senza confini» al Parco del Castellaccio il 20 giugno
 - 2026-06-20 · [A1] «Il canile va in città» al laghetto dell'Eur il 20 giugno (→ Q-V014)
 - 2026-06-20 · [A1] Apertura ufficiale il 20 giugno sulla scalinata dei Santi Pietro e Paolo

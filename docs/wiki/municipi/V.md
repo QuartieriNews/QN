@@ -1,6 +1,6 @@
 # Municipio V — contesto di giugno 2026
 
-Voci di diario: 286 · questioni aperte: 34 · luoghi citati: 274 · soggetti registrati: 16
+Voci di diario: 295 · questioni aperte: 35 · luoghi citati: 295 · soggetti registrati: 16
 
 ## Questioni aperte
 
@@ -210,6 +210,13 @@ Luoghi: Nuovo Cinema Aquila; Via L'Aquila 66/74
 - 2026-06-29 · [E2] Proiezione di After Life al Nuovo Cinema Aquila il 29 giugno — https://culture.roma.it/appuntamento/after-life-qual-e-il-tuo-ricordo-piu-bello-1998/
 - 2026-06-30 · [E2] Serata di cinema e dibattito al Nuovo Cinema Aquila il 30 giugno — https://culture.roma.it/appuntamento/spirito-del-tempo-29-giugno-5-luglio/
 
+### Conclusi i restauri PNRR su nove siti archeologici capitolini  `Q-V046`
+*altro* · dal 2026-06-04 al 2026-06-05 · 2 voci · fonti: A1 · zona: spinaceto · coerenza del raggruppamento: **alta**
+Luoghi: Tor de' Cenci; Circo Massimo; via delle Botteghe Oscure; Sant'Urbano alla Caffarella; Ninfeo di Egeria; Torrione Prenestino
+
+- 2026-06-04 · [A1] Conclusi i restauri PNRR su nove siti archeologici capitolini — https://www.comune.roma.it/web/it/notizia/siti-archeologici-restaurati-pnrr-aperture-straordinarie-2026.page
+- 2026-06-05 · [A1] Notte bianca di quartiere venerdi 5 giugno dalle 16 — https://www.comune.roma.it/web/it/informazione-di-servizio.page?contentId=IDS1596585
+
 ### Tavolo permanente sul Vallo del Pigneto, approvato con tre emendamenti  `Q-V478`
 *risoluzione* · dal 2026-06-08 al 2026-06-08 · 2 voci · fonti: A3, A4 · zona: pigneto-torpignattara · coerenza del raggruppamento: **media**
 Luoghi: Vallo ferroviario del Pigneto; quartiere Pigneto; Via del Pigneto; ex farmaceutica Serono
@@ -316,17 +323,17 @@ Luoghi: sede di Via Torre Annunziata n. 1; aula consiliare di Via G. Perlasca n.
 | Nuovo Cinema Aquila | luogo | — | 35 |
 | Via L'Aquila 66/74 | strada | — | 34 |
 | quartiere Pigneto | quartiere | — | 16 |
+| viale Palmiro Togliatti | strada | — | 15 |
 | Via Prenestina | strada | — | 15 |
-| viale Palmiro Togliatti | strada | — | 14 |
 | Pigneto | luogo | pigneto-torpignattara | 12 |
 | Villa De Sanctis | luogo | centocelle | 11 |
 | Quarticciolo | luogo | centocelle | 10 |
 | Biblioteca Mameli | luogo | — | 10 |
 | via del Pigneto 22 | strada | — | 10 |
 | Biblioteca Goffredo Mameli | luogo | — | 10 |
+| Torrione Prenestino | luogo | — | 9 |
 | Centocelle | luogo | centocelle | 9 |
 | Via Checco Durante | strada | — | 8 |
-| Torrione Prenestino | luogo | — | 8 |
 | Parco Prampolini | luogo | — | 7 |
 | via Casilina | strada | — | 7 |
 | Alessandrino | luogo | alessandrino | 7 |
@@ -369,14 +376,19 @@ Luoghi: sede di Via Torre Annunziata n. 1; aula consiliare di Via G. Perlasca n.
 - 2026-05-29 · [E2] Proiezione di un film italiano del 1999 al Nuovo Cinema Aquila
 - 2026-06-01 · [A1] Domande fuori termine per le scuole dellinfanzia del Municipio V
 - 2026-06-01 · [A2] Sopralluogo su manto stradale e rotaie del tram a piazza dei Gerani
+- 2026-06-03 · [A1] Due nuove postazioni CIE in via Petroselli fino al 31 luglio
+- 2026-06-03 · [A1] Identity Point per la CIE al mercato di San Teodoro
 - 2026-06-03 · [A2] Le commissioni del Municipio V sulla viabilità dell'Alessandrino
 - 2026-06-03 · [A2] Sopralluogo sull'accessibilità dell'area verde di largo Corelli
 - 2026-06-03 · [A2] Sopralluogo sull'accessibilità dell'area verde di Casale Caletto
+- 2026-06-04 · [A1] Conclusi i restauri PNRR su nove siti archeologici capitolini (→ Q-V046)
 - 2026-06-04 · [A1] Inaugurata la Casa dell'Acqua in via dei Gordiani
 - 2026-06-04 · [A1] Verso la conclusione il cantiere della scuola Romolo Balzani
 - 2026-06-04 · [A2] Sopralluogo sugli uffici anagrafici di via Prenestina
 - 2026-06-04 · [A2] Sopralluogo sullo stato dei lavori di viale Palmiro Togliatti
 - 2026-06-05 · [A2] Il Municipio V discute gli interventi del Grab
+- 2026-06-06 · [A1] Open day per la carta didentita elettronica il 6 e 7 giugno (→ Q-V020)
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-07 · [A1] Apertura straordinaria del Mausoleo di Monte del Grano il 7 giugno (→ Q-V335)
 - 2026-06-08 · [A1] Consiglio municipale in seduta mista in via Perlasca l8 giugno
 - 2026-06-08 · [A2] Sportelli LGBT+: chiusure e trasloco al Santa Maria della Pietà (→ Q-V230)
@@ -424,6 +436,7 @@ Luoghi: sede di Via Torre Annunziata n. 1; aula consiliare di Via G. Perlasca n.
 - 2026-06-10 · [A4] Nessuna data per la riapertura dell'anagrafe di via Prenestina (→ Q-V482)
 - 2026-06-10 · [A4] Climatizzazione ferma e perdita di condensa con uffici occupati (→ Q-V482)
 - 2026-06-10 · [A4] In bilancio non c'è una voce per l'adeguamento delle sedi (→ Q-V482)
+- 2026-06-11 · [A1] Incendio in un vivaio in zona Mandrione, raccomandazioni ai residenti
 - 2026-06-11 · [A1] Consiglio municipale in seduta mista l'11 giugno in via G. Perlasca
 - 2026-06-11 · [E2] Proiezione e incontro con l'autore al Nuovo Cinema Aquila l'11 giugno (→ Q-V122)
 - 2026-06-11 · [E3] Jam aperta con due pianoforti e percussioni nell'Associazione Culturale Cambiapiano del Municipio V
@@ -486,6 +499,7 @@ Luoghi: sede di Via Torre Annunziata n. 1; aula consiliare di Via G. Perlasca n.
 - 2026-06-12 · [A4] Sfilata di fine anno di un istituto tecnico a Villa Altieri (→ Q-V484)
 - 2026-06-12 · [A4] Presentata a Villa Altieri l'associazione Liao del Pigneto (→ Q-V235)
 - 2026-06-12 · [A4] Proposta di esporre gli abiti alla Casa della Cultura e dello Sport (→ Q-V234)
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [A1] Mostra di acquerelli alla Casa della Cultura del Municipio V (→ Q-V235)
 - 2026-06-13 · [E2] Prima proiezione di «I. Porta Maggiore-Il Lago», dalla trilogia «Porta Maggiore» di Marco G. Ferrari, il 13 giugno
 - 2026-06-13 · [A2] Via del Pigneto diventa zona residenziale: stop ai mezzi pesanti (→ Q-V235)
@@ -563,6 +577,7 @@ Luoghi: sede di Via Torre Annunziata n. 1; aula consiliare di Via G. Perlasca n.
 - 2026-06-19 · [A3] Nel suburbio il dehors di una libreria potrà eguagliare il negozio (→ Q-V427)
 - 2026-06-19 · [A3] La libreria Aretusa a Centocelle è il caso portato in commissione (→ Q-V292)
 - 2026-06-19 · [A3] Nel Municipio V le piccole librerie sarebbero una cinquantina (→ Q-V408)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [E2] Serata di cinema e dibattito al Nuovo Cinema Aquila il 20 giugno
 - 2026-06-21 · [A1] Rinviata lapertura del Torrione Prenestino e di via delle Botteghe Oscure
 - 2026-06-21 · [E2] Serata di cinema e dibattito al Nuovo Cinema Aquila il 21 giugno (→ Q-V179)
@@ -582,6 +597,7 @@ Luoghi: sede di Via Torre Annunziata n. 1; aula consiliare di Via G. Perlasca n.
 - 2026-06-23 · [A2] Finiti gli scavi dell'illuminazione a Coronelli e Dulceri: si ripristina l'asfalto
 - 2026-06-23 · [A2] Tre strade del Prenestino da riasfaltare dopo i lavori sull'illuminazione
 - 2026-06-23 · [A2] Basket in carrozzina senza palestra regolamentare: 120 euro a partita
+- 2026-06-24 · [A1] Tramvia Togliatti: dal 24 giugno chiude l'incrocio con Sacco e Vanzetti (→ Q-V218)
 - 2026-06-24 · [E2] Serata di cinema e dibattito al Nuovo Cinema Aquila il 24 giugno (→ Q-V180)
 - 2026-06-24 · [E3] Festival di fumetto e illustrazione diffuso al Pigneto fino al 10 settembre (→ Q-V180)
 - 2026-06-24 · [A2] Mercato Primavera fra perdita fognaria e abusivismo: chiesta la pattuglia fissa

@@ -1,6 +1,6 @@
 # Municipio XV — contesto di giugno 2026
 
-Voci di diario: 253 · questioni aperte: 37 · luoghi citati: 240 · soggetti registrati: 3
+Voci di diario: 258 · questioni aperte: 38 · luoghi citati: 252 · soggetti registrati: 3
 
 ## Questioni aperte
 
@@ -54,6 +54,17 @@ Luoghi: Municipio Roma XV; Labaro; Cesano; Fleming; La Storta; Tomba di Nerone
 - 2026-06-11 · [A3] Saxa Rubra spostata dal quadrante di Labaro a quello della Farnesina — https://ovp2-live.akamaized.net/ac104_video/211243_audio_only.smil [09:51]
 - 2026-06-12 · [A1] Centri estivi municipali al Centro Sportivo «Flaminia» per il quadrante Farnesina-Saxa Rubra — https://www.comune.roma.it/web/it/notizia/municipio15-aperte-iscrizioni-centri-estivi.page
 - 2026-06-12 · [A3] Voragine su viale Antonino di San Giuliano a lavori appena conclusi — https://ovp2-live.akamaized.net/ac104_video/213518_audio_only.smil [20:04]
+
+### Mura Aureliane, il tratto H/G è al 78 per cento  `Q-V005`
+*audizione* · dal 2026-06-15 al 2026-06-16 · 6 voci · fonti: A1, A3 · zona: pietralata · coerenza del raggruppamento: **media**
+Luoghi: Viale Castrense; Mura Aureliane; via Salaria; Via della Pineta Sacchetti; Santa Croce in Gerusalemme; Porta Asinaria
+
+- 2026-06-15 · [A1] Tangenziale, chiusure notturne tra Foro Italico e galleria Giovanni XXIII — https://www.comune.roma.it/web/it/notizia/tangenziale-est-viabilita-pulizia-straordinaria-giugno-2026.page
+- 2026-06-15 · [A3] Entro dicembre nuovi autovelox su sei arterie cittadine — https://ovp2-live.akamaized.net/ac104_video/211719_audio_only.smil [15:01]
+- 2026-06-15 · [A3] Mura Aureliane, il tratto H/G è al 78 per cento — https://ovp2-live.akamaized.net/ac104_video/211901_audio_only.smil [10:02]
+- 2026-06-15 · [A3] Il camminamento sulle Mura nasce spezzato e non accessibile in carrozzina — https://ovp2-live.akamaized.net/ac104_video/211901_audio_only.smil [14:52]
+- 2026-06-15 · [A3] Un cancello chiuso separa via Carlo Felice da viale Castrense — https://ovp2-live.akamaized.net/ac104_video/211901_audio_only.smil [39:12]
+- 2026-06-16 · [A3] Dal 29 giugno partono i lavori sul cavalcavia di via Salaria — https://ovp2-live.akamaized.net/ac104_video/214316_audio_only.smil [29:59]
 
 ### Via Flaminia Nuova, sì alle rotatorie e al declassamento del tratto  `Q-V222`
 *altro* · dal 2026-06-22 al 2026-06-23 · 6 voci · fonti: A2, A3 · coerenza del raggruppamento: **alta**
@@ -391,6 +402,7 @@ Luoghi: Litorale romano; via Cassia n. 472
 - 2026-06-01 · [A2] Lavori al Centro per l'Impiego in chiusura entro il 30 giugno
 - 2026-06-04 · [A1] Commemorati i martiri de La Storta alla stele di via Antonio Labranca
 - 2026-06-04 · [A2] Sopralluogo al cantiere di via Braccianese con ARPA e ANAS
+- 2026-06-06 · [A1] Raccolta straordinaria di ingombranti in sei Municipi sabato 6 giugno
 - 2026-06-06 · [A1] "Chi se ne food 3.0" il 6 giugno a Cesano
 - 2026-06-06 · [A1] Commedia teatrale alla Giustiniana il 6 e 7 giugno
 - 2026-06-08 · [A1] Rifacimento dell'asfalto su via di Santa Cornelia dall'8 giugno (→ Q-V070)
@@ -457,6 +469,7 @@ Luoghi: Litorale romano; via Cassia n. 472
 - 2026-06-11 · [A1] "Papacci in Musica" l'11 giugno al Parco Papacci (→ Q-V028)
 - 2026-06-11 · [A1] Archiviata l'istanza di modifica dell'antenna alla stazione «La Storta» (→ Q-V363)
 - 2026-06-11 · [E3] Maratona musicale e laboratorio per bambini al Parco Papacci
+- 2026-06-11 · [E3] Concerto su un battello itinerante sul Tevere l'11 giugno
 - 2026-06-11 · [A2] Altri 391 mila euro per le strade del quadrante Cassia
 - 2026-06-11 · [A2] Bando dei centri estivi nel Municipio XV, circa seicento posti gratuiti (→ Q-V067)
 - 2026-06-11 · [A2] Piano cinghiali nel Municipio XV, 150 interventi e 200mila euro (→ Q-V068)
@@ -478,9 +491,11 @@ Luoghi: Litorale romano; via Cassia n. 472
 - 2026-06-12 · [A3] Il centro per l'impiego dell'Olgata sarà consegnato a fine giugno
 - 2026-06-12 · [A3] La casa di comunità di Cesano è quasi finita, l'apertura resta incerta (→ Q-V023)
 - 2026-06-12 · [A3] Asilo di Valle Muricana e altre opere del piano fra i sopralluoghi (→ Q-V068)
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [A1] Cortili di Cinema alla scuola Perriello di Borgo di Cesano (→ Q-V023)
 - 2026-06-13 · [A1] «Cortili di Cinema», 12 serate nelle scuole del Municipio XV
 - 2026-06-13 · [A1] Torneo di minibasket nella scuola di via G. Gallina il 13 giugno
+- 2026-06-15 · [A1] Tangenziale, chiusure notturne tra Foro Italico e galleria Giovanni XXIII (→ Q-V005)
 - 2026-06-15 · [A1] Istanza per una stazione radio base in viale di Tor di Quinto (→ Q-V064)
 - 2026-06-15 · [A2] Parco Tisserant, lavori chiusi con penale di 18.874 euro alla ditta
 - 2026-06-15 · [A2] Rotatorie su via Flaminia Nuova, la commissione attende il progetto (→ Q-V389)
@@ -540,6 +555,7 @@ Luoghi: Litorale romano; via Cassia n. 472
 - 2026-06-19 · [A3] Impianto di biometano senza luce e senza acqua, sei cannoni fermi (→ Q-V432)
 - 2026-06-19 · [A3] Soprintendenza: lavori solo in zona A, scavi a carico della società (→ Q-V432)
 - 2026-06-19 · [A3] Chiesta la copertura della laguna, in arrivo il monitoraggio ambientale (→ Q-V432)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [A1] Cortili di Cinema alla scuola di via Nitti, quartiere Fleming (→ Q-V024)
 - 2026-06-20 · [A1] Cinema all'aperto nella scuola di via Nitti dal 20 giugno (→ Q-V024)
 - 2026-06-22 · [A1] Circonvallazione Salaria chiusa nella notte del 22 giugno (→ Q-V007)

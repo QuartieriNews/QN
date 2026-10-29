@@ -1,6 +1,6 @@
 # Municipio III — contesto di giugno 2026
 
-Voci di diario: 269 · questioni aperte: 33 · luoghi citati: 289 · soggetti registrati: 7
+Voci di diario: 272 · questioni aperte: 33 · luoghi citati: 292 · soggetti registrati: 7
 
 ## Questioni aperte
 
@@ -373,6 +373,7 @@ Luoghi: via Salaria; km 10+400; Motorizzazione Civile; Serpentara; Borgata Fiden
 
 - 2026-06-03 · [A1] Tornado del 3 giugno: sessanta interventi su alberature nel Municipio III (→ Q-V010)
 - 2026-06-03 · [A1] Tromba d'aria nel Municipio III: una cinquantina di alberi crollati (→ Q-V010)
+- 2026-06-05 · [A1] Aperte le iscrizioni fuori termine alla scuola dell'infanzia capitolina
 - 2026-06-05 · [A1] Sopralluogo a Prati Fiscali dopo il tornado, si chiede la calamità
 - 2026-06-05 · [A1] Camper della Protezione civile in largo Valtournanche per i danni
 - 2026-06-05 · [A1] Opera itinerante gratuita nel parcheggio di via Leonida Repaci
@@ -482,6 +483,7 @@ Luoghi: via Salaria; km 10+400; Motorizzazione Civile; Serpentara; Borgata Fiden
 - 2026-06-12 · [A3] Gli studenti del Filattiera chiedono di sistemare sei spazi del quartiere
 - 2026-06-12 · [A3] Un nuovo sportello per i caregiver familiari negli uffici del Municipio III (→ Q-V377)
 - 2026-06-12 · [A3] Educazione affettiva al Filattiera: sei classi e oltre cento studenti
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [E2] Proiezione gratuita al Parco Labia il 13 giugno (→ Q-V094)
 - 2026-06-13 · [A2] Amianto dopo la tromba d'aria: ordinanza per sei strade del Municipio III
 - 2026-06-14 · [E2] Proiezione gratuita al Parco Labia il 14 giugno (→ Q-V094)
@@ -640,3 +642,4 @@ Luoghi: via Salaria; km 10+400; Motorizzazione Civile; Serpentara; Borgata Fiden
 - 2026-07-02 · [A1] Consiglio del Municipio III convocato il 2 luglio in piazza Sempione
 - 2026-07-05 · [A1] Open day per la carta d'identità elettronica nel Municipio III
 - 2026-07-05 · [E2] Concerto benefico gratuito all'Arena Rino Gaetano del Parco delle Valli
+- 2026-07-13 · [A1] ClicBus dal 13 luglio a Valle Borghesiana, Cinquina e Corcolle

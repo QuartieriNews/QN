@@ -1,6 +1,6 @@
 # Municipio XIV — contesto di giugno 2026
 
-Voci di diario: 98 · questioni aperte: 20 · luoghi citati: 205 · soggetti registrati: 5
+Voci di diario: 102 · questioni aperte: 20 · luoghi citati: 206 · soggetti registrati: 5
 
 ## Questioni aperte
 
@@ -202,6 +202,7 @@ Luoghi: Monte Ciocci
 - 2026-06-05 · [A2] Aggiornamenti sui piani di zona Ponderano e Torresina 2 (→ Q-V332)
 - 2026-06-05 · [A2] Il playground sportivo di via Stefano Borgia in commissione (→ Q-V333)
 - 2026-06-06 · [E2] Proiezione e incontro con il regista David Lowery a Monte Ciocci (→ Q-V077)
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-07 · [E2] Proiezione gratuita di Audition a Monte Ciocci (→ Q-V077)
 - 2026-06-07 · [E3] Anteprima astrofisica del festival di letteratura di viaggio a Monte Mario
 - 2026-06-08 · [A1] Richiesta di modifica di una stazione radio base in via della Storta
@@ -213,6 +214,7 @@ Luoghi: Monte Ciocci
 - 2026-06-09 · [A2] Fondi METRO Plus per scuole, Villaggio Lombroso e Santa Maria della Pietà
 - 2026-06-10 · [A1] Sportello di Segretariato Sociale in sedi provvisorie dal 10 al 12 giugno
 - 2026-06-10 · [E2] Proiezione gratuita di «Shaun of the dead» a Monte Ciocci (→ Q-V177)
+- 2026-06-10 · [E3] Postazione per artisti nella stazione metro Cipro dal 10 al 12 giugno
 - 2026-06-10 · [A2] La piscina di via Taverna ferma, si valuta una gestione temporanea
 - 2026-06-11 · [A1] Richiesta di nuova stazione radio base in via Ferrante Ruiz
 - 2026-06-11 · [E2] Proiezione gratuita del muto «Speedy» a Monte Ciocci (→ Q-V177)
@@ -221,6 +223,7 @@ Luoghi: Monte Ciocci
 - 2026-06-12 · [E2] Proiezione gratuita di «Spirit - Cavallo Selvaggio» a Monte Ciocci
 - 2026-06-12 · [E3] Musica nel comprensorio del Santa Maria della Pietà il 12 giugno
 - 2026-06-12 · [A2] Piazza Mazzaresi, la semi-pedonalizzazione si accorcia alle sedici
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [E2] Proiezione gratuita di «Visitor Q» a Monte Ciocci (→ Q-V199)
 - 2026-06-13 · [E3] Camion-teatro dell'Opera alla rotonda di viale Antonio Gandin
 - 2026-06-14 · [E2] Proiezione e incontro con Ian Mckellen a Monte Ciocci (→ Q-V199)
@@ -247,6 +250,7 @@ Luoghi: Monte Ciocci
 - 2026-06-19 · [E2] «Il giardino dei Finzi Contini» presentato da Jane Campion a Monte Ciocci (→ Q-V158)
 - 2026-06-19 · [A2] Via Pietro Paolo Vergerio, il rifacimento stradale slitta a metà luglio
 - 2026-06-19 · [A2] Parcheggio De Gubernatis verso l'apertura: un euro l'ora, 126 stalli
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [E2] «Piccolo corpo» presentato da regista e interprete a Monte Ciocci (→ Q-V158)
 - 2026-06-21 · [E2] «Sukiyaki Western Django» a Monte Ciocci il 21 giugno
 - 2026-06-22 · [A1] Posa dell'asfalto in notturna sull'anello carrabile dal 22 al 25 giugno

@@ -1,10 +1,21 @@
 # Municipio XIII — contesto di giugno 2026
 
-Voci di diario: 96 · questioni aperte: 18 · luoghi citati: 110 · soggetti registrati: 7
+Voci di diario: 100 · questioni aperte: 19 · luoghi citati: 120 · soggetti registrati: 7
 
 ## Questioni aperte
 
 Una questione è aperta quando più voci di diario la riguardano. Il raggruppamento è quello dello studio fonti (stessa data e stesso luogo, oggetto a volte incerto): la *coerenza* dice quanta parte delle voci cita lo stesso luogo principale. Ordine: per numero di voci.
+
+### Mura Aureliane, il tratto H/G è al 78 per cento  `Q-V005`
+*audizione* · dal 2026-06-15 al 2026-06-16 · 6 voci · fonti: A1, A3 · zona: pietralata · coerenza del raggruppamento: **media**
+Luoghi: Viale Castrense; Mura Aureliane; via Salaria; Via della Pineta Sacchetti; Santa Croce in Gerusalemme; Porta Asinaria
+
+- 2026-06-15 · [A1] Tangenziale, chiusure notturne tra Foro Italico e galleria Giovanni XXIII — https://www.comune.roma.it/web/it/notizia/tangenziale-est-viabilita-pulizia-straordinaria-giugno-2026.page
+- 2026-06-15 · [A3] Entro dicembre nuovi autovelox su sei arterie cittadine — https://ovp2-live.akamaized.net/ac104_video/211719_audio_only.smil [15:01]
+- 2026-06-15 · [A3] Mura Aureliane, il tratto H/G è al 78 per cento — https://ovp2-live.akamaized.net/ac104_video/211901_audio_only.smil [10:02]
+- 2026-06-15 · [A3] Il camminamento sulle Mura nasce spezzato e non accessibile in carrozzina — https://ovp2-live.akamaized.net/ac104_video/211901_audio_only.smil [14:52]
+- 2026-06-15 · [A3] Un cancello chiuso separa via Carlo Felice da viale Castrense — https://ovp2-live.akamaized.net/ac104_video/211901_audio_only.smil [39:12]
+- 2026-06-16 · [A3] Dal 29 giugno partono i lavori sul cavalcavia di via Salaria — https://ovp2-live.akamaized.net/ac104_video/214316_audio_only.smil [29:59]
 
 ### Spettacolo itinerante su magie e trasformazioni a Villa Carpegna  `Q-V104`
 *evento* · dal 2026-07-24 al 2026-07-26 · 6 voci · fonti: E2 · coerenza del raggruppamento: **alta**
@@ -213,6 +224,7 @@ Luoghi: via Aurelia 470; mercato «Borgo Ticino»; aula consiliare “Enrico Gan
 - 2026-06-05 · [A1] Raccolta di ingombranti al centro di via Borgo Ticino
 - 2026-06-05 · [A1] Eventi in un hotel di via Aurelia, possibili disagi alla viabilità
 - 2026-06-05 · [A1] Giunta municipale convocata il 5 giugno su un auditorium
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-08 · [A1] Scuole di musica in concerto dall'8 al 12 giugno nel Municipio XIII
 - 2026-06-08 · [E3] Cinque pomeriggi di concerti delle scuole di musica nel Municipio XIII
 - 2026-06-08 · [A2] La commissione sociale torna sulla struttura Modesta Valenti (→ Q-V320)
@@ -229,7 +241,9 @@ Luoghi: via Aurelia 470; mercato «Borgo Ticino»; aula consiliare “Enrico Gan
 - 2026-06-12 · [A1] Ufficio Punto Roma Facile chiuso venerdì 12 giugno (→ Q-V061)
 - 2026-06-12 · [A2] La commissione sul restringimento di carreggiata di via Boccea
 - 2026-06-12 · [A2] Scavi su via Cornelia appena rifatta, la commissione chiede i permessi (→ Q-V268)
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-14 · [A1] «Ama il tuo Quartiere» in via Vezio Crisafulli il 14 giugno
+- 2026-06-15 · [A1] Tangenziale, chiusure notturne tra Foro Italico e galleria Giovanni XXIII (→ Q-V005)
 - 2026-06-15 · [A1] In vigore fino al 30 ottobre l'ordinanza su incendi e calore (→ Q-V059)
 - 2026-06-15 · [A2] Sopralluogo della commissione alla struttura di housing first (→ Q-V059)
 - 2026-06-15 · [A2] Mozioni del 2025 senza seguito, il polifunzionale di Casal Selce senza fondi (→ Q-V287)
@@ -251,6 +265,7 @@ Luoghi: via Aurelia 470; mercato «Borgo Ticino»; aula consiliare “Enrico Gan
 - 2026-06-18 · [A3] Bus a chiamata per Castel di Guido, quattro mesi senza alcuna attivazione
 - 2026-06-19 · [A1] Ufficio Punto Roma Facile chiuso venerdì 19 giugno (→ Q-V058)
 - 2026-06-19 · [A2] Housing First di via Boccea: struttura buona, strada senza marciapiedi (→ Q-V416)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-21 · [A1] «Ama il tuo Quartiere» in via Borgo Ticino il 21 giugno
 - 2026-06-22 · [A1] Eventi in un hotel di via Aurelia 619: possibili disagi al traffico (→ Q-V453)
 - 2026-06-22 · [A2] Prosegue in commissione il caso dell'area verde di Piazza Irnerio (→ Q-V300)

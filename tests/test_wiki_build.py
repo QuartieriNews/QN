@@ -132,6 +132,81 @@ check("an http(s) registry link is clickable", 'href="https://example.org/b"' in
 check("a non-http registry link is never an href (cycle 1, note 5)", 'href="javascript:' in page_html, False)
 check("a local evidence reference is text, not a link", 'href="pdf/locale.pdf"' in page_html, False)
 
+
+# ---- review cycle 4 (native Codex review, 29 October 2026) ----------------------------
+def build_case(out, files, gazetteer, previous=None):
+    """Build from several input files (name -> rows) into out/wiki; returns its schedario."""
+    inp = os.path.join(out, "in")
+    os.makedirs(inp, exist_ok=True)
+    for name, rows in files.items():
+        with open(os.path.join(inp, name), "w", encoding="utf-8", newline="") as fh:
+            w = csv.writer(fh)
+            w.writerow(COLUMNS)
+            w.writerows(rows)
+    gaz = os.path.join(inp, "gazetteer.json")
+    json.dump(gazetteer, open(gaz, "w", encoding="utf-8"))
+    wiki = os.path.join(out, "wiki")
+    sys.argv = ["build_wiki.py", "--input", inp, "--out", wiki, "--gazetteer", gaz]
+    if previous:
+        sys.argv += ["--previous", previous]
+    build_wiki.main()
+    sys.argv = ["render_html.py", "--wiki", wiki, "--out", os.path.join(out, "anteprima.html")]
+    render_html.main()
+    return json.load(open(os.path.join(wiki, "schedario.json"), encoding="utf-8"))
+
+
+def row(i, municipio, luoghi, vicenda="", data="2026-06-10"):
+    return [i, "A1", "avviso", f"Titolo {i}", municipio, "", luoghi, vicenda, "alta", "unica", data, data, "", ""]
+
+
+print("Ambiguous gazetteer keys link to no zone (gazetteer.json, resolution.lookup.on_ambiguous)")
+GAZ_AMB = {
+    "publication_zones": [{"publication_zone_id": "colle-prenestino", "name_display": "Colle Prenestino"},
+                          {"publication_zone_id": "pisana", "name_display": "Pisana"}],
+    "neighbourhoods": [{"name_display": "Colle del Sole", "aliases": "", "publication_zone_id": "colle-prenestino"},
+                       {"name_display": "Colle del Sole", "aliases": "", "publication_zone_id": "pisana"},
+                       {"name_display": "Villa Verde", "aliases": "Borgata Doppia", "publication_zone_id": "colle-prenestino"},
+                       {"name_display": "Bravetta", "aliases": "Borgata Doppia", "publication_zone_id": "pisana"},
+                       {"name_display": "Casetta Mistica", "aliases": "", "publication_zone_id": "colle-prenestino"}],
+    "resolution": {"lookup": {"ambiguous_keys": ["Colle del Sole"]}},
+}
+with tempfile.TemporaryDirectory() as tmp:
+    s = build_case(tmp, {"Report1_notizie_x.csv": [row("A1", "VI", "Colle del Sole"), row("A2", "VI", "Borgata Doppia"),
+                                                    row("A3", "VI", "Casetta Mistica")]}, GAZ_AMB)
+    zona = {p["nome"]: p["zona"] for p in s["luoghi"]}
+check("a key the gazetteer declares ambiguous is never resolved to the first zone", zona["Colle del Sole"], None)
+check("an undeclared alias that names two zones links to none", zona["Borgata Doppia"], None)
+check("an alias naming one zone still links", zona["Casetta Mistica"], "colle-prenestino")
+
+print("A record on two municipalities appears on each of their pages")
+with tempfile.TemporaryDirectory() as tmp:
+    build_case(tmp, {"Report1_notizie_x.csv": [row("M1", "XI;V", "Via Comune", "VM"), row("M2", "XI;V", "Via Comune", "VM"),
+                                                row("M3", "XI", "Via Altra")]}, GAZETTEER)
+    page_xi = open(os.path.join(tmp, "wiki", "municipi", "XI.md"), encoding="utf-8").read()
+    page_v = open(os.path.join(tmp, "wiki", "municipi", "V.md"), encoding="utf-8").read()
+    page_h = open(os.path.join(tmp, "anteprima.html"), encoding="utf-8").read()
+    sec_v = page_h.split('<section id="mV"')[1].split("</section>")[0]
+check("the chronology of both municipalities lists the record", ("Titolo M1" in page_xi, "Titolo M1" in page_v), (True, True))
+check("the open thread of a two-municipality record is on both pages", ("`Q-VM`" in page_xi, "`Q-VM`" in page_v), (True, True))
+check("a single-municipality record stays on its page only", ("Titolo M3" in page_xi, "Titolo M3" in page_v), (True, False))
+check("the HTML preview routes it the same way", "Titolo M1" in sec_v and "Titolo M3" not in sec_v, True)
+
+print("Place ids survive extending the corpus (docs/wiki/README.md: stable ids)")
+with tempfile.TemporaryDirectory() as tmp:
+    first = build_case(os.path.join(tmp, "a"), {"Report1_notizie_giugno.csv": [row("G1", "IV", "Piazza Uno"), row("G2", "IV", "Piazza Due")]},
+                       GAZETTEER)
+    prev = os.path.join(tmp, "a", "wiki", "schedario.json")
+    # an earlier-sorting file (May) is added: without the previous schedario its places would take L-0001
+    second = build_case(os.path.join(tmp, "b"), {"Report1_notizie_giugno.csv": [row("G1", "IV", "Piazza Uno"), row("G2", "IV", "Piazza Due")],
+                                                  "Report1_notizie_A_maggio.csv": [row("K1", "IV", "Piazza Nuova;piazza uno", data="2026-05-03")]},
+                        GAZETTEER, previous=prev)
+    ids1 = {p["nome"]: p["id"] for p in first["luoghi"]}
+    ids2 = {p["nome"]: p["id"] for p in second["luoghi"]}
+    alias2 = {p["nome"]: p["alias"] for p in second["luoghi"]}
+check("an existing place keeps its id when an earlier file is added", (ids2["Piazza Uno"], ids2["Piazza Due"]), (ids1["Piazza Uno"], ids1["Piazza Due"]))
+check("a new place is numbered after the highest id in use", ids2["Piazza Nuova"], "L-0003")
+check("an existing place keeps its canonical name; a new spelling becomes an alias", alias2["Piazza Uno"], ["piazza uno"])
+
 print("")
 if failures == 0:
     print(f"ALL PASS ({checks} checks)")

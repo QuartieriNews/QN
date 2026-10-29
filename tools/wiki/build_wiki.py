@@ -66,19 +66,27 @@ def norm(s):
 def load_gazetteer(path):
     g = json.load(open(path, encoding="utf-8"))
     zones = {z["publication_zone_id"]: z for z in g["publication_zones"]}
-    alias_to_zone = {}
+    # A key that names more than one zone, or that the gazetteer declares ambiguous, links to
+    # none: gazetteer.json, resolution.lookup.on_ambiguous (review cycle 4).
+    candidates = defaultdict(set)
     for z in g["publication_zones"]:
-        alias_to_zone[norm(z["name_display"])] = z["publication_zone_id"]
-        alias_to_zone[norm(z["publication_zone_id"].replace("-", " "))] = z["publication_zone_id"]
+        for k in (z["name_display"], z["publication_zone_id"].replace("-", " ")):
+            candidates[norm(k)].add(z["publication_zone_id"])
     for n in g.get("neighbourhoods", []):
         zid = n.get("publication_zone_id")
         if not zid:
             continue
-        alias_to_zone.setdefault(norm(n.get("name_display", "")), zid)
-        for a in (n.get("aliases") or "").split(";"):
-            if a.strip():
-                alias_to_zone.setdefault(norm(a), zid)
+        for k in [n.get("name_display") or ""] + (n.get("aliases") or "").split(";"):
+            if k.strip():
+                candidates[norm(k)].add(zid)
+    declared = {norm(k) for k in g.get("resolution", {}).get("lookup", {}).get("ambiguous_keys", [])}
+    alias_to_zone = {k: next(iter(v)) for k, v in candidates.items() if k and len(v) == 1 and k not in declared}
     return zones, alias_to_zone
+
+
+def municipi_of(value):
+    """The municipalities a record names; the study writes "XI;V" for one on two (review cycle 4)."""
+    return [m.strip() for m in (value or "").split(";") if m.strip()]
 
 
 def classify_place(name):
@@ -100,6 +108,8 @@ def main():
     ap.add_argument("--out", default="docs/wiki")
     ap.add_argument("--gazetteer", default="gazetteer/gazetteer.json")
     ap.add_argument("--registry", default=None, help="registro_fonti.csv (13 Oct 2026)")
+    ap.add_argument("--previous", default=None,
+                    help="schedario.json whose place ids are kept (default: the one already in --out)")
     a = ap.parse_args()
 
     zones, alias_to_zone = load_gazetteer(a.gazetteer)
@@ -118,6 +128,15 @@ def main():
     place_index = {}   # norm -> id
     places = {}        # id -> record
     counter = Counter()
+    # A place already in the schedario keeps its id, name and aliases; new places are numbered
+    # after the highest id in use, so extending the corpus never renumbers (docs/wiki/README.md:
+    # "Ogni voce ha un id stabile"; review cycle 4).
+    previous = {}
+    prev_path = a.previous or os.path.join(a.out, "schedario.json")
+    if os.path.exists(prev_path):
+        for p in json.load(open(prev_path, encoding="utf-8")).get("luoghi", []):
+            previous[norm(p["nome"])] = p
+    last = [max((int(p["id"][2:]) for p in previous.values()), default=0)]
 
     def place_id(raw):
         n = norm(raw)
@@ -126,9 +145,14 @@ def main():
         if n in place_index:
             pid = place_index[n]
         else:
-            pid = f"L-{len(places) + 1:04d}"
+            old = previous.get(n)
+            if old:
+                pid, nome, alias = old["id"], old["nome"], list(old.get("alias", []))
+            else:
+                last[0] += 1
+                pid, nome, alias = f"L-{last[0]:04d}", raw.strip(), []
             place_index[n] = pid
-            places[pid] = {"id": pid, "nome": raw.strip(), "alias": [], "tipo": classify_place(raw),
+            places[pid] = {"id": pid, "nome": nome, "alias": alias, "tipo": classify_place(nome),
                            "zona": alias_to_zone.get(n), "municipi": Counter(), "n": 0}
         rec = places[pid]
         if raw.strip() != rec["nome"] and raw.strip() not in rec["alias"]:
@@ -231,11 +255,11 @@ def main():
              f"Voci di diario: {len(diary)} · questioni: {len(questioni)} (aperte, cioè con almeno due voci: {sum(1 for q in questioni.values() if q['stato']=='aperta')}) · luoghi: {len(places)} · soggetti: {len(soggetti)}", "",
              "| Municipio | voci | questioni aperte | luoghi citati | soggetti registrati |", "|---|---|---|---|---|"]
     for m in ROMAN:
-        es = [e for e in diary if e["municipio"] == m]
-        qs = [q for q in questioni.values() if q["municipio"] == m and q["stato"] == "aperta"]
+        es = [e for e in diary if m in municipi_of(e["municipio"])]
+        qs = [q for q in questioni.values() if m in municipi_of(q["municipio"]) and q["stato"] == "aperta"]
         qs.sort(key=lambda q: (-q["voci"], q["dal"]))
         lp = Counter(p for e in es for p in e["luoghi"])
-        ss = [s for s in soggetti.values() if s.get("municipio") == m]
+        ss = [s for s in soggetti.values() if m in municipi_of(s.get("municipio"))]
         index.append(f"| [{m}](municipi/{m}.md) | {len(es)} | {len(qs)} | {len(lp)} | {len(ss)} |")
         out = [f"# Municipio {m} — contesto di giugno 2026", "",
                f"Voci di diario: {len(es)} · questioni aperte: {len(qs)} · luoghi citati: {len(lp)} · soggetti registrati: {len(ss)}", "",

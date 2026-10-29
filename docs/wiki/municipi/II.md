@@ -1,6 +1,6 @@
 # Municipio II — contesto di giugno 2026
 
-Voci di diario: 308 · questioni aperte: 50 · luoghi citati: 317 · soggetti registrati: 31
+Voci di diario: 313 · questioni aperte: 50 · luoghi citati: 336 · soggetti registrati: 31
 
 ## Questioni aperte
 
@@ -402,11 +402,11 @@ Luoghi: quartiere Coppedè; piazza Mincio; via Dora; via Brenta; via Aterno; via
 | Lungotevere Flaminio | strada | — | 4 |
 | via Dire Daua, 11 | strada | — | 4 |
 | via dei Frentani | strada | — | 4 |
+| circonvallazione Nomentana | strada | — | 4 |
+| largo Passamonti | strada | — | 4 |
 | Giardino Giuseppe de Meo | luogo | — | 4 |
 | parco dei Caduti | luogo | — | 4 |
 | sede del Municipio II in via Dire Daua | luogo | — | 3 |
-| piazza della Repubblica | strada | — | 3 |
-| via Nomentana | strada | — | 3 |
 
 ## Soggetti registrati (registro fonti, 13 ottobre 2026)
 
@@ -449,6 +449,7 @@ Luoghi: quartiere Coppedè; piazza Mincio; via Dora; via Brenta; via Aterno; via
 - 2026-03-14 · [E2] Danza inclusiva gratuita al Museo Nazionale Etrusco di Villa Giulia
 - 2026-05-28 · [A1] Progetto del centro estivo affidato alla Cooperativa Sociale Le Mille e una Notte il 28 maggio
 - 2026-06-04 · [A1] Camminate gratuite nelle ville del Municipio II per tutto giugno
+- 2026-06-06 · [A1] Raccolta straordinaria di ingombranti in sei Municipi sabato 6 giugno
 - 2026-06-07 · [A1] Apertura straordinaria del sepolcro di Largo Talamo il 7 giugno
 - 2026-06-08 · [E2] Incontro sul lavoro nella comunicazione alla Casa del Cinema (→ Q-V092)
 - 2026-06-08 · [E2] Proiezione gratuita e incontro al teatro all'aperto l'8 giugno (→ Q-V092)
@@ -487,6 +488,7 @@ Luoghi: quartiere Coppedè; piazza Mincio; via Dora; via Brenta; via Aterno; via
 - 2026-06-11 · [E2] Mostra delle tre vincitrici di un premio d'arte digitale al MACRO
 - 2026-06-11 · [E3] Canzoni e racconti della tradizione romana a Piazza Annibaliano
 - 2026-06-11 · [E3] Proiezione di un film sull'orchestra multietnica alla Casa del Cinema (→ Q-V212)
+- 2026-06-11 · [E3] Concerto su un battello itinerante sul Tevere l'11 giugno
 - 2026-06-11 · [A2] Dehors nel Municipio II, oltre cinquecento senza adeguamento e due istruttori (→ Q-V351)
 - 2026-06-11 · [A2] Parco Mario Riva, tre mesi di lavori sugli alberi e marciapiedi chiusi
 - 2026-06-11 · [A2] Villa Borghese, cinque anni di evento natalizio in project financing (→ Q-V255)
@@ -539,6 +541,7 @@ Luoghi: quartiere Coppedè; piazza Mincio; via Dora; via Brenta; via Aterno; via
 - 2026-06-15 · [A3] Il carro del Municipio II parte da San Lorenzo (→ Q-V237)
 - 2026-06-15 · [A3] Lo sportello LGBT del Municipio II resta poco conosciuto (→ Q-V384)
 - 2026-06-15 · [A3] Iniziative sulle questioni di genere al Welcome Center della Tiburtina
+- 2026-06-16 · [A1] Prolungata la validità delle carte d'identità cartacee
 - 2026-06-16 · [E2] Proiezione gratuita di "Come sposare un milionario" al Teatro all'aperto Ettore Scola (→ Q-V084)
 - 2026-06-16 · [A2] Via Stamira chiusa di notte per tre settimane e sensi obbligati a viale delle Provincie (→ Q-V241)
 - 2026-06-16 · [A2] Sei settimane di cantiere giubilare su viale del Policlinico
@@ -567,6 +570,7 @@ Luoghi: quartiere Coppedè; piazza Mincio; via Dora; via Brenta; via Aterno; via
 - 2026-06-17 · [A3] Il Municipio II vara l'Osservatorio permanente sulla legalità e antimafia sociale (→ Q-V401)
 - 2026-06-18 · [A1] «Fogli(e) in fiera» all'Ex Dogana dal 18 al 21 giugno
 - 2026-06-18 · [A1] «Omaggio a Plinio Perilli» all'Ex Dogana il 18 giugno
+- 2026-06-18 · [A1] Tangenziale Est, sopraelevata e galleria Nci chiuse il 18 giugno (→ Q-V006)
 - 2026-06-18 · [A1] Canoni mercatali: bollettazione con scadenza 31 luglio
 - 2026-06-18 · [A1] Consiglio del Municipio II su chioschi nelle aree verdi e Villa Borghese (→ Q-V032)
 - 2026-06-18 · [A1] Lavori del Consiglio sospesi un'ora per il ricordo del consigliere scomparso Massimo Viola (→ Q-V401)
@@ -602,6 +606,7 @@ Luoghi: quartiere Coppedè; piazza Mincio; via Dora; via Brenta; via Aterno; via
 - 2026-06-19 · [A3] A Villa Massimo una serata dedicata a Grazia Deledda (→ Q-V426)
 - 2026-06-19 · [A3] Un solo presidio veterinario pubblico: il municipio chiede quelli di quadrante (→ Q-V032)
 - 2026-06-20 · [A1] Open day CIE al Municipio II in via Dire Daua (→ Q-V031)
+- 2026-06-20 · [A1] Open day CIE negli ex PIT e in via Petroselli (→ Q-V244)
 - 2026-06-20 · [A1] Archeotrekking urbano a Villa Ada sulle tracce di Antemnae il 20 giugno
 - 2026-06-20 · [A1] Apertura straordinaria dello sportello anagrafico di via Dire Daua il 20 giugno (→ Q-V031)
 - 2026-06-20 · [E2] Rassegna su cinema e migrazione alla Casa del Cinema dal 20 giugno (→ Q-V167)

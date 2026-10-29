@@ -23,6 +23,10 @@ python tools/wiki/build_wiki.py --input <cartella con i Report*_notizie_*.csv> \
 python tools/wiki/render_html.py --wiki docs/wiki --out docs/wiki/anteprima.html
 ```
 
+Gli id restano quelli dello `schedario.json` già presente in `--out` (o in quello
+indicato con `--previous`): un luogo già visto tiene id, nome e grafie, e i luoghi
+nuovi prendono i numeri successivi, qualunque sia l'ordine dei file di ingresso.
+
 I CSV di ingresso stanno su Drive (`QN Hub / 20 Packages / Fonti 2026-06` e il
 registro fonti del 13 ottobre 2026) e non entrano nel repository. Nel repository
 entra solo il derivato: titoli di una riga scritti dallo studio, mai il testo delle

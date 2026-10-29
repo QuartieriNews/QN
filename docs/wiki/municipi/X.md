@@ -1,6 +1,6 @@
 # Municipio X — contesto di giugno 2026
 
-Voci di diario: 161 · questioni aperte: 20 · luoghi citati: 213 · soggetti registrati: 4
+Voci di diario: 164 · questioni aperte: 20 · luoghi citati: 213 · soggetti registrati: 4
 
 ## Questioni aperte
 
@@ -300,6 +300,8 @@ Luoghi: Teatro del Lido di Ostia; Via delle Sirene, 22
 - 2026-06-04 · [A2] Verifica dell'ampliamento del CSAQ di piazza Gregorio Ronca
 - 2026-06-05 · [A2] Nuovo invitato per la seduta sul Parco Clemente Riva (→ Q-V317)
 - 2026-06-05 · [A2] Lavori per il CAV di piazza dei Sicani in commissione congiunta
+- 2026-06-06 · [A1] Raccolta straordinaria di ingombranti in sei Municipi sabato 6 giugno
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-08 · [A1] Abbattimento di 124 alberi nell area verde di uno stadio
 - 2026-06-09 · [A1] Inaugurata a Ostia una nuova Stazione di Posta per persone fragili (→ Q-V016)
 - 2026-06-09 · [A2] Il centro antiviolenza di piazza dei Sicani operativo entro l'anno (→ Q-V348)
@@ -387,6 +389,7 @@ Luoghi: Teatro del Lido di Ostia; Via delle Sirene, 22
 - 2026-06-19 · [A3] Capolinea del bus spostato, cinquanta parcheggi in più sul lungomare (→ Q-V259)
 - 2026-06-19 · [A3] Sosta riservata ad auto e moto fra viale Mediterraneo e Castel Fusano (→ Q-V259)
 - 2026-06-19 · [A3] Diciotto milioni per la ciclabile Colosseo-Ostia, Regione convocata il 26 (→ Q-V430)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-22 · [A1] Uffici socio-educativi di viale del Lido chiusi lunedì 22 giugno (→ Q-V048)
 - 2026-06-23 · [A1] Villaggio culturale «Controcorrente» alla Piccola Oasi Stella Polare di Ostia (→ Q-V048)
 - 2026-06-23 · [A1] PUA alla Casa della Comunità del Lungomare Toscanelli dal 23 giugno (→ Q-V047)

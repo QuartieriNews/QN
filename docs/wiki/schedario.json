@@ -28933,7 +28933,7 @@
    "nome": "Colle del Sole",
    "alias": [],
    "tipo": "luogo",
-   "zona": "colle-prenestino",
+   "zona": null,
    "municipi": {
     "VI": 1
    },

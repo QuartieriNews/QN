@@ -12,6 +12,8 @@ import json
 import os
 from collections import Counter, defaultdict
 
+from build_wiki import municipi_of
+
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"]
 SRC = {"A1": "Roma Capitale · notizie", "A2": "Atti Web", "A3": "RomaTV", "A4": "YouTube Municipi",
        "C1": "Questura", "C2": "Carabinieri", "C4": "Vigili del Fuoco", "C5": "Polizia Locale",
@@ -43,14 +45,15 @@ def main():
     qs_by_m = defaultdict(list)
     for q in sched["questioni"]:
         if q["stato"] == "aperta":
-            qs_by_m[q["municipio"]].append(q)
+            for m in municipi_of(q["municipio"]):
+                qs_by_m[m].append(q)
 
     parts = []
     for m in ROMAN:
-        es = [e for e in diary if e["municipio"] == m]
+        es = [e for e in diary if m in municipi_of(e["municipio"])]
         qs = qs_by_m.get(m, [])
         lp = Counter(p for e in es for p in e["luoghi"])
-        ss = [s for s in sched["soggetti"] if s.get("municipio") == m]
+        ss = [s for s in sched["soggetti"] if m in municipi_of(s.get("municipio"))]
         sec = [f'<section id="m{m}" class="mun"><h2>Municipio {m}</h2>',
                f'<p class="stat">{len(es)} voci · {len(qs)} questioni aperte · {len(lp)} luoghi · {len(ss)} soggetti registrati</p>',
                '<h3>Questioni aperte</h3><p class="note">Raggruppamento dello studio fonti (stessa data e luogo); la coerenza dice quanto le voci parlano davvero della stessa cosa.</p>']

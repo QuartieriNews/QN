@@ -1,6 +1,6 @@
 # Municipio VIII — contesto di giugno 2026
 
-Voci di diario: 220 · questioni aperte: 43 · luoghi citati: 297 · soggetti registrati: 13
+Voci di diario: 228 · questioni aperte: 45 · luoghi citati: 308 · soggetti registrati: 14
 
 ## Questioni aperte
 
@@ -261,12 +261,26 @@ Luoghi: Piazza Damiano Sauli
 - 2026-08-06 · [E2] Spettacolo gratuito a Piazza Damiano Sauli il 6 agosto — https://culture.roma.it/appuntamento/loco-motiv/
 - 2026-08-07 · [E2] Spettacolo gratuito a Piazza Damiano Sauli il 7 agosto — https://culture.roma.it/appuntamento/ztl-zona-a-traffico-limitato/
 
+### L'Ippodromo delle Capannelle affidato in gestione a Zetema  `Q-V327`
+*altro* · dal 2026-06-03 al 2026-06-03 · 2 voci · fonti: A1, A2 · zona: appia-antica · coerenza del raggruppamento: **media**
+Luoghi: ippodromo delle Capannelle; Museo ex Cartiera Latina; via Appia Antica; Municipio VIII
+
+- 2026-06-03 · [A1] L'Ippodromo delle Capannelle affidato in gestione a Zetema — https://www.comune.roma.it/web/it/notizia/ippodromo-delle-capannelle-affidato-a-zetema.page
+- 2026-06-03 · [A2] Sopralluogo congiunto al Museo ex Cartiera Latina — TU1D&par2=NDUxMTY= p. 1
+
 ### Tre piazze da sistemare, rete idrica e smottamento: la Giunta VIII  `Q-V313`
 *altro* · dal 2026-06-04 al 2026-06-04 · 2 voci · fonti: A2 · zona: garbatella · coerenza del raggruppamento: **alta**
 Luoghi: via del Gazometro; quartiere Ottavo Colle; Cartiera Latina; Via Casali delle Cornacchiole; via Novacella; via Farfa
 
 - 2026-06-04 · [A2] Porta a porta all'Ottavo Colle e nuovi alberi in via del Gazometro — TU1W&par2=NjA2ODg= p. 1
 - 2026-06-04 · [A2] Tre piazze da sistemare, rete idrica e smottamento: la Giunta VIII — R01W&par2=MzY1MA== p. 3
+
+### Conclusi i restauri PNRR su nove siti archeologici capitolini  `Q-V046`
+*altro* · dal 2026-06-04 al 2026-06-05 · 2 voci · fonti: A1 · zona: spinaceto · coerenza del raggruppamento: **alta**
+Luoghi: Tor de' Cenci; Circo Massimo; via delle Botteghe Oscure; Sant'Urbano alla Caffarella; Ninfeo di Egeria; Torrione Prenestino
+
+- 2026-06-04 · [A1] Conclusi i restauri PNRR su nove siti archeologici capitolini — https://www.comune.roma.it/web/it/notizia/siti-archeologici-restaurati-pnrr-aperture-straordinarie-2026.page
+- 2026-06-05 · [A1] Notte bianca di quartiere venerdi 5 giugno dalle 16 — https://www.comune.roma.it/web/it/informazione-di-servizio.page?contentId=IDS1596585
 
 ### Via Meropia, abbattimento di sedici robinie e nuovo marciapiede  `Q-V339`
 *avviso* · dal 2026-06-08 al 2026-06-08 · 2 voci · fonti: A1, A3 · coerenza del raggruppamento: **alta**
@@ -345,19 +359,6 @@ Luoghi: via Novacella; via Casamari; Via Farva; Via Benedetto Croce; via Farfa; 
 - 2026-06-30 · [A2] Marciapiedi sicuri in via Novacella, via Farva e via Casamari — TU1D&par2=NDU1NTQ= p. 1
 - 2026-06-30 · [A2] Risoluzione per la sicurezza pedonale tra via Novacella e via Casamari — TU1W&par2=NjEyNDA= p. 2
 
-### Municipio VIII chiede di togliere l'obbligo di sterilizzazione dal regolamento animali  `Q-V312`
-*altro* · dal 2026-06-30 al 2026-06-30 · 2 voci · fonti: A2 · coerenza del raggruppamento: **bassa**
-
-- 2026-06-30 · [A2] Municipio VIII chiede di togliere l'obbligo di sterilizzazione dal regolamento animali — TU1W&par2=NjE0NTA= p. 1
-- 2026-06-30 · [A2] Suolo pubblico alle librerie, parere favorevole della commissione cultura — TU1W&par2=NjE0NTM= p. 1
-
-### Proiezione de La città proibita all'anfiteatro di Ballarin il 4 luglio  `Q-V183`
-*evento* · dal 2026-07-04 al 2026-07-05 · 2 voci · fonti: E2 · coerenza del raggruppamento: **alta**
-Luoghi: Anfiteatro all'interno del Polo Civico di Via Aldo Ballarin; Via Renato Cesarini
-
-- 2026-07-04 · [E2] Proiezione de La città proibita all'anfiteatro di Ballarin il 4 luglio — https://culture.roma.it/appuntamento/la-citta-proibita-10/
-- 2026-07-05 · [E2] Proiezione di The Blues Brothers all'anfiteatro di Ballarin il 5 luglio — https://culture.roma.it/appuntamento/the-blues-brothers-3/
-
 ## Luoghi più citati
 
 | luogo | tipo | zona | citazioni |
@@ -400,6 +401,7 @@ Luoghi: Anfiteatro all'interno del Polo Civico di Via Aldo Ballarin; Via Renato 
 | Appia Day - Nata per unire (VeloLove APS) | associazione | appia-antica | sito |
 | Roma Tre Orchestra (Teatro Palladium) | associazione | garbatella | sito |
 | Scena Pubblica IN/OUT - TWAIN Centro Produzione Danza | associazione | montagnola | sito |
+| Croce Rossa Italiana - Comitato Municipi 8 11 12 di Roma | associazione_locale | — | facebook |
 | Biblioteca Arcipelago | biblioteca | montagnola | facebook |
 | Biblioteca Joyce Lussu | biblioteca | ostiense-san-paolo | facebook |
 | Industrie Fluviali | centro_culturale | ostiense-san-paolo | sito |
@@ -413,8 +415,10 @@ Luoghi: Anfiteatro all'interno del Polo Civico di Via Aldo Ballarin; Via Renato 
 
 ## Cronologia del mese
 
+- 2026-06-03 · [A1] L'Ippodromo delle Capannelle affidato in gestione a Zetema (→ Q-V327)
 - 2026-06-03 · [A2] Sopralluogo congiunto al Museo ex Cartiera Latina (→ Q-V327)
 - 2026-06-03 · [A2] Porta a porta e piantumazioni in commissione Ambiente (→ Q-V321)
+- 2026-06-04 · [A1] Conclusi i restauri PNRR su nove siti archeologici capitolini (→ Q-V046)
 - 2026-06-04 · [A1] Via libera definitivo alla riqualificazione dell'ex deposito alla Montagnola
 - 2026-06-04 · [A1] Soggiorni diurni al mare per anziani, domande dal 3 al 25 giugno
 - 2026-06-04 · [A1] Domande e partenza dei pullman in via Benedetto Croce 50 (→ Q-V321)
@@ -427,6 +431,8 @@ Luoghi: Anfiteatro all'interno del Polo Civico di Via Aldo Ballarin; Via Renato 
 - 2026-06-04 · [A2] Una stanza ai Granai di Nerva e un luogo per Coccoluto (→ Q-V321)
 - 2026-06-05 · [A1] Calendario delle assemblee dei genitori nei nidi e nelle scuole d'infanzia
 - 2026-06-05 · [A2] Si rifarà la stradina tra largo Fratelli Greco e via Consolini
+- 2026-06-06 · [A1] Raccolta straordinaria di ingombranti in sei Municipi sabato 6 giugno
+- 2026-06-07 · [A1] Accordo sindacale per la continuità all'Ippodromo delle Capannelle (→ Q-V341)
 - 2026-06-08 · [A1] Via Meropia, abbattimento di sedici robinie e nuovo marciapiede (→ Q-V339)
 - 2026-06-08 · [A2] Porta a porta all'Ottavo Colle e nuove piante in via del Gazometro (→ Q-V329)
 - 2026-06-08 · [A2] Ambiente sul porta a porta all'Ottavo Colle e sul Gazometro (→ Q-V329)
@@ -498,6 +504,7 @@ Luoghi: Anfiteatro all'interno del Polo Civico di Via Aldo Ballarin; Via Renato 
 - 2026-06-12 · [A3] Concerto della banda dei vigili urbani domenica 14 alle 11
 - 2026-06-12 · [A3] Sospeso di nuovo il cantiere della strada verso il centro commerciale
 - 2026-06-12 · [A3] Senza la strada, i bambini del comparto non raggiungono la scuola
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [E3] Jam session finale di Roma in Musica al Parco Schuster
 - 2026-06-14 · [E3] La Banda va in città al Parco AFA il 14 giugno
 - 2026-06-15 · [A1] Dal 15 giugno sfalcio su Casilina, Tiberina e Braccianese (→ Q-V236)
@@ -551,8 +558,10 @@ Luoghi: Anfiteatro all'interno del Polo Civico di Via Aldo Ballarin; Via Renato 
 - 2026-06-19 · [A3] Largo Enea Bortolotti falciato dopo l'incontro, mancano i cestini
 - 2026-06-19 · [A3] Murales del polo civico di via Ostiense, arrivate le prescrizioni di tutela (→ Q-V425)
 - 2026-06-19 · [A3] Dal Municipio VIII 744 segnalazioni sulla mappa dei quartieri (→ Q-V428)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-22 · [A3] Sfalci fermi alla Garbatella alta: cinque strade elencate in commissione
 - 2026-06-22 · [A3] Il Municipio VIII porta in commissione il progetto Respiro sui rifugi climatici
+- 2026-06-23 · [A1] Cartelli per le zone silenziose al parco della Caffarella (→ Q-V041)
 - 2026-06-23 · [E2] Passeggiata gratuita al Bastione Ardeatino il 23 giugno
 - 2026-06-23 · [A2] Polo Civico Ostiense, aggiornamento in commissione al Municipio VIII (→ Q-V435)
 - 2026-06-23 · [A2] Voucher sport fino a 500 euro, domande entro il 30 giugno (→ Q-V456)
@@ -607,6 +616,7 @@ Luoghi: Anfiteatro all'interno del Polo Civico di Via Aldo Ballarin; Via Renato 
 - 2026-06-30 · [A2] Suolo pubblico alle librerie, parere favorevole della commissione cultura (→ Q-V312)
 - 2026-06-30 · [A2] Librerie e suolo pubblico, e i mercati Santa Galla e Passino
 - 2026-06-30 · [A2] Risoluzione per la sicurezza pedonale tra via Novacella e via Casamari (→ Q-V316)
+- 2026-07-01 · [A1] Quattro arene estive gratuite a luglio con «Vivi il Cinema!»
 - 2026-07-03 · [E2] Presentazione di una graphic novel alla Biblioteca Joyce Lussu il 3 luglio
 - 2026-07-04 · [A1] Open day per la carta d'identità elettronica nel Municipio VIII
 - 2026-07-04 · [E2] Proiezione de La città proibita all'anfiteatro di Ballarin il 4 luglio (→ Q-V183)

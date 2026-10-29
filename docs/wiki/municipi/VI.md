@@ -1,6 +1,6 @@
 # Municipio VI — contesto di giugno 2026
 
-Voci di diario: 112 · questioni aperte: 19 · luoghi citati: 135 · soggetti registrati: 6
+Voci di diario: 116 · questioni aperte: 19 · luoghi citati: 138 · soggetti registrati: 6
 
 ## Questioni aperte
 
@@ -204,6 +204,7 @@ Luoghi: Arena Teatro Tor Bella Monaca; Via Bruno Cirino
 - 2026-06-05 · [E2] Spettacolo degli studenti di un liceo al Teatro Tor Bella Monaca
 - 2026-06-06 · [A1] Tavolo interreligioso al parco Calimera sabato 6 giugno (→ Q-V039)
 - 2026-06-06 · [A1] Corso gratuito di disostruzione pediatrica al parco Calimera (→ Q-V039)
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-08 · [A1] Richiesta di dismissione dell'impianto di telefonia in via Michele de Marco
 - 2026-06-08 · [A2] Commissioni VI riunite sull'avvio di un nuovo plesso scolastico
 - 2026-06-09 · [E3] Concerto di musica cubana al Parco Luigi Mauro il 9 giugno
@@ -221,6 +222,7 @@ Luoghi: Arena Teatro Tor Bella Monaca; Via Bruno Cirino
 - 2026-06-11 · [A2] Tre complessi di case popolari, approvati i lavori sui tetti
 - 2026-06-12 · [A1] Richiesta di modifica dell'impianto di telefonia in via Antonio Castagnaro (→ Q-V371)
 - 2026-06-12 · [A2] Tre sopralluoghi della commissione VI su strade di Carcaricola
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-15 · [E2] Esiti dei laboratori teatrali per bambini al Teatro Tor Bella Monaca (→ Q-V173)
 - 2026-06-15 · [A2] Piazza di Carcaricola chiusa alla sosta: due mesi di riqualificazione
 - 2026-06-16 · [E2] Saggio del corso base al Teatro Tor Bella Monaca (→ Q-V173)
@@ -246,6 +248,7 @@ Luoghi: Arena Teatro Tor Bella Monaca; Via Bruno Cirino
 - 2026-06-19 · [A2] Il Municipio VI avvia lo spostamento del mercato di Finocchio (→ Q-V411)
 - 2026-06-19 · [A2] Sopralluogo su quattro strade per gli attraversamenti pedonali
 - 2026-06-19 · [A3] Ritirate la mozione sul mercato Borghesiana e quella sull'associazione dei commercianti (→ Q-V411)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [A1] Concerto «Omaggio a Ennio Morricone» all'Arena di Roma Est il 20 giugno (→ Q-V036)
 - 2026-06-20 · [E3] La Banda va in città in Via Lentini il 20 giugno
 - 2026-06-21 · [A1] Musica lirica e cinematografica nell'Area Archeologica di Gabii il 21 giugno (→ Q-V037)
@@ -284,6 +287,7 @@ Luoghi: Arena Teatro Tor Bella Monaca; Via Bruno Cirino
 - 2026-07-10 · [E2] «I Cavalieri» all'Arena di Tor Bella Monaca il 10 luglio (→ Q-V113)
 - 2026-07-11 · [E2] Spettacolo comico all'Arena di Tor Bella Monaca l'11 e 12 luglio (→ Q-V113)
 - 2026-07-12 · [E2] «La Locandiera, lo Chef e gli altri», replica pomeridiana il 12 luglio (→ Q-V113)
+- 2026-07-13 · [A1] ClicBus dal 13 luglio a Valle Borghesiana, Cinquina e Corcolle
 - 2026-07-14 · [E2] «Donne da buttare ovvero AlessI.A.» a Tor Bella Monaca il 14 luglio (→ Q-V091)
 - 2026-07-15 · [E2] Amleto in salsa piccante all'Arena di Tor Bella Monaca il 15 luglio (→ Q-V091)
 - 2026-07-16 · [E2] Concerto con voce recitante a Tor Bella Monaca il 16 luglio (→ Q-V133)

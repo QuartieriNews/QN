@@ -1,6 +1,6 @@
 # Municipio XI — contesto di giugno 2026
 
-Voci di diario: 164 · questioni aperte: 28 · luoghi citati: 179 · soggetti registrati: 5
+Voci di diario: 178 · questioni aperte: 28 · luoghi citati: 190 · soggetti registrati: 6
 
 ## Questioni aperte
 
@@ -234,7 +234,7 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 |---|---|---|---|
 | Municipio XI | istituzione | — | 74 |
 | Teatro India | luogo | — | 18 |
-| Corviale | luogo | corviale | 12 |
+| Corviale | luogo | corviale | 13 |
 | Parco Ovest | luogo | — | 9 |
 | Lungotevere Vittorio Gassman | strada | — | 9 |
 | Lungotevere Vittorio Gassman, 1 | strada | — | 9 |
@@ -245,10 +245,14 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 | Ponte dell'Industria | strada | — | 5 |
 | Centro di Formazione Professionale Campanella | luogo | — | 5 |
 | Via Portuense 579 | strada | — | 4 |
+| Via Portuense, 579 | strada | — | 4 |
 | mense scolastiche del Municipio XI | luogo | — | 4 |
 | Piana del Sole | luogo | ponte-galeria | 4 |
 | Ponte Galeria | strada | ponte-galeria | 4 |
-| Via Portuense, 579 | strada | — | 3 |
+| via Petroselli 52 | strada | — | 3 |
+| piazza delle Cinque Lune | strada | — | 3 |
+| piazza Sonnino | strada | — | 3 |
+| piazza Santa Maria Maggiore | strada | — | 3 |
 | Parrocchia Gesù Divino Lavoratore | luogo | — | 3 |
 | sala Luigi Petroselli in via Marino Mazzacurati | luogo | — | 3 |
 | via Portuense | strada | — | 3 |
@@ -258,15 +262,12 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 | località Castel Malnome | luogo | — | 3 |
 | via Casetta Mattei | strada | — | 3 |
 | Via M. Mazzacurati - Sala L. Petroselli | strada | — | 3 |
-| canile di Muratella | luogo | — | 2 |
-| via Senorbi | strada | — | 2 |
-| Ponte dei Congressi | strada | — | 2 |
-| via Pietro Frattini | strada | — | 2 |
 
 ## Soggetti registrati (registro fonti, 13 ottobre 2026)
 
 | soggetto | tipo | zona | canale |
 |---|---|---|---|
+| Croce Rossa Italiana - Comitato Municipi 8 11 12 di Roma | associazione_locale | — | facebook |
 | Biblioteca Guglielmo Marconi | biblioteca | marconi | facebook |
 | Biblioteca Renato Nicolini | biblioteca | corviale | facebook |
 | The Space Cinema Roma Parco de' Medici | cinema | muratella | sito_chiuso |
@@ -279,20 +280,26 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 - 2026-04-14 · [A1] Approvato il regolamento capitolino sulle graduatorie per le supplenze
 - 2026-06-01 · [A2] Al canile di Muratella un progetto PUC per sedici beneficiari
 - 2026-06-01 · [A2] Aggiornamento sul parco Ovest in commissione PNRR e Mobilità
+- 2026-06-03 · [A1] Due nuove postazioni CIE in via Petroselli fino al 31 luglio
+- 2026-06-03 · [A1] Identity Point per la CIE al mercato di San Teodoro
 - 2026-06-03 · [A2] Intesa col Museo Nazionale Romano, stalli rosa e Summer School
 - 2026-06-03 · [A2] Via Senorbi senza marciapiede: chiesto un intervento urgente
 - 2026-06-04 · [A1] Soggiorni marini per anziani del Municipio XI domande fino al 3 luglio
 - 2026-06-04 · [A1] Domande fuori termine per le scuole dellinfanzia del Municipio XI
 - 2026-06-05 · [A1] Ricordo di Maria Grazia Daddari al Parco Tevere Marconi il 5 giugno (→ Q-V019)
 - 2026-06-05 · [A2] La commissione Giubileo annuncia l'esame del Ponte dei Congressi
+- 2026-06-06 · [A1] Open day per la carta didentita elettronica il 6 e 7 giugno (→ Q-V020)
 - 2026-06-06 · [A1] Serata conclusiva del Premio Arvalia al Parco Tevere Marconi (→ Q-V019)
 - 2026-06-06 · [A1] "Insieme per il nostro Parco Cardano" il 6 giugno
 - 2026-06-06 · [A1] Apertura straordinaria dello sportello anagrafico di via Portuense (→ Q-V020)
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-07 · [A1] Torneo di burraco al Bocciofilo del Parco Caselli il 7 giugno
 - 2026-06-07 · [A1] Festa d'Estate della parrocchia in via Filippo Tajani (→ Q-V020)
 - 2026-06-08 · [A1] "Adotta un Quartiere" alla Magliana dall'8 al 12 giugno
 - 2026-06-08 · [A1] Presentati i risultati del percorso educativo sul Parco Ovest di Corviale
 - 2026-06-08 · [A1] Centro ricreativo estivo del Municipio XI in un club sportivo
+- 2026-06-09 · [A1] Due nuove postazioni per la carta d'identità in via Petroselli 52
+- 2026-06-09 · [A1] Identity Point per la carta d'identità in via di San Teodoro
 - 2026-06-09 · [A3] I Jeans di Lara al teatro di Santa Silvia il 21 giugno
 - 2026-06-09 · [A3] Il centro di danza premiato sta in via Pietro Frattini dal 2023
 - 2026-06-09 · [A3] Il corso per adolescenti oscilla fra quindici e nove partecipanti
@@ -337,7 +344,10 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 - 2026-06-12 · [A3] Sagrato rifatto con i fondi giubilari, con una pensilina in più
 - 2026-06-12 · [A3] Gli oneri di un'area universitaria pagheranno i marciapiedi di viale Marconi
 - 2026-06-12 · [A3] Tornerà il parapedonale divelto da un'auto fra via Statella e via Baffi
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [A1] Open day carta d'identità in via Portuense 579 il 13 giugno (→ Q-V051)
+- 2026-06-13 · [A1] Open day carta d'identità negli sportelli di tre piazze
+- 2026-06-13 · [A1] Open day carta d'identità al punto di via Petroselli 52
 - 2026-06-13 · [A1] Saggio di danza e ginnastica nella scuola di via Avicenna
 - 2026-06-13 · [A1] Apertura straordinaria dello sportello anagrafico di via Portuense (→ Q-V051)
 - 2026-06-14 · [A2] Sagrato di Santa Silvia, al via i lavori giubilari fino ad agosto
@@ -350,6 +360,7 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 - 2026-06-15 · [A3] Piantumazioni del parco Ovest rinviate a fine settembre (→ Q-V387)
 - 2026-06-15 · [A3] Parco Est, alberi non attecchiti da sostituire prima della riconsegna
 - 2026-06-15 · [A3] Chiesto di chiudere con fioriere il camminamento lungo le case popolari (→ Q-V387)
+- 2026-06-16 · [A1] Prolungata la validità delle carte d'identità cartacee
 - 2026-06-16 · [A3] Centosettanta telecamere per il Municipio XI, in posa su viale Marconi
 - 2026-06-16 · [A3] Quattrocento sopralluoghi per estendere la videosorveglianza in quattro municipi
 - 2026-06-16 · [A3] La linea notturna si ferma a Porta San Paolo (→ Q-V236)
@@ -365,7 +376,9 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 - 2026-06-18 · [A3] Torrette di Corviale, vent'anni in locali mai destinati ad abitazione (→ Q-V227)
 - 2026-06-19 · [A1] «Mente in Movimento», open day al Parco Tevere Marconi
 - 2026-06-19 · [A1] «Serata Swing» al Parco Tevere Marconi il 19 giugno
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [A1] Open day CIE al Municipio XI in via Portuense il 20 giugno (→ Q-V017)
+- 2026-06-20 · [A1] Open day CIE negli ex PIT e in via Petroselli (→ Q-V244)
 - 2026-06-20 · [A1] Il Municipio XI al Roma Pride, ritrovo a piazza della Repubblica
 - 2026-06-20 · [A1] Il Municipio XI al Roma Pride del 20 giugno
 - 2026-06-20 · [A1] Apertura straordinaria dello sportello anagrafico di via Portuense il 20 giugno (→ Q-V017)
@@ -429,6 +442,7 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 - 2026-06-28 · [E2] Incontro con tre coreografi emergenti al Teatro India (→ Q-V090)
 - 2026-06-30 · [A1] Conferenza sugli asteroidi a villa Bonelli il 30 giugno
 - 2026-06-30 · [E2] «Spoon River», esito finale del laboratorio di Luca Simonelli al Teatro India il 30 giugno
+- 2026-07-01 · [A1] Quattro arene estive gratuite a luglio con «Vivi il Cinema!»
 - 2026-07-02 · [A1] Consiglio del Municipio XI convocato il 2 luglio in via Mazzacurati
 - 2026-07-04 · [A1] Open day per la carta d'identità elettronica nel Municipio XI
 - 2026-07-04 · [E2] Installazione multimediale interattiva sulla danza al Teatro India (→ Q-V106)
@@ -439,3 +453,4 @@ Luoghi: Teatro India; Lungotevere Vittorio Gassman, 1
 - 2026-07-09 · [E2] Giornata di danza contemporanea al Teatro India il 9 luglio (→ Q-V108)
 - 2026-07-10 · [E2] Giornata di danza contemporanea al Teatro India il 10 luglio (→ Q-V108)
 - 2026-07-23 · [E2] Incontro su un film e la scrittrice Goliarda Sapienza al Teatro India
+- 2026-08-03 · [A1] Dal 3 agosto 2026 non valide le carte d'identità cartacee

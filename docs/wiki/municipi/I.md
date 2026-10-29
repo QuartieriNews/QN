@@ -1,6 +1,6 @@
 # Municipio I — contesto di giugno 2026
 
-Voci di diario: 386 · questioni aperte: 68 · luoghi citati: 527 · soggetti registrati: 56
+Voci di diario: 394 · questioni aperte: 69 · luoghi citati: 545 · soggetti registrati: 56
 
 ## Questioni aperte
 
@@ -474,12 +474,14 @@ Luoghi: Aventino; Circo Massimo; Area archeologica del Circo Massimo
 - 2026-06-03 · [A2] Verso un bando per la bocciofila di via Marmorata
 - 2026-06-04 · [A2] Archeotram, studentati e area cani a Villa Mazzanti in Consiglio
 - 2026-06-05 · [A1] A Piazza Navona dirette, talk e presentazioni fino al 12 giugno (→ Q-V002)
+- 2026-06-05 · [A1] Aperte le iscrizioni fuori termine alla scuola dell'infanzia capitolina
 - 2026-06-05 · [A1] Municipio I: al via le preiscrizioni a Punti Blu e Punti Verdi
 - 2026-06-05 · [A1] Preiscrizioni ai Punti Blu e Verdi del Municipio I dal 5 giugno
 - 2026-06-05 · [A1] Consegna delle domande anche in via Angelo Emo il mercoledì
 - 2026-06-05 · [A1] Iscrizioni fuori termine alla scuola dell'infanzia, domande in via Petroselli
 - 2026-06-05 · [E2] Conclusi al museo di Villa Borghese i lavori finanziati dal PNRR (→ Q-V217)
 - 2026-06-07 · [A1] Parata da Piazza Mastai a Piazza Navona apre Roma in Musica (→ Q-V001)
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-07 · [E3] Parata musicale da piazza Mastai a Piazza Navona apre Roma in Musica (→ Q-V205)
 - 2026-06-08 · [A1] Consiglio del Municipio I convocato in videoconferenza l8 giugno (→ Q-V258)
 - 2026-06-08 · [A1] Risoluzione sulla corsia tranviaria Porta Maggiore-Termini in Consiglio
@@ -530,6 +532,7 @@ Luoghi: Aventino; Circo Massimo; Area archeologica del Circo Massimo
 - 2026-06-10 · [E2] Documentario su uno scrittore al Nuovo Cinema Aquila (→ Q-V122)
 - 2026-06-10 · [E3] Chiacchierata d'autore con Stefano Fresi a Piazza Navona il 10 giugno (→ Q-V210)
 - 2026-06-10 · [E3] Showcase della cantante romana Alessandra Nazzaro a Piazza Navona il 10 giugno (→ Q-V210)
+- 2026-06-10 · [E3] Postazione per artisti nella stazione metro Cipro dal 10 al 12 giugno
 - 2026-06-10 · [E3] Postazione per artisti romani in piazza Sidney Sonnino per tre pomeriggi
 - 2026-06-10 · [A2] Parere favorevole alla Roma Walk of Fame di via Veneto (→ Q-V480)
 - 2026-06-10 · [A4] Parere favorevole alla Roma Walk of Fame di via Veneto (→ Q-V233)
@@ -548,6 +551,7 @@ Luoghi: Aventino; Circo Massimo; Area archeologica del Circo Massimo
 - 2026-06-11 · [E2] Documentario del 2013 a piazza San Cosimato l'11 giugno (→ Q-V130)
 - 2026-06-11 · [E3] Podcast sul liscio con musica dal vivo a Zalib l'11 giugno
 - 2026-06-11 · [E3] Formazione di percussioni e ballo a Piazza Santa Maria in Trastevere (→ Q-V207)
+- 2026-06-11 · [E3] Concerto su un battello itinerante sul Tevere l'11 giugno
 - 2026-06-11 · [E3] Showcase del cantautore romano Mirkoeilcane a Piazza Navona l'11 giugno (→ Q-V209)
 - 2026-06-11 · [E3] Chiacchierata d'autore a Piazza Navona l'11 giugno (→ Q-V209)
 - 2026-06-11 · [E3] Musicisti nei negozi del centro storico l'11 giugno
@@ -609,6 +613,7 @@ Luoghi: Aventino; Circo Massimo; Area archeologica del Circo Massimo
 - 2026-06-12 · [A4] Ipotesi di una delegazione romana a Rotterdam a fine ottobre (→ Q-V489)
 - 2026-06-12 · [A4] Il festival capitolino del cohousing fa tappa in via Ventura (→ Q-V489)
 - 2026-06-12 · [A4] Pasti a domicilio negli alloggi e docce obbligatorie, la critica (→ Q-V489)
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [E2] Apertura straordinaria della Chiesa di S. Urbano alla Caffarella il 13 giugno (→ Q-V204)
 - 2026-06-13 · [E2] Convegno sul canto a braccio al Teatro Argentina il 13 giugno
 - 2026-06-13 · [E2] Spettacolo sul canto a braccio al Teatro Torlonia il 13 giugno
@@ -623,6 +628,7 @@ Luoghi: Aventino; Circo Massimo; Area archeologica del Circo Massimo
 - 2026-06-13 · [A4] Riaperto dopo diciotto anni il parcheggio del lungotevere Arnaldo da Brescia (→ Q-V255)
 - 2026-06-13 · [A4] Illuminazione a Monti: due segnalazioni risolte su venti in tre mesi (→ Q-V493)
 - 2026-06-13 · [A4] Verifica su via Foscolo e sull'apertura di un market senza titolo
+- 2026-06-14 · [A1] Biciclette usate a piazzale Clodio e via Anagnina il 14 giugno (→ Q-V380)
 - 2026-06-14 · [A1] Performance collettiva del Terzo Paradiso a Piazza del Popolo
 - 2026-06-14 · [E2] Apertura straordinaria della Villa romana di Tor de' Cenci il 14 giugno (→ Q-V206)
 - 2026-06-14 · [E2] Apre al pubblico un nuovo settore del Circo Massimo il 14 giugno (→ Q-V214)
@@ -687,6 +693,7 @@ Luoghi: Aventino; Circo Massimo; Area archeologica del Circo Massimo
 - 2026-06-17 · [A4] La Giunta chiede di inserire Prati, Trionfale e Della Vittoria negli ambiti (→ Q-V238)
 - 2026-06-17 · [A4] La libreria di largo Chigi sopravvive grazie al canone calmierato (→ Q-V396)
 - 2026-06-18 · [A1] Incontri su arte e natura al museo di Villa Borghese (→ Q-V032)
+- 2026-06-18 · [A1] Tangenziale Est, sopraelevata e galleria Nci chiuse il 18 giugno (→ Q-V006)
 - 2026-06-18 · [A1] Ingresso provvisorio al civico 17 per la sede di circonvallazione Trionfale (→ Q-V029)
 - 2026-06-18 · [A1] Consiglio del Municipio I in seduta straordinaria il 18 giugno (→ Q-V029)
 - 2026-06-18 · [E2] Proiezione e incontro con il regista Jacques Audiard a piazza San Cosimato (→ Q-V125)
@@ -735,6 +742,7 @@ Luoghi: Aventino; Circo Massimo; Area archeologica del Circo Massimo
 - 2026-06-19 · [A4] Il Comune ha restituito alla parrocchia la casina di San Vitale (→ Q-V509)
 - 2026-06-19 · [A4] Il tribunale non trova dove collocare gli imputati in messa alla prova (→ Q-V508)
 - 2026-06-19 · [A4] Chiese del centro chiuse perché i rettori non pagano le bollette (→ Q-V507)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [E2] Proiezione di Le città di pianura ai Giardini Nicola Calipari (→ Q-V139)
 - 2026-06-20 · [E2] Seconda serata di Letterature il 20 giugno, storie di resistenza
 - 2026-06-20 · [E2] Proiezione gratuita di «Ponyo sulla scogliera» a Piazza San Cosimato (→ Q-V162)

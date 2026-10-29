@@ -1,6 +1,6 @@
 # Municipio XII — contesto di giugno 2026
 
-Voci di diario: 139 · questioni aperte: 21 · luoghi citati: 163 · soggetti registrati: 8
+Voci di diario: 142 · questioni aperte: 21 · luoghi citati: 167 · soggetti registrati: 9
 
 ## Questioni aperte
 
@@ -228,6 +228,7 @@ Luoghi: via Silvestri; Municipio XII; sede municipale di via Fabiola; Piazza Bia
 |---|---|---|---|
 | Compagnia Valdrada (festival Ri-gener-azioni) | associazione | — | sito |
 | Comitato Animalista E Ambientalista XII Municipio Roma | associazione_locale | — | facebook |
+| Croce Rossa Italiana - Comitato Municipi 8 11 12 di Roma | associazione_locale | — | facebook |
 | Biblioteca Colli Portuensi | biblioteca | colli-portuensi | facebook |
 | Biblioteca Villino Corsini - Villa Pamphilj | biblioteca | monteverde | facebook |
 | Comitato di quartiere Creazione | comitato_quartiere | monteverde | facebook |
@@ -243,6 +244,7 @@ Luoghi: via Silvestri; Municipio XII; sede municipale di via Fabiola; Piazza Bia
 - 2026-06-04 · [A2] La commissione sulla situazione dei banchi del mercato Capasso
 - 2026-06-04 · [A2] Riqualificazione del piazzale dei 4 venti e tavoli da ping pong (→ Q-V330)
 - 2026-06-05 · [A1] Iscrizioni fuori termine alla scuola dell'infanzia, domande al Municipio XII (→ Q-V330)
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-08 · [A1] Prolungamento di via Tomasino D'Amico nel piano di zona B25
 - 2026-06-08 · [A2] Ripartono le scuole della convenzione di Stazione Valle Aurelia (→ Q-V320)
 - 2026-06-08 · [A2] Le opere a scomputo della convenzione Stazione Aurelia in commissione
@@ -336,6 +338,7 @@ Luoghi: via Silvestri; Municipio XII; sede municipale di via Fabiola; Piazza Bia
 - 2026-06-19 · [A3] Quaranta nuclei da Val Cannuta, trentasette assegnazioni di case popolari (→ Q-V420)
 - 2026-06-19 · [A3] Sopralluogo congiunto nella struttura con la proprietà (→ Q-V420)
 - 2026-06-19 · [A3] Sosta vietata a piazza Biagio Pace, la polizia locale promette controlli (→ Q-V266)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [A1] Incontro sul primo soccorso al Teatro di Villa Pamphili il 20 giugno (→ Q-V266)
 - 2026-06-20 · [E2] Teatro per bambini a Villa Pamphilj il 20 giugno
 - 2026-06-21 · [E2] Teatro per bambini a Villa Pamphilj il 21 giugno
@@ -343,6 +346,7 @@ Luoghi: via Silvestri; Municipio XII; sede municipale di via Fabiola; Piazza Bia
 - 2026-06-22 · [A2] Il Municipio XII approva 2,6 milioni per le strade in due lotti
 - 2026-06-22 · [A2] Debito fuori bilancio da 17 mila euro, parere negativo della commissione
 - 2026-06-22 · [A3] La commissione bilancio del XII si aggiorna sulle chiusure di Villa Pamphilj (→ Q-V441)
+- 2026-06-23 · [A1] Aperture straordinarie per la CIE agli ex PIT e in via Petroselli
 - 2026-06-23 · [A1] SCIA per modificare una stazione radio base in via Bernardino Ramazzini
 - 2026-06-23 · [A1] SCIA per modificare una stazione radio base in via Antonio Toscani
 - 2026-06-23 · [A2] Villa Pamphilj chiusa undici volte in un anno, quasi sempre senza avviso (→ Q-V441)

@@ -1,6 +1,6 @@
 # Municipio VII — contesto di giugno 2026
 
-Voci di diario: 138 · questioni aperte: 29 · luoghi citati: 177 · soggetti registrati: 10
+Voci di diario: 154 · questioni aperte: 31 · luoghi citati: 198 · soggetti registrati: 10
 
 ## Questioni aperte
 
@@ -131,6 +131,13 @@ Luoghi: Parco degli Acquedotti; via Lemonia; via Appio Claudio
 - 2026-07-06 · [E2] Proiezione di Der Himmel über Berlin al Parco degli Acquedotti — https://culture.roma.it/appuntamento/der-himmel-uber-berlin-3/
 - 2026-07-07 · [E2] Proiezione de La Ciociara con introduzione al Parco degli Acquedotti — https://culture.roma.it/appuntamento/la-ciociara/
 
+### L'Ippodromo delle Capannelle affidato in gestione a Zetema  `Q-V327`
+*altro* · dal 2026-06-03 al 2026-06-03 · 2 voci · fonti: A1, A2 · zona: appia-antica · coerenza del raggruppamento: **media**
+Luoghi: ippodromo delle Capannelle; Museo ex Cartiera Latina; via Appia Antica; Municipio VIII
+
+- 2026-06-03 · [A1] L'Ippodromo delle Capannelle affidato in gestione a Zetema — https://www.comune.roma.it/web/it/notizia/ippodromo-delle-capannelle-affidato-a-zetema.page
+- 2026-06-03 · [A2] Sopralluogo congiunto al Museo ex Cartiera Latina — TU1D&par2=NDUxMTY= p. 1
+
 ### Casa del Quartiere a Osteria del Curato diventa centro per anziani  `Q-V314`
 *altro* · dal 2026-06-04 al 2026-06-04 · 2 voci · fonti: A1, A2 · zona: morena · coerenza del raggruppamento: **alta**
 Luoghi: Osteria del Curato; Torre Spaccata; sala Don Sardelli; via Casal Ferranti; via del Fosso di Gregna; Teatro di Villa Lazzaroni
@@ -172,6 +179,13 @@ Luoghi: mausoleo di Cecilia Metella; Castrum Caetani; via Appia Antica; Municipi
 
 - 2026-06-12 · [A3] Pedonalizzazione fra Cecilia Metella e il Castrum Caetani, criticità dai residenti — https://ovp2-live.akamaized.net/ac104_video/211537_audio_only.smil [09:48]
 - 2026-06-13 · [A1] Riapre la chiesa di SantUrbano alla Caffarella il 13 giugno — https://www.comune.roma.it/web/it/notizia/siti-archeologici-restaurati-pnrr-aperture-straordinarie-2026.page
+
+### Biciclette usate a piazzale Clodio e via Anagnina il 14 giugno  `Q-V380`
+*evento* · dal 2026-06-14 al 2026-06-15 · 2 voci · fonti: A1, A3 · coerenza del raggruppamento: **alta**
+Luoghi: piazzale Clodio; via Anagnina; via Palmiro Togliatti; via dei Romanisti; Via Prenestina; Largo Preneste
+
+- 2026-06-14 · [A1] Biciclette usate a piazzale Clodio e via Anagnina il 14 giugno — https://www.comune.roma.it/web/it/notizia/ama-tuo-quartiere-13e14-giugno-2026.page
+- 2026-06-15 · [A3] Quindici photored attivi entro l'estate su quindici incroci — https://ovp2-live.akamaized.net/ac104_video/211719_audio_only.smil [20:02]
 
 ### La palestra dell'Appio I verso la consegna al Municipio  `Q-V264`
 *altro* · dal 2026-06-23 al 2026-06-24 · 2 voci · fonti: A2 · coerenza del raggruppamento: **media**
@@ -248,9 +262,9 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 | luogo | tipo | zona | citazioni |
 |---|---|---|---|
 | Municipio VII | istituzione | — | 28 |
+| Parco degli Acquedotti | luogo | appia-antica | 16 |
 | Parco delle Mura Aureliane | luogo | — | 15 |
 | Via Tracia | strada | — | 15 |
-| Parco degli Acquedotti | luogo | appia-antica | 15 |
 | Viale Metronio | strada | — | 14 |
 | via Lemonia | strada | — | 14 |
 | via Appio Claudio | strada | — | 14 |
@@ -263,6 +277,7 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 | via Gela | strada | — | 5 |
 | Tor di Mezza Via | luogo | — | 5 |
 | Piazza di Cinecittà | strada | — | 5 |
+| via Anagnina | strada | — | 4 |
 | Villa Lazzaroni | luogo | — | 4 |
 | via Tuscolana | strada | — | 4 |
 | Vermicino | luogo | morena | 4 |
@@ -271,12 +286,11 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 | Romanina – Parco dei Tricicli | luogo | — | 4 |
 | Via Petrocelli | strada | — | 4 |
 | Piazza di Cinecitta 11 | strada | — | 3 |
-| via Anagnina | strada | — | 3 |
 | via Orvieto | strada | — | 3 |
 | via La Spezia | strada | — | 3 |
 | via Ferdinando Gregorovius | strada | — | 3 |
+| ippodromo delle Capannelle | luogo | — | 2 |
 | Tor Santi Quattro | luogo | appia-antica | 2 |
-| piazza San Giovanni Bosco | strada | — | 2 |
 
 ## Soggetti registrati (registro fonti, 13 ottobre 2026)
 
@@ -296,6 +310,7 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 ## Cronologia del mese
 
 - 2026-04-20 · [A1] Segnalazione di modifica di una stazione radio base su via Appia Nuova
+- 2026-06-03 · [A1] L'Ippodromo delle Capannelle affidato in gestione a Zetema (→ Q-V327)
 - 2026-06-03 · [A1] Incontro pubblico dei centri antiviolenza in piazza di Cinecitta
 - 2026-06-03 · [A2] Ponte Linari e Tor Santi Quattro, esami sospesi in commissione
 - 2026-06-04 · [A1] Municipio VII, segretariato sociale senza appuntamento e itinerante
@@ -304,7 +319,12 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 - 2026-06-04 · [A2] Il trasbordo rifiuti lascia la Togliatti, alberature da rifare
 - 2026-06-04 · [A2] Casa del Quartiere a Osteria del Curato diventa centro per anziani (→ Q-V314)
 - 2026-06-05 · [A2] Verso il parere sulle linee guida per l'area di via Gela
+- 2026-06-06 · [A1] Raccolta straordinaria di ingombranti in sei Municipi sabato 6 giugno
 - 2026-06-06 · [E3] La Banda va in città in Via Metaponto il 6 giugno
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
+- 2026-06-07 · [A1] Accordo sindacale per la continuità all'Ippodromo delle Capannelle (→ Q-V341)
+- 2026-06-09 · [A1] Due nuove postazioni per la carta d'identità in via Petroselli 52
+- 2026-06-09 · [A1] Identity Point per la carta d'identità in via di San Teodoro
 - 2026-06-09 · [A1] Quinto incontro delle "7 assemblee per il VII" il 9 giugno
 - 2026-06-09 · [E3] Camminata cantante e lezione aperta di vocalità a Villa Lais
 - 2026-06-09 · [A2] Tre colonnine di ricarica elettrica in arrivo a piazza Zama
@@ -319,6 +339,7 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 - 2026-06-10 · [A2] Ponte Linari senza marciapiedi, scuola di via del Muro Linari da risanare (→ Q-V311)
 - 2026-06-10 · [A2] Via libera a stallo taxi, via Gela e via Orvieto (→ Q-V281)
 - 2026-06-10 · [A2] Risoluzione sulle criticita del quartiere Ponte Linari in commissione (→ Q-V311)
+- 2026-06-11 · [A1] Incendio in un vivaio in zona Mandrione, raccomandazioni ai residenti
 - 2026-06-11 · [A1] Consiglio municipale convocato l'11 giugno nella sala consiliare (→ Q-V281)
 - 2026-06-11 · [A2] Via Gela e via Adria, il Consiglio del VII si divide
 - 2026-06-11 · [A2] La delocalizzazione del mercato di via Orvieto va in commissione
@@ -327,9 +348,13 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 - 2026-06-11 · [A3] Via Gela e via Adria, approvate le linee guida (→ Q-V281)
 - 2026-06-12 · [E3] Musica e apertura straordinaria dei negozi a Largo Padre Leonardo Bello (→ Q-V204)
 - 2026-06-12 · [E3] Palco aperto per autori di canzoni a Piazza Giovanni Cagliero
+- 2026-06-13 · [A1] «Ama il tuo quartiere», 15 postazioni il 13 e 14 giugno
 - 2026-06-13 · [A1] Riapre la chiesa di SantUrbano alla Caffarella il 13 giugno (→ Q-V376)
 - 2026-06-13 · [A1] Open day carta d'identità in piazza Cinecittà 11 il 13 giugno
 - 2026-06-13 · [A1] Open day carta d'identità in via Fortifiocca 71 il 13 giugno
+- 2026-06-13 · [A1] Open day carta d'identità negli sportelli di tre piazze
+- 2026-06-13 · [A1] Open day carta d'identità al punto di via Petroselli 52
+- 2026-06-14 · [A1] Biciclette usate a piazzale Clodio e via Anagnina il 14 giugno (→ Q-V380)
 - 2026-06-15 · [A2] Eco Isole Mobili, due settimane di sperimentazione in piazza dei Tribuni
 - 2026-06-15 · [A2] I Punti blu tornano per gli anziani del Municipio VII (→ Q-V239)
 - 2026-06-15 · [A2] Parapedonale sul percorso per non vedenti in via La Spezia (→ Q-V286)
@@ -352,6 +377,8 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 - 2026-06-18 · [A3] Restauro delle Mura senza riapertura: l'assessore Grant parla di occasione mancata (→ Q-V006)
 - 2026-06-18 · [A3] Finanziati i primi lotti del parco lineare, non quello di viale Castrense (→ Q-V006)
 - 2026-06-18 · [A3] Sei fototrappole per tutto il Municipio VII
+- 2026-06-23 · [A1] Cartelli per le zone silenziose al parco della Caffarella (→ Q-V041)
+- 2026-06-23 · [A1] Aperture straordinarie per la CIE agli ex PIT e in via Petroselli
 - 2026-06-23 · [A1] «Il Cinema alle Mura… e non solo», 21 serate dal 23 giugno
 - 2026-06-23 · [A1] Sesta delle «7 assemblee per il VII» a Villa Fiorelli
 - 2026-06-23 · [A1] Attivato il sistema TuPassi per prenotare i certificati allo sportello
@@ -364,6 +391,7 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 - 2026-06-23 · [A3] Il VII chiede un tavolo con la Prefettura sulle richieste d'asilo
 - 2026-06-23 · [A3] Le file notturne agli uffici immigrazione di via Patini
 - 2026-06-23 · [A3] «Il tribunale civile di Roma ha dichiarato illegali quelle procedure»
+- 2026-06-24 · [A1] Tramvia Togliatti: dal 24 giugno chiude l'incrocio con Sacco e Vanzetti (→ Q-V218)
 - 2026-06-24 · [A2] Mercato Alberone: cantiere aperto dal 2020, altri due anni di lavori (→ Q-V264)
 - 2026-06-24 · [A2] Aggiornamento sul Parco Lineare delle Mura Aureliane, tratti J e K (→ Q-V218)
 - 2026-06-24 · [A2] Tor Santi Quattro, semaforo spento sull'Anagnina: la commissione chiede l'attivazione
@@ -385,6 +413,7 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 - 2026-06-27 · [A1] Open day carta d'identità il 27 giugno in via Tommaso Fortifiocca
 - 2026-06-30 · [A1] Consiglio del Municipio VII il 30 giugno su Tor Santi Quattro
 - 2026-06-30 · [E2] «Parasite» in lingua originale alle Mura Aureliane il 30 giugno
+- 2026-07-01 · [A1] Quattro arene estive gratuite a luglio con «Vivi il Cinema!»
 - 2026-07-01 · [E2] Proiezione di Dramma della gelosia con introduzione al Parco degli Acquedotti (→ Q-V093)
 - 2026-07-01 · [A2] Petizioni sui sensi unici a Morena e allo Statuario in commissione (→ Q-V280)
 - 2026-07-02 · [A1] Consiglio del Municipio VII convocato il 2 luglio su tre interrogazioni
@@ -416,6 +445,7 @@ Luoghi: Romanina – Parco dei Tricicli; Via Petrocelli
 - 2026-07-24 · [E2] Reportage fotografico O Post Mio esposto al Domus
 - 2026-07-28 · [E2] «In the Mood for Love» in lingua originale alle Mura Aureliane
 - 2026-07-30 · [E2] «Shutter Island» in lingua originale alle Mura Aureliane
+- 2026-08-03 · [A1] Dal 3 agosto 2026 non valide le carte d'identità cartacee
 - 2026-08-04 · [E2] «Il ragazzo e l'airone» alle Mura Aureliane il 4 agosto
 - 2026-08-06 · [E2] «Harry ti presento Sally» alle Mura Aureliane il 6 agosto
 - 2026-09-03 · [A1] Atto vandalico: il Cinevillage di Villa Lazzaroni chiude il 3 settembre

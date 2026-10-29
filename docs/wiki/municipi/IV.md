@@ -1,6 +1,6 @@
 # Municipio IV — contesto di giugno 2026
 
-Voci di diario: 55 · questioni aperte: 13 · luoghi citati: 52 · soggetti registrati: 11
+Voci di diario: 61 · questioni aperte: 13 · luoghi citati: 72 · soggetti registrati: 11
 
 ## Questioni aperte
 
@@ -112,6 +112,7 @@ Luoghi: Parco della Cervelletta; Via della Cervelletta
 | Colli Aniene | luogo | colli-aniene | 2 |
 | San Basilio | luogo | san-basilio | 2 |
 | Municipio Roma IV | istituzione | — | 2 |
+| viale Palmiro Togliatti | strada | — | 2 |
 | Casa del Municipio IV - Ipazia di Alessandria | luogo | — | 2 |
 | Largo Beltramelli | strada | — | 1 |
 | C.C. Gabriella Ferri | luogo | — | 1 |
@@ -133,7 +134,6 @@ Luoghi: Parco della Cervelletta; Via della Cervelletta
 | Centro Culturale Gabriella Ferri | luogo | — | 1 |
 | via delle Cave di Pietralata, 76 | strada | — | 1 |
 | sede del Municipio IV in via Tiburtina | luogo | — | 1 |
-| Museo di Casal de' Pazzi | luogo | — | 1 |
 
 ## Soggetti registrati (registro fonti, 13 ottobre 2026)
 
@@ -164,7 +164,9 @@ Luoghi: Parco della Cervelletta; Via della Cervelletta
 - 2026-06-05 · [A1] Unità mobile sociale in via Rivisondoli davanti all'anagrafe
 - 2026-06-05 · [E2] Cortometraggi sperimentali al Parco della Cervelletta il 5 giugno (→ Q-V078)
 - 2026-06-05 · [E3] La Banda va in città a Piazza Balsamo Crivelli il 5 giugno
+- 2026-06-06 · [A1] Raccolta straordinaria di ingombranti in sei Municipi sabato 6 giugno
 - 2026-06-06 · [E2] Proiezione gratuita di Corpo celeste al Parco della Cervelletta (→ Q-V087)
+- 2026-06-07 · [A1] Raccolta straordinaria di ingombranti in dieci Municipi domenica 7 giugno
 - 2026-06-07 · [E2] Proiezione gratuita di Casablanca al Parco della Cervelletta (→ Q-V087)
 - 2026-06-10 · [E2] Cortometraggi sperimentali al Parco della Cervelletta il 10 giugno (→ Q-V141)
 - 2026-06-10 · [E3] Orchestra di fiati itinerante al Parco Fabrizio Ceruso di San Basilio
@@ -181,13 +183,16 @@ Luoghi: Parco della Cervelletta; Via della Cervelletta
 - 2026-06-17 · [E2] Proiezione e incontro con il regista Oliver Stone al Parco della Cervelletta (→ Q-V124)
 - 2026-06-17 · [A2] Pietralata, il Municipio IV nega l'uso pubblico delle opere abusive (→ Q-V403)
 - 2026-06-17 · [A3] Lo striscione della memoria nella sede municipale è rovinato
+- 2026-06-18 · [A1] Tangenziale Est, sopraelevata e galleria Nci chiuse il 18 giugno (→ Q-V006)
 - 2026-06-18 · [A1] Firmato il patto di collaborazione per il Parco della Cervelletta
 - 2026-06-18 · [E2] «Incontri ravvicinati del terzo tipo» al Parco della Cervelletta il 18 giugno (→ Q-V124)
 - 2026-06-19 · [E2] Secondo e terzo episodio di «Twin Peaks» al Parco della Cervelletta (→ Q-V144)
 - 2026-06-19 · [A2] Tramvia Togliatti, incroci chiusi e cronoprogramma mai comunicato (→ Q-V297)
+- 2026-06-20 · [A1] «Ama il tuo quartiere», 16 postazioni il 20 e 21 giugno
 - 2026-06-20 · [E2] «Lazzaro felice» al Parco della Cervelletta il 20 giugno (→ Q-V144)
 - 2026-06-21 · [E2] «L'impero del sole» al Parco della Cervelletta il 21 giugno (→ Q-V144)
 - 2026-06-22 · [A2] Musica in tutte le venticinque scuole d'infanzia del IV Municipio, 45mila euro
+- 2026-06-24 · [A1] Tramvia Togliatti: dal 24 giugno chiude l'incrocio con Sacco e Vanzetti (→ Q-V218)
 - 2026-06-24 · [A1] Seconda rata del canone mercatale in scadenza il 31 luglio
 - 2026-06-24 · [E2] Cinque cortometraggi di Kenneth Anger al Parco della Cervelletta (→ Q-V193)
 - 2026-06-25 · [E2] «Twilight» presentato dalle Eterobasiche al Parco della Cervelletta (→ Q-V193)
@@ -208,3 +213,4 @@ Luoghi: Parco della Cervelletta; Via della Cervelletta
 - 2026-07-10 · [E2] «Twin Peaks», ultimo episodio e prequel, alla Cervelletta il 10 luglio (→ Q-V118)
 - 2026-07-11 · [E2] Sette corti della regista italiana Alice Rohrwacher al Parco della Cervelletta (→ Q-V118)
 - 2026-07-12 · [E2] Proiezione gratuita a Parco della Cervelletta il 12 luglio (→ Q-V118)
+- 2026-07-13 · [A1] ClicBus dal 13 luglio a Valle Borghesiana, Cinquina e Corcolle
