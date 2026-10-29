@@ -62,7 +62,7 @@ def events_block(zone, zones, events, ref, end):
     levels = []
     picked = []
     for level, pred in (("zona", lambda e: e["publication_zone_id"] == zone),
-                        ("municipio", lambda e: e["publication_zone_id"] != zone and e["municipality_code"] == mun and e["geo_level"] in ("zone", "municipality")),
+                        ("municipio", lambda e: e["publication_zone_id"] != zone and e["municipality_code"] == mun and e["geo_level"] in ("neighbourhood", "zone", "municipality")),
                         ("città", lambda e: e["geo_level"] == "city")):
         cand = [e for e in ok if pred(e) and in_window(e, ref, end)]
         if cand or level == "zona":

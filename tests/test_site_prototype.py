@@ -92,6 +92,15 @@ def test_featured_item_does_not_uncollapse_its_venue():
     assert s == [], s
 
 
+
+def test_neighbourhood_events_join_the_municipality_fallback():
+    # PROMPT_GEO_BLOCK.md: the events block writes geo_level neighbourhood or zone; a
+    # neighbourhood-level event elsewhere in the municipality is a municipio item, not lost (cycle 4)
+    evs = [ev("z1", "za", "V"), ev("n1", "zb", "V", level="neighbourhood"), ev("c1", None, None, "city")]
+    f, g, s, u, levels = b.events_block("za", ZONES, evs, REF, END)
+    assert levels == ["zona", "municipio", "città"], levels
+    assert ids(f, g, s) == ["c1", "n1", "z1"], ids(f, g, s)
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for t in tests:
