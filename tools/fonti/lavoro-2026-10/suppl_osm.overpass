@@ -1,0 +1,11 @@
+[out:json][timeout:180];
+area["name"="Roma"]["admin_level"="8"]["boundary"="administrative"]->.r;
+(
+  nwr["amenity"="place_of_worship"](area.r);
+  nwr["amenity"~"^(community_centre|social_centre|arts_centre|library|theatre|events_venue|youth_centre)$"](area.r);
+  nwr["social_facility"](area.r);
+  nwr["office"~"^(association|ngo|foundation|religion|charity)$"](area.r);
+  nwr["club"](area.r);
+  nwr["leisure"="sports_centre"]["name"](area.r);
+);
+out center tags;
