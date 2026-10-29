@@ -42,6 +42,18 @@ check('blank -> null', normalizeSourceEventId('   '), null);
 check('null/undefined -> null', [normalizeSourceEventId(null), normalizeSourceEventId(undefined)], [null, null]);
 check('object -> null', normalizeSourceEventId({ id: 1 }), null);
 
+console.log('DEC-027 — what a valid source_event_id is');
+check('DEC-027 alphanumeric string kept', normalizeSourceEventId(' ev-12a '), 'ev-12a');
+check('DEC-027 boolean -> null', [normalizeSourceEventId(false), normalizeSourceEventId(true)], [null, null]);
+check('DEC-027 non-finite number -> null', [normalizeSourceEventId(Infinity), normalizeSourceEventId(-Infinity), normalizeSourceEventId(NaN)], [null, null, null]);
+check('DEC-027 non-integer number -> null', normalizeSourceEventId(1.5), null);
+check('DEC-027 integer beyond the safe range -> null', normalizeSourceEventId(2 ** 53), null);
+check('DEC-027 array -> null', normalizeSourceEventId(['1']), null);
+{
+  const r = dedupeSourceEvents([ev(false), ev(Infinity), ev(1.5), ev('8')]);
+  check('DEC-027 invalid ids are counted as rejected, not deduplicated', r.report, { returned_by_source: 4, rejected_missing_source_event_id: 3, duplicate_source_ids_removed: 0, kept: 1 });
+}
+
 console.log('T25 — same source_event_id twice in the dataset');
 {
   const r = dedupeSourceEvents([ev('1'), ev('2'), ev('1'), ev('3')]);

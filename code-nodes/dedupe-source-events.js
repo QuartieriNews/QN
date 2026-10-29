@@ -58,14 +58,15 @@ function countNonEmptyHashedFields(source) {
 }
 /* --- end inlined section --- */
 
-/** Normalized source_event_id: the trimmed string form, or null when the
- *  value is missing or blank. The spec says "valid" without a format; a
- *  stricter rule (digits only) is a spec question, not something to assume. */
+/** Normalized source_event_id, or null when the value is not a valid id.
+ *  What "valid" means is decisions/DEC-027. */
 function normalizeSourceEventId(value) {
-  if (value === null || value === undefined) return null;
-  if (typeof value === 'object') return null;
-  const s = String(value).trim();
-  return s === '' ? null : s;
+  if (typeof value === 'string') {
+    const s = value.trim();
+    return s === '' ? null : s;
+  }
+  if (Number.isSafeInteger(value)) return String(value);
+  return null;
 }
 
 /**
