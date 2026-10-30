@@ -29,6 +29,17 @@ Context:
     in contemporanea.
 - **Pagare non cambia le regole.** Nessun piano a pagamento esonera dai controlli
   anti-abuso: valgono per tutti i piani.
+- **Audit del 30 ottobre** (`docs/github/AUDIT_2026-10-30.md`, sola lettura).
+  - Nessun codice del repository scrive su GitHub e la CI è in sola lettura.
+  - La CI non è partita dal 16 settembre al 14 ottobre.
+  - Le raffiche di scritture: il 16 settembre (160 commit), l'8 ottobre (15 commit via API
+    in tre minuti dal job di watch), il 15 ottobre (101 commenti e risposte, fino a 12 in
+    un minuto) e il 29 ottobre.
+  - Ci sono state 27 richieste di revisione senza risposta.
+  - Due sblocchi su due sono stati seguiti entro poche ore da una raffica e da un nuovo
+    blocco.
+  - I limiti ufficiali dell'API non sono mai stati avvicinati.
+  - La causa resta non dimostrata.
 
 Question 1 — Con quale identità agisce l'automazione?
 
@@ -55,10 +66,15 @@ Fino ad allora A, con le regole della domanda 2.
 
 Question 2 — Regole di ritmo per ogni agente che scrive su GitHub.
 
-Le regole andrebbero in `AGENTS.md` e `CLAUDE.md`. I numeri sono prudenziali: GitHub non
-pubblica soglie.
-- Al massimo una scrittura al minuto e dieci in un'ora per sessione. Contano come
-  scritture: push, commenti, risposte, modifiche e cambi di stato delle PR.
+Le regole sono in `docs/github/PROTOCOLLO.md`, richiamato da `CLAUDE.md`. I numeri
+sono prudenziali: le soglie anti-spam di GitHub non sono pubbliche, e i limiti ufficiali
+dell'API (80 contenuti al minuto, 500 all'ora) sono molto più alti.
+- Almeno 5 secondi fra due scritture qualsiasi.
+- Almeno 60 secondi fra due scritture di contenuto (commento, risposta, review, richiesta
+  di revisione, PR nuova), e al massimo 10 in un'ora per sessione.
+- Al massimo 30 scritture di stato in un'ora (push, risoluzioni, modifiche, bozza o pronta,
+  chiusure).
+- Tetti dimezzati nelle prime 24 ore dopo uno sblocco.
 - Una PR alla volta. Si toglie dalla bozza, si apre o si chiede la revisione di una PR
   solo quando la precedente ha finito il suo giro (revisione e CI).
 - Niente chiusure e riaperture e niente commit vuoti per far ripartire la CI. Se la CI
@@ -82,6 +98,22 @@ C. Si dismette ora che il canale nativo risponde di nuovo.
 
 Claude recommendation: A.
 
+Question 5 — Che cosa contiene la copia di riserva del repository.
+
+La copia settimanale fuori da GitHub (`docs/github/CONTINUITA.md`) serve a lavorare
+durante una restrizione. Un `git bundle` porta tutta la storia, e la storia contiene dati
+che le decisioni hanno poi tolto dai file: i campioni di DEC-104, le colonne di DEC-109, il
+file eventi della PR #18. La storia non è mai stata riscritta ed è già pubblica.
+
+Options:
+a) bundle completo, solo nella cartella privata di QN Hub su Drive, dove DEC-102 vuole i
+   dati delle fonti;
+b) solo l'ultima versione dei branch (`git archive`), senza storia: il lavoro fatto
+   durante una restrizione torna su GitHub come patch;
+c) nessuna copia.
+
+Claude recommendation: a).
+
 Question 4 — Il job settimanale «AI QN Watch».
 
 La PR #14 è chiusa dal 29 ottobre e il job continua a pushare sul suo branch.
@@ -99,8 +131,10 @@ Impact:
 - **Domanda 2.** Una sezione in `AGENTS.md` e una riga in `CLAUDE.md`.
 - **Domanda 3, A.** Una costante e il README di `tools/sources-study/`.
 - **Domanda 4.** Nessun file del repository: il job non è qui.
+- **Domanda 5.** Una procedura settimanale per l'owner o per il builder, e una cartella
+  su Drive.
 - Nessun cambiamento a pipeline, gazetteer, prompt, n8n, lane gate o CI.
 
 Decided by: — · Date: — · Affected components: account e repository GitHub, `AGENTS.md`,
 `CLAUDE.md`, `docs/autonomy/IDENTITY_AND_PERMISSIONS.md`,
-`tools/sources-study/codex_check.js`, DEC-007, DEC-013.
+`tools/sources-study/codex_check.js`, `docs/github/`, DEC-007, DEC-013.
