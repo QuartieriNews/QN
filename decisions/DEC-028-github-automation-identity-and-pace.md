@@ -98,6 +98,15 @@ C. Si dismette ora che il canale nativo risponde di nuovo.
 
 Claude recommendation: A.
 
+Question 4 — Il job settimanale «AI QN Watch».
+
+La PR #14 è chiusa dal 29 ottobre e il job continua a pushare sul suo branch.
+
+Options: a) sospenderlo fino alla decisione sul Council (PR #16); b) farlo scrivere su
+Drive invece che su GitHub; c) lasciarlo com'è.
+
+Claude recommendation: b), oppure a) se il Council non ne ha bisogno.
+
 Question 5 — Che cosa contiene la copia di riserva del repository.
 
 La copia settimanale fuori da GitHub (`docs/github/CONTINUITA.md`) serve a lavorare
@@ -113,15 +122,6 @@ b) solo l'ultima versione dei branch (`git archive`), senza storia: il lavoro fa
 c) nessuna copia.
 
 Claude recommendation: a).
-
-Question 4 — Il job settimanale «AI QN Watch».
-
-La PR #14 è chiusa dal 29 ottobre e il job continua a pushare sul suo branch.
-
-Options: a) sospenderlo fino alla decisione sul Council (PR #16); b) farlo scrivere su
-Drive invece che su GitHub; c) lasciarlo com'è.
-
-Claude recommendation: b), oppure a) se il Council non ne ha bisogno.
 
 Impact:
 - **Domanda 1, B.** Trasferimento del repository all'organizzazione. GitHub reindirizza i
