@@ -54,7 +54,8 @@ bundle va solo nella cartella privata di QN Hub, mai altrove (DEC-028, punto 5).
 2. **Si riparte dal bundle.**
    - Per una sessione nuova: carica nella sessione l'ultimo bundle da Drive e lancia
      `git clone QN-AAAA-MM-GG.bundle QN`, poi
-     `git -C QN fetch QN-AAAA-MM-GG.bundle '+refs/remotes/origin/*:refs/remotes/origin/*'`.
+     `git -C QN fetch ../QN-AAAA-MM-GG.bundle '+refs/remotes/origin/*:refs/remotes/origin/*'`
+     (con `-C QN` il percorso del bundle si legge da dentro `QN`, quindi `../`).
      Il clone crea solo i branch che nel bundle stanno in `refs/heads/`; i branch delle PR
      che il clone di partenza aveva solo come copie remote (`refs/remotes/origin/`)
      arrivano con il secondo comando, e `git checkout <branch>` li rende di lavoro.
