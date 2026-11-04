@@ -20,10 +20,12 @@ git bundle create "QN-$(date +%Y-%m-%d).bundle" --all
 git bundle verify "QN-$(date +%Y-%m-%d).bundle"
 ```
 
-- **Dove va.** Il file va su Drive, in una cartella privata di QN Hub (per esempio
-  `90 Backup`). Ne bastano le ultime quattro.
-- **Chi la carica.** L'owner, oppure il builder con il connettore Drive e il permesso
-  dell'owner.
+- **Dove va.** Il file va su Drive, in `QN Hub / 90 Backup`. La cartella è stata creata
+  il 4 novembre 2026 senza permessi ereditati: QN Hub è condivisa con chiunque abbia il
+  link, `90 Backup` è visibile solo all'owner. Ne bastano le ultime quattro.
+- **Chi la carica.** L'owner. Il builder prepara il bundle e lo consegna. Il connettore
+  Drive vuole il contenuto dentro la chiamata, e un bundle completo pesa qualche MB (7,9
+  MB il 4 novembre).
 - **Quando.** Settimanalmente, e in più alla fine di ogni sessione che lascia commit non
   pushati: per quelli basta un bundle dei soli branch toccati.
 
