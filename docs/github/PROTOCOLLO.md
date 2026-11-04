@@ -76,7 +76,11 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
 **Segnali di restrizione.** Fermano subito ogni scrittura; poi si avvisa l'owner:
 - 404 sul proprio repository, o pagina non visibile da non autenticati;
 - 403 che non si spiega con un permesso mancante;
-- Actions che non parte entro dieci minuti da un evento della PR;
+- Actions che non parte entro dieci minuti da un evento che un workflow del repository
+  ascolta. In QN sono l'apertura, la riapertura e i push di una PR, e i push su `main`
+  (`.github/workflows/checks.yml`). Segnare pronta una PR, modificarne la descrizione o
+  commentare non avviano Actions: dopo queste scritture un run nuovo non è atteso, e i
+  controlli già conclusi sulla testa restano validi;
 - un messaggio di GitHub sull'account;
 - Codex nativo che tace per più di un'ora **insieme** a uno dei segnali qui sopra.
 

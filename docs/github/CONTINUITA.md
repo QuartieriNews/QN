@@ -53,8 +53,14 @@ bundle va solo nella cartella privata di QN Hub, mai altrove (DEC-028, punto 5).
 1. **Non si scrive su GitHub**, nemmeno per provare (`PROTOCOLLO.md`, sezione 5).
 2. **Si riparte dal bundle.**
    - Per una sessione nuova: carica nella sessione l'ultimo bundle da Drive e lancia
-     `git clone QN-AAAA-MM-GG.bundle QN`.
-   - Per una sessione esistente: lancia `git fetch <bundle> <branch>:<branch>`.
+     `git clone QN-AAAA-MM-GG.bundle QN`, poi
+     `git -C QN fetch QN-AAAA-MM-GG.bundle '+refs/remotes/origin/*:refs/remotes/origin/*'`.
+     Il clone crea solo i branch che nel bundle stanno in `refs/heads/`; i branch delle PR
+     che il clone di partenza aveva solo come copie remote (`refs/remotes/origin/`)
+     arrivano con il secondo comando, e `git checkout <branch>` li rende di lavoro.
+   - Per una sessione esistente: lancia `git fetch <bundle> <branch>:<branch>`, oppure
+     `git fetch <bundle> refs/remotes/origin/<branch>:<branch>` per un branch che nel
+     bundle è solo remoto. `git bundle list-heads <bundle>` mostra dove sta.
 3. **Si lavora e si fa commit in locale.** Prima di chiudere la sessione si crea un bundle
    dei branch toccati, `git bundle create lavoro.bundle <branch>... ^origin/main`, e lo si
    consegna all'owner.
