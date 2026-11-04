@@ -1,6 +1,8 @@
 # DEC-028 — Con quale identità e con che ritmo l'automazione lavora su GitHub
 
 Status: DECIDED (4 November 2026, owner in the builder session, on the recommendations put by the builder)
+Punto 1 superato in parte da DEC-030: l'app GitHub di Claude va su ogni repository dell'account
+in cui scrivono gli agenti, non sul solo QN. Il resto di questa decisione resta valido.
 Blocks: nothing since 4 November 2026. While open it blocked the restart of work on pull
 requests after the account was restored, and every new automation writing to GitHub.
 
