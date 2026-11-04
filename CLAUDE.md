@@ -22,12 +22,15 @@ roles and the review rules there bind you too. Then:
   evidence gathered from the actual repository state. Never mark your own work
   APPROVED; the reviewer's verdict and the owner's merge are the gates.
 - After the push that closes a cycle of fixes on a PR under review, ask for the
-  re-review yourself, once: comment `@codex review` on the PR. A pushed fix
-  nobody has looked at again does not close a cycle. Never ask when the write
-  itself starts a review (opening a PR for review, marking a draft ready), on a
-  head already asked for, or while a review is running; after an hour of
-  silence remind once, then stop and tell the owner.
-- Every write to GitHub follows `docs/github/PROTOCOLLO.md` (DEC-028): one
+  re-review once: comment `@codex review` on the PR when the review integration
+  accepts it from your account, and otherwise tell the owner in one line that
+  the PR is ready for it (DEC-029). A pushed fix nobody has looked at again does
+  not close a cycle. Never ask when the write itself starts a review (opening a
+  PR for review, marking a draft ready), on a head already asked for, or while a
+  review is running; after an hour of silence remind once, then stop and tell
+  the owner.
+- Every write to GitHub goes through the machine account `QN-Builder`, never the
+  owner's (DEC-029), and follows `docs/github/PROTOCOLLO.md` (DEC-028): one
   writing session at a time, its pace, no close-and-reopen and no empty commits,
   and every write stops at the first sign of an account restriction.
 - Never touch: generated gazetteer files by hand, `venue-registry/venues.json`

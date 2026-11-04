@@ -18,8 +18,10 @@ aspettano le notifiche, al massimo una lettura di stato per PR a ogni evento.
 
 ## 2. Prima di scrivere
 
-1. **Un solo scrittore.** Una sola sessione di agente scrive sul repository. Se un'altra è
-   attiva, o c'è un job pianificato in corso, si aspetta e lo si dice all'owner.
+1. **Un solo scrittore, con la sua identità.** Una sola sessione di agente scrive sul
+   repository, e scrive come `QN-Builder`, l'account macchina dichiarato (DEC-029), mai
+   con l'account dell'owner. Se un'altra sessione è attiva, o c'è un job pianificato in
+   corso, si aspetta e lo si dice all'owner.
 2. **Tutto verde in locale.** Le suite di `AGENTS.md` e quelle della PR passano in locale
    prima del push. Un push per ciclo di correzioni, con tutte le correzioni dentro.
 3. **Una PR alla volta nel giro di revisione.** Si apre, si toglie dalla bozza o si chiede
@@ -50,7 +52,9 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
 ## 4. Revisioni
 
 - **Una richiesta per testa.** Si chiede `@codex review` una volta dopo il push che chiude
-  un ciclo. Non si chiede:
+  un ciclo. La chiede il builder se l'integrazione la accetta da `QN-Builder`; altrimenti
+  il builder scrive all'owner, in una riga, che la PR è pronta, e la richiesta la fa
+  l'owner (DEC-029). Non si chiede:
   - se la scrittura stessa avvia la revisione (PR aperta per la revisione, bozza resa
     pronta);
   - su una testa già richiesta;
