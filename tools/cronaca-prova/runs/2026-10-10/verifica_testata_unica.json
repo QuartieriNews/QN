@@ -1,0 +1,80 @@
+{
+ "descrizione": "Campione delle notizie viste su una sola delle sei testate aperte: su quante testate compaiono cercandole su 20 domini (seed 20261010, campione proporzionale per testata).",
+ "notizie_nel_gruppo": 154,
+ "campione": 43,
+ "ricerche": 54,
+ "con_almeno_un_altra_testata": {
+  "certa_o_probabile": 37,
+  "solo_certa": 20
+ },
+ "testate_totali_per_notizia": {
+  "certa_o_probabile": {
+   "1": 6,
+   "2": 24,
+   "3": 5,
+   "4": 4,
+   "5+": 4
+  },
+  "solo_certa": {
+   "1": 23,
+   "2": 13,
+   "3": 2,
+   "4": 3,
+   "5+": 2
+  }
+ },
+ "altre_testate": [
+  [
+   "RomaToday",
+   34
+  ],
+  [
+   "Il Messaggero",
+   8
+  ],
+  [
+   "Fanpage",
+   6
+  ],
+  [
+   "Leggo",
+   5
+  ],
+  [
+   "Abitare a Roma",
+   3
+  ],
+  [
+   "ANSA",
+   3
+  ],
+  [
+   "Sky TG24",
+   2
+  ],
+  [
+   "RomaIT",
+   2
+  ],
+  [
+   "il Fatto Quotidiano",
+   1
+  ],
+  [
+   "Roma Daily News",
+   1
+  ],
+  [
+   "Agenzia Nova",
+   1
+  ],
+  [
+   "Affaritaliani",
+   1
+  ],
+  [
+   "Adnkronos",
+   1
+  ]
+ ]
+}

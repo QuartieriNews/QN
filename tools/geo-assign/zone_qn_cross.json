@@ -1,0 +1,17 @@
+{
+  "_provenienza": "Tabella 'cross' di codice_storico/geografia_v2/recalculate.py (corpus 2026-09-19). Configurazione del progetto per le zone urbanistiche che urban_mapped.json lascia senza pagina QN o che coprono piu pagine. Non e' una mappa ufficiale delle pagine QN (Metodo QN par. 9): una voce con piu pagine e' un'ambiguita', non un'assegnazione multipla. Ogni modifica va versionata qui.",
+  "_versione": "2026-09-19",
+  "zone": {
+    "1C": ["testaccio"], "1F": ["esquilino-termini", "centro-storico"], "1X": ["centro-storico", "testaccio", "esquilino-termini"],
+    "3X": ["san-lorenzo", "nomentano"], "4C": ["talenti"], "5C": ["colli-aniene", "pietralata"], "5D": ["pietralata"], "5H": ["rebibbia"],
+    "6A": ["pigneto-torpignattara"], "6B": ["pigneto-torpignattara", "centocelle"], "6D": ["prenestino", "centocelle"],
+    "7B": ["alessandrino"], "7F": ["tor-sapienza"], "8A": ["cinecitta"], "8C": ["tor-vergata"],
+    "9A": ["tuscolano"], "9B": ["tuscolano"], "9D": ["san-giovanni", "appio-latino"],
+    "9E": ["appio-latino"], "10E": ["morena", "cinecitta"], "10H": ["morena"], "11G": ["montagnola"],
+    "11E": ["ardeatino", "montagnola"], "11F": ["eur"], "11X": ["appia-antica"], "11Y": ["appia-antica"],
+    "12B": ["laurentino"], "12H": ["torrino", "castel-di-leva"], "12L": ["castel-di-leva"], "13A": ["acilia", "giardino-di-roma"],
+    "16D": ["monteverde"], "17C": ["prati"], "18A": ["aurelio"], "18C": ["montespaccato"], "18D": ["aurelio"],
+    "18E": ["casalotti", "boccea", "selva-candida"], "19D": ["monte-mario", "torrevecchia"],
+    "20B": ["vigna-clara", "cassia", "roma-nord"], "20E": ["cassia"], "20F": ["cassia"]
+  }
+}

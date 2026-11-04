@@ -1,0 +1,5 @@
+{
+ "_nota": "Regole geografiche decise dall'owner. Ogni regola nasce da un dubbio della coda (dubbi.py) e lo cita; si aggiunge con applica_decisioni.py, mai a mano. Una regola non puo' contraddire gazetteer/gazetteer.json (tabella dell'owner, gerarchia di AGENTS.md): un cambio di localita' -> pagina si fa nella tabella e si rigenera il gazetteer.",
+ "regole": [],
+ "chiusi": []
+}

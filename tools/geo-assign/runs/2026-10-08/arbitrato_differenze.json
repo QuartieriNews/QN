@@ -1,0 +1,397 @@
+{
+ "nota": "Arbitrato NON cieco del builder sulle 31 differenze del campione, eseguito dopo il congelamento delle decisioni cieche (sha256 7da2cab98274c0396e46336ec4e6a8599863195a27be6d4f44c552c4f014233a). Categorie: nuovo = la decisione cieca e' preferibile (correzione proposta del riferimento); storico = il riferimento e' preferibile; storico_richiamo = il riferimento ha una prova che il processo cieco non ha recuperato; aperto = serve una regola o una decisione sul raccordo QN. Revisione del 15 ottobre: i casi storico_richiamo riportavano la conclusione senza il riferimento ripetibile della prova. Integrazione del 16 ottobre: ogni caso storico_richiamo ha il campo 'riferimento' (documento_id, URL, interrogazioni qngeo.py con le pagine ottenute, mai testo della fonte; DEC-102) con esito_verifica: confermato = il riferimento riproduce la pagina dello storico (6: N0388, N1897, N1981, N2049, N2101, N2474), contano come richiamo perso misurato; non_confermato = il riferimento da' una pagina diversa (1: N1459, da riesaminare); parziale = riferimento trovato ma pagina non riproducibile con la sola cartografia (1: N2127, resta attribuito allo storico con prova dichiarata). Interrogazioni eseguite il 16 ottobre con il pacchetto Metodo_QN_per_Claude_Code_2026-10-08 (QN_PKG), QN_RETE=0, copia offline della cartografia.",
+ "casi": {
+  "N0026": {
+   "esito_arbitrato": "storico",
+   "ragione": "Monte del Grano è il Quadraro: la zona 10A Don Bosco porta a Cinecittà, ma la località ha una voce QN propria"
+  },
+  "N0049": {
+   "esito_arbitrato": "aperto",
+   "ragione": "tratto Salaria-Nomentana della circonvallazione: estremo di confine, Nomentano o no"
+  },
+  "N0070": {
+   "esito_arbitrato": "aperto",
+   "ragione": "open day allo sportello anagrafico: sede dell'evento o recapito? regola mancante"
+  },
+  "N0311": {
+   "esito_arbitrato": "aperto",
+   "ragione": "come N0070"
+  },
+  "N0370": {
+   "esito_arbitrato": "aperto",
+   "ragione": "viale Pico della Mirandola in zona 11E (Ardeatino o Montagnola nella tabella cross); la fonte Culture Roma dice Montagnola"
+  },
+  "N0388": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "sede scolastica trovata negli elenchi del Municipio IX dallo storico, non dalla ricerca cieca",
+   "riferimento": {
+    "esito_verifica": "confermato",
+    "documento_id": [
+     "A1_245"
+    ],
+    "url": [
+     "https://www.comune.roma.it/web/it/informazione-di-servizio.page?contentId=IDS736142",
+     "https://www.comune.roma.it/web-resources/cms/documents/elenco_SI_19.pdf"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py strada \"via Frignani\"",
+      "pagine": [
+       "spinaceto"
+      ],
+      "nota": "zona 12G Spinaceto, Municipio IX"
+     }
+    ],
+    "nota": "Gli elenchi delle sedi scolastiche del Municipio IX (URL) danno la via della sede; la via cade in 12G -> spinaceto."
+   }
+  },
+  "N0407": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "mozione per tutte le piazze del Municipio X: l'indirizzo è la sede della seduta"
+  },
+  "N0425": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "delibera capitolina per tutte le scuole dell'infanzia: via Portuense 579 è il recapito del Municipio"
+  },
+  "N0525": {
+   "esito_arbitrato": "aperto",
+   "ragione": "\"fra Trionfale e Pineta Sacchetti\": il titolo dice Trionfale, il testo pone un'alternativa"
+  },
+  "N0843": {
+   "esito_arbitrato": "storico",
+   "ragione": "la fonte comunale colloca il parco a Torrevecchia; la zona 18C va a Montespaccato solo per la tabella cross"
+  },
+  "N1427": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "via Antonino Parato è tutta in zona 19E Trionfale, Municipio XIV; lo storico Prati non ha sostegno nella motivazione"
+  },
+  "N1459": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "indirizzo della sede trovato dallo storico",
+   "riferimento": {
+    "esito_verifica": "non_confermato",
+    "documento_id": [
+     "A2_1046",
+     "A1_126",
+     "A1_360"
+    ],
+    "url": [
+     "https://www.comune.roma.it/web/it/notizia/municipio15-aperte-iscrizioni-centri-estivi.page",
+     "https://www.comune.roma.it/web/it/informazione-di-servizio.page?contentId=IDS1600115"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py civico \"via Antonio Targioni Tozzetti\" 22",
+      "pagine": [
+       "cassia"
+      ],
+      "nota": "zona 20F Grottarossa Est; suddivisione toponomastica Grottarossa; discordanza: false"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Valle Muricana\"",
+      "pagine": [
+       "prima-porta"
+      ]
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Labaro\"",
+      "pagine": [
+       "prima-porta"
+      ]
+     }
+    ],
+    "nota": "L'indirizzo della sede viene dagli avvisi A1 della stessa sede (A1_126, A1_360; storico N0231, N0520 -> prima-porta). Il civico nella cartografia cade in 20F -> cassia; la pagina prima-porta dello storico poggia sulla localita' dichiarata dalla fonte (Valle Muricana), non sul civico. Il riferimento ripetibile non conferma la pagina: caso da riesaminare (localita' dichiarata contro zona urbanistica del civico, come N0026/N0843 ma a parti invertite). Non conta come richiamo perso misurato."
+   }
+  },
+  "N1529": {
+   "esito_arbitrato": "storico",
+   "ragione": "otto strade nominate in tre-quattro pagine sono sedi effettive: M, non T"
+  },
+  "N1897": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "il parco ha una sede nota allo storico; la ricerca cieca non l'ha trovata",
+   "riferimento": {
+    "esito_verifica": "confermato",
+    "documento_id": [
+     "A3_014"
+    ],
+    "url": [
+     "https://www.dire.it/27-06-2024/1058095-borghetto-degli-artigiani-lappello-dei-residenti-abbiamo-paura-cosi-non-ce-la-facciamo-piu/"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py strada \"via di Acqua Bullicante\"",
+      "pagine": [
+       "centocelle",
+       "pigneto-torpignattara"
+      ],
+      "nota": "zone 6A Torpignattara -> pigneto-torpignattara; 6B Casilino -> pigneto-torpignattara, centocelle"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Tor Pignattara\"",
+      "pagine": [
+       "pigneto-torpignattara"
+      ]
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Pigneto\"",
+      "pagine": [
+       "pigneto-torpignattara"
+      ]
+     }
+    ],
+    "nota": "L'articolo (URL, gia' nei riscontri dello storico) colloca l'area dell'ex borghetto su via di Acqua Bullicante fra Pigneto e Tor Pignattara; la strada da sola e' ambigua (due pagine), l'URL fissa la pagina. 'cerca \"borghetto artigiani\"' e 'localita' non trovano nulla: la sede non e' nel gazetteer, il recupero passa dalla ricerca web."
+   }
+  },
+  "N1981": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "atto municipale della stessa vicenda indica il contesto La Storta",
+   "riferimento": {
+    "esito_verifica": "confermato",
+    "documento_id": [
+     "A3_037",
+     "A2_0181",
+     "A2_0208"
+    ],
+    "url": [
+     "https://s88e9933edf8e7204.jimcontent.com/download/version/1764698376/module/10601313084/name/Risoluzione%2Bn.26_14ott25.pdf",
+     "https://geoportale.comune.roma.it/servizi/"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py strada \"via Braccianense\"",
+      "pagine": [
+       "agro-romano",
+       "cesano",
+       "la-storta"
+      ],
+      "nota": "chiave dello stradario 'via braccianense' (la forma 'via Braccianese Claudia' non risolve); zone 19G, 19H, 20H La Storta, 20N; il km non e' interrogabile"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"La Storta\"",
+      "pagine": [
+       "la-storta"
+      ]
+     }
+    ],
+    "nota": "Gli atti A2_0181 e A2_0208 appartengono alla stessa vicenda (V221 nel registro storico) e lo storico li ha risolti su la-storta con il riscontro URL; la scheda A3_037 eredita la pagina dall'atto. La strada senza km resta M su tre pagine: la prova e' il legame di vicenda, non la cartografia."
+   }
+  },
+  "N2049": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "ex dazio collocato dallo storico nel parco dell'Appia Antica",
+   "riferimento": {
+    "esito_verifica": "confermato",
+    "documento_id": [
+     "A3_054",
+     "A3_028",
+     "A3_030"
+    ],
+    "url": [
+     "https://geoportale.comune.roma.it/servizi/"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py incrocio \"via Ardeatina\" \"via di Vigna Murata\"",
+      "pagine": [
+       "appia-antica"
+      ],
+      "nota": "rotatoria dell'ex dazio; zona 11X Appia Antica Nord; suddivisione toponomastica Ardeatino (discordanza: true, non usata dalla regola)"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Appia Antica\"",
+      "pagine": [
+       "appia-antica"
+      ]
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Caffarella\"",
+      "pagine": [
+       "appia-antica"
+      ]
+     }
+    ],
+    "nota": "L'ex dazio di via Ardeatina e' la rotatoria con via di Vigna Murata (stesso luogo nelle schede A3_028 e A3_030, storico M appia-antica+laurentino); l'incrocio cade in 11X -> appia-antica, coerente con le localita' nominate dalla scheda."
+   }
+  },
+  "N2052": {
+   "esito_arbitrato": "aperto",
+   "ragione": "viale Leonardo da Vinci: zona 11C Garbatella contro la lettura storica San Paolo; sede del CSM non riscontrata"
+  },
+  "N2101": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "civici della vicenda collegata (Flaminia Nuova 276-295) non usati dal revisore cieco",
+   "riferimento": {
+    "esito_verifica": "confermato",
+    "documento_id": [
+     "A3_064",
+     "A2_0203",
+     "A2_2133"
+    ],
+    "url": [
+     "https://geoportale.comune.roma.it/servizi/"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py civico \"via Flaminia Nuova\" 276",
+      "pagine": [
+       "cassia"
+      ],
+      "nota": "zona 20E Grottarossa Ovest; suddivisione toponomastica Tor di Quinto (discordanza: true, non usata dalla regola)"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py civico \"via Flaminia Nuova\" 295",
+      "pagine": [
+       "cassia"
+      ],
+      "nota": "zona 20E Grottarossa Ovest"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py strada \"via Bomarzo\"",
+      "pagine": [
+       "cassia"
+      ],
+      "nota": "zona 20E"
+     }
+    ],
+    "nota": "I civici 276-290 e 295 e la laterale via Bomarzo sono negli atti A2_0203 e A2_2133 della stessa vicenda (storico N1260, N1853 -> cassia); i civici cadono in 20E -> cassia. 'strada \"via Flaminia Nuova\"' da sola resta M (cassia, roma-nord)."
+   }
+  },
+  "N2127": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "il casale della Torricella collocato dallo storico sul lato Nuovo Salario",
+   "riferimento": {
+    "esito_verifica": "parziale",
+    "documento_id": [
+     "A3_071",
+     "A3_010",
+     "A2_0225"
+    ],
+    "url": [
+     "https://montesacronews.it/nuovo-salario-casale-della-torricella-riprendiamocelo/",
+     "https://www.lacapitale.it/articolo/larea-verde-il-casale-e-i-reperti-archeologici-iii-municipio-il-parco-della-torricella-diventi-una-priorit%C3%A0-per-roma",
+     "https://turismoroma.it/en/places/parco-della-torricella",
+     "https://www.romatoday.it/cronaca/incendio-fumo-serpentara-nuovo-salario-4-giugno-2025.html"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py strada \"via Comano\"",
+      "pagine": [
+       "bufalotta",
+       "montesacro"
+      ],
+      "nota": "zone 4B Val Melaina -> montesacro; 4E Serpentara -> bufalotta; 4L senza pagina"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py strada \"via Lucignano\"",
+      "pagine": [
+       "bufalotta"
+      ],
+      "nota": "zona 4E Serpentara"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py strada \"via Pian di Sco\"",
+      "pagine": [
+       "bufalotta",
+       "montesacro"
+      ],
+      "nota": "zone 4B, 4E"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Nuovo Salario\"",
+      "pagine": [
+       "montesacro"
+      ]
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Serpentara\"",
+      "pagine": [
+       "bufalotta"
+      ]
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py cerca \"Torricella\"",
+      "pagine": [],
+      "nota": "nessuna strada nel Municipio III; il toponimo non e' nel gazetteer"
+     }
+    ],
+    "nota": "Il parco della Torricella (via Comano, fra via Lucignano e via Pian di Sco; URL turismoroma e romatoday) e' a cavallo di 4B Val Melaina (montesacro) e 4E Serpentara (bufalotta): la cartografia da' M su due pagine. La scelta U montesacro dello storico poggia sul lato del parco in cui sta il casale (Nuovo Salario, URL montesacronews e lacapitale), non su un civico interrogabile. Riferimento trovato, pagina non riproducibile con qngeo da sola: resta attribuito allo storico con prova dichiarata, non misurata."
+   }
+  },
+  "N2147": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "fatto puntuale con strada illeggibile: I, non T (manuale par. 10: T richiede una ragione di portata)"
+  },
+  "N2265": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "il programma comunale identifica il parco della banda: pista concreta (D con candidate) invece di T di ripiego"
+  },
+  "N2307": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "verifica su tutte le concessioni del Municipio II: i due parchi sono eccezione ed esempio"
+  },
+  "N2407": {
+   "esito_arbitrato": "aperto",
+   "ragione": "Porta Asinaria: zona Celio -> Centro Storico, rione Monti -> Esquilino-Termini, uso comune San Giovanni"
+  },
+  "N2454": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "via Niccolini a Monteverde, confermata dall'incrocio con via Alberto Mario; lo storico aveva un omonimo all'Infernetto"
+  },
+  "N2474": {
+   "esito_arbitrato": "storico_richiamo",
+   "ragione": "stesso intervento dell'atto N1252 (via Ardeatina 1655): legame non trovato dal revisore cieco",
+   "riferimento": {
+    "esito_verifica": "confermato",
+    "documento_id": [
+     "A4_017",
+     "A2_0163"
+    ],
+    "url": [
+     "https://geoportale.comune.roma.it/servizi/"
+    ],
+    "qngeo": [
+     {
+      "comando": "python tools/geo-assign/qngeo.py civico \"via Ardeatina\" 1655",
+      "pagine": [
+       "castel-di-leva"
+      ],
+      "nota": "zona 12L Porta Medaglia; suddivisione toponomastica Castel di Leva; discordanza: false"
+     },
+     {
+      "comando": "python tools/geo-assign/qngeo.py localita \"Divino Amore\"",
+      "pagine": [
+       "castel-di-leva"
+      ],
+      "nota": "localita' nominata nella scheda gemella N2473 dello stesso documento"
+     }
+    ],
+    "nota": "L'atto A2_0163 (storico N1252) precisa via Ardeatina 1655; il civico cade in 12L -> castel-di-leva. Il legame fra A2_0163 e la registrazione A4_017 e' una lettura dello storico (numero di pratica citato nel motivo), non un vicenda_id del registro: N1252 non ha vicenda_id, N2474 e' in V328. Chi verifica apre i due documenti per il numero di pratica e interroga il civico."
+   }
+  },
+  "N2558": {
+   "esito_arbitrato": "aperto",
+   "ragione": "stanziamento municipale con tre sedi di cui una nota: T (storico) o D sedi_parziali (nuovo)"
+  },
+  "N2652": {
+   "esito_arbitrato": "aperto",
+   "ragione": "come N2407 per il tratto delle Mura fino a viale Carlo Felice"
+  },
+  "N2749": {
+   "esito_arbitrato": "aperto",
+   "ragione": "norma per il \"centro storico\" in senso urbanistico: pagina Centro Storico o T"
+  },
+  "N2897": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "incrocio Ardeatina/via della Fotografia calcolato in zona 11G: M per un confine è un'alternativa, non due sedi"
+  },
+  "N3290": {
+   "esito_arbitrato": "nuovo",
+   "ragione": "il conteggio del testo (due nel XI, uno nel VII, una piazza del centro) esclude Villa Mercede"
+  },
+  "N3303": {
+   "esito_arbitrato": "aperto",
+   "ragione": "via dei Cerchi sul confine Ripa/Campitelli: manca la regola per le strade di confine"
+  }
+ }
+}
