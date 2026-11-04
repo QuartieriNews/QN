@@ -153,7 +153,8 @@ Impact:
 - **Domanda 1.**
   - Oggi: installazione dell'app GitHub di Claude sul solo repository QN, fatta
     dall'owner. Il risultato della verifica d'identità va scritto in
-    `docs/autonomy/IDENTITY_AND_PERMISSIONS.md` con una pull request separata.
+    `docs/autonomy/IDENTITY_AND_PERMISSIONS.md` con un push sulla pull request che
+    introduce questa decisione (DEC-029, punto 5; owner, 4 novembre 2026).
   - Dopo una settimana: la valutazione dell'organizzazione, con trasferimento,
     reinstallazione delle app sull'organizzazione e riverifica del ruleset.
 - **Domanda 2.** Una sezione in `AGENTS.md` e una riga in `CLAUDE.md`.
