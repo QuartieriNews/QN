@@ -119,8 +119,11 @@ and 3).
   push and pull request. Comments, replies and review requests had not been made yet,
   and the other client that wrote on GitHub before, the weekly watch job through the
   ChatGPT/Codex connector, was not checked.
-- **That the review integration accepts `@codex review` from `QN-Builder`.** Not tried:
-  the first review of #22 starts when it is marked ready for review, without a request.
+- **That the review integration works for `QN-Builder`.** It does not, as far as #22
+  shows: when `QN-Builder` opened the pull request, `chatgpt-codex-connector[bot]`
+  answered with a prompt to create a Codex account and connect it to GitHub, and marking
+  it ready for review started no review. A `@codex review` from `QN-Builder` was not
+  tried; the review of #22 is asked by the owner (DEC-029, point 4).
 - **That `QN-Builder` cannot merge.** Not tried, and not to be tried. With write access
   and no required approving review, nothing checked here would stop it; the owner's merge
   stays a process rule (DEC-029, point 3).
