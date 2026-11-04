@@ -1,9 +1,7 @@
 # Protocollo delle operazioni su GitHub
 
-Status: proposta. Vincola il builder quando `CLAUDE.md` lo richiama, cioè dopo
-l'approvazione dell'owner. I numeri sono quelli proposti in DEC-028, domanda 2; finché
-DEC-028 non è decisa valgono come regola prudenziale. Le evidenze sono in
-`docs/github/AUDIT_2026-10-30.md`.
+Status: in vigore per DEC-028 (decisa il 4 novembre 2026). `CLAUDE.md` lo richiama. Le
+evidenze sono in `docs/github/AUDIT_2026-10-30.md`.
 
 Nessuna di queste regole garantisce che GitHub non segnali più l'account. Servono a togliere
 le scritture superflue e il ritmo da macchina, e a fermarsi subito quando qualcosa non va.
@@ -58,9 +56,9 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
   - su una testa già richiesta;
   - mentre una revisione è in corso (riepilogo del bot «Running»).
 - **Un solo sollecito.** Se il canale nativo tace, si sollecita al massimo una volta dopo
-  un'ora. Poi ci si ferma e lo si dice all'owner. Il ripiego sul canale API segue la regola
-  dell'owner del 16 ottobre (dopo dieci minuti) finché DEC-028, domanda 3, non decide
-  altrimenti.
+  un'ora. Poi ci si ferma e lo si dice all'owner.
+- **Ripiego sul canale API.** Solo dopo un'ora di silenzio del canale nativo, con un
+  commento per ciclo (DEC-028, punto 3).
 - **Risposte nei thread.** Le risposte stanno nei thread dei rilievi (DEC-007), voce per
   voce. Quando lo strumento lo permette, le risposte di un ciclo partono insieme in una
   sola review invece che una per volta. I thread si risolvono dopo il push che li corregge.
@@ -75,8 +73,11 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
 - 404 sul proprio repository, o pagina non visibile da non autenticati;
 - 403 che non si spiega con un permesso mancante;
 - Actions che non parte entro dieci minuti da un evento della PR;
-- Codex nativo che tace per più di un'ora dopo un innesco automatico;
-- un messaggio di GitHub sull'account.
+- un messaggio di GitHub sull'account;
+- Codex nativo che tace per più di un'ora **insieme** a uno dei segnali qui sopra.
+
+Da solo, il silenzio di Codex non è un segnale di restrizione: porta al ripiego sul canale
+API (sezione 4), non allo stop.
 
 **Limiti di frequenza** (403 o 429 con `retry-after`, `x-ratelimit-remaining: 0`, oppure
 il messaggio «secondary rate limit»):

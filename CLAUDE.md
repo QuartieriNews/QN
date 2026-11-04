@@ -27,9 +27,9 @@ roles and the review rules there bind you too. Then:
   itself starts a review (opening a PR for review, marking a draft ready), on a
   head already asked for, or while a review is running; after an hour of
   silence remind once, then stop and tell the owner.
-- Every write to GitHub follows `docs/github/PROTOCOLLO.md`: one writing session
-  at a time, its pace, no close-and-reopen and no empty commits, and every write
-  stops at the first sign of an account restriction.
+- Every write to GitHub follows `docs/github/PROTOCOLLO.md` (DEC-028): one
+  writing session at a time, its pace, no close-and-reopen and no empty commits,
+  and every write stops at the first sign of an account restriction.
 - Never touch: generated gazetteer files by hand, `venue-registry/venues.json`
   regeneration, DECIDED entries, production n8n. Staging (`staging_`-prefixed
   Drive folders and Firestore collections) is where pipeline work runs until

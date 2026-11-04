@@ -1,17 +1,17 @@
 # DEC-028 — Con quale identità e con che ritmo l'automazione lavora su GitHub
 
-Status: OPEN (OWNER_DECISION_REQUIRED)
-Blocks: la ripresa del lavoro sulle pull request dopo lo sblocco dell'account; ogni nuova
-automazione che scrive su GitHub (sessioni degli agenti, canale API delle revisioni, job
-settimanali).
+Status: DECIDED (4 November 2026, owner in the builder session, on the recommendations put by the builder)
+Blocks: nothing since 4 November 2026. While open it blocked the restart of work on pull
+requests after the account was restored, and every new automation writing to GitHub.
 
 Context:
-- **Due blocchi.** L'account `QuartieriNews` è finito due volte sotto i controlli
-  anti-abuso di GitHub.
-  - Dal 9 ottobre 2026: revisione manuale; Codex nativo e GitHub Actions sono rimasti
-    fermi fino al 29 ottobre.
-  - Il 29 ottobre sera, poco dopo lo sblocco: repository e pull request rispondono 404
-    a chi non è autenticato.
+- **I blocchi.** L'owner conta quattro restrizioni dell'account `QuartieriNews` da parte
+  dei controlli anti-abuso di GitHub. I dati del repository ne datano almeno tre:
+  - dal 9 ottobre 2026, con la CI già ferma dal 16 settembre: revisione manuale; Codex
+    nativo e GitHub Actions sono tornati solo il 15 ottobre mattina;
+  - dal 15 ottobre pomeriggio al 29 ottobre;
+  - dal 29 ottobre sera, quando repository e pull request rispondono 404 a chi non è
+    autenticato. Lo sblocco è stato comunicato dall'owner il 4 novembre.
   - Il motivo preciso non è noto e lo può dire solo il supporto GitHub.
 - **Chi agisce.** Tutta l'automazione scrive come l'account personale dell'owner, perché
   DEC-013 ha sospeso la separazione delle identità:
@@ -123,18 +123,47 @@ c) nessuna copia.
 
 Claude recommendation: a).
 
+## Decisione
+
+Risposte dell'owner del 4 novembre 2026, date una per una sulle domande poste dal builder:
+«App ora, org dopo», «Ritmo sì, API dopo 1 ora», «Scrive su Drive», «Bundle completo su
+Drive».
+
+1. **Identità: B in due tempi.**
+   - Oggi l'owner installa l'app GitHub di Claude sul solo repository QN.
+   - Sulla prima pull request dopo l'installazione il builder verifica e registra con
+     quale identità compaiono push, pull request e commenti.
+   - L'organizzazione si valuta dopo una settimana senza restrizioni, con una entry nuova.
+   - Questa entry non ripristina la separazione sospesa da DEC-013 e non la supera. Se la
+     verifica mostra che le scritture del builder compaiono come app, sarà una entry nuova
+     a registrarlo e a superare DEC-013 in parte, con i due collegamenti di
+     `decisions/README.md`, regola 2.
+2. **Ritmo: a).** `docs/github/PROTOCOLLO.md` è in vigore ed è richiamato da `CLAUDE.md`.
+   I numeri sono quelli della domanda 2.
+3. **Canale API delle revisioni: A.** Si passa al canale API solo dopo un'ora di silenzio
+   del canale nativo, con un commento per ciclo. Questo sostituisce la regola operativa
+   dell'owner del 16 ottobre (dieci minuti), che era scritta solo nei commenti della PR #15
+   e nei documenti di processo.
+4. **Job «AI QN Watch»: b).** Resta in pausa finché non scrive su Drive invece che su
+   GitHub. Il job non è in questo repository: la pausa e la modifica sono dell'owner.
+5. **Copia di riserva: a).** Un bundle completo ogni settimana, solo nella cartella privata
+   di QN Hub su Drive, secondo `docs/github/CONTINUITA.md`.
+
 Impact:
-- **Domanda 1, B.** Trasferimento del repository all'organizzazione. GitHub reindirizza i
-  vecchi indirizzi. Il ruleset e le impostazioni del repository vanno riverificati dopo
-  il trasferimento. Le app vanno installate sull'organizzazione.
-  `docs/autonomy/IDENTITY_AND_PERMISSIONS.md` va riscritto per lo stato nuovo.
+- **Domanda 1.**
+  - Oggi: installazione dell'app GitHub di Claude sul solo repository QN, fatta
+    dall'owner. Il risultato della verifica d'identità va scritto in
+    `docs/autonomy/IDENTITY_AND_PERMISSIONS.md` con una pull request separata.
+  - Dopo una settimana: la valutazione dell'organizzazione, con trasferimento,
+    reinstallazione delle app sull'organizzazione e riverifica del ruleset.
 - **Domanda 2.** Una sezione in `AGENTS.md` e una riga in `CLAUDE.md`.
-- **Domanda 3, A.** Una costante e il README di `tools/sources-study/`.
+- **Domanda 3, A.** Nessuna costante da cambiare: `codex_check.js` non sa quando viene
+  usato. Cambia la regola che il builder segue (`docs/github/PROTOCOLLO.md`).
 - **Domanda 4.** Nessun file del repository: il job non è qui.
 - **Domanda 5.** Una procedura settimanale per l'owner o per il builder, e una cartella
   su Drive.
 - Nessun cambiamento a pipeline, gazetteer, prompt, n8n, lane gate o CI.
 
-Decided by: — · Date: — · Affected components: account e repository GitHub, `AGENTS.md`,
+Decided by: owner · Date: 4 November 2026 · Affected components: account e repository GitHub, `AGENTS.md`,
 `CLAUDE.md`, `docs/autonomy/IDENTITY_AND_PERMISSIONS.md`,
 `tools/sources-study/codex_check.js`, `docs/github/`, DEC-007, DEC-013.

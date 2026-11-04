@@ -1,6 +1,6 @@
 # Continuità: copia del repository e lavoro durante una restrizione
 
-Status: proposta (DEC-028, domanda 5). Le evidenze sono in
+Status: in vigore per DEC-028, punto 5 (bundle completo, solo su Drive privato). Le evidenze sono in
 `docs/github/AUDIT_2026-10-30.md`.
 
 ## Perché
@@ -36,17 +36,15 @@ con i formati delle chiavi OpenAI, GitHub, Google, Slack, Apify e delle chiavi p
 Quattro branch remoti non sono stati scaricati, fra cui `claude/openai-api-key-check-7n6dfz`.
 Vanno controllati allo stesso modo prima della prima copia.
 
-**Cosa contiene, e va deciso.** Il bundle porta **la storia**. La storia contiene dati che le
+**Cosa contiene.** Il bundle porta **la storia**. La storia contiene dati che le
 decisioni hanno poi tolto dai file:
 - i campioni rimossi per DEC-104;
 - le colonne di testo tolte da `handoff_data/` per DEC-109;
 - `tools/site/events_2026-10.json` nel branch della PR #18.
 
 La storia non è stata riscritta: è una scelta dell'owner, ed è già pubblica su GitHub.
-Sul Drive privato quei dati stanno dove DEC-102 vuole i dati delle fonti. In alternativa
-si può copiare solo l'ultima versione di ogni branch con `git archive`, senza storia: in
-quel caso il lavoro preparato si rimette su GitHub come patch. La scelta è dell'owner
-(DEC-028, domanda 5).
+Sul Drive privato quei dati stanno dove DEC-102 vuole i dati delle fonti. Per questo il
+bundle va solo nella cartella privata di QN Hub, mai altrove (DEC-028, punto 5).
 
 ## Lavorare durante una restrizione
 
