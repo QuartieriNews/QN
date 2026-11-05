@@ -6,6 +6,9 @@ evidenze sono in `docs/github/AUDIT_2026-10-30.md`. Vale per ogni repository del
 
 Nessuna di queste regole garantisce che GitHub non segnali più l'account. Servono a togliere
 le scritture superflue e il ritmo da macchina, e a fermarsi subito quando qualcosa non va.
+Il 5 novembre il supporto ha indicato come causa dei blocchi alcune parole chiave nel
+contenuto del repository, non il ritmo; le regole restano come buona pratica (audit,
+sezione F).
 
 ## 1. Che cosa conta come scrittura
 
