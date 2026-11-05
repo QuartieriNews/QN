@@ -80,4 +80,6 @@ Le mitigazioni tecniche non sostituiscono il ricorso. Durante una restrizione:
 - descrive in modo veritiero chi scrive sull'account e come;
 - chiede quale attività ha causato la restrizione.
 
-La risposta del supporto prevale su questo documento.
+La risposta del supporto prevale su questo documento. Dal 5 novembre 2026, dopo il ticket
+dell'owner, il supporto ha impostato gli account dell'owner per una revisione manuale di un
+analista prima di ogni nuova restrizione (audit, sezione F).

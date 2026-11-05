@@ -1,10 +1,14 @@
 # Protocollo delle operazioni su GitHub
 
 Status: in vigore per DEC-028 (decisa il 4 novembre 2026). `CLAUDE.md` lo richiama. Le
-evidenze sono in `docs/github/AUDIT_2026-10-30.md`.
+evidenze sono in `docs/github/AUDIT_2026-10-30.md`. Vale per ogni repository dell'account
+`QuartieriNews` in cui scrivono gli agenti, non solo per QN (DEC-030).
 
 Nessuna di queste regole garantisce che GitHub non segnali più l'account. Servono a togliere
 le scritture superflue e il ritmo da macchina, e a fermarsi subito quando qualcosa non va.
+Il 5 novembre il supporto ha indicato come causa dei blocchi alcune parole chiave nel
+contenuto del repository, non il ritmo; le regole restano come buona pratica (audit,
+sezione F).
 
 ## 1. Che cosa conta come scrittura
 
@@ -18,10 +22,11 @@ aspettano le notifiche, al massimo una lettura di stato per PR a ogni evento.
 
 ## 2. Prima di scrivere
 
-1. **Un solo scrittore, con la sua identità.** Una sola sessione di agente scrive sul
-   repository, e scrive come `QN-Builder`, l'account macchina dichiarato (DEC-029), mai
-   con l'account dell'owner. Se un'altra sessione è attiva, o c'è un job pianificato in
-   corso, si aspetta e lo si dice all'owner.
+1. **Un solo scrittore, con la sua identità.** Una sola sessione di agente alla volta
+   scrive sui repository dell'account, e scrive come `QN-Builder`, l'account macchina
+   dichiarato (DEC-029), mai con l'account dell'owner. Se un'altra sessione è attiva, su
+   questo o su un altro repository dell'account, o c'è un job pianificato in corso, si
+   aspetta e lo si dice all'owner (DEC-030).
 2. **Tutto verde in locale.** Le suite di `AGENTS.md` e quelle della PR passano in locale
    prima del push. Un push per ciclo di correzioni, con tutte le correzioni dentro.
 3. **Una PR alla volta nel giro di revisione.** Si apre, si toglie dalla bozza o si chiede
@@ -74,7 +79,8 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
 ## 5. Errori e stop
 
 **Segnali di restrizione.** Fermano subito ogni scrittura; poi si avvisa l'owner:
-- 404 sul proprio repository, o pagina non visibile da non autenticati;
+- 404 su un repository dell'account, o pagina non visibile da non autenticati: il
+  segnale ferma le scritture su tutti i repository dell'account (DEC-030);
 - 403 che non si spiega con un permesso mancante;
 - Actions che non parte entro dieci minuti da un evento che un workflow del repository
   ascolta. In QN sono l'apertura, la riapertura e i push di una PR, e i push su `main`

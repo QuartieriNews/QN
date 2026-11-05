@@ -1,6 +1,9 @@
 # DEC-029 — Gli agenti scrivono su GitHub come `QN-Builder`, account macchina dichiarato
 
 Status: DECIDED (4 November 2026, owner in the builder session, on the question put by the builder)
+Point 3 superseded in part by DEC-030: `QN-Builder` is a collaborator, and the Claude GitHub
+App is installed, on every repository of the account where agents write, not on QN only.
+Everything else in this entry stands.
 Supersedes in part: DEC-013, in the suspension of the identity separation for the builder's
 writes. DEC-013 is unchanged and not reopened; it gains a pointer under its `Status:` line.
 Integrates: DEC-028, point 1, without changing it. The Claude GitHub App stays installed on
