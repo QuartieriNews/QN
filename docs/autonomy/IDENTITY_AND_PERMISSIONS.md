@@ -13,24 +13,26 @@ has to quantify over all of them:
 | Acts as | Writes under | GitHub sees |
 |---|---|---|
 | **Owner** | the owner's account | `author_association: OWNER` |
-| **Builder** | the owner's account, with the owner's credentials | `author_association: OWNER` — indistinguishable from the owner |
+| **Builder** | the machine account `QN-Builder`, through the Claude app (DEC-029) | `author_association: COLLABORATOR` — distinguishable from the owner |
 | **Reviewer** | the reviewer app's own identity | `author_association: NONE` — distinguishable |
 
-The builder row is the one that matters here: it is why the builder cannot produce
-evidence *about* the owner — an authorisation, an approval — because anything the builder
-writes is recorded as the owner writing it. The reviewer row is why a review finding is
-distinguishable from an owner comment at all, which is the property the builder lacks.
+The builder row is the one that changed. Until 4 November 2026 the builder wrote under the
+owner's account, with the owner's credentials, so anything it wrote was recorded as the
+owner writing it and it could not produce evidence *about* the owner — an authorisation,
+an approval. Since DEC-029 it writes as `QN-Builder`; the check of that is recorded below.
+The reviewer row is why a review finding is distinguishable from an owner comment at all.
 
-The history holds one exception to the builder row, and it is the test recorded below:
-the builder account `QN-Builder` opened pull request #12 and commented on it under its
-own identity. It no longer has write access.
+Before DEC-029 the history held one exception to the old builder row, the test recorded
+below: `QN-Builder` opened pull request #12 and commented on it under its own identity.
+Its write access was withdrawn after that test and given back for DEC-029.
 
 **"The owner merges" is a process rule, not a control.** Once all enforced repository
-requirements are satisfied, GitHub cannot distinguish the builder from the owner, because
-both act through the same GitHub account; at that point the owner-executed merge rule is a
-process rule, not an identity-based platform control. The builder is not authorised to
-merge, and that is what the rule rests on. A separated builder identity was built and
-tested and then withdrawn, so this is the state by decision (DEC-013), not by omission.
+requirements are satisfied, GitHub does not stop the builder from merging: before DEC-029
+because builder and owner acted through the same account, since DEC-029 because
+`QN-Builder` holds write access and no rule requires an approving review. The
+owner-executed merge rule is a process rule, not an identity-based platform control. The
+builder is not authorised to merge, and that is what the rule rests on (DEC-013; DEC-029,
+point 3).
 
 **Required approving reviews are 0.** The requirement made owner *approval* a platform
 rule, which it can do only with two identities. In the tested workflow, pull requests
@@ -89,6 +91,42 @@ owner *approval* a platform rule. **Owner-executed merge was not enforced by the
 configuration that was tested**, and this file claims nothing about configurations that
 were not. DEC-010 listed "merge to the default branch" among what the builder must not
 have; what the test verified is the approval gate, not that clause.
+
+## The check of 4 November 2026 (DEC-029, point 5)
+
+Pull request #22, the first after the switch, was opened by the builder session of 4
+November 2026 through the REST API. What GitHub records, read back through the same API:
+
+| What | GitHub shows |
+|---|---|
+| Author of pull request #22 | `QN-Builder`, `author_association: COLLABORATOR` |
+| App the pull request was written through | `performed_via_github_app`: `claude`, owner `anthropics` |
+| Push that created `ops/github-protocollo` (13:27:18 UTC) | actor `QN-Builder`, `branch_creation` |
+| Permissions of the session's credential on QN | `pull`, `triage`, `push`; no `maintain`, no `admin` |
+| The eight commits of the pull request | author and committer `claude` (`noreply@anthropic.com`), signature `verified: true` |
+
+**What that shows.** The two writes of that session, the push and the pull request, reach
+GitHub as `QN-Builder` through the Claude app, distinguishable from the owner. The
+credential behind them has no admin role, so it is not the owner's (DEC-029, points 1
+and 3).
+
+**What it does not show.**
+- **Who wrote the commits.** Author and committer are written by the client, and GitHub
+  links them to the account that owns the address, here `claude`: neither `QN-Builder`
+  nor the owner. The valid signature belongs to that identity. Who pushed the commits is
+  the push row, not the commit.
+- **That every agent write goes through `QN-Builder`.** The check covers one session's
+  push and pull request. Comments, replies and review requests had not been made yet,
+  and the other client that wrote on GitHub before, the weekly watch job through the
+  ChatGPT/Codex connector, was not checked.
+- **That the review integration works for `QN-Builder`.** It does not, as far as #22
+  shows: when `QN-Builder` opened the pull request, `chatgpt-codex-connector[bot]`
+  answered with a prompt to create a Codex account and connect it to GitHub, and marking
+  it ready for review started no review. A `@codex review` from `QN-Builder` was not
+  tried; the review of #22 is asked by the owner (DEC-029, point 4).
+- **That `QN-Builder` cannot merge.** Not tried, and not to be tried. With write access
+  and no required approving review, nothing checked here would stop it; the owner's merge
+  stays a process rule (DEC-029, point 3).
 
 ## Why the separation was withdrawn
 

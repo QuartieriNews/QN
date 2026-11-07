@@ -1,0 +1,116 @@
+{
+ "periodo": "2026-08-29/2026-10-03",
+ "file_letti": 3456,
+ "file_mancanti": 0,
+ "righe_testate_seguite": 72807,
+ "righe_settembre_per_testata": [
+  [
+   "ansa.it",
+   21137
+  ],
+  [
+   "ilmessaggero.it",
+   8725
+  ],
+  [
+   "corriere.it",
+   5187
+  ],
+  [
+   "ilgiornale.it",
+   3719
+  ],
+  [
+   "repubblica.it",
+   3538
+  ],
+  [
+   "adnkronos.com",
+   3325
+  ],
+  [
+   "leggo.it",
+   3028
+  ],
+  [
+   "ilfattoquotidiano.it",
+   2909
+  ],
+  [
+   "tg24.sky.it",
+   1959
+  ],
+  [
+   "affaritaliani.it",
+   1837
+  ],
+  [
+   "today.it",
+   1824
+  ],
+  [
+   "romatoday.it",
+   1366
+  ],
+  [
+   "lapresse.it",
+   1288
+  ],
+  [
+   "dire.it",
+   989
+  ],
+  [
+   "iltempo.it",
+   737
+  ],
+  [
+   "ilfaroonline.it",
+   188
+  ],
+  [
+   "rainews.it",
+   120
+  ],
+  [
+   "romait.it",
+   89
+  ],
+  [
+   "romadailynews.it",
+   53
+  ]
+ ],
+ "copertura_testate_aperte_settembre": {
+  "iltempo": {
+   "censimento": 697,
+   "gdelt": 737,
+   "in_comune": 539
+  },
+  "dire": {
+   "censimento": 1227,
+   "gdelt": 989,
+   "in_comune": 977
+  },
+  "ilfaroonline": {
+   "censimento": 1040,
+   "gdelt": 188,
+   "in_comune": 187
+  },
+  "abitarearoma": {
+   "censimento": 779,
+   "gdelt": 0,
+   "in_comune": 0
+  },
+  "vignaclarablog": {
+   "censimento": 111,
+   "gdelt": 0,
+   "in_comune": 0
+  },
+  "romadailynews": {
+   "censimento": 1247,
+   "gdelt": 53,
+   "in_comune": 53
+  }
+ }
+}

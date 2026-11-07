@@ -1,0 +1,49 @@
+codice,denominazione,interrogata_15set,esito_15set,esito_sweep,totale_giugno,campione,strutture_municipali,oggetto_municipio,oggetto_zona,oggetto_toponimo
+CMC,Convocazioni del Consiglio del Municipio,sì,con risultati,con risultati,55,55,55,29,2,3
+CPC,Convocazioni delle Commissioni Capitoline,no,,con risultati,99,99,0,0,0,0
+MMC,Convocazioni delle Commissioni Consiliari del Municipio,sì,con risultati,con risultati,516,200,167,7,6,9
+KD,Deliberazioni del Commissario / Straordinario del Consiglio Comunale,no,,errore,,,,,,
+KCD,Deliberazioni del Commissario / Straordinario dell'Assemblea Capitolina,no,,errore,,,,,,
+WCD,Deliberazioni del Commissario / Straordinario della Giunta Capitolina,no,,errore,,,,,,
+WD,Deliberazioni del Commissario / Straordinario della Giunta Comunale,no,,errore,,,,,,
+MD,Deliberazioni del Commissario Acta del Consiglio Comunale,no,,errore,,,,,,
+MCD,Deliberazioni del Commissario Acta dell'Assemblea Capitolina,no,,con risultati,2,2,0,0,0,1
+OCD,Deliberazioni del Commissario Acta della Giunta Capitolina,no,,con risultati,1,1,0,0,0,0
+OD,Deliberazioni del Commissario Acta della Giunta Comunale,no,,errore,,,,,,
+PD,Deliberazioni del Commissario Straordinario di Governo per il piano di rientro,no,,errore,,,,,,
+KID,Deliberazioni del Commissario delle Istituzioni,no,,errore,,,,,,
+CD,Deliberazioni del Consiglio Comunale,no,,errore,,,,,,
+CMD,Deliberazioni del Consiglio del Municipio,sì,con risultati,con risultati,42,42,42,7,2,4
+CID,Deliberazioni del Consiglio di Amministrazione delle Istituzioni,no,,con risultati,12,12,0,0,0,0
+ACD,Deliberazioni dell'Assemblea Capitolina,no,,con risultati,17,17,4,2,2,2
+KMD,Deliberazioni della Commissione Straordinaria del Consiglio del Municipio,no,,errore,,,,,,
+WMD,Deliberazioni della Commissione Straordinaria della Giunta del Municipio,no,,errore,,,,,,
+GCD,Deliberazioni della Giunta Capitolina,no,,con risultati,36,36,0,12,8,11
+GD,Deliberazioni della Giunta Comunale,no,,errore,,,,,,
+GMD,Deliberazioni della Giunta del Municipio,sì,con risultati,con risultati,32,32,32,16,6,10
+DDS,Determinazioni Dirigenziali,no,,con risultati,921,200,0,33,30,32
+DMS,Determinazioni Dirigenziali del Municipio,sì,con risultati,con risultati,193,193,190,70,24,35
+PMT,Direttive del Presidente del Municipio,sì,con risultati,con risultati,1,1,1,0,0,0
+GMT,Direttive della Giunta del Municipio,sì,con risultati,con risultati,32,32,32,11,7,8
+PS,Disposizioni del Presidente dell'Assemblea Capitolina,no,,errore,,,,,,
+GCM,Memorie della Giunta Capitolina,no,,con risultati,14,14,0,3,3,5
+GMM,Memorie della Giunta del Municipio,sì,con risultati,con risultati,15,15,15,5,3,5
+CZ,Mozioni del Consiglio Comunale,no,,errore,,,,,,
+CMZ,Mozioni del Consiglio del Municipio,sì,con risultati,con risultati,32,32,32,12,7,9
+AZ,Mozioni dell'Assemblea Capitolina,no,,con risultati,20,20,0,5,5,6
+XO,Ordinanze del Commissario / Straordinario,no,,errore,,,,,,
+TO,Ordinanze del Commissario Delegato per l'emergenza del traffico,no,,errore,,,,,,
+PMO,Ordinanze del Presidente del Municipio,sì,con risultati,con risultati,2,2,2,2,0,0
+SO,Ordinanze del Sindaco,no,,con risultati,17,17,0,2,1,1
+XMO,Ordinanze della Commissione Straordinaria del Municipio,no,,errore,,,,,,
+AY,Ordini Del Giorno dell'Assemblea Capitolina,no,,con risultati,85,85,0,21,21,23
+CY,Ordini del Giorno del Consiglio Comunale,no,,errore,,,,,,
+CMY,Ordini del Giorno del Consiglio del Municipio,sì,con risultati,con risultati,8,8,8,2,0,0
+CPL,Relazioni delle Commissioni Capitoline,no,,errore,,,,,,
+CMR,Risoluzioni del Consiglio del Municipio,sì,con risultati,con risultati,44,44,44,17,13,21
+DDK,Verbali Conferenza Servizi,no,,errore,,,,,,
+DMK,Verbali Conferenza Servizi Municipi,sì,errore,errore,,,,,,
+CMV,Verbali del Consiglio del Municipio,sì,con risultati,con risultati,24,24,24,3,3,5
+GMV,Verbali della Giunta del Municipio,sì,con risultati,con risultati,25,25,25,7,2,2
+CPV,Verbali delle Commissioni Capitoline,no,,con risultati,19,19,0,5,0,4
+MMV,Verbali delle Commissioni Consiliari del Municipio,sì,con risultati,con risultati,407,200,158,24,15,20
