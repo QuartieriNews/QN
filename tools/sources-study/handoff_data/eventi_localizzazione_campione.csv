@@ -1,0 +1,21 @@
+blocco,seed,categoria,fonte,url,municipio_det,zona_det,tier,disponibili_nella_categoria
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/remuntada/,X,ostia,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/aspettando-lamore-al-binario-1/,VI,tor-bella-monaca,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/le-signore-della-nostra-canzone/,VI,tor-bella-monaca,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/al-massimo-troisi/,VI,tor-bella-monaca,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/visita-di-luglio-2026-alla-casa-museo-alberto-moravia/,I,prati,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/if-gli-amici-immaginari-2/,VII,romanina,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/limpero-del-sole/,IV,tor-cervara,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/a-philological-quandary-kenneth-angers-que-viva-mexico-e-the-loveless/,IV,tor-cervara,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/la-musica-che-visse-due-volte-intermezzo-sospeso-tra-mozart-e-rossini-2/,VI,tor-bella-monaca,text_contains,122
+eventi,2026-06-loc-eventi,zona,E2,https://culture.roma.it/appuntamento/singalong-2/,X,ostia,text_contains,122
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/danzare-per-includere-danziamo-insieme-nella-grande-bellezza/,I,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/il-mago-del-cremlino-le-origini-di-putin/,I,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/after-life-qual-e-il-tuo-ricordo-piu-bello-1998/,V,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/fiabe-buffe-e-sorprendenti/,XIII,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/the-smashing-machine-2/,I,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/kontinental25/,V,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/fiabe-a-comando-il-ritorno-della-strega-zuccherosa/,XIII,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/der-himmel-uber-berlin-3/,VII,,ambiguous,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/digital-academy-estetica-del-riuso/,I,,,285
+eventi,2026-06-loc-eventi,municipio/non localizzato,E2,https://culture.roma.it/appuntamento/omaggio-a-bud-spencer/,II,,,285

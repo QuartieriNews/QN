@@ -1,0 +1,21 @@
+blocco,seed,categoria,fonte,url,municipio_det,zona_det,tier,disponibili_nella_categoria
+cronaca,2026-06-loc-cronaca,zona,C2,https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa/arma-vi-scrivo-questa-email-con-il-cuore-colmo-di-gioia-e-profonda-gratitudine-ragazzo-cinese-ringrazia-i-militari-per-avergli-restituito-il-pc-rubato,VI,tor-bella-monaca,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a23bdcf98c36347703791,X,ostia,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a2fd955dbdff247152441,VII,romanina,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C1,https://questure.poliziadistato.it/it/Roma/articolo/34536a339719cbaaf864266597,VII,appia-antica,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C2,https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa/sequestro-di-persona-tre-arresti-per-sequestro-ed-estorsione,VI,borghesiana,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C4,https://www.vigilfuoco.it/media/notizie/roma-brillanti-risultati-le-fiamme-rosse-ai-campionati-italiani-senior-cinture-nere-di-taekwondo,XV,roma-nord,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a266237468db341952598,XIV,ottavia,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a2fb27900618897580471,IX,spinaceto,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a27dfd2e91a5125493903,VI,tor-bella-monaca,text_contains,29
+cronaca,2026-06-loc-cronaca,zona,C1,https://questure.poliziadistato.it/it/Roma/articolo/20006a38d2f8d4dac474170804,VI,ponte-di-nona,text_contains,29
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C2,https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa/droga-e-armi-operazione-nella-capitale-6-arresti-e-9-denunce,,,ambiguous,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a36338e8146c221311503,,,ambiguous,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C2,https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa/traffico-internazionale-di-cocaina.-disarticolata-organizzazione.-11-indagati-di-cui-8-arrestati,,,,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a27bc806c7b5391628100,,,ambiguous,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C1,https://questure.poliziadistato.it/it/Roma/articolo/34536a1fddd81af0a767576302,,,,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a2f99f45e7e9127075055,,,ambiguous,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C1,https://questure.poliziadistato.it/it/Roma/articolo/34536a1d4d2890e24209023199,,,ambiguous,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C1,https://questure.poliziadistato.it/it/Roma/articolo/17336a226dd089d78420055663,,,ambiguous,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C5,https://www.comune.roma.it/web/it/notizia/verde-piano-operativo-task-force-diserbo-sfalcio-decoro.page,,,,80
+cronaca,2026-06-loc-cronaca,municipio/non localizzato,C1,https://questure.poliziadistato.it/it/Roma/articolo/20006a3f7a4f35bf2931451473,,,ambiguous,80

@@ -1,0 +1,9 @@
+fonte,url,data_pubblicazione,municipio_det,zona_det,tier,toponimo,nomi_presenti_euristica,formato,tema,gemello,ragione
+C4,https://www.vigilfuoco.it/comando-vvf-roma/notizie/commemorazione-26-anniversario-incidente-del-drago-vf-56,19 Giugno 2026,I,esquilino-termini,text_contains,sì,sì,HTML,istituzionale,,
+C4,https://www.vigilfuoco.it/media/notizie/convegno-mass-spectrometry-fire-explosion-investigations,01 Giugno 2026,,,,no,sì,HTML,istituzionale,,
+C4,https://www.vigilfuoco.it/media/notizie/i-vigili-del-fuoco-partecipano-alla-44sima-rievocazione-della-1000-miglia,12 Giugno 2026,,,,sì,sì,HTML,istituzionale,,
+C4,https://www.vigilfuoco.it/media/notizie/inaugurata-la-nuova-sala-operativa-del-comando,22 Giugno 2026,,,,no,sì,HTML,istituzionale,,
+C4,https://www.vigilfuoco.it/media/notizie/komen-italia-e-vigili-del-fuoco-insieme-la-prevenzione-femminile-si-conclude-la-carovana-della,26 Giugno 2026,,,,no,sì,HTML,istituzionale,,
+C4,https://www.vigilfuoco.it/media/notizie/mim-e-vigili-del-fuoco-insieme-promuovere-la-cultura-della-sicurezza,01 Giugno 2026,,,,no,sì,HTML,istituzionale,,
+C4,https://www.vigilfuoco.it/media/notizie/roma-brillanti-risultati-le-fiamme-rosse-ai-campionati-italiani-senior-cinture-nere-di-taekwondo,11 Giugno 2026,XV,roma-nord,text_contains,sì,sì,HTML,istituzionale,,
+C4,https://www.vigilfuoco.it/media/notizie/scuola-e-sicurezza-al-lintesa-tra-mim-e-vigili-del-fuoco-la-cultura-della-prevenzione-tra-i-giovani,04 Giugno 2026,,,,no,sì,HTML,istituzionale,,

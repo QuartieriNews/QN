@@ -1,0 +1,24 @@
+{
+  "snapshot": "2026-09-19",
+  "kind": "replay_of_saved_evidence_and_contextual_decisions",
+  "records_compared": 3529,
+  "contextual_overrides": 1031,
+  "geographic_differences": 0,
+  "matrix_cells_compared": 267,
+  "matrix_cell_differences": 0,
+  "retained": {
+    "U": 2500,
+    "M": 192,
+    "T": 554,
+    "D": 99,
+    "I": 7,
+    "F": 23
+  },
+  "uniqueCounts": {
+    "Amministrazione": 1882,
+    "Cronaca": 16,
+    "Eventi": 794
+  },
+  "assignments_total": 3006,
+  "limitation": "Reproducibility of the historical snapshot does not establish geographic accuracy on new material."
+}
