@@ -1,0 +1,71 @@
+{
+ "mese": "2026-06",
+ "per_fonte": {
+  "C1": {
+   "errori": [],
+   "elenco": 33,
+   "comunicati_del_mese": 79,
+   "scaricati": 79,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 445
+  },
+  "C2": {
+   "errori": [],
+   "elenco": {
+    "pagine": 8,
+    "comunicati_nazionali": 151
+   },
+   "comunicati_del_mese": 20,
+   "scaricati": 20,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 76
+  },
+  "C3": {
+   "errori": [],
+   "elenco": 1,
+   "comunicati_del_mese": 0,
+   "scaricati": 0,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 1
+  },
+  "C4": {
+   "errori": [],
+   "elenco": 1,
+   "comunicati_del_mese": 8,
+   "scaricati": 8,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 37
+  },
+  "C5": {
+   "errori": [],
+   "elenco": 2,
+   "comunicati_del_mese": 2,
+   "scaricati": 2,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 7
+  },
+  "C6": {
+   "errori": [],
+   "elenco": {
+    "pagine": 1,
+    "notizie_nazionali_del_mese": 128
+   },
+   "comunicati_del_mese": 0,
+   "scaricati": 0,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 16
+  }
+ },
+ "confronto_inventario_settembre": {
+  "settembre": 109,
+  "ora": 109,
+  "in_comune": 109
+ },
+ "nota": "C5 rilanciata dopo la correzione del parser (elenco della struttura, non le notizie in evidenza del portale)"
+}

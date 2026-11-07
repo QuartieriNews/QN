@@ -1,0 +1,18 @@
+{
+ "_nota": "Correzioni applicate al riferimento del 19 settembre per la tabella di giugno. Le prime nove vengono dall'arbitrato della prova cieca (runs/2026-10-08/arbitrato_differenze.json, categoria 'nuovo'); le ultime quattro sono i casi da riesaminare del pacchetto Metodo QN, analizzati dal builder in modo non cieco (docs/sources/GEO_ASSEGNAZIONE_2026-10.md par. 3). Non sono decisioni dell'owner: si annullano togliendole da qui.",
+ "correzioni": [
+  {"id": "N0407", "esito": "T", "pagine": [], "livello_portata": "municipio", "origine": "arbitrato", "ragione": "mozione per tutte le piazze del Municipio X: l'indirizzo e' la sede della seduta"},
+  {"id": "N0425", "esito": "T", "pagine": [], "livello_portata": "citta", "origine": "arbitrato", "ragione": "delibera capitolina per tutte le scuole dell'infanzia; l'indirizzo e' il recapito del Municipio"},
+  {"id": "N2307", "esito": "T", "pagine": [], "livello_portata": "municipio", "origine": "arbitrato", "ragione": "verifica su tutte le concessioni del Municipio II; i parchi sono esempi"},
+  {"id": "N2454", "esito": "U", "pagine": ["monteverde"], "livello_portata": "quartiere", "origine": "arbitrato", "ragione": "via Niccolini a Monteverde (incrocio con via Alberto Mario), non l'omonima all'Infernetto"},
+  {"id": "N1427", "esito": "U", "pagine": ["monte-mario"], "livello_portata": "quartiere", "origine": "arbitrato", "ragione": "via Antonino Parato e' in zona 19E Trionfale, Municipio XIV"},
+  {"id": "N2147", "esito": "I", "pagine": [], "livello_portata": "quartiere", "origine": "arbitrato", "ragione": "fatto puntuale con strada illeggibile: I, non T"},
+  {"id": "N2265", "esito": "D", "pagine": [], "livello_portata": "quartiere", "origine": "arbitrato", "ragione": "il programma comunale indica il parco: pista concreta, posizione da verificare"},
+  {"id": "N3290", "esito": "M", "pagine": ["appio-latino", "esquilino-termini", "marconi", "portuense"], "livello_portata": "quartiere", "origine": "arbitrato", "ragione": "il conteggio del testo esclude la quinta sede"},
+  {"id": "N2897", "esito": "U", "pagine": ["montagnola"], "livello_portata": "quartiere", "origine": "arbitrato", "ragione": "incrocio Ardeatina/via della Fotografia calcolato in zona 11G"},
+  {"id": "N2310", "esito": "T", "pagine": [], "livello_portata": "municipio", "origine": "riesame", "ragione": "risoluzione municipale di sostegno; le piazze sono il percorso della manifestazione"},
+  {"id": "N2403", "esito": "M", "pagine": ["centro-storico", "testaccio"], "livello_portata": "quartiere", "origine": "riesame", "ragione": "il tratto Porta San Paolo-Porta Metronio tocca Aventino e Celio"},
+  {"id": "N3519", "esito": "M", "pagine": ["cesano", "la-storta", "prima-porta"], "livello_portata": "quartiere", "origine": "riesame", "ragione": "mete effettive plurime; Parco di Veio senza pagina attiva"},
+  {"id": "N2028", "esito": "T", "pagine": [], "livello_portata": "municipio", "origine": "riesame", "ragione": "ricognizione municipale dei cortili; le due scuole sono il confronto"}
+ ]
+}

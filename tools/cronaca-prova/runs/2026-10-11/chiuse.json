@@ -1,0 +1,79 @@
+{
+ "titoli_candidati": 2023,
+ "per_testata": [
+  [
+   "RomaToday",
+   546
+  ],
+  [
+   "Il Messaggero",
+   470
+  ],
+  [
+   "Corriere della Sera Roma",
+   294
+  ],
+  [
+   "ANSA",
+   237
+  ],
+  [
+   "la Repubblica Roma",
+   139
+  ],
+  [
+   "Leggo",
+   77
+  ],
+  [
+   "Adnkronos",
+   58
+  ],
+  [
+   "RomaIT",
+   41
+  ],
+  [
+   "Agenzia Nova",
+   34
+  ],
+  [
+   "LaPresse",
+   31
+  ],
+  [
+   "il Fatto Quotidiano",
+   26
+  ],
+  [
+   "Sky TG24",
+   24
+  ],
+  [
+   "il Giornale",
+   17
+  ],
+  [
+   "Today.it",
+   15
+  ],
+  [
+   "Affaritaliani",
+   14
+  ]
+ ],
+ "classi": {
+  "cronaca_roma": 1093,
+  "non_cronaca": 397,
+  "giudiziaria": 206,
+  "cronaca_fuori": 327
+ },
+ "cronaca_roma_su_fatti_noti": {
+  "ufficiali": 169,
+  "testate_aperte": 588
+ },
+ "cronaca_roma_su_fatti_nuovi": 336,
+ "fatti_nuovi_tutto_il_periodo": 155,
+ "doppioni_fusi_fra_lotti": 8,
+ "fatti_nuovi_di_giugno": 96
+}

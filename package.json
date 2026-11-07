@@ -3,7 +3,7 @@
   "private": true,
   "description": "Quartieri News — tooling dependencies. The gate and every other suite stay dependency-free; only the workflow-safety suite needs a real YAML parser (DEC-011).",
   "scripts": {
-    "test": "node tests/test_parse_duration.js && node tests/test_council.js && node tests/test_lane_gate.js && node tests/test_workflow_safety.js"
+    "test": "node tests/test_parse_duration.js && node tests/test_compute_source_hash.js && node tests/test_dedupe_source_events.js && node tests/test_council.js && node tests/test_lane_gate.js && node tests/test_workflow_safety.js"
   },
   "devDependencies": {
     "yaml": "2.9.0"
