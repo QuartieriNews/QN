@@ -1,0 +1,96 @@
+{
+ "mese": "2026-09",
+ "per_fonte": {
+  "C1": {
+   "errori": [],
+   "elenco": 13,
+   "comunicati_del_mese": 81,
+   "scaricati": 81,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 406
+  },
+  "C2": {
+   "errori": [],
+   "elenco": {
+    "pagine": 9,
+    "comunicati_nazionali": 164
+   },
+   "comunicati_del_mese": 19,
+   "scaricati": 19,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 138
+  },
+  "C3": {
+   "errori": [],
+   "elenco": 1,
+   "comunicati_del_mese": 0,
+   "scaricati": 0,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 1
+  },
+  "C4": {
+   "errori": [],
+   "elenco": 1,
+   "comunicati_del_mese": 6,
+   "scaricati": 6,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 25
+  },
+  "C5": {
+   "errori": [],
+   "elenco": 2,
+   "comunicati_del_mese": 0,
+   "scaricati": 0,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 4
+  },
+  "C6": {
+   "errori": [],
+   "elenco": {
+    "pagine": 1,
+    "notizie_nazionali_del_mese": 113
+   },
+   "comunicati_del_mese": 5,
+   "scaricati": 5,
+   "rifiutati": 0,
+   "errori_scaricamento": 0,
+   "secondi": 53
+  }
+ },
+ "comunicati_scaricati": 111,
+ "comunicati_rifiutati": 0,
+ "comunicati_in_errore": 0,
+ "con_nota": {},
+ "giorni_con_almeno_un_comunicato": 30,
+ "confronto_giugno": {
+  "C1": {
+   "giugno": 79,
+   "settembre": 81
+  },
+  "C2": {
+   "giugno": 20,
+   "settembre": 19
+  },
+  "C3": {
+   "giugno": 0,
+   "settembre": 0
+  },
+  "C4": {
+   "giugno": 8,
+   "settembre": 6
+  },
+  "C5": {
+   "giugno": 2,
+   "settembre": 0
+  },
+  "C6": {
+   "giugno": 0,
+   "settembre": 5
+  }
+ }
+}

@@ -1,0 +1,400 @@
+{
+ "censimento_titoli_del_mese": {
+  "abitarearoma": 776,
+  "dire": 1212,
+  "ilfaroonline": 702,
+  "iltempo": 1107,
+  "romadailynews": 1158,
+  "vignaclarablog": 75
+ },
+ "notizie_uniche": {
+  "totale": 387,
+  "ufficiali_cercati": {
+   "0": 40,
+   "1": 32,
+   "2": 27,
+   "3": 15,
+   "4": 11,
+   "5+": 6
+  },
+  "ufficiali_non_cercati": {
+   "0": 27,
+   "1": 15,
+   "2": 3,
+   "3": 1
+  },
+  "solo_testate_aperte": {
+   "1": 154,
+   "2": 43,
+   "3": 11,
+   "4": 1,
+   "5+": 1
+  }
+ },
+ "avanti": {
+  "fatti_ufficiali_roma": 177,
+  "fatti_cercati": 131,
+  "ricerche": 170,
+  "non_cercati_per_fonte": {
+   "Questura di Roma": 35,
+   "Polizia Locale": 1,
+   "Carabinieri": 8,
+   "Vigili del Fuoco": 2
+  },
+  "certa_o_probabile": {
+   "distribuzione_n_testate": {
+    "0": 42,
+    "1": 33,
+    "2": 30,
+    "3": 14,
+    "4+": 12
+   },
+   "fatti_con_almeno_una": 89,
+   "per_testata": [
+    [
+     "RomaToday",
+     60
+    ],
+    [
+     "Abitare a Roma",
+     58
+    ],
+    [
+     "Il Messaggero",
+     16
+    ],
+    [
+     "ANSA",
+     12
+    ],
+    [
+     "Fanpage",
+     9
+    ],
+    [
+     "Il Faro Online",
+     9
+    ],
+    [
+     "RomaIT",
+     7
+    ],
+    [
+     "Agenzia Nova",
+     4
+    ],
+    [
+     "Roma Daily News",
+     4
+    ],
+    [
+     "LaPresse",
+     3
+    ],
+    [
+     "Adnkronos",
+     3
+    ],
+    [
+     "Dire",
+     2
+    ],
+    [
+     "Affaritaliani",
+     2
+    ],
+    [
+     "Il Tempo",
+     2
+    ],
+    [
+     "Sky TG24",
+     2
+    ],
+    [
+     "Leggo",
+     2
+    ],
+    [
+     "il Giornale",
+     1
+    ],
+    [
+     "il Fatto Quotidiano",
+     1
+    ],
+    [
+     "VignaClaraBlog",
+     1
+    ]
+   ]
+  },
+  "solo_certa": {
+   "distribuzione_n_testate": {
+    "0": 79,
+    "1": 39,
+    "2": 10,
+    "3": 2,
+    "4+": 1
+   },
+   "fatti_con_almeno_una": 52,
+   "per_testata": [
+    [
+     "RomaToday",
+     18
+    ],
+    [
+     "Abitare a Roma",
+     16
+    ],
+    [
+     "ANSA",
+     12
+    ],
+    [
+     "Il Faro Online",
+     7
+    ],
+    [
+     "LaPresse",
+     3
+    ],
+    [
+     "Fanpage",
+     2
+    ],
+    [
+     "Il Tempo",
+     2
+    ],
+    [
+     "Sky TG24",
+     2
+    ],
+    [
+     "Leggo",
+     2
+    ],
+    [
+     "Dire",
+     1
+    ],
+    [
+     "RomaIT",
+     1
+    ],
+    [
+     "il Fatto Quotidiano",
+     1
+    ],
+    [
+     "VignaClaraBlog",
+     1
+    ],
+    [
+     "Il Messaggero",
+     1
+    ]
+   ]
+  },
+  "media_testate_per_fatto_ripreso": 2.22,
+  "per_fonte": {
+   "Carabinieri": {
+    "cercati": 16,
+    "ripresi": 15
+   },
+   "Polizia Locale": {
+    "cercati": 8,
+    "ripresi": 8
+   },
+   "Questura di Roma": {
+    "cercati": 101,
+    "ripresi": 65
+   },
+   "Vigili del Fuoco": {
+    "cercati": 6,
+    "ripresi": 1
+   }
+  },
+  "per_esito": {
+   "D": {
+    "cercati": 25,
+    "ripresi": 17
+   },
+   "I": {
+    "cercati": 8,
+    "ripresi": 4
+   },
+   "M": {
+    "cercati": 8,
+    "ripresi": 5
+   },
+   "T": {
+    "cercati": 12,
+    "ripresi": 10
+   },
+   "U": {
+    "cercati": 78,
+    "ripresi": 53
+   }
+  }
+ },
+ "inversa": {
+  "titoli_candidati": 659,
+  "titoli_classificati": 659,
+  "classi": {
+   "cronaca_giudiziaria": 25,
+   "cronaca_fuori": 128,
+   "non_cronaca": 119,
+   "cronaca_roma": 387
+  },
+  "fatti_cronaca_roma": 272,
+  "con_fatto_ufficiale": {
+   "totale": 62,
+   "certa": 49
+  },
+  "fatti_ufficiali_ritrovati": 61,
+  "solo_stampa": 210,
+  "solo_stampa_per_tipo": [
+   [
+    "furto",
+    29
+   ],
+   [
+    "controlli",
+    27
+   ],
+   [
+    "aggressione",
+    26
+   ],
+   [
+    "incidente",
+    24
+   ],
+   [
+    "rapina",
+    18
+   ],
+   [
+    "incendio",
+    16
+   ],
+   [
+    "sequestro",
+    14
+   ],
+   [
+    "altro",
+    14
+   ],
+   [
+    "droga",
+    12
+   ],
+   [
+    "morte",
+    11
+   ],
+   [
+    "soccorso",
+    7
+   ],
+   [
+    "truffa",
+    6
+   ],
+   [
+    "sgombero",
+    4
+   ],
+   [
+    "arresto",
+    2
+   ]
+  ],
+  "solo_stampa_per_livello": {
+   "citta": 25,
+   "quartiere": 138,
+   "municipio": 11,
+   "dubbio": 36
+  },
+  "solo_stampa_con_ente_nel_titolo": 45,
+  "solo_stampa_con_almeno_due_testate": 56,
+  "n_testate_per_fatto": {
+   "1": 197,
+   "2": 60,
+   "3": 15
+  },
+  "per_testata": [
+   [
+    "Abitare a Roma",
+    234
+   ],
+   [
+    "Roma Daily News",
+    56
+   ],
+   [
+    "Il Faro Online",
+    46
+   ],
+   [
+    "Il Tempo",
+    11
+   ],
+   [
+    "VignaClaraBlog",
+    11
+   ],
+   [
+    "Dire",
+    7
+   ]
+  ],
+  "solo_stampa_per_testata": [
+   [
+    "Abitare a Roma",
+    175
+   ],
+   [
+    "Roma Daily News",
+    45
+   ],
+   [
+    "Il Faro Online",
+    40
+   ],
+   [
+    "Il Tempo",
+    9
+   ],
+   [
+    "VignaClaraBlog",
+    8
+   ],
+   [
+    "Dire",
+    5
+   ]
+  ],
+  "scenari": {
+   "A_ufficiali_pubbliche": {
+    "fatti": 177,
+    "presenze": 134,
+    "pagine_con_almeno_uno": 48
+   },
+   "B_piu_testate_aperte_dopo_conferma_massimo": {
+    "fatti_in_piu": 210,
+    "presenze_in_piu": 138,
+    "pagine_con_almeno_uno": 62
+   },
+   "C_piu_fatti_su_due_testate_aperte": {
+    "fatti_in_piu": 56,
+    "presenze_in_piu": 43,
+    "pagine_con_almeno_uno": 54
+   },
+   "pagine_attive": 89
+  }
+ }
+}

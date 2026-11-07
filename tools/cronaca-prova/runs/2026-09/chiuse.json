@@ -1,0 +1,155 @@
+{
+ "periodo_filtro": "2026-08-29/2026-10-03",
+ "titoli_candidati": 2009,
+ "titoli_candidati_settembre": 1704,
+ "per_testata": [
+  [
+   "RomaToday",
+   529
+  ],
+  [
+   "Il Messaggero",
+   458
+  ],
+  [
+   "Corriere della Sera Roma",
+   290
+  ],
+  [
+   "ANSA",
+   218
+  ],
+  [
+   "la Repubblica Roma",
+   138
+  ],
+  [
+   "Adnkronos",
+   70
+  ],
+  [
+   "Leggo",
+   64
+  ],
+  [
+   "il Fatto Quotidiano",
+   49
+  ],
+  [
+   "Sky TG24",
+   47
+  ],
+  [
+   "LaPresse",
+   38
+  ],
+  [
+   "Affaritaliani",
+   33
+  ],
+  [
+   "il Giornale",
+   27
+  ],
+  [
+   "RomaIT",
+   25
+  ],
+  [
+   "Today.it",
+   22
+  ],
+  [
+   "Rai News",
+   1
+  ]
+ ],
+ "per_editore_settembre": [
+  [
+   "Citynews",
+   468
+  ],
+  [
+   "Caltagirone",
+   435
+  ],
+  [
+   "RCS",
+   247
+  ],
+  [
+   "ANSA",
+   184
+  ],
+  [
+   "GEDI",
+   116
+  ],
+  [
+   "Adnkronos",
+   63
+  ],
+  [
+   "Sky",
+   41
+  ],
+  [
+   "SEIF",
+   41
+  ],
+  [
+   "LaPresse",
+   33
+  ],
+  [
+   "Affaritaliani",
+   29
+  ],
+  [
+   "RomaIT",
+   23
+  ],
+  [
+   "Angelucci",
+   23
+  ],
+  [
+   "RAI",
+   1
+  ]
+ ],
+ "per_giorno_settembre": {
+  "2026-09-01": 42,
+  "2026-09-02": 66,
+  "2026-09-03": 73,
+  "2026-09-04": 45,
+  "2026-09-05": 64,
+  "2026-09-06": 31,
+  "2026-09-07": 52,
+  "2026-09-08": 42,
+  "2026-09-09": 47,
+  "2026-09-10": 55,
+  "2026-09-11": 78,
+  "2026-09-12": 52,
+  "2026-09-13": 34,
+  "2026-09-14": 57,
+  "2026-09-15": 64,
+  "2026-09-16": 48,
+  "2026-09-17": 69,
+  "2026-09-18": 113,
+  "2026-09-19": 42,
+  "2026-09-20": 57,
+  "2026-09-21": 70,
+  "2026-09-22": 78,
+  "2026-09-23": 65,
+  "2026-09-24": 42,
+  "2026-09-25": 69,
+  "2026-09-26": 57,
+  "2026-09-27": 28,
+  "2026-09-28": 48,
+  "2026-09-29": 58,
+  "2026-09-30": 58
+ },
+ "classi": null,
+ "nota": "lettura dei titoli (ISTRUZIONI_CHIUSE) non eseguita: manca il pacchetto Metodo QN (QN_PKG)"
+}

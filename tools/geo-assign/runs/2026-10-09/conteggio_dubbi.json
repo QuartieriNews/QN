@@ -1,0 +1,19 @@
+{
+ "_nota": "Passata di dubbi.py del 9 ottobre 2026 sul corpus del 19 settembre SENZA --semi: 269 dubbi dai soli pattern. La coda consegnata all'owner lo stesso giorno (coda_dubbi_2026-10-09.csv, fuori dal repository) contava 274 righe; gli otto semi di runs/2026-10-09/semi_dubbi.json non sono in questo conteggio. La prossima passata registra qui i propri argomenti (--semi, --decisioni) e il totale.",
+ "dubbi_aperti": 269,
+ "per_tipo": {
+  "ZONA": 47,
+  "LUOGO": 24,
+  "STRADA": 91,
+  "SENZA": 11,
+  "TRATTO": 96
+ },
+ "schede_coinvolte_per_tipo": {
+  "ZONA": 1927,
+  "LUOGO": 29,
+  "STRADA": 199,
+  "SENZA": 33,
+  "TRATTO": 497
+ },
+ "out": "coda_dubbi_2026-10-09.csv (fuori dal repository)"
+}

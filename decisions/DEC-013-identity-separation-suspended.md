@@ -1,6 +1,8 @@
 # DEC-013 — The technical identity separation is suspended; owner merge remains a process rule
 
 Status: DECIDED
+Identity separation restored in part by DEC-029 — see DEC-029 for the current identity
+state. Everything else in this entry stands.
 Supersedes in part: DEC-010 and DEC-012 (each unchanged and not reopened; the clauses
 this entry suspends are listed below).
 
