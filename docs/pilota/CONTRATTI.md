@@ -179,3 +179,19 @@ questa sezione non scrive elementi (sezione 3).
 | URL delle fonti | raccolti a mano (DEC-102) |
 | Proiezione per il prototipo | `tools/site/project_events.py`, con i test in `tests/test_project_events.py` |
 
+### C · Eventi dalle pagine web (`web_event`)
+
+Il canale non scrive elementi finché DEC-025 non decide quale fonte prevale quando lo stesso
+evento arriva anche da Facebook o da un'altra fonte: senza quella regola lo stesso evento
+comparirebbe due volte.
+
+| Che cosa | Regola |
+|---|---|
+| Fonti | i siti del registro fonti (colonna `sito`) dei municipi del pilota. Prima di leggere un sito si controllano `robots.txt` e le condizioni d'uso (sezione 6), e l'esito si scrive con la data nella riga del registro. Un sito che non permette la lettura, o le cui regole non si riescono a leggere, non si legge |
+| File | il JSON canonico della specifica v2.5, come per Facebook, con `source.type = "web_page"`: un file per evento, un file solo per una serie |
+| Identità | `content_id`, nome del file e segnalazione li calcola `code-nodes/web-event-identity.js`, con i test in `tests/test_web_event_identity.js`. Se l'evento ha una pagina sua, l'identità viene dall'URL canonico di quella pagina; se compare solo in un elenco, dall'URL dell'elenco, dal giorno di inizio a Roma e dal titolo normalizzato, e il file porta `identity_from_listing` in `quality.review_flags` |
+| `source_hash` | `code-nodes/compute-source-hash.js`, sui campi della fase 2.2 letti dalla pagina |
+| Colonne della coda | `source_channel = web_event`; `source_id` è l'host del sito (sezione 2) |
+| Cartella | `C Eventi/`, come per Facebook; le pagine lette restano in `C Eventi/originali/` |
+| Proiezione per il prototipo | `tools/site/project_events.py`, la stessa dei file di Facebook |
+
