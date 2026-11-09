@@ -41,9 +41,16 @@ gennaio 2026, max 300/giorno».
 ## Regola
 
 1. **Perimetro.** Gli atti di Atti Web dei Municipi X, V e I (le pagine pilota di DEC-031)
-   con data dal 1° gennaio 2026 al giorno della lettura: l'elenco degli atti e i loro PDF.
-   Nient'altro del sito. La lettura di un elenco si ferma alla prima pagina in cui tutti gli
-   atti sono anteriori al 1° gennaio 2026, o alla fine dell'elenco.
+   dal 1° gennaio 2026 al giorno della lettura: l'elenco degli atti e i loro PDF.
+   Nient'altro del sito. In pratica:
+   - si interroga la ricerca degli atti con il filtro sulla data di repertorio (`dtRpr`),
+     l'unico che il portale accetta (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 2), dal
+     1° dicembre 2025 al giorno della lettura. Il mese in più serve alle convocazioni
+     protocollate prima di una seduta di gennaio;
+   - le pagine si leggono da 500 righe finché si arriva al totale dichiarato dall'API;
+   - si tengono gli atti dei tre Municipi (campo `dscStrOrg`) con `dtRpr` oppure `dtSeduta`
+     dal 1° gennaio 2026. La data del record (`data_documento`) è `dtSeduta` quando c'è,
+     altrimenti `dtRpr`.
 2. **Ritmo.** Una richiesta alla volta, almeno 5 secondi fra due richieste e al massimo 300
    documenti al giorno.
 3. **Dove.** Solo nello staging privato su Drive, `D Storico/originali/`. Nessun atto, testo o

@@ -39,6 +39,9 @@ pubblicata».
    dell'organizzatore letta direttamente (nel pilota, il canale `web_event` sul sito
    dell'organizzatore) > il sito dell'organizzatore linkato da un'altra fonte >
    culture.roma.it > Facebook (`fb_event`) > Roma Today.
+   Il «titolo» della domanda è il nome dell'evento alla fonte (`pilot.source_title`): il
+   `title` dell'articolo lo scriviamo sempre noi e resta fuori dalla fusione
+   (`docs/pilota/CONTRATTI.md`, sezione 2).
 2. **Campi mancanti.** Un campo vuoto nella fonte che comanda si prende dalla successiva
    nell'ordine che lo ha e che può darlo, e il file dice da quale fonte viene ogni campo preso
    così. Due limiti:
@@ -61,15 +64,18 @@ pubblicata».
      ogni segno che non è lettera o cifra diventa spazio, via le parole di due lettere o meno
      e le parole vuote dello script;
    - somiglianza: la maggiore fra la sovrapposizione delle parole (Jaccard) e il rapporto di
-     `difflib.SequenceMatcher` sui titoli normalizzati;
+     `difflib.SequenceMatcher` sui titoli normalizzati; se uno dei due titoli normalizzati è
+     vuoto (solo caratteri non ASCII o parole brevi) la somiglianza vale 0, come nello
+     script, e la coppia non si fonde mai da sola;
    - date: il giorno di inizio a Roma e, se la fine è data dalla fonte, il giorno di fine;
      due eventi sono compatibili se i loro intervalli si toccano;
    - **stesso evento** se la somiglianza è almeno 0,85 e le date sono compatibili, oppure
      se è almeno 0,72 con lo stesso giorno di inizio e un luogo in comune per almeno metà
      delle parole;
    - **in coda, senza fondere**: una somiglianza almeno 0,72 con date compatibili che non
-     basta per i casi sopra, un evento senza data, una serie confrontata con un evento
-     singolo o con un'altra serie.
+     basta per i casi sopra; un evento senza data; una serie confrontata con un evento
+     singolo o con un'altra serie; due eventi che soddisfano i casi sopra ma con orari di
+     inizio distanti più di 60 minuti (per esempio la replica pomeridiana e quella serale).
 5. **Si verifica con un test.** La fusione è un code node del flusso, con i suoi test, prima
    che un secondo canale di eventi scriva elementi.
 
