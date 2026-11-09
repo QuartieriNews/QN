@@ -27,7 +27,10 @@ replicabili. Propongo di farne almeno 3, uno difficile (acilia è ok), uno medio
 e uno facile (prati)»; il coordinatore unico scrittore su GitHub «ok»; il sito privato
 «benissimo basta che vediamo materializzarsi il sito anche se privato per il pubblico»; il
 budget «ok per 50 ma se è maggiore avvisami e valutiamo se aumentare. Se la task è quasi
-finita e quindi sai che spenderai ancora 10,15 euro per concludere il lavoro non fermarti».
+finita e quindi sai che spenderai ancora 10,15 euro per concludere il lavoro non fermarti»;
+sulla revisione «ok rimaniamo con il mio code review. Una a settimana mi sembra rischioso.
+Sarebbe una PR troppo grande e spero che saremo piu veloci di cosi. Non mi importa farlo 4
+volte al giorno. Sarebbe un problema farlo 20».
 
 ## Regola
 
@@ -50,15 +53,18 @@ finita e quindi sai che spenderai ancora 10,15 euro per concludere il lavoro non
    Drive. L'apertura al pubblico la decide l'owner più avanti.
 6. **Budget del pilota: 50 € al mese** per trascrizioni, Apify e modelli. Prima di superarlo
    si avvisa l'owner. Un lavoro quasi finito si chiude anche se servono 10–15 € in più.
-7. **La revisione di Codex.** Il 9 novembre l'owner ha attivato sul repository QN la
-   revisione automatica: tutte le PR, a ogni push, in modalità esaustiva. La verifica sulla
-   PR #24 mostra che, all'apertura di una PR di `QN-Builder`, il connettore non avvia la
-   revisione e chiede un account Codex: l'impostazione vale per gli account collegati.
-   Finché non c'è un'altra soluzione, la revisione la chiede l'owner con `@codex review`,
-   una volta per testa (DEC-029, punto 4), e il coordinatore raccoglie il lavoro in poche PR
-   per non moltiplicare le richieste. Una revisione via API in GitHub Actions, con una chiave
-   tecnica e costi a consumo, è l'alternativa da valutare con una decisione a sé, perché
-   tocca `.github/` e i segreti del repository.
+7. **La revisione di Codex la chiede l'owner.** Il 9 novembre l'owner ha attivato sul
+   repository QN la revisione automatica: tutte le PR, a ogni push, in modalità esaustiva.
+   La verifica sulla PR #24 mostra che per `QN-Builder` non parte in nessuno dei due casi:
+   all'apertura della PR il connettore chiede un account Codex, e dopo un push non succede
+   niente. L'impostazione vale solo per gli account collegati.
+   - La revisione la chiede quindi l'owner con `@codex review`, una volta per testa
+     (DEC-029, punto 4).
+   - Le PR restano piccole (protocollo, sezione 2). L'owner accetta circa quattro richieste
+     al giorno, non venti, e il coordinatore tiene il ritmo sotto quella soglia.
+   - Una revisione via API in GitHub Actions, con una chiave tecnica e costi a consumo,
+     resta l'alternativa da valutare con una decisione a sé, perché tocca `.github/` e i
+     segreti del repository.
 
 Impact:
 - Drive: le cartelle di staging del pilota, una per workstream più lo storico.
