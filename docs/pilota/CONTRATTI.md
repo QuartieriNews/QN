@@ -129,7 +129,7 @@ produzione non si toccano (`CLAUDE.md`).
   caricato nella sua cartella Drive. Il coordinatore lo verifica, fa girare i test e apre
   la PR.
 - Le PR sono piccole (protocollo, sezione 2, punto 4). La revisione segue il protocollo,
-  sezione 4, e DEC-031, punto 7.
+  sezione 4, e DEC-032.
 
 ## 5. Costi
 

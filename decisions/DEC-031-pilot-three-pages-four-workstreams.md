@@ -1,6 +1,9 @@
 # DEC-031 — Pilota su tre pagine, con quattro workstream e un coordinatore
 
 Status: DECIDED (9 novembre 2026, owner nella sessione del builder)
+Punto 7 superato in parte da DEC-032: la revisione di Codex parte da sola anche per le PR di
+`QN-Builder`, e non c'è un tetto di PR o di merge al giorno. Il resto di questa decisione
+resta valido.
 Blocks: nothing.
 
 Question: come arrivare in fretta a qualcosa di concreto da guardare, un sito anche solo

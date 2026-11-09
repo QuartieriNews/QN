@@ -21,14 +21,13 @@ roles and the review rules there bind you too. Then:
   item by item: accepted with the fix applied, or rebutted with a citation and
   evidence gathered from the actual repository state. Never mark your own work
   APPROVED; the reviewer's verdict and the owner's merge are the gates.
-- After the push that closes a cycle of fixes on a PR under review, ask for the
-  re-review once: comment `@codex review` on the PR when the review integration
-  accepts it from your account, and otherwise tell the owner in one line that
-  the PR is ready for it (DEC-029). A pushed fix nobody has looked at again does
-  not close a cycle. Never ask when the write itself starts a review (opening a
-  PR for review, marking a draft ready), on a head already asked for, or while a
-  review is running; after an hour of silence remind once, then stop and tell
-  the owner.
+- Codex reviews every pull request on its own, when it is opened and on every
+  push (the owner's setting, DEC-032). Do not comment `@codex review`: each push
+  is a review, so push once per cycle of fixes. A pushed fix nobody has looked at
+  again does not close a cycle. If Codex is silent for more than an hour after a
+  push, tell the owner in one line; the owner reminds once, because `QN-Builder`
+  has no Codex account. When a pull request is ready (green CI, no open
+  findings, no conflict), notify the owner with its link; the owner merges.
 - Every write to GitHub goes through the machine account `QN-Builder`, never the
   owner's (DEC-029), and follows `docs/github/PROTOCOLLO.md` (DEC-028): one
   writing session at a time, its pace, no close-and-reopen and no empty commits,
