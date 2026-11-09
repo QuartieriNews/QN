@@ -12,6 +12,11 @@ Context:
   `https://www.comune.roma.it/robots.txt` ha risposto con un rinvio (302) alla pagina di
   login SSO del Comune: le regole del sito non si possono leggere. Il builder non ha
   scaricato niente.
+- Le condizioni d'uso, lette lo stesso giorno alle 23:00 UTC
+  (`https://www.comune.roma.it/web/it/note-legali.page`): i diritti sui contenuti
+  appartengono a Roma Capitale; non c'è una licenza di riuso e non c'è una regola
+  sull'accesso automatico. Atti Web risponde senza login. Lo storico è privato e non
+  ridistribuisce i documenti.
 - Il 15 settembre 2026 l'owner aveva già autorizzato una lettura di approfondimento di Atti
   Web per lo studio delle fonti (Drive, `QN Hub / 20 Packages / Fonti 2026-06`,
   `README_Fonti_2026-06.md`: «approfondimento A2 autorizzato dall'owner»).
@@ -30,13 +35,17 @@ Claude recommendation: A. È la stessa autorizzazione di settembre, sugli stessi
 e per un archivio privato; B resta utile in parallelo, ma da sola ferma il workstream.
 
 Owner's words, 9 novembre 2026, fra le opzioni poste dal builder: «Autorizzo come a settembre».
+Dopo la prima revisione di Codex, sulle note legali lette: «Confermo»; sul periodo: «Dal 1°
+gennaio 2026, max 300/giorno».
 
 ## Regola
 
-1. **Perimetro.** Gli atti di Atti Web dei Municipi X, V e I (le pagine pilota di DEC-031):
-   l'elenco degli atti e i loro PDF. Nient'altro del sito.
-2. **Ritmo.** Una richiesta alla volta e almeno 5 secondi fra due richieste (il «lento» di
-   questa decisione nei numeri proposti dal builder).
+1. **Perimetro.** Gli atti di Atti Web dei Municipi X, V e I (le pagine pilota di DEC-031)
+   con data dal 1° gennaio 2026 al giorno della lettura: l'elenco degli atti e i loro PDF.
+   Nient'altro del sito. La lettura di un elenco si ferma alla prima pagina in cui tutti gli
+   atti sono anteriori al 1° gennaio 2026, o alla fine dell'elenco.
+2. **Ritmo.** Una richiesta alla volta, almeno 5 secondi fra due richieste e al massimo 300
+   documenti al giorno.
 3. **Dove.** Solo nello staging privato su Drive, `D Storico/originali/`. Nessun atto, testo o
    elenco entra su GitHub (DEC-109).
 4. **Stop.** Al primo segnale di blocco (403, 429, captcha, rinvio al login sulle pagine degli

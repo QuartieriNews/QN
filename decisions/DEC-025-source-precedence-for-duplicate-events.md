@@ -30,6 +30,8 @@ Claude recommendation: A. È la stessa scala della rintracciabilità già misura
 più prolisse, non le più affidabili.
 
 Owner's words, 9 novembre 2026, fra le opzioni poste dal builder: «Vince la fonte più vicina».
+Sull'identità, alla domanda posta dopo la prima revisione di Codex: «Resta quella già
+pubblicata».
 
 ## Regola
 
@@ -38,12 +40,36 @@ Owner's words, 9 novembre 2026, fra le opzioni poste dal builder: «Vince la fon
    dell'organizzatore) > il sito dell'organizzatore linkato da un'altra fonte >
    culture.roma.it > Facebook (`fb_event`) > Roma Today.
 2. **Campi mancanti.** Un campo vuoto nella fonte che comanda si prende dalla successiva
-   nell'ordine che lo ha; il file dice da quale fonte viene ogni campo preso così.
-3. **Niente si cancella.** La fonte che comanda dà l'elemento pubblicato. Le altre restano,
-   segnate come doppioni di quell'elemento, e non si pubblicano da sole.
-4. **Lo stesso evento.** Lo si riconosce con i criteri stretti del foglio di ottobre: titolo
-   quasi identico e date compatibili, oppure titolo simile con stessa data e luogo. In caso
-   di dubbio l'elemento va in coda, non si fonde.
+   nell'ordine che lo ha e che può darlo, e il file dice da quale fonte viene ogni campo preso
+   così. Due limiti:
+   - Roma Today dà solo titolo, link e ora, come indice di terzi (DEC-108); nessun altro
+     campo si prende da lì;
+   - la geografia non si copia: dalle altre fonti si prendono solo le prove del luogo
+     (sede, indirizzo, coordinate), e zona e municipio si ricalcolano con il gazetteer, che
+     vince su ogni documento. Questo precisa l'esempio dell'opzione A («Municipio da
+     culture.roma.it»), che copiato alla lettera metterebbe un'etichetta della fonte al
+     posto del calcolo canonico.
+3. **Identità.** Un elemento già pubblicato tiene il suo `content_id` anche quando arriva una
+   fonte che comanda (specifica v2.5, fase 2.1: l'identità non cambia): da quella fonte
+   prende i campi, non l'identità. Se le fonti arrivano insieme, l'identità è quella della
+   fonte che comanda. Ogni altra copia tiene il proprio `content_id` e punta all'elemento
+   pubblicato; niente si cancella e le copie non si pubblicano da sole, quindi le righe della
+   coda di revisione restano legate alla loro chiave.
+4. **Lo stesso evento.** Si usano i criteri stretti del foglio di ottobre
+   (`tools/fonti/lavoro-2026-10/doppioni.py`, PR #21), così:
+   - titoli normalizzati: scomposizione Unicode NFKD, via i caratteri non ASCII, minuscole,
+     ogni segno che non è lettera o cifra diventa spazio, via le parole di due lettere o meno
+     e le parole vuote dello script;
+   - somiglianza: la maggiore fra la sovrapposizione delle parole (Jaccard) e il rapporto di
+     `difflib.SequenceMatcher` sui titoli normalizzati;
+   - date: il giorno di inizio a Roma e, se la fine è data dalla fonte, il giorno di fine;
+     due eventi sono compatibili se i loro intervalli si toccano;
+   - **stesso evento** se la somiglianza è almeno 0,85 e le date sono compatibili, oppure
+     se è almeno 0,72 con lo stesso giorno di inizio e un luogo in comune per almeno metà
+     delle parole;
+   - **in coda, senza fondere**: una somiglianza almeno 0,72 con date compatibili che non
+     basta per i casi sopra, un evento senza data, una serie confrontata con un evento
+     singolo o con un'altra serie.
 5. **Si verifica con un test.** La fusione è un code node del flusso, con i suoi test, prima
    che un secondo canale di eventi scriva elementi.
 
