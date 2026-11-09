@@ -56,16 +56,18 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
 
 ## 4. Revisioni
 
-- **Una richiesta per testa.** Si chiede `@codex review` una volta dopo il push che chiude
-  un ciclo. La chiede il builder se l'integrazione la accetta da `QN-Builder`; altrimenti
-  il builder scrive all'owner, in una riga, che la PR è pronta, e la richiesta la fa
-  l'owner (DEC-029). Non si chiede:
-  - se la scrittura stessa avvia la revisione (PR aperta per la revisione, bozza resa
-    pronta);
-  - su una testa già richiesta;
-  - mentre una revisione è in corso (riepilogo del bot «Running»).
-- **Un solo sollecito.** Se il canale nativo tace, si sollecita al massimo una volta dopo
-  un'ora. Poi ci si ferma e lo si dice all'owner.
+- **La revisione parte da sola.** Dal 9 novembre Codex rivede ogni PR all'apertura e a
+  ogni push (impostazione dell'owner, DEC-032). Per le PR di `QN-Builder` succede spesso ma
+  non sempre. Nessuno chiede `@codex review`, salvo i due casi qui sotto. Ogni push è una revisione, quindi un push per ciclo di correzioni
+  (sezione 2, punto 2) conta ancora di più.
+- **Quando Codex non parte, chiede l'owner,** perché `QN-Builder` non è collegato a
+  Codex. Se il connettore risponde chiedendo un account Codex, il builder lo dice subito
+  all'owner, in una riga con il link, e l'owner scrive `@codex review`. Se Codex tace per
+  più di un'ora dopo un push, il builder lo dice all'owner e l'owner sollecita una volta.
+  Poi ci si ferma.
+- **Merge su notifica.** Quando una PR è pronta (CI verde, nessun rilievo aperto, nessun
+  conflitto), il builder manda all'owner una notifica con il link; il merge è dell'owner.
+  Non c'è un tetto di PR o di merge al giorno (DEC-032).
 - **Ripiego sul canale API.** Solo dopo un'ora di silenzio del canale nativo, con un
   commento per ciclo (DEC-028, punto 3).
 - **Risposte nei thread.** Le risposte stanno nei thread dei rilievi (DEC-007), voce per
