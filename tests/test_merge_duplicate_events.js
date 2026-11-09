@@ -134,6 +134,17 @@ console.log('doubt goes to the queue, DEC-025 rule 4');
   const out = mergeDuplicateEvents([a, b]);
   check('an undated event is not merged, both go to the queue', out.map((d) => [d.pilot.duplicate_of, d.quality.review_flags]),
     [[undefined, ['duplicate_doubt']], [undefined, ['duplicate_doubt']]]);
+  const m1 = ev('m1', 'web_page', 'Il piccolo principe', '2026-11-14T15:00:00Z');
+  const m2 = ev('m2', 'facebook_event', 'Il piccolo principe', '2026-11-14T19:30:00Z');
+  check('the same title on the same day, hours apart: two performances, sent to the queue',
+    mergeDuplicateEvents([m1, m2]).map((d) => [d.pilot.duplicate_of, d.quality.review_flags]),
+    [[undefined, ['duplicate_doubt']], [undefined, ['duplicate_doubt']]]);
+  const n1 = ev('n1', 'web_page', 'Il piccolo principe', '2026-11-14T19:00:00Z');
+  check('within 60 minutes it is the same event', mergeDuplicateEvents([n1, m2])[1].pilot.duplicate_of, 'n1');
+  const j1 = ev('j1', 'web_page', '\u6625\u306e\u7948\u308a', '2026-11-14T15:00:00Z');
+  const j2 = ev('j2', 'facebook_event', '\u590f\u306e\u591c', '2026-11-14T15:00:00Z');
+  check('titles that normalize to nothing never merge (similarity 0, as in the October script)',
+    mergeDuplicateEvents([j1, j2]).map((d) => [d.pilot.duplicate_of, d.quality.review_flags]), [[undefined, []], [undefined, []]]);
   const s = ev('s1', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { series: { is_series: true, next_occurrence: '2026-11-14T15:00:00Z' } });
   const out2 = mergeDuplicateEvents([s, b]);
   check('a series against a single event is not merged', out2.map((d) => d.pilot.duplicate_of), [undefined, undefined]);

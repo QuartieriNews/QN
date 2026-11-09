@@ -22,6 +22,9 @@ const FILLABLE = [
 ];
 const LOCATION = new Set(['event.venue', 'event.address', 'event.latitude', 'event.longitude']);
 
+/** DEC-025 rule 4: starts further apart than this are not merged on their own. */
+const START_TOLERANCE_MS = 60 * 60 * 1000;
+
 /** Sources that may give no FILLABLE field: Roma Today is a third-party index only
  *  (DEC-025 rule 2, DEC-108). */
 const NO_FILL = new Set(['roma_today']);
@@ -129,6 +132,7 @@ function features(doc) {
     start,
     end: end || start,
     series: !!(doc.series && doc.series.is_series !== false),
+    startMs: typeof ev.start_at_utc === 'string' ? Date.parse(ev.start_at_utc) : NaN,
   };
 }
 
@@ -143,8 +147,11 @@ function compare(fa, fb) {
   if (fa.series || fb.series) return 'doubt'; // a series against anything: a person decides
   const inter = [...fa.venue].filter((w) => fb.venue.has(w)).length;
   const vs = fa.venue.size && fb.venue.size ? inter / (fa.venue.size + fb.venue.size - inter) : 0;
-  if (s >= 0.85) return 'same';
-  if (fa.start === fb.start && vs >= 0.5) return 'same';
+  if (s >= 0.85 || (fa.start === fb.start && vs >= 0.5)) {
+    // Same title, same day, hours apart: two performances until a person says otherwise.
+    const gap = Math.abs(fa.startMs - fb.startMs);
+    return Number.isNaN(gap) || gap <= START_TOLERANCE_MS ? 'same' : 'doubt';
+  }
   return 'doubt';
 }
 
