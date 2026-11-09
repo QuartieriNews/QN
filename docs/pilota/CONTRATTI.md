@@ -18,30 +18,46 @@ quartiere vicino (DEC-023, regola 4). Non si forza mai su una pagina pilota.
 
 ## 2. La forma di un elemento
 
-Ogni workstream produce elementi in JSON Lines (un oggetto per riga, UTF-8), un file al
-giorno: `<cartella del workstream>/AAAA-MM-GG.jsonl`. Campi comuni:
+**Si usa il contratto canonico del progetto, senza ridefinirlo.** I documenti elencati qui
+vincono su questa pagina, che contiene solo i rimandi e le poche aggiunte del pilota.
+
+| Che cosa | Dove è definito | Campi |
+|---|---|---|
+| Forma comune ai quattro blocchi | `gazetteer/gazetteer.json` → `editorial.cross_block_contract`; `docs/PROJECT_VISION.md` | un livello geografico, un campo di freschezza, una classificazione editoriale con valori propri del blocco |
+| Geografia | `gazetteer.json` → `resolution.store`, `geo_basis_values`, `verification_status_values`; `prompts/PROMPT_GEO_BLOCK.md` | `publication_zone_id`; `neighbourhood_id` quando è noto in modo deterministico; `geo_level`; `municipality_code` (sempre, quando noto: è l'unica chiave a livello di municipio); `geo_basis`; `geo_verification_status`, dove `human_verified` ferma ogni ricalcolo |
+| Classificazione editoriale | `gazetteer.json` → `editorial`; `prompts/EDITORIAL_FILTER.md` | `editorial_class` per ogni blocco; per gli eventi anche `editorial_basis` e `content_type`. I valori per notizie, amministrazione e storico sono un'estensione per blocco: si aggiungono con una PR del coordinatore prima che quel workstream produca elementi |
+| Scarti e coda di revisione | `gazetteer.json` → `reject_reasons`, `review` | `reject_reason` con i codici canonici e la loro regola `blocks_publication`. Un elemento bloccato va in coda con `decision`, non si cancella; `zone_unknown` ed `editorial_uncertain` sono code, non scarti |
+| Eventi | specifica v2.5, fasi 1–2 (Drive, `QN Hub / 10 Specifications`); `code-nodes/` | `source_event_id` valido per DEC-027; `start_at_utc`, `end_at_utc`, `date_precision`; `source_hash` (`code-nodes/compute-source-hash.js`) |
+| Freschezza | specifica v2.5, parte III | il campo con il nome della specifica; il pilota non ne inventa uno |
+
+Il prototipo del sito (`tools/site/`) legge una proiezione più semplice (`start`, `end`,
+`title`…). La si ricava dai campi canonici al momento di costruire le pagine; non si
+salva al loro posto.
+
+**L'identità di un elemento** è il `content_id` della coda di revisione. È deterministico:
+`qn-` seguito dai primi 16 caratteri esadecimali dello SHA-256 della stringa UTF-8
+`<block>|<source_id>|<chiave della fonte>`. La chiave della fonte non cambia mai:
+- per un evento, il `source_event_id` normalizzato secondo DEC-027;
+- per una seduta, l'id della registrazione (il `guid` di RomaTV, l'id del video YouTube);
+- per un atto, il numero di repertorio, oppure l'URL canonico dell'atto;
+- per una notizia, l'URL canonico del pezzo (`https`, host minuscolo, senza parametri di
+  tracciamento né frammento).
+
+Quando il contenuto della fonte cambia, cambia `source_hash`, non il `content_id`.
+
+**Le aggiunte e le convenzioni del pilota.** `block` e le colonne `source_*` sono colonne canoniche della coda: qui si fissa solo come il pilota le riempie. Gli altri campi il contratto canonico non li ha.
 
 | Campo | Contenuto |
 |---|---|
-| `id` | stabile: `<workstream>-<fonte_id>-<hash breve dell'URL o del fatto>` |
 | `workstream` | `A`, `B`, `C` o `D` |
-| `tipo` | `notizia`, `evento`, `seduta` o `atto` |
-| `blocco` | `dal_municipio`, `notizie`, `eventi` o `se_ne_parla` |
-| `fonte_id`, `fonte_nome` | id del registro fonti (`S-…`) quando c'è, e il nome |
-| `url_fonte` | il link alla fonte originale, sempre |
-| `data_fatto`, `data_fonte`, `raccolto_il` | ISO 8601, ora di Roma |
-| `municipio` | `I`…`XV` |
-| `publication_zone_id`, `geo_level` | dal gazetteer; `geo_level` è `neighbourhood`, `zone`, `municipality` o `city` (`prompts/PROMPT_GEO_BLOCK.md`) |
-| `titolo_qn`, `testo_qn` | scritti da noi, mai copiati dalla fonte |
-| `attribuzioni` | testate e fonti citate, ciascuna con un link (DEC-108) |
-| `nomi` | le persone nominate, ognuna con la regola che lo consente (DEC-105 seduta aperta, DEC-108 due testate) |
-| `stato` | `raccolto`, `bozza`, `verificato`, `pubblicabile` o `scartato`, con `motivo` |
-| `revisione` | chi, quando, esito, quando una persona lo guarda |
+| `block` | la colonna canonica della coda; il pilota usa `events`, `institutional`, `news` e `conversation`, i quattro blocchi di `docs/PROJECT_VISION.md` |
+| `source_channel`, `source_id`, `source_url` | le colonne canoniche della coda; `source_id` è l'id del registro fonti (`S-…`) quando c'è |
+| `attribuzioni` | le testate e le fonti citate, ciascuna con un link (DEC-108) |
+| `nomi` | le persone nominate, ognuna con la regola che lo consente: DEC-105 per le sedute aperte, DEC-108 per la stampa (sezione 6) |
 | `costo` | servizio, unità (minuti, eventi, token) ed euro, quando c'è una spesa |
 
-Gli eventi aggiungono i campi della specifica v2.5 che il prototipo già legge (`start`,
-`end`, `title`, `venue`, `url`, `editorial_class`, `municipality_code`). Nel pilota
-`title` è il titolo scritto da noi.
+`title` e il testo pubblicabile sono sempre scritti da noi. L'`excerpt` della fonte e gli
+originali restano nello staging su Drive (sezione 3).
 
 ## 3. Dove sta che cosa
 
@@ -88,8 +104,26 @@ lavoro quasi finito si chiude anche se servono 10–15 € in più.
 
 ## 6. Regole delle fonti che restano in vigore
 
-- Facebook: si legge solo sugli URL raccolti a mano, con un servizio terzo (DEC-102).
-- Stampa: regola dell'MVP di DEC-108 (due testate, testo nostro, testate che escludono l'IA
-  lette solo come titolo e link, mai identità di minori o di vittime di violenza sessuale).
-- Sedute: solo quanto detto a seduta aperta (DEC-105, confine 2).
-- Siti: prima di leggere una fonte si controllano `robots.txt` e le condizioni d'uso.
+- **Facebook:** si legge solo sugli URL raccolti a mano, con un servizio terzo (DEC-102).
+- **Stampa: si applica DEC-108 per intero.** Qui sotto c'è un promemoria; in caso di dubbio
+  vale la decisione.
+  - Un fatto riportato da una seconda testata diventa un articolo scritto con parole nostre,
+    con le testate nominate e linkate. Un dettaglio presente in una sola testata si
+    attribuisce a quella testata.
+  - Le testate che escludono gli agenti di IA o riservano l'estrazione di testi e dati
+    (Roma Today, Il Messaggero, ANSA, Corriere, Repubblica, Leggo, Today.it, Agenzia Nova)
+    non si aprono mai. Di loro si usano solo titolo, link e ora, presi da un indice di
+    terzi. Contano come seconda testata e si linkano, ma gli articoli di QN si scrivono da
+    testate aperte e fonti ufficiali.
+  - Un nome preso dalla stampa si pubblica solo se valgono tutte queste condizioni:
+    - lo riportano testate di almeno due editori diversi;
+    - la persona è maggiorenne, arrestata o indagata;
+    - il testo rispetta la presunzione di innocenza;
+    - una seconda IA verifica che nome e ruolo coincidano in ogni fonte;
+    - l'articolo attribuisce la notizia («secondo X e Y»).
+
+    Il nome si aggiorna o si toglie quando il caso cambia o su richiesta.
+  - Non si pubblicano mai le identità di minori coinvolti in procedimenti penali, come
+    vittime o come testimoni, né quelle delle vittime di violenza sessuale.
+- **Sedute:** solo quanto detto a seduta aperta (DEC-105, confine 2).
+- **Siti:** prima di leggere una fonte si controllano `robots.txt` e le condizioni d'uso.
