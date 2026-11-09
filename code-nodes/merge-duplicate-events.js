@@ -133,7 +133,24 @@ function features(doc) {
     end: end || start,
     series: !!(doc.series && doc.series.is_series !== false),
     startMs: typeof ev.start_at_utc === 'string' ? Date.parse(ev.start_at_utc) : NaN,
+    lat: typeof ev.latitude === 'number' ? ev.latitude : null,
+    lng: typeof ev.longitude === 'number' ? ev.longitude : null,
   };
+}
+
+/** Great-circle distance in metres (haversine). */
+function metres(fa, fb) {
+  const r = (d) => (d * Math.PI) / 180;
+  const a = Math.sin(r(fb.lat - fa.lat) / 2) ** 2 +
+    Math.cos(r(fa.lat)) * Math.cos(r(fb.lat)) * Math.sin(r(fb.lng - fa.lng) / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(a));
+}
+
+/** DEC-025 rule 4: both places known and nothing in common, or more than 1 km apart. */
+function venuesConflict(fa, fb, inter) {
+  if (fa.venue.size && fb.venue.size && inter === 0) return true;
+  if (fa.lat !== null && fa.lng !== null && fb.lat !== null && fb.lng !== null) return metres(fa, fb) > 1000;
+  return false;
 }
 
 /** 'same' (the October criteria), 'doubt' (DEC-025 rule 4 sends it to the queue
@@ -148,6 +165,8 @@ function compare(fa, fb) {
   const inter = [...fa.venue].filter((w) => fb.venue.has(w)).length;
   const vs = fa.venue.size && fb.venue.size ? inter / (fa.venue.size + fb.venue.size - inter) : 0;
   if (s >= 0.85 || (fa.start === fb.start && vs >= 0.5)) {
+    // Enough to merge, but the places disagree: a person decides (DEC-025 rule 4).
+    if (venuesConflict(fa, fb, inter)) return 'doubt';
     // Same title, same day, hours apart: two performances until a person says otherwise.
     const gap = Math.abs(fa.startMs - fb.startMs);
     return Number.isNaN(gap) || gap <= START_TOLERANCE_MS ? 'same' : 'doubt';

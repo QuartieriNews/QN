@@ -61,9 +61,12 @@ check('near-identical title on the same day is the same event',
   compare(f(ev('a', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z')), f(ev('b', 'facebook_event', 'FESTA DEL QUARTIERE – 2026', '2026-11-14T15:00:00Z'))), 'same');
 check('near-identical title on another day is not',
   compare(f(ev('a', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z')), f(ev('b', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-28T15:00:00Z'))), null);
-check('a near-identical title is the same event even with another venue name (first October criterion)',
+check('a near-identical title at two venues with no word in common goes to the queue (DEC-025 rule 4)',
   compare(f(ev('a', 'web_page', 'Ciclo di letture: La signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: 'Biblioteca Esempio' } })),
-          f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: 'Libreria Altrove' } }))), 'same');
+          f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: 'Libreria Altrove' } }))), 'doubt');
+check('a near-identical title with one venue unknown is the same event (first October criterion)',
+  compare(f(ev('a', 'web_page', 'Ciclo di letture: La signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: 'Biblioteca Esempio' } })),
+          f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: null } }))), 'same');
 check('similar title, same day and venue is the same event',
   compare(f(ev('a', 'web_page', 'Ciclo di letture: La signora Dalloway', '2026-11-14T17:00:00Z')),
           f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z'))), 'same');
@@ -141,6 +144,16 @@ console.log('doubt goes to the queue, DEC-025 rule 4');
     [[undefined, ['duplicate_doubt']], [undefined, ['duplicate_doubt']]]);
   const n1 = ev('n1', 'web_page', 'Il piccolo principe', '2026-11-14T19:00:00Z');
   check('within 60 minutes it is the same event', mergeDuplicateEvents([n1, m2])[1].pilot.duplicate_of, 'n1');
+  const o1 = ev('o1', 'web_page', 'Open Day', '2026-11-14T08:00:00Z', { event: { start_at_utc: '2026-11-14T08:00:00Z', venue: 'Scuola Primaria Esempio' } });
+  const o2 = ev('o2', 'facebook_event', 'Open Day', '2026-11-14T08:00:00Z', { event: { start_at_utc: '2026-11-14T08:00:00Z', venue: 'Palestra Altrove' } });
+  check('a generic title at two different places on the same day is not merged (venues in conflict)',
+    mergeDuplicateEvents([o1, o2]).map((d) => [d.pilot.duplicate_of, d.quality.review_flags]),
+    [[undefined, ['duplicate_doubt']], [undefined, ['duplicate_doubt']]]);
+  const c1 = ev('c1', 'web_page', 'Open Day', '2026-11-14T08:00:00Z', { event: { start_at_utc: '2026-11-14T08:00:00Z', venue: 'Scuola Esempio', latitude: 41.89, longitude: 12.49 } });
+  const c2 = ev('c2', 'facebook_event', 'Open Day', '2026-11-14T08:00:00Z', { event: { start_at_utc: '2026-11-14T08:00:00Z', venue: 'Scuola Esempio', latitude: 41.92, longitude: 12.49 } });
+  check('the same venue name more than 1 km apart is a conflict too', mergeDuplicateEvents([c1, c2])[1].pilot.duplicate_of, undefined);
+  const c3 = Object.assign({}, c2, { event: Object.assign({}, c2.event, { latitude: 41.8905 }) });
+  check('the same venue a few metres apart is the same event', mergeDuplicateEvents([c1, c3])[1].pilot.duplicate_of, 'c1');
   const j1 = ev('j1', 'web_page', '\u6625\u306e\u7948\u308a', '2026-11-14T15:00:00Z');
   const j2 = ev('j2', 'facebook_event', '\u590f\u306e\u591c', '2026-11-14T15:00:00Z');
   check('titles that normalize to nothing never merge (similarity 0, as in the October script)',
