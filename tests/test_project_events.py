@@ -86,6 +86,17 @@ def test_T37_series_is_one_item_at_its_next_occurrence():
     assert (e["id"], e["start"], e["end"]) == ("qn:roma:evt:facebook:222-series", "2026-11-01", None), e
 
 
+def test_T37_series_takes_the_end_of_its_next_occurrence():
+    d = doc(content_id="qn:roma:evt:facebook:333-series",
+            series={"is_series": True, "next_occurrence": "2026-10-30T20:00:00Z"},
+            occurrences=[{"start_at_utc": "2026-10-23T19:00:00.000Z", "end_at_utc": "2026-10-23T21:00:00Z", "status": "scheduled"},
+                         {"start_at_utc": "2026-10-30T20:00:00.000Z", "end_at_utc": "2026-11-01T12:00:00Z", "status": "scheduled"}])
+    e = p.project(d)
+    assert (e["start"], e["end"]) == ("2026-10-30", "2026-11-01"), e
+    e = p.project(dict(d, event=dict(d["event"], date_precision="start_only")))
+    assert (e["start"], e["end"]) == ("2026-10-30", None), e
+
+
 def test_T37_series_with_no_future_occurrence_drops_out():
     d = doc(series={"is_series": True, "next_occurrence": None})
     out, skipped = p.build([d], "2026-10-13", BLOCKING)
@@ -113,6 +124,14 @@ def test_cost_type_maps_to_is_free():
     assert p.project(doc(event__cost_type="paid"))["is_free"] is False
     assert p.project(doc(event__cost_type="donation"))["is_free"] is None
     assert p.project(doc(event__cost_type="unknown"))["is_free"] is None
+
+
+def test_a_missing_canonical_folder_is_an_error():
+    import subprocess
+    tool = os.path.join(os.path.dirname(__file__), "..", "tools", "site", "project_events.py")
+    r = subprocess.run([sys.executable, tool, "--canonical", "/nonexistent/C Eventi", "--out", os.devnull],
+                       capture_output=True, text=True)
+    assert r.returncode != 0 and "not a folder" in r.stderr, (r.returncode, r.stderr)
 
 
 def test_projection_feeds_the_prototype():

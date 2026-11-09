@@ -27,14 +27,27 @@ SCHEMA_VERSION = "2.0"
 GAZETTEER = os.path.join(os.path.dirname(__file__), "..", "..", "gazetteer", "gazetteer.json")
 
 
+def parse_instant(instant):
+    t = dt.datetime.fromisoformat(instant.replace("Z", "+00:00"))
+    if t.tzinfo is None:
+        raise ValueError(f"instant without an offset: {instant!r}")
+    return t
+
+
 def rome_date(instant):
     """The calendar day in Rome of a UTC instant ("2026-10-24T22:30:00Z" -> "2026-10-25")."""
     if not instant:
         return None
-    t = dt.datetime.fromisoformat(instant.replace("Z", "+00:00"))
-    if t.tzinfo is None:
-        raise ValueError(f"instant without an offset: {instant!r}")
-    return t.astimezone(ROME).date().isoformat()
+    return parse_instant(instant).astimezone(ROME).date().isoformat()
+
+
+def next_occurrence_end(series, occurrences):
+    """The end of the occurrence that next_occurrence points at, if it has one."""
+    nxt = parse_instant(series["next_occurrence"])
+    for occ in occurrences or []:
+        if occ.get("start_at_utc") and parse_instant(occ["start_at_utc"]) == nxt:
+            return occ.get("end_at_utc")
+    return None
 
 
 def blocking_codes(gazetteer_path=GAZETTEER):
@@ -62,13 +75,16 @@ def project(doc):
     series = doc.get("series")
     geo = doc.get("geography") or {}
     source = doc.get("source") or {}
+    # An end the source did not give is an assumption (Phase 3.3): not shown.
+    exact = event.get("date_precision") == "exact"
     if series:
-        # A series is one item at its next occurrence (spec v2.5 Phase 3.4, T37).
-        start, end = rome_date(series.get("next_occurrence")), None
+        # A series is one item at its next occurrence, with that occurrence's end
+        # (spec v2.5 Phase 3.4, T37; docs/WORKFLOW_FIXES.md 2.5).
+        start = rome_date(series.get("next_occurrence"))
+        end = rome_date(next_occurrence_end(series, doc.get("occurrences"))) if exact else None
     else:
         start = rome_date(event.get("start_at_utc"))
-        # An end the source did not give is an assumption (Phase 3.3): not shown.
-        end = rome_date(event.get("end_at_utc")) if event.get("date_precision") == "exact" else None
+        end = rome_date(event.get("end_at_utc")) if exact else None
     cost = event.get("cost_type")
     return {
         "id": doc["content_id"],
@@ -110,6 +126,9 @@ def main():
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     dt.date.fromisoformat(a.reference_date)
+    if not os.path.isdir(a.canonical):
+        # A missing folder must not look like an empty one (an empty site, no error).
+        sys.exit(f"{a.canonical}: not a folder")
     docs = []
     for path in sorted(glob.glob(os.path.join(a.canonical, "*.json"))):
         try:
