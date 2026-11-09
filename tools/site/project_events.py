@@ -136,7 +136,15 @@ def main():
     out_path = os.path.realpath(a.out)
     for path in sorted(glob.glob(os.path.join(a.canonical, "*.json"))):
         if os.path.realpath(path) == out_path:
-            continue  # our own output from an earlier run is not an input
+            # Our own output from an earlier run is not an input; a canonical file is,
+            # and --out must never overwrite it.
+            try:
+                earlier = json.load(open(path, encoding="utf-8"))
+            except (OSError, ValueError):
+                earlier = None
+            if not (isinstance(earlier, dict) and "events" in earlier and "content_id" not in earlier):
+                sys.exit(f"{path}: --out would overwrite an input that is not an earlier projection")
+            continue
         try:
             doc = json.load(open(path, encoding="utf-8"))
             if not isinstance(doc, dict) or not isinstance(doc.get("content_id"), str):

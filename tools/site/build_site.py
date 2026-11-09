@@ -111,7 +111,7 @@ def page(zone, zones, events, wiki_threads, ref, end, out_dir):
     featured, groups, singles, undated, levels = events_block(zone, zones, events, ref, end)
     parts = [f'<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
              f'<title>{esc(z["name_display"])} — Quartieri News</title><link rel="stylesheet" href="../site.css"></head><body>'
-             f'<header><a class="home" href="../index.html">Quartieri News</a><h1>{esc(z["name_display"])}</h1><p class="sub">Municipio {mun} · prototipo, dati reali di ottobre 2026 · oggi = {fmt(ref)}</p></header><main>']
+             f'<header><a class="home" href="../index.html">Quartieri News</a><h1>{esc(z["name_display"])}</h1><p class="sub">Municipio {mun} · prototipo, dati reali · oggi = {fmt(ref)}</p></header><main>']
     # --- Eventi
     parts.append('<section class="block"><h2>Eventi intorno a te</h2>')
     n = len(featured) + sum(len(g[1]) for g in groups) + len(singles)

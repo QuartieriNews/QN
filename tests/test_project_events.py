@@ -166,6 +166,17 @@ def test_an_output_inside_the_folder_is_not_read_back_on_retry():
         assert len(json.load(open(out))["events"]) == 1
 
 
+def test_out_never_overwrites_a_canonical_input():
+    import json, tempfile
+    with tempfile.TemporaryDirectory() as folder:
+        target = os.path.join(folder, "a.json")
+        json.dump(doc(), open(target, "w"))
+        before = open(target).read()
+        r = _run(folder, target)
+        assert r.returncode != 0 and "would overwrite" in r.stderr, (r.returncode, r.stderr)
+        assert open(target).read() == before
+
+
 def test_a_duplicate_content_id_is_an_error():
     import json, tempfile
     with tempfile.TemporaryDirectory() as folder:

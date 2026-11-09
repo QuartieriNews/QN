@@ -124,6 +124,8 @@ def test_a_subset_build_removes_stale_pages_dec_031():
                             "--pages", "acilia,centocelle,prati", "--out", out], capture_output=True, text=True)
         assert r.returncode == 0, r.stderr
         assert sorted(os.listdir(os.path.join(out, "q"))) == ["acilia.html", "centocelle.html", "prati.html"]
+        page = open(os.path.join(out, "q", "prati.html"), encoding="utf-8").read()
+        assert "ottobre" not in page, "the page banner must not name a month the data may not be from"
 
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
