@@ -100,7 +100,7 @@ l'`archive_id` del record.
 
 | Che cosa | Dove |
 |---|---|
-| Elementi del giorno | Drive, `QN Hub / 30 Staging pilota 2026-11 / <workstream>/` (cartella privata), nel file fissato dalla PR che apre il canale (qui sotto) |
+| Elementi del giorno | Drive, `QN Hub / 30 Staging pilota 2026-11 / <workstream>/` (cartella privata), nel file fissato dalla PR che apre il canale (qui sotto e sezione 7) |
 | Record dello storico (DEC-023) | Drive, `D Storico/` nella stessa cartella, in sola aggiunta; la copia di riserva in `D Storico/riserva/` |
 | Originali delle fonti: testi, trascrizioni, PDF degli atti | Drive, sottocartella `originali/` dello stesso workstream o dello storico |
 | Registro fonti (fonte di verità, DEC-023) | Drive, `Registro fonti/`, foglio Google |
@@ -160,3 +160,22 @@ si applicano.
 - **Fonti amministrative ufficiali**, atti e documenti compresi: DEC-105. Per le
   registrazioni delle sedute vale anche il suo confine della seduta aperta.
 - **Siti:** prima di leggere una fonte si controllano `robots.txt` e le condizioni d'uso.
+
+## 7. I canali aperti
+
+Un canale si apre con una PR del coordinatore, che lo aggiunge qui. Un canale che non è in
+questa sezione non scrive elementi (sezione 3).
+
+### C · Eventi da Facebook (`fb_event`)
+
+| Che cosa | Regola |
+|---|---|
+| File | il JSON canonico della specifica v2.5 (contratto canonico, `schema_version` 2.0): un file per evento, e un file solo per una serie (fase 3.4) |
+| Nome del file | `canonical_file_name` della specifica, fase 2.1 |
+| Cartella | `QN Hub / 30 Staging pilota 2026-11 / C Eventi/`, piatta come nella specifica |
+| `content_id`, `source_hash` | specifica, fasi 2.1 e 2.2; `code-nodes/compute-source-hash.js` |
+| Colonne della coda | `source_channel = fb_event`; le altre come in `docs/REVIEW_QUEUE.md` |
+| Aggiunte del pilota | un oggetto `pilot` al primo livello del file, con `workstream` (`C`), `registro_id` quando c'è e `costo`. Le chiavi della specifica non cambiano |
+| URL delle fonti | raccolti a mano (DEC-102) |
+| Proiezione per il prototipo | `tools/site/project_events.py`, con i test in `tests/test_project_events.py` |
+

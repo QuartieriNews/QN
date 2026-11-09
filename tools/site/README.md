@@ -27,15 +27,25 @@ File:
   (registro fonti, zona dal metadato della fonte). Gli eventi Facebook non sono
   inclusi nemmeno lì (il campione FB è solo nel foglio di lavoro dell'owner).
 - `build_site.py` — generatore statico: `index.html` + una pagina per zona.
+- `project_events.py` — dai file canonici degli eventi (specifica v2.5, uno per
+  evento, nella cartella `C Eventi` dello staging) ricava il JSON che legge
+  `build_site.py`, con le date in ora di Roma (`docs/pilota/CONTRATTI.md`,
+  sezioni 2 e 7). Anche i file canonici restano su Drive.
 - `README.md` — questo file.
 
-Uso:
+Uso, dallo staging del pilota:
+
+    python tools/site/project_events.py --canonical <copia locale di C Eventi/> \
+        --out /tmp/events.json
+    python tools/site/build_site.py --events /tmp/events.json --out /tmp/site
+
+Uso, con il file di ottobre:
 
     python tools/site/build_site.py --events <copia locale di events_2026-10.json> \
         [--wiki docs/wiki/schedario.json] --out /tmp/site
 
-I test (`tests/test_site_prototype.py`) non usano il file dei dati: girano su una
-fixture.
+I test (`tests/test_site_prototype.py`, `tests/test_project_events.py`) non usano
+dati veri: girano su esempi inventati.
 
 Il blocco "Dal Municipio" è dimostrativo: usa le questioni aperte di giugno del
 wiki di contesto (PR #17) se gli si passa `--wiki`; altrimenti resta "in
