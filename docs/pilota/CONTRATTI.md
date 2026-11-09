@@ -24,9 +24,9 @@ vincono su questa pagina, che contiene solo i rimandi e le poche aggiunte del pi
 | Che cosa | Dove è definito | Campi |
 |---|---|---|
 | Forma comune ai quattro blocchi | `gazetteer/gazetteer.json` → `editorial.cross_block_contract`; `docs/PROJECT_VISION.md` | un livello geografico, un campo di freschezza, una classificazione editoriale con valori propri del blocco |
-| Geografia | `gazetteer.json` → `resolution.store`, `geo_basis_values`, `verification_status_values`; `prompts/PROMPT_GEO_BLOCK.md` | `publication_zone_id`; `neighbourhood_id` quando è noto in modo deterministico; `geo_level`; `municipality_code` (sempre, quando noto: è l'unica chiave a livello di municipio); `geo_basis`; `geo_verification_status`, dove `human_verified` ferma ogni ricalcolo |
-| Classificazione editoriale | `gazetteer.json` → `editorial`; `prompts/EDITORIAL_FILTER.md` | `editorial_class` per ogni blocco delle pagine; per gli eventi anche `editorial_basis` e `content_type`. I valori per `institutional`, `news` e `conversation` sono un'estensione per blocco: si aggiungono con una PR del coordinatore prima che quel blocco abbia elementi. I record dello storico non hanno classificazione editoriale (qui sotto, «Lo storico») |
-| Scarti e coda di revisione | `gazetteer.json` → `reject_reasons`, `review`; `docs/REVIEW_QUEUE.md` | `reject_reason` con i codici canonici e la loro regola `blocks_publication`. Quali elementi entrano nella coda di lavoro e quali vanno direttamente nell'archivio con `decision = auto_excluded` lo stabilisce `docs/REVIEW_QUEUE.md`; il pilota non lo ridefinisce |
+| Geografia | `gazetteer/gazetteer.json` → `resolution.store`, `geo_basis_values`, `verification_status_values`; `prompts/PROMPT_GEO_BLOCK.md` | `publication_zone_id`; `neighbourhood_id` quando è noto in modo deterministico; `geo_level`; `municipality_code` (sempre, quando noto: è l'unica chiave a livello di municipio); `geo_basis`; `geo_verification_status`, dove `human_verified` ferma ogni ricalcolo |
+| Classificazione editoriale | `gazetteer/gazetteer.json` → `editorial`; `prompts/EDITORIAL_FILTER.md` | `editorial_class` per ogni blocco delle pagine; per gli eventi anche `editorial_basis` e `content_type`. I valori per `institutional`, `news` e `conversation` sono un'estensione per blocco: si aggiungono con una PR del coordinatore prima che quel blocco abbia elementi. I record dello storico non hanno classificazione editoriale (qui sotto, «Lo storico») |
+| Scarti e coda di revisione | `gazetteer/gazetteer.json` → `reject_reasons`, `review`; `docs/REVIEW_QUEUE.md` | `reject_reason` con i codici canonici e la loro regola `blocks_publication`. Quali elementi entrano nella coda di lavoro e quali vanno direttamente nell'archivio con `decision = auto_excluded` lo stabilisce `docs/REVIEW_QUEUE.md`; il pilota non lo ridefinisce |
 | Eventi | specifica v2.5, fasi 1–2 (Drive, `QN Hub / 10 Specifications`); `code-nodes/` | `source_event_id` valido per DEC-027; `start_at_utc`, `end_at_utc`, `date_precision`; `source_hash` (`code-nodes/compute-source-hash.js`) |
 | Freschezza | specifica v2.5, parte III | il campo con il nome della specifica; il pilota non ne inventa uno |
 
@@ -100,11 +100,18 @@ l'`archive_id` del record.
 
 | Che cosa | Dove |
 |---|---|
-| Elementi del giorno | Drive, `QN Hub / 30 Staging pilota 2026-11 / <workstream>/` (cartella privata) |
+| Elementi del giorno | Drive, `QN Hub / 30 Staging pilota 2026-11 / <workstream>/` (cartella privata), nel file fissato dalla PR che apre il canale (qui sotto) |
 | Record dello storico (DEC-023) | Drive, `D Storico/` nella stessa cartella, in sola aggiunta; la copia di riserva in `D Storico/riserva/` |
 | Originali delle fonti: testi, trascrizioni, PDF degli atti | Drive, sottocartella `originali/` dello stesso workstream o dello storico |
 | Registro fonti (fonte di verità, DEC-023) | Drive, `Registro fonti/`, foglio Google |
 | Codice, test con esempi inventati, contratti, decisioni | GitHub |
+
+**Il file degli elementi** (formato, nome, chiavi di primo livello, versione dello schema)
+lo fissa la PR del coordinatore che apre il canale, insieme alla forma del `content_id`:
+finché quella PR non c'è, il canale non scrive elementi. Il JSON canonico comune a tutti i
+blocchi è ancora un compito aperto (`docs/START_HERE.md`), e la prima PR che apre un canale
+lo affronta. Il prototipo legge un'altra cosa, la proiezione della sezione 2: un oggetto con
+`reference_date` ed `events` (`tools/site/build_site.py`).
 
 **Su GitHub non entra mai un testo di notizia**: né un campione, né un contenuto del sito,
 né un caso di test preso da una fonte vera. Il supporto GitHub ha indicato le parole chiave
@@ -126,10 +133,11 @@ produzione non si toccano (`CLAUDE.md`).
 
 ## 5. Costi
 
-Il budget del pilota e le regole per superarlo sono in DEC-031, punto 6. Suddivisione
-iniziale:
+Il budget del pilota e le regole per superarlo sono in DEC-031, punto 6, e valgono per il
+totale del mese. La suddivisione qui sotto è un'allocazione interna, che il coordinatore può
+spostare fra i workstream:
 
-| Workstream | Tetto mensile | Voci principali |
+| Workstream | Quota mensile | Voci principali |
 |---|---|---|
 | A Amministrazione | 20 € | trascrizione delle sedute che non hanno già una trascrizione |
 | B Notizie | 10 € | modelli per scrivere le bozze |
@@ -138,8 +146,8 @@ iniziale:
 | Riserva | 5 € | del coordinatore |
 
 Ogni spesa entra nel campo `costo` dell'elemento o del record dello storico e in
-`costi.jsonl` della cartella del workstream. Il coordinatore somma le spese e, quando un
-tetto sta per essere superato, applica DEC-031, punto 6.
+`costi.jsonl` della cartella del workstream. Il coordinatore somma le spese di tutti i
+workstream e applica DEC-031, punto 6, al totale del mese, non a ogni singola quota.
 
 ## 6. Regole delle fonti che restano in vigore
 
