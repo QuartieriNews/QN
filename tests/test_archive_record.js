@@ -1,0 +1,160 @@
+#!/usr/bin/env node
+/**
+ * Executable acceptance for code-nodes/archive-record.js: the form of `archive_id`, the
+ * values of `tipo`, idempotency and normalization (docs/pilota/CONTRATTI.md, «Lo
+ * storico»), the perimeter of DEC-033 rule 1, Rome days (Spec v2.5 T17), and the n8n
+ * adapter evaluated from the exact committed file with stubbed $input/$json/require.
+ * Every row is invented (DEC-109) except the PDF link of the source study, which is
+ * already in docs/sources/SOURCE_STUDY_2026-09_RAPPORTO_INTERMEDIO.md.
+ *
+ * Run:  node tests/test_archive_record.js   (exit 0 and "ALL PASS" required)
+ */
+
+'use strict';
+
+const path = require('path');
+const fs = require('fs');
+const FILE = path.join(__dirname, '..', 'code-nodes', 'archive-record.js');
+const m = require(FILE);
+
+let failures = 0;
+let checks = 0;
+
+function check(label, actual, expected) {
+  checks += 1;
+  const a = JSON.stringify(actual);
+  const e = JSON.stringify(expected);
+  if (a === e) {
+    console.log(`  ok   ${label}`);
+  } else {
+    failures += 1;
+    console.log(`  FAIL ${label}\n       expected ${e}\n       got      ${a}`);
+  }
+}
+
+function thrown(fn) {
+  try { fn(); return null; } catch (e) { return e.message; }
+}
+
+function row(overrides) {
+  return Object.assign({
+    tipologia: 'CMD', idDoc: 4242, dtRpr: '2026-03-10', dtSeduta: null,
+    dscStrOrg: 'Municipio Roma X - Ufficio inventato',
+  }, overrides || {});
+}
+
+const SHA_A = 'a'.repeat(64);
+const SHA_B = 'b'.repeat(64);
+const DL = { sha256: SHA_A, retrieved_at: '2026-11-10T09:00:00Z', workflow: 'staging_D_attiweb_read', workflow_version: '1' };
+
+console.log('archive_id: form and identity (CONTRATTI «Lo storico»)');
+check('form: prefix, source_id, tipologia, idDoc', m.archiveId('CMD', '4242'), 'qn:roma:arc:comune.roma.it:CMD:4242');
+check('a JSON number and its decimal string are one key', m.archiveId('CMD', 4242), m.archiveId('CMD', '4242'));
+check('spaces at the edges are dropped', m.archiveId(' CMD ', ' 4242\t'), 'qn:roma:arc:comune.roma.it:CMD:4242');
+check('a no-break space counts as a space', m.archiveId('CMD ', ' 4242'), 'qn:roma:arc:comune.roma.it:CMD:4242');
+check('the same idDoc under another tipologia is another document', m.archiveId('GMD', '4242') !== m.archiveId('CMD', '4242'), true);
+check('geography takes no part: the same row under another Municipio keeps its id',
+  m.describeRow(row({ dscStrOrg: 'Municipio Roma V' }), '2026-11-10').archive_id,
+  m.describeRow(row(), '2026-11-10').archive_id);
+check('describing the same row twice gives the same result (idempotent)',
+  m.describeRow(row(), '2026-11-10'), m.describeRow(JSON.parse(JSON.stringify(row())), '2026-11-10'));
+check('a tipologia outside tipo stops the run', /is not a value of tipo/.test(thrown(() => m.archiveId('KMD', '1')) || ''), true);
+check('a central tipologia stops the run too', /is not a value of tipo/.test(thrown(() => m.archiveId('DDS', '1')) || ''), true);
+check('tipo values are exactly the 16 of 15 September', [m.TIPI.length, new Set(m.TIPI).size], [16, 16]);
+check('an idDoc with a delimiter never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '12:3')) || ''), true);
+check('an idDoc that is not a number never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '12a')) || ''), true);
+check('an empty idDoc never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '  ')) || ''), true);
+check('a fractional number is not a key', /numeric key/.test(thrown(() => m.archiveId('CMD', 12.5)) || ''), true);
+check('file stem', m.fileStem('qn:roma:arc:comune.roma.it:CMD:4242'), 'roma__arc__comune.roma.it__CMD__4242');
+check('the PDF link is the one the source study read (CMD, 10165)', m.pdfUrl('CMD', 10165),
+  'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti&par1=Q01E&par2=MTAxNjU=');
+
+console.log('dates: a day as written, an instant as its Rome day (T17)');
+check('ISO day', m.sourceDay('2026-03-10', 'f'), '2026-03-10');
+check('Italian day', m.sourceDay('10/03/2026', 'f'), '2026-03-10');
+check('Italian day with one-digit parts', m.sourceDay('1/3/2026', 'f'), '2026-03-01');
+check('local date-time without offset keeps its day', m.sourceDay('2026-03-10T23:30:00', 'f'), '2026-03-10');
+check('a UTC instant late in the evening is the next Rome day', m.sourceDay('2026-03-10T23:30:00Z', 'f'), '2026-03-11');
+check('an offset without a colon is read', m.sourceDay('2026-10-24T22:30:00+0000', 'f'), '2026-10-25');
+check('epoch milliseconds are an instant', m.sourceDay(Date.parse('2026-06-30T22:15:00Z'), 'f'), '2026-07-01');
+check('empty is null', [m.sourceDay('', 'f'), m.sourceDay(null, 'f'), m.sourceDay('  ', 'f')], [null, null, null]);
+check('31 February stops the run naming the field', /dtRpr: unreadable date/.test(thrown(() => m.sourceDay('31/02/2026', 'dtRpr')) || ''), true);
+check('month 13 stops the run', thrown(() => m.sourceDay('2026-13-01', 'f')) !== null, true);
+check('hour 24 stops the run', thrown(() => m.sourceDay('2026-03-10T24:00:00', 'f')) !== null, true);
+check('a word stops the run', thrown(() => m.sourceDay('ieri', 'f')) !== null, true);
+check('a small number is not epoch milliseconds', thrown(() => m.sourceDay(20260310, 'f')) !== null, true);
+check('data_documento: dtSeduta when there is one', m.dataDocumento(row({ dtSeduta: '2026-03-20' })), { day: '2026-03-20', from: 'dtSeduta' });
+check('data_documento: dtRpr otherwise', m.dataDocumento(row()), { day: '2026-03-10', from: 'dtRpr' });
+check('a row without dtRpr stops the run', /dtRpr missing/.test(thrown(() => m.dataDocumento(row({ dtRpr: null }))) || ''), true);
+
+console.log('Municipio from dscStrOrg');
+check('Municipio Roma X', m.municipalityCode('Municipio Roma X - Ufficio inventato'), 'X');
+check('MUNICIPIO V', m.municipalityCode('MUNICIPIO V'), 'V');
+check('Municipio Roma I Centro', m.municipalityCode('Municipio Roma I Centro'), 'I');
+check('IX is not I', m.municipalityCode('Municipio Roma IX'), 'IX');
+check('XV is read whole', m.municipalityCode('Municipio Roma XV'), 'XV');
+check('two different Municipi: none', m.municipalityCode('Municipio Roma I e Municipio Roma II'), null);
+check('no Municipio: none', m.municipalityCode('Dipartimento inventato'), null);
+check('a roman number outside I-XV: none', m.municipalityCode('Municipio XL'), null);
+
+console.log('perimeter, DEC-033 rule 1');
+const today = '2026-11-10';
+check('a row of Municipio X in the period is kept', m.describeRow(row(), today).keep, true);
+check('another Municipio is left out', m.describeRow(row({ dscStrOrg: 'Municipio Roma IX' }), today).reason, 'fuori_dai_municipi');
+check('an unreadable Municipio is left out and named', m.describeRow(row({ dscStrOrg: 'Ufficio inventato' }), today).reason, 'municipio_non_letto');
+check('December 2025 is before the period', m.describeRow(row({ dtRpr: '2025-12-15' }), today).reason, 'prima_del_periodo');
+check('1 January 2026 is in', m.describeRow(row({ dtRpr: '2026-01-01' }), today).keep, true);
+check('a December convocation for a January sitting is in',
+  m.describeRow(row({ tipologia: 'CMC', dtRpr: '2025-12-22', dtSeduta: '2026-01-08' }), today).keep, true);
+check('the reading day itself is in', m.describeRow(row({ dtRpr: today }), today).keep, true);
+check('a convocation for a sitting after the reading day waits', m.describeRow(row({ tipologia: 'CMC', dtRpr: '2026-11-09', dtSeduta: '2026-11-19' }), today).reason, 'data_futura');
+check('the record keeps which field gave the date', m.describeRow(row({ tipologia: 'CMC', dtSeduta: '2026-03-12' }), today).data_documento_da, 'dtSeduta');
+check('a malformed reading day stops the run', /reading_day/.test(thrown(() => m.describeRow(row(), '2026-02-30')) || ''), true);
+
+console.log('records: versions, same original, no overwrite (CONTRATTI «Lo storico»)');
+const arc = m.describeRow(row(), today);
+const r1 = m.archiveRecord(arc, DL, []);
+check('first reading: version 1', r1.versione, 1);
+check('first reading: no motivo', 'motivo' in r1, false);
+check('the original sits in originali/ under the stem and the hash', r1.originale, `originali/roma__arc__comune.roma.it__CMD__4242__${'a'.repeat(16)}.pdf`);
+check('a record has neither block nor content_id', ['block' in r1, 'content_id' in r1], [false, false]);
+check('the record carries the canonical Municipio and tipo', [r1.municipality_code, r1.tipo, r1.source_id], ['X', 'CMD', 'comune.roma.it']);
+check('record file name', m.recordFileName(r1), 'roma__arc__comune.roma.it__CMD__4242__v1.json');
+check('the same original read again adds no row', m.archiveRecord(arc, DL, [r1]), null);
+const r2 = m.archiveRecord(arc, Object.assign({}, DL, { sha256: SHA_B }), [r1]);
+check('a changed original is version 2 with a motivo', [r2.versione, r2.motivo], [2, 'originale cambiato alla fonte']);
+check('the latest version decides, in any order', m.archiveRecord(arc, DL, [r2, r1]).versione, 3);
+check('the same original as the latest version adds no row', m.archiveRecord(arc, Object.assign({}, DL, { sha256: SHA_B }), [r1, r2]), null);
+check('a correction with the same original is the latest version: no row',
+  m.archiveRecord(arc, Object.assign({}, DL, { sha256: SHA_B }), [r1, r2, Object.assign({}, r2, { versione: 3, motivo: 'correzione' })]), null);
+check('a row left out never becomes a record', /only a kept row/.test(thrown(() => m.archiveRecord(m.describeRow(row({ dtRpr: '2025-12-15' }), today), DL, [])) || ''), true);
+check('a hash that is not SHA-256 stops the run', /sha256/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { sha256: 'abc' }), [])) || ''), true);
+check('a non-UTC retrieved_at stops the run', /retrieved_at/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { retrieved_at: '2026-11-10 10:00' }), [])) || ''), true);
+check('only a staging_ workflow writes records', /staging_/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { workflow: 'D_attiweb_read' }), [])) || ''), true);
+check('existing versions of another id stop the run', /another archive_id/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { archive_id: 'qn:roma:arc:comune.roma.it:CMD:1' })])) || ''), true);
+
+console.log('n8n adapter branch — exact committed file, stubbed $input/$json/require');
+const src = fs.readFileSync(FILE, 'utf8');
+function runNode(json) {
+  const item = { json };
+  return new Function('$input', '$json', 'require', src)({ item }, json, require);
+}
+{
+  const out = runNode(Object.assign(row(), { reading_day: today }));
+  check('stage 1 adds archive equal to the module result', out.json.archive, m.describeRow(row(), today));
+  check('stage 1 leaves the row fields untouched', [out.json.idDoc, out.json.dtRpr], [4242, '2026-03-10']);
+  const two = runNode(Object.assign(row(), { reading_day: today, archive: out.json.archive, download: DL, existing: [] }));
+  check('stage 2 adds the record', two.json.record, r1);
+  check('stage 2 names the record file', two.json.record_file_name, 'roma__arc__comune.roma.it__CMD__4242__v1.json');
+  const again = runNode(Object.assign(row(), { reading_day: today, archive: out.json.archive, download: DL, existing: [r1] }));
+  check('stage 2 on the same original: record null, no file', [again.json.record, again.json.record_file_name], [null, null]);
+}
+
+console.log('');
+if (failures === 0) {
+  console.log(`ALL PASS (${checks} checks)`);
+  process.exit(0);
+} else {
+  console.log(`${failures} of ${checks} checks FAILED`);
+  process.exit(1);
+}

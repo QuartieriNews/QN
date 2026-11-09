@@ -77,22 +77,26 @@ l'`archive_id` del record.
 
 | Campo | Contenuto |
 |---|---|
-| `archive_id` | stabile. La sua forma la fissa la PR del coordinatore che apre il workstream D, prima del primo record, con i test di idempotenza e di normalizzazione. Si costruisce da `source_id` e dalla chiave che la fonte dà al documento, normalizzati (Unicode NFC, spazi tolti ai bordi e ridotti a uno all'interno); mai dalla geografia né da `registro_id` |
+| `archive_id` | stabile: `qn:roma:arc:<source_id>:<chiave>`, con il prefisso costante. Si costruisce da `source_id` e dalla chiave che la fonte dà al documento, normalizzati (Unicode NFC, spazi tolti ai bordi e ridotti a uno all'interno); mai dalla geografia né da `registro_id`. Per Atti Web la chiave è `<tipologia>:<idDoc>`, la coppia con cui il portale indirizza il PDF; una chiave di forma diversa ferma la lettura invece di diventare un id (`code-nodes/archive-record.js`, test di idempotenza e di normalizzazione in `tests/test_archive_record.js`) |
 | `versione` | 1 alla prima scrittura (vedi la correzione, qui sotto) |
 | `source_id`, `registro_id`, `source_url` | come per gli elementi |
 | `data_documento` | la data dell'atto o della seduta, `YYYY-MM-DD` |
 | `municipality_code` | il campo canonico della geografia, quando è noto |
-| `tipo` | il tipo di documento; i valori li fissa la stessa PR |
-| `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione |
-| `originale` | il percorso del file in `originali/`, che non si modifica mai |
+| `tipo` | il tipo di documento. Per Atti Web è il codice della tipologia del portale, fra le 16 lette il 15 settembre 2026 (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 1, con le denominazioni nella sezione 3): l'elenco sta in `code-nodes/archive-record.js`, e un codice fuori elenco ferma la lettura |
+| `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione, e il campo della fonte da cui viene `data_documento` (`data_documento_da`) |
+| `originale` | il percorso del file in `originali/`, che non si modifica mai: `originali/<radice>__<primi 16 caratteri dello SHA-256>.pdf`, dove la radice è l'`archive_id` senza `qn:` e con `__` al posto dei due punti |
+| `originale_sha256` | lo SHA-256 dell'originale, che decide se una nuova lettura aggiunge una versione |
 | `derivato` | il testo estratto o la trascrizione, con lo strumento e la versione che li hanno prodotti |
 | `etichette` | le nostre etichette (zona, argomenti…), ciascuna con chi o che cosa l'ha messa |
 | `costo` | come per gli elementi |
 
-- **Correzione.** Niente si sovrascrive e niente si cancella. Una correzione è una riga
+- **Correzione.** Niente si sovrascrive e niente si cancella. Una correzione è una versione
   nuova con lo stesso `archive_id`, la `versione` aumentata di uno e un campo `motivo`;
-  vale la versione più alta. Una nuova lettura che trova lo stesso originale (lo stesso
-  SHA-256 del file) non aggiunge righe.
+  vale la versione più alta. Una nuova lettura che trova lo stesso originale della versione
+  più alta (lo stesso SHA-256 del file) non aggiunge versioni; un originale diverso ne
+  aggiunge una, con il `motivo` «originale cambiato alla fonte».
+- **Il file.** Un file JSON per versione, `D Storico/<radice>__v<versione>.json`, scritto una
+  volta e mai riscritto; la versione più alta è quella che vale.
 - **Copia di riserva.** Una volta alla settimana un job di copia duplica i file dello
   storico in `D Storico/riserva/<data>/`; nessun altro workflow scrive lì.
 
