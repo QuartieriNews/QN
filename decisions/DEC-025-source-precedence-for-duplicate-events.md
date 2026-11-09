@@ -69,13 +69,17 @@ pubblicata».
      script, e la coppia non si fonde mai da sola;
    - date: il giorno di inizio a Roma e, se la fine è data dalla fonte, il giorno di fine;
      due eventi sono compatibili se i loro intervalli si toccano;
-   - **stesso evento** se la somiglianza è almeno 0,85 e le date sono compatibili, oppure
-     se è almeno 0,72 con lo stesso giorno di inizio e un luogo in comune per almeno metà
-     delle parole;
+   - luoghi in conflitto: tutti e due noti e senza nessuna parola in comune dopo la stessa
+     normalizzazione, oppure con coordinate distanti più di 1 km;
+   - **stesso evento** se la somiglianza è almeno 0,85, le date sono compatibili e i luoghi
+     non sono in conflitto, oppure se è almeno 0,72 con lo stesso giorno di inizio e un luogo
+     in comune per almeno metà delle parole. Il controllo sui luoghi nel primo caso è più
+     stretto dello script di ottobre: un titolo generico («Open Day») non basta;
    - **in coda, senza fondere**: una somiglianza almeno 0,72 con date compatibili che non
      basta per i casi sopra; un evento senza data; una serie confrontata con un evento
      singolo o con un'altra serie; due eventi che soddisfano i casi sopra ma con orari di
-     inizio distanti più di 60 minuti (per esempio la replica pomeridiana e quella serale).
+     inizio distanti più di 60 minuti (per esempio la replica pomeridiana e quella serale);
+     due eventi con titolo e date che basterebbero ma con i luoghi in conflitto.
 5. **Si verifica con un test.** La fusione è un code node del flusso, con i suoi test, prima
    che un secondo canale di eventi scriva elementi.
 
