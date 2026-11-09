@@ -68,6 +68,10 @@ def publishable(doc, blocking):
     if series and not series.get("next_occurrence"):
         # All occurrences past: drops out like a finished single event (Phase 3.4).
         return False
+    if (doc.get("pilot") or {}).get("duplicate_of"):
+        # A secondary copy of an event another source leads is never published alone
+        # (DEC-025, rule 3); the element it duplicates carries the event.
+        return False
     reason = (doc.get("quality") or {}).get("reject_reason")
     return reason is None or reason not in blocking
 
