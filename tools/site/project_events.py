@@ -42,7 +42,10 @@ def rome_date(instant):
 
 
 def next_occurrence_end(series, occurrences):
-    """The end of the occurrence that next_occurrence points at, if it has one."""
+    """The end of the occurrence that next_occurrence points at, if it has one. An
+    expired series (next_occurrence null) has none and drops out in publishable()."""
+    if not series.get("next_occurrence"):
+        return None
     nxt = parse_instant(series["next_occurrence"])
     for occ in occurrences or []:
         if occ.get("start_at_utc") and parse_instant(occ["start_at_utc"]) == nxt:

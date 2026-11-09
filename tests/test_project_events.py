@@ -134,6 +134,21 @@ def test_a_missing_canonical_folder_is_an_error():
     assert r.returncode != 0 and "not a folder" in r.stderr, (r.returncode, r.stderr)
 
 
+def test_T37_an_expired_series_does_not_stop_the_folder():
+    import json, subprocess, tempfile
+    tool = os.path.join(os.path.dirname(__file__), "..", "tools", "site", "project_events.py")
+    with tempfile.TemporaryDirectory() as folder:
+        expired = doc(content_id="qn:roma:evt:facebook:444-series",
+                      series={"is_series": True, "next_occurrence": None}, occurrences=[])
+        json.dump(expired, open(os.path.join(folder, "a.json"), "w"))
+        json.dump(doc(), open(os.path.join(folder, "b.json"), "w"))
+        out = os.path.join(folder, "out.json")
+        r = subprocess.run([sys.executable, tool, "--canonical", folder, "--reference-date", "2026-10-13", "--out", out],
+                           capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr
+        assert [e["id"] for e in json.load(open(out))["events"]] == ["qn:roma:evt:facebook:111"], open(out).read()
+
+
 def test_projection_feeds_the_prototype():
     zones = {"za": {"publication_zone_id": "za", "name_display": "Za", "primary_municipality": "V"}}
     out, _ = p.build([doc()], "2026-10-13", BLOCKING)
