@@ -101,6 +101,32 @@ def test_neighbourhood_events_join_the_municipality_fallback():
     assert levels == ["zona", "municipio", "città"], levels
     assert ids(f, g, s) == ["c1", "n1", "z1"], ids(f, g, s)
 
+def test_pilot_pages_only_dec_031():
+    assert b.select_pages(ZONES, []) == ["za", "zb", "zc"]
+    assert b.select_pages(ZONES, ["zc", "za", "zc"]) == ["zc", "za"]
+    try:
+        b.select_pages(ZONES, ["za", "nowhere"])
+    except ValueError as e:
+        assert "nowhere" in str(e)
+    else:
+        raise AssertionError("an unknown page was accepted")
+
+def test_a_subset_build_removes_stale_pages_dec_031():
+    import json, subprocess, tempfile
+    root = os.path.join(os.path.dirname(__file__), "..")
+    with tempfile.TemporaryDirectory() as out:
+        os.makedirs(os.path.join(out, "q"))
+        open(os.path.join(out, "q", "eur.html"), "w").write("stale")
+        events = os.path.join(out, "events.json")
+        json.dump({"reference_date": "2026-11-10", "events": []}, open(events, "w"))
+        r = subprocess.run([sys.executable, os.path.join(root, "tools", "site", "build_site.py"), "--events", events,
+                            "--gazetteer", os.path.join(root, "gazetteer", "gazetteer.json"),
+                            "--pages", "acilia,centocelle,prati", "--out", out], capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr
+        assert sorted(os.listdir(os.path.join(out, "q"))) == ["acilia.html", "centocelle.html", "prati.html"]
+        page = open(os.path.join(out, "q", "prati.html"), encoding="utf-8").read()
+        assert "ottobre" not in page, "the page banner must not name a month the data may not be from"
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for t in tests:

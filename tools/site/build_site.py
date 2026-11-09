@@ -111,7 +111,7 @@ def page(zone, zones, events, wiki_threads, ref, end, out_dir):
     featured, groups, singles, undated, levels = events_block(zone, zones, events, ref, end)
     parts = [f'<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
              f'<title>{esc(z["name_display"])} — Quartieri News</title><link rel="stylesheet" href="../site.css"></head><body>'
-             f'<header><a class="home" href="../index.html">Quartieri News</a><h1>{esc(z["name_display"])}</h1><p class="sub">Municipio {mun} · prototipo, dati reali di ottobre 2026 · oggi = {fmt(ref)}</p></header><main>']
+             f'<header><a class="home" href="../index.html">Quartieri News</a><h1>{esc(z["name_display"])}</h1><p class="sub">Municipio {mun} · prototipo, dati reali · oggi = {fmt(ref)}</p></header><main>']
     # --- Eventi
     parts.append('<section class="block"><h2>Eventi intorno a te</h2>')
     n = len(featured) + sum(len(g[1]) for g in groups) + len(singles)
@@ -168,12 +168,34 @@ li.group ul{margin-top:6px;padding-left:10px}footer{color:var(--mut);font-size:1
 """
 
 
+def select_pages(zones, wanted):
+    """The pages to build: every page zone, or only the listed ones (the pilot pages,
+    DEC-031). Labels of events from other zones still come from the full zones map."""
+    if not wanted:
+        return list(zones)
+    unknown = [z for z in wanted if z not in zones]
+    if unknown:
+        raise ValueError(f"not page zones: {', '.join(unknown)}")
+    return list(dict.fromkeys(wanted))
+
+
+def clear_pages(out_dir):
+    """Remove the pages of an earlier build, so a subset build leaves only its own
+    pages behind (DEC-031: the rest does not enter the pilot)."""
+    q = os.path.join(out_dir, "q")
+    if os.path.isdir(q):
+        for name in os.listdir(q):
+            if name.endswith(".html"):
+                os.remove(os.path.join(q, name))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--events", required=True)
     ap.add_argument("--gazetteer", default="gazetteer/gazetteer.json")
     ap.add_argument("--wiki", default=None, help="schedario.json of the context wiki (optional)")
     ap.add_argument("--out", default="site")
+    ap.add_argument("--pages", default="", help="comma-separated zone ids to build (default: every page)")
     a = ap.parse_args()
     data = json.load(open(a.events, encoding="utf-8"))
     ref = data["reference_date"]
@@ -182,24 +204,31 @@ def main():
     # The pages are the gazetteer's publication zones with is_page = true (spec v2.5
     # Part I: 89 pages), not "everything but other" (review cycle 1, item 2).
     zones = {z["publication_zone_id"]: z for z in g["publication_zones"] if z.get("is_page") is True}
+    try:
+        pages = select_pages(zones, [p.strip() for p in a.pages.split(",") if p.strip()])
+    except ValueError as e:
+        raise SystemExit(str(e))
     wiki_threads = defaultdict(list)
     if a.wiki and os.path.exists(a.wiki):
         for q in json.load(open(a.wiki, encoding="utf-8"))["questioni"]:
             if q["stato"] == "aperta" and q.get("coerenza") == "alta" and q["municipio"]:
                 wiki_threads[q["municipio"]].append(q)
     os.makedirs(a.out, exist_ok=True)
+    clear_pages(a.out)
     open(os.path.join(a.out, "site.css"), "w", encoding="utf-8").write(CSS)
     counts = {}
-    for zid in zones:
+    for zid in pages:
         counts[zid] = page(zid, zones, data["events"], wiki_threads, ref, end, a.out)
     by_mun = defaultdict(list)
-    for zid, z in zones.items():
-        by_mun[z["primary_municipality"]].append(zid)
+    for zid in pages:
+        by_mun[zones[zid]["primary_municipality"]].append(zid)
     idx = ['<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quartieri News — prototipo</title><link rel="stylesheet" href="site.css"></head><body>',
-           f'<header><h1>Quartieri News</h1><p class="sub">Prototipo della pagina di quartiere con {len(data["events"])} eventi reali di ottobre 2026 (Roma Today + fonti registrate). Oggi = {fmt(ref)}. Niente è pubblicato: è una cosa da guardare.</p></header><main>',
+           f'<header><h1>Quartieri News</h1><p class="sub">Prototipo della pagina di quartiere con {len(data["events"])} eventi reali. Oggi = {fmt(ref)}. Niente è pubblicato: è una cosa da guardare.</p></header><main>',
            '<section class="block"><h2>Come leggerlo</h2><p class="hint">Ogni pagina ha quattro blocchi. Il blocco eventi mostra prima la zona, poi il resto del municipio, poi la città, finché non ci sono almeno 5 cose nei prossimi 14 giorni; ogni voce porta il nome della sua zona. I luoghi con più di tre date si raggruppano. "In evidenza" = riportato da più canali. Il blocco "Dal Municipio" usa le questioni di giugno dal wiki, solo per far vedere la forma.</p></section>',
-           '<section class="block"><h2>Le 89 pagine</h2>']
+           f'<section class="block"><h2>Le {len(pages)} pagine</h2>']
     for m in ROMAN:
+        if not by_mun.get(m):
+            continue
         idx.append(f'<h3>Municipio {m}</h3><ul class="grid">')
         for zid in sorted(by_mun.get(m, []), key=lambda z: zones[z]["name_display"]):
             n, levels = counts[zid]
@@ -209,7 +238,7 @@ def main():
     open(os.path.join(a.out, "index.html"), "w", encoding="utf-8").write("".join(idx))
     dist = Counter("0" if n == 0 else "1-4" if n < 5 else "5-15" if n <= 15 else ">15" for n, _ in counts.values())
     lv = Counter(" → ".join(l) for _, l in counts.values())
-    print(f"{len(zones)} pagine → {a.out}; eventi per pagina: {dict(dist)}; raggio usato: {dict(lv)}")
+    print(f"{len(pages)} pagine → {a.out}; eventi per pagina: {dict(dist)}; raggio usato: {dict(lv)}")
 
 
 if __name__ == "__main__":
