@@ -25,43 +25,43 @@ vincono su questa pagina, che contiene solo i rimandi e le poche aggiunte del pi
 |---|---|---|
 | Forma comune ai quattro blocchi | `gazetteer/gazetteer.json` → `editorial.cross_block_contract`; `docs/PROJECT_VISION.md` | un livello geografico, un campo di freschezza, una classificazione editoriale con valori propri del blocco |
 | Geografia | `gazetteer.json` → `resolution.store`, `geo_basis_values`, `verification_status_values`; `prompts/PROMPT_GEO_BLOCK.md` | `publication_zone_id`; `neighbourhood_id` quando è noto in modo deterministico; `geo_level`; `municipality_code` (sempre, quando noto: è l'unica chiave a livello di municipio); `geo_basis`; `geo_verification_status`, dove `human_verified` ferma ogni ricalcolo |
-| Classificazione editoriale | `gazetteer.json` → `editorial`; `prompts/EDITORIAL_FILTER.md` | `editorial_class` per ogni blocco; per gli eventi anche `editorial_basis` e `content_type`. I valori per notizie, amministrazione e storico sono un'estensione per blocco: si aggiungono con una PR del coordinatore prima che quel workstream produca elementi |
+| Classificazione editoriale | `gazetteer.json` → `editorial`; `prompts/EDITORIAL_FILTER.md` | `editorial_class` per ogni blocco delle pagine; per gli eventi anche `editorial_basis` e `content_type`. I valori per `institutional`, `news` e `conversation` sono un'estensione per blocco: si aggiungono con una PR del coordinatore prima che quel blocco abbia elementi. I record dello storico non hanno classificazione editoriale (qui sotto, «Lo storico») |
 | Scarti e coda di revisione | `gazetteer.json` → `reject_reasons`, `review`; `docs/REVIEW_QUEUE.md` | `reject_reason` con i codici canonici e la loro regola `blocks_publication`. Quali elementi entrano nella coda di lavoro e quali vanno direttamente nell'archivio con `decision = auto_excluded` lo stabilisce `docs/REVIEW_QUEUE.md`; il pilota non lo ridefinisce |
 | Eventi | specifica v2.5, fasi 1–2 (Drive, `QN Hub / 10 Specifications`); `code-nodes/` | `source_event_id` valido per DEC-027; `start_at_utc`, `end_at_utc`, `date_precision`; `source_hash` (`code-nodes/compute-source-hash.js`) |
 | Freschezza | specifica v2.5, parte III | il campo con il nome della specifica; il pilota non ne inventa uno |
 
 Il prototipo del sito (`tools/site/`) legge una proiezione più semplice (`start`, `end`,
-`title`…). La si ricava dai campi canonici al momento di costruire le pagine; non si
-salva al loro posto.
+`title`…). La ricava il codice che costruisce le pagine, e non si salva al posto dei campi
+canonici. Le sue date sono date di Roma: ogni istante UTC si converte in `Europe/Rome` prima
+di prenderne il giorno (la specifica ha già `timezone` e `local_date`), e il codice che lo fa
+ha un test a cavallo del cambio dell'ora.
 
 **L'identità di un elemento** è il `content_id` della specifica v2.5 (fase 2.1), lo stesso
 che la coda di revisione usa come chiave. Per gli eventi da Facebook la sua forma è quella
-della specifica, serie comprese. Per gli altri canali (eventi dalle pagine web, sedute, atti,
-notizie) la forma del `content_id` e la procedura di `source_hash` le fissa la PR del
-coordinatore che apre quel canale, sullo schema della specifica e con queste regole:
-- la geografia non entra nel `content_id` (specifica, fase 2.1), e nemmeno `registro_id`;
-- si costruisce dalla chiave della fonte, che non cambia mai:
-  - per un evento, il `source_event_id` normalizzato secondo DEC-027;
-  - per una seduta, l'id della registrazione (il `guid` di RomaTV, l'id del video YouTube);
-  - per un atto, l'ufficio che lo emette, il tipo, il numero e l'anno, in minuscolo e
-    separati da `/`; l'URL canonico dell'atto solo per le fonti che non numerano gli atti.
-    La scelta si fa per fonte, non per singolo atto;
-  - per una notizia, l'URL canonico del pezzo (`https`, host minuscolo, senza parametri di
-    tracciamento né frammento).
+della specifica, serie comprese. Per gli altri canali la forma del `content_id` e la
+procedura di `source_hash` le fissa la PR del coordinatore che apre il canale, con i test di
+idempotenza. Tre regole valgono da subito:
+- la geografia e `registro_id` non entrano nel `content_id` (specifica, fase 2.1);
+- il `content_id` identifica l'elemento pubblicato, non il record della fonte. Una
+  registrazione può dare più notizie (`tools/sources-study/report2/SPECIFICA_VIDEO.md`,
+  `notizie_candidate`), e lo stesso fatto raccontato da più testate resta un fatto solo
+  (`docs/sources/CRONACA_PROCESSO_2026-10.md`, R-C01 e la fase di fusione con `fatto_id`).
+  Gli id delle registrazioni e gli URL dei pezzi restano provenienza;
+- quando il contenuto della fonte cambia, cambia `source_hash`, non il `content_id`.
 
-Quando il contenuto della fonte cambia, cambia `source_hash`, non il `content_id`.
-
-**Le aggiunte e le convenzioni del pilota.** `block` e le colonne `source_*` sono colonne canoniche della coda: qui si fissa solo come il pilota le riempie. Gli altri campi il contratto canonico non li ha.
+**Le aggiunte e le convenzioni del pilota.** `block` e le colonne `source_*` sono colonne
+canoniche della coda: qui si fissa solo come il pilota le riempie. Gli altri campi il
+contratto canonico non li ha.
 
 | Campo | Contenuto |
 |---|---|
 | `workstream` | `A`, `B`, `C` o `D` |
 | `block` | la colonna canonica della coda (nel file canonico lo stesso valore sta in `stream`); il pilota usa `events`, `institutional`, `news` e `conversation`, i quattro blocchi di `docs/PROJECT_VISION.md`. Un record dello storico non ha `block` (qui sotto, «Lo storico») |
-| `source_channel`, `source_id`, `source_url` | le colonne canoniche della coda, con il significato di `docs/REVIEW_QUEUE.md`: `source_id` è l'id che la piattaforma dà a chi pubblica (la pagina o il gruppo Facebook, il canale YouTube); per un sito, il suo host in minuscolo senza `www.`. I valori nuovi di `source_channel` (sedute, atti, stampa) arrivano con la PR del coordinatore che apre il blocco |
+| `source_channel`, `source_id`, `source_url` | le colonne canoniche della coda, con il significato di `docs/REVIEW_QUEUE.md`: `source_id` è l'id che la piattaforma dà a chi pubblica (la pagina o il gruppo Facebook, il canale YouTube); per un sito, il suo host in minuscolo senza `www.`. I valori nuovi di `source_channel` arrivano con la PR del coordinatore che apre il canale |
 | `registro_id` | l'id della fonte nel registro (`S-…`), quando c'è. Non sostituisce `source_id` e non entra in nessuna chiave |
 | `archive_id` | quando l'elemento nasce da un record dello storico |
 | `attribuzioni` | le testate e le fonti citate, ciascuna con un link (DEC-108) |
-| `nomi` | le persone nominate, ognuna con la regola che lo consente (sezione 6): DEC-105 per le fonti amministrative ufficiali, atti e documenti compresi, con il confine della seduta aperta per le sole registrazioni delle sedute; DEC-108 per la stampa |
+| `nomi` | le persone nominate, ognuna con la decisione che lo consente: DEC-105 per le fonti amministrative ufficiali, DEC-108 per la stampa (sezione 6) |
 | `costo` | servizio, unità (minuti, eventi, token) ed euro, quando c'è una spesa |
 
 `title` e il testo pubblicabile sono sempre scritti da noi. L'`excerpt` della fonte e gli
@@ -77,12 +77,12 @@ l'`archive_id` del record.
 
 | Campo | Contenuto |
 |---|---|
-| `archive_id` | stabile: `sto-` seguito dai primi 16 caratteri esadecimali dello SHA-256 della stringa UTF-8 `<source_id>\|<chiave della fonte>`, con la chiave definita qui sopra |
+| `archive_id` | stabile. La sua forma la fissa la PR del coordinatore che apre il workstream D, prima del primo record, con i test di idempotenza e di normalizzazione. Si costruisce da `source_id` e dalla chiave che la fonte dà al documento, normalizzati (Unicode NFC, spazi tolti ai bordi e ridotti a uno all'interno); mai dalla geografia né da `registro_id` |
 | `versione` | 1 alla prima scrittura (vedi la correzione, qui sotto) |
 | `source_id`, `registro_id`, `source_url` | come per gli elementi |
 | `data_documento` | la data dell'atto o della seduta, `YYYY-MM-DD` |
 | `municipality_code` | il campo canonico della geografia, quando è noto |
-| `tipo` | il tipo di documento; i valori li fissa una PR del coordinatore prima che D scriva record |
+| `tipo` | il tipo di documento; i valori li fissa la stessa PR |
 | `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione |
 | `originale` | il percorso del file in `originali/`, che non si modifica mai |
 | `derivato` | il testo estratto o la trascrizione, con lo strumento e la versione che li hanno prodotti |
@@ -91,7 +91,8 @@ l'`archive_id` del record.
 
 - **Correzione.** Niente si sovrascrive e niente si cancella. Una correzione è una riga
   nuova con lo stesso `archive_id`, la `versione` aumentata di uno e un campo `motivo`;
-  vale la versione più alta.
+  vale la versione più alta. Una nuova lettura che trova lo stesso originale (lo stesso
+  SHA-256 del file) non aggiunge righe.
 - **Copia di riserva.** Una volta alla settimana un job di copia duplica i file dello
   storico in `D Storico/riserva/<data>/`; nessun altro workflow scrive lì.
 
@@ -120,12 +121,13 @@ produzione non si toccano (`CLAUDE.md`).
 - Un workstream consegna il codice al coordinatore come bundle git del proprio branch,
   caricato nella sua cartella Drive. Il coordinatore lo verifica, fa girare i test e apre
   la PR.
-- Le PR sono piccole (protocollo, sezione 2). La revisione la chiede l'owner, circa quattro
-  volte al giorno, non di più (DEC-031, punto 7).
+- Le PR sono piccole (protocollo, sezione 2, punto 4). La revisione segue il protocollo,
+  sezione 4, e DEC-031, punto 7.
 
 ## 5. Costi
 
-Il budget del pilota è di 50 € al mese (DEC-031, punto 6). Suddivisione iniziale:
+Il budget del pilota e le regole per superarlo sono in DEC-031, punto 6. Suddivisione
+iniziale:
 
 | Workstream | Tetto mensile | Voci principali |
 |---|---|---|
@@ -136,38 +138,17 @@ Il budget del pilota è di 50 € al mese (DEC-031, punto 6). Suddivisione inizi
 | Riserva | 5 € | del coordinatore |
 
 Ogni spesa entra nel campo `costo` dell'elemento o del record dello storico e in
-`costi.jsonl` della cartella del workstream. Il coordinatore somma le spese e avvisa l'owner
-prima di superare il tetto. Un lavoro quasi finito si chiude anche se servono 10–15 € in più.
+`costi.jsonl` della cartella del workstream. Il coordinatore somma le spese e, quando un
+tetto sta per essere superato, applica DEC-031, punto 6.
 
 ## 6. Regole delle fonti che restano in vigore
 
-- **Facebook:** si legge solo sugli URL raccolti a mano, con un servizio terzo (DEC-102).
-- **Stampa: si applica DEC-108 per intero.** Qui sotto c'è un promemoria; in caso di dubbio
-  vale la decisione.
-  - Un fatto riportato da una seconda testata diventa un articolo scritto con parole nostre,
-    con le testate nominate e linkate. Un dettaglio presente in una sola testata si
-    attribuisce a quella testata.
-  - Le testate che escludono gli agenti di IA o riservano l'estrazione di testi e dati
-    (Roma Today, Il Messaggero, ANSA, Corriere, Repubblica, Leggo, Today.it, Agenzia Nova)
-    non si aprono mai. Di loro si usano solo titolo, link e ora, presi da un indice di
-    terzi. Contano come seconda testata e si linkano, ma gli articoli di QN si scrivono da
-    testate aperte e fonti ufficiali.
-  - Un nome preso dalla stampa si pubblica solo se valgono tutte queste condizioni:
-    - lo riportano testate di almeno due editori diversi;
-    - la persona è maggiorenne, arrestata o indagata;
-    - il testo rispetta la presunzione di innocenza;
-    - una seconda IA verifica che nome e ruolo coincidano in ogni fonte;
-    - l'articolo attribuisce la notizia («secondo X e Y»).
+Le regole stanno nelle decisioni, che qui non si riassumono: questa sezione dice solo dove
+si applicano.
 
-    Il nome si aggiorna o si toglie quando il caso cambia o su richiesta.
-  - Non si pubblicano mai le identità di minori coinvolti in procedimenti penali, come
-    vittime o come testimoni, né quelle delle vittime di violenza sessuale.
-- **Fonti amministrative ufficiali: si applica DEC-105.** Qui sotto c'è un promemoria; in
-  caso di dubbio vale la decisione.
-  - Negli atti e nei documenti come nelle sedute, i nomi pertinenti al fatto restano,
-    verificati sulla fonte. Un nome si omette solo per una ragione concreta, scritta caso
-    per caso.
-  - Per le registrazioni delle sedute vale in più il confine della seduta aperta (DEC-105,
-    confine 2): ciò che sta fuori, sospensioni comprese, non entra né nell'analisi né nelle
-    notizie.
+- **Facebook:** DEC-102.
+- **Stampa:** DEC-108, per intero: quali testate si leggono, quali non si aprono mai e quando
+  un nome si pubblica.
+- **Fonti amministrative ufficiali**, atti e documenti compresi: DEC-105. Per le
+  registrazioni delle sedute vale anche il suo confine della seduta aperta.
 - **Siti:** prima di leggere una fonte si controllano `robots.txt` e le condizioni d'uso.
