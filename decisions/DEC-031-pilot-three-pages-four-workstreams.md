@@ -14,6 +14,11 @@ Contesto:
 - La regola per la stampa nella cronaca è già decisa per l'MVP (DEC-108).
 - Il supporto GitHub ha indicato come causa dei blocchi alcune parole chiave nel contenuto
   del repository (audit, sezione F).
+- La verifica fatta dall'owner con Codex il 9 novembre sulla revisione automatica (impostazioni
+  «All PRs») dice due cose. La funzione esiste, ma la documentazione non garantisce che copra
+  le PR di un account non collegato a Codex. Le condizioni d'uso di OpenAI vogliono account
+  ChatGPT individuali usati dal titolare, quindi un account ChatGPT intestato a un agente non
+  è previsto.
 
 Owner's words, 9 novembre 2026: «Creerei 3 workstream separati che viaggiano da soli con una
 finestra che le coordina» (amministrazione dagli streaming, notizie, eventi), più uno per lo
@@ -45,9 +50,15 @@ finita e quindi sai che spenderai ancora 10,15 euro per concludere il lavoro non
    Drive. L'apertura al pubblico la decide l'owner più avanti.
 6. **Budget del pilota: 50 € al mese** per trascrizioni, Apify e modelli. Prima di superarlo
    si avvisa l'owner. Un lavoro quasi finito si chiude anche se servono 10–15 € in più.
-7. **Revisione automatica di Codex.** Dal 9 novembre l'owner l'ha attivata sul repository
-   QN, per tutte le PR e a ogni push, in modalità esaustiva. La prima PR aperta dopo
-   l'impostazione serve a verificarla.
+7. **La revisione di Codex.** Il 9 novembre l'owner ha attivato sul repository QN la
+   revisione automatica: tutte le PR, a ogni push, in modalità esaustiva. La verifica sulla
+   PR #24 mostra che, all'apertura di una PR di `QN-Builder`, il connettore non avvia la
+   revisione e chiede un account Codex: l'impostazione vale per gli account collegati.
+   Finché non c'è un'altra soluzione, la revisione la chiede l'owner con `@codex review`,
+   una volta per testa (DEC-029, punto 4), e il coordinatore raccoglie il lavoro in poche PR
+   per non moltiplicare le richieste. Una revisione via API in GitHub Actions, con una chiave
+   tecnica e costi a consumo, è l'alternativa da valutare con una decisione a sé, perché
+   tocca `.github/` e i segreti del repository.
 
 Impact:
 - Drive: le cartelle di staging del pilota, una per workstream più lo storico.
