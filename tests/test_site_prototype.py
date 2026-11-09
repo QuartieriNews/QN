@@ -111,6 +111,20 @@ def test_pilot_pages_only_dec_031():
     else:
         raise AssertionError("an unknown page was accepted")
 
+def test_a_subset_build_removes_stale_pages_dec_031():
+    import json, subprocess, tempfile
+    root = os.path.join(os.path.dirname(__file__), "..")
+    with tempfile.TemporaryDirectory() as out:
+        os.makedirs(os.path.join(out, "q"))
+        open(os.path.join(out, "q", "eur.html"), "w").write("stale")
+        events = os.path.join(out, "events.json")
+        json.dump({"reference_date": "2026-11-10", "events": []}, open(events, "w"))
+        r = subprocess.run([sys.executable, os.path.join(root, "tools", "site", "build_site.py"), "--events", events,
+                            "--gazetteer", os.path.join(root, "gazetteer", "gazetteer.json"),
+                            "--pages", "acilia,centocelle,prati", "--out", out], capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr
+        assert sorted(os.listdir(os.path.join(out, "q"))) == ["acilia.html", "centocelle.html", "prati.html"]
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for t in tests:

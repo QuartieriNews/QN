@@ -179,6 +179,16 @@ def select_pages(zones, wanted):
     return list(dict.fromkeys(wanted))
 
 
+def clear_pages(out_dir):
+    """Remove the pages of an earlier build, so a subset build leaves only its own
+    pages behind (DEC-031: the rest does not enter the pilot)."""
+    q = os.path.join(out_dir, "q")
+    if os.path.isdir(q):
+        for name in os.listdir(q):
+            if name.endswith(".html"):
+                os.remove(os.path.join(q, name))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--events", required=True)
@@ -204,6 +214,7 @@ def main():
             if q["stato"] == "aperta" and q.get("coerenza") == "alta" and q["municipio"]:
                 wiki_threads[q["municipio"]].append(q)
     os.makedirs(a.out, exist_ok=True)
+    clear_pages(a.out)
     open(os.path.join(a.out, "site.css"), "w", encoding="utf-8").write(CSS)
     counts = {}
     for zid in pages:
