@@ -45,7 +45,8 @@ function row(overrides) {
 
 const SHA_A = 'a'.repeat(64);
 const SHA_B = 'b'.repeat(64);
-const DL = { sha256: SHA_A, retrieved_at: '2026-11-10T09:00:00Z', workflow: 'staging_D_attiweb_read', workflow_version: '1' };
+const DL = { sha256: SHA_A, retrieved_at: '2026-11-10T09:00:00Z', workflow: 'staging_D_attiweb_read', workflow_version: '1',
+  elenco: 'originali/attiweb_elenco_2026-11-10_CMD_0.json' };
 
 console.log('archive_id: form and identity (CONTRATTI «Lo storico»)');
 check('form: prefix, source_id, tipologia, idDoc', m.archiveId('CMD', '4242'), 'qn:roma:arc:comune.roma.it:CMD:4242');
@@ -132,6 +133,12 @@ check('a hash that is not SHA-256 stops the run', /sha256/.test(thrown(() => m.a
 check('a non-UTC retrieved_at stops the run', /retrieved_at/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { retrieved_at: '2026-11-10 10:00' }), [])) || ''), true);
 check('only a staging_ workflow writes records', /staging_/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { workflow: 'D_attiweb_read' }), [])) || ''), true);
 check('existing versions of another id stop the run', /another archive_id/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { archive_id: 'qn:roma:arc:comune.roma.it:CMD:1' })])) || ''), true);
+
+check('existing left out stops the run instead of writing a second v1', /existing must list/.test(thrown(() => m.archiveRecord(arc, DL, undefined)) || ''), true);
+check('two existing records with one versione stop the run', /two existing records/.test(thrown(() => m.archiveRecord(arc, DL, [r1, r1])) || ''), true);
+check('an existing versione that is not a whole number stops the run', /versione/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: '1' })])) || ''), true);
+check('the record points at the saved search page its row came from', r1.provenienza.elenco, 'originali/attiweb_elenco_2026-11-10_CMD_0.json');
+check('a search page outside originali/ stops the run', /elenco/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { elenco: 'tmp/x.json' }), [])) || ''), true);
 
 console.log('n8n adapter branch — exact committed file, stubbed $input/$json/require');
 const src = fs.readFileSync(FILE, 'utf8');

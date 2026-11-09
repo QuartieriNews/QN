@@ -177,9 +177,16 @@ function archiveRecord(archive, download, existing) {
   if (typeof download.workflow !== 'string' || !download.workflow.startsWith('staging_')) {
     throw new Error('download.workflow must name the staging_ workflow');
   }
+  if (typeof download.elenco !== 'string' || !download.elenco.startsWith('originali/')) {
+    throw new Error('download.elenco must be the saved search page in originali/');
+  }
+  // Absent is not empty: without the versions already written, a v1 could be written twice.
+  if (!Array.isArray(existing)) throw new Error('existing must list the versions already in the archive ([] for none)');
   let latest = null;
-  for (const r of existing || []) {
-    if (r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r.archive_id}`);
+  for (const r of existing) {
+    if (!r || r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r && r.archive_id}`);
+    if (!Number.isInteger(r.versione) || r.versione < 1) throw new Error(`existing record with versione ${JSON.stringify(r.versione)}`);
+    if (latest && r.versione === latest.versione) throw new Error(`two existing records with versione ${r.versione}`);
     if (!latest || r.versione > latest.versione) latest = r;
   }
   if (latest && latest.originale_sha256 === download.sha256) return null;
@@ -197,6 +204,7 @@ function archiveRecord(archive, download, existing) {
       retrieved_at: download.retrieved_at,
       workflow: download.workflow,
       workflow_version: download.workflow_version || null,
+      elenco: download.elenco,
       data_documento_da: archive.data_documento_da,
     },
     originale: `originali/${archive.file_stem}__${download.sha256.slice(0, 16)}.pdf`,
