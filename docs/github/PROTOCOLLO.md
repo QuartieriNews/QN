@@ -57,12 +57,14 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
 ## 4. Revisioni
 
 - **La revisione parte da sola.** Dal 9 novembre Codex rivede ogni PR all'apertura e a
-  ogni push (impostazione dell'owner, DEC-032). Nessuno chiede `@codex review`, salvo il
-  sollecito qui sotto. Ogni push è una revisione, quindi un push per ciclo di correzioni
+  ogni push (impostazione dell'owner, DEC-032). Per le PR di `QN-Builder` succede spesso ma
+  non sempre. Nessuno chiede `@codex review`, salvo i due casi qui sotto. Ogni push è una revisione, quindi un push per ciclo di correzioni
   (sezione 2, punto 2) conta ancora di più.
-- **Un solo sollecito, dall'owner.** Se Codex tace per più di un'ora dopo un push, il
-  builder lo dice all'owner in una riga e l'owner sollecita una volta con `@codex review`,
-  perché `QN-Builder` non è collegato a Codex. Poi ci si ferma.
+- **Quando Codex non parte, chiede l'owner,** perché `QN-Builder` non è collegato a
+  Codex. Se il connettore risponde chiedendo un account Codex, il builder lo dice subito
+  all'owner, in una riga con il link, e l'owner scrive `@codex review`. Se Codex tace per
+  più di un'ora dopo un push, il builder lo dice all'owner e l'owner sollecita una volta.
+  Poi ci si ferma.
 - **Merge su notifica.** Quando una PR è pronta (CI verde, nessun rilievo aperto, nessun
   conflitto), il builder manda all'owner una notifica con il link; il merge è dell'owner.
   Non c'è un tetto di PR o di merge al giorno (DEC-032).

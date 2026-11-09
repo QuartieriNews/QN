@@ -17,26 +17,32 @@ Contesto:
   Codex. DEC-031, punto 7, l'ha registrato.
 - La PR #25, aperta da `QN-Builder` alle 17:18 UTC, è stata rivista da sola all'apertura
   (innesco «PR opened»), e di nuovo dopo il push delle 17:26 UTC (innesco «New
-  commits»). L'impostazione funziona anche per le PR di `QN-Builder`; con ogni
-  probabilità sulla #24 non era ancora attiva.
+  commits»). L'impostazione funziona anche per le PR di `QN-Builder`.
 - In tutto la #25 ha avuto cinque revisioni automatiche: una all'apertura e una per
   ciascuno dei quattro push. La quinta, oltre il tetto dei quattro giri, l'ha concessa
   l'owner ed è tornata senza rilievi; l'owner ha fatto il merge alle 20:40 UTC.
+- La PR #26, aperta da `QN-Builder` alle 20:42 UTC con questa decisione, non è stata
+  rivista all'apertura: il connettore ha risposto chiedendo un account Codex, come sulla
+  #24. Quindi per le PR di `QN-Builder` l'avvio automatico succede spesso ma non sempre, e la
+  causa non è nota.
 
 Owner's words, 9 novembre 2026: «imamgino che avendo le code review automatizzate possiamo
 rimuovo il limite delle 4 e ottimizzare all interno dei limiti che ci siamo dati per il ban»;
 «per le PR non metterei limiti. Posso farle dal cellulare. Se mi mandi una notifica e nella
-notifica c'è il link corretto e devo solo fare merge. E' davvero un secondo».
+notifica c'è il link corretto e devo solo fare merge. E' davvero un secondo». Sul caso
+della #26, fra le opzioni poste dal builder: «Fix DEC-032, then review».
 
 ## Regola
 
 1. **La revisione parte da sola,** all'apertura di ogni PR e a ogni push. Nessuno scrive
-   `@codex review`, tranne per il sollecito del punto 3.
+   `@codex review`, tranne nei due casi del punto 3.
 2. **Un push per ciclo di correzioni.** Ogni push avvia una revisione, quindi la regola del
    protocollo (sezione 2, punto 2) conta ancora di più.
-3. **Il sollecito resta all'owner.** Se Codex tace per più di un'ora dopo un push, il
-   builder lo dice all'owner in una riga, e l'owner sollecita una volta: `QN-Builder` non è
-   collegato a Codex.
+3. **Quando Codex non parte, la richiesta è dell'owner,** perché `QN-Builder` non è
+   collegato a Codex. Se il connettore risponde chiedendo un account Codex, il builder lo
+   dice subito all'owner, in una riga con il link alla PR, e l'owner scrive
+   `@codex review`. Se invece Codex tace per più di un'ora dopo un push, il builder lo dice
+   all'owner e l'owner sollecita una volta.
 4. **Nessun tetto al numero di PR e di merge al giorno.** Restano il ritmo del protocollo
    (sezione 3), una PR alla volta nel giro di revisione (sezione 2, punto 3) e il tetto di
    quattro giri di revisione per lavoro (`AGENTS.md`, DEC-012), che solo l'owner può
