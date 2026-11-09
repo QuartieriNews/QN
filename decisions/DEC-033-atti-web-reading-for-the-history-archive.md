@@ -49,8 +49,10 @@ gennaio 2026, max 300/giorno».
      protocollate prima di una seduta di gennaio;
    - le pagine si leggono da 500 righe finché si arriva al totale dichiarato dall'API;
    - la data del record (`data_documento`) è `dtSeduta` quando c'è, altrimenti `dtRpr`;
-   - si tengono gli atti dei tre Municipi (campo `dscStrOrg`) con `data_documento` dal 1°
-     gennaio 2026: il limite vale sulla stessa data che il record conserva.
+   - si tengono gli atti dei tre Municipi (campo `dscStrOrg`) con `data_documento` fra il 1°
+     gennaio 2026 e il giorno della lettura: tutti e due i limiti valgono sulla stessa data
+     che il record conserva. Una convocazione per una seduta futura resta fuori e si prende
+     a una lettura successiva, quando la seduta è passata.
 2. **Ritmo.** Una richiesta alla volta, almeno 5 secondi fra due richieste e al massimo 300
    documenti al giorno.
 3. **Dove.** Solo nello staging privato su Drive, `D Storico/originali/`. Nessun atto, testo o

@@ -39,9 +39,13 @@ pubblicata».
    dell'organizzatore letta direttamente (nel pilota, il canale `web_event` sul sito
    dell'organizzatore) > il sito dell'organizzatore linkato da un'altra fonte >
    culture.roma.it > Facebook (`fb_event`) > Roma Today.
-   Il «titolo» della domanda è il nome dell'evento alla fonte (`pilot.source_title`): il
-   `title` dell'articolo lo scriviamo sempre noi e resta fuori dalla fusione
-   (`docs/pilota/CONTRATTI.md`, sezione 2).
+   Il «titolo» della domanda è il nome dell'evento alla fonte: il campo `event_name`
+   dell'evento sorgente, che il file canonico conserva in `pilot.source_title`. I due canali
+   lo scrivono (`docs/pilota/CONTRATTI.md`, sezione 7, aggiornata con il codice della
+   fusione); i file già scritti senza quel campo lo ricevono dagli originali prima che la
+   fusione giri, e un file che non lo ha ferma la fusione con un errore invece di non
+   trovare doppioni. Il `title` dell'articolo lo scriviamo sempre noi e resta fuori dalla
+   fusione (`docs/pilota/CONTRATTI.md`, sezione 2).
 2. **Campi mancanti.** Un campo vuoto nella fonte che comanda si prende dalla successiva
    nell'ordine che lo ha e che può darlo, e il file dice da quale fonte viene ogni campo preso
    così. Due limiti:
