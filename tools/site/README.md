@@ -37,7 +37,8 @@ Uso, dallo staging del pilota:
 
     python tools/site/project_events.py --canonical <copia locale di C Eventi/> \
         --out /tmp/events.json
-    python tools/site/build_site.py --events /tmp/events.json --out /tmp/site
+    python tools/site/build_site.py --events /tmp/events.json \
+        --pages acilia,centocelle,prati --out /tmp/site
 
 Uso, con il file di ottobre:
 

@@ -149,6 +149,32 @@ def test_T37_an_expired_series_does_not_stop_the_folder():
         assert [e["id"] for e in json.load(open(out))["events"]] == ["qn:roma:evt:facebook:111"], open(out).read()
 
 
+def _run(folder, out):
+    import subprocess
+    tool = os.path.join(os.path.dirname(__file__), "..", "tools", "site", "project_events.py")
+    return subprocess.run([sys.executable, tool, "--canonical", folder, "--reference-date", "2026-10-13", "--out", out],
+                          capture_output=True, text=True)
+
+
+def test_an_output_inside_the_folder_is_not_read_back_on_retry():
+    import json, tempfile
+    with tempfile.TemporaryDirectory() as folder:
+        json.dump(doc(), open(os.path.join(folder, "a.json"), "w"))
+        out = os.path.join(folder, "events.json")
+        first, second = _run(folder, out), _run(folder, out)
+        assert first.returncode == 0 and second.returncode == 0, (first.stderr, second.stderr)
+        assert len(json.load(open(out))["events"]) == 1
+
+
+def test_a_duplicate_content_id_is_an_error():
+    import json, tempfile
+    with tempfile.TemporaryDirectory() as folder:
+        json.dump(doc(), open(os.path.join(folder, "a.json"), "w"))
+        json.dump(doc(), open(os.path.join(folder, "b.json"), "w"))
+        r = _run(folder, os.path.join(folder, "..", "out_dup.json"))
+        assert r.returncode != 0 and "already in" in r.stderr, (r.returncode, r.stderr)
+
+
 def test_projection_feeds_the_prototype():
     zones = {"za": {"publication_zone_id": "za", "name_display": "Za", "primary_municipality": "V"}}
     out, _ = p.build([doc()], "2026-10-13", BLOCKING)

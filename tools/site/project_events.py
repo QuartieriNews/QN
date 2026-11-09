@@ -132,8 +132,11 @@ def main():
     if not os.path.isdir(a.canonical):
         # A missing folder must not look like an empty one (an empty site, no error).
         sys.exit(f"{a.canonical}: not a folder")
-    docs = []
+    docs, seen = [], {}
+    out_path = os.path.realpath(a.out)
     for path in sorted(glob.glob(os.path.join(a.canonical, "*.json"))):
+        if os.path.realpath(path) == out_path:
+            continue  # our own output from an earlier run is not an input
         try:
             doc = json.load(open(path, encoding="utf-8"))
             if not isinstance(doc, dict) or not isinstance(doc.get("content_id"), str):
@@ -142,6 +145,11 @@ def main():
                 project(doc)  # fail here, with the file name, rather than mid-build
         except (OSError, ValueError, AttributeError, TypeError) as e:
             sys.exit(f"{path}: {e}")
+        cid = doc["content_id"]
+        if cid in seen:
+            # One identity, one element (CONTRATTI.md, section 2): a duplicate is an error.
+            sys.exit(f"{path}: content_id {cid} already in {seen[cid]}")
+        seen[cid] = path
         docs.append(doc)
     out, skipped = build(docs, a.reference_date, blocking_codes(a.gazetteer))
     with open(a.out, "w", encoding="utf-8") as f:

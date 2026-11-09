@@ -101,6 +101,16 @@ def test_neighbourhood_events_join_the_municipality_fallback():
     assert levels == ["zona", "municipio", "città"], levels
     assert ids(f, g, s) == ["c1", "n1", "z1"], ids(f, g, s)
 
+def test_pilot_pages_only_dec_031():
+    assert b.select_pages(ZONES, []) == ["za", "zb", "zc"]
+    assert b.select_pages(ZONES, ["zc", "za", "zc"]) == ["zc", "za"]
+    try:
+        b.select_pages(ZONES, ["za", "nowhere"])
+    except ValueError as e:
+        assert "nowhere" in str(e)
+    else:
+        raise AssertionError("an unknown page was accepted")
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for t in tests:
