@@ -24,9 +24,11 @@ function canonicalUrl(raw) {
     throw new Error('url_invalid');
   }
   if (u.protocol !== 'http:' && u.protocol !== 'https:') throw new Error('url_not_http');
-  u.protocol = 'https:';
+  // The URL parser already drops the default port of the original scheme, so a
+  // port still present is explicit and part of the identity. http on 443 stays
+  // http: upgrading it would make the port vanish and merge two addresses.
+  if (!(u.protocol === 'http:' && u.port === '443')) u.protocol = 'https:';
   u.hostname = u.hostname.toLowerCase().replace(/^www\./, '');
-  if (u.port === '80' || u.port === '443') u.port = '';
   u.hash = '';
   u.pathname = u.pathname.replace(/\/+$/, '') || '/';
   const kept = [...u.searchParams.entries()]
@@ -37,15 +39,33 @@ function canonicalUrl(raw) {
   return u.toString();
 }
 
-/** The calendar day in Rome of a UTC instant (Spec v2.5 T17: UTC to Europe/Rome). */
-function romeDate(startAtUtc) {
-  const ms = Date.parse(startAtUtc);
-  if (typeof startAtUtc !== 'string' || !/(Z|[+-]\d\d:?\d\d)$/.test(startAtUtc) || Number.isNaN(ms)) {
+const ISO_INSTANT = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.\d{1,9})?)?(Z|[+-](\d{2}):?(\d{2}))$/;
+
+/** Strict ISO 8601 instant with an offset: an impossible calendar date (30 February)
+ *  is refused, never repaired into another day. */
+function parseInstant(value) {
+  const m = typeof value === 'string' ? ISO_INSTANT.exec(value) : null;
+  if (!m) throw new Error('start_invalid');
+  const [y, mo, d, h, mi, s] = [m[1], m[2], m[3], m[4], m[5], m[6] || '0'].map(Number);
+  const leap = (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+  const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const offOk = m[7] === 'Z' || (Number(m[8]) <= 23 && Number(m[9]) <= 59);
+  if (mo < 1 || mo > 12 || d < 1 || d > days[mo - 1] || h > 23 || mi > 59 || s > 59 || !offOk) {
     throw new Error('start_invalid');
   }
-  return new Intl.DateTimeFormat('en-CA', {
+  const ms = Date.parse(value);
+  if (Number.isNaN(ms)) throw new Error('start_invalid');
+  return new Date(ms);
+}
+
+/** The calendar day in Rome of a UTC instant (Spec v2.5 T17: UTC to Europe/Rome),
+ *  built from the formatter's parts so no locale decides the order of the fields. */
+function romeDate(startAtUtc) {
+  const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).format(new Date(ms));
+  }).formatToParts(parseInstant(startAtUtc));
+  const get = (type) => parts.find((p) => p.type === type).value;
+  return `${get('year')}-${get('month')}-${get('day')}`;
 }
 
 /** Unicode NFC, lower case, whitespace collapsed: one title, one string. */
@@ -68,7 +88,8 @@ function webEventIdentity(ev) {
     input = canonicalUrl(e.detail_url);
     fromListing = false;
   } else {
-    input = `${canonicalUrl(e.listing_url)}|${romeDate(e.start_at_utc)}|${normalizeTitle(e.title)}`;
+    // A JSON array keeps the three fields apart whatever characters they contain.
+    input = JSON.stringify([canonicalUrl(e.listing_url), romeDate(e.start_at_utc), normalizeTitle(e.title)]);
     fromListing = true;
   }
   const key = sha16(input);
@@ -82,7 +103,7 @@ function webEventIdentity(ev) {
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
-  module.exports = { canonicalUrl, romeDate, normalizeTitle, webEventIdentity, TRACKING_PARAM };
+  module.exports = { canonicalUrl, parseInstant, romeDate, normalizeTitle, webEventIdentity, TRACKING_PARAM };
   return;
 }
 

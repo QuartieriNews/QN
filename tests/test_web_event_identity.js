@@ -56,6 +56,10 @@ check('the path keeps its case (servers may distinguish it)',
   canonicalUrl('https://esempio.it/Eventi/A'), 'https://esempio.it/Eventi/A');
 check('the root path stays a slash', canonicalUrl('https://www.esempio.it/'), 'https://esempio.it/');
 check('repeated parameters keep their values, sorted', canonicalUrl('https://esempio.it/e?id=2&id=1'), 'https://esempio.it/e?id=1&id=2');
+check('an explicit port 80 on https is not the default and stays', canonicalUrl('https://esempio.it:80/e'), 'https://esempio.it:80/e');
+check('the default port of each scheme goes', [canonicalUrl('https://esempio.it:443/e'), canonicalUrl('http://esempio.it:80/e')], ['https://esempio.it/e', 'https://esempio.it/e']);
+check('a non-default port survives the upgrade to https', canonicalUrl('http://esempio.it:8080/e'), 'https://esempio.it:8080/e');
+check('http on port 443 stays distinct from https', canonicalUrl('http://esempio.it:443/e') === canonicalUrl('https://esempio.it/e'), false);
 throws('an empty URL is refused', () => canonicalUrl('  '), 'url_missing');
 throws('a malformed URL is refused', () => canonicalUrl('not a url'), 'url_invalid');
 throws('a non-web scheme is refused', () => canonicalUrl('mailto:info@esempio.it'), 'url_not_http');
@@ -66,6 +70,12 @@ check('T17 autumn: 23:30Z on 25 Oct is 26 Oct in Rome', romeDate('2026-10-25T23:
 check('T17 spring: 22:30Z on 28 Mar is still 28 Mar in Rome', romeDate('2026-03-28T22:30:00Z'), '2026-03-28');
 check('T17 spring: 22:30Z on 29 Mar is 30 Mar in Rome', romeDate('2026-03-29T22:30:00Z'), '2026-03-30');
 throws('an instant without an offset is refused', () => romeDate('2026-10-24T22:30:00'), 'start_invalid');
+throws('30 February is refused, not moved to 2 March', () => romeDate('2026-02-30T12:00:00Z'), 'start_invalid');
+throws('29 February of a common year is refused', () => romeDate('2026-02-29T12:00:00Z'), 'start_invalid');
+check('29 February of a leap year is accepted', romeDate('2028-02-29T12:00:00Z'), '2028-02-29');
+throws('hour 24 is refused', () => romeDate('2026-03-01T24:00:00Z'), 'start_invalid');
+check('an offset other than Z is honoured', romeDate('2026-10-25T00:30:00+02:00'), '2026-10-25');
+check('the Rome day has the exact shape YYYY-MM-DD', /^\d{4}-\d{2}-\d{2}$/.test(romeDate('2026-01-05T08:00:00Z')), true);
 
 console.log('title — Unicode NFC, case and whitespace');
 check('composed and decomposed è give one string', normalizeTitle('Caffè letterario'), normalizeTitle('Caffè  letterario'));
@@ -94,6 +104,9 @@ check('decomposed title and another URL spelling give the same identity',
   webEventIdentity({ listing_url: 'https://WWW.esempio.it/calendario/?mese=11&utm_medium=x', start_at_utc: '2026-10-24T22:30:00Z', title: ' caffè LETTERARIO ' }).content_id, b.content_id);
 check('the Rome day, not the UTC day, enters the key',
   webEventIdentity(Object.assign({}, listed, { start_at_utc: '2026-10-25T07:00:00Z' })).content_id, b.content_id);
+check('a | inside the URL or the title cannot make two listings collide',
+  webEventIdentity({ listing_url: 'https://x.test/a', start_at_utc: '2026-01-01T12:00:00Z', title: 'x|2026-01-02|y' }).content_id ===
+  webEventIdentity({ listing_url: 'https://x.test/a|2026-01-01|x', start_at_utc: '2026-01-02T12:00:00Z', title: 'y' }).content_id, false);
 check('two events on the same listing page and day stay distinct',
   webEventIdentity(Object.assign({}, listed, { title: 'Torneo di scacchi' })).content_id === b.content_id, false);
 throws('a listing event without a title is refused', () => webEventIdentity({ listing_url: listed.listing_url, start_at_utc: listed.start_at_utc }), 'title_missing');
