@@ -94,6 +94,50 @@ console.log('precedence and filling, DEC-025 rules 1-3');
     again.find((d) => d.content_id === 'qn:roma:evt:facebook:1').pilot.duplicate_of, 'qn:roma:evt:web:aaaa');
 }
 
+console.log('geography and Roma Today, DEC-025 rule 2');
+{
+  const web = ev('w1', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: null, longitude: null } });
+  const cul = ev('c1', 'culture_roma', 'Festa di quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.9, longitude: 12.5 },
+      geography: { municipality_code: 'V', publication_zone_id: 'centocelle' } });
+  const rt = ev('r1', 'roma_today', 'Festa di quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', booking_url: 'https://esempio.it/biglietti' } });
+  const out = mergeDuplicateEvents([web, cul, rt]);
+  const w = out.find((d) => d.content_id === 'w1');
+  check('the municipality of another source is never copied', w.geography.municipality_code, null);
+  check('coordinates move, and the place is marked for the gazetteer to resolve again', [w.event.latitude, w.pilot.geo_recompute], [41.9, true]);
+  check('Roma Today gives no field, even one nobody else has', w.event.booking_url, undefined);
+}
+
+console.log('identity, DEC-025 rule 3');
+{
+  const fb = ev('qn:roma:evt:facebook:9', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { pilot: { source_title: 'Festa di Quartiere 2026', first_published_at: '2026-11-10T08:00:00Z' },
+      event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Esempio' } });
+  const web = ev('qn:roma:evt:web:bbbb', 'web_page', 'Festa di quartiere 2026', '2026-11-14T16:00:00Z',
+    { event: { start_at_utc: '2026-11-14T16:00:00Z', venue: 'Sala Comune Esempio' } });
+  const out = mergeDuplicateEvents([web, fb]);
+  const e = out.find((d) => d.content_id === 'qn:roma:evt:facebook:9');
+  check('the element already published keeps its content_id', out.find((d) => d.content_id === 'qn:roma:evt:web:bbbb').pilot.duplicate_of, 'qn:roma:evt:facebook:9');
+  check('it takes the leading source\'s fields', [e.event.start_at_utc, e.event.venue, e.pilot.lead], ['2026-11-14T16:00:00Z', 'Sala Comune Esempio', 'qn:roma:evt:web:bbbb']);
+  check('and says where they came from', e.pilot.filled_from['event.start_at_utc'], 'qn:roma:evt:web:bbbb');
+  check('nothing published yet: the leading source gives the identity',
+    mergeDuplicateEvents([Object.assign({}, fb, { pilot: { source_title: 'Festa di Quartiere 2026' } }), web])
+      .find((d) => d.content_id === 'qn:roma:evt:facebook:9').pilot.duplicate_of, 'qn:roma:evt:web:bbbb');
+}
+
+console.log('doubt goes to the queue, DEC-025 rule 4');
+{
+  const a = ev('u1', 'web_page', 'Festa di Quartiere 2026', null, { event: { start_at_utc: null, venue: 'Sala Esempio' } });
+  const b = ev('u2', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z');
+  const out = mergeDuplicateEvents([a, b]);
+  check('an undated event is not merged, both go to the queue', out.map((d) => [d.pilot.duplicate_of, d.quality.review_flags]),
+    [[undefined, ['duplicate_doubt']], [undefined, ['duplicate_doubt']]]);
+  const s = ev('s1', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { series: { is_series: true, next_occurrence: '2026-11-14T15:00:00Z' } });
+  const out2 = mergeDuplicateEvents([s, b]);
+  check('a series against a single event is not merged', out2.map((d) => d.pilot.duplicate_of), [undefined, undefined]);
+}
 console.log('doubt goes to the queue, DEC-025 rule 4');
 {
   // similarity 0.808511 in CPython: above 0.72, below 0.85, and the venues differ

@@ -14,10 +14,22 @@
 /** DEC-025 rule 1, nearest source first. Unknown types rank last. */
 const PRECEDENCE = ['web_page', 'web_page_linked', 'culture_roma', 'facebook_event', 'roma_today'];
 
-/** Fields a secondary copy may fill when the main one lacks them (DEC-025 rule 2). */
+/** Fields another copy may fill when the element lacks them (DEC-025 rule 2). Geography
+ *  is never among them: only location evidence moves, and the gazetteer resolves again. */
 const FILLABLE = [
   'event.venue', 'event.address', 'event.latitude', 'event.longitude', 'event.booking_url',
-  'event.price_text', 'event.organizer_name', 'geography.municipality_code',
+  'event.price_text', 'event.organizer_name',
+];
+const LOCATION = new Set(['event.venue', 'event.address', 'event.latitude', 'event.longitude']);
+
+/** Sources that may give no FILLABLE field: Roma Today is a third-party index only
+ *  (DEC-025 rule 2, DEC-108). */
+const NO_FILL = new Set(['roma_today']);
+
+/** What the leading source gives an element that keeps another identity (DEC-025 rule 3). */
+const LEAD_FIELDS = [
+  'event.start_at_utc', 'event.end_at_utc', 'event.effective_end_utc', 'event.date_precision',
+  'event.venue', 'event.address', 'event.latitude', 'event.longitude', 'pilot.source_title',
 ];
 
 const STOP = new Set(('a al alla alle allo ai agli di del della delle dello dei degli da dal dalla dalle in nel ' +
@@ -116,20 +128,24 @@ function features(doc) {
     venue: new Set(tokens(ev.venue)),
     start,
     end: end || start,
+    series: !!(doc.series && doc.series.is_series !== false),
   };
 }
 
-/** 'same' (the October criteria), 'doubt' (similar and overlapping, not enough to
- *  merge: DEC-025 rule 4 sends it to the queue) or null. */
+/** 'same' (the October criteria), 'doubt' (DEC-025 rule 4 sends it to the queue
+ *  without merging) or null. */
 function compare(fa, fb) {
   const s = similarity(fa.title, fb.title);
-  const ov = fa.start && fb.start ? fa.start <= fb.end && fb.start <= fa.end : null;
+  if (s < 0.72) return null;
+  if (!fa.start || !fb.start) return 'doubt'; // an undated event is never merged
+  const ov = fa.start <= fb.end && fb.start <= fa.end;
+  if (!ov) return null;
+  if (fa.series || fb.series) return 'doubt'; // a series against anything: a person decides
   const inter = [...fa.venue].filter((w) => fb.venue.has(w)).length;
   const vs = fa.venue.size && fb.venue.size ? inter / (fa.venue.size + fb.venue.size - inter) : 0;
-  if (s >= 0.85 && ov !== false) return 'same';
-  if (s >= 0.72 && ov && fa.start === fb.start && vs >= 0.5) return 'same';
-  if (s >= 0.72 && ov) return 'doubt';
-  return null;
+  if (s >= 0.85) return 'same';
+  if (fa.start === fb.start && vs >= 0.5) return 'same';
+  return 'doubt';
 }
 
 function rank(doc) {
@@ -164,21 +180,45 @@ function mergeDuplicateEvents(docs) {
   out.forEach((_, i) => { const r = find(i); if (!groups.has(r)) groups.set(r, []); groups.get(r).push(i); });
   for (const members of groups.values()) {
     if (members.length < 2) continue;
-    members.sort((a, b) => rank(out[a]) - rank(out[b]) ||
+    const byRank = members.slice().sort((a, b) => rank(out[a]) - rank(out[b]) ||
       String(out[a].content_id).localeCompare(String(out[b].content_id)));
-    const main = out[members[0]];
+    const lead = byRank[0];
+    // DEC-025 rule 3: an element already published keeps its identity.
+    const published = members.filter((k) => out[k].pilot && out[k].pilot.first_published_at)
+      .sort((a, b) => String(out[a].pilot.first_published_at).localeCompare(String(out[b].pilot.first_published_at)));
+    const keep = published.length ? published[0] : lead;
+    const element = out[keep];
     const filled = {};
-    for (const path of FILLABLE) {
-      if (!empty(get(main, path))) continue;
-      const donor = members.slice(1).map((k) => out[k]).find((d) => !empty(get(d, path)));
-      if (donor) { set(main, path, get(donor, path)); filled[path] = donor.content_id; }
+    let moved = false;
+    if (keep !== lead) {
+      for (const path of LEAD_FIELDS) {
+        const v = get(out[lead], path);
+        if (!empty(v) && JSON.stringify(v) !== JSON.stringify(get(element, path))) {
+          set(element, path, v);
+          filled[path] = out[lead].content_id;
+          if (LOCATION.has(path)) moved = true;
+        }
+      }
     }
-    main.pilot = Object.assign({}, main.pilot, {
-      duplicates: members.slice(1).map((k) => out[k].content_id),
+    const donors = byRank.filter((k) => k !== keep && !NO_FILL.has(out[k].source && out[k].source.type));
+    for (const path of FILLABLE) {
+      if (!empty(get(element, path))) continue;
+      const d = donors.find((k) => !empty(get(out[k], path)));
+      if (d !== undefined) {
+        set(element, path, get(out[d], path));
+        filled[path] = out[d].content_id;
+        if (LOCATION.has(path)) moved = true;
+      }
+    }
+    element.pilot = Object.assign({}, element.pilot, {
+      lead: out[lead].content_id,
+      duplicates: members.filter((k) => k !== keep).map((k) => out[k].content_id).sort(),
       filled_from: filled,
     });
-    for (const k of members.slice(1)) {
-      out[k].pilot = Object.assign({}, out[k].pilot, { duplicate_of: main.content_id });
+    if (moved) element.pilot.geo_recompute = true; // the gazetteer resolves the new place
+    for (const k of members) {
+      if (k === keep) continue;
+      out[k].pilot = Object.assign({}, out[k].pilot, { duplicate_of: element.content_id });
       addFlag(out[k], 'duplicate_suspected');
     }
   }
@@ -188,7 +228,7 @@ function mergeDuplicateEvents(docs) {
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
-  module.exports = { PRECEDENCE, FILLABLE, ratio, tokens, similarity, compare, mergeDuplicateEvents };
+  module.exports = { PRECEDENCE, FILLABLE, NO_FILL, LEAD_FIELDS, ratio, tokens, similarity, compare, mergeDuplicateEvents };
   return;
 }
 
