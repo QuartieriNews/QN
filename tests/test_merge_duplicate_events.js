@@ -73,6 +73,19 @@ check('similar title, same day and venue is the same event',
 check('a weakly similar title on the same day is not the same event',
   compare(f(ev('a', 'web_page', 'Mercatino dell\'usato', '2026-11-14T09:00:00Z')), f(ev('b', 'facebook_event', 'Mercatino solidale di Natale', '2026-11-14T09:00:00Z'))), null);
 
+console.log('the source title, DEC-025 rule 1');
+{
+  const thrown = (docs) => { try { mergeDuplicateEvents(docs); return null; } catch (e) { return e.message; } };
+  const noName = ev('qn:roma:evt:facebook:9', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { pilot: {} });
+  check('a file without pilot.source_title stops the merge and names the file',
+    /qn:roma:evt:facebook:9: pilot\.source_title missing/.test(thrown([noName]) || ''), true);
+  const ours = ev('qn:roma:evt:web:b', 'web_page', 'Mercatino solidale di Natale', '2026-11-14T15:00:00Z',
+    { article: { title: 'Festa di Quartiere 2026' } });
+  const fb = ev('qn:roma:evt:facebook:8', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z');
+  check('our article title takes no part in the match',
+    mergeDuplicateEvents([ours, fb]).some((d) => d.pilot.duplicate_of), false);
+}
+
 console.log('precedence and filling, DEC-025 rules 1-3');
 {
   const web = ev('qn:roma:evt:web:aaaa', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',

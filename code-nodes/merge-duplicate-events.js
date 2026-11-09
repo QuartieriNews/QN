@@ -123,11 +123,16 @@ function set(obj, dotted, value) {
 const empty = (v) => v === undefined || v === null || v === '';
 
 function features(doc) {
+  // DEC-025 rule 1: the name at the source, never our article title. A file without it
+  // would silently match nothing, so it stops the merge instead.
+  if (typeof (doc.pilot && doc.pilot.source_title) !== 'string') {
+    throw new Error(`${doc.content_id}: pilot.source_title missing (DEC-025 rule 1)`);
+  }
   const ev = doc.event || {};
   const start = romeDay(ev.start_at_utc);
   const end = ev.date_precision === 'exact' ? romeDay(ev.end_at_utc) : null;
   return {
-    title: tokens((doc.pilot && doc.pilot.source_title) || (doc.article && doc.article.title)),
+    title: tokens(doc.pilot.source_title),
     venue: new Set(tokens(ev.venue)),
     start,
     end: end || start,
