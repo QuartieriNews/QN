@@ -195,6 +195,8 @@ check('an existing record without its hash stops the run instead of inventing a 
   /without a valid originale_sha256/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { originale_sha256: undefined })])) || ''), true);
 check('so does a hash that is not 64 lowercase hex digits',
   /without a valid originale_sha256/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { originale_sha256: SHA_A.toUpperCase() })])) || ''), true);
+check('nor is a hash wrapped in a list', /without a valid originale_sha256/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { originale_sha256: [SHA_A] })])) || ''), true);
+check('and a downloaded hash wrapped in a list stops the run too', /sha256/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { sha256: [SHA_A] }), [])) || ''), true);
 check('two existing records with one versione stop the run', /two existing records/.test(thrown(() => m.archiveRecord(arc, DL, [r1, r1])) || ''), true);
 check('an existing versione that is not a whole number stops the run', /versione/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: '1' })])) || ''), true);
 check('the record points at the saved search page its row came from', r1.provenienza.elenco, 'originali/attiweb_elenco_2026-11-10_CMD_0.json');
