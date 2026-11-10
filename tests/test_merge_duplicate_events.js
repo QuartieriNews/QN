@@ -321,6 +321,42 @@ console.log('second Codex review of #30: instants, review state, Roma Today, the
     mergeDuplicateEvents([kept2]).map((d) => [d.pilot.lead_url, d.pilot.filled_from && d.pilot.filled_from['pilot.lead_url']]), [[undefined, undefined]]);
 }
 
+console.log('third Codex review of #30: long Roman numerals, review ownership, refreshed fields');
+{
+  check('a Roman numeral of any length is an identifier', [...identifiers('Festival cinema XXVI')], ['xxvi']);
+  const e25 = ev('x25', 'web_page', 'Festival cinema XXV', '2026-11-14T15:00:00Z');
+  const e26 = ev('x26', 'facebook_event', 'Festival cinema XXVI', '2026-11-14T15:00:00Z');
+  check('«XXV» and «XXVI» are two editions, not one', compare(f(e25), f(e26)), 'doubt');
+
+  const m1 = ev('k1', 'web_page', 'Il piccolo principe', '2026-11-14T15:00:00Z',
+    { quality: { requires_review: false, reject_reason: null, review_flags: ['identity_from_listing'] } });
+  const m2 = ev('k2', 'facebook_event', 'Il piccolo principe', '2026-11-14T19:30:00Z');
+  const split = (docs) => docs.map((d) => (d.content_id === 'k2' ? Object.assign({}, d, { pilot: Object.assign({}, d.pilot, { source_title: 'Torneo di scacchi' }) }) : d));
+  const once = mergeDuplicateEvents([m1, m2]);
+  check('a flag that was already there does not keep the merge\'s review alive',
+    mergeDuplicateEvents(split(once)).find((d) => d.content_id === 'k1').quality.requires_review, false);
+  const later = once.map((d) => (d.content_id === 'k1' ? Object.assign({}, d, { quality: Object.assign({}, d.quality, { review_flags: d.quality.review_flags.concat('zone_unknown') }) }) : d));
+  check('a reason another phase adds afterwards keeps the review',
+    mergeDuplicateEvents(split(later)).find((d) => d.content_id === 'k1').quality.requires_review, true);
+
+  const web = ev('w5', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio' } });
+  const fb10 = ev('f5', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', price_text: '10 euro' } });
+  const first = mergeDuplicateEvents([web, fb10]);
+  check('the first run takes the price from Facebook', first.find((d) => d.content_id === 'w5').event.price_text, '10 euro');
+  const changed = first.map((d) => (d.content_id === 'f5' ? Object.assign({}, d, { event: Object.assign({}, d.event, { price_text: '20 euro' }) }) : d));
+  const again = mergeDuplicateEvents(changed).find((d) => d.content_id === 'w5');
+  check('a rerun takes the donor\'s current value, with its provenance', [again.event.price_text, again.pilot.filled_from['event.price_text']], ['20 euro', 'f5']);
+  const alone = mergeDuplicateEvents([first.find((d) => d.content_id === 'w5')])[0];
+  check('when the pair splits, a filled field goes back to the element\'s own value', [alone.event.price_text, alone.pilot.filled_from, alone.pilot.native], [null, undefined, undefined]);
+
+  const fbOld = ev('qn:roma:evt:facebook:6', 'facebook_event', 'Il piccolo principe', '2026-11-14T18:00:00Z',
+    { pilot: { source_title: 'Il piccolo principe', first_written_at: '2026-11-09T08:00:00Z' }, event: { start_at_utc: '2026-11-14T18:00:00Z', venue: 'Sala Comune Esempio' } });
+  const lead = ev('qn:roma:evt:web:eeee', 'web_page', 'Il piccolo principe', '2026-11-14T18:30:00Z', { event: { start_at_utc: '2026-11-14T18:30:00Z', venue: 'Sala Comune Esempio' } });
+  const merged = mergeDuplicateEvents([fbOld, lead]).find((d) => d.content_id === 'qn:roma:evt:facebook:6');
+  check('the lead\'s time replaces the element\'s', merged.event.start_at_utc, '2026-11-14T18:30:00Z');
+  check('and the element\'s own time comes back when the pair splits', mergeDuplicateEvents([merged])[0].event.start_at_utc, '2026-11-14T18:00:00Z');
+}
+
 console.log('short identifiers, DEC-025 rule 4');
 {
   check('numbers, Roman numerals and single letters are identifiers', [...identifiers('Corso 1 - IX edizione, Sala B')].sort(), ['1', 'b', 'ix']);

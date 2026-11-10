@@ -131,8 +131,8 @@ function tokens(s) {
  *  a single letter, except the one-letter Italian words and elisions. */
 const NOT_IDENTIFIERS = new Set(['a', 'e', 'i', 'o', 'c', 'd', 'l']);
 function identifiers(s) {
-  return new Set(words(s).filter((w) => w.length <= 2 && !NOT_IDENTIFIERS.has(w) &&
-    (/^[0-9]{1,2}$/.test(w) || /^(x{0,2})(ix|iv|v?i{0,2})$/.test(w) || /^[a-z]$/.test(w))));
+  return new Set(words(s).filter((w) => !NOT_IDENTIFIERS.has(w) &&
+    (/^[0-9]{1,2}$/.test(w) || /^x{0,3}(ix|iv|v?i{0,3})$/.test(w) || /^[a-z]$/.test(w))));
 }
 const sameSet = (a, b) => a.size === b.size && [...a].every((x) => b.has(x));
 
@@ -275,23 +275,42 @@ function mergeDuplicateEvents(docs) {
   // What an earlier run derived is derived again: links and merge flags never outlive the
   // comparison that set them (an un-merged evening show becomes visible again).
   for (const d of out) {
-    if (d.pilot) {
-      delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead; delete d.pilot.lead_url;
-      if (d.pilot.filled_from) { d.pilot.filled_from = Object.assign({}, d.pilot.filled_from); delete d.pilot.filled_from['pilot.lead_url']; }
-      // requires_review is cleared only when the merge itself had set it (merge_review).
-      if (d.pilot.merge_review && d.quality) d.quality.requires_review = false;
-      delete d.pilot.merge_review;
-    }
     if (d.quality && Array.isArray(d.quality.review_flags)) {
       d.quality.review_flags = d.quality.review_flags.filter((f) => !MERGE_FLAGS.has(f));
     }
+    if (!d.pilot) continue;
+    delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead; delete d.pilot.lead_url;
+    // Fields the merge filled go back to the element's own value (pilot.native), so this
+    // run takes them again from the sources as they are now; an element still in the queue
+    // keeps what the reviewer sees.
+    if (!d.pilot.review_pending && d.pilot.filled_from) {
+      const native = d.pilot.native || {};
+      for (const p of Object.keys(d.pilot.filled_from)) {
+        if (p === 'pilot.lead_url') continue;
+        if (Object.prototype.hasOwnProperty.call(native, p)) set(d, p, native[p]); else set(d, p, null);
+      }
+      delete d.pilot.filled_from; delete d.pilot.native;
+    }
+    // requires_review is withdrawn only when the merge had set it (merge_review records the
+    // reasons present then) and no other phase has added a reason since.
+    const mr = d.pilot.merge_review;
+    if (mr && d.quality) {
+      const before = new Set(mr.flags || []);
+      const added = (d.quality.review_flags || []).some((f) => !before.has(f)) ||
+        (d.quality.reject_reason || null) !== (mr.reject_reason || null);
+      if (!added) d.quality.requires_review = false;
+    }
+    delete d.pilot.merge_review;
   }
   const feats = out.map(features);
   const parent = out.map((_, i) => i);
   const find = (x) => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };
   const verdict = new Map();
   const review = (doc) => {
-    if (!doc.quality.requires_review) { doc.quality.requires_review = true; doc.pilot = Object.assign({}, doc.pilot, { merge_review: true }); }
+    if (doc.quality.requires_review) return; // asked for already: not the merge's to withdraw
+    const flags = (doc.quality.review_flags || []).filter((f) => !MERGE_FLAGS.has(f));
+    doc.quality.requires_review = true;
+    doc.pilot = Object.assign({}, doc.pilot, { merge_review: { flags, reject_reason: doc.quality.reject_reason || null } });
   };
   const doubt = (k) => { addFlag(out[k], 'duplicate_doubt'); review(out[k]); };
   for (let i = 0; i < out.length; i++) {
@@ -320,6 +339,7 @@ function mergeDuplicateEvents(docs) {
     const element = out[keep];
     // Provenance of fields filled on an earlier run stays; this run adds or replaces entries.
     const filled = Object.assign({}, element.pilot.filled_from);
+    const native = Object.assign({}, element.pilot.native);
     let moved = false;
     // DEC-025 rule 2: a human_verified geography is never recalculated, so no location
     // evidence moves into it; different evidence sends the element to the queue instead.
@@ -334,7 +354,10 @@ function mergeDuplicateEvents(docs) {
         }
         return;
       }
-      for (const p of u) { set(element, p, get(out[from], p)); filled[p] = out[from].content_id; }
+      for (const p of u) {
+        if (!Object.prototype.hasOwnProperty.call(native, p)) native[p] = empty(get(element, p)) ? null : get(element, p);
+        set(element, p, get(out[from], p)); filled[p] = out[from].content_id;
+      }
       if (u.some((p) => LOCATION.has(p))) moved = true;
     };
     // An element whose queue row is still undecided keeps the fields the reviewer sees;
@@ -364,6 +387,7 @@ function mergeDuplicateEvents(docs) {
       duplicates: members.filter((k) => k !== keep).map((k) => out[k].content_id).sort(),
       filled_from: filled,
     });
+    if (Object.keys(native).length) element.pilot.native = native;
     if (moved) element.pilot.geo_recompute = true; // the gazetteer resolves the new place
     for (const k of members) {
       if (k === keep) continue;

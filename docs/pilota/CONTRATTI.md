@@ -223,8 +223,8 @@ dell'articolo non entra mai nel confronto.
   `difflib.SequenceMatcher` sui titoli normalizzati. Il rapporto dipende dall'ordine dei due
   titoli: si prende il minore dei due ordini, così il risultato non dipende dall'arrivo e non
   è mai più largo di ottobre;
-- identificativi corti: un numero di una o due cifre, un numero romano con I, V e X, o una
-  lettera sola, tranne le parole e le elisioni italiane di una lettera (a, e, i, o; c, d,
+- identificativi corti: un numero di una o due cifre, un numero romano con I, V e X di
+  qualunque lunghezza («XXV», «XXVI»), o una lettera sola, tranne le parole e le elisioni italiane di una lettera (a, e, i, o; c, d,
   l). Se due titoli, o due luoghi, non hanno gli stessi identificativi («Corso 1» e «Corso
   2», «Sala A» e «Sala B») la coppia non si fonde;
 - date: il giorno di inizio a Roma e, se la fine è data dalla fonte, il giorno di fine; due
@@ -250,9 +250,13 @@ previsto e va in coda. Ogni elemento che va in coda per la fusione riceve `dupli
 **Corse ripetute.** I collegamenti (`duplicate_of`, `duplicates`, `lead`, `lead_url`) e i
 segnali della fusione (`duplicate_suspected`, `duplicate_doubt`, `merge_deferred`,
 `geo_verified_conflict`) si ricalcolano a ogni corsa: un collegamento non sopravvive al
-confronto che l'ha creato. Quando è la fusione a mettere `requires_review`, lo segna in
-`pilot.merge_review`, e la corsa dopo lo toglie se la ragione non c'è più; una revisione
-chiesta da un'altra fase resta. L'ordine di `first_written_at` si confronta come istante, non
+confronto che l'ha creato. Lo stesso vale per i campi presi: quando la fusione riempie o
+sostituisce un campo, conserva il valore proprio dell'elemento in `pilot.native`; la corsa
+dopo lo rimette e riprende i campi dalle fonti come sono allora, così un valore cambiato alla
+fonte arriva e un campo preso da una coppia che non c'è più se ne va. Un elemento con
+`review_pending` non cambia. Quando è la fusione a mettere `requires_review`, segna in
+`pilot.merge_review` le ragioni che c'erano in quel momento; la corsa dopo lo toglie solo se
+la ragione della fusione non c'è più e nessun'altra fase ne ha aggiunta una. L'ordine di `first_written_at` si confronta come istante, non
 come testo. `filled_from` conserva le voci delle corse precedenti, perché i valori presi restano
 nel file. `source_title` vuoto o fatto di soli spazi, o `first_written_at` che non è un istante
 UTC vero (niente 30 febbraio), fermano la fusione.
