@@ -248,30 +248,30 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('JSON without the list is an error', m.parseSearch(ok({ total: 3 })).kind, 'error');
 
   const one = m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 1, pages: [page(2, [1, 2])] });
-  check('one page: a whole pass', [one.needs_historical, one.pass.total, one.pass.rows.length], [false, 2, 2]);
+  check('one page: a whole pass', [one.needs_historical, one.pass_result.total, one.pass_result.rows.length], [false, 2, 2]);
   check('the pages are saved under the reading day, tipologia, pass and page', one.files.map((f) => f.name), ['attiweb_elenco_2026-11-10_CMD_p1_0.json']);
-  check('each row carries its tipologia and its saved page', [one.pass.rows[0].tipologia, one.pass.rows[0].elenco],
+  check('each row carries its tipologia and its saved page', [one.pass_result.rows[0].tipologia, one.pass_result.rows[0].elenco],
     ['CMD', 'originali/attiweb_elenco_2026-11-10_CMD_p1_0.json']);
   const big = m.searchPass({ tipologia: 'MMC', reading_day: DAY, pass: 2,
     pages: [page(501, Array.from({ length: 500 }, (_, i) => i + 1)), page(501, [501])] });
-  check('two pages: all rows, each from its own page', [big.pass.rows.length, big.pass.rows[500].elenco],
+  check('two pages: all rows, each from its own page', [big.pass_result.rows.length, big.pass_result.rows[500].elenco],
     [501, 'originali/attiweb_elenco_2026-11-10_MMC_p2_1.json']);
   const full = m.searchPass({ tipologia: 'MMC', reading_day: DAY, pass: 1,
     pages: [page(500, Array.from({ length: 500 }, (_, i) => i + 1)), { statusCode: 500, body: STRUTS }] });
-  check('the empty answer after a full page ends the pass', [full.pass.total, full.pass.rows.length, full.files.length], [500, 500, 2]);
+  check('the empty answer after a full page ends the pass', [full.pass_result.total, full.pass_result.rows.length, full.files.length], [500, 500, 2]);
   check('a moving total between pages leaves the pass incomplete',
-    m.searchPass({ tipologia: 'MMC', reading_day: DAY, pass: 1, pages: [page(501, [1]), page(502, [2])] }).pass.error,
+    m.searchPass({ tipologia: 'MMC', reading_day: DAY, pass: 1, pages: [page(501, [1]), page(502, [2])] }).pass_result.error,
     'the declared total changed between pages');
   check('an error page leaves the pass incomplete',
-    m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 1, pages: [page(2, [1]), ok('<html>altro</html>')] }).pass.total, null);
+    m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 1, pages: [page(2, [1]), ok('<html>altro</html>')] }).pass_result.total, null);
   const empty = m.searchPass({ tipologia: 'KD', reading_day: DAY, pass: 1, pages: [{ statusCode: 500, body: STRUTS }] });
-  check('an empty first answer asks for the historical check', [empty.needs_historical, empty.pass], [true, null]);
+  check('an empty first answer asks for the historical check', [empty.needs_historical, empty.pass_result], [true, null]);
   check('with acts in the historical interval the pass is empty',
-    m.searchPass({ tipologia: 'KD', reading_day: DAY, pass: 1, pages: [{ statusCode: 500, body: STRUTS }], historical: page(226, [9]) }).pass,
+    m.searchPass({ tipologia: 'KD', reading_day: DAY, pass: 1, pages: [{ statusCode: 500, body: STRUTS }], historical: page(226, [9]) }).pass_result,
     { total: 0, rows: [], historical_total: 226 });
   check('with none it is missing data',
     m.searchPass({ tipologia: 'XMO', reading_day: DAY, pass: 1, pages: [{ statusCode: 500, body: STRUTS }],
-      historical: { statusCode: 500, body: STRUTS } }).pass.historical_total, 0);
+      historical: { statusCode: 500, body: STRUTS } }).pass_result.historical_total, 0);
   check('a block on a page stops the reading',
     /blocked \(HTTP 429\)/.test(thrown(() => m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 1, pages: [page(1, [1]), { statusCode: 429, body: '' }] })) || ''), true);
   check('a block on the historical check stops it too',
@@ -279,13 +279,13 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
       historical: { statusCode: 403, body: '' } })) || ''), true);
   check('a fourth pass is a workflow error', /pass is 1, 2 or 3/.test(thrown(() => m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 4, pages: [page(1, [1])] })) || ''), true);
   check('a tipologia out of tipo is a workflow error', /not a value of tipo/.test(thrown(() => m.searchPass({ tipologia: 'NEW', reading_day: DAY, pass: 1, pages: [page(1, [1])] })) || ''), true);
-  const p1 = m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 1, pages: [page(2, [1, 2])] }).pass;
-  const p2 = m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 2, pages: [page(2, [2, 1])] }).pass;
+  const p1 = m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 1, pages: [page(2, [1, 2])] }).pass_result;
+  const p2 = m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass: 2, pages: [page(2, [2, 1])] }).pass_result;
   check('two equal passes from the answers complete the tipologia', m.mergePasses([p1, p2]).complete, true);
 
   const mixed = (pass) => m.searchPass({ tipologia: 'CMD', reading_day: DAY, pass, pages: [ok({ total: 5, elencoAtti: [
     act(1), act(2, { dscStrOrg: 'Municipio Roma II' }), act(3, { dscStrOrg: 'P.L. - X GRUPPO MARE' }),
-    act(4, { dtRpr: '2025-12-10' }), act(5, { dtRpr: 'ieri' })] })] }).pass;
+    act(4, { dtRpr: '2025-12-10' }), act(5, { dtRpr: 'ieri' })] })] }).pass_result;
   const closed = m.closeTipologia({ tipologia: 'CMD', reading_day: DAY, passes: [mixed(1), mixed(2)] });
   check('closing: complete after two equal passes', [closed.complete, closed.passes, closed.total], [true, 2, 5]);
   check('closing: the kept row with its archive and its saved page',
@@ -338,6 +338,9 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('a PDF to hash', m.checkPdf({ response: { statusCode: 200, headers: {} }, mime: 'application/pdf', has_content: true }), { ok: true, reason: null });
   check('a block on a PDF stops the reading', /blocked \(HTTP 403\)/.test(thrown(() => m.checkPdf({ response: { statusCode: 403 }, mime: 'text/html', has_content: true })) || ''), true);
   check('a redirect on a PDF stops it too', /blocked \(redirect/.test(thrown(() => m.checkPdf({ response: { statusCode: 302, headers: {} }, mime: '', has_content: false })) || ''), true);
+  check('the portal\'s PDF, sent as octet-stream with a .pdf name, is an original',
+    m.checkPdf({ response: { statusCode: 200, headers: {} }, mime: 'application/octet-stream', file_extension: 'pdf', has_content: true }).ok, true);
+  check('octet-stream without a .pdf name is not', m.checkPdf({ response: { statusCode: 200 }, mime: 'application/octet-stream', file_extension: 'html', has_content: true }).ok, false);
   check('a missing PDF is counted, not written', m.checkPdf({ response: { statusCode: 404 }, mime: 'text/html', has_content: true }).ok, false);
   check('an HTML page is not an original', m.checkPdf({ response: { statusCode: 200 }, mime: 'text/html', has_content: true }).reason, 'not a PDF: text/html');
   check('an empty file is not an original', m.checkPdf({ response: { statusCode: 200 }, mime: 'application/pdf', has_content: false }).reason, 'empty file');
@@ -350,7 +353,7 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('plan: a block on the menu stops the reading before it starts',
     /blocked \(HTTP 403\)/.test(thrown(() => runWith({ stage: 'plan', response: { statusCode: 403, body: '' } })) || ''), true);
   const passed = runWith({ stage: 'pass', tipologia: 'CMD', reading_day: DAY, pass: 1, pages: [page(2, [1, 2])] });
-  check('pass: the pass and the files, the answers dropped', [passed.json.pass.total, passed.json.files.length, passed.json.pages], [2, 1, undefined]);
+  check('pass: the pass and the files, the answers dropped, the number kept', [passed.json.pass_result.total, passed.json.files.length, passed.json.pages, passed.json.pass], [2, 1, undefined, 1]);
   const closedNode = runWith({ stage: 'close', tipologia: 'CMD', reading_day: DAY, passes: [mixed(1), mixed(2)] });
   check('close: the result equal to the module, the passes dropped', [closedNode.json.result, closedNode.json.passes], [closed, undefined]);
   const logged = runWith({ stage: 'log', reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_list', workflow_version: '1', tipologie: closeAll() });
@@ -360,8 +363,22 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   const later = runWith({ stage: 'select', reading_day: DAY, righe, existing_names: [],
     download_log_names: [m.downloadLogName(DAY, 299, START)], cap: 300 });
   check('select: the earlier runs of the day count against the cap', [later.json.downloaded_today, later.json.downloads.length], [299, 1]);
+  const dlog = m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1',
+    esiti: [{ archive_id: 'a', written: true }, { archive_id: 'b', written: false, reason: 'not a PDF: text/html' }] });
+  check('download register: named by day and count, outcomes kept', [dlog.name, dlog.log.read, dlog.log.written, dlog.log.not_written],
+    ['attiweb_download_2026-11-10_n2_20261110T201500Z.json', 2, 1, [{ archive_id: 'b', reason: 'not a PDF: text/html' }]]);
+  check('download register: an outcome without its id is a workflow error',
+    /without its archive_id/.test(thrown(() => m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', esiti: [{}] })) || ''), true);
+  const dl = runWith({ stage: 'download_log', reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', esiti: [{ archive_id: 'a', written: true }] });
+  check('download_log: the register, the outcomes dropped', [dl.json.name, dl.json.esiti], ['attiweb_download_2026-11-10_n1_20261110T201500Z.json', undefined]);
+  const arcItem = m.describeRow(Object.assign(act(7), { tipologia: 'CMD' }), DAY);
+  const rec = runWith({ stage: 'record', archive: arcItem, download: DL, existing: [] });
+  check('record: the stage name gives the record too', rec.json.record_file_name, 'roma__arc__comune.roma.it__CMD__7__v1.json');
   const pdfItem = runWith({ stage: 'pdf', response: { statusCode: 200, headers: {} } }, { data: { mimeType: 'application/pdf', fileSize: '45.3 kB' } });
   check('pdf: a PDF with content is ok', pdfItem.json.pdf.ok, true);
+  const portal = runWith({ stage: 'pdf', response: { statusCode: 200, headers: {} } },
+    { data: { mimeType: 'application/octet-stream', fileExtension: 'pdf', fileSize: '247 kB', bytes: 246928 } });
+  check('pdf: the binary as n8n writes it for the portal\'s answer is ok', portal.json.pdf.ok, true);
   const zero = runWith({ stage: 'pdf', response: { statusCode: 200, headers: {} } }, { data: { mimeType: 'application/pdf', fileSize: '0 B' } });
   check('pdf: n8n\'s "0 B" is an empty file', zero.json.pdf.reason, 'empty file');
 }

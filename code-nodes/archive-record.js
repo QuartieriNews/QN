@@ -15,9 +15,10 @@
  *   - 'log': the closed tipologie become the register of the reading and its kept rows;
  *   - 'select': the kept rows become today's downloads, within the day's cap;
  *   - 'pdf': the answer to a PDF link is checked before it is hashed;
- *   - no stage, a search row: it adds `archive` (identity, perimeter verdict, PDF link);
- *   - no stage, `download` and `existing` set: it adds the `record` to append, or
- *     `record: null` when the archive already holds that original.
+ *   - 'record' (or no stage, with `download` and `existing` set): it adds the `record` to
+ *     append, or `record: null` when the archive already holds that original;
+ *   - 'download_log': the outcomes of a download run become its register;
+ *   - no stage, a search row: it adds `archive` (identity, perimeter verdict, PDF link).
  * The requests and the pause between them belong to the workflow (DEC-033, rule 2); the node
  * refuses a daily cap above the rule.
  */
@@ -371,8 +372,8 @@ function elencoFileName(readingDay, tipologia, pass, page) {
 }
 
 /** Stage 'pass': the answers of one pass over a tipologia, in page order, become a pass for
- *  `mergePasses`; each row carries its tipologia and the saved page it came from, and `files`
- *  are the pages to save under those names. A first answer that is the empty one asks for the
+ *  `mergePasses` (`pass_result`: `pass` is the pass's number); each row carries its tipologia
+ *  and the saved page it came from, and `files` are the pages to save under those names. A first answer that is the empty one asks for the
  *  check over the historical interval (`needs_historical`), whose total the pass then carries. */
 function searchPass({ tipologia, reading_day, pass, pages, historical }) {
   const tipo = normalizeKey(tipologia);
@@ -387,24 +388,24 @@ function searchPass({ tipologia, reading_day, pass, pages, historical }) {
   const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, tipo, pass, i), body: bodyText(res) }));
   const parsed = pages.map(parseSearch);
   if (parsed[0].kind === 'empty' && parsed.every((x) => x.kind === 'empty')) {
-    if (!historical) return { needs_historical: true, files, pass: null };
+    if (!historical) return { needs_historical: true, files, pass_result: null };
     const h = parseSearch(historical);
-    return { needs_historical: false, files, pass: { total: 0, rows: [], historical_total: h.kind === 'rows' ? h.total : 0 } };
+    return { needs_historical: false, files, pass_result: { total: 0, rows: [], historical_total: h.kind === 'rows' ? h.total : 0 } };
   }
   // The page after a full last page can be the empty answer: it ends the pass, it is not an error.
   let last = parsed.length;
   while (last > 1 && parsed[last - 1].kind === 'empty') last -= 1;
   const bad = parsed.slice(0, last).find((x) => x.kind !== 'rows');
-  if (bad) return { needs_historical: false, files, pass: { total: null, rows: [], error: bad.detail || 'an empty answer between pages' } };
+  if (bad) return { needs_historical: false, files, pass_result: { total: null, rows: [], error: bad.detail || 'an empty answer between pages' } };
   const total = parsed[0].total;
   if (parsed.slice(0, last).some((x) => x.total !== total)) {
-    return { needs_historical: false, files, pass: { total: null, rows: [], error: 'the declared total changed between pages' } };
+    return { needs_historical: false, files, pass_result: { total: null, rows: [], error: 'the declared total changed between pages' } };
   }
   const rows = [];
   parsed.slice(0, last).forEach((x, i) => {
     for (const r of x.rows) rows.push(Object.assign({}, r, { tipologia: tipo, elenco: `originali/${files[i].name}` }));
   });
-  return { needs_historical: false, files, pass: { total, rows } };
+  return { needs_historical: false, files, pass_result: { total, rows } };
 }
 
 /** Stage 'close': the passes over one tipologia, merged (`mergePasses`), and each row described
@@ -541,14 +542,36 @@ function selectDownloads({ righe, existing_names, downloaded_today, cap, run_lim
   return out;
 }
 
+/** Stage 'download_log': the register of one download run, from the outcome of each document
+ *  it read (`{ archive_id, written, reason }`); its name carries the day and the count. */
+function downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, esiti }) {
+  if (!utcInstant(finished_at)) throw new Error('finished_at must be a UTC instant');
+  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');
+  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');
+  if (!Array.isArray(esiti)) throw new Error('esiti must list the documents read');
+  const read = esiti.filter((e) => e && typeof e.archive_id === 'string');
+  if (read.length !== esiti.length) throw new Error('an outcome without its archive_id');
+  return {
+    name: downloadLogName(reading_day, read.length, started_at),
+    log: {
+      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,
+      read: read.length,
+      written: read.filter((e) => e.written === true).length,
+      not_written: read.filter((e) => e.written !== true).map((e) => ({ archive_id: e.archive_id, reason: e.reason || null })),
+    },
+  };
+}
+
 /** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers }`, the binary's MIME type and
- *  whether it has content) is an original to hash, a block that stops the reading, or something
- *  else, which is counted and not written. */
-function checkPdf({ response, mime, has_content }) {
+ *  extension, whether it has content) is an original to hash, a block that stops the reading, or
+ *  something else, which is counted and not written. The portal sends its PDFs as
+ *  `application/octet-stream` with a `.pdf` file name. */
+function checkPdf({ response, mime, file_extension, has_content }) {
   const signal = blockSignal(Object.assign({ body: '' }, response));
   if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
   if (Number(response.statusCode) !== 200) return { ok: false, reason: `HTTP ${response.statusCode}` };
-  if (mime !== 'application/pdf') return { ok: false, reason: `not a PDF: ${mime}` };
+  const pdf = mime === 'application/pdf' || (mime === 'application/octet-stream' && String(file_extension).toLowerCase() === 'pdf');
+  if (!pdf) return { ok: false, reason: `not a PDF: ${mime}` };
   if (has_content !== true) return { ok: false, reason: 'empty file' };
   return { ok: true, reason: null };
 }
@@ -565,6 +588,7 @@ if (typeof $input === 'undefined') {
     planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,
     archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,
     closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
+    downloadLog,
   };
   return;
 }
@@ -591,11 +615,15 @@ if ($json.stage === 'plan') {
   delete $json.righe;
   delete $json.existing_names;
 } else if ($json.stage === 'pdf') {
-  // n8n writes the binary's size as text ("45.3 kB"): only whether it is zero matters here.
+  // n8n gives the size in `bytes`, and as text in `fileSize` ("45.3 kB"): only whether it is zero matters.
   const bin = ($input.item.binary || {}).data || {};
   const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();
-  $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, has_content: size !== '' && !/^0(\.0+)?\s*[kMG]?B$/i.test(size) });
-} else if ($json.download) {
+  const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\.0+)?\s*[kMG]?B$/i.test(size);
+  $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });
+} else if ($json.stage === 'download_log') {
+  Object.assign($json, downloadLog($json));
+  delete $json.esiti;
+} else if ($json.stage === 'record' || $json.download) {
   const record = archiveRecord($json.archive, $json.download, $json.existing);
   $json.record = record;
   $json.record_file_name = record ? recordFileName(record) : null;

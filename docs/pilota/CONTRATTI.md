@@ -132,6 +132,20 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   conta. È la forma che lo studio di settembre ha riconosciuto su tutte le 1.426 righe delle
   tipologie municipali (`tools/sources-study/a2_tipologie.py`). Gli atti dei gruppi della Polizia
   Locale (`P.L. - <numero> GRUPPO …`) restano fuori, con il motivo `polizia_locale`.
+- **File della lettura.** Le risposte della ricerca si salvano come arrivano, una per pagina, in
+  `originali/attiweb_elenco_<giorno>_<tipologia>_p<passata>_<pagina>.json`; ogni riga dello
+  storico rimanda alla sua (`provenienza.elenco`). Il registro di ogni lettura sta in
+  `D Storico/letture/attiweb_lettura_<inizio>.json`: per ogni tipologia se è completa, le
+  passate, il totale, il dato mancante, gli errori, le righe tenute e quelle lasciate fuori per
+  motivo. Le righe tenute vanno in `attiweb_righe_<inizio>.json`, da cui legge il download.
+  Ogni giro di download scrive `attiweb_download_<giorno>_n<documenti>_<inizio>.json`: il nome
+  porta i documenti letti, e il tetto del giorno si conta da quei nomi. `<inizio>` è l'ora UTC
+  d'inizio, `YYYYMMDDTHHMMSSZ`.
+- **Segnali di blocco.** Oltre a 403, 429, captcha e pagina di accesso, fermano la lettura
+  anche 401 e qualunque rinvio: il portale non rinvia nelle risposte normali.
+- **PDF.** Il portale manda i PDF come `application/octet-stream` con un nome `.pdf`: valgono
+  come originali. Una pagina HTML, un file vuoto o un codice diverso da 200 si contano nel
+  registro del download e non si scrivono.
 - **Versioni.** Gli `archive_id` nuovi si scaricano per primi; con il tetto che resta nel
   giorno si riscaricano quelli già nello storico, da quello verificato da più tempo, così ogni
   documento si ricontrolla nel tempo. Lo stesso originale (stesso SHA-256) non aggiunge
@@ -144,6 +158,7 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
 | Elementi del giorno | Drive, `QN Hub / 30 Staging pilota 2026-11 / <workstream>/` (cartella privata), nel file fissato dalla PR che apre il canale (qui sotto e sezione 7) |
 | Record dello storico (DEC-023) | Drive, `D Storico/` nella stessa cartella, in sola aggiunta; la copia di riserva in `D Storico/riserva/` |
 | Originali delle fonti: testi, trascrizioni, PDF degli atti | Drive, sottocartella `originali/` dello stesso workstream o dello storico |
+| Registri delle letture dello storico | Drive, `D Storico/letture/` |
 | Registro fonti (fonte di verità, DEC-023) | Drive, `Registro fonti/`, foglio Google |
 | Codice, test con esempi inventati, contratti, decisioni | GitHub |
 
