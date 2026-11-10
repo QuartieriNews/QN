@@ -17,39 +17,55 @@ const crypto = require('crypto');
 /** Query parameters that track a visit and never identify a page. */
 const TRACKING_PARAM = /^(utm_[a-z0-9_]+|fbclid|gclid|dclid|msclkid|mc_cid|mc_eid|_ga|_gl)$/i;
 
-/** The characters a path keeps as they are; any other is percent-encoded, as the WHATWG URL
- *  parser does for http(s) paths. */
-const PATH_KEEP = /[A-Za-z0-9\-._~!$&'()*+,;=:@/%]/;
+/** The characters the WHATWG parser percent-encodes in an http(s) path: C0 controls, space,
+ *  `"`, `<`, `>`, `` ` ``, `{`, `}`, DEL and everything outside ASCII. Any other character,
+ *  `%` included, is kept as it is. */
+const PATH_ENCODE = /[\u0000- "<>`{}\u007f-\u{10ffff}]/u;
 
 /** application/x-www-form-urlencoded, the serialization of URLSearchParams. */
 function formEncode(s) {
   return encodeURIComponent(s).replace(/[!'()~]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase()).replace(/%20/g, '+');
 }
 
+/** The forgiving decoding of URLSearchParams: `+` is a space, a `%` not followed by two hex
+ *  digits stays as it is, and bytes that are not UTF-8 become U+FFFD. */
 function formDecode(s) {
-  try {
-    return decodeURIComponent(s.replace(/\+/g, ' '));
-  } catch (e) {
-    return s;
+  const bytes = [];
+  const t = s.replace(/\+/g, ' ');
+  for (let i = 0; i < t.length; i += 1) {
+    if (t[i] === '%' && /^[0-9A-Fa-f]{2}$/.test(t.slice(i + 1, i + 3))) {
+      bytes.push(parseInt(t.slice(i + 1, i + 3), 16));
+      i += 2;
+    } else {
+      const cp = t.codePointAt(i);
+      const ch = String.fromCodePoint(cp);
+      if (cp > 0xffff) i += 1;
+      for (const b of Buffer.from(ch, 'utf8')) bytes.push(b);
+    }
   }
+  return Buffer.from(bytes).toString('utf8');
 }
 
 /** The canonical form of an http(s) URL, read with patterns: the n8n Code node has no `URL`
  *  global and no `url` module. tests/test_web_event_identity.js checks it against the WHATWG
- *  parser on the forms the channels meet; a host that is not plain ASCII is refused rather
- *  than guessed. */
+ *  parser; what that parser would rewrite in ways a pattern cannot follow is refused rather
+ *  than guessed: a host that is not plain ASCII, and a literal IP address. */
 function canonicalUrl(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') throw new Error('url_missing');
-  const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(raw.trim());
+  const input = raw.trim().replace(/[\t\n\r]/g, '');
+  const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(input);
   if (!sm) throw new Error('url_invalid');
   let scheme = sm[1].toLowerCase();
   if (scheme !== 'http' && scheme !== 'https') throw new Error('url_not_http');
-  const m = /^([A-Za-z][A-Za-z0-9+.-]*):\/\/([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#.*)?$/.exec(raw.trim());
+  const m = /^[A-Za-z][A-Za-z0-9+.-]*:\/\/([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#.*)?$/.exec(input);
   if (!m) throw new Error('url_invalid');
-  const hm = /^(\[[0-9A-Fa-f:.]+\]|[^:@[\]]+)(?::(\d*))?$/.exec(m[2]);
+  const hm = /^([^:@[\]]+)(?::(\d*))?$/.exec(m[1]);
   if (!hm) throw new Error('url_invalid');
   let host = hm[1].toLowerCase();
-  if (!/^(\[[0-9a-f:.]+\]|[a-z0-9.-]+)$/.test(host)) throw new Error('url_invalid');
+  if (!/^[a-z0-9.-]+$/.test(host)) throw new Error('url_invalid');
+  // A last label that is a number makes the host an IPv4 address to the WHATWG parser.
+  const last = host.replace(/\.$/, '').split('.').pop();
+  if (last === '' || /^(\d+|0x[0-9a-f]*)$/.test(last)) throw new Error('url_invalid');
   let port = hm[2] === undefined || hm[2] === '' ? '' : String(Number(hm[2]));
   if (port !== '' && Number(port) > 65535) throw new Error('url_invalid');
   // The default port of the original scheme goes. An explicit port is part of the identity,
@@ -58,13 +74,13 @@ function canonicalUrl(raw) {
   if (!(scheme === 'http' && port === '443')) scheme = 'https';
   host = host.replace(/^www\./, '');
   const segments = [];
-  for (const seg of m[3].replace(/\\/g, '/').split('/').slice(1)) {
+  for (const seg of m[2].replace(/\\/g, '/').split('/').slice(1)) {
     if (seg === '.' || seg.toLowerCase() === '%2e') continue;
     if (seg === '..' || /^(\.|%2e)(\.|%2e)$/i.test(seg)) { segments.pop(); continue; }
-    segments.push([...seg].map((c) => (PATH_KEEP.test(c) ? c : encodeURIComponent(c))).join(''));
+    segments.push([...seg].map((c) => (PATH_ENCODE.test(c) ? encodeURIComponent(c) : c)).join(''));
   }
   const path = ('/' + segments.join('/')).replace(/\/+$/, '') || '/';
-  const kept = (m[4] === undefined ? [] : m[4].split('&'))
+  const kept = (m[3] === undefined ? [] : m[3].split('&'))
     .filter((pair) => pair !== '')
     .map((pair) => {
       const i = pair.indexOf('=');
@@ -78,18 +94,18 @@ function canonicalUrl(raw) {
 
 /** A site's `source_id` is its host, lowercase, without `www.` (CONTRATTI.md, section 2). */
 function sourceIdFromUrl(raw) {
-  return /^https?:\/\/([^/:?#]+|\[[^\]]+\])/.exec(canonicalUrl(raw))[1];
+  return /^https?:\/\/([^/:?#]+)/.exec(canonicalUrl(raw))[1];
 }
 
 const sha256 = (text) => crypto.createHash('sha256').update(text, 'utf8').digest('hex');
 
 /** CONTRATTI.md section 7 (B): one fact, one id. `fact_index` is set only when one source
- *  record holds several facts, and then it is the fact's place in that record (1 to 99). */
+ *  record holds several facts, and then it is the fact's place in that record, from 1. */
 function newsIdentity({ opening_url, fact_index }) {
   const key = sha256(canonicalUrl(opening_url)).slice(0, 16);
   let suffix = '';
   if (fact_index !== undefined && fact_index !== null) {
-    if (!Number.isInteger(fact_index) || fact_index < 1 || fact_index > 99) throw new Error('fact_index_invalid');
+    if (!Number.isSafeInteger(fact_index) || fact_index < 1) throw new Error('fact_index_invalid');
     suffix = `-f${fact_index}`;
   }
   return {
@@ -131,7 +147,7 @@ function normalizePublished(v) {
   return new Date(Date.parse(v)).toISOString();
 }
 
-/** CONTRATTI.md section 7 (B): what the lead record of a fact says. It changes when the
+/** CONTRATTI.md section 7 (B): what the record that opened a fact says. It changes when the
  *  source changes; the content_id does not. */
 function newsSourceHash({ title, text, published_at_utc, place }) {
   // A JSON array keeps the fields apart whatever characters they contain.

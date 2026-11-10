@@ -55,6 +55,10 @@ check('another page is another fact', m.newsIdentity({ opening_url: URL_A + 'alt
 check('a record with several facts: the fact index is a suffix', m.newsIdentity({ opening_url: URL_A, fact_index: 2 }).content_id, one.content_id + '-f2');
 check('and in the file name', m.newsIdentity({ opening_url: URL_A, fact_index: 2 }).canonical_file_name, one.canonical_file_name.replace('.json', '-f2.json'));
 check('a fact index of 0 is refused', thrown(() => m.newsIdentity({ opening_url: URL_A, fact_index: 0 })), 'fact_index_invalid');
+check('any whole fact index from 1 is accepted, 100 and beyond too', m.newsIdentity({ opening_url: URL_A, fact_index: 120 }).content_id, one.content_id + '-f120');
+check('a negative fact index is refused', thrown(() => m.newsIdentity({ opening_url: URL_A, fact_index: -1 })), 'fact_index_invalid');
+check('a literal IP host is refused, never rewritten', thrown(() => m.newsIdentity({ opening_url: 'https://127.1/x' })), 'url_invalid');
+check('an IPv6 host too', thrown(() => m.newsIdentity({ opening_url: 'https://[0:0:0:0:0:0:0:1]/x' })), 'url_invalid');
 check('a fact index that is not a whole number is refused', thrown(() => m.newsIdentity({ opening_url: URL_A, fact_index: '2' })), 'fact_index_invalid');
 check('no URL, no id', thrown(() => m.newsIdentity({ opening_url: ' ' })), 'url_missing');
 check('a URL that is not http is refused', thrown(() => m.newsIdentity({ opening_url: 'ftp://esempio-inventato.it/x' })), 'url_not_http');
