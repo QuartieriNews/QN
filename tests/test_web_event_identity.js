@@ -113,12 +113,46 @@ throws('a listing event without a title is refused', () => webEventIdentity({ li
 throws('a listing event without a date is refused', () => webEventIdentity({ listing_url: listed.listing_url, title: 'X' }), 'start_invalid');
 throws('no page at all is refused', () => webEventIdentity({ title: 'X', start_at_utc: listed.start_at_utc }), 'url_missing');
 
+console.log('the canonical URL without the URL global, against the WHATWG parser');
+// The reference is the WHATWG parser with the rules of this channel, as the node read URLs
+// before n8n's sandbox (no URL global, no url module) made the pattern reading necessary.
+function reference(raw) {
+  const u = new URL(raw.trim());
+  if (!(u.protocol === 'http:' && u.port === '443')) u.protocol = 'https:';
+  u.hostname = u.hostname.toLowerCase().replace(/^www\./, '');
+  u.hash = '';
+  u.pathname = u.pathname.replace(/\/+$/, '') || '/';
+  const TRACK = /^(utm_[a-z0-9_]+|fbclid|gclid|dclid|msclkid|mc_cid|mc_eid|_ga|_gl)$/i;
+  const kept = [...u.searchParams.entries()].filter(([k]) => !TRACK.test(k))
+    .sort((a, b) => (a[0] === b[0] ? (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0) : a[0] < b[0] ? -1 : 1));
+  u.search = '';
+  for (const [k, v] of kept) u.searchParams.append(k, v);
+  return u.toString();
+}
+for (const u of [
+  'https://esempio.it', 'https://esempio.it/', 'http://esempio.it/a', 'https://WWW.Esempio.IT/Percorso/', 'https://esempio.it/a//',
+  'https://esempio.it/a/?b=2&a=1', 'https://esempio.it/a?utm_source=x&id=7&fbclid=y', 'https://esempio.it/e?id=2&id=1',
+  'https://esempio.it:80/e', 'https://esempio.it:443/e', 'http://esempio.it:80/e', 'http://esempio.it:8080/e', 'http://esempio.it:443/e',
+  'https://esempio.it/e?q=due+parole', 'https://esempio.it/e?q=due%20parole', 'https://esempio.it/e?q=%C3%A8', 'https://esempio.it/e?q=è',
+  'https://esempio.it/e?flag', 'https://esempio.it/e?a=&b=1', 'https://esempio.it/e?&a=1&&', 'https://esempio.it/e?a=1#frammento',
+  'https://esempio.it/percorso con spazi', 'https://esempio.it/caff%C3%A8', 'https://esempio.it/caffè', 'https://esempio.it/a/./b/../c',
+  'https://esempio.it/evento-2026-11-14_concerto.html', 'https://esempio.it:08080/e', 'https://sub.esempio.it/www/x', 'https://esempio.it/e?b=x%26y&a=1',
+  'https://esempio.it/a(b)!~*', "https://esempio.it/e?x=it's", 'https://esempio.it/e?x=a~b*c', 'https://[::1]:8080/x',
+]) {
+  check(`same as the WHATWG reading: ${u}`, canonicalUrl(u), reference(u));
+}
+throws('a host that is not plain ASCII is refused, never guessed', () => canonicalUrl('https://caffè.esempio.it/x'), 'url_invalid');
+throws('credentials in the URL are refused', () => canonicalUrl('https://utente:segreto@esempio.it/x'), 'url_invalid');
+throws('a port out of range is refused', () => canonicalUrl('https://esempio.it:70000/x'), 'url_invalid');
+check('the node does not use the URL global', /new URL\(|URLSearchParams\(/.test(fs.readFileSync(FILE, 'utf8')), false);
+
 console.log('n8n adapter branch — exact committed file, stubbed $input/$json/require');
 const src = fs.readFileSync(FILE, 'utf8');
 function runNode(json) {
   const item = { json };
-  const fn = new Function('$input', '$json', 'require', src);
-  return fn({ item }, json, require);
+  // n8n's Code node has neither URL nor URLSearchParams: the adapter runs without them.
+  const fn = new Function('$input', '$json', 'require', 'URL', 'URLSearchParams', src);
+  return fn({ item }, json, require, undefined, undefined);
 }
 {
   const out = runNode({ detail_url: detail.detail_url, start_at_utc: detail.start_at_utc, event_name: detail.title });
