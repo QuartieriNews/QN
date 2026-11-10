@@ -175,8 +175,8 @@ questa sezione non scrive elementi (sezione 3).
 | Cartella | `QN Hub / 30 Staging pilota 2026-11 / C Eventi/`, piatta come nella specifica |
 | `content_id`, `source_hash` | specifica, fasi 2.1 e 2.2; `code-nodes/compute-source-hash.js` |
 | Colonne della coda | `source_channel = fb_event`; le altre come in `docs/REVIEW_QUEUE.md` |
-| Aggiunte del pilota | un oggetto `pilot` al primo livello del file, con `workstream` (`C`), `registro_id` quando c'è, `costo` e `source_title`, il nome dell'evento alla fonte (`event_name` dell'evento sorgente) su cui lavora la fusione dei doppioni (DEC-025, regola 1). Le chiavi della specifica non cambiano |
-| Fusione dei doppioni (DEC-025) | `code-nodes/merge-duplicate-events.js`, su tutti gli elementi della corsa insieme. L'elemento che resta riceve in `pilot` `lead` (il `content_id` della fonte che comanda), `duplicates`, `filled_from` (campo → `content_id` da cui è preso) e `geo_recompute` quando il luogo è cambiato; ogni copia riceve `duplicate_of` e il segnale `duplicate_suspected` in `quality.review_flags`, e non si pubblica da sola (`tools/site/project_events.py`). Una coppia nella zona di dubbio riceve `duplicate_doubt` e `requires_review`. `pilot.first_published_at`, l'ora UTC della prima pubblicazione scritta da chi pubblica, decide quale identità resta (regola 3); un file senza `source_title` ferma la fusione |
+| Aggiunte del pilota | un oggetto `pilot` al primo livello del file, con `workstream` (`C`), `registro_id` quando c'è, `costo`, `source_title`, il nome dell'evento alla fonte (`event_name` dell'evento sorgente) su cui lavora la fusione dei doppioni (DEC-025, regola 1), e `first_written_at`, l'ora UTC della prima scrittura del file, che poi non cambia (regola 3). Le chiavi della specifica non cambiano |
+| Fusione dei doppioni (DEC-025) | `code-nodes/merge-duplicate-events.js`, su tutti gli elementi della corsa insieme. L'elemento che resta riceve in `pilot` `lead` (il `content_id` della fonte che comanda), `duplicates`, `filled_from` (campo → `content_id` da cui è preso) e `geo_recompute` quando il luogo è cambiato; ogni copia riceve `duplicate_of` e il segnale `duplicate_suspected` in `quality.review_flags`, e non si pubblica da sola (`tools/site/project_events.py`). Una coppia in coda, o tutto un gruppo in cui una coppia è in coda, riceve `duplicate_doubt` e `requires_review`. Resta l'identità dell'elemento con la `first_written_at` più vecchia (regola 3); un file senza `source_title` o senza `first_written_at` ferma la fusione |
 | URL delle fonti | raccolti a mano (DEC-102) |
 | Proiezione per il prototipo | `tools/site/project_events.py`, con i test in `tests/test_project_events.py` |
 
@@ -193,7 +193,7 @@ Facebook o da un'altra fonte, comparirebbe due volte.
 | Identità | `content_id`, nome del file e segnalazione li calcola `code-nodes/web-event-identity.js`, con i test in `tests/test_web_event_identity.js`. Se l'evento ha una pagina sua, l'identità viene dall'URL canonico di quella pagina; se compare solo in un elenco, dall'URL dell'elenco, dal giorno di inizio a Roma e dal titolo normalizzato, e il file porta `identity_from_listing` in `quality.review_flags` |
 | `source_hash` | `code-nodes/compute-source-hash.js`, sui campi della fase 2.2 letti dalla pagina |
 | Colonne della coda | `source_channel = web_event`; `source_id` è l'host del sito (sezione 2) |
-| Aggiunte del pilota | lo stesso oggetto `pilot` di Facebook, con `source_title` il nome dell'evento letto sulla pagina (`event_name` dell'evento sorgente) |
+| Aggiunte del pilota | lo stesso oggetto `pilot` di Facebook, con `source_title` il nome dell'evento letto sulla pagina (`event_name` dell'evento sorgente) e `first_written_at` |
 | Cartella | `C Eventi/`, come per Facebook; le pagine lette restano in `C Eventi/originali/` |
 | Proiezione per il prototipo | `tools/site/project_events.py`, la stessa dei file di Facebook |
 

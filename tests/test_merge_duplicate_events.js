@@ -14,7 +14,7 @@
 const path = require('path');
 const fs = require('fs');
 const FILE = path.join(__dirname, '..', 'code-nodes', 'merge-duplicate-events.js');
-const { PRECEDENCE, tokens, similarity, compare, mergeDuplicateEvents } = require(FILE);
+const { PRECEDENCE, tokens, identifiers, similarity, features, compare, mergeDuplicateEvents } = require(FILE);
 
 let failures = 0;
 let checks = 0;
@@ -44,7 +44,7 @@ for (const [a, b, ta, tb, s] of PY) {
 function ev(id, type, title, start, extra) {
   const e = Object.assign({
     schema_version: '2.0', content_id: id, source: { type, url: `https://esempio.it/${id}` },
-    article: { title }, pilot: { source_title: title },
+    article: { title }, pilot: { source_title: title, first_written_at: '2026-11-10T08:00:00Z' },
     event: { start_at_utc: start, end_at_utc: null, date_precision: 'start_only', venue: 'Sala Comune Esempio' },
     geography: { municipality_code: null }, quality: { requires_review: false, reject_reason: null, review_flags: [] },
     lifecycle: { status: 'active' },
@@ -53,10 +53,7 @@ function ev(id, type, title, start, extra) {
 }
 
 console.log('same event, DEC-025 rule 4 (the October criteria)');
-const f = (d) => ({
-  title: tokens(d.pilot.source_title), venue: new Set(tokens(d.event.venue)),
-  start: d.event.start_at_utc.slice(0, 10), end: d.event.start_at_utc.slice(0, 10),
-});
+const f = features;
 check('near-identical title on the same day is the same event',
   compare(f(ev('a', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z')), f(ev('b', 'facebook_event', 'FESTA DEL QUARTIERE – 2026', '2026-11-14T15:00:00Z'))), 'same');
 check('near-identical title on another day is not',
@@ -64,9 +61,15 @@ check('near-identical title on another day is not',
 check('a near-identical title at two venues with no word in common goes to the queue (DEC-025 rule 4)',
   compare(f(ev('a', 'web_page', 'Ciclo di letture: La signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: 'Biblioteca Esempio' } })),
           f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: 'Libreria Altrove' } }))), 'doubt');
-check('a near-identical title with one venue unknown is the same event (first October criterion)',
+check('a near-identical title with one venue unknown goes to the queue: the places must coincide (DEC-025 rule 4)',
   compare(f(ev('a', 'web_page', 'Ciclo di letture: La signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: 'Biblioteca Esempio' } })),
-          f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: null } }))), 'same');
+          f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: null } }))), 'doubt');
+check('two places that share only one generic word do not coincide',
+  compare(f(ev('a', 'web_page', 'Open Day', '2026-11-14T08:00:00Z', { event: { start_at_utc: '2026-11-14T08:00:00Z', venue: 'Biblioteca Esempio' } })),
+          f(ev('b', 'facebook_event', 'Open Day', '2026-11-14T08:00:00Z', { event: { start_at_utc: '2026-11-14T08:00:00Z', venue: 'Biblioteca Altrove' } }))), 'doubt');
+check('two events with no place (online) go to the queue',
+  compare(f(ev('a', 'web_page', 'Incontro online sul quartiere', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: null } })),
+          f(ev('b', 'facebook_event', 'Incontro online sul quartiere', '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue: null } }))), 'doubt');
 check('similar title, same day and venue is the same event',
   compare(f(ev('a', 'web_page', 'Ciclo di letture: La signora Dalloway', '2026-11-14T17:00:00Z')),
           f(ev('b', 'facebook_event', 'Circolo di lettura - La Signora Dalloway', '2026-11-14T17:00:00Z'))), 'same');
@@ -129,17 +132,17 @@ console.log('geography and Roma Today, DEC-025 rule 2');
 console.log('identity, DEC-025 rule 3');
 {
   const fb = ev('qn:roma:evt:facebook:9', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
-    { pilot: { source_title: 'Festa di Quartiere 2026', first_published_at: '2026-11-10T08:00:00Z' },
+    { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-09T08:00:00Z' },
       event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Esempio' } });
   const web = ev('qn:roma:evt:web:bbbb', 'web_page', 'Festa di quartiere 2026', '2026-11-14T16:00:00Z',
     { event: { start_at_utc: '2026-11-14T16:00:00Z', venue: 'Sala Comune Esempio' } });
   const out = mergeDuplicateEvents([web, fb]);
   const e = out.find((d) => d.content_id === 'qn:roma:evt:facebook:9');
-  check('the element already published keeps its content_id', out.find((d) => d.content_id === 'qn:roma:evt:web:bbbb').pilot.duplicate_of, 'qn:roma:evt:facebook:9');
+  check('the element written first keeps its content_id, even below the lead', out.find((d) => d.content_id === 'qn:roma:evt:web:bbbb').pilot.duplicate_of, 'qn:roma:evt:facebook:9');
   check('it takes the leading source\'s fields', [e.event.start_at_utc, e.event.venue, e.pilot.lead], ['2026-11-14T16:00:00Z', 'Sala Comune Esempio', 'qn:roma:evt:web:bbbb']);
   check('and says where they came from', e.pilot.filled_from['event.start_at_utc'], 'qn:roma:evt:web:bbbb');
-  check('nothing published yet: the leading source gives the identity',
-    mergeDuplicateEvents([Object.assign({}, fb, { pilot: { source_title: 'Festa di Quartiere 2026' } }), web])
+  check('written at the same time: the leading source gives the identity',
+    mergeDuplicateEvents([Object.assign({}, fb, { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-10T08:00:00Z' } }), web])
       .find((d) => d.content_id === 'qn:roma:evt:facebook:9').pilot.duplicate_of, 'qn:roma:evt:web:bbbb');
 }
 
@@ -187,6 +190,39 @@ console.log('doubt goes to the queue, DEC-025 rule 4');
   check('similar title, same day, different venue: not merged', out.map((d) => d.pilot.duplicate_of), [undefined, undefined]);
   check('both are flagged for review instead', out.map((d) => [d.quality.review_flags, d.quality.requires_review]),
     [[['duplicate_doubt'], true], [['duplicate_doubt'], true]]);
+}
+
+console.log('short identifiers, DEC-025 rule 4');
+{
+  check('numbers, Roman numerals and single letters are identifiers', [...identifiers('Corso 1 - IX edizione, Sala B')].sort(), ['1', 'b', 'ix']);
+  check('one-letter Italian words and elisions are not', [...identifiers("L'arte e i giochi a Roma, c'è posto")], []);
+  const at = (id, type, title, venue) => ev(id, type, title, '2026-11-14T17:00:00Z', { event: { start_at_utc: '2026-11-14T17:00:00Z', venue } });
+  check('«Corso 1» and «Corso 2» are not merged', compare(f(at('a', 'web_page', 'Corso di ceramica 1', 'Sala Comune Esempio')), f(at('b', 'facebook_event', 'Corso di ceramica 2', 'Sala Comune Esempio'))), 'doubt');
+  check('«IX» and «XI» are not merged', compare(f(at('a', 'web_page', 'Rassegna corale IX', 'Sala Comune Esempio')), f(at('b', 'facebook_event', 'Rassegna corale XI', 'Sala Comune Esempio'))), 'doubt');
+  check('«Sala A» and «Sala B» are not the same place', compare(f(at('a', 'web_page', 'Laboratorio di ceramica', 'Centro Esempio Sala A')), f(at('b', 'facebook_event', 'Laboratorio di ceramica', 'Centro Esempio Sala B'))), 'doubt');
+  check('the same identifiers still merge', compare(f(at('a', 'web_page', 'Corso di ceramica 1', 'Sala Comune Esempio')), f(at('b', 'facebook_event', 'CORSO DI CERAMICA – 1', 'Sala Comune Esempio'))), 'same');
+  check('an elision is not an identifier', compare(f(at('a', 'web_page', "L'Open Day della scuola", 'Scuola Esempio')), f(at('b', 'facebook_event', 'Open Day della scuola', 'Scuola Esempio'))), 'same');
+}
+
+console.log('precedence inside a rank and whole groups, DEC-025 rules 1 and 4');
+{
+  check('the organiser site is one rank, read directly or reached through a link', PRECEDENCE, ['web_page', 'culture_roma', 'facebook_event', 'roma_today']);
+  const own = ev('qn:roma:evt:web:zzzz', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z');
+  const list = ev('qn:roma:evt:web:aaaa', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { quality: { requires_review: false, reject_reason: null, review_flags: ['identity_from_listing'] } });
+  const out = mergeDuplicateEvents([list, own]);
+  check('inside a rank the event\'s own page leads a listing, whatever the content_id', out.find((d) => d.content_id === 'qn:roma:evt:web:aaaa').pilot.duplicate_of, 'qn:roma:evt:web:zzzz');
+  check('and the order of arrival does not change it', mergeDuplicateEvents([own, list]).find((d) => d.content_id === 'qn:roma:evt:web:aaaa').pilot.duplicate_of, 'qn:roma:evt:web:zzzz');
+  const g1 = ev('g1', 'web_page', 'Il piccolo principe', '2026-11-14T15:00:00Z');
+  const g2 = ev('g2', 'facebook_event', 'Il piccolo principe', '2026-11-14T15:40:00Z');
+  const g3 = ev('g3', 'facebook_event', 'Il piccolo principe', '2026-11-14T16:20:00Z');
+  const chain = mergeDuplicateEvents([g1, g2, g3]);
+  check('a chain of same-event pairs whose ends are not the same event is not merged', chain.map((d) => d.pilot.duplicate_of), [undefined, undefined, undefined]);
+  check('the whole group goes to the queue', chain.map((d) => [d.quality.review_flags, d.quality.requires_review]),
+    [[['duplicate_doubt'], true], [['duplicate_doubt'], true], [['duplicate_doubt'], true]]);
+  const noWritten = ev('qn:roma:evt:facebook:7', 'facebook_event', 'Festa', '2026-11-14T15:00:00Z', { pilot: { source_title: 'Festa' } });
+  let msg = null; try { mergeDuplicateEvents([noWritten]); } catch (e) { msg = e.message; }
+  check('a file without pilot.first_written_at stops the merge and names the file', /qn:roma:evt:facebook:7: pilot\.first_written_at missing/.test(msg || ''), true);
 }
 
 console.log('n8n adapter branch — exact committed file, stubbed $input/require');

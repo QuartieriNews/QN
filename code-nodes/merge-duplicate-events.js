@@ -11,8 +11,9 @@
  */
 'use strict';
 
-/** DEC-025 rule 1, nearest source first. Unknown types rank last. */
-const PRECEDENCE = ['web_page', 'web_page_linked', 'culture_roma', 'facebook_event', 'roma_today'];
+/** DEC-025 rule 1, nearest source first: the organiser's site is one rank, read directly
+ *  or reached through a link. Unknown types rank last. */
+const PRECEDENCE = ['web_page', 'culture_roma', 'facebook_event', 'roma_today'];
 
 /** Fields another copy may fill when the element lacks them (DEC-025 rule 2). Geography
  *  is never among them: only location evidence moves, and the gazetteer resolves again. */
@@ -84,14 +85,27 @@ function ratio(a, b) {
   return t ? (2 * matches) / t : 1;
 }
 
+function words(s) {
+  // Python's encode('ascii', 'ignore'): every non-ASCII code point is dropped, not spaced.
+  return String(s || '').normalize('NFKD').replace(/[^\x00-\x7f]/g, '').toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, ' ').split(' ').filter((w) => w !== '');
+}
+
 /** The October sheet's normalization: NFKD, no diacritics, lower case, words of 3+
  *  letters or digits outside the stopword list. */
 function tokens(s) {
-  // Python's encode('ascii', 'ignore'): every non-ASCII code point is dropped, not spaced.
-  const t = String(s || '').normalize('NFKD').replace(/[^\x00-\x7f]/g, '').toLowerCase()
-    .replace(/[^a-z0-9 ]+/g, ' ');
-  return t.split(' ').filter((w) => w.length > 2 && !STOP.has(w));
+  return words(s).filter((w) => w.length > 2 && !STOP.has(w));
 }
+
+/** DEC-025 rule 4, short identifiers: among the words the normalization drops, a number of
+ *  one or two digits, a Roman numeral in I, V and X, or a single letter, except the
+ *  one-letter Italian words and elisions. */
+const NOT_IDENTIFIERS = new Set(['a', 'e', 'i', 'o', 'c', 'd', 'l']);
+function identifiers(s) {
+  return new Set(words(s).filter((w) => w.length <= 2 && !NOT_IDENTIFIERS.has(w) &&
+    (/^[0-9]{1,2}$/.test(w) || /^(x{0,2})(ix|iv|v?i{0,2})$/.test(w) || /^[a-z]$/.test(w))));
+}
+const sameSet = (a, b) => a.size === b.size && [...a].every((x) => b.has(x));
 
 function similarity(ta, tb) {
   if (!ta.length || !tb.length) return 0;
@@ -128,12 +142,19 @@ function features(doc) {
   if (typeof (doc.pilot && doc.pilot.source_title) !== 'string') {
     throw new Error(`${doc.content_id}: pilot.source_title missing (DEC-025 rule 1)`);
   }
+  // DEC-025 rule 3: the order of first writing decides which identity stays.
+  const written = doc.pilot.first_written_at;
+  if (typeof written !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(written)) {
+    throw new Error(`${doc.content_id}: pilot.first_written_at missing (DEC-025 rule 3)`);
+  }
   const ev = doc.event || {};
   const start = romeDay(ev.start_at_utc);
   const end = ev.date_precision === 'exact' ? romeDay(ev.end_at_utc) : null;
   return {
     title: tokens(doc.pilot.source_title),
+    titleIds: identifiers(doc.pilot.source_title),
     venue: new Set(tokens(ev.venue)),
+    venueIds: identifiers(ev.venue),
     start,
     end: end || start,
     series: !!(doc.series && doc.series.is_series !== false),
@@ -151,11 +172,15 @@ function metres(fa, fb) {
   return 2 * 6371000 * Math.asin(Math.sqrt(a));
 }
 
-/** DEC-025 rule 4: both places known and nothing in common, or more than 1 km apart. */
-function venuesConflict(fa, fb, inter) {
-  if (fa.venue.size && fb.venue.size && inter === 0) return true;
-  if (fa.lat !== null && fa.lng !== null && fb.lat !== null && fb.lng !== null) return metres(fa, fb) > 1000;
-  return false;
+/** DEC-025 rule 4: both places known, at least half of their words in common, the same
+ *  short identifiers, and no more than 1 km apart when both have coordinates. */
+function placesCoincide(fa, fb) {
+  if (!fa.venue.size || !fb.venue.size) return false;
+  const inter = [...fa.venue].filter((w) => fb.venue.has(w)).length;
+  if (inter / (fa.venue.size + fb.venue.size - inter) < 0.5) return false;
+  if (!sameSet(fa.venueIds, fb.venueIds)) return false;
+  if (fa.lat !== null && fa.lng !== null && fb.lat !== null && fb.lng !== null) return metres(fa, fb) <= 1000;
+  return true;
 }
 
 /** 'same' (the October criteria), 'doubt' (DEC-025 rule 4 sends it to the queue
@@ -167,21 +192,25 @@ function compare(fa, fb) {
   const ov = fa.start <= fb.end && fb.start <= fa.end;
   if (!ov) return null;
   if (fa.series || fb.series) return 'doubt'; // a series against anything: a person decides
-  const inter = [...fa.venue].filter((w) => fb.venue.has(w)).length;
-  const vs = fa.venue.size && fb.venue.size ? inter / (fa.venue.size + fb.venue.size - inter) : 0;
-  if (s >= 0.85 || (fa.start === fb.start && vs >= 0.5)) {
-    // Enough to merge, but the places disagree: a person decides (DEC-025 rule 4).
-    if (venuesConflict(fa, fb, inter)) return 'doubt';
-    // Same title, same day, hours apart: two performances until a person says otherwise.
-    const gap = Math.abs(fa.startMs - fb.startMs);
-    return Number.isNaN(gap) || gap <= START_TOLERANCE_MS ? 'same' : 'doubt';
-  }
-  return 'doubt';
+  if (s < 0.85 && fa.start !== fb.start) return 'doubt';
+  if (!placesCoincide(fa, fb)) return 'doubt';
+  if (!sameSet(fa.titleIds, fb.titleIds)) return 'doubt'; // «Corso 1» and «Corso 2»
+  // Same title, same day, hours apart: two performances until a person says otherwise.
+  const gap = Math.abs(fa.startMs - fb.startMs);
+  return Number.isNaN(gap) || gap <= START_TOLERANCE_MS ? 'same' : 'doubt';
 }
 
 function rank(doc) {
   const i = PRECEDENCE.indexOf(doc.source && doc.source.type);
   return i < 0 ? PRECEDENCE.length : i;
+}
+
+/** DEC-025 rule 1, the tie-break inside a rank: an event's own page before a listing,
+ *  then content_id, so the result never depends on the order of arrival. */
+const fromListing = (doc) => (((doc.quality || {}).review_flags || []).includes('identity_from_listing') ? 1 : 0);
+function byPrecedence(a, b) {
+  return rank(a) - rank(b) || fromListing(a) - fromListing(b) ||
+    String(a.content_id).localeCompare(String(b.content_id));
 }
 
 function addFlag(doc, flag) {
@@ -195,29 +224,29 @@ function mergeDuplicateEvents(docs) {
   const feats = out.map(features);
   const parent = out.map((_, i) => i);
   const find = (x) => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };
+  const verdict = new Map();
+  const doubt = (k) => { addFlag(out[k], 'duplicate_doubt'); out[k].quality.requires_review = true; };
   for (let i = 0; i < out.length; i++) {
     for (let j = i + 1; j < out.length; j++) {
       const c = compare(feats[i], feats[j]);
+      verdict.set(`${i},${j}`, c);
       if (c === 'same') parent[find(i)] = find(j);
-      else if (c === 'doubt') {
-        for (const k of [i, j]) {
-          addFlag(out[k], 'duplicate_doubt');
-          out[k].quality.requires_review = true;
-        }
-      }
+      else if (c === 'doubt') { doubt(i); doubt(j); }
     }
   }
   const groups = new Map();
   out.forEach((_, i) => { const r = find(i); if (!groups.has(r)) groups.set(r, []); groups.get(r).push(i); });
   for (const members of groups.values()) {
     if (members.length < 2) continue;
-    const byRank = members.slice().sort((a, b) => rank(out[a]) - rank(out[b]) ||
-      String(out[a].content_id).localeCompare(String(out[b].content_id)));
+    // DEC-025 rule 4, groups: every pair must be the same event, or the whole group waits.
+    const pairs = members.flatMap((a, x) => members.slice(x + 1).map((b) => verdict.get(`${Math.min(a, b)},${Math.max(a, b)}`)));
+    if (!pairs.every((c) => c === 'same')) { members.forEach(doubt); continue; }
+    const byRank = members.slice().sort((a, b) => byPrecedence(out[a], out[b]));
     const lead = byRank[0];
-    // DEC-025 rule 3: an element already published keeps its identity.
-    const published = members.filter((k) => out[k].pilot && out[k].pilot.first_published_at)
-      .sort((a, b) => String(out[a].pilot.first_published_at).localeCompare(String(out[b].pilot.first_published_at)));
-    const keep = published.length ? published[0] : lead;
+    // DEC-025 rule 3: the element written first keeps its identity; a tie goes to the lead.
+    const keep = byRank.slice().sort((a, b) =>
+      out[a].pilot.first_written_at.localeCompare(out[b].pilot.first_written_at) ||
+      byRank.indexOf(a) - byRank.indexOf(b))[0];
     const element = out[keep];
     const filled = {};
     let moved = false;
@@ -259,7 +288,10 @@ function mergeDuplicateEvents(docs) {
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
-  module.exports = { PRECEDENCE, FILLABLE, NO_FILL, LEAD_FIELDS, ratio, tokens, similarity, compare, mergeDuplicateEvents };
+  module.exports = {
+    PRECEDENCE, FILLABLE, NO_FILL, LEAD_FIELDS, ratio, tokens, identifiers, similarity, features, compare,
+    mergeDuplicateEvents,
+  };
   return;
 }
 
