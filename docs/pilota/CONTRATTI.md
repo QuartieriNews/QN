@@ -100,7 +100,9 @@ l'`archive_id` del record.
 - **Copia di riserva.** Una volta alla settimana un job di copia duplica i file dello
   storico, i record `__v<versione>.json`, in `D Storico/riserva/<data>/`, con `<data>` il giorno
   di Roma; nessun altro workflow scrive lì. In staging è `staging_D_riserva`, la domenica
-  alle 4:41: se la cartella del giorno c'è già, non copia di nuovo. Gli originali non si
+  alle 4:41. La copia del giorno è completa solo quando nella sua cartella c'è `COMPLETA.json`,
+  scritto dopo l'ultima copia; un giro che trova la cartella senza quel file copia i record che
+  mancano e poi lo scrive. Gli originali non si
   copiano: non cambiano mai, e uno perso si riscarica dal portale e si riconosce dal suo
   `originale_sha256` nel record.
 

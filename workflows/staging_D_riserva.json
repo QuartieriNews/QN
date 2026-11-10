@@ -18,7 +18,7 @@
         0,
         0
       ],
-      "id": "ff83206c-bf1e-43cd-bec3-770844eeb2d9",
+      "id": "84705479-2812-4b4a-b712-8f6d2fedacb4",
       "name": "Ogni settimana"
     },
     {
@@ -35,7 +35,7 @@
         0,
         200
       ],
-      "id": "3839eb16-ba40-4b19-9320-91f9061578b4",
+      "id": "670aa16f-9378-49d1-a1e1-36683d81cd39",
       "name": "Webhook",
       "webhookId": "2049d905-84cd-48cb-aebc-6f5d032dae64",
       "credentials": {
@@ -53,7 +53,7 @@
         "assignments": {
           "assignments": [
             {
-              "id": "9b5c1c9b-4a24-4ac3-a496-6f36acb5d377",
+              "id": "0a1db619-3cac-4862-87ba-c92e3d1bd30b",
               "name": "day",
               "type": "string",
               "value": "={{ $now.setZone('Europe/Rome').toFormat('yyyy-LL-dd') }}"
@@ -67,7 +67,7 @@
         200,
         100
       ],
-      "id": "8a06cb9e-0f43-4395-ab40-3767e2b111f6",
+      "id": "47aaa4c6-f32b-4b14-aed6-776cf1371fa8",
       "name": "Inizio"
     },
     {
@@ -91,7 +91,7 @@
         400,
         100
       ],
-      "id": "180b22b6-7cf9-4225-9d91-ba4cbf69e683",
+      "id": "8026d683-fd70-4f02-986a-22782cc03616",
       "name": "Cartella riserva",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -115,7 +115,7 @@
           },
           "conditions": [
             {
-              "id": "ec01580f-32f7-4c18-bf08-2c4d8fff3657",
+              "id": "f5f91e7e-c4bc-44bf-9280-b7b258917c64",
               "leftValue": "={{ !!$json.id }}",
               "rightValue": true,
               "operator": {
@@ -135,7 +135,7 @@
         600,
         100
       ],
-      "id": "8a717fd2-de61-49e8-84ec-e77fbb888ec1",
+      "id": "b005d347-03bf-4f50-a936-11ed7e9f0052",
       "name": "Riserva c'è?"
     },
     {
@@ -158,9 +158,9 @@
       "typeVersion": 3,
       "position": [
         800,
-        200
+        250
       ],
-      "id": "d4f049b6-667d-4b5c-9a7d-946d33c1ebf2",
+      "id": "e5a416b5-7580-4499-9d28-3330f48a4214",
       "name": "Crea riserva",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -180,13 +180,13 @@
         "assignments": {
           "assignments": [
             {
-              "id": "63c6b5b2-bfb2-44db-9b25-86b23656efd7",
+              "id": "a1fd9c8e-7495-40e4-9097-c33853a19ce7",
               "name": "riserva_id",
               "type": "string",
               "value": "={{ $json.id }}"
             },
             {
-              "id": "38d7def0-b445-4211-944d-3ec51f89e544",
+              "id": "72ee6723-f4de-4822-85b2-06c11321b0d2",
               "name": "day",
               "type": "string",
               "value": "={{ $('Inizio').first().json.day }}"
@@ -200,7 +200,7 @@
         1000,
         100
       ],
-      "id": "3a5dad4f-4ebb-4701-bda7-913382d7f5a2",
+      "id": "af262e52-0ac2-4638-afba-b8f548b1f27b",
       "name": "Riserva"
     },
     {
@@ -224,8 +224,8 @@
         1200,
         100
       ],
-      "id": "39b97eb2-ed26-4aa2-b750-69d658d99f07",
-      "name": "Copia del giorno",
+      "id": "0989e5b2-4faa-4e3f-8e2f-8dddce160bfe",
+      "name": "Cartella del giorno",
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "7nJkjb7aldPHyXv4",
@@ -248,7 +248,7 @@
           },
           "conditions": [
             {
-              "id": "50d3e0c9-0527-43a1-9a72-a3d81bce5236",
+              "id": "4e6c5990-0ba2-4d0b-904b-7a770f5c6366",
               "leftValue": "={{ !!$json.id }}",
               "rightValue": true,
               "operator": {
@@ -268,8 +268,8 @@
         1400,
         100
       ],
-      "id": "5f8acca8-8048-40f1-bba3-e68edaf82f61",
-      "name": "Già fatta?"
+      "id": "e96cc45b-35be-4cb2-9d9e-f6510b5573d9",
+      "name": "Cartella c'è?"
     },
     {
       "parameters": {
@@ -291,9 +291,9 @@
       "typeVersion": 3,
       "position": [
         1600,
-        200
+        250
       ],
-      "id": "7c9ed847-7cde-4127-a53b-f10f752b2082",
+      "id": "7b45e0ef-f6fe-497c-bca6-b8ed51de33f4",
       "name": "Crea cartella del giorno",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -304,6 +304,105 @@
       "retryOnFail": true,
       "maxTries": 5,
       "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4c77bd56-0d8e-4f6a-aacb-58d78fc3ca8c",
+              "name": "day_id",
+              "type": "string",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "id": "413b22ed-bfa5-43d3-a263-f2ab058c2605",
+              "name": "day",
+              "type": "string",
+              "value": "={{ $('Riserva').first().json.day }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1800,
+        100
+      ],
+      "id": "f2205b14-4c14-49dc-a10b-a0db2d284474",
+      "name": "Giorno"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='{{ $json.day_id }}' in parents and name = 'COMPLETA.json' and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        100
+      ],
+      "id": "05053135-5c4e-4ef3-8285-df6c8b71b136",
+      "name": "Segno",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c51ae0e9-46c5-4ea7-8594-01c350b72ad7",
+              "leftValue": "={{ !!$json.id }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2200,
+        100
+      ],
+      "id": "9f866c8d-6d34-49bc-a166-0ef6c3f3b4ab",
+      "name": "Già fatta?"
     },
     {
       "parameters": {
@@ -323,10 +422,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        1800,
+        2400,
         200
       ],
-      "id": "2ea9184f-a866-4d83-9e3f-0ec7efa8a2e3",
+      "id": "87e2823b-570f-42dc-b4df-2e396ff92cab",
       "name": "Record",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -338,6 +437,93 @@
       "maxTries": 5,
       "waitBetweenTries": 5000,
       "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='{{ $('Giorno').first().json.day_id }}' in parents and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2400,
+        400
+      ],
+      "id": "bd20d14f-28dd-459c-88e2-a653bf08e95c",
+      "name": "Già copiati",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByFields",
+        "fieldsToMatchString": "name",
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2600,
+        300
+      ],
+      "id": "2b01ffa8-0f6b-49cf-8b07-01e133ce63b6",
+      "name": "Mancanti",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d7322cd8-95f4-4798-a6ef-1e9ad4ebd05e",
+              "leftValue": "={{ !!$json.id }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2800,
+        300
+      ],
+      "id": "bec8b073-4b71-4f5b-b645-6d9350d965b0",
+      "name": "C'è da copiare?"
     },
     {
       "parameters": {
@@ -357,17 +543,17 @@
         "folderId": {
           "__rl": true,
           "mode": "id",
-          "value": "={{ $('Crea cartella del giorno').first().json.id }}"
+          "value": "={{ $('Giorno').first().json.day_id }}"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2100,
+        3000,
         200
       ],
-      "id": "25f19e82-12d3-4afc-b6c4-c4c71bd0d990",
+      "id": "c0ea3831-7a6d-48c2-b2a3-909d565fc892",
       "name": "Copia",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -381,37 +567,97 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "loose",
-            "version": 2
-          },
-          "conditions": [
+        "maxItems": 1
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        3200,
+        300
+      ],
+      "id": "8bf71f9b-2535-4df9-b2f6-eb4e051ccc21",
+      "name": "Una volta"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
             {
-              "id": "ebb6dd26-33e8-4c13-b4a7-e817dc3729bc",
-              "leftValue": "={{ !!$json.id }}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
+              "id": "def0a196-8de1-4a95-a815-13d78cc93250",
+              "name": "name",
+              "type": "string",
+              "value": "COMPLETA.json"
+            },
+            {
+              "id": "49c7c08e-9596-4820-a21a-241bf7e41cf4",
+              "name": "text",
+              "type": "string",
+              "value": "={{ JSON.stringify({ giorno: $('Giorno').first().json.day, record: $('Record').all().filter((r) => r.json.id).length, copiati_in_questo_giro: $('Mancanti').all().filter((r) => r.json.id).length, finito_alle: $now.toUTC().toISO() }, null, 1) }}"
             }
-          ],
-          "combinator": "and"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3400,
+        300
+      ],
+      "id": "17b2631e-9c7f-4d84-a5b8-6cf69815dfd1",
+      "name": "Testo segno"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        3600,
+        300
+      ],
+      "id": "b398df6a-83ff-4dab-b123-465b1345eb79",
+      "name": "File segno"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Giorno').first().json.day_id }}"
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
       "position": [
-        1900,
+        3800,
         300
       ],
-      "id": "9d5a1ae7-05f6-4981-bb3a-20ec3a1dea4c",
-      "name": "C'è un record?"
+      "id": "4720032b-3725-46a4-9e6a-d60763e56bfe",
+      "name": "Salva segno",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
     }
   ],
   "pinData": {},
@@ -493,14 +739,65 @@
       "main": [
         [
           {
-            "node": "Copia del giorno",
+            "node": "Cartella del giorno",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Copia del giorno": {
+    "Cartella del giorno": {
+      "main": [
+        [
+          {
+            "node": "Cartella c'è?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cartella c'è?": {
+      "main": [
+        [
+          {
+            "node": "Giorno",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Crea cartella del giorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crea cartella del giorno": {
+      "main": [
+        [
+          {
+            "node": "Giorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Giorno": {
+      "main": [
+        [
+          {
+            "node": "Segno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segno": {
       "main": [
         [
           {
@@ -516,18 +813,12 @@
         [],
         [
           {
-            "node": "Crea cartella del giorno",
+            "node": "Record",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Crea cartella del giorno": {
-      "main": [
-        [
+          },
           {
-            "node": "Record",
+            "node": "Già copiati",
             "type": "main",
             "index": 0
           }
@@ -538,14 +829,36 @@
       "main": [
         [
           {
-            "node": "C'è un record?",
+            "node": "Mancanti",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "C'è un record?": {
+    "Già copiati": {
+      "main": [
+        [
+          {
+            "node": "Mancanti",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Mancanti": {
+      "main": [
+        [
+          {
+            "node": "C'è da copiare?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "C'è da copiare?": {
       "main": [
         [
           {
@@ -554,7 +867,57 @@
             "index": 0
           }
         ],
-        []
+        [
+          {
+            "node": "Una volta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copia": {
+      "main": [
+        [
+          {
+            "node": "Una volta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Una volta": {
+      "main": [
+        [
+          {
+            "node": "Testo segno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo segno": {
+      "main": [
+        [
+          {
+            "node": "File segno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File segno": {
+      "main": [
+        [
+          {
+            "node": "Salva segno",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -566,9 +929,9 @@
     "timezone": "Europe/Rome",
     "executionOrder": "v1"
   },
-  "versionId": "31e75e65-b96d-4425-8296-391504fad38a",
+  "versionId": "41affb02-d207-4684-b161-f7c9041224bb",
   "meta": {},
   "nodeGroups": [],
-  "id": "QUwMzrgLg4AFCzgg",
+  "id": "bT0L77rq1yoG3Z7U",
   "tags": []
 }
