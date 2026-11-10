@@ -176,14 +176,14 @@ questa sezione non scrive elementi (sezione 3).
 | `content_id`, `source_hash` | specifica, fasi 2.1 e 2.2; `code-nodes/compute-source-hash.js` |
 | Colonne della coda | `source_channel = fb_event`; le altre come in `docs/REVIEW_QUEUE.md` |
 | Aggiunte del pilota | un oggetto `pilot` al primo livello del file, con `workstream` (`C`), `registro_id` quando c'è, `costo`, `source_title`, il nome dell'evento alla fonte (`event_name` dell'evento sorgente) su cui lavora la fusione dei doppioni (DEC-025, regola 1), e `first_written_at`, l'ora UTC della prima scrittura del file, che poi non cambia (regola 3). Le chiavi della specifica non cambiano |
-| Fusione dei doppioni (DEC-025) | `code-nodes/merge-duplicate-events.js`, su tutti gli elementi della corsa insieme. L'elemento che resta riceve in `pilot` `lead` (il `content_id` della fonte che comanda), `duplicates`, `filled_from` (campo → `content_id` da cui è preso) e `geo_recompute` quando il luogo è cambiato (una geografia `human_verified` non prende prove del luogo né si ricalcola: se le prove sono diverse porta `geo_verified_conflict` e va in coda); ogni copia riceve `duplicate_of` e il segnale `duplicate_suspected` in `quality.review_flags`, e non si pubblica da sola (`tools/site/project_events.py`). Un evento che la fonte dà con il giorno ma senza l'ora porta `start_time_unknown` in `quality.review_flags` e non si fonde da solo. Una coppia in coda, o tutto un gruppo in cui una coppia è in coda, riceve `duplicate_doubt` e `requires_review`. Resta l'identità dell'elemento con la `first_written_at` più vecchia (regola 3); un file senza `source_title` o senza `first_written_at` ferma la fusione. La fusione non scrive nella coda: una riga che una copia ha già in coda si decide `discard` con `fix_target = none` (`docs/REVIEW_QUEUE.md`) |
+| Fusione dei doppioni | con il canale `web_event`, qui sotto, «La fusione dei doppioni» |
 | URL delle fonti | raccolti a mano (DEC-102) |
 | Proiezione per il prototipo | `tools/site/project_events.py`, con i test in `tests/test_project_events.py` |
 
 ### C · Eventi dalle pagine web (`web_event`)
 
 Il canale scrive elementi solo nelle corse in cui gira anche la fusione dei doppioni di DEC-025
-(qui sopra, riga «Fusione dei doppioni»): senza la fusione lo stesso evento, arrivato anche da
+(qui sotto, «La fusione dei doppioni»): senza la fusione lo stesso evento, arrivato anche da
 Facebook o da un'altra fonte, comparirebbe due volte.
 
 | Che cosa | Regola |
@@ -197,3 +197,71 @@ Facebook o da un'altra fonte, comparirebbe due volte.
 | Cartella | `C Eventi/`, come per Facebook; le pagine lette restano in `C Eventi/originali/` |
 | Proiezione per il prototipo | `tools/site/project_events.py`, la stessa dei file di Facebook |
 
+
+
+### C · La fusione dei doppioni (DEC-025)
+
+DEC-025 fissa le scelte: l'ordine delle fonti, i campi mancanti, l'identità e la prudenza.
+Qui c'è il modo di applicarle; lo esegue `code-nodes/merge-duplicate-events.js`, su tutti gli
+elementi della corsa insieme, e ogni regola ha un test in `tests/test_merge_duplicate_events.js`.
+Un cambio che fa fondere da soli casi che oggi vanno in coda richiede una decisione dell'owner
+(DEC-025, regola 4).
+
+**Che cosa legge.** In `pilot`: `source_title`, il nome dell'evento alla fonte; `first_written_at`,
+l'ora UTC della prima scrittura del file, che poi non cambia (i file scritti prima ricevono
+l'ora di creazione del file su Drive); `review_pending`, che il flusso mette a `true` prima
+della fusione quando l'elemento ha nella coda una riga non ancora decisa. Un file senza
+`source_title` o senza `first_written_at` ferma la fusione con il suo `content_id`. Il `title`
+dell'articolo non entra mai nel confronto.
+
+**Lo stesso evento.** I criteri partono da quelli stretti del foglio di ottobre
+(`tools/fonti/lavoro-2026-10/doppioni.py`, PR #21):
+- titoli normalizzati: scomposizione Unicode NFKD, via i caratteri non ASCII, minuscole, ogni
+  segno che non è lettera o cifra diventa spazio, via le parole di due lettere o meno e le
+  parole vuote dello script;
+- somiglianza: la maggiore fra la sovrapposizione delle parole (Jaccard) e il rapporto di
+  `difflib.SequenceMatcher` sui titoli normalizzati;
+- identificativi corti: un numero di una o due cifre, un numero romano con I, V e X, o una
+  lettera sola, tranne le parole e le elisioni italiane di una lettera (a, e, i, o; c, d,
+  l). Se due titoli, o due luoghi, non hanno gli stessi identificativi («Corso 1» e «Corso
+  2», «Sala A» e «Sala B») la coppia non si fonde;
+- date: il giorno di inizio a Roma e, se la fine è data dalla fonte, il giorno di fine; due
+  eventi sono compatibili se i loro intervalli si toccano;
+- luoghi che coincidono: tutti e due noti, con almeno metà delle parole in comune (Jaccard
+  almeno 0,5) e, se tutti e due hanno le coordinate, a non più di 1 km;
+- si fondono da soli due eventi i cui luoghi coincidono, con gli stessi identificativi, con
+  l'ora di inizio tutti e due e a non più di 60 minuti, e con somiglianza almeno 0,85 e date
+  compatibili oppure almeno 0,72 e lo stesso giorno di inizio;
+- vanno in coda senza fondersi: ogni altra coppia con somiglianza almeno 0,72 e date
+  compatibili, per esempio la replica pomeridiana e quella serale; un evento senza data; una
+  serie confrontata con qualunque altro evento; una coppia in cui un evento ha solo il giorno
+  (la fonte lo segna con `start_time_unknown` in `quality.review_flags`); due titoli che
+  normalizzati restano vuoti, lo stesso giorno, nello stesso luogo;
+- un gruppo di tre o più elementi si fonde solo se ogni sua coppia è lo stesso evento,
+  altrimenti va in coda tutto il gruppo.
+
+Ogni elemento che va in coda per la fusione riceve `duplicate_doubt` in `quality.review_flags`
+e `requires_review`.
+
+**Chi comanda e chi resta.** Nel gruppo comanda la fonte di grado più alto (DEC-025, regola
+1); a parità di grado comanda la pagina propria dell'evento rispetto a un elenco
+(`identity_from_listing`), poi il `content_id` in ordine alfabetico. Resta l'elemento con la
+`first_written_at` più vecchia; a parità, quello che comanda. L'elemento che resta riceve in
+`pilot` `lead` (il `content_id` di chi comanda), `duplicates` e `filled_from`; ogni copia
+riceve `duplicate_of` e `duplicate_suspected` in `quality.review_flags`, e non si pubblica da
+sola (`tools/site/project_events.py`).
+
+**I campi.** L'elemento che resta prende da chi comanda le date, il luogo e il nome alla
+fonte; un campo che gli manca ancora lo prende dalla prima fonte successiva che lo ha, mai da
+Roma Today. Inizio, fine e precisione della data si prendono sempre insieme da una fonte, e
+così latitudine e longitudine. `pilot.filled_from` dice, per ogni campo preso così, il suo
+percorso e il `content_id` da cui viene. La geografia non si copia: un luogo cambiato porta
+`geo_recompute`, e il gazetteer ricalcola zona e municipio. Una geografia `human_verified`
+non prende prove del luogo né si ricalcola; se le prove sono diverse, l'elemento riceve
+`geo_verified_conflict` e va in coda.
+
+**La coda.** La fusione non scrive nella coda, che si scrive solo in aggiunta
+(`docs/REVIEW_QUEUE.md`). Un elemento con `review_pending` non cambia i campi che il
+revisore sta guardando: riceve `merge_deferred`, il gruppo si registra, e i campi si
+prendono alla prima corsa dopo la decisione. Una riga che una copia ha già in coda si decide
+`discard` con `fix_target = none`, perché l'evento vive nell'elemento che resta.

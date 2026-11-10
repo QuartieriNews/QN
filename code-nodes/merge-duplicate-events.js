@@ -26,6 +26,24 @@ const LOCATION = new Set(['event.venue', 'event.address', 'event.latitude', 'eve
 /** DEC-025 rule 4: starts further apart than this are not merged on their own. */
 const START_TOLERANCE_MS = 60 * 60 * 1000;
 
+/** DEC-025 rule 2: fields that go together come from one source. A unit is present in a
+ *  file when its first field is (for times, the start) or, for coordinates, both are. */
+const UNITS = [
+  ['event.start_at_utc', 'event.end_at_utc', 'event.effective_end_utc', 'event.date_precision'],
+  ['event.latitude', 'event.longitude'],
+];
+function units(paths) {
+  const out = [];
+  const seen = new Set();
+  for (const p of paths) {
+    if (seen.has(p)) continue;
+    const u = (UNITS.find((g) => g.includes(p)) || [p]).filter((x) => paths.includes(x));
+    u.forEach((x) => seen.add(x));
+    out.push(u);
+  }
+  return out;
+}
+
 /** Sources that may give no FILLABLE field: Roma Today is a third-party index only
  *  (DEC-025 rule 2, DEC-108). */
 const NO_FILL = new Set(['roma_today']);
@@ -259,34 +277,34 @@ function mergeDuplicateEvents(docs) {
     // DEC-025 rule 2: a human_verified geography is never recalculated, so no location
     // evidence moves into it; different evidence sends the element to the queue instead.
     const verified = ((element.geography || {}).geo_verification_status) === 'human_verified';
-    const takes = (path, v) => {
-      if (!(verified && LOCATION.has(path))) return true;
-      if (!empty(v) && JSON.stringify(v) !== JSON.stringify(get(element, path))) {
-        addFlag(element, 'geo_verified_conflict');
-        element.quality.requires_review = true;
-      }
-      return false;
-    };
-    if (keep !== lead) {
-      for (const path of LEAD_FIELDS) {
-        const v = get(out[lead], path);
-        if (!takes(path, v)) continue;
-        if (!empty(v) && JSON.stringify(v) !== JSON.stringify(get(element, path))) {
-          set(element, path, v);
-          filled[path] = out[lead].content_id;
-          if (LOCATION.has(path)) moved = true;
+    const present = (doc, u) => (u[0] === 'event.start_at_utc' ? !empty(get(doc, u[0])) : u.every((p) => !empty(get(doc, p))));
+    const same = (a, b, u) => u.every((p) => JSON.stringify(get(a, p)) === JSON.stringify(get(b, p)));
+    const take = (u, from) => {
+      if (verified && u.some((p) => LOCATION.has(p))) {
+        if (!same(element, out[from], u)) {
+          addFlag(element, 'geo_verified_conflict');
+          element.quality.requires_review = true;
         }
+        return;
+      }
+      for (const p of u) { set(element, p, get(out[from], p)); filled[p] = out[from].content_id; }
+      if (u.some((p) => LOCATION.has(p))) moved = true;
+    };
+    // An element whose queue row is still undecided keeps the fields the reviewer sees;
+    // the merge records the group and fills the fields at the first run after the decision.
+    const pending = !!(element.pilot && element.pilot.review_pending);
+    if (pending) addFlag(element, 'merge_deferred');
+    if (!pending && keep !== lead) {
+      for (const u of units(LEAD_FIELDS)) {
+        if (present(out[lead], u) && !same(element, out[lead], u)) take(u, lead);
       }
     }
     const donors = byRank.filter((k) => k !== keep && !NO_FILL.has(out[k].source && out[k].source.type));
-    for (const path of FILLABLE) {
-      if (!empty(get(element, path))) continue;
-      const d = donors.find((k) => !empty(get(out[k], path)));
-      if (d !== undefined && !takes(path, get(out[d], path))) continue;
-      if (d !== undefined) {
-        set(element, path, get(out[d], path));
-        filled[path] = out[d].content_id;
-        if (LOCATION.has(path)) moved = true;
+    if (!pending) {
+      for (const u of units(FILLABLE)) {
+        if (present(element, u)) continue;
+        const d = donors.find((k) => present(out[k], u));
+        if (d !== undefined) take(u, d);
       }
     }
     element.pilot = Object.assign({}, element.pilot, {

@@ -203,6 +203,34 @@ console.log('doubt goes to the queue, DEC-025 rule 4');
     [[['duplicate_doubt'], true], [['duplicate_doubt'], true]]);
 }
 
+console.log('fields that go together, and an element still in the queue, DEC-025 rules 2-3');
+{
+  // the Facebook copy was written first, so it keeps its identity; the web page leads
+  const fb = ev('qn:roma:evt:facebook:5', 'facebook_event', 'Il piccolo principe', '2026-11-14T18:00:00Z',
+    { pilot: { source_title: 'Il piccolo principe', first_written_at: '2026-11-09T08:00:00Z' },
+      event: { start_at_utc: '2026-11-14T18:00:00Z', end_at_utc: '2026-11-14T18:30:00Z', date_precision: 'exact', venue: 'Sala Comune Esempio', latitude: 41.9 } });
+  const web = ev('qn:roma:evt:web:cccc', 'web_page', 'Il piccolo principe', '2026-11-14T19:00:00Z',
+    { event: { start_at_utc: '2026-11-14T19:00:00Z', end_at_utc: null, date_precision: 'start_only', venue: 'Sala Comune Esempio' } });
+  const e = mergeDuplicateEvents([fb, web]).find((d) => d.content_id === 'qn:roma:evt:facebook:5');
+  check('the times move as one: the lead\'s start without an end never meets the copy\'s end',
+    [e.event.start_at_utc, e.event.end_at_utc, e.event.date_precision], ['2026-11-14T19:00:00Z', null, 'start_only']);
+  const half = ev('h1', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.9, longitude: null } });
+  const onlyLat = ev('h2', 'culture_roma', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.95, longitude: null } });
+  const both = ev('h3', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.901, longitude: 12.5 } });
+  const h = mergeDuplicateEvents([half, onlyLat, both]).find((d) => d.content_id === 'h1');
+  check('latitude and longitude come from one source, the first that has both',
+    [h.event.latitude, h.event.longitude, h.pilot.filled_from['event.latitude'], h.pilot.filled_from['event.longitude']], [41.901, 12.5, 'h3', 'h3']);
+  const queued = Object.assign({}, fb, { pilot: Object.assign({}, fb.pilot, { review_pending: true }) });
+  const out = mergeDuplicateEvents([queued, web]);
+  const q = out.find((d) => d.content_id === 'qn:roma:evt:facebook:5');
+  check('an element whose queue row is undecided keeps the fields the reviewer sees',
+    [q.event.start_at_utc, q.event.end_at_utc, q.quality.review_flags.includes('merge_deferred')], ['2026-11-14T18:00:00Z', '2026-11-14T18:30:00Z', true]);
+  check('and the group is still recorded', out.find((d) => d.content_id === 'qn:roma:evt:web:cccc').pilot.duplicate_of, 'qn:roma:evt:facebook:5');
+}
+
 console.log('short identifiers, DEC-025 rule 4');
 {
   check('numbers, Roman numerals and single letters are identifiers', [...identifiers('Corso 1 - IX edizione, Sala B')].sort(), ['1', 'b', 'ix']);
