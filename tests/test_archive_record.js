@@ -102,6 +102,12 @@ console.log('passes over a tipologia, DEC-033 rule 1 (late publication)');
   check('nor does a later pass make it complete', m.mergePasses([empty(0), empty(5), empty(5)]).complete, false);
   check('an empty pass without the historical check is a workflow error',
     /historical_total/.test(thrown(() => m.mergePasses([p(0, []), p(0, [])])) || ''), true);
+  const extra = { total: 1, rows: [{ idDoc: 1 }, { idDoc: 'bad' }] };
+  check('a pass with a malformed row besides the declared ones is not whole', m.mergePasses([extra, extra]).complete, false);
+  const oddEmpty = { total: 0, rows: [{ idDoc: 'bad' }], historical_total: 5 };
+  check('nor is an empty pass that holds an unreadable row', m.mergePasses([oddEmpty, oddEmpty]).complete, false);
+  const twice = { total: 2, rows: [{ idDoc: 1 }, { idDoc: 1 }, { idDoc: 2 }] };
+  check('nor one with a repeated idDoc', m.mergePasses([twice, twice]).complete, false);
   check('more than three passes is a workflow error', /one to three passes/.test(thrown(() => m.mergePasses([p(1, [1]), p(1, [1]), p(1, [1]), p(1, [1])])) || ''), true);
 }
 
@@ -185,6 +191,12 @@ check('a repeated versione is found in any order', /two existing records with ve
 check('a gap in the existing versions stops the run: the listing is incomplete',
   /not 1 to 3/.test(thrown(() => m.archiveRecord(arc, DL, [r1, Object.assign({}, r1, { versione: 3, originale_sha256: SHA_B })])) || ''), true);
 check('so does a history without its v1', /not 1 to 2/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: 2 })])) || ''), true);
+check('an existing record without its hash stops the run instead of inventing a change',
+  /without a valid originale_sha256/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { originale_sha256: undefined })])) || ''), true);
+check('so does a hash that is not 64 lowercase hex digits',
+  /without a valid originale_sha256/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { originale_sha256: SHA_A.toUpperCase() })])) || ''), true);
+check('nor is a hash wrapped in a list', /without a valid originale_sha256/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { originale_sha256: [SHA_A] })])) || ''), true);
+check('and a downloaded hash wrapped in a list stops the run too', /sha256/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { sha256: [SHA_A] }), [])) || ''), true);
 check('two existing records with one versione stop the run', /two existing records/.test(thrown(() => m.archiveRecord(arc, DL, [r1, r1])) || ''), true);
 check('an existing versione that is not a whole number stops the run', /versione/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: '1' })])) || ''), true);
 check('the record points at the saved search page its row came from', r1.provenienza.elenco, 'originali/attiweb_elenco_2026-11-10_CMD_0.json');

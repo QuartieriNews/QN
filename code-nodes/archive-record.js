@@ -84,9 +84,10 @@ function mergePasses(passes) {
   const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));
   const byId = new Map();
   for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);
-  // A pass is whole when it holds as many distinct, valid idDoc as the total it declares:
-  // a truncated pagination is never complete, however stable.
-  const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && ids(p).size === p.total;
+  // A pass is whole when it holds exactly the rows it declares, each with a valid idDoc of its
+  // own: a truncated pagination, or a row that cannot be read, is never complete, however stable.
+  const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && Array.isArray(p.rows) &&
+    p.rows.length === p.total && ids(p).size === p.total;
   // An empty response is an empty tipologia only when the historical interval returns acts;
   // otherwise it is missing data, and another pass would not change it.
   for (const p of passes) {
@@ -225,12 +226,15 @@ function describeRow(row, readingDay) {
   };
 }
 
+/** Lowercase SHA-256 as a string: a regex alone would accept a one-element array. */
+const isSha256 = (v) => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);
+
 /** Stage 2: the record to append for a downloaded original, or null when the latest
  *  version already holds the same file (CONTRATTI.md, «Lo storico»: same SHA-256, no new
  *  row). `existing` lists the versions already in the archive for this `archive_id`. */
 function archiveRecord(archive, download, existing) {
   if (!archive || !archive.keep) throw new Error('only a kept row becomes a record');
-  if (!download || !/^[0-9a-f]{64}$/.test(download.sha256 || '')) throw new Error('download.sha256 must be 64 hex digits');
+  if (!download || !isSha256(download.sha256)) throw new Error('download.sha256 must be 64 hex digits');
   if (!utcInstant(download.retrieved_at)) {
     throw new Error('download.retrieved_at must be a UTC instant');
   }
@@ -251,6 +255,8 @@ function archiveRecord(archive, download, existing) {
   for (const r of existing) {
     if (!r || r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r && r.archive_id}`);
     if (!Number.isInteger(r.versione) || r.versione < 1) throw new Error(`existing record with versione ${JSON.stringify(r.versione)}`);
+    // The hash decides whether a reading adds a version: without it a change would be invented.
+    if (!isSha256(r.originale_sha256)) throw new Error(`existing record v${r.versione} without a valid originale_sha256`);
     if (seen.has(r.versione)) throw new Error(`two existing records with versione ${r.versione}`);
     seen.add(r.versione);
     if (!latest || r.versione > latest.versione) latest = r;
