@@ -113,6 +113,21 @@ def test_only_blocking_rejects_stop_an_item():
     assert skipped == {"schema_version": 0, "not_publishable": 1}, skipped
 
 
+def test_dec_025_a_secondary_copy_is_not_published_alone():
+    main = doc(content_id="qn:roma:evt:web:aaaa", source={"type": "web_page", "url": "https://esempio.it/e"},
+               pilot={"duplicates": ["qn:roma:evt:facebook:1"]})
+    copy = doc(content_id="qn:roma:evt:facebook:1", pilot={"duplicate_of": "qn:roma:evt:web:aaaa"})
+    out, skipped = p.build([main, copy], "2026-10-13", BLOCKING)
+    assert [e["id"] for e in out["events"]] == ["qn:roma:evt:web:aaaa"], out
+    assert skipped["not_publishable"] == 1, skipped
+
+
+def test_dec_025_a_merged_element_publishes_the_lead_link():
+    kept = doc(content_id="qn:roma:evt:facebook:2", pilot={"lead": "qn:roma:evt:web:bbbb", "lead_url": "https://esempio.it/evento"})
+    assert p.project(kept)["url"] == "https://esempio.it/evento"
+    assert p.project(doc())["url"] == "https://example.org/e/111"
+
+
 def test_inactive_and_other_schema_versions_are_left_out():
     docs = [doc(content_id="a", lifecycle__status="removed"), doc(content_id="b", schema_version="1.4")]
     out, skipped = p.build(docs, "2026-10-13", BLOCKING)

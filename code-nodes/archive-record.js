@@ -23,7 +23,7 @@ const PREFIX = 'qn:roma:arc:';
 const PDF_URL = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti';
 
 /** The values of `tipo`: every tipologia of the portal's menu on 15 September 2026
- *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3), all read by DEC-033 rule 1. */
+ *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3), all read (CONTRATTI.md, «Lo storico»). */
 const TIPI = Object.freeze(['CMC', 'CPC', 'MMC', 'KD', 'KCD', 'WCD', 'WD', 'MD', 'MCD', 'OCD',
   'OD', 'PD', 'KID', 'CD', 'CMD', 'CID', 'ACD', 'KMD', 'WMD', 'GCD', 'GD', 'GMD', 'DDS', 'DMS',
   'PMT', 'GMT', 'PS', 'GCM', 'GMM', 'CZ', 'CMZ', 'AZ', 'XO', 'TO', 'PMO', 'SO', 'XMO', 'AY', 'CY',
@@ -56,9 +56,9 @@ function archiveId(tipologia, idDoc) {
   return `${PREFIX}${SOURCE_ID}:${tipo}:${key}`;
 }
 
-/** DEC-033 rule 1: the tipologie the portal lists at the start of a reading, in a fixed
- *  order. A list that did not read stops the reading before it starts; a code that is not
- *  a value of `tipo` stops it too, until a PR adds the code here. */
+/** CONTRATTI.md «Lo storico», reading Atti Web: the tipologie the portal lists at the
+ *  start of a reading, in a fixed order. A list that did not read stops the reading before
+ *  it starts; a code that is not a value of `tipo` stops it too, until a PR adds it here. */
 function planTipologie(menu) {
   if (!Array.isArray(menu) || menu.length === 0) throw new Error('the list of tipologie did not read: the reading does not start');
   const codes = [...new Set(menu.map(normalizeKey))];
@@ -67,13 +67,13 @@ function planTipologie(menu) {
   return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));
 }
 
-/** DEC-033 rule 1, late publication: the passes over one tipologia (each `{ total, rows }`)
- *  count when the last two give the same total and the same set of idDoc; at most three
- *  passes. The rows are merged by idDoc either way, and `complete` says what the registry
- *  records. */
+/** CONTRATTI.md «Lo storico» (DEC-033 rule 5), late publication: the passes over one
+ *  tipologia (each `{ total, rows }`) count when the last two give the same total and the
+ *  same set of idDoc; at most three passes. The rows are merged by idDoc within the
+ *  tipologia either way, and `complete` says what the registry records. */
 function mergePasses(passes) {
   if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {
-    throw new Error('one to three passes over a tipologia (DEC-033, rule 1)');
+    throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');
   }
   const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)));
   const byId = new Map();
@@ -146,18 +146,18 @@ function sourceDay(v, field) {
   throw bad();
 }
 
-/** DEC-033, rule 1: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps
+/** CONTRATTI.md «Lo storico»: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps
  *  which of the two it took. A row without `dtRpr` is not a row of that search. */
 function dataDocumento(row) {
   const rpr = sourceDay(row.dtRpr, 'dtRpr');
-  if (!rpr) throw new Error('dtRpr missing: the search filters on it (DEC-033, rule 1)');
+  if (!rpr) throw new Error('dtRpr missing: the search filters on it (CONTRATTI.md, «Lo storico»)');
   const seduta = sourceDay(row.dtSeduta, 'dtSeduta');
   return seduta ? { day: seduta, from: 'dtSeduta' } : { day: rpr, from: 'dtRpr' };
 }
 
-/** The Municipio structure named by `dscStrOrg` (DEC-033, rule 1: «MUNIC…», «ROMA» when
- *  present, the Roman numeral compared whole), as the canonical `municipality_code`; null
- *  when it names none, or more than one. */
+/** The Municipio structure named by `dscStrOrg` (CONTRATTI.md «Lo storico», DEC-033 rule 1:
+ *  «MUNIC…», «ROMA» when present, the Roman numeral compared whole), as the canonical
+ *  `municipality_code`; null when it names none, or more than one. */
 function municipalityCode(dscStrOrg) {
   const s = normalizeKey(dscStrOrg).toUpperCase();
   const found = new Set();
