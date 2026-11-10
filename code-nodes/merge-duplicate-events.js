@@ -46,6 +46,9 @@ function units(paths) {
   return out;
 }
 
+/** Flags the merge itself sets; an earlier run's are cleared and set again. */
+const MERGE_FLAGS = new Set(['duplicate_suspected', 'duplicate_doubt', 'merge_deferred']);
+
 /** Sources that may give no FILLABLE field: Roma Today is a third-party index only
  *  (DEC-025 rule 2, DEC-108). */
 const NO_FILL = new Set(['roma_today']);
@@ -133,7 +136,10 @@ function similarity(ta, tb) {
   let inter = 0;
   for (const w of A) if (B.has(w)) inter += 1;
   const j = inter / (A.size + B.size - inter);
-  return Math.max(j, ratio(ta.join(' '), tb.join(' ')));
+  // difflib's ratio depends on the order of its arguments; the smaller of the two orders
+  // keeps the result independent of arrival (DEC-025 rule 1) and never looser than October.
+  const a = ta.join(' '), b = tb.join(' ');
+  return Math.max(j, Math.min(ratio(a, b), ratio(b, a)));
 }
 
 function romeDay(instant) {
@@ -156,16 +162,26 @@ function set(obj, dotted, value) {
 }
 const empty = (v) => v === undefined || v === null || v === '';
 
+/** A real UTC instant written as YYYY-MM-DDTHH:MM:SS(.fff)Z: no 30 February, no hour 24. */
+function utcInstant(v) {
+  const m = typeof v === 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?Z$/.exec(v);
+  if (!m) return false;
+  const [y, mo, d, h, mi, se] = m.slice(1, 7).map(Number);
+  const t = new Date(Date.UTC(y, mo - 1, d, h, mi, se));
+  return t.getUTCFullYear() === y && t.getUTCMonth() === mo - 1 && t.getUTCDate() === d &&
+    t.getUTCHours() === h && t.getUTCMinutes() === mi && t.getUTCSeconds() === se;
+}
+
 function features(doc) {
   // DEC-025 rule 1: the name at the source, never our article title. A file without it
   // would silently match nothing, so it stops the merge instead.
-  if (typeof (doc.pilot && doc.pilot.source_title) !== 'string') {
+  const name = doc.pilot && doc.pilot.source_title;
+  if (typeof name !== 'string' || name.trim() === '') {
     throw new Error(`${doc.content_id}: pilot.source_title missing (DEC-025 rule 1)`);
   }
   // DEC-025 rule 3: the order of first writing decides which identity stays.
-  const written = doc.pilot.first_written_at;
-  if (typeof written !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(written)) {
-    throw new Error(`${doc.content_id}: pilot.first_written_at missing (DEC-025 rule 3)`);
+  if (!utcInstant(doc.pilot.first_written_at)) {
+    throw new Error(`${doc.content_id}: pilot.first_written_at missing or not a UTC instant (DEC-025 rule 3)`);
   }
   const ev = doc.event || {};
   const start = romeDay(ev.start_at_utc);
@@ -179,6 +195,7 @@ function features(doc) {
     end: end || start,
     series: !!(doc.series && doc.series.is_series !== false),
     noTime: (((doc.quality || {}).review_flags) || []).includes('start_time_unknown'),
+    known: PRECEDENCE.includes(doc.source && doc.source.type),
     startMs: typeof ev.start_at_utc === 'string' ? Date.parse(ev.start_at_utc) : NaN,
     lat: typeof ev.latitude === 'number' ? ev.latitude : null,
     lng: typeof ev.longitude === 'number' ? ev.longitude : null,
@@ -218,6 +235,7 @@ function compare(fa, fb) {
   const ov = fa.start <= fb.end && fb.start <= fa.end;
   if (!ov) return null;
   if (fa.series || fb.series) return 'doubt'; // a series against anything: a person decides
+  if (!fa.known || !fb.known) return 'doubt'; // a source with no rank: not foreseen, so it waits
   if (s < 0.85 && fa.start !== fb.start) return 'doubt';
   if (!placesCoincide(fa, fb)) return 'doubt';
   if (!sameSet(fa.titleIds, fb.titleIds)) return 'doubt'; // «Corso 1» and «Corso 2»
@@ -248,6 +266,14 @@ function addFlag(doc, flag) {
 
 function mergeDuplicateEvents(docs) {
   const out = docs.map((d) => JSON.parse(JSON.stringify(d)));
+  // What an earlier run derived is derived again: links and merge flags never outlive the
+  // comparison that set them (an un-merged evening show becomes visible again).
+  for (const d of out) {
+    if (d.pilot) { delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead; }
+    if (d.quality && Array.isArray(d.quality.review_flags)) {
+      d.quality.review_flags = d.quality.review_flags.filter((f) => !MERGE_FLAGS.has(f));
+    }
+  }
   const feats = out.map(features);
   const parent = out.map((_, i) => i);
   const find = (x) => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };
@@ -257,8 +283,9 @@ function mergeDuplicateEvents(docs) {
     for (let j = i + 1; j < out.length; j++) {
       const c = compare(feats[i], feats[j]);
       verdict.set(`${i},${j}`, c);
-      if (c === 'same') parent[find(i)] = find(j);
-      else if (c === 'doubt') { doubt(i); doubt(j); }
+      // Groups are built over doubts too, so a doubtful third copy keeps the pair unmerged.
+      if (c === 'same' || c === 'doubt') parent[find(i)] = find(j);
+      if (c === 'doubt') { doubt(i); doubt(j); }
     }
   }
   const groups = new Map();
@@ -276,7 +303,8 @@ function mergeDuplicateEvents(docs) {
       out[a].pilot.first_written_at.localeCompare(out[b].pilot.first_written_at) ||
       byRank.indexOf(a) - byRank.indexOf(b))[0];
     const element = out[keep];
-    const filled = {};
+    // Provenance of fields filled on an earlier run stays; this run adds or replaces entries.
+    const filled = Object.assign({}, element.pilot.filled_from);
     let moved = false;
     // DEC-025 rule 2: a human_verified geography is never recalculated, so no location
     // evidence moves into it; different evidence sends the element to the queue instead.

@@ -31,7 +31,7 @@ const PY = [
   ["Festa di Quartiere 2026", "FESTA DEL QUARTIERE – 2026", ["festa", "quartiere", "2026"], ["festa", "quartiere", "2026"], 1.0],
   ["Caffè letterario «Ritratti»", "Caffe letterario: Ritratti!", ["caffe", "letterario", "ritratti"], ["caffe", "letterario", "ritratti"], 1.0],
   ["Concerto jazz al Charity Café", "Jazz night con il quartetto", ["jazz", "charity", "cafe"], ["jazz", "night", "quartetto"], 0.540540540541],
-  ["Mercatino dell'usato", "Mercatino solidale di Natale", ["mercatino", "dell", "usato"], ["mercatino", "solidale", "natale"], 0.666666666667],
+  ["Mercatino dell'usato", "Mercatino solidale di Natale", ["mercatino", "dell", "usato"], ["mercatino", "solidale", "natale"], 0.577777777778],
   ["Ciclo di letture: La signora Dalloway", "Circolo di lettura - La Signora Dalloway", ["ciclo", "letture", "signora", "dalloway"], ["circolo", "lettura", "signora", "dalloway"], 0.935483870968],
   ["a«b c»d", "ab cd", [], [], 0],
   ["Straße Fest", "Strasse fest", ["strae", "fest"], ["strasse", "fest"], 0.909090909091]
@@ -229,6 +229,52 @@ console.log('fields that go together, and an element still in the queue, DEC-025
   check('an element whose queue row is undecided keeps the fields the reviewer sees',
     [q.event.start_at_utc, q.event.end_at_utc, q.quality.review_flags.includes('merge_deferred')], ['2026-11-14T18:00:00Z', '2026-11-14T18:30:00Z', true]);
   check('and the group is still recorded', out.find((d) => d.content_id === 'qn:roma:evt:web:cccc').pilot.duplicate_of, 'qn:roma:evt:facebook:5');
+}
+
+console.log('reruns, order and unforeseen inputs (Codex review of #30)');
+{
+  check('similarity is the same in both orders (CPython: 0.6923 one way, 0.7692 the other)',
+    [similarity(tokens('foxtrot alpha'), tokens('foxtrot opera')), similarity(tokens('foxtrot opera'), tokens('foxtrot alpha'))].map((x) => Math.round(x * 1e6) / 1e6), [0.692308, 0.692308]);
+  const x1 = ev('o1', 'web_page', 'foxtrot alpha', '2026-11-14T15:00:00Z');
+  const x2 = ev('o2', 'facebook_event', 'foxtrot opera', '2026-11-14T15:00:00Z');
+  check('and so is the outcome', [mergeDuplicateEvents([x1, x2]).map((d) => d.pilot.duplicate_of), mergeDuplicateEvents([x2, x1]).map((d) => d.pilot.duplicate_of)], [[undefined, undefined], [undefined, undefined]]);
+
+  const stale = ev('s9', 'facebook_event', 'Il piccolo principe', '2026-11-14T19:30:00Z',
+    { pilot: { source_title: 'Il piccolo principe', first_written_at: '2026-11-10T08:00:00Z', duplicate_of: 's8' },
+      quality: { requires_review: false, reject_reason: null, review_flags: ['duplicate_suspected'] } });
+  const now = ev('s8', 'web_page', 'Il piccolo principe', '2026-11-14T15:00:00Z',
+    { pilot: { source_title: 'Il piccolo principe', first_written_at: '2026-11-10T08:00:00Z', duplicates: ['s9'], lead: 's8' } });
+  const re = mergeDuplicateEvents([now, stale]);
+  check('a pair that no longer matches loses the old links, so the evening show is visible again',
+    re.map((d) => [d.pilot.duplicate_of, d.pilot.duplicates, d.quality.review_flags.includes('duplicate_suspected')]), [[undefined, undefined, false], [undefined, undefined, false]]);
+  check('and goes to the queue as a doubt', re.map((d) => d.quality.review_flags.includes('duplicate_doubt')), [true, true]);
+
+  const first = mergeDuplicateEvents([
+    ev('p1', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: null, longitude: null } }),
+    ev('p2', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.9, longitude: 12.5 } })]);
+  const second = mergeDuplicateEvents(first);
+  check('a rerun keeps the provenance of fields filled on the first run', second.find((d) => d.content_id === 'p1').pilot.filled_from,
+    { 'event.latitude': 'p2', 'event.longitude': 'p2' });
+  check('and gives the same links', second.map((d) => d.pilot.duplicate_of), first.map((d) => d.pilot.duplicate_of));
+
+  const g1 = ev('c1', 'web_page', 'Il piccolo principe', '2026-11-14T15:00:00Z');
+  const g2 = ev('c2', 'facebook_event', 'Il piccolo principe', '2026-11-14T15:00:00Z');
+  const g3 = ev('c3', 'facebook_event', 'Il piccolo principe', '2026-11-14T18:00:00Z');
+  const grp = mergeDuplicateEvents([g1, g2, g3]);
+  check('a doubtful third copy keeps the pair unmerged: the whole group waits',
+    grp.map((d) => [d.pilot.duplicate_of, d.quality.review_flags.includes('duplicate_doubt')]), [[undefined, true], [undefined, true], [undefined, true]]);
+
+  const unknown = ev('u9', 'giornale_locale', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z');
+  const fbk = ev('u8', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z');
+  check('a source with no rank is not merged, it waits',
+    mergeDuplicateEvents([unknown, fbk]).map((d) => [d.pilot.duplicate_of, d.quality.review_flags.includes('duplicate_doubt')]), [[undefined, true], [undefined, true]]);
+
+  const thrown = (docs) => { try { mergeDuplicateEvents(docs); return null; } catch (e) { return e.message; } };
+  check('a blank source title stops the merge', /b9: pilot\.source_title missing/.test(thrown([ev('b9', 'facebook_event', '   ', '2026-11-14T15:00:00Z')]) || ''), true);
+  const bad = (w) => ev('w9', 'facebook_event', 'Festa', '2026-11-14T15:00:00Z', { pilot: { source_title: 'Festa', first_written_at: w } });
+  check('30 February is not a first-written time', /w9: pilot\.first_written_at/.test(thrown([bad('2026-02-30T08:00:00Z')]) || ''), true);
+  check('nor is hour 99', /w9: pilot\.first_written_at/.test(thrown([bad('2026-11-10T99:99:99Z')]) || ''), true);
+  check('a real instant with milliseconds is', thrown([bad('2026-11-10T08:00:00.123Z')]), null);
 }
 
 console.log('short identifiers, DEC-025 rule 4');

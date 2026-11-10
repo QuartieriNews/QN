@@ -220,7 +220,9 @@ dell'articolo non entra mai nel confronto.
   segno che non è lettera o cifra diventa spazio, via le parole di due lettere o meno e le
   parole vuote dello script;
 - somiglianza: la maggiore fra la sovrapposizione delle parole (Jaccard) e il rapporto di
-  `difflib.SequenceMatcher` sui titoli normalizzati;
+  `difflib.SequenceMatcher` sui titoli normalizzati. Il rapporto dipende dall'ordine dei due
+  titoli: si prende il minore dei due ordini, così il risultato non dipende dall'arrivo e non
+  è mai più largo di ottobre;
 - identificativi corti: un numero di una o due cifre, un numero romano con I, V e X, o una
   lettera sola, tranne le parole e le elisioni italiane di una lettera (a, e, i, o; c, d,
   l). Se due titoli, o due luoghi, non hanno gli stessi identificativi («Corso 1» e «Corso
@@ -240,8 +242,16 @@ dell'articolo non entra mai nel confronto.
 - un gruppo di tre o più elementi si fonde solo se ogni sua coppia è lo stesso evento,
   altrimenti va in coda tutto il gruppo.
 
-Ogni elemento che va in coda per la fusione riceve `duplicate_doubt` in `quality.review_flags`
-e `requires_review`.
+Un gruppo si forma anche sulle coppie in coda, così una terza copia dubbia tiene in coda le
+altre due. Una fonte senza grado nell'ordine di DEC-025 non si fonde mai: è un caso non
+previsto e va in coda. Ogni elemento che va in coda per la fusione riceve `duplicate_doubt` in
+`quality.review_flags` e `requires_review`.
+
+**Corse ripetute.** I collegamenti (`duplicate_of`, `duplicates`, `lead`) e i segnali della
+fusione si ricalcolano a ogni corsa: un collegamento non sopravvive al confronto che l'ha
+creato. `filled_from` conserva le voci delle corse precedenti, perché i valori presi restano
+nel file. `source_title` vuoto o fatto di soli spazi, o `first_written_at` che non è un istante
+UTC vero (niente 30 febbraio), fermano la fusione.
 
 **Chi comanda e chi resta.** Nel gruppo comanda la fonte di grado più alto (DEC-025, regola
 1); a parità di grado comanda la pagina propria dell'evento rispetto a un elenco
