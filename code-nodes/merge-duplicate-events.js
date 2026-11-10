@@ -158,6 +158,7 @@ function features(doc) {
     start,
     end: end || start,
     series: !!(doc.series && doc.series.is_series !== false),
+    noTime: (((doc.quality || {}).review_flags) || []).includes('start_time_unknown'),
     startMs: typeof ev.start_at_utc === 'string' ? Date.parse(ev.start_at_utc) : NaN,
     lat: typeof ev.latitude === 'number' ? ev.latitude : null,
     lng: typeof ev.longitude === 'number' ? ev.longitude : null,
@@ -186,6 +187,10 @@ function placesCoincide(fa, fb) {
 /** 'same' (the October criteria), 'doubt' (DEC-025 rule 4 sends it to the queue
  *  without merging) or null. */
 function compare(fa, fb) {
+  if (!fa.title.length || !fb.title.length) {
+    // An empty normalized title never merges; on the same day at the same place it waits.
+    return fa.start && fa.start === fb.start && placesCoincide(fa, fb) ? 'doubt' : null;
+  }
   const s = similarity(fa.title, fb.title);
   if (s < 0.72) return null;
   if (!fa.start || !fb.start) return 'doubt'; // an undated event is never merged
@@ -195,6 +200,7 @@ function compare(fa, fb) {
   if (s < 0.85 && fa.start !== fb.start) return 'doubt';
   if (!placesCoincide(fa, fb)) return 'doubt';
   if (!sameSet(fa.titleIds, fb.titleIds)) return 'doubt'; // «Corso 1» and «Corso 2»
+  if (fa.noTime || fb.noTime) return 'doubt'; // a day without a time cannot be matched to a performance
   // Same title, same day, hours apart: two performances until a person says otherwise.
   const gap = Math.abs(fa.startMs - fb.startMs);
   return Number.isNaN(gap) || gap <= START_TOLERANCE_MS ? 'same' : 'doubt';

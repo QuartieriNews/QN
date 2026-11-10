@@ -171,9 +171,16 @@ console.log('doubt goes to the queue, DEC-025 rule 4');
   const c3 = Object.assign({}, c2, { event: Object.assign({}, c2.event, { latitude: 41.8905 }) });
   check('the same venue a few metres apart is the same event', mergeDuplicateEvents([c1, c3])[1].pilot.duplicate_of, 'c1');
   const j1 = ev('j1', 'web_page', '\u6625\u306e\u7948\u308a', '2026-11-14T15:00:00Z');
-  const j2 = ev('j2', 'facebook_event', '\u590f\u306e\u591c', '2026-11-14T15:00:00Z');
-  check('titles that normalize to nothing never merge (similarity 0, as in the October script)',
+  const j2 = ev('j2', 'facebook_event', '\u590f\u306e\u591c', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Palestra Altrove' } });
+  check('titles that normalize to nothing never merge, and at different places they do not wait either',
     mergeDuplicateEvents([j1, j2]).map((d) => [d.pilot.duplicate_of, d.quality.review_flags]), [[undefined, []], [undefined, []]]);
+  const j3 = ev('j3', 'facebook_event', '\u6625\u306e\u7948\u308a', '2026-11-14T15:00:00Z');
+  check('two empty normalized titles on the same day at the same place go to the queue',
+    mergeDuplicateEvents([j1, j3]).map((d) => [d.pilot.duplicate_of, d.quality.review_flags]), [[undefined, ['duplicate_doubt']], [undefined, ['duplicate_doubt']]]);
+  const t1 = ev('t1', 'web_page', 'Il piccolo principe', '2026-11-14T00:00:00Z',
+    { quality: { requires_review: false, reject_reason: null, review_flags: ['start_time_unknown'] } });
+  check('a source that gives the day without the time is not merged, it waits',
+    mergeDuplicateEvents([t1, n1]).map((d) => [d.pilot.duplicate_of, d.quality.review_flags.includes('duplicate_doubt')]), [[undefined, true], [undefined, true]]);
   const s = ev('s1', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { series: { is_series: true, next_occurrence: '2026-11-14T15:00:00Z' } });
   const out2 = mergeDuplicateEvents([s, b]);
   check('a series against a single event is not merged', out2.map((d) => d.pilot.duplicate_of), [undefined, undefined]);
