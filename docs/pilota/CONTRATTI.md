@@ -255,7 +255,8 @@ confronto che l'ha creato. Lo stesso vale per i campi presi: quando la fusione r
 sostituisce un campo, conserva il valore proprio dell'elemento in `pilot.native` e quello
 che ha messo in `pilot.derived`; la corsa dopo rimette il valore proprio solo se il campo
 vale ancora quello messo dalla fusione (altrimenti l'ha riscritto la fonte dell'elemento, e
-resta), e riprende i campi dalle fonti come sono allora, così un valore cambiato alla
+resta); i campi che vanno insieme (inizio e fine, latitudine e longitudine) si giudicano e si
+rimettono insieme, e riprende i campi dalle fonti come sono allora, così un valore cambiato alla
 fonte arriva e un campo preso da una coppia che non c'è più se ne va. Un elemento con
 `review_pending` non cambia, come il suo gruppo («La coda»). Quando è la fusione a mettere `requires_review`, segna in
 `pilot.merge_review` le ragioni che c'erano in quel momento; la corsa dopo lo toglie solo se

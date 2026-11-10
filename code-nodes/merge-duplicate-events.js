@@ -130,7 +130,7 @@ function tokens(s) {
  *  Roman numeral up to C (XL, XLV, XC; the additive XXXXV too), or a single letter, except
  *  the Italian words and elisions they would collide with. */
 const NOT_IDENTIFIERS = new Set(['a', 'e', 'i', 'o', 'c', 'd', 'l', 'ci', 'li']);
-const ROMAN = /^(c{0,3}(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})|x{4,}v?i{0,4})$/;
+const ROMAN = /^((xc|xl|l?x{0,3})(ix|iv|v?i{0,3})|x{4,9}v?i{0,4})$/; // up to C (C itself is 'c')
 function identifiers(s) {
   return new Set(words(s).filter((w) => !NOT_IDENTIFIERS.has(w) &&
     (/^[0-9]{1,2}$/.test(w) || ROMAN.test(w) || /^[a-z]$/.test(w))));
@@ -292,12 +292,15 @@ function mergeDuplicateEvents(docs) {
     if (!d.pilot.review_pending && d.pilot.filled_from) {
       const native = d.pilot.native || {};
       const derived = d.pilot.derived || {};
-      for (const p of Object.keys(d.pilot.filled_from)) {
-        if (p === 'pilot.lead_url') continue;
-        const stillDerived = !Object.prototype.hasOwnProperty.call(derived, p) ||
-          JSON.stringify(get(d, p) === undefined ? null : get(d, p)) === JSON.stringify(derived[p]);
+      const value = (p) => JSON.stringify(get(d, p) === undefined ? null : get(d, p));
+      // Fields that go together (times, coordinates) are judged and restored as one unit.
+      for (const u of units(Object.keys(d.pilot.filled_from).filter((p) => p !== 'pilot.lead_url'))) {
+        const stillDerived = u.every((p) => !Object.prototype.hasOwnProperty.call(derived, p) ||
+          value(p) === JSON.stringify(derived[p]));
         if (!stillDerived) continue;
-        if (Object.prototype.hasOwnProperty.call(native, p)) set(d, p, native[p]); else set(d, p, null);
+        for (const p of u) {
+          if (Object.prototype.hasOwnProperty.call(native, p)) set(d, p, native[p]); else set(d, p, null);
+        }
       }
       delete d.pilot.filled_from; delete d.pilot.native; delete d.pilot.derived;
     }
