@@ -105,6 +105,11 @@ check('XV is read whole', m.municipalityCode('Municipio Roma XV'), 'XV');
 check('two different Municipi: none', m.municipalityCode('Municipio Roma I e Municipio Roma II'), null);
 check('no Municipio: none', m.municipalityCode('Dipartimento inventato'), null);
 check('a roman number outside I-XV: none', m.municipalityCode('Municipio XL'), null);
+check('the short form of the source study: MUNIC. ROMA X', m.municipalityCode('MUNIC. ROMA X - Ufficio inventato'), 'X');
+check('MUNICIPIO without ROMA', m.municipalityCode('MUNICIPIO X DIREZIONE INVENTATA'), 'X');
+check('a word after ROMA is not a numeral', m.municipalityCode('Municipio Roma Via Inventata'), null);
+check('a Polizia Locale group is not a Municipio structure', m.municipalityCode('P.L. - X GRUPPO MARE'), null);
+check('and its rows are left out with their own reason', m.describeRow(row({ tipologia: 'DDS', dscStrOrg: 'P.L. - X GRUPPO MARE' }), '2026-11-10').reason, 'polizia_locale');
 
 console.log('perimeter, DEC-033 rule 1');
 const today = '2026-11-10';

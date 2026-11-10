@@ -138,16 +138,20 @@ function dataDocumento(row) {
   return seduta ? { day: seduta, from: 'dtSeduta' } : { day: rpr, from: 'dtRpr' };
 }
 
-/** The Municipio named by `dscStrOrg` (DEC-033, rule 1), as the canonical
- *  `municipality_code`; null when it names none, or more than one. */
+/** The Municipio structure named by `dscStrOrg` (DEC-033, rule 1: «MUNIC…», «ROMA» when
+ *  present, the Roman numeral compared whole), as the canonical `municipality_code`; null
+ *  when it names none, or more than one. */
 function municipalityCode(dscStrOrg) {
   const s = normalizeKey(dscStrOrg).toUpperCase();
   const found = new Set();
-  for (const m of s.matchAll(/\bMUNICIPIO\s+(?:DI\s+)?(?:ROMA\s+)?([IVXL]+)\b/g)) {
+  for (const m of s.matchAll(/\bMUNIC\w*\.?\s*(?:ROMA\s*)?([IVX]+)\b/g)) {
     if (ROMANI.includes(m[1])) found.add(m[1]);
   }
   return found.size === 1 ? [...found][0] : null;
 }
+
+/** DEC-033, rule 1: the territorial groups of the Polizia Locale are not a Municipio structure. */
+const isPoliziaLocale = (dscStrOrg) => /^P\.\s*L\.?\s*-/.test(normalizeKey(dscStrOrg).toUpperCase());
 
 /** Stage 1: one search row (with `tipologia` set by the workflow) on `readingDay`.
  *  `keep` false carries the reason; a row kept today may still be skipped downstream
@@ -161,7 +165,7 @@ function describeRow(row, readingDay) {
   const { day, from } = dataDocumento(row);
   const code = municipalityCode(row.dscStrOrg);
   let reason = null;
-  if (code === null) reason = 'municipio_non_letto';
+  if (code === null) reason = isPoliziaLocale(row.dscStrOrg) ? 'polizia_locale' : 'municipio_non_letto';
   else if (!MUNICIPI.includes(code)) reason = 'fuori_dai_municipi';
   else if (day < PERIOD_START) reason = 'prima_del_periodo';
   else if (day > readingDay) reason = 'data_futura'; // read again once the day has passed
