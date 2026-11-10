@@ -53,8 +53,10 @@ function formDecode(s) {
  *  than guessed: a host that is not plain ASCII, and a literal IP address. */
 function canonicalUrl(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') throw new Error('url_missing');
-  // The standard drops C0 controls and spaces at both ends, and tabs and line breaks anywhere.
-  const input = raw.replace(/^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, '').replace(/[\t\n\r]/g, '').replace(LONE_SURROGATE, '\uFFFD');
+  // Whitespace at both ends goes first, Unicode spaces included (the reading before this file
+  // did the same); then the standard drops C0 controls and spaces at both ends, and tabs and
+  // line breaks anywhere.
+  const input = raw.trim().replace(/^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, '').replace(/[\t\n\r]/g, '').replace(LONE_SURROGATE, '\uFFFD');
   const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(input);
   if (!sm) throw new Error('url_invalid');
   let scheme = sm[1].toLowerCase();
