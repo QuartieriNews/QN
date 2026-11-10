@@ -157,8 +157,13 @@ function sourceDay(v, field) {
     return romeDayOf(v);
   }
   if (typeof v !== 'string') throw bad();
-  const s = v.trim();
+  let s = v.trim();
   if (s === '') return null;
+  // The convocations give `dtRpr` as two dates, `01/12/2025<br>(04/12/2025)<br>`: the first is
+  // the repertorio date the search filters on, as the source study read it; the one in
+  // brackets takes no part. Any other markup stays unreadable.
+  const two = /^(\d{1,2}\/\d{1,2}\/\d{4})<br\s*\/?>\s*\(\d{1,2}\/\d{1,2}\/\d{4}\)(?:<br\s*\/?>)?$/i.exec(s);
+  if (two) s = two[1];
   let m = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.\d{1,9})?)?(Z|[+-]\d{2}:?\d{2})?)?$/.exec(s);
   if (m) {
     const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];

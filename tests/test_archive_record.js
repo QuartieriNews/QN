@@ -219,6 +219,14 @@ function runNode(json) {
   check('stage 2 on the same original: record null, no file', [again.json.record, again.json.record_file_name], [null, null]);
 }
 
+console.log('the double date of the convocations (dtRpr with the sitting date in brackets)');
+check('the first date is the repertorio date', m.sourceDay('01/12/2025<br>(04/12/2025)<br>', 'dtRpr'), '2025-12-01');
+check('without the last break too', m.sourceDay('09/03/2026<br>(12/03/2026)', 'dtRpr'), '2026-03-09');
+check('a convocation keeps its repertorio day as data_documento',
+  m.dataDocumento({ dtRpr: '09/03/2026<br>(12/03/2026)<br>', dtSeduta: null }), { day: '2026-03-09', from: 'dtRpr' });
+check('other markup stays unreadable', /unreadable date/.test(thrown(() => m.sourceDay('09/03/2026<br>altro', 'dtRpr')) || ''), true);
+check('a bracketed date that is not a date stays unreadable', /unreadable date/.test(thrown(() => m.sourceDay('09/03/2026<br>(ieri)<br>', 'dtRpr')) || ''), true);
+
 console.log('the reading: menu, answers, passes (CONTRATTI «Lo storico», DEC-033 rules 2, 4, 5)');
 const DAY = '2026-11-10';
 const ok = (body) => ({ statusCode: 200, headers: {}, body: typeof body === 'string' ? body : JSON.stringify(body) });
