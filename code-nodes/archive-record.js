@@ -22,10 +22,12 @@ const SOURCE_ID = 'comune.roma.it';
 const PREFIX = 'qn:roma:arc:';
 const PDF_URL = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti';
 
-/** The values of `tipo`: the Atti Web tipologie read on 15 September 2026
- *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 1), the reading DEC-033 repeats. */
-const TIPI = Object.freeze(['CMD', 'GMD', 'CMC', 'MMC', 'DMS', 'PMO', 'PMT', 'GMT', 'GMM',
-  'CMZ', 'CMY', 'CMR', 'CMV', 'GMV', 'MMV', 'DMK']);
+/** The values of `tipo`: every tipologia of the portal's menu on 15 September 2026
+ *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3), all read by DEC-033 rule 1. */
+const TIPI = Object.freeze(['CMC', 'CPC', 'MMC', 'KD', 'KCD', 'WCD', 'WD', 'MD', 'MCD', 'OCD',
+  'OD', 'PD', 'KID', 'CD', 'CMD', 'CID', 'ACD', 'KMD', 'WMD', 'GCD', 'GD', 'GMD', 'DDS', 'DMS',
+  'PMT', 'GMT', 'PS', 'GCM', 'GMM', 'CZ', 'CMZ', 'AZ', 'XO', 'TO', 'PMO', 'SO', 'XMO', 'AY', 'CY',
+  'CMY', 'CPL', 'CMR', 'DDK', 'DMK', 'CMV', 'GMV', 'CPV', 'MMV']);
 
 /** DEC-033, rule 1: the pilot Municipi and the first day of the period. */
 const MUNICIPI = Object.freeze(['X', 'V', 'I']);
@@ -52,6 +54,17 @@ function archiveId(tipologia, idDoc) {
   if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);
   if (!/^[0-9]+$/.test(key)) throw new Error(`idDoc ${JSON.stringify(idDoc)} is not the numeric key the portal gives`);
   return `${PREFIX}${SOURCE_ID}:${tipo}:${key}`;
+}
+
+/** DEC-033 rule 1: the tipologie the portal lists at the start of a reading, in a fixed
+ *  order. A list that did not read stops the reading before it starts; a code that is not
+ *  a value of `tipo` stops it too, until a PR adds the code here. */
+function planTipologie(menu) {
+  if (!Array.isArray(menu) || menu.length === 0) throw new Error('the list of tipologie did not read: the reading does not start');
+  const codes = [...new Set(menu.map(normalizeKey))];
+  const unknown = codes.filter((c) => !TIPI.includes(c));
+  if (unknown.length) throw new Error(`tipologie not in tipo: ${unknown.join(', ')}`);
+  return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));
 }
 
 /** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */
@@ -225,7 +238,7 @@ function recordFileName(record) {
 
 if (typeof $input === 'undefined') {
   module.exports = {
-    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, normalizeKey, archiveId, fileStem, pdfUrl,
+    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, normalizeKey, archiveId, planTipologie, fileStem, pdfUrl,
     sourceDay, dataDocumento, municipalityCode, describeRow, archiveRecord, recordFileName,
   };
   return;

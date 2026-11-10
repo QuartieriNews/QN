@@ -82,7 +82,7 @@ l'`archive_id` del record.
 | `source_id`, `registro_id`, `source_url` | come per gli elementi |
 | `data_documento` | la data dell'atto o della seduta, `YYYY-MM-DD` |
 | `municipality_code` | il campo canonico della geografia, quando è noto |
-| `tipo` | il tipo di documento. Per Atti Web è il codice della tipologia del portale, fra le 16 lette il 15 settembre 2026 (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 1, con le denominazioni nella sezione 3): l'elenco sta in `code-nodes/archive-record.js`, e un codice fuori elenco ferma la lettura |
+| `tipo` | il tipo di documento. Per Atti Web è il codice della tipologia del portale, fra le 48 del menu al 15 settembre 2026, tutte lette per DEC-033 (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 3, con le denominazioni): l'elenco sta in `code-nodes/archive-record.js`, e un codice fuori elenco ferma la lettura |
 | `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione, la pagina dell'elenco salvata in `originali/` da cui viene la riga (`elenco`), e il campo della fonte da cui viene `data_documento` (`data_documento_da`) |
 | `originale` | il percorso del file in `originali/`, che non si modifica mai: `originali/<radice>__<primi 16 caratteri dello SHA-256>.pdf`, dove la radice è l'`archive_id` senza `qn:` e con `__` al posto dei due punti |
 | `originale_sha256` | lo SHA-256 dell'originale, che decide se una nuova lettura aggiunge una versione |

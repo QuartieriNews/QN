@@ -59,9 +59,17 @@ check('geography takes no part: the same row under another Municipio keeps its i
   m.describeRow(row(), '2026-11-10').archive_id);
 check('describing the same row twice gives the same result (idempotent)',
   m.describeRow(row(), '2026-11-10'), m.describeRow(JSON.parse(JSON.stringify(row())), '2026-11-10'));
-check('a tipologia outside tipo stops the run', /is not a value of tipo/.test(thrown(() => m.archiveId('KMD', '1')) || ''), true);
-check('a central tipologia stops the run too', /is not a value of tipo/.test(thrown(() => m.archiveId('DDS', '1')) || ''), true);
-check('tipo values are exactly the 16 of 15 September', [m.TIPI.length, new Set(m.TIPI).size], [16, 16]);
+check('a tipologia outside tipo stops the run', /is not a value of tipo/.test(thrown(() => m.archiveId('ZZZ', '1')) || ''), true);
+check('a central tipologia is a tipo too: municipal structures file acts there (DEC-033)', m.archiveId('ACD', '1'), 'qn:roma:arc:comune.roma.it:ACD:1');
+check('tipo values are the 48 of the portal menu', [m.TIPI.length, new Set(m.TIPI).size], [48, 48]);
+check('tipo values match the table of the source study, section 3', (() => {
+  const sec = fs.readFileSync(path.join(__dirname, '..', 'docs', 'sources', 'A2_ATTIWEB_TIPOLOGIE.md'), 'utf8').split('## 3.')[1].split('## 4.')[0];
+  return [...sec.matchAll(/^\| *([A-Z][A-Z0-9]{1,4}) *\|/gm)].map((x) => x[1]).sort();
+})(), [...m.TIPI].sort());
+check('the menu read at the start gives the order of the reading', m.planTipologie(['DDS', 'CMC', ' CMC ']), ['CMC', 'DDS']);
+check('a menu that did not read stops the reading before it starts', /does not start/.test(thrown(() => m.planTipologie([])) || ''), true);
+check('a menu that is not a list stops it too', /does not start/.test(thrown(() => m.planTipologie(null)) || ''), true);
+check('a new code in the menu stops the reading until a PR adds it', /not in tipo: NEW/.test(thrown(() => m.planTipologie(['CMC', 'NEW'])) || ''), true);
 check('an idDoc with a delimiter never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '12:3')) || ''), true);
 check('an idDoc that is not a number never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '12a')) || ''), true);
 check('an empty idDoc never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '  ')) || ''), true);
