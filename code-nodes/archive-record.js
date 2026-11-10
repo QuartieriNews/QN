@@ -64,6 +64,10 @@ function planTipologie(menu) {
   const codes = [...new Set(menu.map(normalizeKey))];
   const unknown = codes.filter((c) => !TIPI.includes(c));
   if (unknown.length) throw new Error(`tipologie not in tipo: ${unknown.join(', ')}`);
+  // Every tipologia is read (DEC-033 rule 5): a menu that lacks a known one would make an
+  // incomplete reading look complete, so it stops the reading too.
+  const missing = TIPI.filter((c) => !codes.includes(c));
+  if (missing.length) throw new Error(`menu without known tipologie: ${missing.join(', ')}: the reading does not start`);
   return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));
 }
 
@@ -75,12 +79,15 @@ function mergePasses(passes) {
   if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {
     throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');
   }
-  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)));
+  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));
   const byId = new Map();
   for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);
+  // A pass is whole when it holds as many distinct, valid idDoc as the total it declares:
+  // a truncated pagination is never complete, however stable.
+  const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && ids(p).size === p.total;
   const [a, b] = passes.slice(-2);
-  const stable = passes.length >= 2 && a.total === b.total &&
-    ids(a).size === ids(b).size && [...ids(a)].every((x) => ids(b).has(x));
+  const stable = passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&
+    [...ids(a)].every((x) => ids(b).has(x));
   return { complete: stable, needs_another_pass: !stable && passes.length < 3, rows: [...byId.values()] };
 }
 
@@ -93,6 +100,14 @@ function fileStem(id) {
 function pdfUrl(tipologia, idDoc) {
   const b64 = (s) => Buffer.from(s, 'utf8').toString('base64');
   return `${PDF_URL}&par1=${b64(normalizeKey(tipologia))}&par2=${b64(normalizeKey(idDoc))}`;
+}
+
+/** A real UTC instant written as YYYY-MM-DDTHH:MM:SS(.fff)Z: no 30 February, no hour 25. */
+function utcInstant(v) {
+  const m = typeof v === 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?Z$/.exec(v);
+  if (!m) return false;
+  const [y, mo, d, h, mi, se] = m.slice(1, 7).map(Number);
+  return validDay(y, mo, d) && h < 24 && mi < 60 && se < 60;
 }
 
 function validDay(y, m, d) {
@@ -205,7 +220,7 @@ function describeRow(row, readingDay) {
 function archiveRecord(archive, download, existing) {
   if (!archive || !archive.keep) throw new Error('only a kept row becomes a record');
   if (!download || !/^[0-9a-f]{64}$/.test(download.sha256 || '')) throw new Error('download.sha256 must be 64 hex digits');
-  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(download.retrieved_at || '')) {
+  if (!utcInstant(download.retrieved_at)) {
     throw new Error('download.retrieved_at must be a UTC instant');
   }
   if (typeof download.workflow !== 'string' || !download.workflow.startsWith('staging_')) {
@@ -217,10 +232,12 @@ function archiveRecord(archive, download, existing) {
   // Absent is not empty: without the versions already written, a v1 could be written twice.
   if (!Array.isArray(existing)) throw new Error('existing must list the versions already in the archive ([] for none)');
   let latest = null;
+  const seen = new Set();
   for (const r of existing) {
     if (!r || r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r && r.archive_id}`);
     if (!Number.isInteger(r.versione) || r.versione < 1) throw new Error(`existing record with versione ${JSON.stringify(r.versione)}`);
-    if (latest && r.versione === latest.versione) throw new Error(`two existing records with versione ${r.versione}`);
+    if (seen.has(r.versione)) throw new Error(`two existing records with versione ${r.versione}`);
+    seen.add(r.versione);
     if (!latest || r.versione > latest.versione) latest = r;
   }
   if (latest && latest.originale_sha256 === download.sha256) return null;

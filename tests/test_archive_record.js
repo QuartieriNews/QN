@@ -66,10 +66,12 @@ check('tipo values match the table of the source study, section 3', (() => {
   const sec = fs.readFileSync(path.join(__dirname, '..', 'docs', 'sources', 'A2_ATTIWEB_TIPOLOGIE.md'), 'utf8').split('## 3.')[1].split('## 4.')[0];
   return [...sec.matchAll(/^\| *([A-Z][A-Z0-9]{1,4}) *\|/gm)].map((x) => x[1]).sort();
 })(), [...m.TIPI].sort());
-check('the menu read at the start gives the order of the reading', m.planTipologie(['DDS', 'CMC', ' CMC ']), ['CMC', 'DDS']);
+check('the menu read at the start gives the order of the reading', m.planTipologie([...m.TIPI].reverse().concat(' CMC ')), [...m.TIPI]);
+check('a menu without a known tipologia stops the reading: it would not be complete',
+  /menu without known tipologie: DDS/.test(thrown(() => m.planTipologie(m.TIPI.filter((c) => c !== 'DDS'))) || ''), true);
 check('a menu that did not read stops the reading before it starts', /does not start/.test(thrown(() => m.planTipologie([])) || ''), true);
 check('a menu that is not a list stops it too', /does not start/.test(thrown(() => m.planTipologie(null)) || ''), true);
-check('a new code in the menu stops the reading until a PR adds it', /not in tipo: NEW/.test(thrown(() => m.planTipologie(['CMC', 'NEW'])) || ''), true);
+check('a new code in the menu stops the reading until a PR adds it', /not in tipo: NEW/.test(thrown(() => m.planTipologie([...m.TIPI, 'NEW'])) || ''), true);
 check('an idDoc with a delimiter never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '12:3')) || ''), true);
 check('an idDoc that is not a number never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '12a')) || ''), true);
 check('an empty idDoc never becomes an id', /numeric key/.test(thrown(() => m.archiveId('CMD', '  ')) || ''), true);
@@ -88,6 +90,9 @@ console.log('passes over a tipologia, DEC-033 rule 1 (late publication)');
   const three = m.mergePasses([p(2, [1, 2]), p(3, [1, 2, 3]), p(4, [1, 2, 3, 4])]);
   check('three passes still moving: incomplete, no fourth pass', [three.complete, three.needs_another_pass], [false, false]);
   check('rows of all passes are kept once each, by idDoc', three.rows.map((r) => r.idDoc).sort(), [1, 2, 3, 4]);
+  const truncated = { total: 600, rows: Array.from({ length: 500 }, (_, i) => ({ idDoc: i + 1 })) };
+  check('two equal passes that hold fewer rows than declared are not complete', m.mergePasses([truncated, truncated]).complete, false);
+  check('a pass with a malformed idDoc is not whole', m.mergePasses([p(2, [1, 'x']), p(2, [1, 'x'])]).complete, false);
   check('more than three passes is a workflow error', /one to three passes/.test(thrown(() => m.mergePasses([p(1, [1]), p(1, [1]), p(1, [1]), p(1, [1])])) || ''), true);
 }
 
@@ -156,11 +161,14 @@ check('a correction with the same original is the latest version: no row',
   m.archiveRecord(arc, Object.assign({}, DL, { sha256: SHA_B }), [r1, r2, Object.assign({}, r2, { versione: 3, motivo: 'correzione' })]), null);
 check('a row left out never becomes a record', /only a kept row/.test(thrown(() => m.archiveRecord(m.describeRow(row({ dtRpr: '2025-12-15' }), today), DL, [])) || ''), true);
 check('a hash that is not SHA-256 stops the run', /sha256/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { sha256: 'abc' }), [])) || ''), true);
+check('30 February is not a retrieval time', /retrieved_at/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { retrieved_at: '2026-02-30T09:00:00Z' }), [])) || ''), true);
+check('nor is hour 25', /retrieved_at/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { retrieved_at: '2026-11-10T25:00:00Z' }), [])) || ''), true);
 check('a non-UTC retrieved_at stops the run', /retrieved_at/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { retrieved_at: '2026-11-10 10:00' }), [])) || ''), true);
 check('only a staging_ workflow writes records', /staging_/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { workflow: 'D_attiweb_read' }), [])) || ''), true);
 check('existing versions of another id stop the run', /another archive_id/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { archive_id: 'qn:roma:arc:comune.roma.it:CMD:1' })])) || ''), true);
 
 check('existing left out stops the run instead of writing a second v1', /existing must list/.test(thrown(() => m.archiveRecord(arc, DL, undefined)) || ''), true);
+check('a repeated versione is found in any order', /two existing records with versione 1/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: 2, originale_sha256: SHA_B }), r1, r1])) || ''), true);
 check('two existing records with one versione stop the run', /two existing records/.test(thrown(() => m.archiveRecord(arc, DL, [r1, r1])) || ''), true);
 check('an existing versione that is not a whole number stops the run', /versione/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: '1' })])) || ''), true);
 check('the record points at the saved search page its row came from', r1.provenienza.elenco, 'originali/attiweb_elenco_2026-11-10_CMD_0.json');
