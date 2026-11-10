@@ -106,6 +106,13 @@ del mese / 4,29 settimane. Rapporto = `docs/sources/SOURCE_STUDY_2026-09_RAPPORT
 | `raccomandazione` | **provvisoria**: usare come fonte di record degli atti municipali; perimetro sulle categorie centrali da decidere (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md` §6, approfondimento §7: DDS coerenti con il Municipio del gruppo 10 su 10, circa 20 possibili notizie al mese dagli atti centrali); cambierebbe se l'OCR delle scansioni risultasse inutilizzabile (T2 da completare) |
 | `drive` | `A2_2026-06_items_compact_part1..3.csv`; categorie centrali: `A2_DDS_2026-06_items_compact_part1..4.csv` (nel repository in due parti, `handoff_data/…_part1..2.csv`), `A2_centrali_2026-06_items_compact_part1..2.csv`; campione di 120 PDF (testo/scansione, pagine): `A2_pdf_campione120.csv`, `summary_A2_pdf_campione120.json` |
 
+**Nota, DEC-033 (9 novembre 2026).** Lettura autorizzata per lo storico privato del pilota
+(workstream D): gli atti delle strutture dei Municipi X, V e I, di qualunque tipologia del
+portale, con data dal 1° gennaio 2026 al giorno della lettura, cioè l'elenco degli atti e i loro
+PDF; restano fuori gli atti dei gruppi della Polizia Locale. Le regole della lettura stanno in
+`decisions/DEC-033-atti-web-reading-for-the-history-archive.md` e in `docs/pilota/CONTRATTI.md`,
+«Lo storico».
+
 ### C1 — Questura di Roma, archivio comunicati
 
 | Campo | Valore |
