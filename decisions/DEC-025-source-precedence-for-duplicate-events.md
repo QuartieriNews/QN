@@ -63,7 +63,10 @@ pubblicata».
      (sede, indirizzo, coordinate), e zona e municipio si ricalcolano con il gazetteer, che
      vince su ogni documento. Questo precisa l'esempio dell'opzione A («Municipio da
      culture.roma.it»), che copiato alla lettera metterebbe un'etichetta della fonte al
-     posto del calcolo canonico.
+     posto del calcolo canonico. Se la geografia dell'elemento che resta è `human_verified`
+     non si ricalcola (`docs/pilota/CONTRATTI.md`, sezione 2: `human_verified` ferma ogni
+     ricalcolo): le prove del luogo delle altre fonti non si copiano, e se sono diverse
+     l'elemento va in coda.
 3. **Identità.** Fra gli elementi dello stesso evento resta l'identità di quello scritto per
    primo, che sia pubblicato, in coda o solo scritto nella cartella del canale (specifica
    v2.5, fase 2.1: l'identità non cambia). L'ordine lo dà `pilot.first_written_at`, l'ora UTC

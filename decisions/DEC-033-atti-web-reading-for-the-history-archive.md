@@ -63,8 +63,10 @@ gennaio 2026, max 300/giorno».
      193 atti di giugno nello stesso giorno), quindi ogni tipologia si legge due volte di
      seguito, e la lettura vale quando le due passate danno lo stesso totale e lo stesso
      insieme di `idDoc`. Altrimenti si legge ancora, fino a tre passate; se non si ferma, la
-     tipologia si scrive nel registro come incompleta. Le righe lette si uniscono per `idDoc`
-     e nello storico non si duplicano (`archive_id`). Un atto pubblicato dopo si prende alla
+     tipologia si scrive nel registro come incompleta. Le righe lette si uniscono per la coppia
+     `tipologia` e `idDoc`, la stessa che indirizza il PDF: `idDoc` da solo non è unico fra le
+     tipologie (a giugno 2421 è un atto `GMM` e un atto `ACD`). Nello storico non si duplicano
+     (`archive_id`). Un atto pubblicato dopo si prende alla
      lettura successiva, che rilegge lo stesso intervallo;
    - la data del record (`data_documento`) è `dtSeduta` quando c'è, altrimenti `dtRpr`;
    - si tengono gli atti dei tre Municipi con `data_documento` fra il 1° gennaio 2026 e il
