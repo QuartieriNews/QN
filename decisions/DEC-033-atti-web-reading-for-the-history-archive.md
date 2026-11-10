@@ -41,13 +41,22 @@ gennaio 2026, max 300/giorno».
 ## Regola
 
 1. **Perimetro.** Gli atti di Atti Web dei Municipi X, V e I (le pagine pilota di DEC-031)
-   dal 1° gennaio 2026 al giorno della lettura: l'elenco degli atti e i loro PDF.
+   dal 1° gennaio 2026 al giorno della lettura: l'elenco delle tipologie, l'elenco degli atti e i
+   loro PDF.
    Nient'altro del sito. In pratica:
    - si interroga la ricerca degli atti con il filtro sulla data di repertorio (`dtRpr`),
      l'unico che il portale accetta (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 2), dal
      1° dicembre 2025 al giorno della lettura. Il mese in più serve alle convocazioni
      protocollate prima di una seduta di gennaio;
-   - le pagine si leggono da 500 righe finché si arriva al totale dichiarato dall'API;
+   - la ricerca si fa una tipologia alla volta (il parametro `tipologia`), per tutte le
+     tipologie che il portale elenca all'inizio della lettura (`caricaListaTipologie.action`;
+     48 codici il 15 settembre, nella sezione 3 dello stesso documento). Il portale non filtra
+     per struttura, e anche le tipologie degli organi centrali contengono atti di strutture
+     municipali (sezione 3, `ACD`): limitarsi alle tipologie del Municipio ne perderebbe.
+     Se l'elenco delle tipologie non si legge, la lettura non parte. L'errore «Index: 0,
+     Size: 0» è una tipologia vuota nel periodo (sezione 2), non un blocco;
+   - per ogni tipologia le pagine si leggono da 500 righe finché si arriva al totale
+     dichiarato dall'API;
    - la data del record (`data_documento`) è `dtSeduta` quando c'è, altrimenti `dtRpr`;
    - si tengono gli atti dei tre Municipi (campo `dscStrOrg`) con `data_documento` fra il 1°
      gennaio 2026 e il giorno della lettura: tutti e due i limiti valgono sulla stessa data
