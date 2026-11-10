@@ -67,6 +67,23 @@ function planTipologie(menu) {
   return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));
 }
 
+/** DEC-033 rule 1, late publication: the passes over one tipologia (each `{ total, rows }`)
+ *  count when the last two give the same total and the same set of idDoc; at most three
+ *  passes. The rows are merged by idDoc either way, and `complete` says what the registry
+ *  records. */
+function mergePasses(passes) {
+  if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {
+    throw new Error('one to three passes over a tipologia (DEC-033, rule 1)');
+  }
+  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)));
+  const byId = new Map();
+  for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);
+  const [a, b] = passes.slice(-2);
+  const stable = passes.length >= 2 && a.total === b.total &&
+    ids(a).size === ids(b).size && [...ids(a)].every((x) => ids(b).has(x));
+  return { complete: stable, needs_another_pass: !stable && passes.length < 3, rows: [...byId.values()] };
+}
+
 /** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */
 function fileStem(id) {
   if (typeof id !== 'string' || !id.startsWith(PREFIX)) throw new Error(`not an archive_id: ${JSON.stringify(id)}`);
@@ -242,7 +259,7 @@ function recordFileName(record) {
 
 if (typeof $input === 'undefined') {
   module.exports = {
-    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, normalizeKey, archiveId, planTipologie, fileStem, pdfUrl,
+    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, normalizeKey, archiveId, planTipologie, mergePasses, fileStem, pdfUrl,
     sourceDay, dataDocumento, municipalityCode, describeRow, archiveRecord, recordFileName,
   };
   return;

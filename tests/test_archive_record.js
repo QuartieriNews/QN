@@ -78,6 +78,19 @@ check('file stem', m.fileStem('qn:roma:arc:comune.roma.it:CMD:4242'), 'roma__arc
 check('the PDF link is the one the source study read (CMD, 10165)', m.pdfUrl('CMD', 10165),
   'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti&par1=Q01E&par2=MTAxNjU=');
 
+console.log('passes over a tipologia, DEC-033 rule 1 (late publication)');
+{
+  const p = (total, ids) => ({ total, rows: ids.map((idDoc) => ({ idDoc })) });
+  check('one pass is never enough', [m.mergePasses([p(2, [1, 2])]).complete, m.mergePasses([p(2, [1, 2])]).needs_another_pass], [false, true]);
+  check('two equal passes complete the tipologia', m.mergePasses([p(2, [1, 2]), p(2, [2, 1])]).complete, true);
+  check('a late act changes the total: another pass', m.mergePasses([p(2, [1, 2]), p(3, [1, 2, 3])]).needs_another_pass, true);
+  check('the same total with another set of idDoc is not stable', m.mergePasses([p(2, [1, 2]), p(2, [1, 3])]).complete, false);
+  const three = m.mergePasses([p(2, [1, 2]), p(3, [1, 2, 3]), p(4, [1, 2, 3, 4])]);
+  check('three passes still moving: incomplete, no fourth pass', [three.complete, three.needs_another_pass], [false, false]);
+  check('rows of all passes are kept once each, by idDoc', three.rows.map((r) => r.idDoc).sort(), [1, 2, 3, 4]);
+  check('more than three passes is a workflow error', /one to three passes/.test(thrown(() => m.mergePasses([p(1, [1]), p(1, [1]), p(1, [1]), p(1, [1])])) || ''), true);
+}
+
 console.log('dates: a day as written, an instant as its Rome day (T17)');
 check('ISO day', m.sourceDay('2026-03-10', 'f'), '2026-03-10');
 check('Italian day', m.sourceDay('10/03/2026', 'f'), '2026-03-10');
