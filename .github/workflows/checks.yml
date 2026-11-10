@@ -60,17 +60,16 @@ jobs:
         working-directory: gazetteer
         run: python ../tests/test_guards.py
 
-      - name: Duration parser
-        run: node tests/test_parse_duration.js
+      # Every Node suite, the list kept in one place: `npm test` in package.json. Separate
+      # steps here went stale as code nodes were added (CLAUDE.md: every code node has tests).
+      - name: Node suites
+        run: npm test
 
-      - name: Council
-        run: node tests/test_council.js
+      - name: Site projection
+        run: python tests/test_project_events.py
 
-      - name: Lane gate
-        run: node tests/test_lane_gate.js
-
-      - name: Workflow safety
-        run: node tests/test_workflow_safety.js
+      - name: Site prototype
+        run: python tests/test_site_prototype.py
 
   lane:
     if: github.event_name == 'pull_request'
