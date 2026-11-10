@@ -120,15 +120,17 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
 - **Risposta vuota.** L'errore «Index: 0, Size: 0» vale come tipologia vuota nel periodo
   solo se la stessa tipologia, interrogata sull'intervallo storico, restituisce atti
   (sezione 7.1); altrimenti è un dato mancante (al 15 settembre, `XMO`) e la lettura si
-  dichiara incompleta.
+  dichiara incompleta. Per questo ogni passata vuota porta il totale storico della tipologia
+  (`mergePasses`).
 - **Data del record.** `data_documento` è `dtSeduta` quando c'è, altrimenti `dtRpr`, come
   giorno di Roma; il record dice da quale campo viene (`data_documento_da`). Si tengono gli
   atti con `data_documento` fra il 1° gennaio 2026 e il giorno della lettura: una
   convocazione per una seduta futura si prende a una lettura successiva.
 - **Municipio.** Un atto è di una struttura del Municipio quando `dscStrOrg` dice «MUNIC…»,
-  poi «ROMA» se c'è, poi il numero romano, confrontato per intero (X non è IX né XI): la
-  forma che lo studio di settembre ha riconosciuto su tutte le 1.426 righe delle tipologie
-  municipali (`tools/sources-study/a2_tipologie.py`). Gli atti dei gruppi della Polizia
+  poi «ROMA» se c'è, poi il numero romano, confrontato per intero (X non è IX né XI);
+  un'annotazione fra parentesi come «(EX MUNICIPIO V)» nomina il Municipio di prima e non
+  conta. È la forma che lo studio di settembre ha riconosciuto su tutte le 1.426 righe delle
+  tipologie municipali (`tools/sources-study/a2_tipologie.py`). Gli atti dei gruppi della Polizia
   Locale (`P.L. - <numero> GRUPPO …`) restano fuori, con il motivo `polizia_locale`.
 - **Versioni.** Gli `archive_id` nuovi si scaricano per primi; con il tetto che resta nel
   giorno si riscaricano quelli già nello storico, da quello verificato da più tempo, così ogni

@@ -93,6 +93,15 @@ console.log('passes over a tipologia, DEC-033 rule 1 (late publication)');
   const truncated = { total: 600, rows: Array.from({ length: 500 }, (_, i) => ({ idDoc: i + 1 })) };
   check('two equal passes that hold fewer rows than declared are not complete', m.mergePasses([truncated, truncated]).complete, false);
   check('a pass with a malformed idDoc is not whole', m.mergePasses([p(2, [1, 'x']), p(2, [1, 'x'])]).complete, false);
+  const empty = (historical_total) => ({ total: 0, rows: [], historical_total });
+  check('two empty passes of a tipologia with acts in the historical interval: empty and complete',
+    m.mergePasses([empty(226), empty(226)]).complete, true);
+  const xmo = m.mergePasses([empty(0)]);
+  check('an empty response with no acts in the historical interval is missing data: incomplete, no other pass',
+    [xmo.complete, xmo.needs_another_pass], [false, false]);
+  check('nor does a later pass make it complete', m.mergePasses([empty(0), empty(5), empty(5)]).complete, false);
+  check('an empty pass without the historical check is a workflow error',
+    /historical_total/.test(thrown(() => m.mergePasses([p(0, []), p(0, [])])) || ''), true);
   check('more than three passes is a workflow error', /one to three passes/.test(thrown(() => m.mergePasses([p(1, [1]), p(1, [1]), p(1, [1]), p(1, [1])])) || ''), true);
 }
 
@@ -126,6 +135,8 @@ check('a roman number outside I-XV: none', m.municipalityCode('Municipio XL'), n
 check('the short form of the source study: MUNIC. ROMA X', m.municipalityCode('MUNIC. ROMA X - Ufficio inventato'), 'X');
 check('MUNICIPIO without ROMA', m.municipalityCode('MUNICIPIO X DIREZIONE INVENTATA'), 'X');
 check('a word after ROMA is not a numeral', m.municipalityCode('Municipio Roma Via Inventata'), null);
+check('the former Municipio in brackets is not a second issuer', m.municipalityCode('MUNICIPIO ROMA X (EX MUNICIPIO XIII)'), 'X');
+check('nor when the former one is a Municipio of the pilot', m.municipalityCode('Municipio Roma IV (ex Municipio V)'), 'IV');
 check('a Polizia Locale group is not a Municipio structure', m.municipalityCode('P.L. - X GRUPPO MARE'), null);
 check('and its rows are left out with their own reason', m.describeRow(row({ tipologia: 'DDS', dscStrOrg: 'P.L. - X GRUPPO MARE' }), '2026-11-10').reason, 'polizia_locale');
 

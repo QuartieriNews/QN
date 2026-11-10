@@ -73,8 +73,10 @@ function planTipologie(menu) {
 
 /** CONTRATTI.md «Lo storico» (DEC-033 rule 5), late publication: the passes over one
  *  tipologia (each `{ total, rows }`) count when the last two give the same total and the
- *  same set of idDoc; at most three passes. The rows are merged by idDoc within the
- *  tipologia either way, and `complete` says what the registry records. */
+ *  same set of idDoc; at most three passes. An empty response is `{ total: 0, rows: [],
+ *  historical_total }`, with the acts the same tipologia returns over the historical
+ *  interval («Risposta vuota»). The rows are merged by idDoc within the tipologia either
+ *  way, and `complete` says what the registry records. */
 function mergePasses(passes) {
   if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {
     throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');
@@ -85,10 +87,18 @@ function mergePasses(passes) {
   // A pass is whole when it holds as many distinct, valid idDoc as the total it declares:
   // a truncated pagination is never complete, however stable.
   const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && ids(p).size === p.total;
+  // An empty response is an empty tipologia only when the historical interval returns acts;
+  // otherwise it is missing data, and another pass would not change it.
+  for (const p of passes) {
+    if (p && p.total === 0 && !(Number.isSafeInteger(p.historical_total) && p.historical_total >= 0)) {
+      throw new Error('an empty pass carries historical_total (CONTRATTI.md, «Lo storico», «Risposta vuota»)');
+    }
+  }
+  const missing = passes.some((p) => p.total === 0 && p.historical_total === 0);
   const [a, b] = passes.slice(-2);
-  const stable = passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&
+  const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&
     [...ids(a)].every((x) => ids(b).has(x));
-  return { complete: stable, needs_another_pass: !stable && passes.length < 3, rows: [...byId.values()] };
+  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };
 }
 
 /** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */
@@ -174,7 +184,8 @@ function dataDocumento(row) {
  *  «MUNIC…», «ROMA» when present, the Roman numeral compared whole), as the canonical
  *  `municipality_code`; null when it names none, or more than one. */
 function municipalityCode(dscStrOrg) {
-  const s = normalizeKey(dscStrOrg).toUpperCase();
+  // A bracketed «(EX MUNICIPIO …)» is the former Municipio, not a second issuer (CONTRATTI.md «Lo storico»).
+  const s = normalizeKey(dscStrOrg).toUpperCase().replace(/\(\s*EX\b[^)]*\)/g, ' ');
   const found = new Set();
   for (const m of s.matchAll(/\bMUNIC\w*\.?\s*(?:ROMA\s*)?([IVX]+)\b/g)) {
     if (ROMANI.includes(m[1])) found.add(m[1]);
