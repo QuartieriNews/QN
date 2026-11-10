@@ -77,24 +77,65 @@ l'`archive_id` del record.
 
 | Campo | Contenuto |
 |---|---|
-| `archive_id` | stabile. La sua forma la fissa la PR del coordinatore che apre il workstream D, prima del primo record, con i test di idempotenza e di normalizzazione. Si costruisce da `source_id` e dalla chiave che la fonte dà al documento, normalizzati (Unicode NFC, spazi tolti ai bordi e ridotti a uno all'interno); mai dalla geografia né da `registro_id` |
+| `archive_id` | stabile: `qn:roma:arc:<source_id>:<chiave>`, con il prefisso costante. Si costruisce da `source_id` e dalla chiave che la fonte dà al documento, normalizzati (Unicode NFC, spazi tolti ai bordi e ridotti a uno all'interno); mai dalla geografia né da `registro_id`. Per Atti Web la chiave è `<tipologia>:<idDoc>`, la coppia con cui il portale indirizza il PDF; una chiave di forma diversa ferma la lettura invece di diventare un id (`code-nodes/archive-record.js`, test di idempotenza e di normalizzazione in `tests/test_archive_record.js`) |
 | `versione` | 1 alla prima scrittura (vedi la correzione, qui sotto) |
 | `source_id`, `registro_id`, `source_url` | come per gli elementi |
 | `data_documento` | la data dell'atto o della seduta, `YYYY-MM-DD` |
 | `municipality_code` | il campo canonico della geografia, quando è noto |
-| `tipo` | il tipo di documento; i valori li fissa la stessa PR |
-| `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione |
-| `originale` | il percorso del file in `originali/`, che non si modifica mai |
+| `tipo` | il tipo di documento. Per Atti Web è il codice della tipologia del portale, fra le 48 del menu al 15 settembre 2026, tutte lette per DEC-033 (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 3, con le denominazioni): l'elenco sta in `code-nodes/archive-record.js`, e un codice fuori elenco ferma la lettura |
+| `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione, la pagina dell'elenco salvata in `originali/` da cui viene la riga (`elenco`), e il campo della fonte da cui viene `data_documento` (`data_documento_da`) |
+| `originale` | il percorso del file in `originali/`, che non si modifica mai: `originali/<radice>__<primi 16 caratteri dello SHA-256>.pdf`, dove la radice è l'`archive_id` senza `qn:` e con `__` al posto dei due punti |
+| `originale_sha256` | lo SHA-256 dell'originale, che decide se una nuova lettura aggiunge una versione |
 | `derivato` | il testo estratto o la trascrizione, con lo strumento e la versione che li hanno prodotti |
 | `etichette` | le nostre etichette (zona, argomenti…), ciascuna con chi o che cosa l'ha messa |
 | `costo` | come per gli elementi |
 
-- **Correzione.** Niente si sovrascrive e niente si cancella. Una correzione è una riga
+- **Correzione.** Niente si sovrascrive e niente si cancella. Una correzione è una versione
   nuova con lo stesso `archive_id`, la `versione` aumentata di uno e un campo `motivo`;
-  vale la versione più alta. Una nuova lettura che trova lo stesso originale (lo stesso
-  SHA-256 del file) non aggiunge righe.
+  vale la versione più alta. Una nuova lettura che trova lo stesso originale della versione
+  più alta (lo stesso SHA-256 del file) non aggiunge versioni; un originale diverso ne
+  aggiunge una, con il `motivo` «originale cambiato alla fonte».
+- **Il file.** Un file JSON per versione, `D Storico/<radice>__v<versione>.json`, scritto una
+  volta e mai riscritto; la versione più alta è quella che vale.
 - **Copia di riserva.** Una volta alla settimana un job di copia duplica i file dello
   storico in `D Storico/riserva/<data>/`; nessun altro workflow scrive lì.
+
+**La lettura di Atti Web (DEC-033).** DEC-033 fissa perimetro, ritmo, stop e completezza; qui
+c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica con i suoi test
+(`docs/sources/A2_ATTIWEB_TIPOLOGIE.md` descrive il portale).
+- **Tipologie.** All'inizio della lettura si legge l'elenco delle tipologie che il portale
+  offre; se non si legge, la lettura non parte, e un codice che non è un valore di `tipo`
+  la ferma finché una PR non lo aggiunge (`planTipologie`). La ricerca si fa una tipologia
+  alla volta, perché il portale non filtra per struttura e anche le tipologie degli organi
+  centrali contengono atti di strutture municipali (sezione 3, `ACD`).
+- **Periodo.** Il filtro è la data di repertorio (`dtRpr`), l'unico che il portale accetta,
+  dal 1° dicembre 2025 al giorno della lettura: il mese in più serve alle convocazioni
+  protocollate prima di una seduta di gennaio.
+- **Pagine e passate.** Per ogni tipologia le pagine si leggono da 500 righe fino al totale
+  dichiarato. Il portale pubblica in ritardo (sezione 2), quindi ogni tipologia si legge due
+  volte di seguito e vale quando le due passate danno lo stesso totale e lo stesso insieme di
+  `idDoc`; altrimenti si legge ancora, fino a tre passate, poi la tipologia si scrive nel
+  registro come incompleta (`mergePasses`). Le righe si uniscono per la coppia `tipologia` e
+  `idDoc`, la stessa dell'`archive_id`: `idDoc` da solo non è unico fra le tipologie.
+- **Risposta vuota.** L'errore «Index: 0, Size: 0» vale come tipologia vuota nel periodo
+  solo se la stessa tipologia, interrogata sull'intervallo storico, restituisce atti
+  (sezione 7.1); altrimenti è un dato mancante (al 15 settembre, `XMO`) e la lettura si
+  dichiara incompleta. Per questo ogni passata vuota porta il totale storico della tipologia
+  (`mergePasses`).
+- **Data del record.** `data_documento` è `dtSeduta` quando c'è, altrimenti `dtRpr`, come
+  giorno di Roma; il record dice da quale campo viene (`data_documento_da`). Si tengono gli
+  atti con `data_documento` fra il 1° gennaio 2026 e il giorno della lettura: una
+  convocazione per una seduta futura si prende a una lettura successiva.
+- **Municipio.** Un atto è di una struttura del Municipio quando `dscStrOrg` dice «MUNIC…»,
+  poi «ROMA» se c'è, poi il numero romano, confrontato per intero (X non è IX né XI);
+  un'annotazione fra parentesi come «(EX MUNICIPIO V)» nomina il Municipio di prima e non
+  conta. È la forma che lo studio di settembre ha riconosciuto su tutte le 1.426 righe delle
+  tipologie municipali (`tools/sources-study/a2_tipologie.py`). Gli atti dei gruppi della Polizia
+  Locale (`P.L. - <numero> GRUPPO …`) restano fuori, con il motivo `polizia_locale`.
+- **Versioni.** Gli `archive_id` nuovi si scaricano per primi; con il tetto che resta nel
+  giorno si riscaricano quelli già nello storico, da quello verificato da più tempo, così ogni
+  documento si ricontrolla nel tempo. Lo stesso originale (stesso SHA-256) non aggiunge
+  versioni, un originale diverso ne aggiunge una.
 
 ## 3. Dove sta che cosa
 
