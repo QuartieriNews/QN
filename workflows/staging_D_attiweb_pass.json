@@ -415,7 +415,7 @@
       "typeVersion": 3,
       "position": [
         3300,
-        300
+        320
       ],
       "id": "b8b87ea5-52b4-4e12-93eb-3d7c4197b94b",
       "name": "Salva pagina",
@@ -424,7 +424,10 @@
           "id": "7nJkjb7aldPHyXv4",
           "name": "Google Drive account"
         }
-      }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
     },
     {
       "parameters": {
@@ -644,9 +647,9 @@
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "7b9a63e2-b92e-46b3-82ea-004238f17721",
+  "versionId": "e434371e-76b0-4d3f-9da5-b830242b3875",
   "meta": {},
   "nodeGroups": [],
-  "id": "9ITE0neZx7vgTJb2",
+  "id": "0p46YfDYtOdUkCcd",
   "tags": []
 }
