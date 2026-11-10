@@ -1,0 +1,1416 @@
+{
+  "name": "staging_D_attiweb_download",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5f7303bd-1fa3-4913-8445-046008942254",
+        "responseMode": "onReceived",
+        "options": {},
+        "authentication": "headerAuth"
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ],
+      "id": "12b8517e-cb29-4371-9017-9878fedc4b70",
+      "name": "Webhook",
+      "webhookId": "5f7303bd-1fa3-4913-8445-046008942254",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pA1sDdXav0jboi8h",
+          "name": "staging webhook header"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cd69614b-4285-4bf9-9426-ace246ad6be6",
+              "name": "reading_day",
+              "value": "={{ $now.setZone('Europe/Rome').toFormat('yyyy-LL-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "3ed54e06-01d9-412d-9d2f-6dfc3c001aca",
+              "name": "started_at",
+              "value": "={{ $now.toUTC().toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "9e4c50b3-c1be-4f20-8afb-d925e724e8bf",
+              "name": "workflow",
+              "value": "staging_D_attiweb_download",
+              "type": "string"
+            },
+            {
+              "id": "5e09e41e-ff7a-43a5-8e8f-d60c940de946",
+              "name": "workflow_version",
+              "value": "2026-11-10.1",
+              "type": "string"
+            },
+            {
+              "id": "376717ab-1132-47d0-9065-0da2ccf57c28",
+              "name": "cap",
+              "value": "300",
+              "type": "number"
+            },
+            {
+              "id": "c51e4b7c-3729-4576-9949-0831902da9da",
+              "name": "run_limit",
+              "value": "={{ ($json.body && $json.body.run_limit) || $json.run_limit || 50 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        440,
+        300
+      ],
+      "id": "3221eb3b-ae89-4d4a-9e08-d516c9aa355e",
+      "name": "Inizio"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "'1L7uCZC9MVieKpiVTkh6XeXbF0tzIMCGU' in parents and name contains 'attiweb_righe_' and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        660,
+        300
+      ],
+      "id": "512f74ec-4b3e-4d6a-9e38-6e9fe7a77e97",
+      "name": "Letture",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "name",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        880,
+        300
+      ],
+      "id": "6c2b2d00-0eb8-49f0-b563-f22d7c414e50",
+      "name": "Più recente"
+    },
+    {
+      "parameters": {
+        "maxItems": 1
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        300
+      ],
+      "id": "bfcfda69-b61a-4d89-a2d5-9c0f1eadebb4",
+      "name": "Una"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1320,
+        300
+      ],
+      "id": "270e511f-f8cc-4067-8d02-9bf7dbf91fcc",
+      "name": "Scarica righe",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        300
+      ],
+      "id": "5447f1ce-e1a6-410f-97cd-72ad31edb88d",
+      "name": "Leggi righe"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "'1-xG1DHDqxt_W1jnAmztM7nnzXG6HpXRh' in parents and name contains '__v' and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1760,
+        300
+      ],
+      "id": "1d3acf4b-dfbe-4f0b-b524-3bb73bbc3642",
+      "name": "Archivio",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name",
+              "renameField": true,
+              "outputFieldName": "existing_names"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        300
+      ],
+      "id": "be3a4df7-3f20-436b-a414-c35a9f99be14",
+      "name": "Nomi archivio"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='1L7uCZC9MVieKpiVTkh6XeXbF0tzIMCGU' in parents and name contains 'attiweb_download_{{ $('Inizio').first().json.reading_day }}_' and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2200,
+        300
+      ],
+      "id": "361c58ec-5166-485c-916b-b9a4cb85033c",
+      "name": "Registri del giorno",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name",
+              "renameField": true,
+              "outputFieldName": "download_log_names"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2420,
+        300
+      ],
+      "id": "fbba5f09-c5b0-49d4-9d51-be6f3b00b644",
+      "name": "Nomi registri"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53da859f-2054-4202-a020-f4650db2045c",
+              "name": "stage",
+              "value": "select",
+              "type": "string"
+            },
+            {
+              "id": "eca18932-6a84-42d8-ac69-ff87dd4b1201",
+              "name": "reading_day",
+              "value": "={{ $('Inizio').first().json.reading_day }}",
+              "type": "string"
+            },
+            {
+              "id": "a554c5b4-0d6f-4e14-9505-2a42306160d4",
+              "name": "cap",
+              "value": "={{ $('Inizio').first().json.cap }}",
+              "type": "number"
+            },
+            {
+              "id": "313d705f-d10d-4634-bb46-0b829da495ce",
+              "name": "run_limit",
+              "value": "={{ $('Inizio').first().json.run_limit }}",
+              "type": "number"
+            },
+            {
+              "id": "878c0ec9-5000-453a-be2a-30cc3ad7a41c",
+              "name": "righe",
+              "value": "={{ $('Leggi righe').first().json.data }}",
+              "type": "array"
+            },
+            {
+              "id": "018589c8-8481-489f-b309-c47110aa046c",
+              "name": "existing_names",
+              "value": "={{ $('Nomi archivio').first().json.existing_names || [] }}",
+              "type": "array"
+            },
+            {
+              "id": "4dbfd63b-04ed-4f36-8fe1-73e9bceead6a",
+              "name": "download_log_names",
+              "value": "={{ $json.download_log_names || [] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2640,
+        300
+      ],
+      "id": "65be6cf8-8934-4dba-b9c5-102b3b3525ce",
+      "name": "Prepara scelta"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * archive-record.js — workstream D, the Atti Web reading of DEC-033: one row of the\n * portal's search becomes one record of the private history archive (DEC-023, rule 2).\n * It fixes what docs/pilota/CONTRATTI.md («Lo storico») leaves to the PR that opens D:\n * the form of `archive_id` and the values of `tipo`; tests/test_archive_record.js holds\n * the idempotency and normalization cases.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): this exact file is both the Node\n * module the tests require() and the full text of the n8n Code node (\"Run Once for Each\n * Item\"). The staging workflows use it in several nodes, byte-identical; `stage` on the item\n * says which step it takes:\n *   - 'plan': the menu answer becomes the tipologie to read;\n *   - 'pass': the answers of one pass over a tipologia become a pass and the pages to save;\n *   - 'close': the passes over a tipologia are merged and each row is described;\n *   - 'log': the closed tipologie become the register of the reading and its kept rows;\n *   - 'select': the kept rows become today's downloads, within the day's cap;\n *   - 'pdf': the answer to a PDF link is checked before it is hashed;\n *   - 'record' (or no stage, with `download` and `existing` set): it adds the `record` to\n *     append, or `record: null` when the archive already holds that original;\n *   - 'download_log': the outcomes of a download run become its register;\n *   - no stage, a search row: it adds `archive` (identity, perimeter verdict, PDF link).\n * The requests and the pause between them belong to the workflow (DEC-033, rule 2); the node\n * refuses a daily cap above the rule.\n */\n\n'use strict';\n\n/** A site's `source_id` is its host, lowercase, without `www.` (CONTRATTI.md, section 2). */\nconst SOURCE_ID = 'comune.roma.it';\nconst PREFIX = 'qn:roma:arc:';\nconst PDF_URL = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti';\n\n/** The values of `tipo`: every tipologia of the portal's menu on 15 September 2026\n *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3), all read (CONTRATTI.md, «Lo storico»). */\nconst TIPI = Object.freeze(['CMC', 'CPC', 'MMC', 'KD', 'KCD', 'WCD', 'WD', 'MD', 'MCD', 'OCD',\n  'OD', 'PD', 'KID', 'CD', 'CMD', 'CID', 'ACD', 'KMD', 'WMD', 'GCD', 'GD', 'GMD', 'DDS', 'DMS',\n  'PMT', 'GMT', 'PS', 'GCM', 'GMM', 'CZ', 'CMZ', 'AZ', 'XO', 'TO', 'PMO', 'SO', 'XMO', 'AY', 'CY',\n  'CMY', 'CPL', 'CMR', 'DDK', 'DMK', 'CMV', 'GMV', 'CPV', 'MMV']);\n\n/** DEC-033, rule 1: the pilot Municipi and the first day of the period. */\nconst MUNICIPI = Object.freeze(['X', 'V', 'I']);\nconst PERIOD_START = '2026-01-01';\n\nconst ROMANI = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII',\n  'XIII', 'XIV', 'XV'];\n\n/** CONTRATTI.md, «Lo storico»: Unicode NFC, trimmed, inner whitespace collapsed to one\n *  space. A whole non-negative number (a JSON key) is read as its decimal string. */\nfunction normalizeKey(v) {\n  if (typeof v === 'number' && Number.isSafeInteger(v) && v >= 0) v = String(v);\n  if (typeof v !== 'string') return '';\n  return v.normalize('NFC').trim().replace(/\\s+/g, ' ');\n}\n\n/** `qn:roma:arc:<source_id>:<tipologia>:<idDoc>` — the pair the portal itself uses to\n *  address the document (`par1`, `par2` of the PDF link). The prefix is a constant; no\n *  geography and no `registro_id` take part. Anything else stops the run: an id is\n *  permanent, so a key in an unexpected shape is never turned into one. */\nfunction archiveId(tipologia, idDoc) {\n  const tipo = normalizeKey(tipologia);\n  const key = normalizeKey(idDoc);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!/^[0-9]+$/.test(key)) throw new Error(`idDoc ${JSON.stringify(idDoc)} is not the numeric key the portal gives`);\n  return `${PREFIX}${SOURCE_ID}:${tipo}:${key}`;\n}\n\n/** CONTRATTI.md «Lo storico», reading Atti Web: the tipologie the portal lists at the\n *  start of a reading, in a fixed order. A list that did not read stops the reading before\n *  it starts; a code that is not a value of `tipo` stops it too, until a PR adds it here. */\nfunction planTipologie(menu) {\n  if (!Array.isArray(menu) || menu.length === 0) throw new Error('the list of tipologie did not read: the reading does not start');\n  const codes = [...new Set(menu.map(normalizeKey))];\n  const unknown = codes.filter((c) => !TIPI.includes(c));\n  if (unknown.length) throw new Error(`tipologie not in tipo: ${unknown.join(', ')}`);\n  // Every tipologia is read (DEC-033 rule 5): a menu that lacks a known one would make an\n  // incomplete reading look complete, so it stops the reading too.\n  const missing = TIPI.filter((c) => !codes.includes(c));\n  if (missing.length) throw new Error(`menu without known tipologie: ${missing.join(', ')}: the reading does not start`);\n  return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));\n}\n\n/** CONTRATTI.md «Lo storico» (DEC-033 rule 5), late publication: the passes over one\n *  tipologia (each `{ total, rows }`) count when the last two give the same total and the\n *  same set of idDoc; at most three passes. An empty response is `{ total: 0, rows: [],\n *  historical_total }`, with the acts the same tipologia returns over the historical\n *  interval («Risposta vuota»). The rows are merged by idDoc within the tipologia either\n *  way, and `complete` says what the registry records. */\nfunction mergePasses(passes) {\n  if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {\n    throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');\n  }\n  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));\n  const byId = new Map();\n  for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);\n  // A pass is whole when it holds exactly the rows it declares, each with a valid idDoc of its\n  // own: a truncated pagination, or a row that cannot be read, is never complete, however stable.\n  const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && Array.isArray(p.rows) &&\n    p.rows.length === p.total && ids(p).size === p.total;\n  // An empty response is an empty tipologia only when the historical interval returns acts;\n  // otherwise it is missing data, and another pass would not change it.\n  for (const p of passes) {\n    if (p && p.total === 0 && !(Number.isSafeInteger(p.historical_total) && p.historical_total >= 0)) {\n      throw new Error('an empty pass carries historical_total (CONTRATTI.md, «Lo storico», «Risposta vuota»)');\n    }\n  }\n  const missing = passes.some((p) => p.total === 0 && p.historical_total === 0);\n  const [a, b] = passes.slice(-2);\n  const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&\n    [...ids(a)].every((x) => ids(b).has(x));\n  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };\n}\n\n/** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */\nfunction fileStem(id) {\n  if (typeof id !== 'string' || !id.startsWith(PREFIX)) throw new Error(`not an archive_id: ${JSON.stringify(id)}`);\n  return id.slice('qn:'.length).split(':').join('__');\n}\n\nfunction pdfUrl(tipologia, idDoc) {\n  const b64 = (s) => Buffer.from(s, 'utf8').toString('base64');\n  return `${PDF_URL}&par1=${b64(normalizeKey(tipologia))}&par2=${b64(normalizeKey(idDoc))}`;\n}\n\n/** A real UTC instant written as YYYY-MM-DDTHH:MM:SS(.fff)Z: no 30 February, no hour 25. */\nfunction utcInstant(v) {\n  const m = typeof v === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?Z$/.exec(v);\n  if (!m) return false;\n  const [y, mo, d, h, mi, se] = m.slice(1, 7).map(Number);\n  return validDay(y, mo, d) && h < 24 && mi < 60 && se < 60;\n}\n\nfunction validDay(y, m, d) {\n  const t = new Date(Date.UTC(y, m - 1, d));\n  return t.getUTCFullYear() === y && t.getUTCMonth() === m - 1 && t.getUTCDate() === d;\n}\n\nconst ROME_DAY = new Intl.DateTimeFormat('en-CA', {\n  timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit',\n});\n\nfunction romeDayOf(ms) {\n  const p = Object.fromEntries(ROME_DAY.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));\n  return `${p.year}-${p.month}-${p.day}`;\n}\n\nconst pad = (n) => String(n).padStart(2, '0');\n\n/** A date field of the portal as a Rome day (YYYY-MM-DD), or null when empty. A day\n *  written as such is kept as written; an instant (with Z or an offset, or epoch\n *  milliseconds) is converted to Europe/Rome first, as everywhere else in the pilot\n *  (Spec v2.5 T17). Any other shape stops the run, naming the field. */\nfunction sourceDay(v, field) {\n  if (v === null || v === undefined || v === '') return null;\n  const bad = () => new Error(`${field}: unreadable date ${JSON.stringify(v)}`);\n  if (typeof v === 'number') {\n    if (!Number.isSafeInteger(v) || v < 1e11) throw bad();\n    return romeDayOf(v);\n  }\n  if (typeof v !== 'string') throw bad();\n  let s = v.trim();\n  if (s === '') return null;\n  // The convocations give `dtRpr` as two dates, `01/12/2025<br>(04/12/2025)<br>`: the first is\n  // the repertorio date the search filters on, as the source study read it; the one in\n  // brackets takes no part. Any other markup stays unreadable.\n  const two = /^(\\d{1,2}\\/\\d{1,2}\\/\\d{4})<br\\s*\\/?>\\s*\\(\\d{1,2}\\/\\d{1,2}\\/\\d{4}\\)(?:<br\\s*\\/?>)?$/i.exec(s);\n  if (two) s = two[1];\n  let m = /^(\\d{4})-(\\d{2})-(\\d{2})(?:[T ](\\d{2}):(\\d{2})(?::(\\d{2})(?:\\.\\d{1,9})?)?(Z|[+-]\\d{2}:?\\d{2})?)?$/.exec(s);\n  if (m) {\n    const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    if (!m[7]) return `${m[1]}-${m[2]}-${m[3]}`;\n    const offset = m[7] === 'Z' ? 'Z' : `${m[7].slice(0, 3)}:${m[7].slice(-2)}`;\n    const ms = Date.parse(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6] || '00'}${offset}`);\n    if (Number.isNaN(ms)) throw bad();\n    return romeDayOf(ms);\n  }\n  m = /^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})(?: (\\d{1,2}):(\\d{2})(?::(\\d{2}))?)?$/.exec(s);\n  if (m) {\n    const [d, mo, y] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    return `${y}-${pad(mo)}-${pad(d)}`;\n  }\n  throw bad();\n}\n\n/** CONTRATTI.md «Lo storico»: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps\n *  which of the two it took. A row without `dtRpr` is not a row of that search. */\nfunction dataDocumento(row) {\n  const rpr = sourceDay(row.dtRpr, 'dtRpr');\n  if (!rpr) throw new Error('dtRpr missing: the search filters on it (CONTRATTI.md, «Lo storico»)');\n  const seduta = sourceDay(row.dtSeduta, 'dtSeduta');\n  return seduta ? { day: seduta, from: 'dtSeduta' } : { day: rpr, from: 'dtRpr' };\n}\n\n/** The Municipio structure named by `dscStrOrg` (CONTRATTI.md «Lo storico», DEC-033 rule 1:\n *  «MUNIC…», «ROMA» when present, the Roman numeral compared whole), as the canonical\n *  `municipality_code`; null when it names none, or more than one. */\nfunction municipalityCode(dscStrOrg) {\n  // A bracketed «(EX MUNICIPIO …)» is the former Municipio, not a second issuer (CONTRATTI.md «Lo storico»).\n  const s = normalizeKey(dscStrOrg).toUpperCase().replace(/\\(\\s*EX\\b[^)]*\\)/g, ' ');\n  const found = new Set();\n  for (const m of s.matchAll(/\\bMUNIC\\w*\\.?\\s*(?:ROMA\\s*)?([IVX]+)\\b/g)) {\n    if (ROMANI.includes(m[1])) found.add(m[1]);\n  }\n  return found.size === 1 ? [...found][0] : null;\n}\n\n/** DEC-033, rule 1: the territorial groups of the Polizia Locale are not a Municipio structure. */\nconst isPoliziaLocale = (dscStrOrg) => /^P\\.\\s*L\\.?\\s*-/.test(normalizeKey(dscStrOrg).toUpperCase());\n\n/** Stage 1: one search row (with `tipologia` set by the workflow) on `readingDay`.\n *  `keep` false carries the reason; a row kept today may still be skipped downstream\n *  when its `archive_id` is already in the archive. */\nfunction describeRow(row, readingDay) {\n  if (typeof readingDay !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(readingDay) ||\n      !validDay(...readingDay.split('-').map(Number))) {\n    throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  }\n  const id = archiveId(row.tipologia, row.idDoc);\n  const { day, from } = dataDocumento(row);\n  const code = municipalityCode(row.dscStrOrg);\n  let reason = null;\n  if (code === null) reason = isPoliziaLocale(row.dscStrOrg) ? 'polizia_locale' : 'municipio_non_letto';\n  else if (!MUNICIPI.includes(code)) reason = 'fuori_dai_municipi';\n  else if (day < PERIOD_START) reason = 'prima_del_periodo';\n  else if (day > readingDay) reason = 'data_futura'; // read again once the day has passed\n  return {\n    archive_id: id,\n    tipo: normalizeKey(row.tipologia),\n    keep: reason === null,\n    reason,\n    data_documento: day,\n    data_documento_da: from,\n    municipality_code: code,\n    pdf_url: pdfUrl(row.tipologia, row.idDoc),\n    file_stem: fileStem(id),\n  };\n}\n\n/** Lowercase SHA-256 as a string: a regex alone would accept a one-element array. */\nconst isSha256 = (v) => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);\n\n/** Stage 2: the record to append for a downloaded original, or null when the latest\n *  version already holds the same file (CONTRATTI.md, «Lo storico»: same SHA-256, no new\n *  row). `existing` lists the versions already in the archive for this `archive_id`. */\nfunction archiveRecord(archive, download, existing) {\n  if (!archive || !archive.keep) throw new Error('only a kept row becomes a record');\n  if (!download || !isSha256(download.sha256)) throw new Error('download.sha256 must be 64 hex digits');\n  if (!utcInstant(download.retrieved_at)) {\n    throw new Error('download.retrieved_at must be a UTC instant');\n  }\n  if (typeof download.workflow !== 'string' || !download.workflow.startsWith('staging_')) {\n    throw new Error('download.workflow must name the staging_ workflow');\n  }\n  // A record is written once and never rewritten: provenance missing now stays missing.\n  if (typeof download.workflow_version !== 'string' || !download.workflow_version.trim()) {\n    throw new Error('download.workflow_version must name the version of the staging_ workflow');\n  }\n  if (typeof download.elenco !== 'string' || !download.elenco.startsWith('originali/')) {\n    throw new Error('download.elenco must be the saved search page in originali/');\n  }\n  // Absent is not empty: without the versions already written, a v1 could be written twice.\n  if (!Array.isArray(existing)) throw new Error('existing must list the versions already in the archive ([] for none)');\n  let latest = null;\n  const seen = new Set();\n  for (const r of existing) {\n    if (!r || r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r && r.archive_id}`);\n    if (!Number.isInteger(r.versione) || r.versione < 1) throw new Error(`existing record with versione ${JSON.stringify(r.versione)}`);\n    // The hash decides whether a reading adds a version: without it a change would be invented.\n    if (!isSha256(r.originale_sha256)) throw new Error(`existing record v${r.versione} without a valid originale_sha256`);\n    if (seen.has(r.versione)) throw new Error(`two existing records with versione ${r.versione}`);\n    seen.add(r.versione);\n    if (!latest || r.versione > latest.versione) latest = r;\n  }\n  // Versions go up by one from 1: a gap means a truncated listing, not a history to build on.\n  if (latest && seen.size !== latest.versione) throw new Error(`existing versions are not 1 to ${latest.versione}: the listing is incomplete`);\n  if (latest && latest.originale_sha256 === download.sha256) return null;\n  const record = {\n    archive_id: archive.archive_id,\n    versione: latest ? latest.versione + 1 : 1,\n    source_id: SOURCE_ID,\n    registro_id: download.registro_id || null,\n    source_url: archive.pdf_url,\n    data_documento: archive.data_documento,\n    municipality_code: archive.municipality_code,\n    tipo: archive.tipo,\n    provenienza: {\n      url: download.url || archive.pdf_url,\n      retrieved_at: download.retrieved_at,\n      workflow: download.workflow,\n      workflow_version: download.workflow_version,\n      elenco: download.elenco,\n      data_documento_da: archive.data_documento_da,\n    },\n    originale: `originali/${archive.file_stem}__${download.sha256.slice(0, 16)}.pdf`,\n    originale_sha256: download.sha256,\n    derivato: null,\n    etichette: [],\n    costo: null,\n  };\n  if (latest) record.motivo = 'originale cambiato alla fonte';\n  return record;\n}\n\n/* ----- the reading: menu, pages, passes, reading log (CONTRATTI.md «Lo storico») --------- */\n\n/** The search filters on `dtRpr` from this day to the reading day (CONTRATTI.md, «Lo storico»). */\nconst SEARCH_START = '2025-12-01';\n/** Rows per page of the search: the most the portal accepts (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §2). */\nconst PAGE_SIZE = 500;\n/** DEC-033, rule 2: the most documents read in a day. */\nconst MAX_PER_DAY = 300;\n/** The portal's answer for a search with no rows (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §7.1). */\nconst EMPTY_ANSWER = /Index:\\s*0,\\s*Size:\\s*0/;\n\nconst isDay = (v) => typeof v === 'string' && /^\\d{4}-\\d{2}-\\d{2}$/.test(v) && validDay(...v.split('-').map(Number));\nconst bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));\n\n/** The codes of the menu answer (`caricaListaTipologie`): its first list, the combined codes\n *  (with a comma) left out, as in the source study. What does not read stops the reading. */\nfunction menuCodes(answer) {\n  let a = answer;\n  if (typeof a === 'string') {\n    try { a = JSON.parse(a); } catch (e) { a = null; }\n  }\n  const list = a && typeof a === 'object' ? Object.values(a).find(Array.isArray) : null;\n  if (!list) throw new Error('the list of tipologie did not read: the reading does not start');\n  return list.map((x) => (x && typeof x.codice === 'string' ? x.codice : '')).filter((c) => c && !c.includes(','));\n}\n\n/** Stage 'plan': the full answer of the menu request becomes the tipologie to read; a block\n *  on it stops the reading before it starts (DEC-033, rule 4). */\nfunction planFromMenu(response) {\n  const signal = blockSignal(response);\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  return planTipologie(menuCodes(response.body));\n}\n\n/** DEC-033, rule 4: the signal on one answer (`{ statusCode, headers, body }`, redirects not\n *  followed) that stops the reading, or null. Any redirect counts: the login page is one. */\nfunction blockSignal(res) {\n  if (!res || typeof res !== 'object') return 'no answer';\n  const code = Number(res.statusCode);\n  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;\n  if (code >= 300 && code < 400) {\n    const h = res.headers || {};\n    return `redirect to ${h.location || h.Location || '(no location)'}`;\n  }\n  const body = bodyText(res);\n  if (/captcha/i.test(body)) return 'captcha';\n  if (/<input[^>]+type=[\"']?password/i.test(body)) return 'login page';\n  return null;\n}\n\n/** One answer of the search: its rows and the total it declares, the empty answer, or an\n *  error, which leaves the pass incomplete. */\nfunction parseSearch(res) {\n  let body = res.body;\n  if (typeof body === 'string') {\n    try {\n      body = JSON.parse(body);\n    } catch (e) {\n      return EMPTY_ANSWER.test(res.body) ? { kind: 'empty' } : { kind: 'error', detail: `HTTP ${res.statusCode}: not JSON` };\n    }\n  }\n  if (!body || !Array.isArray(body.elencoAtti)) return { kind: 'error', detail: `HTTP ${res.statusCode}: no elencoAtti` };\n  const total = Number(body.total);\n  if (!Number.isSafeInteger(total) || total < 0) return { kind: 'error', detail: 'the declared total is not a whole number' };\n  return { kind: 'rows', total, rows: body.elencoAtti };\n}\n\n/** The saved page of the search, in originali/: one file per page, pass and reading day. */\nfunction elencoFileName(readingDay, tipologia, pass, page) {\n  return `attiweb_elenco_${readingDay}_${normalizeKey(tipologia)}_p${pass}_${page}.json`;\n}\n\n/** Stage 'pass': the answers of one pass over a tipologia, in page order, become a pass for\n *  `mergePasses` (`pass_result`: `pass` is the pass's number); each row carries its tipologia\n *  and the saved page it came from, and `files` are the pages to save under those names. A first answer that is the empty one asks for the\n *  check over the historical interval (`needs_historical`), whose total the pass then carries. */\nfunction searchPass({ tipologia, reading_day, pass, pages, historical }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!Number.isInteger(pass) || pass < 1 || pass > 3) throw new Error('pass is 1, 2 or 3 (CONTRATTI.md, «Lo storico»)');\n  if (!Array.isArray(pages) || pages.length === 0) throw new Error('a pass has at least one answer');\n  for (const res of pages.concat(historical ? [historical] : [])) {\n    const signal = blockSignal(res);\n    if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  }\n  const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, tipo, pass, i), body: bodyText(res) }));\n  const parsed = pages.map(parseSearch);\n  if (parsed[0].kind === 'empty' && parsed.every((x) => x.kind === 'empty')) {\n    if (!historical) return { needs_historical: true, files, pass_result: null };\n    const h = parseSearch(historical);\n    return { needs_historical: false, files, pass_result: { total: 0, rows: [], historical_total: h.kind === 'rows' ? h.total : 0 } };\n  }\n  // The page after a full last page can be the empty answer: it ends the pass, it is not an error.\n  let last = parsed.length;\n  while (last > 1 && parsed[last - 1].kind === 'empty') last -= 1;\n  const bad = parsed.slice(0, last).find((x) => x.kind !== 'rows');\n  if (bad) return { needs_historical: false, files, pass_result: { total: null, rows: [], error: bad.detail || 'an empty answer between pages' } };\n  const total = parsed[0].total;\n  if (parsed.slice(0, last).some((x) => x.total !== total)) {\n    return { needs_historical: false, files, pass_result: { total: null, rows: [], error: 'the declared total changed between pages' } };\n  }\n  const rows = [];\n  parsed.slice(0, last).forEach((x, i) => {\n    for (const r of x.rows) rows.push(Object.assign({}, r, { tipologia: tipo, elenco: `originali/${files[i].name}` }));\n  });\n  return { needs_historical: false, files, pass_result: { total, rows } };\n}\n\n/** Stage 'close': the passes over one tipologia, merged (`mergePasses`), and each row described\n *  (`describeRow`). A row that cannot become a record is counted, never written. */\nfunction closeTipologia({ tipologia, reading_day, passes }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  const merged = mergePasses(passes);\n  const kept = [];\n  const left_out = {};\n  for (const r of merged.rows) {\n    let a;\n    try {\n      a = describeRow(Object.assign({}, r, { tipologia: tipo }), reading_day);\n    } catch (e) {\n      a = { keep: false, reason: 'riga_illeggibile' };\n    }\n    if (a.keep) kept.push({ archive: a, elenco: r.elenco });\n    else left_out[a.reason] = (left_out[a.reason] || 0) + 1;\n  }\n  const lastPass = passes[passes.length - 1];\n  return {\n    tipologia: tipo,\n    complete: merged.complete,\n    needs_another_pass: merged.needs_another_pass,\n    passes: passes.length,\n    total: lastPass && Number.isSafeInteger(lastPass.total) ? lastPass.total : null,\n    missing_data: passes.some((x) => x && x.total === 0 && x.historical_total === 0),\n    errors: passes.map((x) => x && x.error).filter(Boolean),\n    kept,\n    left_out,\n  };\n}\n\n/** `20261110T201500Z` from a UTC instant: the time part of the reading's file names. */\nconst compactInstant = (v) => v.slice(0, 19).replace(/[-:]/g, '') + 'Z';\n\n/** Stage 'log': the register of one reading (DEC-033, rule 5), from the closed tipologie. The\n *  reading is complete only when every value of `tipo` was read and is complete; `righe` are the\n *  kept rows for the download workflow. */\nfunction readingLog({ reading_day, started_at, finished_at, workflow, workflow_version, tipologie }) {\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!utcInstant(started_at) || !utcInstant(finished_at)) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(tipologie)) throw new Error('tipologie must list the closed tipologie');\n  const byTipo = new Map();\n  for (const t of tipologie) {\n    if (!t || !TIPI.includes(t.tipologia)) throw new Error(`a closed tipologia that is not a value of tipo: ${t && t.tipologia}`);\n    if (byTipo.has(t.tipologia)) throw new Error(`tipologia ${t.tipologia} closed twice`);\n    byTipo.set(t.tipologia, t);\n  }\n  const unread = TIPI.filter((c) => !byTipo.has(c));\n  const rows = TIPI.filter((c) => byTipo.has(c)).map((c) => {\n    const t = byTipo.get(c);\n    return { tipologia: c, complete: t.complete === true, passes: t.passes, total: t.total,\n      missing_data: t.missing_data === true, errors: t.errors || [], kept: (t.kept || []).length, left_out: t.left_out || {} };\n  });\n  const incomplete = rows.filter((r) => !r.complete).map((r) => r.tipologia).concat(unread);\n  const seen = new Set();\n  const righe = [];\n  for (const c of TIPI) {\n    for (const k of (byTipo.get(c) || {}).kept || []) {\n      if (seen.has(k.archive.archive_id)) continue;\n      seen.add(k.archive.archive_id);\n      righe.push(k);\n    }\n  }\n  const stamp = compactInstant(started_at);\n  return {\n    log_file_name: `attiweb_lettura_${stamp}.json`,\n    righe_file_name: `attiweb_righe_${stamp}.json`,\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      periodo: { dtRpr_da: SEARCH_START, dtRpr_a: reading_day, data_documento_da: PERIOD_START },\n      municipi: MUNICIPI.slice(),\n      complete: incomplete.length === 0,\n      incomplete,\n      unread,\n      kept_total: righe.length,\n      tipologie: rows,\n    },\n    righe,\n  };\n}\n\n/** The register of one download run: its name carries the day and how many documents it read. */\nfunction downloadLogName(readingDay, count, startedAt) {\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  if (!Number.isSafeInteger(count) || count < 0) throw new Error('count must be a whole number');\n  if (!utcInstant(startedAt)) throw new Error('started_at must be a UTC instant');\n  return `attiweb_download_${readingDay}_n${count}_${compactInstant(startedAt)}.json`;\n}\n\n/** What the download runs of a day already read, from the names of their registers. */\nfunction downloadedToday(names, readingDay) {\n  if (!Array.isArray(names)) throw new Error('names must list the download registers ([] for none)');\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  let n = 0;\n  for (const name of names) {\n    const mm = typeof name === 'string' && /^attiweb_download_(\\d{4}-\\d{2}-\\d{2})_n(\\d+)_\\d{8}T\\d{6}Z\\.json$/.exec(name);\n    if (mm && mm[1] === readingDay) n += Number(mm[2]);\n  }\n  return n;\n}\n\n/** Stage 'select': today's downloads from the kept rows of the latest reading, those whose\n *  `archive_id` has no record in the archive yet, within the day's cap (DEC-033, rule 2) and\n *  the run's own limit. `existing_names` are the file names in `D Storico/`; `downloaded_today`\n *  what earlier runs of the day already read. */\nfunction selectDownloads({ righe, existing_names, downloaded_today, cap, run_limit }) {\n  if (!Array.isArray(righe)) throw new Error('righe must list the kept rows of a reading');\n  if (!Array.isArray(existing_names)) throw new Error('existing_names must list the files in D Storico/ ([] for none)');\n  if (!Number.isSafeInteger(downloaded_today) || downloaded_today < 0) throw new Error('downloaded_today must be a whole number');\n  if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);\n  const recorded = new Set();\n  for (const n of existing_names) {\n    const mm = typeof n === 'string' && /^(.+)__v[1-9][0-9]*\\.json$/.exec(n);\n    if (mm) recorded.add(mm[1]);\n  }\n  const limit = run_limit === undefined ? cap : run_limit;\n  if (!Number.isSafeInteger(limit) || limit < 0) throw new Error('run_limit must be a whole number');\n  const room = Math.max(0, Math.min(limit, cap - downloaded_today));\n  const out = [];\n  const seen = new Set();\n  for (const r of righe) {\n    if (out.length >= room) break;\n    if (!r || !r.archive || !r.archive.keep || typeof r.archive.file_stem !== 'string') throw new Error('a row of righe without its archive');\n    if (recorded.has(r.archive.file_stem) || seen.has(r.archive.file_stem)) continue;\n    seen.add(r.archive.file_stem);\n    out.push(r);\n  }\n  return out;\n}\n\n/** Stage 'download_log': the register of one download run, from the outcome of each document\n *  it read (`{ archive_id, written, reason }`); its name carries the day and the count. */\nfunction downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, esiti }) {\n  if (!utcInstant(finished_at)) throw new Error('finished_at must be a UTC instant');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(esiti)) throw new Error('esiti must list the documents read');\n  const read = esiti.filter((e) => e && typeof e.archive_id === 'string');\n  if (read.length !== esiti.length) throw new Error('an outcome without its archive_id');\n  return {\n    name: downloadLogName(reading_day, read.length, started_at),\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      read: read.length,\n      written: read.filter((e) => e.written === true).length,\n      not_written: read.filter((e) => e.written !== true).map((e) => ({ archive_id: e.archive_id, reason: e.reason || null })),\n    },\n  };\n}\n\n/** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers }`, the binary's MIME type and\n *  extension, whether it has content) is an original to hash, a block that stops the reading, or\n *  something else, which is counted and not written. The portal sends its PDFs as\n *  `application/octet-stream` with a `.pdf` file name. */\nfunction checkPdf({ response, mime, file_extension, has_content }) {\n  const signal = blockSignal(Object.assign({ body: '' }, response));\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  if (Number(response.statusCode) !== 200) return { ok: false, reason: `HTTP ${response.statusCode}` };\n  const pdf = mime === 'application/pdf' || (mime === 'application/octet-stream' && String(file_extension).toLowerCase() === 'pdf');\n  if (!pdf) return { ok: false, reason: `not a PDF: ${mime}` };\n  if (has_content !== true) return { ok: false, reason: 'empty file' };\n  return { ok: true, reason: null };\n}\n\nfunction recordFileName(record) {\n  return `${fileStem(record.archive_id)}__v${record.versione}.json`;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = {\n    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,\n    planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,\n    archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,\n    closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,\n    downloadLog,\n  };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the per-item adapter (see the header). */\nif ($json.stage === 'plan') {\n  $json.tipologie = planFromMenu($json.response);\n  delete $json.response;\n} else if ($json.stage === 'pass') {\n  Object.assign($json, searchPass($json));\n  delete $json.pages;\n  delete $json.historical;\n} else if ($json.stage === 'close') {\n  $json.result = closeTipologia($json);\n  delete $json.passes;\n} else if ($json.stage === 'log') {\n  Object.assign($json, readingLog($json));\n  delete $json.tipologie;\n} else if ($json.stage === 'select') {\n  const downloaded_today = downloadedToday(($json.download_log_names || []).filter(Boolean), $json.reading_day);\n  $json.downloaded_today = downloaded_today;\n  $json.downloads = selectDownloads(Object.assign({}, $json, {\n    existing_names: ($json.existing_names || []).filter(Boolean), downloaded_today }));\n  delete $json.righe;\n  delete $json.existing_names;\n} else if ($json.stage === 'pdf') {\n  // n8n gives the size in `bytes`, and as text in `fileSize` (\"45.3 kB\"): only whether it is zero matters.\n  const bin = ($input.item.binary || {}).data || {};\n  const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();\n  const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\\.0+)?\\s*[kMG]?B$/i.test(size);\n  $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });\n} else if ($json.stage === 'download_log') {\n  Object.assign($json, downloadLog($json));\n  delete $json.esiti;\n} else if ($json.stage === 'record' || $json.download) {\n  const record = archiveRecord($json.archive, $json.download, $json.existing);\n  $json.record = record;\n  $json.record_file_name = record ? recordFileName(record) : null;\n} else {\n  $json.archive = describeRow($json, $json.reading_day);\n}\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        300
+      ],
+      "id": "2d156d56-0230-4061-85ad-499ee36140be",
+      "name": "Scelta"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "downloads",
+        "include": "noOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3080,
+        300
+      ],
+      "id": "61517df4-b729-40e0-bbdd-4d646fa63025",
+      "name": "Da scaricare"
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3300,
+        300
+      ],
+      "id": "28f0e037-fecd-457b-8514-8fdeb120f09b",
+      "name": "Documenti"
+    },
+    {
+      "parameters": {
+        "amount": 5
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3520,
+        500
+      ],
+      "id": "b757d4bd-a159-491c-8e7b-5a4c6d9535e0",
+      "name": "Pausa",
+      "webhookId": "e1cf9cb0-8666-4c63-bc5d-88e5bc3d9a44"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.archive.pdf_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "application/pdf"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          },
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 90000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3740,
+        500
+      ],
+      "id": "851b0cc6-ccf9-41f8-93d6-5dc420e11118",
+      "name": "PDF"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "97c82f89-6152-43a6-b2b5-2107fdcfd301",
+              "name": "stage",
+              "value": "pdf",
+              "type": "string"
+            },
+            {
+              "id": "d7b0d3e0-b51e-40a9-ae7e-a8e1181df20a",
+              "name": "response",
+              "value": "={{ { statusCode: $json.statusCode, headers: $json.headers } }}",
+              "type": "object"
+            },
+            {
+              "id": "28c693b5-6c3d-40f2-8ffe-ba7863393281",
+              "name": "archive",
+              "value": "={{ $('Documenti').first().json.archive }}",
+              "type": "object"
+            },
+            {
+              "id": "58c02db2-94c7-490e-8949-eb0ccd1fe4df",
+              "name": "elenco",
+              "value": "={{ $('Documenti').first().json.elenco }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {
+          "includeBinary": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3960,
+        500
+      ],
+      "id": "72e3cfa7-9714-4725-b17f-bf38fe954a7c",
+      "name": "Prepara controllo"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * archive-record.js — workstream D, the Atti Web reading of DEC-033: one row of the\n * portal's search becomes one record of the private history archive (DEC-023, rule 2).\n * It fixes what docs/pilota/CONTRATTI.md («Lo storico») leaves to the PR that opens D:\n * the form of `archive_id` and the values of `tipo`; tests/test_archive_record.js holds\n * the idempotency and normalization cases.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): this exact file is both the Node\n * module the tests require() and the full text of the n8n Code node (\"Run Once for Each\n * Item\"). The staging workflows use it in several nodes, byte-identical; `stage` on the item\n * says which step it takes:\n *   - 'plan': the menu answer becomes the tipologie to read;\n *   - 'pass': the answers of one pass over a tipologia become a pass and the pages to save;\n *   - 'close': the passes over a tipologia are merged and each row is described;\n *   - 'log': the closed tipologie become the register of the reading and its kept rows;\n *   - 'select': the kept rows become today's downloads, within the day's cap;\n *   - 'pdf': the answer to a PDF link is checked before it is hashed;\n *   - 'record' (or no stage, with `download` and `existing` set): it adds the `record` to\n *     append, or `record: null` when the archive already holds that original;\n *   - 'download_log': the outcomes of a download run become its register;\n *   - no stage, a search row: it adds `archive` (identity, perimeter verdict, PDF link).\n * The requests and the pause between them belong to the workflow (DEC-033, rule 2); the node\n * refuses a daily cap above the rule.\n */\n\n'use strict';\n\n/** A site's `source_id` is its host, lowercase, without `www.` (CONTRATTI.md, section 2). */\nconst SOURCE_ID = 'comune.roma.it';\nconst PREFIX = 'qn:roma:arc:';\nconst PDF_URL = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti';\n\n/** The values of `tipo`: every tipologia of the portal's menu on 15 September 2026\n *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3), all read (CONTRATTI.md, «Lo storico»). */\nconst TIPI = Object.freeze(['CMC', 'CPC', 'MMC', 'KD', 'KCD', 'WCD', 'WD', 'MD', 'MCD', 'OCD',\n  'OD', 'PD', 'KID', 'CD', 'CMD', 'CID', 'ACD', 'KMD', 'WMD', 'GCD', 'GD', 'GMD', 'DDS', 'DMS',\n  'PMT', 'GMT', 'PS', 'GCM', 'GMM', 'CZ', 'CMZ', 'AZ', 'XO', 'TO', 'PMO', 'SO', 'XMO', 'AY', 'CY',\n  'CMY', 'CPL', 'CMR', 'DDK', 'DMK', 'CMV', 'GMV', 'CPV', 'MMV']);\n\n/** DEC-033, rule 1: the pilot Municipi and the first day of the period. */\nconst MUNICIPI = Object.freeze(['X', 'V', 'I']);\nconst PERIOD_START = '2026-01-01';\n\nconst ROMANI = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII',\n  'XIII', 'XIV', 'XV'];\n\n/** CONTRATTI.md, «Lo storico»: Unicode NFC, trimmed, inner whitespace collapsed to one\n *  space. A whole non-negative number (a JSON key) is read as its decimal string. */\nfunction normalizeKey(v) {\n  if (typeof v === 'number' && Number.isSafeInteger(v) && v >= 0) v = String(v);\n  if (typeof v !== 'string') return '';\n  return v.normalize('NFC').trim().replace(/\\s+/g, ' ');\n}\n\n/** `qn:roma:arc:<source_id>:<tipologia>:<idDoc>` — the pair the portal itself uses to\n *  address the document (`par1`, `par2` of the PDF link). The prefix is a constant; no\n *  geography and no `registro_id` take part. Anything else stops the run: an id is\n *  permanent, so a key in an unexpected shape is never turned into one. */\nfunction archiveId(tipologia, idDoc) {\n  const tipo = normalizeKey(tipologia);\n  const key = normalizeKey(idDoc);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!/^[0-9]+$/.test(key)) throw new Error(`idDoc ${JSON.stringify(idDoc)} is not the numeric key the portal gives`);\n  return `${PREFIX}${SOURCE_ID}:${tipo}:${key}`;\n}\n\n/** CONTRATTI.md «Lo storico», reading Atti Web: the tipologie the portal lists at the\n *  start of a reading, in a fixed order. A list that did not read stops the reading before\n *  it starts; a code that is not a value of `tipo` stops it too, until a PR adds it here. */\nfunction planTipologie(menu) {\n  if (!Array.isArray(menu) || menu.length === 0) throw new Error('the list of tipologie did not read: the reading does not start');\n  const codes = [...new Set(menu.map(normalizeKey))];\n  const unknown = codes.filter((c) => !TIPI.includes(c));\n  if (unknown.length) throw new Error(`tipologie not in tipo: ${unknown.join(', ')}`);\n  // Every tipologia is read (DEC-033 rule 5): a menu that lacks a known one would make an\n  // incomplete reading look complete, so it stops the reading too.\n  const missing = TIPI.filter((c) => !codes.includes(c));\n  if (missing.length) throw new Error(`menu without known tipologie: ${missing.join(', ')}: the reading does not start`);\n  return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));\n}\n\n/** CONTRATTI.md «Lo storico» (DEC-033 rule 5), late publication: the passes over one\n *  tipologia (each `{ total, rows }`) count when the last two give the same total and the\n *  same set of idDoc; at most three passes. An empty response is `{ total: 0, rows: [],\n *  historical_total }`, with the acts the same tipologia returns over the historical\n *  interval («Risposta vuota»). The rows are merged by idDoc within the tipologia either\n *  way, and `complete` says what the registry records. */\nfunction mergePasses(passes) {\n  if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {\n    throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');\n  }\n  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));\n  const byId = new Map();\n  for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);\n  // A pass is whole when it holds exactly the rows it declares, each with a valid idDoc of its\n  // own: a truncated pagination, or a row that cannot be read, is never complete, however stable.\n  const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && Array.isArray(p.rows) &&\n    p.rows.length === p.total && ids(p).size === p.total;\n  // An empty response is an empty tipologia only when the historical interval returns acts;\n  // otherwise it is missing data, and another pass would not change it.\n  for (const p of passes) {\n    if (p && p.total === 0 && !(Number.isSafeInteger(p.historical_total) && p.historical_total >= 0)) {\n      throw new Error('an empty pass carries historical_total (CONTRATTI.md, «Lo storico», «Risposta vuota»)');\n    }\n  }\n  const missing = passes.some((p) => p.total === 0 && p.historical_total === 0);\n  const [a, b] = passes.slice(-2);\n  const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&\n    [...ids(a)].every((x) => ids(b).has(x));\n  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };\n}\n\n/** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */\nfunction fileStem(id) {\n  if (typeof id !== 'string' || !id.startsWith(PREFIX)) throw new Error(`not an archive_id: ${JSON.stringify(id)}`);\n  return id.slice('qn:'.length).split(':').join('__');\n}\n\nfunction pdfUrl(tipologia, idDoc) {\n  const b64 = (s) => Buffer.from(s, 'utf8').toString('base64');\n  return `${PDF_URL}&par1=${b64(normalizeKey(tipologia))}&par2=${b64(normalizeKey(idDoc))}`;\n}\n\n/** A real UTC instant written as YYYY-MM-DDTHH:MM:SS(.fff)Z: no 30 February, no hour 25. */\nfunction utcInstant(v) {\n  const m = typeof v === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?Z$/.exec(v);\n  if (!m) return false;\n  const [y, mo, d, h, mi, se] = m.slice(1, 7).map(Number);\n  return validDay(y, mo, d) && h < 24 && mi < 60 && se < 60;\n}\n\nfunction validDay(y, m, d) {\n  const t = new Date(Date.UTC(y, m - 1, d));\n  return t.getUTCFullYear() === y && t.getUTCMonth() === m - 1 && t.getUTCDate() === d;\n}\n\nconst ROME_DAY = new Intl.DateTimeFormat('en-CA', {\n  timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit',\n});\n\nfunction romeDayOf(ms) {\n  const p = Object.fromEntries(ROME_DAY.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));\n  return `${p.year}-${p.month}-${p.day}`;\n}\n\nconst pad = (n) => String(n).padStart(2, '0');\n\n/** A date field of the portal as a Rome day (YYYY-MM-DD), or null when empty. A day\n *  written as such is kept as written; an instant (with Z or an offset, or epoch\n *  milliseconds) is converted to Europe/Rome first, as everywhere else in the pilot\n *  (Spec v2.5 T17). Any other shape stops the run, naming the field. */\nfunction sourceDay(v, field) {\n  if (v === null || v === undefined || v === '') return null;\n  const bad = () => new Error(`${field}: unreadable date ${JSON.stringify(v)}`);\n  if (typeof v === 'number') {\n    if (!Number.isSafeInteger(v) || v < 1e11) throw bad();\n    return romeDayOf(v);\n  }\n  if (typeof v !== 'string') throw bad();\n  let s = v.trim();\n  if (s === '') return null;\n  // The convocations give `dtRpr` as two dates, `01/12/2025<br>(04/12/2025)<br>`: the first is\n  // the repertorio date the search filters on, as the source study read it; the one in\n  // brackets takes no part. Any other markup stays unreadable.\n  const two = /^(\\d{1,2}\\/\\d{1,2}\\/\\d{4})<br\\s*\\/?>\\s*\\(\\d{1,2}\\/\\d{1,2}\\/\\d{4}\\)(?:<br\\s*\\/?>)?$/i.exec(s);\n  if (two) s = two[1];\n  let m = /^(\\d{4})-(\\d{2})-(\\d{2})(?:[T ](\\d{2}):(\\d{2})(?::(\\d{2})(?:\\.\\d{1,9})?)?(Z|[+-]\\d{2}:?\\d{2})?)?$/.exec(s);\n  if (m) {\n    const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    if (!m[7]) return `${m[1]}-${m[2]}-${m[3]}`;\n    const offset = m[7] === 'Z' ? 'Z' : `${m[7].slice(0, 3)}:${m[7].slice(-2)}`;\n    const ms = Date.parse(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6] || '00'}${offset}`);\n    if (Number.isNaN(ms)) throw bad();\n    return romeDayOf(ms);\n  }\n  m = /^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})(?: (\\d{1,2}):(\\d{2})(?::(\\d{2}))?)?$/.exec(s);\n  if (m) {\n    const [d, mo, y] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    return `${y}-${pad(mo)}-${pad(d)}`;\n  }\n  throw bad();\n}\n\n/** CONTRATTI.md «Lo storico»: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps\n *  which of the two it took. A row without `dtRpr` is not a row of that search. */\nfunction dataDocumento(row) {\n  const rpr = sourceDay(row.dtRpr, 'dtRpr');\n  if (!rpr) throw new Error('dtRpr missing: the search filters on it (CONTRATTI.md, «Lo storico»)');\n  const seduta = sourceDay(row.dtSeduta, 'dtSeduta');\n  return seduta ? { day: seduta, from: 'dtSeduta' } : { day: rpr, from: 'dtRpr' };\n}\n\n/** The Municipio structure named by `dscStrOrg` (CONTRATTI.md «Lo storico», DEC-033 rule 1:\n *  «MUNIC…», «ROMA» when present, the Roman numeral compared whole), as the canonical\n *  `municipality_code`; null when it names none, or more than one. */\nfunction municipalityCode(dscStrOrg) {\n  // A bracketed «(EX MUNICIPIO …)» is the former Municipio, not a second issuer (CONTRATTI.md «Lo storico»).\n  const s = normalizeKey(dscStrOrg).toUpperCase().replace(/\\(\\s*EX\\b[^)]*\\)/g, ' ');\n  const found = new Set();\n  for (const m of s.matchAll(/\\bMUNIC\\w*\\.?\\s*(?:ROMA\\s*)?([IVX]+)\\b/g)) {\n    if (ROMANI.includes(m[1])) found.add(m[1]);\n  }\n  return found.size === 1 ? [...found][0] : null;\n}\n\n/** DEC-033, rule 1: the territorial groups of the Polizia Locale are not a Municipio structure. */\nconst isPoliziaLocale = (dscStrOrg) => /^P\\.\\s*L\\.?\\s*-/.test(normalizeKey(dscStrOrg).toUpperCase());\n\n/** Stage 1: one search row (with `tipologia` set by the workflow) on `readingDay`.\n *  `keep` false carries the reason; a row kept today may still be skipped downstream\n *  when its `archive_id` is already in the archive. */\nfunction describeRow(row, readingDay) {\n  if (typeof readingDay !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(readingDay) ||\n      !validDay(...readingDay.split('-').map(Number))) {\n    throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  }\n  const id = archiveId(row.tipologia, row.idDoc);\n  const { day, from } = dataDocumento(row);\n  const code = municipalityCode(row.dscStrOrg);\n  let reason = null;\n  if (code === null) reason = isPoliziaLocale(row.dscStrOrg) ? 'polizia_locale' : 'municipio_non_letto';\n  else if (!MUNICIPI.includes(code)) reason = 'fuori_dai_municipi';\n  else if (day < PERIOD_START) reason = 'prima_del_periodo';\n  else if (day > readingDay) reason = 'data_futura'; // read again once the day has passed\n  return {\n    archive_id: id,\n    tipo: normalizeKey(row.tipologia),\n    keep: reason === null,\n    reason,\n    data_documento: day,\n    data_documento_da: from,\n    municipality_code: code,\n    pdf_url: pdfUrl(row.tipologia, row.idDoc),\n    file_stem: fileStem(id),\n  };\n}\n\n/** Lowercase SHA-256 as a string: a regex alone would accept a one-element array. */\nconst isSha256 = (v) => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);\n\n/** Stage 2: the record to append for a downloaded original, or null when the latest\n *  version already holds the same file (CONTRATTI.md, «Lo storico»: same SHA-256, no new\n *  row). `existing` lists the versions already in the archive for this `archive_id`. */\nfunction archiveRecord(archive, download, existing) {\n  if (!archive || !archive.keep) throw new Error('only a kept row becomes a record');\n  if (!download || !isSha256(download.sha256)) throw new Error('download.sha256 must be 64 hex digits');\n  if (!utcInstant(download.retrieved_at)) {\n    throw new Error('download.retrieved_at must be a UTC instant');\n  }\n  if (typeof download.workflow !== 'string' || !download.workflow.startsWith('staging_')) {\n    throw new Error('download.workflow must name the staging_ workflow');\n  }\n  // A record is written once and never rewritten: provenance missing now stays missing.\n  if (typeof download.workflow_version !== 'string' || !download.workflow_version.trim()) {\n    throw new Error('download.workflow_version must name the version of the staging_ workflow');\n  }\n  if (typeof download.elenco !== 'string' || !download.elenco.startsWith('originali/')) {\n    throw new Error('download.elenco must be the saved search page in originali/');\n  }\n  // Absent is not empty: without the versions already written, a v1 could be written twice.\n  if (!Array.isArray(existing)) throw new Error('existing must list the versions already in the archive ([] for none)');\n  let latest = null;\n  const seen = new Set();\n  for (const r of existing) {\n    if (!r || r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r && r.archive_id}`);\n    if (!Number.isInteger(r.versione) || r.versione < 1) throw new Error(`existing record with versione ${JSON.stringify(r.versione)}`);\n    // The hash decides whether a reading adds a version: without it a change would be invented.\n    if (!isSha256(r.originale_sha256)) throw new Error(`existing record v${r.versione} without a valid originale_sha256`);\n    if (seen.has(r.versione)) throw new Error(`two existing records with versione ${r.versione}`);\n    seen.add(r.versione);\n    if (!latest || r.versione > latest.versione) latest = r;\n  }\n  // Versions go up by one from 1: a gap means a truncated listing, not a history to build on.\n  if (latest && seen.size !== latest.versione) throw new Error(`existing versions are not 1 to ${latest.versione}: the listing is incomplete`);\n  if (latest && latest.originale_sha256 === download.sha256) return null;\n  const record = {\n    archive_id: archive.archive_id,\n    versione: latest ? latest.versione + 1 : 1,\n    source_id: SOURCE_ID,\n    registro_id: download.registro_id || null,\n    source_url: archive.pdf_url,\n    data_documento: archive.data_documento,\n    municipality_code: archive.municipality_code,\n    tipo: archive.tipo,\n    provenienza: {\n      url: download.url || archive.pdf_url,\n      retrieved_at: download.retrieved_at,\n      workflow: download.workflow,\n      workflow_version: download.workflow_version,\n      elenco: download.elenco,\n      data_documento_da: archive.data_documento_da,\n    },\n    originale: `originali/${archive.file_stem}__${download.sha256.slice(0, 16)}.pdf`,\n    originale_sha256: download.sha256,\n    derivato: null,\n    etichette: [],\n    costo: null,\n  };\n  if (latest) record.motivo = 'originale cambiato alla fonte';\n  return record;\n}\n\n/* ----- the reading: menu, pages, passes, reading log (CONTRATTI.md «Lo storico») --------- */\n\n/** The search filters on `dtRpr` from this day to the reading day (CONTRATTI.md, «Lo storico»). */\nconst SEARCH_START = '2025-12-01';\n/** Rows per page of the search: the most the portal accepts (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §2). */\nconst PAGE_SIZE = 500;\n/** DEC-033, rule 2: the most documents read in a day. */\nconst MAX_PER_DAY = 300;\n/** The portal's answer for a search with no rows (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §7.1). */\nconst EMPTY_ANSWER = /Index:\\s*0,\\s*Size:\\s*0/;\n\nconst isDay = (v) => typeof v === 'string' && /^\\d{4}-\\d{2}-\\d{2}$/.test(v) && validDay(...v.split('-').map(Number));\nconst bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));\n\n/** The codes of the menu answer (`caricaListaTipologie`): its first list, the combined codes\n *  (with a comma) left out, as in the source study. What does not read stops the reading. */\nfunction menuCodes(answer) {\n  let a = answer;\n  if (typeof a === 'string') {\n    try { a = JSON.parse(a); } catch (e) { a = null; }\n  }\n  const list = a && typeof a === 'object' ? Object.values(a).find(Array.isArray) : null;\n  if (!list) throw new Error('the list of tipologie did not read: the reading does not start');\n  return list.map((x) => (x && typeof x.codice === 'string' ? x.codice : '')).filter((c) => c && !c.includes(','));\n}\n\n/** Stage 'plan': the full answer of the menu request becomes the tipologie to read; a block\n *  on it stops the reading before it starts (DEC-033, rule 4). */\nfunction planFromMenu(response) {\n  const signal = blockSignal(response);\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  return planTipologie(menuCodes(response.body));\n}\n\n/** DEC-033, rule 4: the signal on one answer (`{ statusCode, headers, body }`, redirects not\n *  followed) that stops the reading, or null. Any redirect counts: the login page is one. */\nfunction blockSignal(res) {\n  if (!res || typeof res !== 'object') return 'no answer';\n  const code = Number(res.statusCode);\n  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;\n  if (code >= 300 && code < 400) {\n    const h = res.headers || {};\n    return `redirect to ${h.location || h.Location || '(no location)'}`;\n  }\n  const body = bodyText(res);\n  if (/captcha/i.test(body)) return 'captcha';\n  if (/<input[^>]+type=[\"']?password/i.test(body)) return 'login page';\n  return null;\n}\n\n/** One answer of the search: its rows and the total it declares, the empty answer, or an\n *  error, which leaves the pass incomplete. */\nfunction parseSearch(res) {\n  let body = res.body;\n  if (typeof body === 'string') {\n    try {\n      body = JSON.parse(body);\n    } catch (e) {\n      return EMPTY_ANSWER.test(res.body) ? { kind: 'empty' } : { kind: 'error', detail: `HTTP ${res.statusCode}: not JSON` };\n    }\n  }\n  if (!body || !Array.isArray(body.elencoAtti)) return { kind: 'error', detail: `HTTP ${res.statusCode}: no elencoAtti` };\n  const total = Number(body.total);\n  if (!Number.isSafeInteger(total) || total < 0) return { kind: 'error', detail: 'the declared total is not a whole number' };\n  return { kind: 'rows', total, rows: body.elencoAtti };\n}\n\n/** The saved page of the search, in originali/: one file per page, pass and reading day. */\nfunction elencoFileName(readingDay, tipologia, pass, page) {\n  return `attiweb_elenco_${readingDay}_${normalizeKey(tipologia)}_p${pass}_${page}.json`;\n}\n\n/** Stage 'pass': the answers of one pass over a tipologia, in page order, become a pass for\n *  `mergePasses` (`pass_result`: `pass` is the pass's number); each row carries its tipologia\n *  and the saved page it came from, and `files` are the pages to save under those names. A first answer that is the empty one asks for the\n *  check over the historical interval (`needs_historical`), whose total the pass then carries. */\nfunction searchPass({ tipologia, reading_day, pass, pages, historical }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!Number.isInteger(pass) || pass < 1 || pass > 3) throw new Error('pass is 1, 2 or 3 (CONTRATTI.md, «Lo storico»)');\n  if (!Array.isArray(pages) || pages.length === 0) throw new Error('a pass has at least one answer');\n  for (const res of pages.concat(historical ? [historical] : [])) {\n    const signal = blockSignal(res);\n    if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  }\n  const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, tipo, pass, i), body: bodyText(res) }));\n  const parsed = pages.map(parseSearch);\n  if (parsed[0].kind === 'empty' && parsed.every((x) => x.kind === 'empty')) {\n    if (!historical) return { needs_historical: true, files, pass_result: null };\n    const h = parseSearch(historical);\n    return { needs_historical: false, files, pass_result: { total: 0, rows: [], historical_total: h.kind === 'rows' ? h.total : 0 } };\n  }\n  // The page after a full last page can be the empty answer: it ends the pass, it is not an error.\n  let last = parsed.length;\n  while (last > 1 && parsed[last - 1].kind === 'empty') last -= 1;\n  const bad = parsed.slice(0, last).find((x) => x.kind !== 'rows');\n  if (bad) return { needs_historical: false, files, pass_result: { total: null, rows: [], error: bad.detail || 'an empty answer between pages' } };\n  const total = parsed[0].total;\n  if (parsed.slice(0, last).some((x) => x.total !== total)) {\n    return { needs_historical: false, files, pass_result: { total: null, rows: [], error: 'the declared total changed between pages' } };\n  }\n  const rows = [];\n  parsed.slice(0, last).forEach((x, i) => {\n    for (const r of x.rows) rows.push(Object.assign({}, r, { tipologia: tipo, elenco: `originali/${files[i].name}` }));\n  });\n  return { needs_historical: false, files, pass_result: { total, rows } };\n}\n\n/** Stage 'close': the passes over one tipologia, merged (`mergePasses`), and each row described\n *  (`describeRow`). A row that cannot become a record is counted, never written. */\nfunction closeTipologia({ tipologia, reading_day, passes }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  const merged = mergePasses(passes);\n  const kept = [];\n  const left_out = {};\n  for (const r of merged.rows) {\n    let a;\n    try {\n      a = describeRow(Object.assign({}, r, { tipologia: tipo }), reading_day);\n    } catch (e) {\n      a = { keep: false, reason: 'riga_illeggibile' };\n    }\n    if (a.keep) kept.push({ archive: a, elenco: r.elenco });\n    else left_out[a.reason] = (left_out[a.reason] || 0) + 1;\n  }\n  const lastPass = passes[passes.length - 1];\n  return {\n    tipologia: tipo,\n    complete: merged.complete,\n    needs_another_pass: merged.needs_another_pass,\n    passes: passes.length,\n    total: lastPass && Number.isSafeInteger(lastPass.total) ? lastPass.total : null,\n    missing_data: passes.some((x) => x && x.total === 0 && x.historical_total === 0),\n    errors: passes.map((x) => x && x.error).filter(Boolean),\n    kept,\n    left_out,\n  };\n}\n\n/** `20261110T201500Z` from a UTC instant: the time part of the reading's file names. */\nconst compactInstant = (v) => v.slice(0, 19).replace(/[-:]/g, '') + 'Z';\n\n/** Stage 'log': the register of one reading (DEC-033, rule 5), from the closed tipologie. The\n *  reading is complete only when every value of `tipo` was read and is complete; `righe` are the\n *  kept rows for the download workflow. */\nfunction readingLog({ reading_day, started_at, finished_at, workflow, workflow_version, tipologie }) {\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!utcInstant(started_at) || !utcInstant(finished_at)) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(tipologie)) throw new Error('tipologie must list the closed tipologie');\n  const byTipo = new Map();\n  for (const t of tipologie) {\n    if (!t || !TIPI.includes(t.tipologia)) throw new Error(`a closed tipologia that is not a value of tipo: ${t && t.tipologia}`);\n    if (byTipo.has(t.tipologia)) throw new Error(`tipologia ${t.tipologia} closed twice`);\n    byTipo.set(t.tipologia, t);\n  }\n  const unread = TIPI.filter((c) => !byTipo.has(c));\n  const rows = TIPI.filter((c) => byTipo.has(c)).map((c) => {\n    const t = byTipo.get(c);\n    return { tipologia: c, complete: t.complete === true, passes: t.passes, total: t.total,\n      missing_data: t.missing_data === true, errors: t.errors || [], kept: (t.kept || []).length, left_out: t.left_out || {} };\n  });\n  const incomplete = rows.filter((r) => !r.complete).map((r) => r.tipologia).concat(unread);\n  const seen = new Set();\n  const righe = [];\n  for (const c of TIPI) {\n    for (const k of (byTipo.get(c) || {}).kept || []) {\n      if (seen.has(k.archive.archive_id)) continue;\n      seen.add(k.archive.archive_id);\n      righe.push(k);\n    }\n  }\n  const stamp = compactInstant(started_at);\n  return {\n    log_file_name: `attiweb_lettura_${stamp}.json`,\n    righe_file_name: `attiweb_righe_${stamp}.json`,\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      periodo: { dtRpr_da: SEARCH_START, dtRpr_a: reading_day, data_documento_da: PERIOD_START },\n      municipi: MUNICIPI.slice(),\n      complete: incomplete.length === 0,\n      incomplete,\n      unread,\n      kept_total: righe.length,\n      tipologie: rows,\n    },\n    righe,\n  };\n}\n\n/** The register of one download run: its name carries the day and how many documents it read. */\nfunction downloadLogName(readingDay, count, startedAt) {\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  if (!Number.isSafeInteger(count) || count < 0) throw new Error('count must be a whole number');\n  if (!utcInstant(startedAt)) throw new Error('started_at must be a UTC instant');\n  return `attiweb_download_${readingDay}_n${count}_${compactInstant(startedAt)}.json`;\n}\n\n/** What the download runs of a day already read, from the names of their registers. */\nfunction downloadedToday(names, readingDay) {\n  if (!Array.isArray(names)) throw new Error('names must list the download registers ([] for none)');\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  let n = 0;\n  for (const name of names) {\n    const mm = typeof name === 'string' && /^attiweb_download_(\\d{4}-\\d{2}-\\d{2})_n(\\d+)_\\d{8}T\\d{6}Z\\.json$/.exec(name);\n    if (mm && mm[1] === readingDay) n += Number(mm[2]);\n  }\n  return n;\n}\n\n/** Stage 'select': today's downloads from the kept rows of the latest reading, those whose\n *  `archive_id` has no record in the archive yet, within the day's cap (DEC-033, rule 2) and\n *  the run's own limit. `existing_names` are the file names in `D Storico/`; `downloaded_today`\n *  what earlier runs of the day already read. */\nfunction selectDownloads({ righe, existing_names, downloaded_today, cap, run_limit }) {\n  if (!Array.isArray(righe)) throw new Error('righe must list the kept rows of a reading');\n  if (!Array.isArray(existing_names)) throw new Error('existing_names must list the files in D Storico/ ([] for none)');\n  if (!Number.isSafeInteger(downloaded_today) || downloaded_today < 0) throw new Error('downloaded_today must be a whole number');\n  if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);\n  const recorded = new Set();\n  for (const n of existing_names) {\n    const mm = typeof n === 'string' && /^(.+)__v[1-9][0-9]*\\.json$/.exec(n);\n    if (mm) recorded.add(mm[1]);\n  }\n  const limit = run_limit === undefined ? cap : run_limit;\n  if (!Number.isSafeInteger(limit) || limit < 0) throw new Error('run_limit must be a whole number');\n  const room = Math.max(0, Math.min(limit, cap - downloaded_today));\n  const out = [];\n  const seen = new Set();\n  for (const r of righe) {\n    if (out.length >= room) break;\n    if (!r || !r.archive || !r.archive.keep || typeof r.archive.file_stem !== 'string') throw new Error('a row of righe without its archive');\n    if (recorded.has(r.archive.file_stem) || seen.has(r.archive.file_stem)) continue;\n    seen.add(r.archive.file_stem);\n    out.push(r);\n  }\n  return out;\n}\n\n/** Stage 'download_log': the register of one download run, from the outcome of each document\n *  it read (`{ archive_id, written, reason }`); its name carries the day and the count. */\nfunction downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, esiti }) {\n  if (!utcInstant(finished_at)) throw new Error('finished_at must be a UTC instant');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(esiti)) throw new Error('esiti must list the documents read');\n  const read = esiti.filter((e) => e && typeof e.archive_id === 'string');\n  if (read.length !== esiti.length) throw new Error('an outcome without its archive_id');\n  return {\n    name: downloadLogName(reading_day, read.length, started_at),\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      read: read.length,\n      written: read.filter((e) => e.written === true).length,\n      not_written: read.filter((e) => e.written !== true).map((e) => ({ archive_id: e.archive_id, reason: e.reason || null })),\n    },\n  };\n}\n\n/** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers }`, the binary's MIME type and\n *  extension, whether it has content) is an original to hash, a block that stops the reading, or\n *  something else, which is counted and not written. The portal sends its PDFs as\n *  `application/octet-stream` with a `.pdf` file name. */\nfunction checkPdf({ response, mime, file_extension, has_content }) {\n  const signal = blockSignal(Object.assign({ body: '' }, response));\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  if (Number(response.statusCode) !== 200) return { ok: false, reason: `HTTP ${response.statusCode}` };\n  const pdf = mime === 'application/pdf' || (mime === 'application/octet-stream' && String(file_extension).toLowerCase() === 'pdf');\n  if (!pdf) return { ok: false, reason: `not a PDF: ${mime}` };\n  if (has_content !== true) return { ok: false, reason: 'empty file' };\n  return { ok: true, reason: null };\n}\n\nfunction recordFileName(record) {\n  return `${fileStem(record.archive_id)}__v${record.versione}.json`;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = {\n    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,\n    planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,\n    archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,\n    closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,\n    downloadLog,\n  };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the per-item adapter (see the header). */\nif ($json.stage === 'plan') {\n  $json.tipologie = planFromMenu($json.response);\n  delete $json.response;\n} else if ($json.stage === 'pass') {\n  Object.assign($json, searchPass($json));\n  delete $json.pages;\n  delete $json.historical;\n} else if ($json.stage === 'close') {\n  $json.result = closeTipologia($json);\n  delete $json.passes;\n} else if ($json.stage === 'log') {\n  Object.assign($json, readingLog($json));\n  delete $json.tipologie;\n} else if ($json.stage === 'select') {\n  const downloaded_today = downloadedToday(($json.download_log_names || []).filter(Boolean), $json.reading_day);\n  $json.downloaded_today = downloaded_today;\n  $json.downloads = selectDownloads(Object.assign({}, $json, {\n    existing_names: ($json.existing_names || []).filter(Boolean), downloaded_today }));\n  delete $json.righe;\n  delete $json.existing_names;\n} else if ($json.stage === 'pdf') {\n  // n8n gives the size in `bytes`, and as text in `fileSize` (\"45.3 kB\"): only whether it is zero matters.\n  const bin = ($input.item.binary || {}).data || {};\n  const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();\n  const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\\.0+)?\\s*[kMG]?B$/i.test(size);\n  $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });\n} else if ($json.stage === 'download_log') {\n  Object.assign($json, downloadLog($json));\n  delete $json.esiti;\n} else if ($json.stage === 'record' || $json.download) {\n  const record = archiveRecord($json.archive, $json.download, $json.existing);\n  $json.record = record;\n  $json.record_file_name = record ? recordFileName(record) : null;\n} else {\n  $json.archive = describeRow($json, $json.reading_day);\n}\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4180,
+        500
+      ],
+      "id": "19f85b54-db44-4287-be9c-52a948649d55",
+      "name": "Controllo PDF"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6125157e-9e7a-468f-8005-52ebcfb41a0c",
+              "leftValue": "={{ $json.pdf.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4400,
+        500
+      ],
+      "id": "b8b8f23f-01f3-4034-9d6e-d9a39d68ced9",
+      "name": "È un PDF?"
+    },
+    {
+      "parameters": {
+        "action": "hash",
+        "type": "SHA256",
+        "binaryData": true,
+        "binaryPropertyName": "data",
+        "dataPropertyName": "sha256",
+        "encoding": "hex"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        4620,
+        400
+      ],
+      "id": "2598ac73-d840-4222-90d1-39a5f3167baf",
+      "name": "Impronta"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fd3e51a6-3b09-4534-aba7-388a14f6414a",
+              "name": "stage",
+              "value": "record",
+              "type": "string"
+            },
+            {
+              "id": "1ddef396-ece5-4f0c-a457-4d82e06c5b9f",
+              "name": "download",
+              "value": "={{ { sha256: $json.sha256, retrieved_at: $now.toUTC().toISO(), workflow: $('Inizio').first().json.workflow, workflow_version: $('Inizio').first().json.workflow_version, elenco: $json.elenco, url: $json.archive.pdf_url } }}",
+              "type": "object"
+            },
+            {
+              "id": "dca92796-ef01-4192-8b2b-7f9a520abe37",
+              "name": "existing",
+              "value": "={{ [] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {
+          "includeBinary": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4840,
+        400
+      ],
+      "id": "6e9df5ce-b657-4ffb-9e5c-84ffab812e6a",
+      "name": "Prepara record"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * archive-record.js — workstream D, the Atti Web reading of DEC-033: one row of the\n * portal's search becomes one record of the private history archive (DEC-023, rule 2).\n * It fixes what docs/pilota/CONTRATTI.md («Lo storico») leaves to the PR that opens D:\n * the form of `archive_id` and the values of `tipo`; tests/test_archive_record.js holds\n * the idempotency and normalization cases.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): this exact file is both the Node\n * module the tests require() and the full text of the n8n Code node (\"Run Once for Each\n * Item\"). The staging workflows use it in several nodes, byte-identical; `stage` on the item\n * says which step it takes:\n *   - 'plan': the menu answer becomes the tipologie to read;\n *   - 'pass': the answers of one pass over a tipologia become a pass and the pages to save;\n *   - 'close': the passes over a tipologia are merged and each row is described;\n *   - 'log': the closed tipologie become the register of the reading and its kept rows;\n *   - 'select': the kept rows become today's downloads, within the day's cap;\n *   - 'pdf': the answer to a PDF link is checked before it is hashed;\n *   - 'record' (or no stage, with `download` and `existing` set): it adds the `record` to\n *     append, or `record: null` when the archive already holds that original;\n *   - 'download_log': the outcomes of a download run become its register;\n *   - no stage, a search row: it adds `archive` (identity, perimeter verdict, PDF link).\n * The requests and the pause between them belong to the workflow (DEC-033, rule 2); the node\n * refuses a daily cap above the rule.\n */\n\n'use strict';\n\n/** A site's `source_id` is its host, lowercase, without `www.` (CONTRATTI.md, section 2). */\nconst SOURCE_ID = 'comune.roma.it';\nconst PREFIX = 'qn:roma:arc:';\nconst PDF_URL = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti';\n\n/** The values of `tipo`: every tipologia of the portal's menu on 15 September 2026\n *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3), all read (CONTRATTI.md, «Lo storico»). */\nconst TIPI = Object.freeze(['CMC', 'CPC', 'MMC', 'KD', 'KCD', 'WCD', 'WD', 'MD', 'MCD', 'OCD',\n  'OD', 'PD', 'KID', 'CD', 'CMD', 'CID', 'ACD', 'KMD', 'WMD', 'GCD', 'GD', 'GMD', 'DDS', 'DMS',\n  'PMT', 'GMT', 'PS', 'GCM', 'GMM', 'CZ', 'CMZ', 'AZ', 'XO', 'TO', 'PMO', 'SO', 'XMO', 'AY', 'CY',\n  'CMY', 'CPL', 'CMR', 'DDK', 'DMK', 'CMV', 'GMV', 'CPV', 'MMV']);\n\n/** DEC-033, rule 1: the pilot Municipi and the first day of the period. */\nconst MUNICIPI = Object.freeze(['X', 'V', 'I']);\nconst PERIOD_START = '2026-01-01';\n\nconst ROMANI = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII',\n  'XIII', 'XIV', 'XV'];\n\n/** CONTRATTI.md, «Lo storico»: Unicode NFC, trimmed, inner whitespace collapsed to one\n *  space. A whole non-negative number (a JSON key) is read as its decimal string. */\nfunction normalizeKey(v) {\n  if (typeof v === 'number' && Number.isSafeInteger(v) && v >= 0) v = String(v);\n  if (typeof v !== 'string') return '';\n  return v.normalize('NFC').trim().replace(/\\s+/g, ' ');\n}\n\n/** `qn:roma:arc:<source_id>:<tipologia>:<idDoc>` — the pair the portal itself uses to\n *  address the document (`par1`, `par2` of the PDF link). The prefix is a constant; no\n *  geography and no `registro_id` take part. Anything else stops the run: an id is\n *  permanent, so a key in an unexpected shape is never turned into one. */\nfunction archiveId(tipologia, idDoc) {\n  const tipo = normalizeKey(tipologia);\n  const key = normalizeKey(idDoc);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!/^[0-9]+$/.test(key)) throw new Error(`idDoc ${JSON.stringify(idDoc)} is not the numeric key the portal gives`);\n  return `${PREFIX}${SOURCE_ID}:${tipo}:${key}`;\n}\n\n/** CONTRATTI.md «Lo storico», reading Atti Web: the tipologie the portal lists at the\n *  start of a reading, in a fixed order. A list that did not read stops the reading before\n *  it starts; a code that is not a value of `tipo` stops it too, until a PR adds it here. */\nfunction planTipologie(menu) {\n  if (!Array.isArray(menu) || menu.length === 0) throw new Error('the list of tipologie did not read: the reading does not start');\n  const codes = [...new Set(menu.map(normalizeKey))];\n  const unknown = codes.filter((c) => !TIPI.includes(c));\n  if (unknown.length) throw new Error(`tipologie not in tipo: ${unknown.join(', ')}`);\n  // Every tipologia is read (DEC-033 rule 5): a menu that lacks a known one would make an\n  // incomplete reading look complete, so it stops the reading too.\n  const missing = TIPI.filter((c) => !codes.includes(c));\n  if (missing.length) throw new Error(`menu without known tipologie: ${missing.join(', ')}: the reading does not start`);\n  return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));\n}\n\n/** CONTRATTI.md «Lo storico» (DEC-033 rule 5), late publication: the passes over one\n *  tipologia (each `{ total, rows }`) count when the last two give the same total and the\n *  same set of idDoc; at most three passes. An empty response is `{ total: 0, rows: [],\n *  historical_total }`, with the acts the same tipologia returns over the historical\n *  interval («Risposta vuota»). The rows are merged by idDoc within the tipologia either\n *  way, and `complete` says what the registry records. */\nfunction mergePasses(passes) {\n  if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {\n    throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');\n  }\n  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));\n  const byId = new Map();\n  for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);\n  // A pass is whole when it holds exactly the rows it declares, each with a valid idDoc of its\n  // own: a truncated pagination, or a row that cannot be read, is never complete, however stable.\n  const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && Array.isArray(p.rows) &&\n    p.rows.length === p.total && ids(p).size === p.total;\n  // An empty response is an empty tipologia only when the historical interval returns acts;\n  // otherwise it is missing data, and another pass would not change it.\n  for (const p of passes) {\n    if (p && p.total === 0 && !(Number.isSafeInteger(p.historical_total) && p.historical_total >= 0)) {\n      throw new Error('an empty pass carries historical_total (CONTRATTI.md, «Lo storico», «Risposta vuota»)');\n    }\n  }\n  const missing = passes.some((p) => p.total === 0 && p.historical_total === 0);\n  const [a, b] = passes.slice(-2);\n  const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&\n    [...ids(a)].every((x) => ids(b).has(x));\n  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };\n}\n\n/** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */\nfunction fileStem(id) {\n  if (typeof id !== 'string' || !id.startsWith(PREFIX)) throw new Error(`not an archive_id: ${JSON.stringify(id)}`);\n  return id.slice('qn:'.length).split(':').join('__');\n}\n\nfunction pdfUrl(tipologia, idDoc) {\n  const b64 = (s) => Buffer.from(s, 'utf8').toString('base64');\n  return `${PDF_URL}&par1=${b64(normalizeKey(tipologia))}&par2=${b64(normalizeKey(idDoc))}`;\n}\n\n/** A real UTC instant written as YYYY-MM-DDTHH:MM:SS(.fff)Z: no 30 February, no hour 25. */\nfunction utcInstant(v) {\n  const m = typeof v === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?Z$/.exec(v);\n  if (!m) return false;\n  const [y, mo, d, h, mi, se] = m.slice(1, 7).map(Number);\n  return validDay(y, mo, d) && h < 24 && mi < 60 && se < 60;\n}\n\nfunction validDay(y, m, d) {\n  const t = new Date(Date.UTC(y, m - 1, d));\n  return t.getUTCFullYear() === y && t.getUTCMonth() === m - 1 && t.getUTCDate() === d;\n}\n\nconst ROME_DAY = new Intl.DateTimeFormat('en-CA', {\n  timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit',\n});\n\nfunction romeDayOf(ms) {\n  const p = Object.fromEntries(ROME_DAY.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));\n  return `${p.year}-${p.month}-${p.day}`;\n}\n\nconst pad = (n) => String(n).padStart(2, '0');\n\n/** A date field of the portal as a Rome day (YYYY-MM-DD), or null when empty. A day\n *  written as such is kept as written; an instant (with Z or an offset, or epoch\n *  milliseconds) is converted to Europe/Rome first, as everywhere else in the pilot\n *  (Spec v2.5 T17). Any other shape stops the run, naming the field. */\nfunction sourceDay(v, field) {\n  if (v === null || v === undefined || v === '') return null;\n  const bad = () => new Error(`${field}: unreadable date ${JSON.stringify(v)}`);\n  if (typeof v === 'number') {\n    if (!Number.isSafeInteger(v) || v < 1e11) throw bad();\n    return romeDayOf(v);\n  }\n  if (typeof v !== 'string') throw bad();\n  let s = v.trim();\n  if (s === '') return null;\n  // The convocations give `dtRpr` as two dates, `01/12/2025<br>(04/12/2025)<br>`: the first is\n  // the repertorio date the search filters on, as the source study read it; the one in\n  // brackets takes no part. Any other markup stays unreadable.\n  const two = /^(\\d{1,2}\\/\\d{1,2}\\/\\d{4})<br\\s*\\/?>\\s*\\(\\d{1,2}\\/\\d{1,2}\\/\\d{4}\\)(?:<br\\s*\\/?>)?$/i.exec(s);\n  if (two) s = two[1];\n  let m = /^(\\d{4})-(\\d{2})-(\\d{2})(?:[T ](\\d{2}):(\\d{2})(?::(\\d{2})(?:\\.\\d{1,9})?)?(Z|[+-]\\d{2}:?\\d{2})?)?$/.exec(s);\n  if (m) {\n    const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    if (!m[7]) return `${m[1]}-${m[2]}-${m[3]}`;\n    const offset = m[7] === 'Z' ? 'Z' : `${m[7].slice(0, 3)}:${m[7].slice(-2)}`;\n    const ms = Date.parse(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6] || '00'}${offset}`);\n    if (Number.isNaN(ms)) throw bad();\n    return romeDayOf(ms);\n  }\n  m = /^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})(?: (\\d{1,2}):(\\d{2})(?::(\\d{2}))?)?$/.exec(s);\n  if (m) {\n    const [d, mo, y] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    return `${y}-${pad(mo)}-${pad(d)}`;\n  }\n  throw bad();\n}\n\n/** CONTRATTI.md «Lo storico»: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps\n *  which of the two it took. A row without `dtRpr` is not a row of that search. */\nfunction dataDocumento(row) {\n  const rpr = sourceDay(row.dtRpr, 'dtRpr');\n  if (!rpr) throw new Error('dtRpr missing: the search filters on it (CONTRATTI.md, «Lo storico»)');\n  const seduta = sourceDay(row.dtSeduta, 'dtSeduta');\n  return seduta ? { day: seduta, from: 'dtSeduta' } : { day: rpr, from: 'dtRpr' };\n}\n\n/** The Municipio structure named by `dscStrOrg` (CONTRATTI.md «Lo storico», DEC-033 rule 1:\n *  «MUNIC…», «ROMA» when present, the Roman numeral compared whole), as the canonical\n *  `municipality_code`; null when it names none, or more than one. */\nfunction municipalityCode(dscStrOrg) {\n  // A bracketed «(EX MUNICIPIO …)» is the former Municipio, not a second issuer (CONTRATTI.md «Lo storico»).\n  const s = normalizeKey(dscStrOrg).toUpperCase().replace(/\\(\\s*EX\\b[^)]*\\)/g, ' ');\n  const found = new Set();\n  for (const m of s.matchAll(/\\bMUNIC\\w*\\.?\\s*(?:ROMA\\s*)?([IVX]+)\\b/g)) {\n    if (ROMANI.includes(m[1])) found.add(m[1]);\n  }\n  return found.size === 1 ? [...found][0] : null;\n}\n\n/** DEC-033, rule 1: the territorial groups of the Polizia Locale are not a Municipio structure. */\nconst isPoliziaLocale = (dscStrOrg) => /^P\\.\\s*L\\.?\\s*-/.test(normalizeKey(dscStrOrg).toUpperCase());\n\n/** Stage 1: one search row (with `tipologia` set by the workflow) on `readingDay`.\n *  `keep` false carries the reason; a row kept today may still be skipped downstream\n *  when its `archive_id` is already in the archive. */\nfunction describeRow(row, readingDay) {\n  if (typeof readingDay !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(readingDay) ||\n      !validDay(...readingDay.split('-').map(Number))) {\n    throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  }\n  const id = archiveId(row.tipologia, row.idDoc);\n  const { day, from } = dataDocumento(row);\n  const code = municipalityCode(row.dscStrOrg);\n  let reason = null;\n  if (code === null) reason = isPoliziaLocale(row.dscStrOrg) ? 'polizia_locale' : 'municipio_non_letto';\n  else if (!MUNICIPI.includes(code)) reason = 'fuori_dai_municipi';\n  else if (day < PERIOD_START) reason = 'prima_del_periodo';\n  else if (day > readingDay) reason = 'data_futura'; // read again once the day has passed\n  return {\n    archive_id: id,\n    tipo: normalizeKey(row.tipologia),\n    keep: reason === null,\n    reason,\n    data_documento: day,\n    data_documento_da: from,\n    municipality_code: code,\n    pdf_url: pdfUrl(row.tipologia, row.idDoc),\n    file_stem: fileStem(id),\n  };\n}\n\n/** Lowercase SHA-256 as a string: a regex alone would accept a one-element array. */\nconst isSha256 = (v) => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);\n\n/** Stage 2: the record to append for a downloaded original, or null when the latest\n *  version already holds the same file (CONTRATTI.md, «Lo storico»: same SHA-256, no new\n *  row). `existing` lists the versions already in the archive for this `archive_id`. */\nfunction archiveRecord(archive, download, existing) {\n  if (!archive || !archive.keep) throw new Error('only a kept row becomes a record');\n  if (!download || !isSha256(download.sha256)) throw new Error('download.sha256 must be 64 hex digits');\n  if (!utcInstant(download.retrieved_at)) {\n    throw new Error('download.retrieved_at must be a UTC instant');\n  }\n  if (typeof download.workflow !== 'string' || !download.workflow.startsWith('staging_')) {\n    throw new Error('download.workflow must name the staging_ workflow');\n  }\n  // A record is written once and never rewritten: provenance missing now stays missing.\n  if (typeof download.workflow_version !== 'string' || !download.workflow_version.trim()) {\n    throw new Error('download.workflow_version must name the version of the staging_ workflow');\n  }\n  if (typeof download.elenco !== 'string' || !download.elenco.startsWith('originali/')) {\n    throw new Error('download.elenco must be the saved search page in originali/');\n  }\n  // Absent is not empty: without the versions already written, a v1 could be written twice.\n  if (!Array.isArray(existing)) throw new Error('existing must list the versions already in the archive ([] for none)');\n  let latest = null;\n  const seen = new Set();\n  for (const r of existing) {\n    if (!r || r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r && r.archive_id}`);\n    if (!Number.isInteger(r.versione) || r.versione < 1) throw new Error(`existing record with versione ${JSON.stringify(r.versione)}`);\n    // The hash decides whether a reading adds a version: without it a change would be invented.\n    if (!isSha256(r.originale_sha256)) throw new Error(`existing record v${r.versione} without a valid originale_sha256`);\n    if (seen.has(r.versione)) throw new Error(`two existing records with versione ${r.versione}`);\n    seen.add(r.versione);\n    if (!latest || r.versione > latest.versione) latest = r;\n  }\n  // Versions go up by one from 1: a gap means a truncated listing, not a history to build on.\n  if (latest && seen.size !== latest.versione) throw new Error(`existing versions are not 1 to ${latest.versione}: the listing is incomplete`);\n  if (latest && latest.originale_sha256 === download.sha256) return null;\n  const record = {\n    archive_id: archive.archive_id,\n    versione: latest ? latest.versione + 1 : 1,\n    source_id: SOURCE_ID,\n    registro_id: download.registro_id || null,\n    source_url: archive.pdf_url,\n    data_documento: archive.data_documento,\n    municipality_code: archive.municipality_code,\n    tipo: archive.tipo,\n    provenienza: {\n      url: download.url || archive.pdf_url,\n      retrieved_at: download.retrieved_at,\n      workflow: download.workflow,\n      workflow_version: download.workflow_version,\n      elenco: download.elenco,\n      data_documento_da: archive.data_documento_da,\n    },\n    originale: `originali/${archive.file_stem}__${download.sha256.slice(0, 16)}.pdf`,\n    originale_sha256: download.sha256,\n    derivato: null,\n    etichette: [],\n    costo: null,\n  };\n  if (latest) record.motivo = 'originale cambiato alla fonte';\n  return record;\n}\n\n/* ----- the reading: menu, pages, passes, reading log (CONTRATTI.md «Lo storico») --------- */\n\n/** The search filters on `dtRpr` from this day to the reading day (CONTRATTI.md, «Lo storico»). */\nconst SEARCH_START = '2025-12-01';\n/** Rows per page of the search: the most the portal accepts (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §2). */\nconst PAGE_SIZE = 500;\n/** DEC-033, rule 2: the most documents read in a day. */\nconst MAX_PER_DAY = 300;\n/** The portal's answer for a search with no rows (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §7.1). */\nconst EMPTY_ANSWER = /Index:\\s*0,\\s*Size:\\s*0/;\n\nconst isDay = (v) => typeof v === 'string' && /^\\d{4}-\\d{2}-\\d{2}$/.test(v) && validDay(...v.split('-').map(Number));\nconst bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));\n\n/** The codes of the menu answer (`caricaListaTipologie`): its first list, the combined codes\n *  (with a comma) left out, as in the source study. What does not read stops the reading. */\nfunction menuCodes(answer) {\n  let a = answer;\n  if (typeof a === 'string') {\n    try { a = JSON.parse(a); } catch (e) { a = null; }\n  }\n  const list = a && typeof a === 'object' ? Object.values(a).find(Array.isArray) : null;\n  if (!list) throw new Error('the list of tipologie did not read: the reading does not start');\n  return list.map((x) => (x && typeof x.codice === 'string' ? x.codice : '')).filter((c) => c && !c.includes(','));\n}\n\n/** Stage 'plan': the full answer of the menu request becomes the tipologie to read; a block\n *  on it stops the reading before it starts (DEC-033, rule 4). */\nfunction planFromMenu(response) {\n  const signal = blockSignal(response);\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  return planTipologie(menuCodes(response.body));\n}\n\n/** DEC-033, rule 4: the signal on one answer (`{ statusCode, headers, body }`, redirects not\n *  followed) that stops the reading, or null. Any redirect counts: the login page is one. */\nfunction blockSignal(res) {\n  if (!res || typeof res !== 'object') return 'no answer';\n  const code = Number(res.statusCode);\n  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;\n  if (code >= 300 && code < 400) {\n    const h = res.headers || {};\n    return `redirect to ${h.location || h.Location || '(no location)'}`;\n  }\n  const body = bodyText(res);\n  if (/captcha/i.test(body)) return 'captcha';\n  if (/<input[^>]+type=[\"']?password/i.test(body)) return 'login page';\n  return null;\n}\n\n/** One answer of the search: its rows and the total it declares, the empty answer, or an\n *  error, which leaves the pass incomplete. */\nfunction parseSearch(res) {\n  let body = res.body;\n  if (typeof body === 'string') {\n    try {\n      body = JSON.parse(body);\n    } catch (e) {\n      return EMPTY_ANSWER.test(res.body) ? { kind: 'empty' } : { kind: 'error', detail: `HTTP ${res.statusCode}: not JSON` };\n    }\n  }\n  if (!body || !Array.isArray(body.elencoAtti)) return { kind: 'error', detail: `HTTP ${res.statusCode}: no elencoAtti` };\n  const total = Number(body.total);\n  if (!Number.isSafeInteger(total) || total < 0) return { kind: 'error', detail: 'the declared total is not a whole number' };\n  return { kind: 'rows', total, rows: body.elencoAtti };\n}\n\n/** The saved page of the search, in originali/: one file per page, pass and reading day. */\nfunction elencoFileName(readingDay, tipologia, pass, page) {\n  return `attiweb_elenco_${readingDay}_${normalizeKey(tipologia)}_p${pass}_${page}.json`;\n}\n\n/** Stage 'pass': the answers of one pass over a tipologia, in page order, become a pass for\n *  `mergePasses` (`pass_result`: `pass` is the pass's number); each row carries its tipologia\n *  and the saved page it came from, and `files` are the pages to save under those names. A first answer that is the empty one asks for the\n *  check over the historical interval (`needs_historical`), whose total the pass then carries. */\nfunction searchPass({ tipologia, reading_day, pass, pages, historical }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!Number.isInteger(pass) || pass < 1 || pass > 3) throw new Error('pass is 1, 2 or 3 (CONTRATTI.md, «Lo storico»)');\n  if (!Array.isArray(pages) || pages.length === 0) throw new Error('a pass has at least one answer');\n  for (const res of pages.concat(historical ? [historical] : [])) {\n    const signal = blockSignal(res);\n    if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  }\n  const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, tipo, pass, i), body: bodyText(res) }));\n  const parsed = pages.map(parseSearch);\n  if (parsed[0].kind === 'empty' && parsed.every((x) => x.kind === 'empty')) {\n    if (!historical) return { needs_historical: true, files, pass_result: null };\n    const h = parseSearch(historical);\n    return { needs_historical: false, files, pass_result: { total: 0, rows: [], historical_total: h.kind === 'rows' ? h.total : 0 } };\n  }\n  // The page after a full last page can be the empty answer: it ends the pass, it is not an error.\n  let last = parsed.length;\n  while (last > 1 && parsed[last - 1].kind === 'empty') last -= 1;\n  const bad = parsed.slice(0, last).find((x) => x.kind !== 'rows');\n  if (bad) return { needs_historical: false, files, pass_result: { total: null, rows: [], error: bad.detail || 'an empty answer between pages' } };\n  const total = parsed[0].total;\n  if (parsed.slice(0, last).some((x) => x.total !== total)) {\n    return { needs_historical: false, files, pass_result: { total: null, rows: [], error: 'the declared total changed between pages' } };\n  }\n  const rows = [];\n  parsed.slice(0, last).forEach((x, i) => {\n    for (const r of x.rows) rows.push(Object.assign({}, r, { tipologia: tipo, elenco: `originali/${files[i].name}` }));\n  });\n  return { needs_historical: false, files, pass_result: { total, rows } };\n}\n\n/** Stage 'close': the passes over one tipologia, merged (`mergePasses`), and each row described\n *  (`describeRow`). A row that cannot become a record is counted, never written. */\nfunction closeTipologia({ tipologia, reading_day, passes }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  const merged = mergePasses(passes);\n  const kept = [];\n  const left_out = {};\n  for (const r of merged.rows) {\n    let a;\n    try {\n      a = describeRow(Object.assign({}, r, { tipologia: tipo }), reading_day);\n    } catch (e) {\n      a = { keep: false, reason: 'riga_illeggibile' };\n    }\n    if (a.keep) kept.push({ archive: a, elenco: r.elenco });\n    else left_out[a.reason] = (left_out[a.reason] || 0) + 1;\n  }\n  const lastPass = passes[passes.length - 1];\n  return {\n    tipologia: tipo,\n    complete: merged.complete,\n    needs_another_pass: merged.needs_another_pass,\n    passes: passes.length,\n    total: lastPass && Number.isSafeInteger(lastPass.total) ? lastPass.total : null,\n    missing_data: passes.some((x) => x && x.total === 0 && x.historical_total === 0),\n    errors: passes.map((x) => x && x.error).filter(Boolean),\n    kept,\n    left_out,\n  };\n}\n\n/** `20261110T201500Z` from a UTC instant: the time part of the reading's file names. */\nconst compactInstant = (v) => v.slice(0, 19).replace(/[-:]/g, '') + 'Z';\n\n/** Stage 'log': the register of one reading (DEC-033, rule 5), from the closed tipologie. The\n *  reading is complete only when every value of `tipo` was read and is complete; `righe` are the\n *  kept rows for the download workflow. */\nfunction readingLog({ reading_day, started_at, finished_at, workflow, workflow_version, tipologie }) {\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!utcInstant(started_at) || !utcInstant(finished_at)) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(tipologie)) throw new Error('tipologie must list the closed tipologie');\n  const byTipo = new Map();\n  for (const t of tipologie) {\n    if (!t || !TIPI.includes(t.tipologia)) throw new Error(`a closed tipologia that is not a value of tipo: ${t && t.tipologia}`);\n    if (byTipo.has(t.tipologia)) throw new Error(`tipologia ${t.tipologia} closed twice`);\n    byTipo.set(t.tipologia, t);\n  }\n  const unread = TIPI.filter((c) => !byTipo.has(c));\n  const rows = TIPI.filter((c) => byTipo.has(c)).map((c) => {\n    const t = byTipo.get(c);\n    return { tipologia: c, complete: t.complete === true, passes: t.passes, total: t.total,\n      missing_data: t.missing_data === true, errors: t.errors || [], kept: (t.kept || []).length, left_out: t.left_out || {} };\n  });\n  const incomplete = rows.filter((r) => !r.complete).map((r) => r.tipologia).concat(unread);\n  const seen = new Set();\n  const righe = [];\n  for (const c of TIPI) {\n    for (const k of (byTipo.get(c) || {}).kept || []) {\n      if (seen.has(k.archive.archive_id)) continue;\n      seen.add(k.archive.archive_id);\n      righe.push(k);\n    }\n  }\n  const stamp = compactInstant(started_at);\n  return {\n    log_file_name: `attiweb_lettura_${stamp}.json`,\n    righe_file_name: `attiweb_righe_${stamp}.json`,\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      periodo: { dtRpr_da: SEARCH_START, dtRpr_a: reading_day, data_documento_da: PERIOD_START },\n      municipi: MUNICIPI.slice(),\n      complete: incomplete.length === 0,\n      incomplete,\n      unread,\n      kept_total: righe.length,\n      tipologie: rows,\n    },\n    righe,\n  };\n}\n\n/** The register of one download run: its name carries the day and how many documents it read. */\nfunction downloadLogName(readingDay, count, startedAt) {\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  if (!Number.isSafeInteger(count) || count < 0) throw new Error('count must be a whole number');\n  if (!utcInstant(startedAt)) throw new Error('started_at must be a UTC instant');\n  return `attiweb_download_${readingDay}_n${count}_${compactInstant(startedAt)}.json`;\n}\n\n/** What the download runs of a day already read, from the names of their registers. */\nfunction downloadedToday(names, readingDay) {\n  if (!Array.isArray(names)) throw new Error('names must list the download registers ([] for none)');\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  let n = 0;\n  for (const name of names) {\n    const mm = typeof name === 'string' && /^attiweb_download_(\\d{4}-\\d{2}-\\d{2})_n(\\d+)_\\d{8}T\\d{6}Z\\.json$/.exec(name);\n    if (mm && mm[1] === readingDay) n += Number(mm[2]);\n  }\n  return n;\n}\n\n/** Stage 'select': today's downloads from the kept rows of the latest reading, those whose\n *  `archive_id` has no record in the archive yet, within the day's cap (DEC-033, rule 2) and\n *  the run's own limit. `existing_names` are the file names in `D Storico/`; `downloaded_today`\n *  what earlier runs of the day already read. */\nfunction selectDownloads({ righe, existing_names, downloaded_today, cap, run_limit }) {\n  if (!Array.isArray(righe)) throw new Error('righe must list the kept rows of a reading');\n  if (!Array.isArray(existing_names)) throw new Error('existing_names must list the files in D Storico/ ([] for none)');\n  if (!Number.isSafeInteger(downloaded_today) || downloaded_today < 0) throw new Error('downloaded_today must be a whole number');\n  if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);\n  const recorded = new Set();\n  for (const n of existing_names) {\n    const mm = typeof n === 'string' && /^(.+)__v[1-9][0-9]*\\.json$/.exec(n);\n    if (mm) recorded.add(mm[1]);\n  }\n  const limit = run_limit === undefined ? cap : run_limit;\n  if (!Number.isSafeInteger(limit) || limit < 0) throw new Error('run_limit must be a whole number');\n  const room = Math.max(0, Math.min(limit, cap - downloaded_today));\n  const out = [];\n  const seen = new Set();\n  for (const r of righe) {\n    if (out.length >= room) break;\n    if (!r || !r.archive || !r.archive.keep || typeof r.archive.file_stem !== 'string') throw new Error('a row of righe without its archive');\n    if (recorded.has(r.archive.file_stem) || seen.has(r.archive.file_stem)) continue;\n    seen.add(r.archive.file_stem);\n    out.push(r);\n  }\n  return out;\n}\n\n/** Stage 'download_log': the register of one download run, from the outcome of each document\n *  it read (`{ archive_id, written, reason }`); its name carries the day and the count. */\nfunction downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, esiti }) {\n  if (!utcInstant(finished_at)) throw new Error('finished_at must be a UTC instant');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(esiti)) throw new Error('esiti must list the documents read');\n  const read = esiti.filter((e) => e && typeof e.archive_id === 'string');\n  if (read.length !== esiti.length) throw new Error('an outcome without its archive_id');\n  return {\n    name: downloadLogName(reading_day, read.length, started_at),\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      read: read.length,\n      written: read.filter((e) => e.written === true).length,\n      not_written: read.filter((e) => e.written !== true).map((e) => ({ archive_id: e.archive_id, reason: e.reason || null })),\n    },\n  };\n}\n\n/** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers }`, the binary's MIME type and\n *  extension, whether it has content) is an original to hash, a block that stops the reading, or\n *  something else, which is counted and not written. The portal sends its PDFs as\n *  `application/octet-stream` with a `.pdf` file name. */\nfunction checkPdf({ response, mime, file_extension, has_content }) {\n  const signal = blockSignal(Object.assign({ body: '' }, response));\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  if (Number(response.statusCode) !== 200) return { ok: false, reason: `HTTP ${response.statusCode}` };\n  const pdf = mime === 'application/pdf' || (mime === 'application/octet-stream' && String(file_extension).toLowerCase() === 'pdf');\n  if (!pdf) return { ok: false, reason: `not a PDF: ${mime}` };\n  if (has_content !== true) return { ok: false, reason: 'empty file' };\n  return { ok: true, reason: null };\n}\n\nfunction recordFileName(record) {\n  return `${fileStem(record.archive_id)}__v${record.versione}.json`;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = {\n    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,\n    planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,\n    archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,\n    closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,\n    downloadLog,\n  };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the per-item adapter (see the header). */\nif ($json.stage === 'plan') {\n  $json.tipologie = planFromMenu($json.response);\n  delete $json.response;\n} else if ($json.stage === 'pass') {\n  Object.assign($json, searchPass($json));\n  delete $json.pages;\n  delete $json.historical;\n} else if ($json.stage === 'close') {\n  $json.result = closeTipologia($json);\n  delete $json.passes;\n} else if ($json.stage === 'log') {\n  Object.assign($json, readingLog($json));\n  delete $json.tipologie;\n} else if ($json.stage === 'select') {\n  const downloaded_today = downloadedToday(($json.download_log_names || []).filter(Boolean), $json.reading_day);\n  $json.downloaded_today = downloaded_today;\n  $json.downloads = selectDownloads(Object.assign({}, $json, {\n    existing_names: ($json.existing_names || []).filter(Boolean), downloaded_today }));\n  delete $json.righe;\n  delete $json.existing_names;\n} else if ($json.stage === 'pdf') {\n  // n8n gives the size in `bytes`, and as text in `fileSize` (\"45.3 kB\"): only whether it is zero matters.\n  const bin = ($input.item.binary || {}).data || {};\n  const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();\n  const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\\.0+)?\\s*[kMG]?B$/i.test(size);\n  $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });\n} else if ($json.stage === 'download_log') {\n  Object.assign($json, downloadLog($json));\n  delete $json.esiti;\n} else if ($json.stage === 'record' || $json.download) {\n  const record = archiveRecord($json.archive, $json.download, $json.existing);\n  $json.record = record;\n  $json.record_file_name = record ? recordFileName(record) : null;\n} else {\n  $json.archive = describeRow($json, $json.reading_day);\n}\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5060,
+        400
+      ],
+      "id": "ae705284-0dd4-49fd-af1a-b78e2f9cc780",
+      "name": "Record"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.record.originale.replace('originali/', '') }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1Ymbk2vKPQOXvmkQfRF2fvPFtDsa9Pa9F"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5280,
+        400
+      ],
+      "id": "5df5528e-83de-428f-8581-4cde788d2898",
+      "name": "Salva PDF",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3321228a-ba17-4524-a4f4-dfa6a76f1e1d",
+              "name": "name",
+              "value": "={{ $('Record').item.json.record_file_name }}",
+              "type": "string"
+            },
+            {
+              "id": "207b8dac-53fb-4175-a666-4346e0c464e5",
+              "name": "text",
+              "value": "={{ JSON.stringify($('Record').item.json.record, null, 2) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5500,
+        400
+      ],
+      "id": "b776fa65-2146-4e7e-af99-9d72ff020177",
+      "name": "Testo record"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        5720,
+        400
+      ],
+      "id": "03fe2446-3294-4bb3-aae8-c0842fff82c0",
+      "name": "File record"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1-xG1DHDqxt_W1jnAmztM7nnzXG6HpXRh"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5940,
+        400
+      ],
+      "id": "458f46ab-ba24-4797-a49f-62d5a7acccc1",
+      "name": "Salva record",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "67e350e9-778a-479c-8436-30953bd89b03",
+              "name": "archive_id",
+              "value": "={{ $('Record').item.json.archive.archive_id }}",
+              "type": "string"
+            },
+            {
+              "id": "1b426f56-0bad-494c-b990-a9a047fea058",
+              "name": "written",
+              "value": "={{ true }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a22d0f33-501b-4639-a5eb-9a7aa79c3332",
+              "name": "reason",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6160,
+        400
+      ],
+      "id": "080905b4-3fa2-478c-a607-70fa3ba15c37",
+      "name": "Scritto"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99aaf72e-4a43-4f11-8f24-4224df751430",
+              "name": "archive_id",
+              "value": "={{ $json.archive.archive_id }}",
+              "type": "string"
+            },
+            {
+              "id": "b0ab3368-43a3-4ba5-afaf-530aa9f6b9cb",
+              "name": "written",
+              "value": "={{ false }}",
+              "type": "boolean"
+            },
+            {
+              "id": "e9cbe1b7-1846-48cf-86ea-46b7982a33c3",
+              "name": "reason",
+              "value": "={{ $json.pdf.reason }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4620,
+        650
+      ],
+      "id": "010362af-dacc-4588-b2f8-1a9138317592",
+      "name": "Non scritto"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "esiti",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3520,
+        150
+      ],
+      "id": "75924656-eff8-43ae-a700-ab8ea1d7cb5e",
+      "name": "Esiti"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0c759288-e437-4934-b888-b3c177ede332",
+              "name": "stage",
+              "value": "download_log",
+              "type": "string"
+            },
+            {
+              "id": "93fd97cb-4112-4003-922d-4fcb0ed7c2c6",
+              "name": "reading_day",
+              "value": "={{ $('Inizio').first().json.reading_day }}",
+              "type": "string"
+            },
+            {
+              "id": "c0be3217-baaa-45a9-86bb-f55ca214fae3",
+              "name": "started_at",
+              "value": "={{ $('Inizio').first().json.started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "bc6eb40b-467e-459d-9e8b-6ed1f5b97ee1",
+              "name": "finished_at",
+              "value": "={{ $now.toUTC().toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "184abaa3-f674-449f-bb81-2aa86d35598b",
+              "name": "workflow",
+              "value": "={{ $('Inizio').first().json.workflow }}",
+              "type": "string"
+            },
+            {
+              "id": "57893419-d1a2-424c-a2e9-431e33a9d1a2",
+              "name": "workflow_version",
+              "value": "={{ $('Inizio').first().json.workflow_version }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3740,
+        150
+      ],
+      "id": "1d4be9b8-4c2b-4d93-ad09-c7c4bdc88644",
+      "name": "Prepara registro"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * archive-record.js — workstream D, the Atti Web reading of DEC-033: one row of the\n * portal's search becomes one record of the private history archive (DEC-023, rule 2).\n * It fixes what docs/pilota/CONTRATTI.md («Lo storico») leaves to the PR that opens D:\n * the form of `archive_id` and the values of `tipo`; tests/test_archive_record.js holds\n * the idempotency and normalization cases.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): this exact file is both the Node\n * module the tests require() and the full text of the n8n Code node (\"Run Once for Each\n * Item\"). The staging workflows use it in several nodes, byte-identical; `stage` on the item\n * says which step it takes:\n *   - 'plan': the menu answer becomes the tipologie to read;\n *   - 'pass': the answers of one pass over a tipologia become a pass and the pages to save;\n *   - 'close': the passes over a tipologia are merged and each row is described;\n *   - 'log': the closed tipologie become the register of the reading and its kept rows;\n *   - 'select': the kept rows become today's downloads, within the day's cap;\n *   - 'pdf': the answer to a PDF link is checked before it is hashed;\n *   - 'record' (or no stage, with `download` and `existing` set): it adds the `record` to\n *     append, or `record: null` when the archive already holds that original;\n *   - 'download_log': the outcomes of a download run become its register;\n *   - no stage, a search row: it adds `archive` (identity, perimeter verdict, PDF link).\n * The requests and the pause between them belong to the workflow (DEC-033, rule 2); the node\n * refuses a daily cap above the rule.\n */\n\n'use strict';\n\n/** A site's `source_id` is its host, lowercase, without `www.` (CONTRATTI.md, section 2). */\nconst SOURCE_ID = 'comune.roma.it';\nconst PREFIX = 'qn:roma:arc:';\nconst PDF_URL = 'https://www.comune.roma.it/servizi2/deliberazioniAttiWeb/showPdfDoc?fun=deliberazioniAtti';\n\n/** The values of `tipo`: every tipologia of the portal's menu on 15 September 2026\n *  (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3), all read (CONTRATTI.md, «Lo storico»). */\nconst TIPI = Object.freeze(['CMC', 'CPC', 'MMC', 'KD', 'KCD', 'WCD', 'WD', 'MD', 'MCD', 'OCD',\n  'OD', 'PD', 'KID', 'CD', 'CMD', 'CID', 'ACD', 'KMD', 'WMD', 'GCD', 'GD', 'GMD', 'DDS', 'DMS',\n  'PMT', 'GMT', 'PS', 'GCM', 'GMM', 'CZ', 'CMZ', 'AZ', 'XO', 'TO', 'PMO', 'SO', 'XMO', 'AY', 'CY',\n  'CMY', 'CPL', 'CMR', 'DDK', 'DMK', 'CMV', 'GMV', 'CPV', 'MMV']);\n\n/** DEC-033, rule 1: the pilot Municipi and the first day of the period. */\nconst MUNICIPI = Object.freeze(['X', 'V', 'I']);\nconst PERIOD_START = '2026-01-01';\n\nconst ROMANI = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII',\n  'XIII', 'XIV', 'XV'];\n\n/** CONTRATTI.md, «Lo storico»: Unicode NFC, trimmed, inner whitespace collapsed to one\n *  space. A whole non-negative number (a JSON key) is read as its decimal string. */\nfunction normalizeKey(v) {\n  if (typeof v === 'number' && Number.isSafeInteger(v) && v >= 0) v = String(v);\n  if (typeof v !== 'string') return '';\n  return v.normalize('NFC').trim().replace(/\\s+/g, ' ');\n}\n\n/** `qn:roma:arc:<source_id>:<tipologia>:<idDoc>` — the pair the portal itself uses to\n *  address the document (`par1`, `par2` of the PDF link). The prefix is a constant; no\n *  geography and no `registro_id` take part. Anything else stops the run: an id is\n *  permanent, so a key in an unexpected shape is never turned into one. */\nfunction archiveId(tipologia, idDoc) {\n  const tipo = normalizeKey(tipologia);\n  const key = normalizeKey(idDoc);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!/^[0-9]+$/.test(key)) throw new Error(`idDoc ${JSON.stringify(idDoc)} is not the numeric key the portal gives`);\n  return `${PREFIX}${SOURCE_ID}:${tipo}:${key}`;\n}\n\n/** CONTRATTI.md «Lo storico», reading Atti Web: the tipologie the portal lists at the\n *  start of a reading, in a fixed order. A list that did not read stops the reading before\n *  it starts; a code that is not a value of `tipo` stops it too, until a PR adds it here. */\nfunction planTipologie(menu) {\n  if (!Array.isArray(menu) || menu.length === 0) throw new Error('the list of tipologie did not read: the reading does not start');\n  const codes = [...new Set(menu.map(normalizeKey))];\n  const unknown = codes.filter((c) => !TIPI.includes(c));\n  if (unknown.length) throw new Error(`tipologie not in tipo: ${unknown.join(', ')}`);\n  // Every tipologia is read (DEC-033 rule 5): a menu that lacks a known one would make an\n  // incomplete reading look complete, so it stops the reading too.\n  const missing = TIPI.filter((c) => !codes.includes(c));\n  if (missing.length) throw new Error(`menu without known tipologie: ${missing.join(', ')}: the reading does not start`);\n  return codes.sort((a, b) => TIPI.indexOf(a) - TIPI.indexOf(b));\n}\n\n/** CONTRATTI.md «Lo storico» (DEC-033 rule 5), late publication: the passes over one\n *  tipologia (each `{ total, rows }`) count when the last two give the same total and the\n *  same set of idDoc; at most three passes. An empty response is `{ total: 0, rows: [],\n *  historical_total }`, with the acts the same tipologia returns over the historical\n *  interval («Risposta vuota»). The rows are merged by idDoc within the tipologia either\n *  way, and `complete` says what the registry records. */\nfunction mergePasses(passes) {\n  if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {\n    throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');\n  }\n  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));\n  const byId = new Map();\n  for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);\n  // A pass is whole when it holds exactly the rows it declares, each with a valid idDoc of its\n  // own: a truncated pagination, or a row that cannot be read, is never complete, however stable.\n  const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && Array.isArray(p.rows) &&\n    p.rows.length === p.total && ids(p).size === p.total;\n  // An empty response is an empty tipologia only when the historical interval returns acts;\n  // otherwise it is missing data, and another pass would not change it.\n  for (const p of passes) {\n    if (p && p.total === 0 && !(Number.isSafeInteger(p.historical_total) && p.historical_total >= 0)) {\n      throw new Error('an empty pass carries historical_total (CONTRATTI.md, «Lo storico», «Risposta vuota»)');\n    }\n  }\n  const missing = passes.some((p) => p.total === 0 && p.historical_total === 0);\n  const [a, b] = passes.slice(-2);\n  const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&\n    [...ids(a)].every((x) => ids(b).has(x));\n  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };\n}\n\n/** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */\nfunction fileStem(id) {\n  if (typeof id !== 'string' || !id.startsWith(PREFIX)) throw new Error(`not an archive_id: ${JSON.stringify(id)}`);\n  return id.slice('qn:'.length).split(':').join('__');\n}\n\nfunction pdfUrl(tipologia, idDoc) {\n  const b64 = (s) => Buffer.from(s, 'utf8').toString('base64');\n  return `${PDF_URL}&par1=${b64(normalizeKey(tipologia))}&par2=${b64(normalizeKey(idDoc))}`;\n}\n\n/** A real UTC instant written as YYYY-MM-DDTHH:MM:SS(.fff)Z: no 30 February, no hour 25. */\nfunction utcInstant(v) {\n  const m = typeof v === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?Z$/.exec(v);\n  if (!m) return false;\n  const [y, mo, d, h, mi, se] = m.slice(1, 7).map(Number);\n  return validDay(y, mo, d) && h < 24 && mi < 60 && se < 60;\n}\n\nfunction validDay(y, m, d) {\n  const t = new Date(Date.UTC(y, m - 1, d));\n  return t.getUTCFullYear() === y && t.getUTCMonth() === m - 1 && t.getUTCDate() === d;\n}\n\nconst ROME_DAY = new Intl.DateTimeFormat('en-CA', {\n  timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit',\n});\n\nfunction romeDayOf(ms) {\n  const p = Object.fromEntries(ROME_DAY.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));\n  return `${p.year}-${p.month}-${p.day}`;\n}\n\nconst pad = (n) => String(n).padStart(2, '0');\n\n/** A date field of the portal as a Rome day (YYYY-MM-DD), or null when empty. A day\n *  written as such is kept as written; an instant (with Z or an offset, or epoch\n *  milliseconds) is converted to Europe/Rome first, as everywhere else in the pilot\n *  (Spec v2.5 T17). Any other shape stops the run, naming the field. */\nfunction sourceDay(v, field) {\n  if (v === null || v === undefined || v === '') return null;\n  const bad = () => new Error(`${field}: unreadable date ${JSON.stringify(v)}`);\n  if (typeof v === 'number') {\n    if (!Number.isSafeInteger(v) || v < 1e11) throw bad();\n    return romeDayOf(v);\n  }\n  if (typeof v !== 'string') throw bad();\n  let s = v.trim();\n  if (s === '') return null;\n  // The convocations give `dtRpr` as two dates, `01/12/2025<br>(04/12/2025)<br>`: the first is\n  // the repertorio date the search filters on, as the source study read it; the one in\n  // brackets takes no part. Any other markup stays unreadable.\n  const two = /^(\\d{1,2}\\/\\d{1,2}\\/\\d{4})<br\\s*\\/?>\\s*\\(\\d{1,2}\\/\\d{1,2}\\/\\d{4}\\)(?:<br\\s*\\/?>)?$/i.exec(s);\n  if (two) s = two[1];\n  let m = /^(\\d{4})-(\\d{2})-(\\d{2})(?:[T ](\\d{2}):(\\d{2})(?::(\\d{2})(?:\\.\\d{1,9})?)?(Z|[+-]\\d{2}:?\\d{2})?)?$/.exec(s);\n  if (m) {\n    const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    if (!m[7]) return `${m[1]}-${m[2]}-${m[3]}`;\n    const offset = m[7] === 'Z' ? 'Z' : `${m[7].slice(0, 3)}:${m[7].slice(-2)}`;\n    const ms = Date.parse(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6] || '00'}${offset}`);\n    if (Number.isNaN(ms)) throw bad();\n    return romeDayOf(ms);\n  }\n  m = /^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})(?: (\\d{1,2}):(\\d{2})(?::(\\d{2}))?)?$/.exec(s);\n  if (m) {\n    const [d, mo, y] = [Number(m[1]), Number(m[2]), Number(m[3])];\n    if (!validDay(y, mo, d)) throw bad();\n    if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] || 0) > 59)) throw bad();\n    return `${y}-${pad(mo)}-${pad(d)}`;\n  }\n  throw bad();\n}\n\n/** CONTRATTI.md «Lo storico»: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps\n *  which of the two it took. A row without `dtRpr` is not a row of that search. */\nfunction dataDocumento(row) {\n  const rpr = sourceDay(row.dtRpr, 'dtRpr');\n  if (!rpr) throw new Error('dtRpr missing: the search filters on it (CONTRATTI.md, «Lo storico»)');\n  const seduta = sourceDay(row.dtSeduta, 'dtSeduta');\n  return seduta ? { day: seduta, from: 'dtSeduta' } : { day: rpr, from: 'dtRpr' };\n}\n\n/** The Municipio structure named by `dscStrOrg` (CONTRATTI.md «Lo storico», DEC-033 rule 1:\n *  «MUNIC…», «ROMA» when present, the Roman numeral compared whole), as the canonical\n *  `municipality_code`; null when it names none, or more than one. */\nfunction municipalityCode(dscStrOrg) {\n  // A bracketed «(EX MUNICIPIO …)» is the former Municipio, not a second issuer (CONTRATTI.md «Lo storico»).\n  const s = normalizeKey(dscStrOrg).toUpperCase().replace(/\\(\\s*EX\\b[^)]*\\)/g, ' ');\n  const found = new Set();\n  for (const m of s.matchAll(/\\bMUNIC\\w*\\.?\\s*(?:ROMA\\s*)?([IVX]+)\\b/g)) {\n    if (ROMANI.includes(m[1])) found.add(m[1]);\n  }\n  return found.size === 1 ? [...found][0] : null;\n}\n\n/** DEC-033, rule 1: the territorial groups of the Polizia Locale are not a Municipio structure. */\nconst isPoliziaLocale = (dscStrOrg) => /^P\\.\\s*L\\.?\\s*-/.test(normalizeKey(dscStrOrg).toUpperCase());\n\n/** Stage 1: one search row (with `tipologia` set by the workflow) on `readingDay`.\n *  `keep` false carries the reason; a row kept today may still be skipped downstream\n *  when its `archive_id` is already in the archive. */\nfunction describeRow(row, readingDay) {\n  if (typeof readingDay !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(readingDay) ||\n      !validDay(...readingDay.split('-').map(Number))) {\n    throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  }\n  const id = archiveId(row.tipologia, row.idDoc);\n  const { day, from } = dataDocumento(row);\n  const code = municipalityCode(row.dscStrOrg);\n  let reason = null;\n  if (code === null) reason = isPoliziaLocale(row.dscStrOrg) ? 'polizia_locale' : 'municipio_non_letto';\n  else if (!MUNICIPI.includes(code)) reason = 'fuori_dai_municipi';\n  else if (day < PERIOD_START) reason = 'prima_del_periodo';\n  else if (day > readingDay) reason = 'data_futura'; // read again once the day has passed\n  return {\n    archive_id: id,\n    tipo: normalizeKey(row.tipologia),\n    keep: reason === null,\n    reason,\n    data_documento: day,\n    data_documento_da: from,\n    municipality_code: code,\n    pdf_url: pdfUrl(row.tipologia, row.idDoc),\n    file_stem: fileStem(id),\n  };\n}\n\n/** Lowercase SHA-256 as a string: a regex alone would accept a one-element array. */\nconst isSha256 = (v) => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);\n\n/** Stage 2: the record to append for a downloaded original, or null when the latest\n *  version already holds the same file (CONTRATTI.md, «Lo storico»: same SHA-256, no new\n *  row). `existing` lists the versions already in the archive for this `archive_id`. */\nfunction archiveRecord(archive, download, existing) {\n  if (!archive || !archive.keep) throw new Error('only a kept row becomes a record');\n  if (!download || !isSha256(download.sha256)) throw new Error('download.sha256 must be 64 hex digits');\n  if (!utcInstant(download.retrieved_at)) {\n    throw new Error('download.retrieved_at must be a UTC instant');\n  }\n  if (typeof download.workflow !== 'string' || !download.workflow.startsWith('staging_')) {\n    throw new Error('download.workflow must name the staging_ workflow');\n  }\n  // A record is written once and never rewritten: provenance missing now stays missing.\n  if (typeof download.workflow_version !== 'string' || !download.workflow_version.trim()) {\n    throw new Error('download.workflow_version must name the version of the staging_ workflow');\n  }\n  if (typeof download.elenco !== 'string' || !download.elenco.startsWith('originali/')) {\n    throw new Error('download.elenco must be the saved search page in originali/');\n  }\n  // Absent is not empty: without the versions already written, a v1 could be written twice.\n  if (!Array.isArray(existing)) throw new Error('existing must list the versions already in the archive ([] for none)');\n  let latest = null;\n  const seen = new Set();\n  for (const r of existing) {\n    if (!r || r.archive_id !== archive.archive_id) throw new Error(`existing record of another archive_id: ${r && r.archive_id}`);\n    if (!Number.isInteger(r.versione) || r.versione < 1) throw new Error(`existing record with versione ${JSON.stringify(r.versione)}`);\n    // The hash decides whether a reading adds a version: without it a change would be invented.\n    if (!isSha256(r.originale_sha256)) throw new Error(`existing record v${r.versione} without a valid originale_sha256`);\n    if (seen.has(r.versione)) throw new Error(`two existing records with versione ${r.versione}`);\n    seen.add(r.versione);\n    if (!latest || r.versione > latest.versione) latest = r;\n  }\n  // Versions go up by one from 1: a gap means a truncated listing, not a history to build on.\n  if (latest && seen.size !== latest.versione) throw new Error(`existing versions are not 1 to ${latest.versione}: the listing is incomplete`);\n  if (latest && latest.originale_sha256 === download.sha256) return null;\n  const record = {\n    archive_id: archive.archive_id,\n    versione: latest ? latest.versione + 1 : 1,\n    source_id: SOURCE_ID,\n    registro_id: download.registro_id || null,\n    source_url: archive.pdf_url,\n    data_documento: archive.data_documento,\n    municipality_code: archive.municipality_code,\n    tipo: archive.tipo,\n    provenienza: {\n      url: download.url || archive.pdf_url,\n      retrieved_at: download.retrieved_at,\n      workflow: download.workflow,\n      workflow_version: download.workflow_version,\n      elenco: download.elenco,\n      data_documento_da: archive.data_documento_da,\n    },\n    originale: `originali/${archive.file_stem}__${download.sha256.slice(0, 16)}.pdf`,\n    originale_sha256: download.sha256,\n    derivato: null,\n    etichette: [],\n    costo: null,\n  };\n  if (latest) record.motivo = 'originale cambiato alla fonte';\n  return record;\n}\n\n/* ----- the reading: menu, pages, passes, reading log (CONTRATTI.md «Lo storico») --------- */\n\n/** The search filters on `dtRpr` from this day to the reading day (CONTRATTI.md, «Lo storico»). */\nconst SEARCH_START = '2025-12-01';\n/** Rows per page of the search: the most the portal accepts (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §2). */\nconst PAGE_SIZE = 500;\n/** DEC-033, rule 2: the most documents read in a day. */\nconst MAX_PER_DAY = 300;\n/** The portal's answer for a search with no rows (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §7.1). */\nconst EMPTY_ANSWER = /Index:\\s*0,\\s*Size:\\s*0/;\n\nconst isDay = (v) => typeof v === 'string' && /^\\d{4}-\\d{2}-\\d{2}$/.test(v) && validDay(...v.split('-').map(Number));\nconst bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));\n\n/** The codes of the menu answer (`caricaListaTipologie`): its first list, the combined codes\n *  (with a comma) left out, as in the source study. What does not read stops the reading. */\nfunction menuCodes(answer) {\n  let a = answer;\n  if (typeof a === 'string') {\n    try { a = JSON.parse(a); } catch (e) { a = null; }\n  }\n  const list = a && typeof a === 'object' ? Object.values(a).find(Array.isArray) : null;\n  if (!list) throw new Error('the list of tipologie did not read: the reading does not start');\n  return list.map((x) => (x && typeof x.codice === 'string' ? x.codice : '')).filter((c) => c && !c.includes(','));\n}\n\n/** Stage 'plan': the full answer of the menu request becomes the tipologie to read; a block\n *  on it stops the reading before it starts (DEC-033, rule 4). */\nfunction planFromMenu(response) {\n  const signal = blockSignal(response);\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  return planTipologie(menuCodes(response.body));\n}\n\n/** DEC-033, rule 4: the signal on one answer (`{ statusCode, headers, body }`, redirects not\n *  followed) that stops the reading, or null. Any redirect counts: the login page is one. */\nfunction blockSignal(res) {\n  if (!res || typeof res !== 'object') return 'no answer';\n  const code = Number(res.statusCode);\n  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;\n  if (code >= 300 && code < 400) {\n    const h = res.headers || {};\n    return `redirect to ${h.location || h.Location || '(no location)'}`;\n  }\n  const body = bodyText(res);\n  if (/captcha/i.test(body)) return 'captcha';\n  if (/<input[^>]+type=[\"']?password/i.test(body)) return 'login page';\n  return null;\n}\n\n/** One answer of the search: its rows and the total it declares, the empty answer, or an\n *  error, which leaves the pass incomplete. */\nfunction parseSearch(res) {\n  let body = res.body;\n  if (typeof body === 'string') {\n    try {\n      body = JSON.parse(body);\n    } catch (e) {\n      return EMPTY_ANSWER.test(res.body) ? { kind: 'empty' } : { kind: 'error', detail: `HTTP ${res.statusCode}: not JSON` };\n    }\n  }\n  if (!body || !Array.isArray(body.elencoAtti)) return { kind: 'error', detail: `HTTP ${res.statusCode}: no elencoAtti` };\n  const total = Number(body.total);\n  if (!Number.isSafeInteger(total) || total < 0) return { kind: 'error', detail: 'the declared total is not a whole number' };\n  return { kind: 'rows', total, rows: body.elencoAtti };\n}\n\n/** The saved page of the search, in originali/: one file per page, pass and reading day. */\nfunction elencoFileName(readingDay, tipologia, pass, page) {\n  return `attiweb_elenco_${readingDay}_${normalizeKey(tipologia)}_p${pass}_${page}.json`;\n}\n\n/** Stage 'pass': the answers of one pass over a tipologia, in page order, become a pass for\n *  `mergePasses` (`pass_result`: `pass` is the pass's number); each row carries its tipologia\n *  and the saved page it came from, and `files` are the pages to save under those names. A first answer that is the empty one asks for the\n *  check over the historical interval (`needs_historical`), whose total the pass then carries. */\nfunction searchPass({ tipologia, reading_day, pass, pages, historical }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!Number.isInteger(pass) || pass < 1 || pass > 3) throw new Error('pass is 1, 2 or 3 (CONTRATTI.md, «Lo storico»)');\n  if (!Array.isArray(pages) || pages.length === 0) throw new Error('a pass has at least one answer');\n  for (const res of pages.concat(historical ? [historical] : [])) {\n    const signal = blockSignal(res);\n    if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  }\n  const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, tipo, pass, i), body: bodyText(res) }));\n  const parsed = pages.map(parseSearch);\n  if (parsed[0].kind === 'empty' && parsed.every((x) => x.kind === 'empty')) {\n    if (!historical) return { needs_historical: true, files, pass_result: null };\n    const h = parseSearch(historical);\n    return { needs_historical: false, files, pass_result: { total: 0, rows: [], historical_total: h.kind === 'rows' ? h.total : 0 } };\n  }\n  // The page after a full last page can be the empty answer: it ends the pass, it is not an error.\n  let last = parsed.length;\n  while (last > 1 && parsed[last - 1].kind === 'empty') last -= 1;\n  const bad = parsed.slice(0, last).find((x) => x.kind !== 'rows');\n  if (bad) return { needs_historical: false, files, pass_result: { total: null, rows: [], error: bad.detail || 'an empty answer between pages' } };\n  const total = parsed[0].total;\n  if (parsed.slice(0, last).some((x) => x.total !== total)) {\n    return { needs_historical: false, files, pass_result: { total: null, rows: [], error: 'the declared total changed between pages' } };\n  }\n  const rows = [];\n  parsed.slice(0, last).forEach((x, i) => {\n    for (const r of x.rows) rows.push(Object.assign({}, r, { tipologia: tipo, elenco: `originali/${files[i].name}` }));\n  });\n  return { needs_historical: false, files, pass_result: { total, rows } };\n}\n\n/** Stage 'close': the passes over one tipologia, merged (`mergePasses`), and each row described\n *  (`describeRow`). A row that cannot become a record is counted, never written. */\nfunction closeTipologia({ tipologia, reading_day, passes }) {\n  const tipo = normalizeKey(tipologia);\n  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  const merged = mergePasses(passes);\n  const kept = [];\n  const left_out = {};\n  for (const r of merged.rows) {\n    let a;\n    try {\n      a = describeRow(Object.assign({}, r, { tipologia: tipo }), reading_day);\n    } catch (e) {\n      a = { keep: false, reason: 'riga_illeggibile' };\n    }\n    if (a.keep) kept.push({ archive: a, elenco: r.elenco });\n    else left_out[a.reason] = (left_out[a.reason] || 0) + 1;\n  }\n  const lastPass = passes[passes.length - 1];\n  return {\n    tipologia: tipo,\n    complete: merged.complete,\n    needs_another_pass: merged.needs_another_pass,\n    passes: passes.length,\n    total: lastPass && Number.isSafeInteger(lastPass.total) ? lastPass.total : null,\n    missing_data: passes.some((x) => x && x.total === 0 && x.historical_total === 0),\n    errors: passes.map((x) => x && x.error).filter(Boolean),\n    kept,\n    left_out,\n  };\n}\n\n/** `20261110T201500Z` from a UTC instant: the time part of the reading's file names. */\nconst compactInstant = (v) => v.slice(0, 19).replace(/[-:]/g, '') + 'Z';\n\n/** Stage 'log': the register of one reading (DEC-033, rule 5), from the closed tipologie. The\n *  reading is complete only when every value of `tipo` was read and is complete; `righe` are the\n *  kept rows for the download workflow. */\nfunction readingLog({ reading_day, started_at, finished_at, workflow, workflow_version, tipologie }) {\n  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);\n  if (!utcInstant(started_at) || !utcInstant(finished_at)) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(tipologie)) throw new Error('tipologie must list the closed tipologie');\n  const byTipo = new Map();\n  for (const t of tipologie) {\n    if (!t || !TIPI.includes(t.tipologia)) throw new Error(`a closed tipologia that is not a value of tipo: ${t && t.tipologia}`);\n    if (byTipo.has(t.tipologia)) throw new Error(`tipologia ${t.tipologia} closed twice`);\n    byTipo.set(t.tipologia, t);\n  }\n  const unread = TIPI.filter((c) => !byTipo.has(c));\n  const rows = TIPI.filter((c) => byTipo.has(c)).map((c) => {\n    const t = byTipo.get(c);\n    return { tipologia: c, complete: t.complete === true, passes: t.passes, total: t.total,\n      missing_data: t.missing_data === true, errors: t.errors || [], kept: (t.kept || []).length, left_out: t.left_out || {} };\n  });\n  const incomplete = rows.filter((r) => !r.complete).map((r) => r.tipologia).concat(unread);\n  const seen = new Set();\n  const righe = [];\n  for (const c of TIPI) {\n    for (const k of (byTipo.get(c) || {}).kept || []) {\n      if (seen.has(k.archive.archive_id)) continue;\n      seen.add(k.archive.archive_id);\n      righe.push(k);\n    }\n  }\n  const stamp = compactInstant(started_at);\n  return {\n    log_file_name: `attiweb_lettura_${stamp}.json`,\n    righe_file_name: `attiweb_righe_${stamp}.json`,\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      periodo: { dtRpr_da: SEARCH_START, dtRpr_a: reading_day, data_documento_da: PERIOD_START },\n      municipi: MUNICIPI.slice(),\n      complete: incomplete.length === 0,\n      incomplete,\n      unread,\n      kept_total: righe.length,\n      tipologie: rows,\n    },\n    righe,\n  };\n}\n\n/** The register of one download run: its name carries the day and how many documents it read. */\nfunction downloadLogName(readingDay, count, startedAt) {\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  if (!Number.isSafeInteger(count) || count < 0) throw new Error('count must be a whole number');\n  if (!utcInstant(startedAt)) throw new Error('started_at must be a UTC instant');\n  return `attiweb_download_${readingDay}_n${count}_${compactInstant(startedAt)}.json`;\n}\n\n/** What the download runs of a day already read, from the names of their registers. */\nfunction downloadedToday(names, readingDay) {\n  if (!Array.isArray(names)) throw new Error('names must list the download registers ([] for none)');\n  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);\n  let n = 0;\n  for (const name of names) {\n    const mm = typeof name === 'string' && /^attiweb_download_(\\d{4}-\\d{2}-\\d{2})_n(\\d+)_\\d{8}T\\d{6}Z\\.json$/.exec(name);\n    if (mm && mm[1] === readingDay) n += Number(mm[2]);\n  }\n  return n;\n}\n\n/** Stage 'select': today's downloads from the kept rows of the latest reading, those whose\n *  `archive_id` has no record in the archive yet, within the day's cap (DEC-033, rule 2) and\n *  the run's own limit. `existing_names` are the file names in `D Storico/`; `downloaded_today`\n *  what earlier runs of the day already read. */\nfunction selectDownloads({ righe, existing_names, downloaded_today, cap, run_limit }) {\n  if (!Array.isArray(righe)) throw new Error('righe must list the kept rows of a reading');\n  if (!Array.isArray(existing_names)) throw new Error('existing_names must list the files in D Storico/ ([] for none)');\n  if (!Number.isSafeInteger(downloaded_today) || downloaded_today < 0) throw new Error('downloaded_today must be a whole number');\n  if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);\n  const recorded = new Set();\n  for (const n of existing_names) {\n    const mm = typeof n === 'string' && /^(.+)__v[1-9][0-9]*\\.json$/.exec(n);\n    if (mm) recorded.add(mm[1]);\n  }\n  const limit = run_limit === undefined ? cap : run_limit;\n  if (!Number.isSafeInteger(limit) || limit < 0) throw new Error('run_limit must be a whole number');\n  const room = Math.max(0, Math.min(limit, cap - downloaded_today));\n  const out = [];\n  const seen = new Set();\n  for (const r of righe) {\n    if (out.length >= room) break;\n    if (!r || !r.archive || !r.archive.keep || typeof r.archive.file_stem !== 'string') throw new Error('a row of righe without its archive');\n    if (recorded.has(r.archive.file_stem) || seen.has(r.archive.file_stem)) continue;\n    seen.add(r.archive.file_stem);\n    out.push(r);\n  }\n  return out;\n}\n\n/** Stage 'download_log': the register of one download run, from the outcome of each document\n *  it read (`{ archive_id, written, reason }`); its name carries the day and the count. */\nfunction downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, esiti }) {\n  if (!utcInstant(finished_at)) throw new Error('finished_at must be a UTC instant');\n  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');\n  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');\n  if (!Array.isArray(esiti)) throw new Error('esiti must list the documents read');\n  const read = esiti.filter((e) => e && typeof e.archive_id === 'string');\n  if (read.length !== esiti.length) throw new Error('an outcome without its archive_id');\n  return {\n    name: downloadLogName(reading_day, read.length, started_at),\n    log: {\n      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,\n      read: read.length,\n      written: read.filter((e) => e.written === true).length,\n      not_written: read.filter((e) => e.written !== true).map((e) => ({ archive_id: e.archive_id, reason: e.reason || null })),\n    },\n  };\n}\n\n/** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers }`, the binary's MIME type and\n *  extension, whether it has content) is an original to hash, a block that stops the reading, or\n *  something else, which is counted and not written. The portal sends its PDFs as\n *  `application/octet-stream` with a `.pdf` file name. */\nfunction checkPdf({ response, mime, file_extension, has_content }) {\n  const signal = blockSignal(Object.assign({ body: '' }, response));\n  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);\n  if (Number(response.statusCode) !== 200) return { ok: false, reason: `HTTP ${response.statusCode}` };\n  const pdf = mime === 'application/pdf' || (mime === 'application/octet-stream' && String(file_extension).toLowerCase() === 'pdf');\n  if (!pdf) return { ok: false, reason: `not a PDF: ${mime}` };\n  if (has_content !== true) return { ok: false, reason: 'empty file' };\n  return { ok: true, reason: null };\n}\n\nfunction recordFileName(record) {\n  return `${fileStem(record.archive_id)}__v${record.versione}.json`;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = {\n    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,\n    planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,\n    archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,\n    closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,\n    downloadLog,\n  };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the per-item adapter (see the header). */\nif ($json.stage === 'plan') {\n  $json.tipologie = planFromMenu($json.response);\n  delete $json.response;\n} else if ($json.stage === 'pass') {\n  Object.assign($json, searchPass($json));\n  delete $json.pages;\n  delete $json.historical;\n} else if ($json.stage === 'close') {\n  $json.result = closeTipologia($json);\n  delete $json.passes;\n} else if ($json.stage === 'log') {\n  Object.assign($json, readingLog($json));\n  delete $json.tipologie;\n} else if ($json.stage === 'select') {\n  const downloaded_today = downloadedToday(($json.download_log_names || []).filter(Boolean), $json.reading_day);\n  $json.downloaded_today = downloaded_today;\n  $json.downloads = selectDownloads(Object.assign({}, $json, {\n    existing_names: ($json.existing_names || []).filter(Boolean), downloaded_today }));\n  delete $json.righe;\n  delete $json.existing_names;\n} else if ($json.stage === 'pdf') {\n  // n8n gives the size in `bytes`, and as text in `fileSize` (\"45.3 kB\"): only whether it is zero matters.\n  const bin = ($input.item.binary || {}).data || {};\n  const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();\n  const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\\.0+)?\\s*[kMG]?B$/i.test(size);\n  $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });\n} else if ($json.stage === 'download_log') {\n  Object.assign($json, downloadLog($json));\n  delete $json.esiti;\n} else if ($json.stage === 'record' || $json.download) {\n  const record = archiveRecord($json.archive, $json.download, $json.existing);\n  $json.record = record;\n  $json.record_file_name = record ? recordFileName(record) : null;\n} else {\n  $json.archive = describeRow($json, $json.reading_day);\n}\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3960,
+        150
+      ],
+      "id": "d1e139fe-5d13-43c0-93b3-1fa3f8365878",
+      "name": "Registro download"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b679071d-2e00-4d8e-813b-dea7608c0be1",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "64be8ac0-0318-4703-866a-0cb10dc9ede5",
+              "name": "text",
+              "value": "={{ JSON.stringify($json.log, null, 2) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4180,
+        150
+      ],
+      "id": "3eff38c1-13a7-483f-9180-d1f811ff27c7",
+      "name": "Testo registro"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        4400,
+        150
+      ],
+      "id": "2b795396-51cf-49f8-a753-ab090af0ca94",
+      "name": "File registro"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1L7uCZC9MVieKpiVTkh6XeXbF0tzIMCGU"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4620,
+        150
+      ],
+      "id": "c12fea2c-f9cc-45f5-ab48-022a7606e83c",
+      "name": "Salva registro",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        4730,
+        280
+      ],
+      "id": "2a3f23d0-954e-42fe-b420-e1cd6a50a12f",
+      "name": "Unisci"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        520
+      ],
+      "id": "1514b3d2-3f4e-4775-9c1f-273ac1d28643",
+      "name": "Da lettura"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Inizio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inizio": {
+      "main": [
+        [
+          {
+            "node": "Letture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Letture": {
+      "main": [
+        [
+          {
+            "node": "Più recente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Più recente": {
+      "main": [
+        [
+          {
+            "node": "Una",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Una": {
+      "main": [
+        [
+          {
+            "node": "Scarica righe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scarica righe": {
+      "main": [
+        [
+          {
+            "node": "Leggi righe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leggi righe": {
+      "main": [
+        [
+          {
+            "node": "Archivio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Archivio": {
+      "main": [
+        [
+          {
+            "node": "Nomi archivio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nomi archivio": {
+      "main": [
+        [
+          {
+            "node": "Registri del giorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registri del giorno": {
+      "main": [
+        [
+          {
+            "node": "Nomi registri",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nomi registri": {
+      "main": [
+        [
+          {
+            "node": "Prepara scelta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara scelta": {
+      "main": [
+        [
+          {
+            "node": "Scelta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scelta": {
+      "main": [
+        [
+          {
+            "node": "Da scaricare",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Da scaricare": {
+      "main": [
+        [
+          {
+            "node": "Documenti",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Documenti": {
+      "main": [
+        [
+          {
+            "node": "Esiti",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pausa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pausa": {
+      "main": [
+        [
+          {
+            "node": "PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PDF": {
+      "main": [
+        [
+          {
+            "node": "Prepara controllo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara controllo": {
+      "main": [
+        [
+          {
+            "node": "Controllo PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Controllo PDF": {
+      "main": [
+        [
+          {
+            "node": "È un PDF?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "È un PDF?": {
+      "main": [
+        [
+          {
+            "node": "Impronta",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Unisci",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non scritto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Impronta": {
+      "main": [
+        [
+          {
+            "node": "Unisci",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Prepara record": {
+      "main": [
+        [
+          {
+            "node": "Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record": {
+      "main": [
+        [
+          {
+            "node": "Salva PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva PDF": {
+      "main": [
+        [
+          {
+            "node": "Testo record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo record": {
+      "main": [
+        [
+          {
+            "node": "File record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File record": {
+      "main": [
+        [
+          {
+            "node": "Salva record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva record": {
+      "main": [
+        [
+          {
+            "node": "Scritto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scritto": {
+      "main": [
+        [
+          {
+            "node": "Documenti",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Non scritto": {
+      "main": [
+        [
+          {
+            "node": "Documenti",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esiti": {
+      "main": [
+        [
+          {
+            "node": "Prepara registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara registro": {
+      "main": [
+        [
+          {
+            "node": "Registro download",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registro download": {
+      "main": [
+        [
+          {
+            "node": "Testo registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo registro": {
+      "main": [
+        [
+          {
+            "node": "File registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File registro": {
+      "main": [
+        [
+          {
+            "node": "Salva registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unisci": {
+      "main": [
+        [
+          {
+            "node": "Prepara record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Da lettura": {
+      "main": [
+        [
+          {
+            "node": "Inizio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "saveExecutionProgress": false,
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "none",
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "e0bc0dd1-f226-4be5-890f-dbda88a943b8",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "2UvrlJRPrK5vZRjt",
+  "tags": []
+}
