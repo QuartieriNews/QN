@@ -63,7 +63,7 @@ function canonicalUrl(raw) {
   if (scheme !== 'http' && scheme !== 'https') throw new Error('url_not_http');
   // For http(s) the standard accepts any run of slashes or backslashes after the scheme, none
   // included: `https:esempio.it`, `https:/esempio.it` and `https:\\esempio.it` are one URL.
-  const m = /^[A-Za-z][A-Za-z0-9+.-]*:[/\\]*([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#.*)?$/.exec(input);
+  const m = /^[A-Za-z][A-Za-z0-9+.-]*:[/\\]*([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#[\s\S]*)?$/.exec(input);
   if (!m) throw new Error('url_invalid');
   const hm = /^([^:@[\]]+)(?::(\d*))?$/.exec(m[1]);
   if (!hm) throw new Error('url_invalid');

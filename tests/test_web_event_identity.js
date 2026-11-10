@@ -145,6 +145,7 @@ for (const u of [
   'https://esempio.it/e?q=%C3', 'https://esempio.it/e?q=%25C3', 'https://esempio.it/e?q=%ZZ', 'https://esempio.it/e?q=%E2%82',
   'https://esempio.it/e?q=%E2%82%AC', 'https://esempio.it/e?q=😀', 'https://esempio.it/e?%C3=1', 'https://esempio.it/e?q=a%2Bb',
   '\u0000https://esempio.it/e', 'https://esempio.it/e\u0000', '\u001fhttps://esempio.it/e\u0001 ', 'https://foo_bar.esempio.it/e',
+  'https://esempio.it/e#\u2028x', 'https://esempio.it/e#\u2029', 'https://esempio.it/e?q=1#a\u2028b',
   '\u00a0https://esempio.it/e', 'https://esempio.it/e\u00a0', '\u3000https://esempio.it/e\u2028', '\ufeffhttps://esempio.it/e', ' \u00a0\u0000https://esempio.it/e',
   'https://a~b.esempio.it/x', "https://a!b$c&d'e(f)g*h+i,j;k=l.esempio.it/x",
 ]) {
