@@ -404,23 +404,35 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   const RA = m.downloadLogName(DAY, 250, '2026-11-11T01:00:00Z');
   const RB = m.downloadLogName(DAY, 50, '2026-11-11T02:00:00Z');
   const RC = m.downloadLogName(DAY, 50, '2026-11-11T02:00:05Z');
-  const day = [{ name: RA, createdTime: '2026-11-11T01:00:03.000Z' }, { name: RB, createdTime: '2026-11-11T02:00:04.000Z' },
-    { name: RC, createdTime: '2026-11-11T02:00:06.000Z' }, { name: m.downloadResultName(DAY, 250, '2026-11-11T01:00:00Z'), createdTime: '2026-11-11T01:40:00.000Z' }];
-  check('confirm: of two runs that overlap, the one whose reservation was written first goes on',
-    m.reservationHolds({ reservations: day, mine: RB, reading_day: DAY, cap: 300 }), { holds: true, used: 300, cap: 300 });
-  check('confirm: the one written second stops before any request',
-    m.reservationHolds({ reservations: day, mine: RC, reading_day: DAY, cap: 300 }), { holds: false, used: 350, cap: 300 });
+  const OA = m.downloadResultName(DAY, 250, '2026-11-11T01:00:00Z');
+  const day = [{ id: 'a', name: RA, createdTime: '2026-11-11T01:00:03.000Z' }, { id: 'oa', name: OA, createdTime: '2026-11-11T01:40:00.000Z' },
+    { id: 'b', name: RB, createdTime: '2026-11-11T02:00:04.000Z' }, { id: 'c', name: RC, createdTime: '2026-11-11T02:00:06.000Z' }];
+  check('confirm: the first of two overlapping runs goes on, an earlier finished run counts but does not hold it',
+    m.reservationHolds({ reservations: day, mine: 'b', reading_day: DAY, cap: 300 }), { holds: true, used: 300, cap: 300, busy: [] });
+  check('confirm: the second stops before any request, over the cap and behind a run without its outcome',
+    m.reservationHolds({ reservations: day, mine: 'c', reading_day: DAY, cap: 300 }), { holds: false, used: 350, cap: 300, busy: [RB] });
+  check('confirm: under the cap, a run still waits for an earlier run that has no outcome, so no record is written twice',
+    m.reservationHolds({ reservations: day, mine: 'c', reading_day: DAY, cap: 300 }).busy.length > 0 &&
+    m.reservationHolds({ reservations: [day[2], Object.assign({}, day[3], { name: m.downloadLogName(DAY, 1, '2026-11-11T02:00:05Z') })], mine: 'c', reading_day: DAY, cap: 300 }).holds === false, true);
+  check('confirm: an earlier reservation of zero documents never holds a run',
+    m.reservationHolds({ reservations: [{ id: 'z', name: m.downloadLogName(DAY, 0, '2026-11-11T00:00:00Z'), createdTime: '2026-11-11T00:00:01Z' }, day[2]], mine: 'b', reading_day: DAY, cap: 300 }).holds, true);
+  check('confirm: two runs started in the same second are told apart by the id of their file',
+    m.reservationHolds({ reservations: [{ id: 'x1', name: RB, createdTime: '2026-11-11T02:00:04.000Z' }, { id: 'x2', name: RB, createdTime: '2026-11-11T02:00:05.000Z' }],
+      mine: 'x2', reading_day: DAY, cap: 300 }), { holds: false, used: 100, cap: 300, busy: [RB] });
   check('confirm: the order is the time Drive wrote them, not the start in the name',
-    m.reservationHolds({ reservations: [{ name: RC, createdTime: '2026-11-11T02:00:06.000Z' }, { name: RB, createdTime: '2026-11-11T02:00:09.000Z' }, day[0]],
-      mine: RB, reading_day: DAY, cap: 300 }).holds, false);
+    m.reservationHolds({ reservations: [{ id: 'c', name: RC, createdTime: '2026-11-11T02:00:06.000Z' }, { id: 'b', name: RB, createdTime: '2026-11-11T02:00:09.000Z' }],
+      mine: 'b', reading_day: DAY, cap: 300 }).busy, [RC]);
   check('confirm: a reservation Drive does not show yet is a workflow error',
-    /is not among the day/.test(thrown(() => m.reservationHolds({ reservations: [day[0]], mine: RB, reading_day: DAY, cap: 300 })) || ''), true);
-  const stop = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:05Z', cap: 300, reservation_name: RC, reservations: day.concat([{}]) });
-  check('confirm in n8n: a run that stops writes an outcome of zero documents',
-    [stop.json.confirm.holds, stop.json.stop_name, stop.json.stop_log.read, stop.json.reservations],
-    [false, 'attiweb_scaricati_2026-11-10_n0_20261111T020005Z.json', 0, undefined]);
-  check('confirm in n8n: a run that holds has no outcome to write yet',
-    runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:00Z', cap: 300, reservation_name: RB, reservations: day }).json.stop_name, undefined);
+    /is not among the day/.test(thrown(() => m.reservationHolds({ reservations: [day[0]], mine: 'b', reading_day: DAY, cap: 300 })) || ''), true);
+  const stop = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:05Z', cap: 300, count: 50, reservation_id: 'c', reservations: day.concat([{}]) });
+  check('confirm in n8n: a run that stops writes an outcome of zero documents, with the reason',
+    [stop.json.confirm.holds, stop.json.stop_name, stop.json.stop_log.read, stop.json.stop_log.stopped, stop.json.reservations],
+    [false, 'attiweb_scaricati_2026-11-10_n0_20261111T020005Z.json', 0, 'an earlier run of the day has no outcome yet', undefined]);
+  const go = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:00Z', cap: 300, count: 50, reservation_id: 'b', reservations: day });
+  check('confirm in n8n: a run that holds has no outcome to write yet', [go.json.confirm.holds, go.json.stop_name], [true, undefined]);
+  const none = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:00Z', cap: 300, count: 0, reservation_id: 'b', reservations: day });
+  check('confirm in n8n: a run with nothing to download writes its outcome of zero documents',
+    [none.json.stop_name, none.json.stop_log.stopped], ['attiweb_scaricati_2026-11-10_n0_20261111T020000Z.json', 'nothing to download']);
   const dlog = m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1',
     esiti: [{ archive_id: 'a', written: true }, { archive_id: 'b', written: false, reason: 'not a PDF: text/html' }] });
   check('download register: named by day and count, outcomes kept', [dlog.name, dlog.log.read, dlog.log.written, dlog.log.not_written],

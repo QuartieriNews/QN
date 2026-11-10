@@ -142,9 +142,13 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   Ogni giro di download scrive, prima della prima richiesta, la prenotazione
   `attiweb_download_<giorno>_n<documenti>_<inizio>.json`, con i documenti che chiederà: il tetto
   del giorno si conta da quei nomi, e un giro che si ferma a metà conta per intero. Scritta la
-  prenotazione, il giro rilegge quelle del giorno nell'ordine in cui Drive le ha scritte: se con
-  la sua il totale supera il tetto, perché un altro giro ha prenotato insieme, si ferma prima di
-  ogni richiesta e scrive un esito con zero documenti; la sua prenotazione resta e conta. A fine giro
+  prenotazione, il giro rilegge prenotazioni ed esiti del giorno nell'ordine in cui Drive li ha
+  scritti, e riconosce la sua dall'id del file. Si ferma prima di ogni richiesta se con la sua il
+  totale supera il tetto, o se una prenotazione scritta prima, con dei documenti, non ha ancora il
+  suo esito: due giri non scaricano mai insieme, e nessun record si scrive due volte. Un giro che
+  si ferma, o che non ha niente da scaricare, scrive comunque l'esito, con zero documenti, e la sua
+  prenotazione resta e conta. Un giro interrotto senza esito ferma i giri seguenti del giorno
+  finché il coordinatore non legge il suo avviso. A fine giro
   scrive l'esito, documento per documento, in `attiweb_scaricati_<giorno>_n<letti>_<inizio>.json`,
   che non conta per il tetto. `<inizio>` è l'ora UTC
   d'inizio, `YYYYMMDDTHHMMSSZ`.

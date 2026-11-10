@@ -553,28 +553,35 @@ function selectDownloads({ righe, existing_names, downloaded_today, cap, run_lim
   return out;
 }
 
-/** Stage 'confirm': after writing its reservation, a run reads the day's reservations again with
- *  the time Drive wrote each one (`{ name, createdTime }`). It may go on only if the reservations
- *  written up to its own, its own included, stay within the cap: of two runs that overlap, the one
- *  whose reservation was written second stops before any request, and its reservation still
- *  counts (DEC-033, rule 2). A reservation Drive does not show yet is a workflow error. */
+/** Stage 'confirm': after writing its reservation, a run reads the day's reservations and
+ *  outcomes again (`{ id, name, createdTime }`) and finds its own by the Drive id of the file it
+ *  wrote (`mine`). It may go on only if the reservations written up to its own, its own included,
+ *  stay within the cap, and if every earlier reservation that asks for documents has its outcome:
+ *  of two runs that overlap, the second stops before any request, so two runs never write the same
+ *  record, and its reservation still counts (DEC-033, rule 2). A run that stopped without its
+ *  outcome holds the day's later runs until its alert is read. A reservation Drive does not show
+ *  yet is a workflow error. */
 function reservationHolds({ reservations, mine, reading_day, cap }) {
-  if (!Array.isArray(reservations)) throw new Error('reservations must list the day\'s reservations');
+  if (!Array.isArray(reservations)) throw new Error('reservations must list the day\'s reservations and outcomes');
   if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);
   if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);
   const rows = [];
+  const finished = new Set();
   for (const r of reservations) {
-    const mm = r && typeof r.name === 'string' && /^attiweb_download_(\d{4}-\d{2}-\d{2})_n(\d+)_\d{8}T\d{6}Z\.json$/.exec(r.name);
-    if (!mm || mm[1] !== reading_day) continue;
+    const name = r && typeof r.name === 'string' ? r.name : '';
+    const mm = /^attiweb_(download|scaricati)_(\d{4}-\d{2}-\d{2})_n(\d+)_(\d{8}T\d{6}Z)\.json$/.exec(name);
+    if (!mm || mm[2] !== reading_day) continue;
+    if (mm[1] === 'scaricati') { finished.add(mm[4]); continue; }
     const at = Date.parse(r.createdTime);
-    if (!Number.isFinite(at)) throw new Error(`reservation ${r.name} without the time it was written`);
-    rows.push({ name: r.name, n: Number(mm[2]), at });
+    if (!Number.isFinite(at)) throw new Error(`reservation ${name} without the time it was written`);
+    rows.push({ id: String(r.id || ''), name, n: Number(mm[3]), stamp: mm[4], at });
   }
-  rows.sort((a, b) => a.at - b.at || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
-  const idx = rows.findIndex((r) => r.name === mine);
-  if (idx < 0) throw new Error(`the run's reservation ${mine} is not among the day's yet`);
+  rows.sort((a, b) => a.at - b.at || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  const idx = rows.findIndex((r) => r.id === mine);
+  if (!mine || idx < 0) throw new Error(`the run's reservation ${mine} is not among the day's yet`);
   const used = rows.slice(0, idx + 1).reduce((t, r) => t + r.n, 0);
-  return { holds: used <= cap, used, cap };
+  const busy = rows.slice(0, idx).filter((r) => r.n > 0 && !finished.has(r.stamp)).map((r) => r.name);
+  return { holds: used <= cap && busy.length === 0, used, cap, busy };
 }
 
 /** The outcome of one download run, written at its end: not counted toward the cap, which the
@@ -666,12 +673,15 @@ if ($json.stage === 'plan') {
   const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\.0+)?\s*[kMG]?B$/i.test(size);
   $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });
 } else if ($json.stage === 'confirm') {
+  // A run that does not go on, or has nothing to read, still writes its outcome (zero documents).
   $json.confirm = reservationHolds({ reservations: ($json.reservations || []).filter((r) => r && r.name),
-    mine: $json.reservation_name, reading_day: $json.reading_day, cap: $json.cap });
-  if (!$json.confirm.holds) {
+    mine: $json.reservation_id, reading_day: $json.reading_day, cap: $json.cap });
+  const why = $json.confirm.busy.length ? 'an earlier run of the day has no outcome yet'
+    : !$json.confirm.holds ? 'another run reserved the cap first' : Number($json.count) === 0 ? 'nothing to download' : null;
+  if (why) {
     $json.stop_name = downloadResultName($json.reading_day, 0, $json.started_at);
     $json.stop_log = { source_id: SOURCE_ID, reading_day: $json.reading_day, started_at: $json.started_at, read: 0,
-      stopped: 'another run reserved the cap first', used: $json.confirm.used, cap: $json.cap };
+      stopped: why, used: $json.confirm.used, cap: $json.cap, busy: $json.confirm.busy };
   }
   delete $json.reservations;
 } else if ($json.stage === 'download_log') {
