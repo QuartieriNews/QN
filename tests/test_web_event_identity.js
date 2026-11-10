@@ -144,12 +144,15 @@ for (const u of [
   'https://esempio.it/a"b<c>d`e{f}', 'https://esempio.it/a%zz', 'https://esempio.it/a\tb', 'https://esempio.it/emoji😀',
   'https://esempio.it/e?q=%C3', 'https://esempio.it/e?q=%25C3', 'https://esempio.it/e?q=%ZZ', 'https://esempio.it/e?q=%E2%82',
   'https://esempio.it/e?q=%E2%82%AC', 'https://esempio.it/e?q=😀', 'https://esempio.it/e?%C3=1', 'https://esempio.it/e?q=a%2Bb',
+  '\u0000https://esempio.it/e', 'https://esempio.it/e\u0000', '\u001fhttps://esempio.it/e\u0001 ', 'https://foo_bar.esempio.it/e',
+  'https://a~b.esempio.it/x', "https://a!b$c&d'e(f)g*h+i,j;k=l.esempio.it/x",
 ]) {
   check(`same as the WHATWG reading: ${u}`, canonicalUrl(u), reference(u));
 }
 throws('a host that is not plain ASCII is refused, never guessed', () => canonicalUrl('https://caffè.esempio.it/x'), 'url_invalid');
 throws('credentials in the URL are refused', () => canonicalUrl('https://utente:segreto@esempio.it/x'), 'url_invalid');
 throws('a port out of range is refused', () => canonicalUrl('https://esempio.it:70000/x'), 'url_invalid');
+throws('a host with an escape, which the standard would decode, is refused', () => canonicalUrl('https://a%41.esempio.it/x'), 'url_invalid');
 for (const ip of ['https://127.0.0.1/x', 'https://127.1/x', 'https://1.2.3.999/x', 'https://0x7f.1/x', 'https://a.1/x',
   'https://[::1]/x', 'https://[0:0:0:0:0:0:0:1]/x', 'https://[::::]/x']) {
   throws(`a literal IP host is refused, never rewritten: ${ip}`, () => canonicalUrl(ip), 'url_invalid');
