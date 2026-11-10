@@ -401,6 +401,26 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   const later = runWith({ stage: 'select', reading_day: DAY, started_at: START, righe, existing_names: [],
     download_log_names: [m.downloadLogName(DAY, 299, START)], cap: 300 });
   check('select: the earlier runs of the day count against the cap', [later.json.downloaded_today, later.json.downloads.length], [299, 1]);
+  const RA = m.downloadLogName(DAY, 250, '2026-11-11T01:00:00Z');
+  const RB = m.downloadLogName(DAY, 50, '2026-11-11T02:00:00Z');
+  const RC = m.downloadLogName(DAY, 50, '2026-11-11T02:00:05Z');
+  const day = [{ name: RA, createdTime: '2026-11-11T01:00:03.000Z' }, { name: RB, createdTime: '2026-11-11T02:00:04.000Z' },
+    { name: RC, createdTime: '2026-11-11T02:00:06.000Z' }, { name: m.downloadResultName(DAY, 250, '2026-11-11T01:00:00Z'), createdTime: '2026-11-11T01:40:00.000Z' }];
+  check('confirm: of two runs that overlap, the one whose reservation was written first goes on',
+    m.reservationHolds({ reservations: day, mine: RB, reading_day: DAY, cap: 300 }), { holds: true, used: 300, cap: 300 });
+  check('confirm: the one written second stops before any request',
+    m.reservationHolds({ reservations: day, mine: RC, reading_day: DAY, cap: 300 }), { holds: false, used: 350, cap: 300 });
+  check('confirm: the order is the time Drive wrote them, not the start in the name',
+    m.reservationHolds({ reservations: [{ name: RC, createdTime: '2026-11-11T02:00:06.000Z' }, { name: RB, createdTime: '2026-11-11T02:00:09.000Z' }, day[0]],
+      mine: RB, reading_day: DAY, cap: 300 }).holds, false);
+  check('confirm: a reservation Drive does not show yet is a workflow error',
+    /is not among the day/.test(thrown(() => m.reservationHolds({ reservations: [day[0]], mine: RB, reading_day: DAY, cap: 300 })) || ''), true);
+  const stop = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:05Z', cap: 300, reservation_name: RC, reservations: day.concat([{}]) });
+  check('confirm in n8n: a run that stops writes an outcome of zero documents',
+    [stop.json.confirm.holds, stop.json.stop_name, stop.json.stop_log.read, stop.json.reservations],
+    [false, 'attiweb_scaricati_2026-11-10_n0_20261111T020005Z.json', 0, undefined]);
+  check('confirm in n8n: a run that holds has no outcome to write yet',
+    runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:00Z', cap: 300, reservation_name: RB, reservations: day }).json.stop_name, undefined);
   const dlog = m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1',
     esiti: [{ archive_id: 'a', written: true }, { archive_id: 'b', written: false, reason: 'not a PDF: text/html' }] });
   check('download register: named by day and count, outcomes kept', [dlog.name, dlog.log.read, dlog.log.written, dlog.log.not_written],

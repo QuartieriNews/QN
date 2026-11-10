@@ -553,6 +553,30 @@ function selectDownloads({ righe, existing_names, downloaded_today, cap, run_lim
   return out;
 }
 
+/** Stage 'confirm': after writing its reservation, a run reads the day's reservations again with
+ *  the time Drive wrote each one (`{ name, createdTime }`). It may go on only if the reservations
+ *  written up to its own, its own included, stay within the cap: of two runs that overlap, the one
+ *  whose reservation was written second stops before any request, and its reservation still
+ *  counts (DEC-033, rule 2). A reservation Drive does not show yet is a workflow error. */
+function reservationHolds({ reservations, mine, reading_day, cap }) {
+  if (!Array.isArray(reservations)) throw new Error('reservations must list the day\'s reservations');
+  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);
+  if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);
+  const rows = [];
+  for (const r of reservations) {
+    const mm = r && typeof r.name === 'string' && /^attiweb_download_(\d{4}-\d{2}-\d{2})_n(\d+)_\d{8}T\d{6}Z\.json$/.exec(r.name);
+    if (!mm || mm[1] !== reading_day) continue;
+    const at = Date.parse(r.createdTime);
+    if (!Number.isFinite(at)) throw new Error(`reservation ${r.name} without the time it was written`);
+    rows.push({ name: r.name, n: Number(mm[2]), at });
+  }
+  rows.sort((a, b) => a.at - b.at || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  const idx = rows.findIndex((r) => r.name === mine);
+  if (idx < 0) throw new Error(`the run's reservation ${mine} is not among the day's yet`);
+  const used = rows.slice(0, idx + 1).reduce((t, r) => t + r.n, 0);
+  return { holds: used <= cap, used, cap };
+}
+
 /** The outcome of one download run, written at its end: not counted toward the cap, which the
  *  reservation already holds. */
 function downloadResultName(readingDay, count, startedAt) {
@@ -606,7 +630,7 @@ if (typeof $input === 'undefined') {
     planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,
     archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,
     closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
-    downloadResultName, downloadLog,
+    downloadResultName, downloadLog, reservationHolds,
   };
   return;
 }
@@ -641,6 +665,15 @@ if ($json.stage === 'plan') {
   const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();
   const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\.0+)?\s*[kMG]?B$/i.test(size);
   $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });
+} else if ($json.stage === 'confirm') {
+  $json.confirm = reservationHolds({ reservations: ($json.reservations || []).filter((r) => r && r.name),
+    mine: $json.reservation_name, reading_day: $json.reading_day, cap: $json.cap });
+  if (!$json.confirm.holds) {
+    $json.stop_name = downloadResultName($json.reading_day, 0, $json.started_at);
+    $json.stop_log = { source_id: SOURCE_ID, reading_day: $json.reading_day, started_at: $json.started_at, read: 0,
+      stopped: 'another run reserved the cap first', used: $json.confirm.used, cap: $json.cap };
+  }
+  delete $json.reservations;
 } else if ($json.stage === 'download_log') {
   Object.assign($json, downloadLog($json));
   delete $json.esiti;

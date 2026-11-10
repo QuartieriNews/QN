@@ -141,7 +141,10 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   motivo. Le righe tenute vanno in `attiweb_righe_<inizio>.json`, da cui legge il download.
   Ogni giro di download scrive, prima della prima richiesta, la prenotazione
   `attiweb_download_<giorno>_n<documenti>_<inizio>.json`, con i documenti che chiederà: il tetto
-  del giorno si conta da quei nomi, e un giro che si ferma a metà conta per intero. A fine giro
+  del giorno si conta da quei nomi, e un giro che si ferma a metà conta per intero. Scritta la
+  prenotazione, il giro rilegge quelle del giorno nell'ordine in cui Drive le ha scritte: se con
+  la sua il totale supera il tetto, perché un altro giro ha prenotato insieme, si ferma prima di
+  ogni richiesta e scrive un esito con zero documenti; la sua prenotazione resta e conta. A fine giro
   scrive l'esito, documento per documento, in `attiweb_scaricati_<giorno>_n<letti>_<inizio>.json`,
   che non conta per il tetto. `<inizio>` è l'ora UTC
   d'inizio, `YYYYMMDDTHHMMSSZ`.
