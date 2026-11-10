@@ -102,6 +102,9 @@ function parseQuesturaListing(html, origin) {
   return out;
 }
 
+/** The issuer of the provincial command, as the listing writes it (compared without case). */
+const ROME_COMMAND = 'comando provinciale di roma';
+
 const ROME_PARTS = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit',
   day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 
@@ -119,7 +122,9 @@ function romeLocalToUtc(y, mo, d, h, mi) {
 
 /** The releases of the Carabinieri listing (national): one table row each, with the time in
  *  Rome, the place with its province, the link with the title and the issuing command. Only
- *  the rows of the province of Rome go on: «(RM)» in the place, or a command of Rome. */
+ *  the rows of the province of Rome go on, by the filter of docs/sources/SOURCE_REGISTRY.md
+ *  (C2): «(RM)» in the place, or the provincial command of Rome as the issuer. A listing
+ *  whose rows no longer parse is unreadable, not a listing with nothing of Rome. */
 function parseCarabinieriListing(html, origin) {
   if (typeof html !== 'string') throw new Error('not a listing page');
   const at = html.indexOf('<tbody>');
@@ -130,22 +135,22 @@ function parseCarabinieriListing(html, origin) {
   for (const row of body.split(/<tr[\s>]/).slice(1)) {
     const cells = row.split(/<td class=["']?tabellaD["']?>/).slice(1);
     if (cells.length < 3) continue;
-    scanned += 1;
     const when = /(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/.exec(text(cells[0]));
     const a = /<a [^>]*href=["']?([^"' >]+)["']?[^>]*>([\s\S]*?)<\/a>/i.exec(cells[1]);
     if (!a) continue;
+    scanned += 1;
     const place = (/_lblLuogo>([\s\S]*?)<\/span>/i.exec(a[2]) || [])[1];
     const placeText = place ? text(place).replace(/\s*-\s*$/, '') : '';
     const title = text(a[2].replace(/<span[^>]*_lblLuogo>[\s\S]*?<\/span>/i, ''));
     const command = text(cells[2]);
     const province = (/\(([A-Z]{2})\)/.exec(placeText) || [])[1] || null;
-    if (province !== 'RM' && !/\broma\b/i.test(command)) continue;
+    if (province !== 'RM' && command.toLowerCase().replace(/\s+/g, ' ') !== ROME_COMMAND) continue;
     const url = absolute(a[1], origin);
     if (!url) continue;
     out.push({ url, title, published_at_utc: when ? romeLocalToUtc(+when[3], +when[2], +when[1], +when[4], +when[5]) : null,
       categories: [], agency: false, place: placeText, province, command });
   }
-  if (scanned === 0) throw new Error('no rows in the listing');
+  if (scanned === 0) throw new Error('no release rows in the listing');
   // A listing read with no row of the province of Rome is read, not unreadable.
   out.scanned = scanned;
   return out;

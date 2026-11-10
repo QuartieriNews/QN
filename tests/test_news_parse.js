@@ -78,12 +78,16 @@ check('titles read as text', rel.map((r) => r.title), ['Comunicato inventato uno
 check('the listing gives no date: none is guessed', rel.map((r) => r.published_at_utc), [null, null]);
 
 console.log('the Carabinieri listing (rows of the province of Rome)');
-const row = (when, place, title, command) => `<tr><td class=tabellaD>${when}<td class=tabellaD><a id=x_lnk href=https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa/${title.toLowerCase().replace(/\s+/g, '-')}><span id=x_lblLuogo>${place} - </span>${title}</a><td class=tabellaD><span id=x_lblFontePrefisso>Fonte</span> ${command}<br><td class=tabellaD><span id=x_lblSummary>riassunto inventato</span>`;
+// The issuer as the listing writes it: «Comando Provinciale di» in a span of its own, the
+// place after it; the part before a | is that span.
+const issuer = (command) => (command.includes('|') ? `<span id=x_lblFontePrefisso>${command.split('|')[0]}&nbsp;</span>${command.split('|')[1]} <br>` : `${command} <br>`);
+const row = (when, place, title, command) => `<tr><td class=tabellaD>${when}<td class=tabellaD><a id=x_lnk href=https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa/${title.toLowerCase().replace(/\s+/g, '-')}><span id=x_lblLuogo>${place} - </span>${title}</a><td class=tabellaD>${issuer(command)}<td class=tabellaD><span id=x_lblSummary>riassunto inventato</span>`;
 const CARA = `<table class="tabella footable"><thead><tr><th>Data<th>Luogo<th>Fonte<th>Sintesi<tbody>` +
-  row('10/11/2026 17:27', 'Comune Inventato (RM)', 'Titolo inventato uno', 'Comando Provinciale di Roma') +
-  row('10/11/2026 16:00', 'Altro Comune (MI)', 'Titolo inventato due', 'Comando Provinciale di Milano') +
-  row('25/10/2026 02:30', 'Roma', 'Titolo inventato tre', 'Comando Provinciale di Roma') +
-  row('29/03/2026 12:00', 'Paese Inventato (RM)', 'Titolo inventato quattro', 'Compagnia di Frascati') + `</tbody></table>`;
+  row('10/11/2026 17:27', 'Comune Inventato (RM)', 'Titolo inventato uno', 'Comando Provinciale di|Roma') +
+  row('10/11/2026 16:00', 'Altro Comune (MI)', 'Titolo inventato due', 'Comando Provinciale di|Milano') +
+  row('25/10/2026 02:30', 'Roma', 'Titolo inventato tre', 'Comando Provinciale di|Roma') +
+  row('29/03/2026 12:00', 'Paese Inventato (RM)', 'Titolo inventato quattro', 'Compagnia di Frascati') +
+  row('10/11/2026 15:00', 'Altro Comune (TO)', 'Titolo inventato cinque', 'Reparto Nazionale Inventato di Roma') + `</tbody></table>`;
 const cara = m.parseCarabinieriListing(CARA, 'https://www.carabinieri.it');
 check('only the rows of the province of Rome', cara.map((r) => r.title), ['Titolo inventato uno', 'Titolo inventato tre', 'Titolo inventato quattro']);
 check('the place and its province are kept apart from the title', [cara[0].place, cara[0].province], ['Comune Inventato (RM)', 'RM']);
@@ -94,7 +98,14 @@ check('a time that does not exist in Rome (the March change) is null', m.romeLoc
 check('a listing without a row of Rome is read, with nothing new',
   m.newRecords({ files: [{ name: 'notizie_carabinieri.it_20261110T220700Z_1.html', body: `<table><tbody>${row('10/11/2026 10:00', 'Altrove (MI)', 'Inventato', 'Comando di Milano')}</tbody></table>` }], seen: [] }).outcome[0],
   { source_id: 'carabinieri.it', outcome: 'read', items: 0, new: 0 });
-check('a table without rows is unreadable', /no rows/.test(thrown(() => m.parseCarabinieriListing('<table><tbody></tbody></table>', 'https://www.carabinieri.it')) || ''), true);
+check('a national command based in Rome, for a place outside the province, stays out (SOURCE_REGISTRY C2)',
+  cara.some((r) => r.title === 'Titolo inventato cinque'), false);
+check('the issuer is read whole, the span of its first words included', cara[0].command.replace(/\s+/g, ' '), 'Comando Provinciale di Roma');
+check('rows whose link no longer parses make the listing unreadable, not empty',
+  m.newRecords({ files: [{ name: 'notizie_carabinieri.it_20261110T220700Z_1.html',
+    body: `<table><tbody>${row('10/11/2026 10:00', 'Comune Inventato (RM)', 'Inventato', 'Comando Provinciale di|Roma').replace(/<a [^>]*>/, '<a>')}</tbody></table>` }], seen: [] }).outcome[0],
+  { source_id: 'carabinieri.it', outcome: 'unreadable', reason: 'no release rows in the listing' });
+check('a table without rows is unreadable', /no release rows/.test(thrown(() => m.parseCarabinieriListing('<table><tbody></tbody></table>', 'https://www.carabinieri.it')) || ''), true);
 check('a page without the table is refused', /no table/.test(thrown(() => m.parseCarabinieriListing('<html></html>', 'https://www.carabinieri.it')) || ''), true);
 
 console.log('records: only what was not seen before');

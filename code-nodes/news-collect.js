@@ -47,6 +47,11 @@ const ROME_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', yea
 const romeDay = (iso) => ROME_DAY.format(new Date(iso));
 const compactInstant = (iso) => new Date(iso).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';
 const bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));
+/** The status of an answer; a request that got none (a timeout, a refused connection: the
+ *  workflow passes them on with `error`) has NaN. */
+const statusOf = (res) => (res.error || res.statusCode === null || res.statusCode === undefined || res.statusCode === '' ? NaN : Number(res.statusCode));
+/** What a run records for an answer that is not a page. */
+const failure = (res) => (res.error ? String(res.error) : `HTTP ${res.statusCode}`);
 
 function instant(v) {
   if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(v) || Number.isNaN(Date.parse(v))) {
@@ -184,10 +189,11 @@ function planRun({ state, now }) {
   return { state: s, robots };
 }
 
-/** Stage 'robots': the answers to robots.txt (`{ source_id, statusCode, headers, body }`) update
- *  the hosts; the pages of the hosts allowed today are the requests of the run. Every answer is
- *  an event of the register; a robots.txt that moved within its host leaves the host unread for
- *  this run, not stopped. */
+/** Stage 'robots': the answers to robots.txt (`{ source_id, statusCode, headers, body, error }`)
+ *  update the hosts; the pages of the hosts allowed today are the requests of the run. Every
+ *  answer is an event of the register. A robots.txt that moved within its host, a server error
+ *  or no answer at all leave the host unread for this run, not stopped (the last two count in
+ *  its streak); an HTML page where the rules should be is never read as rules. */
 function afterRobots({ state, now, answers }) {
   const day = romeDay(instant(now));
   const s = freshState(state);
@@ -199,18 +205,34 @@ function afterRobots({ state, now, answers }) {
     const src = SOURCES.find((x) => x.source_id === a.source_id);
     if (!h || !src) throw new Error(`robots answer for an unknown source: ${a.source_id}`);
     const url = `${urlParts(src.url).origin}/robots.txt`;
-    const code = Number(a.statusCode);
-    const signal = blockSignal(Object.assign({}, a, { body: code === 200 ? '' : bodyText(a) }), url);
+    const code = statusOf(a);
+    // The rules are plain text, whatever type the server declares: only a body that is an HTML
+    // document is judged as a page; the comments of a robots.txt never stop a host.
+    const htmlPage = code === 200 && /<!doctype\s+html|<html[\s>]|<body[\s>]/i.test(bodyText(a));
+    const signal = blockSignal(code !== 200 ? a
+      : htmlPage ? Object.assign({}, a, { headers: Object.assign({}, a.headers, { 'content-type': 'text/html' }) })
+        : Object.assign({}, a, { body: '' }), url);
     let outcome;
+    let reason = null;
     if (signal) {
       stop(a.source_id, `robots.txt: ${signal}`);
       outcome = 'stopped';
     } else if (code >= 300 && code < 400) {
       outcome = 'moved';
+      reason = `moved to ${(a.headers || {}).location || ''}`;
+    } else if (code >= 500 || !Number.isFinite(code)) {
+      h.errors_in_row = (h.errors_in_row || 0) + 1;
+      if (h.errors_in_row >= ERRORS_TO_STOP) stop(a.source_id, `robots.txt: ${ERRORS_TO_STOP} server errors in a row`);
+      outcome = h.stopped ? 'stopped' : 'error';
+      reason = `robots.txt: ${failure(a)}`;
     } else if (code !== 200) {
       stop(a.source_id, `robots.txt: HTTP ${a.statusCode}`);
       outcome = 'stopped';
+    } else if (htmlPage) {
+      stop(a.source_id, 'robots.txt unreadable: an HTML page instead of the rules');
+      outcome = 'stopped';
     } else {
+      h.errors_in_row = 0;
       let v = null;
       try {
         v = robotsVerdict(bodyText(a), urlParts(src.url).pathname);
@@ -226,7 +248,7 @@ function afterRobots({ state, now, answers }) {
       outcome = h.stopped ? 'stopped' : 'allowed';
     }
     events.push({ source_id: a.source_id, url, status: Number.isFinite(code) ? code : null, outcome,
-      reason: h.stopped ? h.stopped.reason : outcome === 'moved' ? `moved to ${(a.headers || {}).location || ''}` : null });
+      reason: h.stopped ? h.stopped.reason : reason });
   }
   const pages = SOURCES.filter((src) => {
     const h = s.hosts[src.source_id];
@@ -252,7 +274,7 @@ function afterPages({ state, now, started_at, answers, robots_events, robots_sto
     if (!h || !src) throw new Error(`page answer for an unknown source: ${a.source_id}`);
     seq[a.source_id] = (seq[a.source_id] || 0) + 1;
     const signal = blockSignal(a, src.url);
-    const code = Number(a.statusCode);
+    const code = statusOf(a);
     let outcome;
     if (signal) {
       h.stopped = { at: now, reason: signal };
@@ -274,7 +296,7 @@ function afterPages({ state, now, started_at, answers, robots_events, robots_sto
         stopped_now.push({ source_id: a.source_id, reason: h.stopped.reason });
       }
       outcome = { source_id: a.source_id, status: Number.isFinite(code) ? code : null, outcome: h.stopped ? 'stopped' : 'error',
-        reason: h.stopped ? h.stopped.reason : `HTTP ${a.statusCode}` };
+        reason: h.stopped ? h.stopped.reason : failure(a) };
     } else {
       h.errors_in_row = 0;
       const moved = code >= 300 && code < 400;

@@ -113,6 +113,24 @@ check('a stop in robots is reported for the coordinator', disallow.stopped_now, 
 check('a host stopped once is not asked again', m.planRun({ state: disallow.state, now: '2026-11-12T08:00:00Z' }).robots.some((r) => r.source_id === 'abitarearoma.it'), false);
 check('a crawl delay longer than 5 s is kept',
   m.afterRobots({ state: plan.state, now: NOW, answers: [Object.assign({}, answers[2], { body: 'User-agent: *\nCrawl-delay: 10\n' })] }).pages[0].wait_ms, 10000);
+const htmlRobots = (body, type) => m.afterRobots({ state: plan.state, now: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: 200, headers: { 'content-type': type }, body }] });
+check('a login page served as robots.txt stops the host as a login page',
+  htmlRobots('<!DOCTYPE html><html><body><form><input type="password"></form></body></html>', 'text/html').state.hosts['carabinieri.it'].stopped.reason,
+  'robots.txt: login page');
+check('any other HTML page where the rules should be is never read as rules',
+  (() => { const r = htmlRobots('<html><head><title>Benvenuti</title></head><body>Pagina inventata</body></html>', 'text/plain');
+    return [r.state.hosts['carabinieri.it'].stopped.reason, r.pages.length]; })(),
+  ['robots.txt unreadable: an HTML page instead of the rules', 0]);
+check('rules served with an HTML type are still rules, and their comments never stop a host',
+  (() => { const r = htmlRobots('# niente captcha qui: id="captcha"\nUser-agent: *\nDisallow: /privato/\n', 'text/html');
+    return [r.state.hosts['carabinieri.it'].stopped, r.pages.map((p) => p.source_id)]; })(), [null, ['carabinieri.it']]);
+const noAnswer = m.afterRobots({ state: plan.state, now: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: null, headers: {}, body: '', error: 'timeout of 60000ms exceeded' }] });
+check('a robots.txt that does not answer (timeout) leaves the host unread this run, counted, not stopped',
+  [noAnswer.state.hosts['carabinieri.it'].stopped, noAnswer.state.hosts['carabinieri.it'].errors_in_row, noAnswer.pages.length, noAnswer.events[0]],
+  [null, 1, 0, { source_id: 'carabinieri.it', url: 'https://www.carabinieri.it/robots.txt', status: null, outcome: 'error', reason: 'robots.txt: timeout of 60000ms exceeded' }]);
+check('the next run asks robots.txt again', m.planRun({ state: noAnswer.state, now: LATER }).robots.some((r) => r.source_id === 'carabinieri.it'), true);
+check('a server error on robots.txt is the same',
+  m.afterRobots({ state: plan.state, now: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: 503, headers: {}, body: '' }] }).events[0].outcome, 'error');
 check('an answer for an unknown source is a workflow error', /unknown source/.test(thrown(() => m.afterRobots({ state: plan.state, now: NOW, answers: [{ source_id: 'x', statusCode: 200, body: '' }] })) || ''), true);
 
 const pages = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [
@@ -136,6 +154,14 @@ check('a host stopped in this run is reported apart, with an alert file', [pages
 check('a run without stops writes no alert', m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [] }).alert_file_name, null);
 const moved = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [{ source_id: 'abitarearoma.it', statusCode: 301, headers: { location: '/feed/' }, body: '' }] });
 check('a page moved within its host is recorded, not a stop', [moved.log.hosts[0].outcome, moved.state.hosts['abitarearoma.it'].stopped], ['moved', null]);
+const timeout = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [
+  { source_id: 'carabinieri.it', statusCode: null, headers: {}, body: '', error: 'timeout of 60000ms exceeded' },
+  Object.assign({ source_id: 'abitarearoma.it' }, ok('<rss></rss>'))] });
+check('a page that does not answer (timeout) is counted in the streak and the run goes on with the other hosts',
+  [timeout.log.hosts, timeout.state.hosts['carabinieri.it'].errors_in_row, timeout.files.map((f) => f.name)],
+  [[{ source_id: 'carabinieri.it', status: null, outcome: 'error', reason: 'timeout of 60000ms exceeded' },
+    { source_id: 'abitarearoma.it', status: 200, outcome: 'saved', file: 'originali/notizie_abitarearoma.it_20261110T220700Z_1.xml' }],
+  1, ['notizie_abitarearoma.it_20261110T220700Z_1.xml']]);
 let streak = r1.state;
 for (const code of [500, 500, 404, 500, 500]) streak = m.afterPages({ state: streak, now: LATER, started_at: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: code, body: '' }] }).state;
 check('an answer that is not a server error breaks the streak', [streak.hosts['carabinieri.it'].stopped, streak.hosts['carabinieri.it'].errors_in_row], [null, 2]);
