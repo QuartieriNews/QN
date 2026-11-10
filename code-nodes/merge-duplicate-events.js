@@ -126,13 +126,14 @@ function tokens(s) {
   return words(s).filter((w) => w.length > 2 && !STOP.has(w));
 }
 
-/** CONTRATTI.md section 7 (DEC-025 rule 4), short identifiers: among the words the
- *  normalization drops, a number of one or two digits, a Roman numeral in I, V and X, or
- *  a single letter, except the one-letter Italian words and elisions. */
-const NOT_IDENTIFIERS = new Set(['a', 'e', 'i', 'o', 'c', 'd', 'l']);
+/** CONTRATTI.md section 7 (DEC-025 rule 4), identifiers: a number of one or two digits, a
+ *  Roman numeral up to C (XL, XLV, XC; the additive XXXXV too), or a single letter, except
+ *  the Italian words and elisions they would collide with. */
+const NOT_IDENTIFIERS = new Set(['a', 'e', 'i', 'o', 'c', 'd', 'l', 'ci', 'li']);
+const ROMAN = /^(c{0,3}(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})|x{4,}v?i{0,4})$/;
 function identifiers(s) {
   return new Set(words(s).filter((w) => !NOT_IDENTIFIERS.has(w) &&
-    (/^[0-9]{1,2}$/.test(w) || /^x{0,3}(ix|iv|v?i{0,3})$/.test(w) || /^[a-z]$/.test(w))));
+    (/^[0-9]{1,2}$/.test(w) || ROMAN.test(w) || /^[a-z]$/.test(w))));
 }
 const sameSet = (a, b) => a.size === b.size && [...a].every((x) => b.has(x));
 
@@ -286,13 +287,19 @@ function mergeDuplicateEvents(docs) {
     // Fields the merge filled go back to the element's own value (pilot.native), so this
     // run takes them again from the sources as they are now; an element still in the queue
     // keeps what the reviewer sees.
+    // A field whose value is no longer the one the merge set (pilot.derived) was written
+    // again by the element's own source: that value stays and becomes its own.
     if (!d.pilot.review_pending && d.pilot.filled_from) {
       const native = d.pilot.native || {};
+      const derived = d.pilot.derived || {};
       for (const p of Object.keys(d.pilot.filled_from)) {
         if (p === 'pilot.lead_url') continue;
+        const stillDerived = !Object.prototype.hasOwnProperty.call(derived, p) ||
+          JSON.stringify(get(d, p) === undefined ? null : get(d, p)) === JSON.stringify(derived[p]);
+        if (!stillDerived) continue;
         if (Object.prototype.hasOwnProperty.call(native, p)) set(d, p, native[p]); else set(d, p, null);
       }
-      delete d.pilot.filled_from; delete d.pilot.native;
+      delete d.pilot.filled_from; delete d.pilot.native; delete d.pilot.derived;
     }
     // requires_review is withdrawn only when the merge had set it (merge_review records the
     // reasons present then) and no other phase has added a reason since.
@@ -349,6 +356,7 @@ function mergeDuplicateEvents(docs) {
     // Provenance of fields filled on an earlier run stays; this run adds or replaces entries.
     const filled = Object.assign({}, element.pilot.filled_from);
     const native = Object.assign({}, element.pilot.native);
+    const derived = Object.assign({}, element.pilot.derived);
     let moved = false;
     // DEC-025 rule 2: a human_verified geography is never recalculated, so no location
     // evidence moves into it; different evidence sends the element to the queue instead.
@@ -372,6 +380,7 @@ function mergeDuplicateEvents(docs) {
       for (const p of u) {
         if (!Object.prototype.hasOwnProperty.call(native, p)) native[p] = empty(get(element, p)) ? null : get(element, p);
         set(element, p, get(out[from], p)); filled[p] = out[from].content_id;
+        derived[p] = empty(get(out[from], p)) ? null : get(out[from], p);
       }
       if (u.some((p) => LOCATION.has(p))) moved = true;
     };
@@ -398,7 +407,7 @@ function mergeDuplicateEvents(docs) {
       duplicates: members.filter((k) => k !== keep).map((k) => out[k].content_id).sort(),
       filled_from: filled,
     });
-    if (Object.keys(native).length) element.pilot.native = native;
+    if (Object.keys(native).length) { element.pilot.native = native; element.pilot.derived = derived; }
     if (moved) element.pilot.geo_recompute = true; // the gazetteer resolves the new place
     for (const k of members) {
       if (k === keep) continue;

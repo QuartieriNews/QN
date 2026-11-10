@@ -223,10 +223,11 @@ dell'articolo non entra mai nel confronto.
   `difflib.SequenceMatcher` sui titoli normalizzati. Il rapporto dipende dall'ordine dei due
   titoli: si prende il minore dei due ordini, così il risultato non dipende dall'arrivo e non
   è mai più largo di ottobre;
-- identificativi corti: un numero di una o due cifre, un numero romano con I, V e X di
-  qualunque lunghezza («XXV», «XXVI»), o una lettera sola, tranne le parole e le elisioni italiane di una lettera (a, e, i, o; c, d,
-  l). Se due titoli, o due luoghi, non hanno gli stessi identificativi («Corso 1» e «Corso
-  2», «Sala A» e «Sala B») la coppia non si fonde;
+- identificativi corti: un numero di una o due cifre, un numero romano fino a C («XXV»,
+  «XLVI», anche la forma additiva «XXXXV»), o una lettera sola, tranne le parole e le
+  elisioni italiane con cui si confonderebbero (a, e, i, o, ci, li; c, d, l). Se due titoli,
+  o due luoghi, non hanno gli stessi identificativi («Corso 1» e «Corso 2», «Sala A» e
+  «Sala B») la coppia non si fonde;
 - date: il giorno di inizio a Roma e, se la fine è data dalla fonte, il giorno di fine; due
   eventi sono compatibili se i loro intervalli si toccano;
 - luoghi che coincidono: tutti e due noti, con almeno metà delle parole in comune (Jaccard
@@ -251,8 +252,10 @@ previsto e va in coda. Ogni elemento che va in coda per la fusione riceve `dupli
 segnali della fusione (`duplicate_suspected`, `duplicate_doubt`, `merge_deferred`,
 `geo_verified_conflict`) si ricalcolano a ogni corsa: un collegamento non sopravvive al
 confronto che l'ha creato. Lo stesso vale per i campi presi: quando la fusione riempie o
-sostituisce un campo, conserva il valore proprio dell'elemento in `pilot.native`; la corsa
-dopo lo rimette e riprende i campi dalle fonti come sono allora, così un valore cambiato alla
+sostituisce un campo, conserva il valore proprio dell'elemento in `pilot.native` e quello
+che ha messo in `pilot.derived`; la corsa dopo rimette il valore proprio solo se il campo
+vale ancora quello messo dalla fusione (altrimenti l'ha riscritto la fonte dell'elemento, e
+resta), e riprende i campi dalle fonti come sono allora, così un valore cambiato alla
 fonte arriva e un campo preso da una coppia che non c'è più se ne va. Un elemento con
 `review_pending` non cambia, come il suo gruppo («La coda»). Quando è la fusione a mettere `requires_review`, segna in
 `pilot.merge_review` le ragioni che c'erano in quel momento; la corsa dopo lo toglie solo se
