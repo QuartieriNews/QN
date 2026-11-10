@@ -254,7 +254,7 @@ confronto che l'ha creato. Lo stesso vale per i campi presi: quando la fusione r
 sostituisce un campo, conserva il valore proprio dell'elemento in `pilot.native`; la corsa
 dopo lo rimette e riprende i campi dalle fonti come sono allora, così un valore cambiato alla
 fonte arriva e un campo preso da una coppia che non c'è più se ne va. Un elemento con
-`review_pending` non cambia. Quando è la fusione a mettere `requires_review`, segna in
+`review_pending` non cambia, come il suo gruppo («La coda»). Quando è la fusione a mettere `requires_review`, segna in
 `pilot.merge_review` le ragioni che c'erano in quel momento; la corsa dopo lo toglie solo se
 la ragione della fusione non c'è più e nessun'altra fase ne ha aggiunta una. L'ordine di `first_written_at` si confronta come istante, non
 come testo. `filled_from` conserva le voci delle corse precedenti, perché i valori presi restano
@@ -278,11 +278,12 @@ Roma Today. Inizio, fine e precisione della data si prendono sempre insieme da u
 così latitudine e longitudine. `pilot.filled_from` dice, per ogni campo preso così, il suo
 percorso e il `content_id` da cui viene. La geografia non si copia: un luogo cambiato porta
 `geo_recompute`, e il gazetteer ricalcola zona e municipio. Una geografia `human_verified`
-non prende prove del luogo né si ricalcola; se le prove sono diverse, l'elemento riceve
-`geo_verified_conflict` e va in coda.
+non prende prove del luogo né si ricalcola; se le prove del luogo di una qualunque copia del
+gruppo sono diverse, l'elemento riceve `geo_verified_conflict` e va in coda.
 
 **La coda.** La fusione non scrive nella coda, che si scrive solo in aggiunta
-(`docs/REVIEW_QUEUE.md`). Un elemento con `review_pending` non cambia i campi che il
-revisore sta guardando: riceve `merge_deferred`, il gruppo si registra, e i campi si
-prendono alla prima corsa dopo la decisione. Una riga che una copia ha già in coda si decide
+(`docs/REVIEW_QUEUE.md`). Un elemento con `review_pending` resta com'è, campi e collegamenti
+compresi, e un gruppo con un elemento in coda aspetta tutto: nessun campo si muove e nessuna
+copia si nasconde fino alla decisione, ogni elemento del gruppo riceve `merge_deferred`, e la
+prima corsa dopo la decisione fonde il gruppo. Una riga che una copia ha già in coda si decide
 `discard` con `fix_target = none`, perché l'evento vive nell'elemento che resta.

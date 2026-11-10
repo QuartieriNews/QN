@@ -228,7 +228,8 @@ console.log('fields that go together, and an element still in the queue, DEC-025
   const q = out.find((d) => d.content_id === 'qn:roma:evt:facebook:5');
   check('an element whose queue row is undecided keeps the fields the reviewer sees',
     [q.event.start_at_utc, q.event.end_at_utc, q.quality.review_flags.includes('merge_deferred')], ['2026-11-14T18:00:00Z', '2026-11-14T18:30:00Z', true]);
-  check('and the group is still recorded', out.find((d) => d.content_id === 'qn:roma:evt:web:cccc').pilot.duplicate_of, 'qn:roma:evt:facebook:5');
+  check('the group waits as a whole: no copy is hidden while the reviewer looks',
+    out.map((d) => [d.pilot.duplicate_of, d.quality.review_flags.includes('merge_deferred')]), [[undefined, true], [undefined, true]]);
 }
 
 console.log('reruns, order and unforeseen inputs (Codex review of #30)');
@@ -366,6 +367,26 @@ console.log('fourth Codex review of #30: the link of an element still in the que
   const pending = merged.map((d) => (d.content_id === 'qn:roma:evt:facebook:7' ? Object.assign({}, d, { pilot: Object.assign({}, d.pilot, { review_pending: true }) }) : d));
   const again = mergeDuplicateEvents(pending).find((d) => d.content_id === 'qn:roma:evt:facebook:7');
   check('an element still in the queue keeps the lead link the reviewer sees', [again.pilot.lead_url, again.pilot.filled_from['pilot.lead_url']], ['https://esempio.it/qn:roma:evt:web:ffff', 'qn:roma:evt:web:ffff']);
+}
+
+console.log('fifth Codex review of #30: verified geography against every copy, a pending copy');
+{
+  const geo = { municipality_code: 'V', publication_zone_id: 'centocelle', geo_verification_status: 'human_verified' };
+  const lead = ev('v1', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { geography: geo, event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.9, longitude: 12.5 } });
+  const near = ev('v2', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.9036, longitude: 12.5 } });
+  const o = mergeDuplicateEvents([lead, near]);
+  const kept = o.find((d) => d.content_id === 'v1');
+  check('a verified lead with its own place still meets a copy 400 m away: the difference goes to the queue',
+    [kept.quality.review_flags.includes('geo_verified_conflict'), kept.quality.requires_review, kept.event.latitude], [true, true, 41.9]);
+
+  const web = ev('qn:roma:evt:web:gggg', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z');
+  const copy = ev('qn:roma:evt:facebook:8', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-10T08:00:00Z', review_pending: true } });
+  const g = mergeDuplicateEvents([web, copy]);
+  check('a copy still in the queue is not hidden, and the group waits',
+    g.map((d) => [d.pilot.duplicate_of, d.quality.review_flags.includes('merge_deferred')]), [[undefined, true], [undefined, true]]);
 }
 
 console.log('short identifiers, DEC-025 rule 4');

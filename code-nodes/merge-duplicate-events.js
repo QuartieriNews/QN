@@ -275,6 +275,8 @@ function mergeDuplicateEvents(docs) {
   // What an earlier run derived is derived again: links and merge flags never outlive the
   // comparison that set them (an un-merged evening show becomes visible again).
   for (const d of out) {
+    // An element still in the queue is left exactly as the reviewer sees it.
+    if (d.pilot && d.pilot.review_pending) continue;
     if (d.quality && Array.isArray(d.quality.review_flags)) {
       d.quality.review_flags = d.quality.review_flags.filter((f) => !MERGE_FLAGS.has(f));
     }
@@ -331,6 +333,12 @@ function mergeDuplicateEvents(docs) {
     // or the whole group waits.
     const pairs = members.flatMap((a, x) => members.slice(x + 1).map((b) => verdict.get(`${Math.min(a, b)},${Math.max(a, b)}`)));
     if (!pairs.every((c) => c === 'same')) { members.forEach(doubt); continue; }
+    // A group with a member still in the queue waits as a whole: no field moves and no copy
+    // is hidden until the decision; the first run after it merges the group.
+    if (members.some((k) => out[k].pilot && out[k].pilot.review_pending)) {
+      members.forEach((k) => addFlag(out[k], 'merge_deferred'));
+      continue;
+    }
     const byRank = members.slice().sort((a, b) => byPrecedence(out[a], out[b]));
     const lead = byRank[0];
     // DEC-025 rule 3: the element written first keeps its identity; a tie goes to the lead.
@@ -345,6 +353,12 @@ function mergeDuplicateEvents(docs) {
     // DEC-025 rule 2: a human_verified geography is never recalculated, so no location
     // evidence moves into it; different evidence sends the element to the queue instead.
     const verified = ((element.geography || {}).geo_verification_status) === 'human_verified';
+    // Every copy's place evidence is checked against a verified geography, not only the
+    // fields that would be filled: different evidence goes to the queue.
+    if (verified && members.some((k) => k !== keep && [...LOCATION].some((p) => {
+      const v = get(out[k], p);
+      return !empty(v) && JSON.stringify(v) !== JSON.stringify(get(element, p));
+    }))) { addFlag(element, 'geo_verified_conflict'); review(element); }
     const present = (doc, u) => (u[0] === 'event.start_at_utc' ? !empty(get(doc, u[0])) : u.every((p) => !empty(get(doc, p))));
     const same = (a, b, u) => u.every((p) => JSON.stringify(get(a, p)) === JSON.stringify(get(b, p)));
     const take = (u, from) => {
@@ -361,11 +375,7 @@ function mergeDuplicateEvents(docs) {
       }
       if (u.some((p) => LOCATION.has(p))) moved = true;
     };
-    // An element whose queue row is still undecided keeps the fields the reviewer sees;
-    // the merge records the group and fills the fields at the first run after the decision.
-    const pending = !!(element.pilot && element.pilot.review_pending);
-    if (pending) addFlag(element, 'merge_deferred');
-    if (!pending && keep !== lead) {
+    if (keep !== lead) {
       const leadNoFill = NO_FILL.has(out[lead].source && out[lead].source.type);
       for (const u of units(LEAD_FIELDS)) {
         if (leadNoFill && !u.every((p) => NO_FILL_LEAD.has(p))) continue;
@@ -376,7 +386,7 @@ function mergeDuplicateEvents(docs) {
       if (!empty(url)) { element.pilot = Object.assign({}, element.pilot, { lead_url: url }); filled['pilot.lead_url'] = out[lead].content_id; }
     }
     const donors = byRank.filter((k) => k !== keep && !NO_FILL.has(out[k].source && out[k].source.type));
-    if (!pending) {
+    {
       for (const u of units(FILLABLE)) {
         if (present(element, u)) continue;
         const d = donors.find((k) => present(out[k], u));
