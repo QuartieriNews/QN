@@ -40,60 +40,36 @@ gennaio 2026, max 300/giorno».
 
 ## Regola
 
-1. **Perimetro.** Gli atti di Atti Web dei Municipi X, V e I (le pagine pilota di DEC-031)
-   dal 1° gennaio 2026 al giorno della lettura: l'elenco delle tipologie, l'elenco degli atti e i
-   loro PDF.
-   Nient'altro del sito. In pratica:
-   - si interroga la ricerca degli atti con il filtro sulla data di repertorio (`dtRpr`),
-     l'unico che il portale accetta (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 2), dal
-     1° dicembre 2025 al giorno della lettura. Il mese in più serve alle convocazioni
-     protocollate prima di una seduta di gennaio;
-   - la ricerca si fa una tipologia alla volta (il parametro `tipologia`), per tutte le
-     tipologie che il portale elenca all'inizio della lettura (`caricaListaTipologie.action`;
-     48 codici il 15 settembre, nella sezione 3 dello stesso documento). Il portale non filtra
-     per struttura, e anche le tipologie degli organi centrali contengono atti di strutture
-     municipali (sezione 3, `ACD`): limitarsi alle tipologie del Municipio ne perderebbe.
-     Se l'elenco delle tipologie non si legge, la lettura non parte. L'errore «Index: 0,
-     Size: 0» vale come tipologia vuota nel periodo (sezione 2) solo se la stessa tipologia,
-     interrogata sull'intervallo storico, restituisce atti (sezione 7.1); altrimenti è un dato
-     mancante (al 15 settembre, `XMO`): la lettura lo scrive nel registro e si dichiara
-     incompleta, invece di contare la tipologia come vuota;
-   - per ogni tipologia le pagine si leggono da 500 righe finché si arriva al totale
-     dichiarato dall'API. Il portale pubblica in ritardo (sezione 2: DMS è passata da 191 a
-     193 atti di giugno nello stesso giorno), quindi ogni tipologia si legge due volte di
-     seguito, e la lettura vale quando le due passate danno lo stesso totale e lo stesso
-     insieme di `idDoc`. Altrimenti si legge ancora, fino a tre passate; se non si ferma, la
-     tipologia si scrive nel registro come incompleta. Le righe lette si uniscono per la coppia
-     `tipologia` e `idDoc`, la stessa che indirizza il PDF: `idDoc` da solo non è unico fra le
-     tipologie (a giugno 2421 è un atto `GMM` e un atto `ACD`). Nello storico non si duplicano
-     (`archive_id`). Un atto pubblicato dopo si prende alla
-     lettura successiva, che rilegge lo stesso intervallo;
-   - la data del record (`data_documento`) è `dtSeduta` quando c'è, altrimenti `dtRpr`;
-   - si tengono gli atti dei tre Municipi con `data_documento` fra il 1° gennaio 2026 e il
-     giorno della lettura: tutti e due i limiti valgono sulla stessa data che il record
-     conserva. Un atto è dei tre Municipi quando `dscStrOrg` nomina una struttura del
-     Municipio: «MUNIC…», poi «ROMA» se c'è, poi il numero romano, la forma che lo studio di
-     settembre ha riconosciuto su tutte le 1.426 righe delle tipologie municipali
-     (`tools/sources-study/a2_tipologie.py`). Il numero si confronta per intero: X non è IX
-     né XI. Gli atti dei gruppi della Polizia Locale (`P.L. - <numero> GRUPPO …`, nella
-     tipologia `DDS`) non sono di una struttura del Municipio e restano fuori da questa
-     decisione: includerli è una scelta a parte. Il codice di D verifica l'abbinamento con
-     i suoi test. Una convocazione per una seduta futura resta fuori e si prende
-     a una lettura successiva, quando la seduta è passata.
+Qui stanno le scelte. Il modo di leggere il portale (le tipologie, le pagine, le date, a
+quale Municipio appartiene un atto, la chiave del documento, le versioni) sta nella sezione
+«Lo storico» di `docs/pilota/CONTRATTI.md` e in `code-nodes/archive-record.js` con i suoi
+test, che arrivano con la PR del punto 7. Si correggono con una PR, senza una decisione
+nuova, purché restino dentro queste regole.
+
+1. **Perimetro.** Gli atti di Atti Web delle strutture dei Municipi X, V e I (le pagine
+   pilota di DEC-031), di qualunque tipologia del portale, con data dal 1° gennaio 2026 al
+   giorno della lettura: l'elenco degli atti e i loro PDF. Nient'altro del sito. Gli atti dei
+   gruppi della Polizia Locale non sono di una struttura del Municipio e restano fuori:
+   includerli è una scelta a parte.
 2. **Ritmo.** Una richiesta alla volta, almeno 5 secondi fra due richieste e al massimo 300
    documenti al giorno.
 3. **Dove.** Solo nello staging privato su Drive, `D Storico/originali/`. Nessun atto, testo o
    elenco entra su GitHub (DEC-109).
 4. **Stop.** Al primo segnale di blocco (403, 429, captcha, rinvio al login sulle pagine degli
    atti) la lettura si ferma e non si aggira; si avvisa l'owner.
-5. **Registro.** La riga di Atti Web nel registro fonti riporta la data di questa decisione e
+5. **Completezza dichiarata.** Una lettura non si dichiara completa se qualcosa non si è
+   potuto leggere o verificare: lo scrive nel registro, e la lettura successiva riprende lo
+   stesso intervallo. Lo storico non perde e non sovrascrive niente: un documento cambiato
+   alla fonte diventa una versione nuova.
+6. **Registro.** La riga di Atti Web nel registro fonti riporta la data di questa decisione e
    il perimetro del punto 1.
-6. **Prima la PR di D.** I record dello storico si scrivono solo dopo la PR che fissa la forma
-   di `archive_id` e i valori di `tipo` (`docs/pilota/CONTRATTI.md`, «Lo storico»).
-7. **Nomi.** Negli atti vale DEC-105; gli originali restano privati.
+7. **Prima la PR di D.** I record dello storico si scrivono solo dopo la PR che fissa la forma
+   di `archive_id`, i valori di `tipo` e il modo di leggere il portale
+   (`docs/pilota/CONTRATTI.md`, «Lo storico»).
+8. **Nomi.** Negli atti vale DEC-105; gli originali restano privati.
 
 Impact:
-- **Workstream D.** Può partire dopo la PR del punto 6.
+- **Workstream D.** Può partire dopo la PR del punto 7.
 - **Registro fonti.** Una nota sulla riga di Atti Web.
 - Nessun cambiamento a pipeline di produzione, gazetteer, prompt o CI.
 
