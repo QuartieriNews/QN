@@ -98,14 +98,19 @@ l'`archive_id` del record.
 - **Il file.** Un file JSON per versione, `D Storico/<radice>__v<versione>.json`, scritto una
   volta e mai riscritto; la versione più alta è quella che vale.
 - **Copia di riserva.** Una volta alla settimana un job di copia duplica i file dello
-  storico, i record `__v<versione>.json`, in `D Storico/riserva/<data>/`, con `<data>` il giorno
-  di Roma; nessun altro workflow scrive lì. In staging è `staging_D_riserva`, la domenica
-  alle 4:41. La copia del giorno è completa solo quando nella sua cartella c'è `COMPLETA.json`,
-  scritto dopo l'ultima copia; un giro che trova la cartella senza quel file copia i record che
-  mancano e poi lo scrive. Se due giri insieme creano due cartelle dello stesso giorno, vale la
-  più vecchia, che entrambi riempiono; l'altra resta vuota. Gli originali non si
-  copiano: non cambiano mai, e uno perso si riscarica dal portale e si riconosce dal suo
-  `originale_sha256` nel record.
+  storico; nessun altro workflow scrive in `D Storico/riserva/`. In staging è
+  `staging_D_riserva`, la domenica alle 4:41 di Roma, e cerca solo in «Il mio Drive».
+  - **Record.** I record `__v<versione>.json` vanno in `riserva/<data>/`, con `<data>` il giorno
+    di Roma. La copia del giorno è completa solo quando nella sua cartella c'è `COMPLETA.json`,
+    scritto dopo l'ultima copia; un giro che trova la cartella senza quel file copia i record
+    che mancano e poi lo scrive.
+  - **Originali.** Ogni file di `originali/`, PDF degli atti e pagine della ricerca, si copia una
+    volta sola in `riserva/originali/`: non cambia mai, e uno perso alla fonte non si potrebbe
+    riavere. La copia porta nella descrizione l'id del file da cui viene, e un giro copia solo
+    i file che lì non ci sono ancora.
+  - **Una cartella sola.** Se due giri insieme creano due volte `riserva/`, la cartella del
+    giorno o `riserva/originali/`, vale la più vecchia, che tutti e due riempiono; l'altra resta
+    vuota.
 
 **La lettura di Atti Web (DEC-033).** DEC-033 fissa perimetro, ritmo, stop e completezza; qui
 c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica con i suoi test
