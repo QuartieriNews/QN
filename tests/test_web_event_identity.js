@@ -138,7 +138,9 @@ for (const u of [
   'https://esempio.it/percorso con spazi', 'https://esempio.it/caff%C3%A8', 'https://esempio.it/caffè', 'https://esempio.it/a/./b/../c',
   'https://esempio.it/evento-2026-11-14_concerto.html', 'https://esempio.it:08080/e', 'https://sub.esempio.it/www/x', 'https://esempio.it/e?b=x%26y&a=1',
   'https://esempio.it/a(b)!~*', "https://esempio.it/e?x=it's", 'https://esempio.it/e?x=a~b*c',
-  'https://esempio.it/a[b]', 'https://esempio.it/a%5Bb%5D', 'https://esempio.it/a|b^c', 'https://esempio.it/a%7Cb',
+  'https://esempio.it/a[b]', 'https://esempio.it/a%5Bb%5D', 'https://esempio.it/a|b', 'https://esempio.it/a%7Cb',
+  'https:esempio.it/evento', 'https:/esempio.it/evento', 'https:\\\\esempio.it\\evento', 'https:///esempio.it/x',
+  'https://esempio.it/\ud800x', 'https://esempio.it/\udc00', 'https://esempio.it/e?q=\ud800',
   'https://esempio.it/a"b<c>d`e{f}', 'https://esempio.it/a%zz', 'https://esempio.it/a\tb', 'https://esempio.it/emoji😀',
   'https://esempio.it/e?q=%C3', 'https://esempio.it/e?q=%25C3', 'https://esempio.it/e?q=%ZZ', 'https://esempio.it/e?q=%E2%82',
   'https://esempio.it/e?q=%E2%82%AC', 'https://esempio.it/e?q=😀', 'https://esempio.it/e?%C3=1', 'https://esempio.it/e?q=a%2Bb',
@@ -153,6 +155,8 @@ for (const ip of ['https://127.0.0.1/x', 'https://127.1/x', 'https://1.2.3.999/x
   throws(`a literal IP host is refused, never rewritten: ${ip}`, () => canonicalUrl(ip), 'url_invalid');
 }
 check('a malformed escape and its escaped literal stay two URLs', canonicalUrl('https://esempio.it/e?q=%C3') !== canonicalUrl('https://esempio.it/e?q=%25C3'), true);
+check('^ is encoded in a path, as the current URL standard does (Node 24); older parsers keep it, so the check is not against the runtime',
+  [canonicalUrl('https://esempio.it/a^b'), canonicalUrl('https://esempio.it/a^b') === canonicalUrl('https://esempio.it/a%5Eb')], ['https://esempio.it/a%5Eb', true]);
 check('a literal bracket and its escape stay two paths, as for the WHATWG parser', canonicalUrl('https://esempio.it/a[b') !== canonicalUrl('https://esempio.it/a%5Bb'), true);
 check('the node does not use the URL global', /new URL\(|URLSearchParams\(/.test(fs.readFileSync(FILE, 'utf8')), false);
 
