@@ -372,16 +372,18 @@ function parseSearch(res) {
   return { kind: 'rows', total, rows: body.elencoAtti };
 }
 
-/** The saved page of the search, in originali/: one file per page, pass and reading day. */
-function elencoFileName(readingDay, tipologia, pass, page) {
-  return `attiweb_elenco_${readingDay}_${normalizeKey(tipologia)}_p${pass}_${page}.json`;
+/** The saved page of the search, in originali/: one file per page and pass of one reading, the
+ *  reading named by its day and its start, so that two readings of a day never share a name. */
+function elencoFileName(readingDay, startedAt, tipologia, pass, page) {
+  if (!utcInstant(startedAt)) throw new Error('started_at must be the UTC instant the reading started');
+  return `attiweb_elenco_${readingDay}_${compactInstant(startedAt)}_${normalizeKey(tipologia)}_p${pass}_${page}.json`;
 }
 
 /** Stage 'pass': the answers of one pass over a tipologia, in page order, become a pass for
  *  `mergePasses` (`pass_result`: `pass` is the pass's number); each row carries its tipologia
  *  and the saved page it came from, and `files` are the pages to save under those names. A first answer that is the empty one asks for the
  *  check over the historical interval (`needs_historical`), whose total the pass then carries. */
-function searchPass({ tipologia, reading_day, pass, pages, historical }) {
+function searchPass({ tipologia, reading_day, started_at, pass, pages, historical }) {
   const tipo = normalizeKey(tipologia);
   if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);
   if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);
@@ -391,7 +393,7 @@ function searchPass({ tipologia, reading_day, pass, pages, historical }) {
     const signal = blockSignal(res);
     if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
   }
-  const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, tipo, pass, i), body: bodyText(res) }));
+  const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, started_at, tipo, pass, i), body: bodyText(res) }));
   const parsed = pages.map(parseSearch);
   if (parsed[0].kind === 'empty' && parsed.every((x) => x.kind === 'empty')) {
     if (!historical) return { needs_historical: true, files, pass_result: null };
@@ -436,7 +438,8 @@ function closeTipologia({ tipologia, reading_day, passes }) {
   const lastPass = passes[passes.length - 1];
   return {
     tipologia: tipo,
-    complete: merged.complete,
+    // DEC-033, rule 5: a row that could not be read leaves the tipologia incomplete.
+    complete: merged.complete && !left_out.riga_illeggibile,
     needs_another_pass: merged.needs_another_pass,
     passes: passes.length,
     total: lastPass && Number.isSafeInteger(lastPass.total) ? lastPass.total : null,
@@ -499,7 +502,9 @@ function readingLog({ reading_day, started_at, finished_at, workflow, workflow_v
   };
 }
 
-/** The register of one download run: its name carries the day and how many documents it read. */
+/** The reservation of one download run, written before its first request: its name carries the
+ *  day and how many documents the run will ask for, so that a run that stops halfway still counts
+ *  in full toward the day's cap (DEC-033, rule 2). */
 function downloadLogName(readingDay, count, startedAt) {
   if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);
   if (!Number.isSafeInteger(count) || count < 0) throw new Error('count must be a whole number');
@@ -507,7 +512,7 @@ function downloadLogName(readingDay, count, startedAt) {
   return `attiweb_download_${readingDay}_n${count}_${compactInstant(startedAt)}.json`;
 }
 
-/** What the download runs of a day already read, from the names of their registers. */
+/** What the download runs of a day took from the cap, from the names of their reservations. */
 function downloadedToday(names, readingDay) {
   if (!Array.isArray(names)) throw new Error('names must list the download registers ([] for none)');
   if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);
@@ -548,8 +553,14 @@ function selectDownloads({ righe, existing_names, downloaded_today, cap, run_lim
   return out;
 }
 
-/** Stage 'download_log': the register of one download run, from the outcome of each document
- *  it read (`{ archive_id, written, reason }`); its name carries the day and the count. */
+/** The outcome of one download run, written at its end: not counted toward the cap, which the
+ *  reservation already holds. */
+function downloadResultName(readingDay, count, startedAt) {
+  return downloadLogName(readingDay, count, startedAt).replace(/^attiweb_download_/, 'attiweb_scaricati_');
+}
+
+/** Stage 'download_log': the outcome of one download run, from the outcome of each document it
+ *  read (`{ archive_id, written, reason }`); its name carries the day and the count. */
 function downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, esiti }) {
   if (!utcInstant(finished_at)) throw new Error('finished_at must be a UTC instant');
   if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');
@@ -558,7 +569,7 @@ function downloadLog({ reading_day, started_at, finished_at, workflow, workflow_
   const read = esiti.filter((e) => e && typeof e.archive_id === 'string');
   if (read.length !== esiti.length) throw new Error('an outcome without its archive_id');
   return {
-    name: downloadLogName(reading_day, read.length, started_at),
+    name: downloadResultName(reading_day, read.length, started_at),
     log: {
       source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,
       read: read.length,
@@ -568,10 +579,11 @@ function downloadLog({ reading_day, started_at, finished_at, workflow, workflow_
   };
 }
 
-/** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers }`, the binary's MIME type and
- *  extension, whether it has content) is an original to hash, a block that stops the reading, or
- *  something else, which is counted and not written. The portal sends its PDFs as
- *  `application/octet-stream` with a `.pdf` file name. */
+/** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers, body }`, the binary's MIME type
+ *  and extension, whether it has content) is an original to hash, a block that stops the reading,
+ *  or something else, which is counted and not written. The portal sends its PDFs as
+ *  `application/octet-stream` with a `.pdf` file name; any other answer reaches this stage with its
+ *  text in `body`, so that a captcha or a login page served with 200 stops the reading too. */
 function checkPdf({ response, mime, file_extension, has_content }) {
   const signal = blockSignal(Object.assign({ body: '' }, response));
   if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
@@ -594,7 +606,7 @@ if (typeof $input === 'undefined') {
     planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,
     archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,
     closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
-    downloadLog,
+    downloadResultName, downloadLog,
   };
   return;
 }
@@ -618,11 +630,14 @@ if ($json.stage === 'plan') {
   $json.downloaded_today = downloaded_today;
   $json.downloads = selectDownloads(Object.assign({}, $json, {
     existing_names: ($json.existing_names || []).filter(Boolean), downloaded_today }));
+  $json.reservation_name = downloadLogName($json.reading_day, $json.downloads.length, $json.started_at);
+  $json.reservation = { source_id: SOURCE_ID, reading_day: $json.reading_day, started_at: $json.started_at,
+    downloaded_today_before: downloaded_today, documents: $json.downloads.map((d) => d.archive.archive_id) };
   delete $json.righe;
   delete $json.existing_names;
 } else if ($json.stage === 'pdf') {
   // n8n gives the size in `bytes`, and as text in `fileSize` ("45.3 kB"): only whether it is zero matters.
-  const bin = ($input.item.binary || {}).data || {};
+  const bin = ($input.item.binary || {}).data || { mimeType: $json.mime, fileExtension: $json.file_extension, bytes: 0 };
   const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();
   const has_content = bin.bytes !== undefined ? Number(bin.bytes) > 0 : size !== '' && !/^0(\.0+)?\s*[kMG]?B$/i.test(size);
   $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, file_extension: bin.fileExtension, has_content });
