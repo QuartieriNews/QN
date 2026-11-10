@@ -279,7 +279,8 @@ function mergeDuplicateEvents(docs) {
       d.quality.review_flags = d.quality.review_flags.filter((f) => !MERGE_FLAGS.has(f));
     }
     if (!d.pilot) continue;
-    delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead; delete d.pilot.lead_url;
+    delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead;
+    if (!d.pilot.review_pending) delete d.pilot.lead_url; // the reviewer keeps seeing the same link
     // Fields the merge filled go back to the element's own value (pilot.native), so this
     // run takes them again from the sources as they are now; an element still in the queue
     // keeps what the reviewer sees.

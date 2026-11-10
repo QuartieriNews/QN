@@ -357,6 +357,17 @@ console.log('third Codex review of #30: long Roman numerals, review ownership, r
   check('and the element\'s own time comes back when the pair splits', mergeDuplicateEvents([merged])[0].event.start_at_utc, '2026-11-14T18:00:00Z');
 }
 
+console.log('fourth Codex review of #30: the link of an element still in the queue');
+{
+  const fbOld = ev('qn:roma:evt:facebook:7', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-09T08:00:00Z' } });
+  const web = ev('qn:roma:evt:web:ffff', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z');
+  const merged = mergeDuplicateEvents([fbOld, web]);
+  const pending = merged.map((d) => (d.content_id === 'qn:roma:evt:facebook:7' ? Object.assign({}, d, { pilot: Object.assign({}, d.pilot, { review_pending: true }) }) : d));
+  const again = mergeDuplicateEvents(pending).find((d) => d.content_id === 'qn:roma:evt:facebook:7');
+  check('an element still in the queue keeps the lead link the reviewer sees', [again.pilot.lead_url, again.pilot.filled_from['pilot.lead_url']], ['https://esempio.it/qn:roma:evt:web:ffff', 'qn:roma:evt:web:ffff']);
+}
+
 console.log('short identifiers, DEC-025 rule 4');
 {
   check('numbers, Roman numerals and single letters are identifiers', [...identifiers('Corso 1 - IX edizione, Sala B')].sort(), ['1', 'b', 'ix']);
