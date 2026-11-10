@@ -7,12 +7,19 @@
  *
  * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): this exact file is both the Node
  * module the tests require() and the full text of the n8n Code node ("Run Once for Each
- * Item"). The staging workflow uses it twice, byte-identical:
- *   - on a search row (with `tipologia` and `reading_day` set by the workflow) it adds
- *     `archive`: the identity, the perimeter verdict and the PDF link;
- *   - on the same item after the download (`download` and `existing` set) it adds the
- *     `record` to append, or `record: null` when the archive already holds that original.
- * Pacing and the daily cap (DEC-033, rule 2) belong to the workflow, not to this node.
+ * Item"). The staging workflows use it in several nodes, byte-identical; `stage` on the item
+ * says which step it takes:
+ *   - 'plan': the menu answer becomes the tipologie to read;
+ *   - 'pass': the answers of one pass over a tipologia become a pass and the pages to save;
+ *   - 'close': the passes over a tipologia are merged and each row is described;
+ *   - 'log': the closed tipologie become the register of the reading and its kept rows;
+ *   - 'select': the kept rows become today's downloads, within the day's cap;
+ *   - 'pdf': the answer to a PDF link is checked before it is hashed;
+ *   - no stage, a search row: it adds `archive` (identity, perimeter verdict, PDF link);
+ *   - no stage, `download` and `existing` set: it adds the `record` to append, or
+ *     `record: null` when the archive already holds that original.
+ * The requests and the pause between them belong to the workflow (DEC-033, rule 2); the node
+ * refuses a daily cap above the rule.
  */
 
 'use strict';
@@ -291,6 +298,261 @@ function archiveRecord(archive, download, existing) {
   return record;
 }
 
+/* ----- the reading: menu, pages, passes, reading log (CONTRATTI.md «Lo storico») --------- */
+
+/** The search filters on `dtRpr` from this day to the reading day (CONTRATTI.md, «Lo storico»). */
+const SEARCH_START = '2025-12-01';
+/** Rows per page of the search: the most the portal accepts (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §2). */
+const PAGE_SIZE = 500;
+/** DEC-033, rule 2: the most documents read in a day. */
+const MAX_PER_DAY = 300;
+/** The portal's answer for a search with no rows (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, §7.1). */
+const EMPTY_ANSWER = /Index:\s*0,\s*Size:\s*0/;
+
+const isDay = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && validDay(...v.split('-').map(Number));
+const bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));
+
+/** The codes of the menu answer (`caricaListaTipologie`): its first list, the combined codes
+ *  (with a comma) left out, as in the source study. What does not read stops the reading. */
+function menuCodes(answer) {
+  let a = answer;
+  if (typeof a === 'string') {
+    try { a = JSON.parse(a); } catch (e) { a = null; }
+  }
+  const list = a && typeof a === 'object' ? Object.values(a).find(Array.isArray) : null;
+  if (!list) throw new Error('the list of tipologie did not read: the reading does not start');
+  return list.map((x) => (x && typeof x.codice === 'string' ? x.codice : '')).filter((c) => c && !c.includes(','));
+}
+
+/** Stage 'plan': the full answer of the menu request becomes the tipologie to read; a block
+ *  on it stops the reading before it starts (DEC-033, rule 4). */
+function planFromMenu(response) {
+  const signal = blockSignal(response);
+  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
+  return planTipologie(menuCodes(response.body));
+}
+
+/** DEC-033, rule 4: the signal on one answer (`{ statusCode, headers, body }`, redirects not
+ *  followed) that stops the reading, or null. Any redirect counts: the login page is one. */
+function blockSignal(res) {
+  if (!res || typeof res !== 'object') return 'no answer';
+  const code = Number(res.statusCode);
+  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;
+  if (code >= 300 && code < 400) {
+    const h = res.headers || {};
+    return `redirect to ${h.location || h.Location || '(no location)'}`;
+  }
+  const body = bodyText(res);
+  if (/captcha/i.test(body)) return 'captcha';
+  if (/<input[^>]+type=["']?password/i.test(body)) return 'login page';
+  return null;
+}
+
+/** One answer of the search: its rows and the total it declares, the empty answer, or an
+ *  error, which leaves the pass incomplete. */
+function parseSearch(res) {
+  let body = res.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      return EMPTY_ANSWER.test(res.body) ? { kind: 'empty' } : { kind: 'error', detail: `HTTP ${res.statusCode}: not JSON` };
+    }
+  }
+  if (!body || !Array.isArray(body.elencoAtti)) return { kind: 'error', detail: `HTTP ${res.statusCode}: no elencoAtti` };
+  const total = Number(body.total);
+  if (!Number.isSafeInteger(total) || total < 0) return { kind: 'error', detail: 'the declared total is not a whole number' };
+  return { kind: 'rows', total, rows: body.elencoAtti };
+}
+
+/** The saved page of the search, in originali/: one file per page, pass and reading day. */
+function elencoFileName(readingDay, tipologia, pass, page) {
+  return `attiweb_elenco_${readingDay}_${normalizeKey(tipologia)}_p${pass}_${page}.json`;
+}
+
+/** Stage 'pass': the answers of one pass over a tipologia, in page order, become a pass for
+ *  `mergePasses`; each row carries its tipologia and the saved page it came from, and `files`
+ *  are the pages to save under those names. A first answer that is the empty one asks for the
+ *  check over the historical interval (`needs_historical`), whose total the pass then carries. */
+function searchPass({ tipologia, reading_day, pass, pages, historical }) {
+  const tipo = normalizeKey(tipologia);
+  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);
+  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);
+  if (!Number.isInteger(pass) || pass < 1 || pass > 3) throw new Error('pass is 1, 2 or 3 (CONTRATTI.md, «Lo storico»)');
+  if (!Array.isArray(pages) || pages.length === 0) throw new Error('a pass has at least one answer');
+  for (const res of pages.concat(historical ? [historical] : [])) {
+    const signal = blockSignal(res);
+    if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
+  }
+  const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, tipo, pass, i), body: bodyText(res) }));
+  const parsed = pages.map(parseSearch);
+  if (parsed[0].kind === 'empty' && parsed.every((x) => x.kind === 'empty')) {
+    if (!historical) return { needs_historical: true, files, pass: null };
+    const h = parseSearch(historical);
+    return { needs_historical: false, files, pass: { total: 0, rows: [], historical_total: h.kind === 'rows' ? h.total : 0 } };
+  }
+  // The page after a full last page can be the empty answer: it ends the pass, it is not an error.
+  let last = parsed.length;
+  while (last > 1 && parsed[last - 1].kind === 'empty') last -= 1;
+  const bad = parsed.slice(0, last).find((x) => x.kind !== 'rows');
+  if (bad) return { needs_historical: false, files, pass: { total: null, rows: [], error: bad.detail || 'an empty answer between pages' } };
+  const total = parsed[0].total;
+  if (parsed.slice(0, last).some((x) => x.total !== total)) {
+    return { needs_historical: false, files, pass: { total: null, rows: [], error: 'the declared total changed between pages' } };
+  }
+  const rows = [];
+  parsed.slice(0, last).forEach((x, i) => {
+    for (const r of x.rows) rows.push(Object.assign({}, r, { tipologia: tipo, elenco: `originali/${files[i].name}` }));
+  });
+  return { needs_historical: false, files, pass: { total, rows } };
+}
+
+/** Stage 'close': the passes over one tipologia, merged (`mergePasses`), and each row described
+ *  (`describeRow`). A row that cannot become a record is counted, never written. */
+function closeTipologia({ tipologia, reading_day, passes }) {
+  const tipo = normalizeKey(tipologia);
+  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);
+  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);
+  const merged = mergePasses(passes);
+  const kept = [];
+  const left_out = {};
+  for (const r of merged.rows) {
+    let a;
+    try {
+      a = describeRow(Object.assign({}, r, { tipologia: tipo }), reading_day);
+    } catch (e) {
+      a = { keep: false, reason: 'riga_illeggibile' };
+    }
+    if (a.keep) kept.push({ archive: a, elenco: r.elenco });
+    else left_out[a.reason] = (left_out[a.reason] || 0) + 1;
+  }
+  const lastPass = passes[passes.length - 1];
+  return {
+    tipologia: tipo,
+    complete: merged.complete,
+    needs_another_pass: merged.needs_another_pass,
+    passes: passes.length,
+    total: lastPass && Number.isSafeInteger(lastPass.total) ? lastPass.total : null,
+    missing_data: passes.some((x) => x && x.total === 0 && x.historical_total === 0),
+    errors: passes.map((x) => x && x.error).filter(Boolean),
+    kept,
+    left_out,
+  };
+}
+
+/** `20261110T201500Z` from a UTC instant: the time part of the reading's file names. */
+const compactInstant = (v) => v.slice(0, 19).replace(/[-:]/g, '') + 'Z';
+
+/** Stage 'log': the register of one reading (DEC-033, rule 5), from the closed tipologie. The
+ *  reading is complete only when every value of `tipo` was read and is complete; `righe` are the
+ *  kept rows for the download workflow. */
+function readingLog({ reading_day, started_at, finished_at, workflow, workflow_version, tipologie }) {
+  if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);
+  if (!utcInstant(started_at) || !utcInstant(finished_at)) throw new Error('started_at and finished_at must be UTC instants');
+  if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');
+  if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');
+  if (!Array.isArray(tipologie)) throw new Error('tipologie must list the closed tipologie');
+  const byTipo = new Map();
+  for (const t of tipologie) {
+    if (!t || !TIPI.includes(t.tipologia)) throw new Error(`a closed tipologia that is not a value of tipo: ${t && t.tipologia}`);
+    if (byTipo.has(t.tipologia)) throw new Error(`tipologia ${t.tipologia} closed twice`);
+    byTipo.set(t.tipologia, t);
+  }
+  const unread = TIPI.filter((c) => !byTipo.has(c));
+  const rows = TIPI.filter((c) => byTipo.has(c)).map((c) => {
+    const t = byTipo.get(c);
+    return { tipologia: c, complete: t.complete === true, passes: t.passes, total: t.total,
+      missing_data: t.missing_data === true, errors: t.errors || [], kept: (t.kept || []).length, left_out: t.left_out || {} };
+  });
+  const incomplete = rows.filter((r) => !r.complete).map((r) => r.tipologia).concat(unread);
+  const seen = new Set();
+  const righe = [];
+  for (const c of TIPI) {
+    for (const k of (byTipo.get(c) || {}).kept || []) {
+      if (seen.has(k.archive.archive_id)) continue;
+      seen.add(k.archive.archive_id);
+      righe.push(k);
+    }
+  }
+  const stamp = compactInstant(started_at);
+  return {
+    log_file_name: `attiweb_lettura_${stamp}.json`,
+    righe_file_name: `attiweb_righe_${stamp}.json`,
+    log: {
+      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,
+      periodo: { dtRpr_da: SEARCH_START, dtRpr_a: reading_day, data_documento_da: PERIOD_START },
+      municipi: MUNICIPI.slice(),
+      complete: incomplete.length === 0,
+      incomplete,
+      unread,
+      kept_total: righe.length,
+      tipologie: rows,
+    },
+    righe,
+  };
+}
+
+/** The register of one download run: its name carries the day and how many documents it read. */
+function downloadLogName(readingDay, count, startedAt) {
+  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);
+  if (!Number.isSafeInteger(count) || count < 0) throw new Error('count must be a whole number');
+  if (!utcInstant(startedAt)) throw new Error('started_at must be a UTC instant');
+  return `attiweb_download_${readingDay}_n${count}_${compactInstant(startedAt)}.json`;
+}
+
+/** What the download runs of a day already read, from the names of their registers. */
+function downloadedToday(names, readingDay) {
+  if (!Array.isArray(names)) throw new Error('names must list the download registers ([] for none)');
+  if (!isDay(readingDay)) throw new Error(`reading_day ${JSON.stringify(readingDay)} is not a YYYY-MM-DD day`);
+  let n = 0;
+  for (const name of names) {
+    const mm = typeof name === 'string' && /^attiweb_download_(\d{4}-\d{2}-\d{2})_n(\d+)_\d{8}T\d{6}Z\.json$/.exec(name);
+    if (mm && mm[1] === readingDay) n += Number(mm[2]);
+  }
+  return n;
+}
+
+/** Stage 'select': today's downloads from the kept rows of the latest reading, those whose
+ *  `archive_id` has no record in the archive yet, within the day's cap (DEC-033, rule 2) and
+ *  the run's own limit. `existing_names` are the file names in `D Storico/`; `downloaded_today`
+ *  what earlier runs of the day already read. */
+function selectDownloads({ righe, existing_names, downloaded_today, cap, run_limit }) {
+  if (!Array.isArray(righe)) throw new Error('righe must list the kept rows of a reading');
+  if (!Array.isArray(existing_names)) throw new Error('existing_names must list the files in D Storico/ ([] for none)');
+  if (!Number.isSafeInteger(downloaded_today) || downloaded_today < 0) throw new Error('downloaded_today must be a whole number');
+  if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);
+  const recorded = new Set();
+  for (const n of existing_names) {
+    const mm = typeof n === 'string' && /^(.+)__v[1-9][0-9]*\.json$/.exec(n);
+    if (mm) recorded.add(mm[1]);
+  }
+  const limit = run_limit === undefined ? cap : run_limit;
+  if (!Number.isSafeInteger(limit) || limit < 0) throw new Error('run_limit must be a whole number');
+  const room = Math.max(0, Math.min(limit, cap - downloaded_today));
+  const out = [];
+  const seen = new Set();
+  for (const r of righe) {
+    if (out.length >= room) break;
+    if (!r || !r.archive || !r.archive.keep || typeof r.archive.file_stem !== 'string') throw new Error('a row of righe without its archive');
+    if (recorded.has(r.archive.file_stem) || seen.has(r.archive.file_stem)) continue;
+    seen.add(r.archive.file_stem);
+    out.push(r);
+  }
+  return out;
+}
+
+/** Stage 'pdf': the answer to a PDF link (`{ statusCode, headers }`, the binary's MIME type and
+ *  whether it has content) is an original to hash, a block that stops the reading, or something
+ *  else, which is counted and not written. */
+function checkPdf({ response, mime, has_content }) {
+  const signal = blockSignal(Object.assign({ body: '' }, response));
+  if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
+  if (Number(response.statusCode) !== 200) return { ok: false, reason: `HTTP ${response.statusCode}` };
+  if (mime !== 'application/pdf') return { ok: false, reason: `not a PDF: ${mime}` };
+  if (has_content !== true) return { ok: false, reason: 'empty file' };
+  return { ok: true, reason: null };
+}
+
 function recordFileName(record) {
   return `${fileStem(record.archive_id)}__v${record.versione}.json`;
 }
@@ -299,14 +561,41 @@ function recordFileName(record) {
 
 if (typeof $input === 'undefined') {
   module.exports = {
-    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, normalizeKey, archiveId, planTipologie, mergePasses, fileStem, pdfUrl,
-    sourceDay, dataDocumento, municipalityCode, describeRow, archiveRecord, recordFileName,
+    SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,
+    planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,
+    archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,
+    closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
   };
   return;
 }
 
 /* n8n Code node, "Run Once for Each Item" — the per-item adapter (see the header). */
-if ($json.download) {
+if ($json.stage === 'plan') {
+  $json.tipologie = planFromMenu($json.response);
+  delete $json.response;
+} else if ($json.stage === 'pass') {
+  Object.assign($json, searchPass($json));
+  delete $json.pages;
+  delete $json.historical;
+} else if ($json.stage === 'close') {
+  $json.result = closeTipologia($json);
+  delete $json.passes;
+} else if ($json.stage === 'log') {
+  Object.assign($json, readingLog($json));
+  delete $json.tipologie;
+} else if ($json.stage === 'select') {
+  const downloaded_today = downloadedToday(($json.download_log_names || []).filter(Boolean), $json.reading_day);
+  $json.downloaded_today = downloaded_today;
+  $json.downloads = selectDownloads(Object.assign({}, $json, {
+    existing_names: ($json.existing_names || []).filter(Boolean), downloaded_today }));
+  delete $json.righe;
+  delete $json.existing_names;
+} else if ($json.stage === 'pdf') {
+  // n8n writes the binary's size as text ("45.3 kB"): only whether it is zero matters here.
+  const bin = ($input.item.binary || {}).data || {};
+  const size = String(bin.fileSize === undefined ? '' : bin.fileSize).trim();
+  $json.pdf = checkPdf({ response: $json.response, mime: bin.mimeType, has_content: size !== '' && !/^0(\.0+)?\s*[kMG]?B$/i.test(size) });
+} else if ($json.download) {
   const record = archiveRecord($json.archive, $json.download, $json.existing);
   $json.record = record;
   $json.record_file_name = record ? recordFileName(record) : null;
