@@ -90,9 +90,54 @@ function parseQuesturaListing(html, origin) {
   return out;
 }
 
+const ROME_PARTS = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit',
+  day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+
+/** A wall-clock time in Rome as a UTC instant (Spec v2.5 T17): the offset is +1 or +2 hours,
+ *  and the one whose instant reads back as that wall clock wins; in the repeated hour of the
+ *  October change the first of the two is taken. A time that does not exist is null. */
+function romeLocalToUtc(y, mo, d, h, mi) {
+  const want = `${String(d).padStart(2, '0')}/${String(mo).padStart(2, '0')}/${y}, ${String(h).padStart(2, '0')}:${String(mi).padStart(2, '0')}`;
+  for (const off of [2, 1]) {
+    const t = Date.UTC(y, mo - 1, d, h - off, mi);
+    if (ROME_PARTS.format(new Date(t)) === want) return new Date(t).toISOString();
+  }
+  return null;
+}
+
+/** The releases of the Carabinieri listing (national): one table row each, with the time in
+ *  Rome, the place with its province, the link with the title and the issuing command. Only
+ *  the rows of the province of Rome go on: «(RM)» in the place, or a command of Rome. */
+function parseCarabinieriListing(html, origin) {
+  if (typeof html !== 'string') throw new Error('not a listing page');
+  const at = html.indexOf('<tbody>');
+  if (at < 0) throw new Error('no table in the listing');
+  const body = html.slice(at);
+  const out = [];
+  for (const row of body.split(/<tr[\s>]/).slice(1)) {
+    const cells = row.split(/<td class=["']?tabellaD["']?>/).slice(1);
+    if (cells.length < 3) continue;
+    const when = /(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/.exec(text(cells[0]));
+    const a = /<a [^>]*href=["']?([^"' >]+)["']?[^>]*>([\s\S]*?)<\/a>/i.exec(cells[1]);
+    if (!a) continue;
+    const place = (/_lblLuogo>([\s\S]*?)<\/span>/i.exec(a[2]) || [])[1];
+    const placeText = place ? text(place).replace(/\s*-\s*$/, '') : '';
+    const title = text(a[2].replace(/<span[^>]*_lblLuogo>[\s\S]*?<\/span>/i, ''));
+    const command = text(cells[2]);
+    const province = (/\(([A-Z]{2})\)/.exec(placeText) || [])[1] || null;
+    if (province !== 'RM' && !/\broma\b/i.test(command)) continue;
+    const url = absolute(a[1], origin);
+    if (!url) continue;
+    out.push({ url, title, published_at_utc: when ? romeLocalToUtc(+when[3], +when[2], +when[1], +when[4], +when[5]) : null,
+      categories: [], agency: false, place: placeText, province, command });
+  }
+  return out;
+}
+
 /** The parser of each source (news-collect.js, SOURCES); a source without one is skipped. */
 const PARSERS = {
   'questure.poliziadistato.it': (body) => parseQuesturaListing(body, 'https://questure.poliziadistato.it'),
+  'carabinieri.it': (body) => parseCarabinieriListing(body, 'https://www.carabinieri.it'),
   'abitarearoma.it': parseRss,
   'cdn.ilfaroonline.it': parseRss,
 };
@@ -137,7 +182,8 @@ function newRecords({ files, seen, retrieved_at }) {
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
-  module.exports = { SEEN_MAX, AGENCY, decodeEntities, text, rfc822, parseRss, parseQuesturaListing, PARSERS, newRecords };
+  module.exports = { SEEN_MAX, AGENCY, decodeEntities, text, rfc822, parseRss, parseQuesturaListing, romeLocalToUtc,
+    parseCarabinieriListing, PARSERS, newRecords };
   return;
 }
 

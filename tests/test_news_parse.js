@@ -67,6 +67,22 @@ check('one record per release, the link made absolute', rel.map((r) => r.url),
 check('titles read as text', rel.map((r) => r.title), ['Comunicato inventato uno', 'Comunicato inventato "due"']);
 check('the listing gives no date: none is guessed', rel.map((r) => r.published_at_utc), [null, null]);
 
+console.log('the Carabinieri listing (rows of the province of Rome)');
+const row = (when, place, title, command) => `<tr><td class=tabellaD>${when}<td class=tabellaD><a id=x_lnk href=https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa/${title.toLowerCase().replace(/\s+/g, '-')}><span id=x_lblLuogo>${place} - </span>${title}</a><td class=tabellaD><span id=x_lblFontePrefisso>Fonte</span> ${command}<br><td class=tabellaD><span id=x_lblSummary>riassunto inventato</span>`;
+const CARA = `<table class="tabella footable"><thead><tr><th>Data<th>Luogo<th>Fonte<th>Sintesi<tbody>` +
+  row('10/11/2026 17:27', 'Comune Inventato (RM)', 'Titolo inventato uno', 'Comando Provinciale di Roma') +
+  row('10/11/2026 16:00', 'Altro Comune (MI)', 'Titolo inventato due', 'Comando Provinciale di Milano') +
+  row('25/10/2026 02:30', 'Roma', 'Titolo inventato tre', 'Comando Provinciale di Roma') +
+  row('29/03/2026 12:00', 'Paese Inventato (RM)', 'Titolo inventato quattro', 'Compagnia di Frascati') + `</tbody></table>`;
+const cara = m.parseCarabinieriListing(CARA, 'https://www.carabinieri.it');
+check('only the rows of the province of Rome', cara.map((r) => r.title), ['Titolo inventato uno', 'Titolo inventato tre', 'Titolo inventato quattro']);
+check('the place and its province are kept apart from the title', [cara[0].place, cara[0].province], ['Comune Inventato (RM)', 'RM']);
+check('the Rome time as UTC in winter (T17)', cara[0].published_at_utc, '2026-11-10T16:27:00.000Z');
+check('in summer (T17)', cara[2].published_at_utc, '2026-03-29T10:00:00.000Z');
+check('the repeated hour of the October change is read as the first of the two (T17)', cara[1].published_at_utc, '2026-10-25T00:30:00.000Z');
+check('a time that does not exist in Rome (the March change) is null', m.romeLocalToUtc(2026, 3, 29, 2, 30), null);
+check('a page without the table is refused', /no table/.test(thrown(() => m.parseCarabinieriListing('<html></html>', 'https://www.carabinieri.it')) || ''), true);
+
 console.log('records: only what was not seen before');
 const files = [
   { name: 'notizie_cdn.ilfaroonline.it_20261110T220700Z_1.xml', body: RSS },
@@ -77,7 +93,7 @@ const first = m.newRecords({ files, seen: [], retrieved_at: '2026-11-10T22:07:00
 check('the first run gives every record', first.records.length, 4);
 check('each record names its source and its saved page', [first.records[0].source_id, first.records[0].page],
   ['cdn.ilfaroonline.it', 'originali/notizie_cdn.ilfaroonline.it_20261110T220700Z_1.xml']);
-check('a source without a parser is said so', first.outcome.find((o) => o.source_id === 'carabinieri.it').outcome, 'no parser');
+check('a page that does not parse is counted', first.outcome.find((o) => o.source_id === 'carabinieri.it').outcome, 'unreadable');
 const second = m.newRecords({ files, seen: first.seen, retrieved_at: '2026-11-10T23:07:00Z' });
 check('the next run with the same pages gives nothing new', second.records.length, 0);
 check('and says it read them', second.outcome.filter((o) => o.outcome === 'read').map((o) => o.new), [0, 0]);
