@@ -98,7 +98,11 @@ l'`archive_id` del record.
 - **Il file.** Un file JSON per versione, `D Storico/<radice>__v<versione>.json`, scritto una
   volta e mai riscritto; la versione più alta è quella che vale.
 - **Copia di riserva.** Una volta alla settimana un job di copia duplica i file dello
-  storico in `D Storico/riserva/<data>/`; nessun altro workflow scrive lì.
+  storico, i record `__v<versione>.json`, in `D Storico/riserva/<data>/`, con `<data>` il giorno
+  di Roma; nessun altro workflow scrive lì. In staging è `staging_D_riserva`, la domenica
+  alle 4:41: se la cartella del giorno c'è già, non copia di nuovo. Gli originali non si
+  copiano: non cambiano mai, e uno perso si riscarica dal portale e si riconosce dal suo
+  `originale_sha256` nel record.
 
 **La lettura di Atti Web (DEC-033).** DEC-033 fissa perimetro, ritmo, stop e completezza; qui
 c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica con i suoi test
