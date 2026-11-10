@@ -102,32 +102,66 @@ function groupAllows(group, path) {
   return best ? best.allow : true;
 }
 
-/** What robots.txt says for us on a path: the groups that name one of our tokens, else `*`,
- *  plus every AI agent's group; the path is allowed only if all of them allow it. */
+/** What robots.txt says for us on a path. The rules of every group naming the same agent
+ *  count as one group (RFC 9309); the groups that name us, else `*`, apply, and so does the
+ *  group of every AI agent: the path is allowed only if all of them allow it. */
 function robotsVerdict(text, path) {
   const groups = parseRobots(text);
-  const named = groups.filter((g) => g.agents.some((a) => AGENT_TOKENS.includes(a)));
-  const star = groups.filter((g) => g.agents.includes('*'));
-  const ours = named.filter((g) => g.agents.includes('quartierinews'));
-  const apply = (ours.length ? ours : star).concat(named.filter((g) => !g.agents.includes('quartierinews')));
+  const merged = (token) => {
+    const gs = groups.filter((g) => g.agents.includes(token));
+    if (!gs.length) return null;
+    const delays = gs.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);
+    return { rules: [].concat(...gs.map((g) => g.rules)), crawl_delay: delays.length ? Math.max(...delays) : undefined };
+  };
+  const apply = [merged('quartierinews') || merged('*')]
+    .concat(AGENT_TOKENS.filter((t) => t !== 'quartierinews').map(merged)).filter(Boolean);
   const allowed = apply.every((g) => groupAllows(g, path));
   const delays = apply.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);
   return { allowed, crawl_delay: delays.length ? Math.max(...delays) : null };
 }
 
-/** CONTRATTI.md section 7 (B), «Raccolta»: the signal on one answer that stops a host, or null. */
-function blockSignal(res) {
+const hostOf = (u) => ((/^https?:\/\/([^/?#:]+)/i.exec(u || '') || [])[1] || '').toLowerCase();
+const pathOf = (u) => (/^https?:\/\/[^/?#]+([^#]*)/i.exec(u || '') || [])[1] || '';
+/** A redirect target, made absolute against the URL that was asked for. */
+function resolveLocation(loc, requested) {
+  if (/^https?:\/\//i.test(loc)) return loc;
+  if (loc.startsWith('//')) return (/^(https?:)/i.exec(requested) || ['', 'https:'])[1] + loc;
+  if (loc.startsWith('/')) return urlParts(requested).origin + loc;
+  return urlParts(requested).origin + urlParts(requested).pathname.replace(/[^/]*$/, '') + loc;
+}
+/** A path that is a sign-in page, wherever the redirect goes. */
+const LOGIN = /(^|[/._?=&-])(login|logon|signin|sign-in|sso|auth|oauth|accedi)([/._?=&-]|$)/i;
+/** The marks a challenge page carries in its structure, not in the text of the news. */
+const CHALLENGE = /class=["'][^"']*\b(g-recaptcha|h-captcha|cf-turnstile)\b|id=["']?(challenge-form|captcha)\b|recaptcha\/api\.js|hcaptcha\.com\/1\/api\.js|challenges\.cloudflare\.com/i;
+
+const isHtml = (res) => /html/i.test(String((res.headers || {})['content-type'] || '')) || /^\s*(<!doctype html|<html)/i.test(bodyText(res));
+const titleAndHeading = (body) => [(/<title[^>]*>([\s\S]*?)<\/title>/i.exec(body) || [])[1], (/<h1[^>]*>([\s\S]*?)<\/h1>/i.exec(body) || [])[1]]
+  .filter(Boolean).join(' ').replace(/<[^>]*>/g, ' ');
+
+/** CONTRATTI.md section 7 (B), «Raccolta»: the signal on one answer to `requested` that stops a
+ *  host, or null. A redirect stops it when it leaves the host or leads to a sign-in page; within
+ *  the host it is a move, which the run records. A feed is judged by its status alone: the text
+ *  of the news never stops a host. */
+function blockSignal(res, requested) {
   if (!res || typeof res !== 'object') return 'no answer';
   const code = Number(res.statusCode);
   if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;
   if (code >= 300 && code < 400) {
     const h = res.headers || {};
-    return `redirect to ${h.location || h.Location || '(no location)'}`;
+    const loc = String(h.location || h.Location || '');
+    if (!loc) return 'redirect without a location';
+    const target = requested ? resolveLocation(loc, requested) : loc;
+    if (!requested || hostOf(target) !== hostOf(requested) || LOGIN.test(pathOf(target))) return `redirect to ${loc}`;
+    return null;
   }
+  if (!isHtml(res)) return null;
   const body = bodyText(res);
-  if (/captcha/i.test(body)) return 'captcha';
+  if (CHALLENGE.test(body)) return 'captcha';
   if (/<input[^>]+type=["']?password/i.test(body)) return 'login page';
-  if (/accesso\s+negato|access\s+denied/i.test(body)) return 'block page';
+  if (/\b(accesso\s+negato|access\s+denied|forbidden)\b/i.test(titleAndHeading(body))) return 'block page';
+  // A block page is short; a listing that only mentions those words in a title is not.
+  const visible = body.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (visible.length < 1500 && /\b(accesso\s+negato|access\s+denied)\b/i.test(visible)) return 'block page';
   return null;
 }
 
@@ -151,62 +185,78 @@ function planRun({ state, now }) {
 }
 
 /** Stage 'robots': the answers to robots.txt (`{ source_id, statusCode, headers, body }`) update
- *  the hosts; the pages of the hosts allowed today are the requests of the run. */
+ *  the hosts; the pages of the hosts allowed today are the requests of the run. Every answer is
+ *  an event of the register; a robots.txt that moved within its host leaves the host unread for
+ *  this run, not stopped. */
 function afterRobots({ state, now, answers }) {
   const day = romeDay(instant(now));
   const s = freshState(state);
   const events = [];
+  const stopped_now = [];
+  const stop = (id, reason) => { s.hosts[id].stopped = { at: now, reason }; stopped_now.push({ source_id: id, reason }); };
   for (const a of answers || []) {
     const h = s.hosts[a.source_id];
     const src = SOURCES.find((x) => x.source_id === a.source_id);
     if (!h || !src) throw new Error(`robots answer for an unknown source: ${a.source_id}`);
-    const signal = blockSignal(Object.assign({}, a, { body: Number(a.statusCode) === 200 ? '' : bodyText(a) }));
-    if (signal || Number(a.statusCode) !== 200) {
-      h.stopped = { at: now, reason: `robots.txt: ${signal || `HTTP ${a.statusCode}`}` };
-      events.push({ source_id: a.source_id, event: 'stopped', reason: h.stopped.reason });
-      continue;
+    const url = `${urlParts(src.url).origin}/robots.txt`;
+    const code = Number(a.statusCode);
+    const signal = blockSignal(Object.assign({}, a, { body: code === 200 ? '' : bodyText(a) }), url);
+    let outcome;
+    if (signal) {
+      stop(a.source_id, `robots.txt: ${signal}`);
+      outcome = 'stopped';
+    } else if (code >= 300 && code < 400) {
+      outcome = 'moved';
+    } else if (code !== 200) {
+      stop(a.source_id, `robots.txt: HTTP ${a.statusCode}`);
+      outcome = 'stopped';
+    } else {
+      let v = null;
+      try {
+        v = robotsVerdict(bodyText(a), urlParts(src.url).pathname);
+      } catch (e) {
+        stop(a.source_id, 'robots.txt unreadable');
+      }
+      if (v) {
+        h.robots_day = day;
+        h.robots_allowed = v.allowed;
+        h.crawl_delay = v.crawl_delay;
+        if (!v.allowed) stop(a.source_id, 'robots.txt disallows the page');
+      }
+      outcome = h.stopped ? 'stopped' : 'allowed';
     }
-    let v;
-    try {
-      v = robotsVerdict(bodyText(a), urlParts(src.url).pathname);
-    } catch (e) {
-      h.stopped = { at: now, reason: 'robots.txt unreadable' };
-      events.push({ source_id: a.source_id, event: 'stopped', reason: h.stopped.reason });
-      continue;
-    }
-    h.robots_day = day;
-    h.robots_allowed = v.allowed;
-    h.crawl_delay = v.crawl_delay;
-    if (!v.allowed) {
-      h.stopped = { at: now, reason: 'robots.txt disallows the page' };
-      events.push({ source_id: a.source_id, event: 'stopped', reason: h.stopped.reason });
-    }
+    events.push({ source_id: a.source_id, url, status: Number.isFinite(code) ? code : null, outcome,
+      reason: h.stopped ? h.stopped.reason : outcome === 'moved' ? `moved to ${(a.headers || {}).location || ''}` : null });
   }
   const pages = SOURCES.filter((src) => {
     const h = s.hosts[src.source_id];
     return !h.stopped && h.robots_day === day && h.robots_allowed === true;
   }).map((src) => ({ source_id: src.source_id, url: src.url, wait_ms: Math.max(5000, (s.hosts[src.source_id].crawl_delay || 0) * 1000) }));
-  return { state: s, pages, events };
+  return { state: s, pages, events, stopped_now };
 }
 
-/** Stage 'pages': the answers to the pages become the files to save and the run's register. */
-function afterPages({ state, now, started_at, answers, robots_events }) {
+/** Stage 'pages': the answers to the pages become the files to save and the run's register,
+ *  with the hosts that stopped in this run apart (`stopped_now`), for the coordinator. */
+function afterPages({ state, now, started_at, answers, robots_events, robots_stopped }) {
   instant(now);
   instant(started_at);
   const s = freshState(state);
   const stamp = compactInstant(started_at);
   const files = [];
   const hosts = [];
+  const stopped_now = Array.isArray(robots_stopped) ? robots_stopped.slice() : [];
   const seq = {};
   for (const a of answers || []) {
     const h = s.hosts[a.source_id];
-    if (!h) throw new Error(`page answer for an unknown source: ${a.source_id}`);
+    const src = SOURCES.find((x) => x.source_id === a.source_id);
+    if (!h || !src) throw new Error(`page answer for an unknown source: ${a.source_id}`);
     seq[a.source_id] = (seq[a.source_id] || 0) + 1;
-    const signal = blockSignal(a);
+    const signal = blockSignal(a, src.url);
     const code = Number(a.statusCode);
     let outcome;
     if (signal) {
       h.stopped = { at: now, reason: signal };
+      stopped_now.push({ source_id: a.source_id, reason: signal });
       outcome = { source_id: a.source_id, status: code, outcome: 'stopped', reason: signal };
     } else if (code === 200) {
       h.errors_in_row = 0;
@@ -216,13 +266,20 @@ function afterPages({ state, now, started_at, answers, robots_events }) {
       const name = `notizie_${a.source_id}_${stamp}_${seq[a.source_id]}.${ext}`;
       files.push({ name, body: bodyText(a) });
       outcome = { source_id: a.source_id, status: code, outcome: 'saved', file: `originali/${name}` };
-    } else {
+    } else if (code >= 500 || !Number.isFinite(code)) {
+      // Only server errors and timeouts make a streak; any other answer breaks it.
       h.errors_in_row = (h.errors_in_row || 0) + 1;
-      if (code >= 500 || !Number.isFinite(code)) {
-        if (h.errors_in_row >= ERRORS_TO_STOP) h.stopped = { at: now, reason: `${ERRORS_TO_STOP} errors in a row` };
+      if (h.errors_in_row >= ERRORS_TO_STOP) {
+        h.stopped = { at: now, reason: `${ERRORS_TO_STOP} server errors in a row` };
+        stopped_now.push({ source_id: a.source_id, reason: h.stopped.reason });
       }
       outcome = { source_id: a.source_id, status: Number.isFinite(code) ? code : null, outcome: h.stopped ? 'stopped' : 'error',
         reason: h.stopped ? h.stopped.reason : `HTTP ${a.statusCode}` };
+    } else {
+      h.errors_in_row = 0;
+      const moved = code >= 300 && code < 400;
+      outcome = { source_id: a.source_id, status: code, outcome: moved ? 'moved' : 'error',
+        reason: moved ? `moved to ${(a.headers || {}).location || ''}` : `HTTP ${a.statusCode}` };
     }
     hosts.push(outcome);
   }
@@ -231,8 +288,9 @@ function afterPages({ state, now, started_at, answers, robots_events }) {
     state: s,
     files,
     log_file_name: `notizie_${stamp}.json`,
+    alert_file_name: stopped_now.length ? `AVVISO_notizie_${stamp}.json` : null,
     log: { workflow: 'staging_B_notizie_raccolta', started_at, finished_at: now, user_agent: USER_AGENT,
-      robots: robots_events || [], hosts, stopped },
+      robots: robots_events || [], hosts, stopped_now, stopped },
   };
 }
 
@@ -240,7 +298,7 @@ function afterPages({ state, now, started_at, answers, robots_events }) {
 
 if (typeof $input === 'undefined') {
   module.exports = { SOURCES, USER_AGENT, AGENT_TOKENS, ERRORS_TO_STOP, urlParts, parseRobots, ruleMatches, groupAllows,
-    robotsVerdict, blockSignal, planRun, afterRobots, afterPages };
+    robotsVerdict, resolveLocation, blockSignal, planRun, afterRobots, afterPages };
   return;
 }
 
@@ -255,12 +313,14 @@ if ($json.stage === 'plan') {
   out = afterRobots({ state: store.news_collect, now: $json.now, answers: $json.answers });
   $json.pages = out.pages;
   $json.robots_events = out.events;
+  $json.robots_stopped = out.stopped_now;
   delete $json.answers;
 } else if ($json.stage === 'pages') {
   out = afterPages({ state: store.news_collect, now: $json.now, started_at: $json.started_at, answers: $json.answers,
-    robots_events: $json.robots_events });
+    robots_events: $json.robots_events, robots_stopped: $json.robots_stopped });
   $json.files = out.files;
   $json.log_file_name = out.log_file_name;
+  $json.alert_file_name = out.alert_file_name;
   $json.log = out.log;
   delete $json.answers;
 } else {

@@ -61,12 +61,23 @@ const ok = (body, type) => ({ statusCode: 200, headers: { 'content-type': type |
 check('403', m.blockSignal({ statusCode: 403, body: '' }), 'HTTP 403');
 check('429', m.blockSignal({ statusCode: 429, body: '' }), 'HTTP 429');
 check('401', m.blockSignal({ statusCode: 401, body: '' }), 'HTTP 401');
-check('a redirect', m.blockSignal({ statusCode: 302, headers: { location: 'https://sso.esempio-inventato.it/login' }, body: '' }),
-  'redirect to https://sso.esempio-inventato.it/login');
-check('a captcha', m.blockSignal(ok('<div class="captcha">')), 'captcha');
-check('a login form', m.blockSignal(ok('<input type="password">')), 'login page');
-check('a block page served with 200', m.blockSignal(ok('<h1>Accesso negato</h1>', 'text/html')), 'block page');
+check('a redirect to another host', m.blockSignal({ statusCode: 302, headers: { location: 'https://sso.esempio-inventato.it/x' }, body: '' }, 'https://esempio-inventato.it/feed/'),
+  'redirect to https://sso.esempio-inventato.it/x');
+check('a redirect within the host is not a block', m.blockSignal({ statusCode: 301, headers: { location: '/feed/' }, body: '' }, 'https://esempio-inventato.it/feed'), null);
+check('a redirect within the host to a sign-in page is', m.blockSignal({ statusCode: 302, headers: { location: '/accedi?next=/feed' }, body: '' }, 'https://esempio-inventato.it/feed'),
+  'redirect to /accedi?next=/feed');
+check('a relative redirect is resolved against the page asked for', m.resolveLocation('altro', 'https://esempio-inventato.it/a/b'), 'https://esempio-inventato.it/a/altro');
+check('a challenge page', m.blockSignal(ok('<html><div class="g-recaptcha" data-sitekey="x"></div></html>', 'text/html')), 'captcha');
+check('a feed whose news mentions a captcha is not a block', m.blockSignal(ok('<rss><item><title>Il captcha inventato</title></item></rss>')), null);
+check('nor is a long listing that mentions «accesso negato» in a title',
+  m.blockSignal(ok('<html><title>Notizie</title><h3>Accesso negato inventato</h3>' + '<p>riga inventata</p>'.repeat(200) + '</html>', 'text/html')), null);
+check('a login form', m.blockSignal(ok('<html><form><input type="password"></form></html>', 'text/html')), 'login page');
+check('a block page served with 200', m.blockSignal(ok('<html><h1>Accesso negato</h1></html>', 'text/html')), 'block page');
+check('a short page that says so is one too', m.blockSignal(ok('<html><p>Accesso negato</p></html>', 'text/html')), 'block page');
 check('a feed is not a block', m.blockSignal(ok('<rss><channel><item><title>Inventato</title></item></channel></rss>')), null);
+
+check('groups naming the same agent are merged before the longest rule (RFC 9309)',
+  m.robotsVerdict('User-agent: *\nDisallow: /private\n\nUser-agent: *\nAllow: /private/public\n', '/private/public').allowed, true);
 
 console.log('a run: plan, robots, pages');
 const NOW = '2026-11-10T22:07:00Z';
@@ -93,6 +104,12 @@ const redirect = m.afterRobots({ state: plan.state, now: NOW, answers: [{ source
 check('a robots.txt that redirects stops the host', /robots.txt: redirect/.test(redirect.state.hosts['carabinieri.it'].stopped.reason), true);
 const missing = m.afterRobots({ state: plan.state, now: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: 404, body: '' }] });
 check('a robots.txt that does not read stops the host too', missing.state.hosts['carabinieri.it'].stopped.reason, 'robots.txt: HTTP 404');
+check('every robots answer is in the register, the allowed ones too', r1.events.map((e) => [e.source_id, e.outcome]),
+  m.SOURCES.map((x) => [x.source_id, 'allowed']));
+check('a robots.txt moved within its host leaves the host unread this run, not stopped',
+  (() => { const r = m.afterRobots({ state: plan.state, now: NOW, answers: [{ source_id: 'abitarearoma.it', statusCode: 301, headers: { location: 'https://abitarearoma.it/robots.txt/' }, body: '' }] });
+    return [r.state.hosts['abitarearoma.it'].stopped, r.pages.length, r.events[0].outcome]; })(), [null, 0, 'moved']);
+check('a stop in robots is reported for the coordinator', disallow.stopped_now, [{ source_id: 'abitarearoma.it', reason: 'robots.txt disallows the page' }]);
 check('a host stopped once is not asked again', m.planRun({ state: disallow.state, now: '2026-11-12T08:00:00Z' }).robots.some((r) => r.source_id === 'abitarearoma.it'), false);
 check('a crawl delay longer than 5 s is kept',
   m.afterRobots({ state: plan.state, now: NOW, answers: [Object.assign({}, answers[2], { body: 'User-agent: *\nCrawl-delay: 10\n' })] }).pages[0].wait_ms, 10000);
@@ -100,7 +117,7 @@ check('an answer for an unknown source is a workflow error', /unknown source/.te
 
 const pages = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [
   Object.assign({ source_id: 'abitarearoma.it' }, ok('<rss></rss>')),
-  { source_id: 'questure.poliziadistato.it', statusCode: 200, headers: { 'content-type': 'text/html' }, body: '<p>Accesso negato</p>' },
+  { source_id: 'questure.poliziadistato.it', statusCode: 200, headers: { 'content-type': 'text/html' }, body: '<html><title>Accesso negato</title></html>' },
   { source_id: 'carabinieri.it', statusCode: 503, headers: {}, body: '' },
 ] });
 check('a page read is saved under its host, the start of the run and its number', pages.files.map((f) => f.name), ['notizie_abitarearoma.it_20261110T220700Z_1.xml']);
@@ -114,9 +131,17 @@ check('a server error is counted, not a stop', [pages.state.hosts['carabinieri.i
 check('the register names the run and every outcome', [pages.log_file_name, pages.log.hosts.map((h) => h.outcome)],
   ['notizie_20261110T220700Z.json', ['saved', 'stopped', 'error']]);
 check('the register lists the hosts stopped', pages.log.stopped.map((s) => s.source_id), ['questure.poliziadistato.it']);
+check('a host stopped in this run is reported apart, with an alert file', [pages.log.stopped_now.map((x) => x.source_id), pages.alert_file_name],
+  [['questure.poliziadistato.it'], 'AVVISO_notizie_20261110T220700Z.json']);
+check('a run without stops writes no alert', m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [] }).alert_file_name, null);
+const moved = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [{ source_id: 'abitarearoma.it', statusCode: 301, headers: { location: '/feed/' }, body: '' }] });
+check('a page moved within its host is recorded, not a stop', [moved.log.hosts[0].outcome, moved.state.hosts['abitarearoma.it'].stopped], ['moved', null]);
+let streak = r1.state;
+for (const code of [500, 500, 404, 500, 500]) streak = m.afterPages({ state: streak, now: LATER, started_at: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: code, body: '' }] }).state;
+check('an answer that is not a server error breaks the streak', [streak.hosts['carabinieri.it'].stopped, streak.hosts['carabinieri.it'].errors_in_row], [null, 2]);
 let st = r1.state;
 for (let i = 0; i < m.ERRORS_TO_STOP; i += 1) st = m.afterPages({ state: st, now: LATER, started_at: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: 500, body: '' }] }).state;
-check('five server errors in a row stop the host', st.hosts['carabinieri.it'].stopped.reason, '5 errors in a row');
+check('five server errors in a row stop the host', st.hosts['carabinieri.it'].stopped.reason, '5 server errors in a row');
 const reset = m.afterPages({ state: pages.state, now: LATER, started_at: NOW, answers: [Object.assign({ source_id: 'carabinieri.it' }, ok('<html></html>', 'text/html'))] });
 check('a good answer resets the count', reset.state.hosts['carabinieri.it'].errors_in_row, 0);
 check('an HTML page is saved as html', reset.files[0].name.endsWith('.html'), true);

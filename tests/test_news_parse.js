@@ -59,6 +59,16 @@ check('a date that does not read is null, not guessed', m.rfc822('31 Feb 2026 10
 check('nor is hour 25', m.rfc822('Tue, 10 Nov 2026 25:00:00 +0000'), null);
 check('GMT is UTC', m.rfc822('Tue, 10 Nov 2026 08:00:00 GMT'), '2026-11-10T08:00:00.000Z');
 check('a page that is not RSS is refused', thrown(() => m.parseRss('<html></html>')), 'not an RSS feed');
+check('the named zones of RFC 822 are read', [m.rfc822('Tue, 10 Nov 2026 08:00:00 EST'), m.rfc822('Tue, 10 Nov 2026 08:00:00 PDT')],
+  ['2026-11-10T13:00:00.000Z', '2026-11-10T15:00:00.000Z']);
+check('an offset that cannot exist is refused, not converted', [m.rfc822('Tue, 10 Nov 2026 08:00:00 +9999'), m.rfc822('Tue, 10 Nov 2026 08:00:00 XYZ')], [null, null]);
+check('markup written as entities is dropped from the text', m.text('&lt;em&gt;Titolo inventato&lt;/em&gt;'), 'Titolo inventato');
+check('a guid that is not a permalink is never the link',
+  m.parseRss('<rss><channel><item><title>x</title><guid isPermaLink="false">https://esempio-inventato.it/id/9</guid></item></channel></rss>').length, 0);
+check('a permalink guid is', m.parseRss('<rss><channel><item><title>x</title><guid>https://esempio-inventato.it/a</guid></item></channel></rss>')[0].url,
+  'https://esempio-inventato.it/a');
+check('the seen key keeps the case of path and query', [m.seenKey('https://WWW.Esempio-Inventato.it/Roma/Fatto/'), m.seenKey('https://esempio-inventato.it/Roma/fatto')],
+  ['https://esempio-inventato.it/Roma/Fatto', 'https://esempio-inventato.it/Roma/fatto']);
 
 console.log('the Questura listing');
 const rel = m.parseQuesturaListing(LISTING, 'https://questure.poliziadistato.it');
@@ -81,6 +91,10 @@ check('the Rome time as UTC in winter (T17)', cara[0].published_at_utc, '2026-11
 check('in summer (T17)', cara[2].published_at_utc, '2026-03-29T10:00:00.000Z');
 check('the repeated hour of the October change is read as the first of the two (T17)', cara[1].published_at_utc, '2026-10-25T00:30:00.000Z');
 check('a time that does not exist in Rome (the March change) is null', m.romeLocalToUtc(2026, 3, 29, 2, 30), null);
+check('a listing without a row of Rome is read, with nothing new',
+  m.newRecords({ files: [{ name: 'notizie_carabinieri.it_20261110T220700Z_1.html', body: `<table><tbody>${row('10/11/2026 10:00', 'Altrove (MI)', 'Inventato', 'Comando di Milano')}</tbody></table>` }], seen: [] }).outcome[0],
+  { source_id: 'carabinieri.it', outcome: 'read', items: 0, new: 0 });
+check('a table without rows is unreadable', /no rows/.test(thrown(() => m.parseCarabinieriListing('<table><tbody></tbody></table>', 'https://www.carabinieri.it')) || ''), true);
 check('a page without the table is refused', /no table/.test(thrown(() => m.parseCarabinieriListing('<html></html>', 'https://www.carabinieri.it')) || ''), true);
 
 console.log('records: only what was not seen before');

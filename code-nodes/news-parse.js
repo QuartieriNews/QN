@@ -29,27 +29,36 @@ function decodeEntities(s) {
     .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');
 }
 
-/** Visible text of a fragment: tags dropped, entities decoded, whitespace collapsed. */
+/** Visible text of a fragment: entities decoded first, so markup written as entities
+ *  (`&lt;em&gt;`) is dropped like the rest, then tags dropped and whitespace collapsed. */
 function text(fragment) {
-  return decodeEntities(String(fragment).replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]*>/g, ' '))
-    .replace(/\s+/g, ' ').trim();
+  const raw = String(fragment).replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1');
+  return decodeEntities(raw.replace(/<[^>]*>/g, ' ')).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
+
+/** The named zones of RFC 822, as hours from UTC. */
+const ZONES = { UT: 0, UTC: 0, GMT: 0, Z: 0, EST: -5, EDT: -4, CST: -6, CDT: -5, MST: -7, MDT: -6, PST: -8, PDT: -7 };
 
 /** RFC 822 dates of RSS (`Tue, 10 Nov 2026 20:19:10 +0000`) as a UTC instant, or null when the
  *  date does not read: a record without a time is kept, never given a guessed one. */
 function rfc822(v) {
   const m = typeof v === 'string' &&
-    /^\s*(?:[A-Za-z]{3},\s*)?(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})\s+(\d{2}):(\d{2})(?::(\d{2}))?\s+(GMT|UTC|Z|[+-]\d{4})\s*$/.exec(v);
+    /^\s*(?:[A-Za-z]{3},\s*)?(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})\s+(\d{2}):(\d{2})(?::(\d{2}))?\s+([A-Za-z]{1,3}|[+-]\d{4})\s*$/.exec(v);
   if (!m) return null;
   const mo = MONTHS[m[2].toLowerCase()];
   const [d, y, h, mi, s] = [m[1], m[3], m[4], m[5], m[6] || '0'].map(Number);
   if (!mo || h > 23 || mi > 59 || s > 59) return null;
   const t = new Date(Date.UTC(y, mo - 1, d, h, mi, s));
   if (t.getUTCDate() !== d || t.getUTCMonth() !== mo - 1) return null;
-  let off = 0;
+  let off;
   if (/^[+-]\d{4}$/.test(m[7])) {
-    const sign = m[7][0] === '-' ? -1 : 1;
-    off = sign * (Number(m[7].slice(1, 3)) * 60 + Number(m[7].slice(3, 5)));
+    const [oh, om] = [Number(m[7].slice(1, 3)), Number(m[7].slice(3, 5))];
+    if (oh > 23 || om > 59) return null;
+    off = (m[7][0] === '-' ? -1 : 1) * (oh * 60 + om);
+  } else if (Object.prototype.hasOwnProperty.call(ZONES, m[7].toUpperCase())) {
+    off = ZONES[m[7].toUpperCase()] * 60;
+  } else {
+    return null;
   }
   return new Date(t.getTime() - off * 60000).toISOString();
 }
@@ -68,7 +77,10 @@ function parseRss(xml) {
   for (const m of xml.matchAll(/<item[\s>]([\s\S]*?)<\/item>/gi)) {
     const it = m[1];
     const tag = (name) => { const t = new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, 'i').exec(it); return t ? text(t[1]) : null; };
-    const link = tag('link') || tag('guid');
+    // A guid is a link only when the feed does not say it is not a permalink.
+    const guid = /<guid([^>]*)>([\s\S]*?)<\/guid>/i.exec(it);
+    const permalink = guid && !/isPermaLink\s*=\s*["']?false/i.test(guid[1]) ? text(guid[2]) : null;
+    const link = tag('link') || permalink;
     if (!link || !/^https?:\/\//i.test(link)) continue;
     const categories = [...it.matchAll(/<category[^>]*>([\s\S]*?)<\/category>/gi)].map((c) => text(c[1])).filter(Boolean);
     out.push({ url: link, title: tag('title') || '', published_at_utc: rfc822(tag('pubDate')), categories,
@@ -114,9 +126,11 @@ function parseCarabinieriListing(html, origin) {
   if (at < 0) throw new Error('no table in the listing');
   const body = html.slice(at);
   const out = [];
+  let scanned = 0;
   for (const row of body.split(/<tr[\s>]/).slice(1)) {
     const cells = row.split(/<td class=["']?tabellaD["']?>/).slice(1);
     if (cells.length < 3) continue;
+    scanned += 1;
     const when = /(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/.exec(text(cells[0]));
     const a = /<a [^>]*href=["']?([^"' >]+)["']?[^>]*>([\s\S]*?)<\/a>/i.exec(cells[1]);
     if (!a) continue;
@@ -131,7 +145,19 @@ function parseCarabinieriListing(html, origin) {
     out.push({ url, title, published_at_utc: when ? romeLocalToUtc(+when[3], +when[2], +when[1], +when[4], +when[5]) : null,
       categories: [], agency: false, place: placeText, province, command });
   }
+  if (scanned === 0) throw new Error('no rows in the listing');
+  // A listing read with no row of the province of Rome is read, not unreadable.
+  out.scanned = scanned;
   return out;
+}
+
+/** The key of a URL in the index of what was seen: scheme and host in lower case, without
+ *  `www.`; path and query as they are, which a server may tell apart by case; no fragment and no
+ *  trailing slash. */
+function seenKey(url) {
+  const m = /^(https?):\/\/([^/?#]+)([^#]*)/i.exec(url);
+  if (!m) return url;
+  return `${m[1].toLowerCase()}://${m[2].toLowerCase().replace(/^www\./, '')}${m[3].replace(/\/+$/, '').replace(/\/+\?/, '?')}`;
 }
 
 /** The parser of each source (news-collect.js, SOURCES); a source without one is skipped. */
@@ -164,10 +190,10 @@ function newRecords({ files, seen, retrieved_at }) {
       outcome.push({ source_id, outcome: 'unreadable', reason: e.message });
       continue;
     }
-    if (items.length === 0) { outcome.push({ source_id, outcome: 'unreadable', reason: 'no items' }); continue; }
+    if (items.length === 0 && !items.scanned) { outcome.push({ source_id, outcome: 'unreadable', reason: 'no items' }); continue; }
     let fresh = 0;
     for (const it of items) {
-      const key = it.url.replace(/#.*$/, '').replace(/\/+$/, '').toLowerCase();
+      const key = seenKey(it.url);
       if (known.has(key)) continue;
       known.add(key);
       index.push(key);
@@ -182,8 +208,8 @@ function newRecords({ files, seen, retrieved_at }) {
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
-  module.exports = { SEEN_MAX, AGENCY, decodeEntities, text, rfc822, parseRss, parseQuesturaListing, romeLocalToUtc,
-    parseCarabinieriListing, PARSERS, newRecords };
+  module.exports = { SEEN_MAX, AGENCY, ZONES, decodeEntities, text, rfc822, parseRss, parseQuesturaListing, romeLocalToUtc,
+    parseCarabinieriListing, seenKey, PARSERS, newRecords };
   return;
 }
 
