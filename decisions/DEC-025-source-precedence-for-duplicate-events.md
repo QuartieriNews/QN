@@ -73,9 +73,12 @@ pubblicata».
    regola 1.
    L'elemento che resta prende i campi dalla fonte che comanda, non l'identità. Ogni altra
    copia tiene il proprio `content_id` e il proprio file, con `pilot.duplicate_of` che punta
-   all'elemento che resta; niente si cancella e le copie non si pubblicano da sole. Una riga
-   della coda di revisione di una copia resta legata alla sua chiave e si chiude come doppione
-   dell'elemento che resta.
+   all'elemento che resta; niente si cancella e le copie non si pubblicano da sole. La fusione
+   non scrive nella coda di revisione. Una riga che una copia ha già in coda resta legata al
+   suo `content_id`, e il revisore la decide con i valori di `docs/REVIEW_QUEUE.md`:
+   `discard`, con `fix_target = none`, perché l'evento vive nell'elemento che resta. Il legame
+   con quell'elemento è `pilot.duplicate_of` nel file della copia; `fix_note` può citarlo per
+   chi legge, e non si interpreta mai.
 4. **Lo stesso evento.** Si usano i criteri stretti del foglio di ottobre
    (`tools/fonti/lavoro-2026-10/doppioni.py`, PR #21), così:
    - titoli normalizzati: scomposizione Unicode NFKD, via i caratteri non ASCII, minuscole,

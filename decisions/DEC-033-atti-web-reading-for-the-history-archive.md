@@ -59,7 +59,13 @@ gennaio 2026, max 300/giorno».
      mancante (al 15 settembre, `XMO`): la lettura lo scrive nel registro e si dichiara
      incompleta, invece di contare la tipologia come vuota;
    - per ogni tipologia le pagine si leggono da 500 righe finché si arriva al totale
-     dichiarato dall'API;
+     dichiarato dall'API. Il portale pubblica in ritardo (sezione 2: DMS è passata da 191 a
+     193 atti di giugno nello stesso giorno), quindi ogni tipologia si legge due volte di
+     seguito, e la lettura vale quando le due passate danno lo stesso totale e lo stesso
+     insieme di `idDoc`. Altrimenti si legge ancora, fino a tre passate; se non si ferma, la
+     tipologia si scrive nel registro come incompleta. Le righe lette si uniscono per `idDoc`
+     e nello storico non si duplicano (`archive_id`). Un atto pubblicato dopo si prende alla
+     lettura successiva, che rilegge lo stesso intervallo;
    - la data del record (`data_documento`) è `dtSeduta` quando c'è, altrimenti `dtRpr`;
    - si tengono gli atti dei tre Municipi con `data_documento` fra il 1° gennaio 2026 e il
      giorno della lettura: tutti e due i limiti valgono sulla stessa data che il record
