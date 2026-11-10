@@ -55,7 +55,8 @@ function formDecode(s) {
  *  than guessed: a host that is not plain ASCII, and a literal IP address. */
 function canonicalUrl(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') throw new Error('url_missing');
-  const input = raw.trim().replace(/[\t\n\r]/g, '').replace(LONE_SURROGATE, '\uFFFD');
+  // The standard drops C0 controls and spaces at both ends, and tabs and line breaks anywhere.
+  const input = raw.replace(/^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, '').replace(/[\t\n\r]/g, '').replace(LONE_SURROGATE, '\uFFFD');
   const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(input);
   if (!sm) throw new Error('url_invalid');
   let scheme = sm[1].toLowerCase();
@@ -67,7 +68,8 @@ function canonicalUrl(raw) {
   const hm = /^([^:@[\]]+)(?::(\d*))?$/.exec(m[1]);
   if (!hm) throw new Error('url_invalid');
   let host = hm[1].toLowerCase();
-  if (!/^[a-z0-9.-]+$/.test(host)) throw new Error('url_invalid');
+  // ASCII the standard keeps as it is in a host; `%`, which it would decode, is refused.
+  if (!/^[a-z0-9.\-_~!$&'()*+,;=`{}"]+$/.test(host)) throw new Error('url_invalid');
   // A last label that is a number makes the host an IPv4 address to the WHATWG parser.
   const last = host.replace(/\.$/, '').split('.').pop();
   if (last === '' || /^(\d+|0x[0-9a-f]*)$/.test(last)) throw new Error('url_invalid');

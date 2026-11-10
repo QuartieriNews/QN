@@ -62,6 +62,8 @@ check('an IPv6 host too', thrown(() => m.newsIdentity({ opening_url: 'https://[0
 check('the slash forms after the scheme are one URL', m.canonicalUrl('https:esempio-inventato.it/n'), m.canonicalUrl('https://esempio-inventato.it/n'));
 check('^ in a path is encoded, as the current URL standard does', m.canonicalUrl('https://esempio-inventato.it/a^b'), 'https://esempio-inventato.it/a%5Eb');
 check('a lone surrogate is U+FFFD, not a failure', m.canonicalUrl('https://esempio-inventato.it/\ud800'), 'https://esempio-inventato.it/%EF%BF%BD');
+check('controls at the ends are dropped', m.canonicalUrl('\u0001https://esempio-inventato.it/n\u0000'), 'https://esempio-inventato.it/n');
+check('a host with an underscore is kept', m.canonicalUrl('https://foo_bar.esempio-inventato.it/n'), 'https://foo_bar.esempio-inventato.it/n');
 check('a fact index that is not a whole number is refused', thrown(() => m.newsIdentity({ opening_url: URL_A, fact_index: '2' })), 'fact_index_invalid');
 check('no URL, no id', thrown(() => m.newsIdentity({ opening_url: ' ' })), 'url_missing');
 check('a URL that is not http is refused', thrown(() => m.newsIdentity({ opening_url: 'ftp://esempio-inventato.it/x' })), 'url_not_http');
