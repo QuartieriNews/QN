@@ -389,6 +389,43 @@ console.log('fifth Codex review of #30: verified geography against every copy, a
     g.map((d) => [d.pilot.duplicate_of, d.quality.review_flags.includes('merge_deferred')]), [[undefined, true], [undefined, true]]);
 }
 
+console.log('follow-up of #30: Roman numerals to C, a source that writes its own value');
+{
+  check('XL, XLV and XC are identifiers', [...identifiers('Festival XL XLV XC')], ['xl', 'xlv', 'xc']);
+  check('so is the additive XXXXV', [...identifiers('Festival cinema XXXXV')], ['xxxxv']);
+  check('«ci» and «li» stay Italian words', [...identifiers('Ci vediamo, li aspettiamo')], []);
+  const e45 = ev('y45', 'web_page', 'Festival cinema XLV', '2026-11-14T15:00:00Z');
+  const e46 = ev('y46', 'facebook_event', 'Festival cinema XLVI', '2026-11-14T15:00:00Z');
+  check('«XLV» and «XLVI» are two editions', compare(f(e45), f(e46)), 'doubt');
+  const a1 = ev('xa', 'web_page', 'Festival cinema XXXXV', '2026-11-14T15:00:00Z');
+  const a2 = ev('xb', 'facebook_event', 'Festival cinema XXXXVI', '2026-11-14T15:00:00Z');
+  check('and so are «XXXXV» and «XXXXVI»', compare(f(a1), f(a2)), 'doubt');
+
+  const web = ev('w7', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio' } });
+  const fb = ev('f7', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', price_text: '10 euro' } });
+  const first = mergeDuplicateEvents([web, fb]);
+  const own = first.map((d) => (d.content_id === 'w7' ? Object.assign({}, d, { event: Object.assign({}, d.event, { price_text: '15 euro' }) }) : d));
+  const again = mergeDuplicateEvents(own).find((d) => d.content_id === 'w7');
+  check('a value the element\'s own source writes after a merge stays', [again.event.price_text, again.pilot.filled_from['event.price_text']], ['15 euro', undefined]);
+  const untouched = mergeDuplicateEvents(first).find((d) => d.content_id === 'w7');
+  check('a value the merge set is still taken again from the donor', [untouched.event.price_text, untouched.pilot.filled_from['event.price_text']], ['10 euro', 'f7']);
+}
+
+console.log('first Codex review of #31: units restored together, Roman numerals bounded at C');
+{
+  check('additive forms stop at C: 40 X is not an identifier', [...identifiers('Festival ' + 'X'.repeat(40))], []);
+  check('nor are standard forms above C', [...identifiers('Festival CXL')], []);
+  check('XC and XCIX still are', [...identifiers('Festival XC XCIX')], ['xc', 'xcix']);
+
+  const web = ev('w8', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: null, longitude: null } });
+  const fb = ev('f8', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.9, longitude: 12.5 } });
+  const first = mergeDuplicateEvents([web, fb]);
+  const own = first.map((d) => (d.content_id === 'w8' ? Object.assign({}, d, { event: Object.assign({}, d.event, { latitude: 41.903, longitude: 12.5 }) }) : d));
+  const again = mergeDuplicateEvents(own).find((d) => d.content_id === 'w8');
+  check('a coordinate pair the source rewrites, one value equal to the old one, stays whole',
+    [again.event.latitude, again.event.longitude, again.pilot.filled_from['event.latitude']], [41.903, 12.5, undefined]);
+}
+
 console.log('short identifiers, DEC-025 rule 4');
 {
   check('numbers, Roman numerals and single letters are identifiers', [...identifiers('Corso 1 - IX edizione, Sala B')].sort(), ['1', 'b', 'ix']);
