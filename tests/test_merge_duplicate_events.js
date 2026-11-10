@@ -127,6 +127,10 @@ console.log('geography and Roma Today, DEC-025 rule 2');
   check('the municipality of another source is never copied', w.geography.municipality_code, null);
   check('coordinates move, and the place is marked for the gazetteer to resolve again', [w.event.latitude, w.pilot.geo_recompute], [41.9, true]);
   check('Roma Today gives no field, even one nobody else has', w.event.booking_url, undefined);
+  const webV = Object.assign({}, web, { geography: { municipality_code: 'V', publication_zone_id: 'centocelle', geo_verification_status: 'human_verified' } });
+  const v = mergeDuplicateEvents([webV, cul]).find((d) => d.content_id === 'w1');
+  check('a human_verified geography takes no location evidence and is not recalculated', [v.event.latitude, v.pilot.geo_recompute, v.geography.publication_zone_id], [null, undefined, 'centocelle']);
+  check('different evidence sends it to the queue', [v.quality.review_flags.includes('geo_verified_conflict'), v.quality.requires_review], [true, true]);
 }
 
 console.log('identity, DEC-025 rule 3');

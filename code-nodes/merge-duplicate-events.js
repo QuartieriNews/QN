@@ -256,9 +256,21 @@ function mergeDuplicateEvents(docs) {
     const element = out[keep];
     const filled = {};
     let moved = false;
+    // DEC-025 rule 2: a human_verified geography is never recalculated, so no location
+    // evidence moves into it; different evidence sends the element to the queue instead.
+    const verified = ((element.geography || {}).geo_verification_status) === 'human_verified';
+    const takes = (path, v) => {
+      if (!(verified && LOCATION.has(path))) return true;
+      if (!empty(v) && JSON.stringify(v) !== JSON.stringify(get(element, path))) {
+        addFlag(element, 'geo_verified_conflict');
+        element.quality.requires_review = true;
+      }
+      return false;
+    };
     if (keep !== lead) {
       for (const path of LEAD_FIELDS) {
         const v = get(out[lead], path);
+        if (!takes(path, v)) continue;
         if (!empty(v) && JSON.stringify(v) !== JSON.stringify(get(element, path))) {
           set(element, path, v);
           filled[path] = out[lead].content_id;
@@ -270,6 +282,7 @@ function mergeDuplicateEvents(docs) {
     for (const path of FILLABLE) {
       if (!empty(get(element, path))) continue;
       const d = donors.find((k) => !empty(get(out[k], path)));
+      if (d !== undefined && !takes(path, get(out[d], path))) continue;
       if (d !== undefined) {
         set(element, path, get(out[d], path));
         filled[path] = out[d].content_id;
