@@ -277,6 +277,50 @@ console.log('reruns, order and unforeseen inputs (Codex review of #30)');
   check('a real instant with milliseconds is', thrown([bad('2026-11-10T08:00:00.123Z')]), null);
 }
 
+console.log('second Codex review of #30: instants, review state, Roma Today, the link');
+{
+  const a = ev('t1', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-10T08:00:00.123Z' } });
+  const b = ev('t2', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-10T08:00:00Z' } });
+  check('first_written_at is compared as an instant: 08:00:00Z is before 08:00:00.123Z', mergeDuplicateEvents([a, b]).find((d) => d.content_id === 't1').pilot.duplicate_of, 't2');
+
+  const m1 = ev('r1', 'web_page', 'Il piccolo principe', '2026-11-14T15:00:00Z');
+  const m2 = ev('r2', 'facebook_event', 'Il piccolo principe', '2026-11-14T19:30:00Z');
+  const once = mergeDuplicateEvents([m1, m2]);
+  check('a doubt the merge raised sets requires_review', once.map((d) => d.quality.requires_review), [true, true]);
+  const moved = once.map((d) => (d.content_id === 'r2' ? Object.assign({}, d, { pilot: Object.assign({}, d.pilot, { source_title: 'Torneo di scacchi' }) }) : d));
+  check('when the pair is no longer related, the review the merge raised is withdrawn',
+    mergeDuplicateEvents(moved).map((d) => [d.quality.requires_review, d.quality.review_flags.includes('duplicate_doubt')]), [[false, false], [false, false]]);
+  const other = Object.assign({}, m2, { quality: { requires_review: true, reject_reason: null, review_flags: [] } });
+  const kept = mergeDuplicateEvents(mergeDuplicateEvents([m1, other]).map((d) => (d.content_id === 'r2' ? Object.assign({}, d, { pilot: Object.assign({}, d.pilot, { source_title: 'Torneo di scacchi' }) }) : d)));
+  check('a review another phase asked for stays', kept.find((d) => d.content_id === 'r2').quality.requires_review, true);
+  const geo = { municipality_code: 'V', publication_zone_id: 'centocelle', geo_verification_status: 'human_verified' };
+  const hv = ev('g1', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { geography: geo,
+    pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-09T08:00:00Z' }, event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: null, longitude: null } });
+  const wc = ev('g2', 'culture_roma', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z', { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', latitude: 41.9, longitude: 12.5 } });
+  const c1 = mergeDuplicateEvents([hv, wc]);
+  check('a geography conflict raises a review', c1.find((d) => d.content_id === 'g1').quality.review_flags.includes('geo_verified_conflict'), true);
+  const c2 = mergeDuplicateEvents([c1.find((d) => d.content_id === 'g1')]);
+  check('and is cleared when the conflict is gone', [c2[0].quality.review_flags.includes('geo_verified_conflict'), c2[0].quality.requires_review], [false, false]);
+
+  const rt1 = ev('qn:roma:evt:rt:b', 'roma_today', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-09T08:00:00Z' }, event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio' } });
+  const rt2 = ev('qn:roma:evt:rt:a', 'roma_today', 'Festa di Quartiere 2026', '2026-11-14T15:30:00Z',
+    { event: { start_at_utc: '2026-11-14T15:30:00Z', venue: 'Sala Comune Esempio Due', address: 'Via Inventata 1', latitude: 41.9, longitude: 12.5 } });
+  const rt = mergeDuplicateEvents([rt1, rt2]).find((d) => d.content_id === 'qn:roma:evt:rt:b');
+  check('a Roma Today lead gives the time', rt.event.start_at_utc, '2026-11-14T15:30:00Z');
+  check('but no place', [rt.event.venue, rt.event.address, rt.event.latitude], ['Sala Comune Esempio', undefined, undefined]);
+
+  const fbOld = ev('qn:roma:evt:facebook:4', 'facebook_event', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { pilot: { source_title: 'Festa di Quartiere 2026', first_written_at: '2026-11-09T08:00:00Z' }, event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', booking_url: 'https://esempio.it/fb-biglietti' } });
+  const webLead = ev('qn:roma:evt:web:dddd', 'web_page', 'Festa di Quartiere 2026', '2026-11-14T15:00:00Z',
+    { event: { start_at_utc: '2026-11-14T15:00:00Z', venue: 'Sala Comune Esempio', booking_url: 'https://esempio.it/biglietti' } });
+  const kept2 = mergeDuplicateEvents([fbOld, webLead]).find((d) => d.content_id === 'qn:roma:evt:facebook:4');
+  check('the element keeps its identity and its own source', [kept2.content_id, kept2.source.type], ['qn:roma:evt:facebook:4', 'facebook_event']);
+  check('and publishes the lead\'s link and booking link', [kept2.pilot.lead_url, kept2.event.booking_url], ['https://esempio.it/qn:roma:evt:web:dddd', 'https://esempio.it/biglietti']);
+  check('a rerun after the pair splits drops the lead link',
+    mergeDuplicateEvents([kept2]).map((d) => [d.pilot.lead_url, d.pilot.filled_from && d.pilot.filled_from['pilot.lead_url']]), [[undefined, undefined]]);
+}
+
 console.log('short identifiers, DEC-025 rule 4');
 {
   check('numbers, Roman numerals and single letters are identifiers', [...identifiers('Corso 1 - IX edizione, Sala B')].sort(), ['1', 'b', 'ix']);

@@ -247,9 +247,13 @@ altre due. Una fonte senza grado nell'ordine di DEC-025 non si fonde mai: è un 
 previsto e va in coda. Ogni elemento che va in coda per la fusione riceve `duplicate_doubt` in
 `quality.review_flags` e `requires_review`.
 
-**Corse ripetute.** I collegamenti (`duplicate_of`, `duplicates`, `lead`) e i segnali della
-fusione si ricalcolano a ogni corsa: un collegamento non sopravvive al confronto che l'ha
-creato. `filled_from` conserva le voci delle corse precedenti, perché i valori presi restano
+**Corse ripetute.** I collegamenti (`duplicate_of`, `duplicates`, `lead`, `lead_url`) e i
+segnali della fusione (`duplicate_suspected`, `duplicate_doubt`, `merge_deferred`,
+`geo_verified_conflict`) si ricalcolano a ogni corsa: un collegamento non sopravvive al
+confronto che l'ha creato. Quando è la fusione a mettere `requires_review`, lo segna in
+`pilot.merge_review`, e la corsa dopo lo toglie se la ragione non c'è più; una revisione
+chiesta da un'altra fase resta. L'ordine di `first_written_at` si confronta come istante, non
+come testo. `filled_from` conserva le voci delle corse precedenti, perché i valori presi restano
 nel file. `source_title` vuoto o fatto di soli spazi, o `first_written_at` che non è un istante
 UTC vero (niente 30 febbraio), fermano la fusione.
 
@@ -261,8 +265,11 @@ UTC vero (niente 30 febbraio), fermano la fusione.
 riceve `duplicate_of` e `duplicate_suspected` in `quality.review_flags`, e non si pubblica da
 sola (`tools/site/project_events.py`).
 
-**I campi.** L'elemento che resta prende da chi comanda le date, il luogo e il nome alla
-fonte; un campo che gli manca ancora lo prende dalla prima fonte successiva che lo ha, mai da
+**I campi.** L'elemento che resta prende da chi comanda le date, il luogo, il link di
+prenotazione e il nome alla fonte, e pubblica il link di chi comanda (`pilot.lead_url`, che la
+proiezione usa al posto di `source.url`): l'elemento tiene il suo `content_id` e il suo
+`source`, che dice da dove viene il file. Da Roma Today, anche quando comanda, si prendono
+solo nome, ora e link; un campo che gli manca ancora lo prende dalla prima fonte successiva che lo ha, mai da
 Roma Today. Inizio, fine e precisione della data si prendono sempre insieme da una fonte, e
 così latitudine e longitudine. `pilot.filled_from` dice, per ogni campo preso così, il suo
 percorso e il `content_id` da cui viene. La geografia non si copia: un luogo cambiato porta

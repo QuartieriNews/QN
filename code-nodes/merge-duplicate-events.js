@@ -47,7 +47,8 @@ function units(paths) {
 }
 
 /** Flags the merge itself sets; an earlier run's are cleared and set again. */
-const MERGE_FLAGS = new Set(['duplicate_suspected', 'duplicate_doubt', 'merge_deferred']);
+const MERGE_FLAGS = new Set(['duplicate_suspected', 'duplicate_doubt', 'merge_deferred',
+  'geo_verified_conflict']);
 
 /** Sources that may give no FILLABLE field: Roma Today is a third-party index only
  *  (DEC-025 rule 2, DEC-108). */
@@ -56,8 +57,13 @@ const NO_FILL = new Set(['roma_today']);
 /** What the leading source gives an element that keeps another identity (DEC-025 rule 3). */
 const LEAD_FIELDS = [
   'event.start_at_utc', 'event.end_at_utc', 'event.effective_end_utc', 'event.date_precision',
-  'event.venue', 'event.address', 'event.latitude', 'event.longitude', 'pilot.source_title',
+  'event.venue', 'event.address', 'event.latitude', 'event.longitude', 'event.booking_url',
+  'pilot.source_title',
 ];
+
+/** What a Roma Today lead may give: name, time and link only (DEC-025 rule 2, DEC-108). */
+const NO_FILL_LEAD = new Set(['event.start_at_utc', 'event.end_at_utc', 'event.effective_end_utc',
+  'event.date_precision', 'pilot.source_title']);
 
 const STOP = new Set(('a al alla alle allo ai agli di del della delle dello dei degli da dal dalla dalle in nel ' +
   'nella nelle con su per tra fra e ed il lo la le i gli un una uno the of and at teatro roma edizione ' +
@@ -269,7 +275,13 @@ function mergeDuplicateEvents(docs) {
   // What an earlier run derived is derived again: links and merge flags never outlive the
   // comparison that set them (an un-merged evening show becomes visible again).
   for (const d of out) {
-    if (d.pilot) { delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead; }
+    if (d.pilot) {
+      delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead; delete d.pilot.lead_url;
+      if (d.pilot.filled_from) { d.pilot.filled_from = Object.assign({}, d.pilot.filled_from); delete d.pilot.filled_from['pilot.lead_url']; }
+      // requires_review is cleared only when the merge itself had set it (merge_review).
+      if (d.pilot.merge_review && d.quality) d.quality.requires_review = false;
+      delete d.pilot.merge_review;
+    }
     if (d.quality && Array.isArray(d.quality.review_flags)) {
       d.quality.review_flags = d.quality.review_flags.filter((f) => !MERGE_FLAGS.has(f));
     }
@@ -278,7 +290,10 @@ function mergeDuplicateEvents(docs) {
   const parent = out.map((_, i) => i);
   const find = (x) => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };
   const verdict = new Map();
-  const doubt = (k) => { addFlag(out[k], 'duplicate_doubt'); out[k].quality.requires_review = true; };
+  const review = (doc) => {
+    if (!doc.quality.requires_review) { doc.quality.requires_review = true; doc.pilot = Object.assign({}, doc.pilot, { merge_review: true }); }
+  };
+  const doubt = (k) => { addFlag(out[k], 'duplicate_doubt'); review(out[k]); };
   for (let i = 0; i < out.length; i++) {
     for (let j = i + 1; j < out.length; j++) {
       const c = compare(feats[i], feats[j]);
@@ -299,8 +314,8 @@ function mergeDuplicateEvents(docs) {
     const byRank = members.slice().sort((a, b) => byPrecedence(out[a], out[b]));
     const lead = byRank[0];
     // DEC-025 rule 3: the element written first keeps its identity; a tie goes to the lead.
-    const keep = byRank.slice().sort((a, b) =>
-      out[a].pilot.first_written_at.localeCompare(out[b].pilot.first_written_at) ||
+    const written = (k) => Date.parse(out[k].pilot.first_written_at); // instants, not strings
+    const keep = byRank.slice().sort((a, b) => written(a) - written(b) ||
       byRank.indexOf(a) - byRank.indexOf(b))[0];
     const element = out[keep];
     // Provenance of fields filled on an earlier run stays; this run adds or replaces entries.
@@ -315,7 +330,7 @@ function mergeDuplicateEvents(docs) {
       if (verified && u.some((p) => LOCATION.has(p))) {
         if (!same(element, out[from], u)) {
           addFlag(element, 'geo_verified_conflict');
-          element.quality.requires_review = true;
+          review(element);
         }
         return;
       }
@@ -327,9 +342,14 @@ function mergeDuplicateEvents(docs) {
     const pending = !!(element.pilot && element.pilot.review_pending);
     if (pending) addFlag(element, 'merge_deferred');
     if (!pending && keep !== lead) {
+      const leadNoFill = NO_FILL.has(out[lead].source && out[lead].source.type);
       for (const u of units(LEAD_FIELDS)) {
+        if (leadNoFill && !u.every((p) => NO_FILL_LEAD.has(p))) continue;
         if (present(out[lead], u) && !same(element, out[lead], u)) take(u, lead);
       }
+      // DEC-025 rule 1, the link: the element keeps its own source, and publishes the lead's.
+      const url = out[lead].source && out[lead].source.url;
+      if (!empty(url)) { element.pilot = Object.assign({}, element.pilot, { lead_url: url }); filled['pilot.lead_url'] = out[lead].content_id; }
     }
     const donors = byRank.filter((k) => k !== keep && !NO_FILL.has(out[k].source && out[k].source.type));
     if (!pending) {

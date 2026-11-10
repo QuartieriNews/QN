@@ -96,7 +96,8 @@ def project(doc):
     return {
         "id": doc["content_id"],
         "title": (doc.get("article") or {}).get("title"),
-        "url": source.get("url"),
+        # A merged element publishes the link of the source that leads it (DEC-025 rule 1).
+        "url": (doc.get("pilot") or {}).get("lead_url") or source.get("url"),
         "source": source.get("type"),
         "start": start,
         "end": end,
