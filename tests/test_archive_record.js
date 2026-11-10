@@ -176,6 +176,8 @@ check('30 February is not a retrieval time', /retrieved_at/.test(thrown(() => m.
 check('nor is hour 25', /retrieved_at/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { retrieved_at: '2026-11-10T25:00:00Z' }), [])) || ''), true);
 check('a non-UTC retrieved_at stops the run', /retrieved_at/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { retrieved_at: '2026-11-10 10:00' }), [])) || ''), true);
 check('only a staging_ workflow writes records', /staging_/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { workflow: 'D_attiweb_read' }), [])) || ''), true);
+check('a record without the workflow version is not written', /workflow_version/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { workflow_version: undefined }), [])) || ''), true);
+check('nor with an empty one', /workflow_version/.test(thrown(() => m.archiveRecord(arc, Object.assign({}, DL, { workflow_version: '  ' }), [])) || ''), true);
 check('existing versions of another id stop the run', /another archive_id/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { archive_id: 'qn:roma:arc:comune.roma.it:CMD:1' })])) || ''), true);
 
 check('existing left out stops the run instead of writing a second v1', /existing must list/.test(thrown(() => m.archiveRecord(arc, DL, undefined)) || ''), true);

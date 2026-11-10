@@ -237,6 +237,10 @@ function archiveRecord(archive, download, existing) {
   if (typeof download.workflow !== 'string' || !download.workflow.startsWith('staging_')) {
     throw new Error('download.workflow must name the staging_ workflow');
   }
+  // A record is written once and never rewritten: provenance missing now stays missing.
+  if (typeof download.workflow_version !== 'string' || !download.workflow_version.trim()) {
+    throw new Error('download.workflow_version must name the version of the staging_ workflow');
+  }
   if (typeof download.elenco !== 'string' || !download.elenco.startsWith('originali/')) {
     throw new Error('download.elenco must be the saved search page in originali/');
   }
@@ -265,7 +269,7 @@ function archiveRecord(archive, download, existing) {
       url: download.url || archive.pdf_url,
       retrieved_at: download.retrieved_at,
       workflow: download.workflow,
-      workflow_version: download.workflow_version || null,
+      workflow_version: download.workflow_version,
       elenco: download.elenco,
       data_documento_da: archive.data_documento_da,
     },
