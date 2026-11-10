@@ -17,10 +17,13 @@ const crypto = require('crypto');
 /** Query parameters that track a visit and never identify a page. */
 const TRACKING_PARAM = /^(utm_[a-z0-9_]+|fbclid|gclid|dclid|msclkid|mc_cid|mc_eid|_ga|_gl)$/i;
 
-/** The characters the WHATWG parser percent-encodes in an http(s) path: C0 controls, space,
- *  `"`, `<`, `>`, `` ` ``, `{`, `}`, DEL and everything outside ASCII. Any other character,
- *  `%` included, is kept as it is. */
-const PATH_ENCODE = /[\u0000- "<>`{}\u007f-\u{10ffff}]/u;
+/** The characters the WHATWG URL standard percent-encodes in an http(s) path: C0 controls,
+ *  space, `"`, `<`, `>`, `^`, `` ` ``, `{`, `}`, DEL and everything outside ASCII. Any other
+ *  character, `%` included, is kept as it is. `^` follows the current standard, as Node 24
+ *  does; older parsers keep it. */
+const PATH_ENCODE = /[\u0000-\u0020"<>^`{}\u007f-\u{10ffff}]/u;
+/** An unpaired UTF-16 surrogate, which the URL standard reads as U+FFFD. */
+const LONE_SURROGATE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g;
 
 /** application/x-www-form-urlencoded, the serialization of URLSearchParams. */
 function formEncode(s) {
@@ -52,12 +55,14 @@ function formDecode(s) {
  *  than guessed: a host that is not plain ASCII, and a literal IP address. */
 function canonicalUrl(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') throw new Error('url_missing');
-  const input = raw.trim().replace(/[\t\n\r]/g, '');
+  const input = raw.trim().replace(/[\t\n\r]/g, '').replace(LONE_SURROGATE, '\uFFFD');
   const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(input);
   if (!sm) throw new Error('url_invalid');
   let scheme = sm[1].toLowerCase();
   if (scheme !== 'http' && scheme !== 'https') throw new Error('url_not_http');
-  const m = /^[A-Za-z][A-Za-z0-9+.-]*:\/\/([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#.*)?$/.exec(input);
+  // For http(s) the standard accepts any run of slashes or backslashes after the scheme, none
+  // included: `https:esempio.it`, `https:/esempio.it` and `https:\\esempio.it` are one URL.
+  const m = /^[A-Za-z][A-Za-z0-9+.-]*:[/\\]*([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#.*)?$/.exec(input);
   if (!m) throw new Error('url_invalid');
   const hm = /^([^:@[\]]+)(?::(\d*))?$/.exec(m[1]);
   if (!hm) throw new Error('url_invalid');
