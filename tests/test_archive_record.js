@@ -305,6 +305,15 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('closing keeps the errors of the passes',
     m.closeTipologia({ tipologia: 'CMD', reading_day: DAY, passes: [{ total: null, rows: [], error: 'x' }] }).errors, ['x']);
 
+  {
+    // A tipologia of the real size (ten thousand rows and more) closes in well under the time
+    // n8n gives a Code node: the passes are compared through one set of ids each.
+    const big = (n) => ({ total: n, rows: Array.from({ length: n }, (_, i) => ({ idDoc: String(i + 1) })) });
+    const t0 = Date.now();
+    const merged = m.mergePasses([big(20000), big(20000)]);
+    check('two passes of 20000 rows compare in under two seconds', [merged.complete, Date.now() - t0 < 2000], [true, true]);
+  }
+
   const START = '2026-11-10T20:15:00Z';
   const END = '2026-11-10T20:40:00Z';
   const closeAll = (except) => m.TIPI.filter((c) => c !== except).map((c) => (c === 'CMD' ? closed

@@ -105,8 +105,9 @@ function mergePasses(passes) {
   }
   const missing = passes.some((p) => p.total === 0 && p.historical_total === 0);
   const [a, b] = passes.slice(-2);
-  const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total &&
-    [...ids(a)].every((x) => ids(b).has(x));
+  // The ids of each pass are gathered once: a tipologia holds ten thousand rows and more.
+  const sameIds = (x, y) => { const inY = ids(y); return [...ids(x)].every((k) => inY.has(k)); };
+  const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total && sameIds(a, b);
   return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };
 }
 
