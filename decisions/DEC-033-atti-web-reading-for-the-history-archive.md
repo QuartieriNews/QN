@@ -54,13 +54,23 @@ gennaio 2026, max 300/giorno».
      per struttura, e anche le tipologie degli organi centrali contengono atti di strutture
      municipali (sezione 3, `ACD`): limitarsi alle tipologie del Municipio ne perderebbe.
      Se l'elenco delle tipologie non si legge, la lettura non parte. L'errore «Index: 0,
-     Size: 0» è una tipologia vuota nel periodo (sezione 2), non un blocco;
+     Size: 0» vale come tipologia vuota nel periodo (sezione 2) solo se la stessa tipologia,
+     interrogata sull'intervallo storico, restituisce atti (sezione 7.1); altrimenti è un dato
+     mancante (al 15 settembre, `XMO`): la lettura lo scrive nel registro e si dichiara
+     incompleta, invece di contare la tipologia come vuota;
    - per ogni tipologia le pagine si leggono da 500 righe finché si arriva al totale
      dichiarato dall'API;
    - la data del record (`data_documento`) è `dtSeduta` quando c'è, altrimenti `dtRpr`;
-   - si tengono gli atti dei tre Municipi (campo `dscStrOrg`) con `data_documento` fra il 1°
-     gennaio 2026 e il giorno della lettura: tutti e due i limiti valgono sulla stessa data
-     che il record conserva. Una convocazione per una seduta futura resta fuori e si prende
+   - si tengono gli atti dei tre Municipi con `data_documento` fra il 1° gennaio 2026 e il
+     giorno della lettura: tutti e due i limiti valgono sulla stessa data che il record
+     conserva. Un atto è dei tre Municipi quando `dscStrOrg` nomina una struttura del
+     Municipio: «MUNIC…», poi «ROMA» se c'è, poi il numero romano, la forma che lo studio di
+     settembre ha riconosciuto su tutte le 1.426 righe delle tipologie municipali
+     (`tools/sources-study/a2_tipologie.py`). Il numero si confronta per intero: X non è IX
+     né XI. Gli atti dei gruppi della Polizia Locale (`P.L. - <numero> GRUPPO …`, nella
+     tipologia `DDS`) non sono di una struttura del Municipio e restano fuori da questa
+     decisione: includerli è una scelta a parte. Il codice di D verifica l'abbinamento con
+     i suoi test. Una convocazione per una seduta futura resta fuori e si prende
      a una lettura successiva, quando la seduta è passata.
 2. **Ritmo.** Una richiesta alla volta, almeno 5 secondi fra due richieste e al massimo 300
    documenti al giorno.

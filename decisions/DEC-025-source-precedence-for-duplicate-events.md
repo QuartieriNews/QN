@@ -89,7 +89,8 @@ pubblicata».
    - somiglianza: la maggiore fra la sovrapposizione delle parole (Jaccard) e il rapporto di
      `difflib.SequenceMatcher` sui titoli normalizzati; se uno dei due titoli normalizzati è
      vuoto (solo caratteri non ASCII o parole brevi) la somiglianza vale 0, come nello
-     script, e la coppia non si fonde mai da sola;
+     script, e la coppia non si fonde mai da sola; se però il giorno di inizio è lo stesso e i
+     luoghi coincidono, va in coda;
    - date: il giorno di inizio a Roma e, se la fine è data dalla fonte, il giorno di fine;
      due eventi sono compatibili se i loro intervalli si toccano;
    - luoghi che coincidono: tutti e due noti, con almeno metà delle parole in comune dopo la
@@ -97,12 +98,15 @@ pubblicata».
      più di 1 km. Un luogo che manca, due luoghi con meno parole in comune («Biblioteca
      Esempio» e «Biblioteca Altrove») o coordinate più lontane non bastano per fondere;
    - **stesso evento** se i luoghi coincidono, gli identificativi corti sono gli stessi, gli
-     orari di inizio, quando tutti e due li hanno, distano al massimo 60 minuti, e la
+     orari di inizio ci sono tutti e due e distano al massimo 60 minuti, e la
      somiglianza è almeno 0,85 con date compatibili oppure almeno 0,72 con lo stesso giorno di
      inizio. Il controllo sui luoghi è più stretto dello script di ottobre: un titolo generico
      («Open Day») non basta, e due eventi senza luogo (per esempio online) vanno in coda;
    - **in coda, senza fondere**: ogni altra coppia con somiglianza almeno 0,72 e date
-     compatibili, per esempio la replica pomeridiana e quella serale; un evento senza data;
+     compatibili, per esempio la replica pomeridiana e quella serale; una coppia in cui uno
+     dei due eventi ha solo il giorno e non l'ora (il canale lo segna con `start_time_unknown`
+     in `quality.review_flags`, elencato nella sezione 7 di `docs/pilota/CONTRATTI.md` con il
+     codice della fusione); un evento senza data;
      una serie confrontata con un evento singolo o con un'altra serie;
    - **gruppi**: tre o più elementi si fondono solo se ogni coppia del gruppo è lo stesso
      evento. Se due elementi dello stesso gruppo vanno in coda fra loro, va in coda tutto il
@@ -114,8 +118,10 @@ Impact:
 - **Pilota.** Il canale `web_event` può scrivere elementi quando la fusione del punto 5 è nel
   flusso; `docs/pilota/CONTRATTI.md`, sezione 7, si aggiorna con la PR che la porta
   (`source_title`, `first_written_at`, `filled_from` e gli altri campi della fusione).
-- **Foglio di ottobre.** Con questa regola le 127 righe in eccesso diventano secondarie, e i
-  conteggi per pagina (DEC-014) si calcolano sulle sole righe principali, quindi scendono.
+- **Foglio di ottobre.** Con questa regola le 127 righe in eccesso si dividono fra fuse e in
+  coda, perché la regola è più stretta di quella di ottobre. I conteggi per pagina (DEC-014)
+  si ricalcolano sulle righe principali dopo aver fatto girare la fusione sul foglio; qui non
+  sono stimati.
 - **PR #21.** La sua bozza di DEC-025 si toglie quando la #21 viene divisa.
 
 Decided by: owner · Date: 9 novembre 2026 · Affected components: il flusso degli eventi del
