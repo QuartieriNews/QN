@@ -137,13 +137,23 @@ for (const u of [
   'https://esempio.it/e?flag', 'https://esempio.it/e?a=&b=1', 'https://esempio.it/e?&a=1&&', 'https://esempio.it/e?a=1#frammento',
   'https://esempio.it/percorso con spazi', 'https://esempio.it/caff%C3%A8', 'https://esempio.it/caffè', 'https://esempio.it/a/./b/../c',
   'https://esempio.it/evento-2026-11-14_concerto.html', 'https://esempio.it:08080/e', 'https://sub.esempio.it/www/x', 'https://esempio.it/e?b=x%26y&a=1',
-  'https://esempio.it/a(b)!~*', "https://esempio.it/e?x=it's", 'https://esempio.it/e?x=a~b*c', 'https://[::1]:8080/x',
+  'https://esempio.it/a(b)!~*', "https://esempio.it/e?x=it's", 'https://esempio.it/e?x=a~b*c',
+  'https://esempio.it/a[b]', 'https://esempio.it/a%5Bb%5D', 'https://esempio.it/a|b^c', 'https://esempio.it/a%7Cb',
+  'https://esempio.it/a"b<c>d`e{f}', 'https://esempio.it/a%zz', 'https://esempio.it/a\tb', 'https://esempio.it/emoji😀',
+  'https://esempio.it/e?q=%C3', 'https://esempio.it/e?q=%25C3', 'https://esempio.it/e?q=%ZZ', 'https://esempio.it/e?q=%E2%82',
+  'https://esempio.it/e?q=%E2%82%AC', 'https://esempio.it/e?q=😀', 'https://esempio.it/e?%C3=1', 'https://esempio.it/e?q=a%2Bb',
 ]) {
   check(`same as the WHATWG reading: ${u}`, canonicalUrl(u), reference(u));
 }
 throws('a host that is not plain ASCII is refused, never guessed', () => canonicalUrl('https://caffè.esempio.it/x'), 'url_invalid');
 throws('credentials in the URL are refused', () => canonicalUrl('https://utente:segreto@esempio.it/x'), 'url_invalid');
 throws('a port out of range is refused', () => canonicalUrl('https://esempio.it:70000/x'), 'url_invalid');
+for (const ip of ['https://127.0.0.1/x', 'https://127.1/x', 'https://1.2.3.999/x', 'https://0x7f.1/x', 'https://a.1/x',
+  'https://[::1]/x', 'https://[0:0:0:0:0:0:0:1]/x', 'https://[::::]/x']) {
+  throws(`a literal IP host is refused, never rewritten: ${ip}`, () => canonicalUrl(ip), 'url_invalid');
+}
+check('a malformed escape and its escaped literal stay two URLs', canonicalUrl('https://esempio.it/e?q=%C3') !== canonicalUrl('https://esempio.it/e?q=%25C3'), true);
+check('a literal bracket and its escape stay two paths, as for the WHATWG parser', canonicalUrl('https://esempio.it/a[b') !== canonicalUrl('https://esempio.it/a%5Bb'), true);
 check('the node does not use the URL global', /new URL\(|URLSearchParams\(/.test(fs.readFileSync(FILE, 'utf8')), false);
 
 console.log('n8n adapter branch — exact committed file, stubbed $input/$json/require');
