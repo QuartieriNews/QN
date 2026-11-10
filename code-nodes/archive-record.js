@@ -255,6 +255,8 @@ function archiveRecord(archive, download, existing) {
     seen.add(r.versione);
     if (!latest || r.versione > latest.versione) latest = r;
   }
+  // Versions go up by one from 1: a gap means a truncated listing, not a history to build on.
+  if (latest && seen.size !== latest.versione) throw new Error(`existing versions are not 1 to ${latest.versione}: the listing is incomplete`);
   if (latest && latest.originale_sha256 === download.sha256) return null;
   const record = {
     archive_id: archive.archive_id,

@@ -182,6 +182,9 @@ check('existing versions of another id stop the run', /another archive_id/.test(
 
 check('existing left out stops the run instead of writing a second v1', /existing must list/.test(thrown(() => m.archiveRecord(arc, DL, undefined)) || ''), true);
 check('a repeated versione is found in any order', /two existing records with versione 1/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: 2, originale_sha256: SHA_B }), r1, r1])) || ''), true);
+check('a gap in the existing versions stops the run: the listing is incomplete',
+  /not 1 to 3/.test(thrown(() => m.archiveRecord(arc, DL, [r1, Object.assign({}, r1, { versione: 3, originale_sha256: SHA_B })])) || ''), true);
+check('so does a history without its v1', /not 1 to 2/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: 2 })])) || ''), true);
 check('two existing records with one versione stop the run', /two existing records/.test(thrown(() => m.archiveRecord(arc, DL, [r1, r1])) || ''), true);
 check('an existing versione that is not a whole number stops the run', /versione/.test(thrown(() => m.archiveRecord(arc, DL, [Object.assign({}, r1, { versione: '1' })])) || ''), true);
 check('the record points at the saved search page its row came from', r1.provenienza.elenco, 'originali/attiweb_elenco_2026-11-10_CMD_0.json');
