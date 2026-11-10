@@ -97,7 +97,7 @@ const PARSERS = {
   'cdn.ilfaroonline.it': parseRss,
 };
 
-/** Stage 'records': the files a run saved (`{ name, body }`, named `notizie_<source>_<start>`)
+/** Stage 'records': the files a run saved (`{ name, body }`, named `notizie_<source>_<start>_<n>`)
  *  become the records not seen before, with the index of what was seen. A page that does not
  *  parse is counted, never read as «nothing new». */
 function newRecords({ files, seen, retrieved_at }) {
@@ -107,7 +107,7 @@ function newRecords({ files, seen, retrieved_at }) {
   const records = [];
   const outcome = [];
   for (const f of files) {
-    const m = /^notizie_(.+)_(\d{8}T\d{6}Z)\.(xml|html|json)$/.exec((f && f.name) || '');
+    const m = /^notizie_(.+)_(\d{8}T\d{6}Z)_(\d+)\.(xml|html|json)$/.exec((f && f.name) || '');
     if (!m) throw new Error(`a file that is not a collection page: ${f && f.name}`);
     const source_id = m[1];
     const parse = PARSERS[source_id];

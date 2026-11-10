@@ -103,7 +103,12 @@ const pages = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answe
   { source_id: 'questure.poliziadistato.it', statusCode: 200, headers: { 'content-type': 'text/html' }, body: '<p>Accesso negato</p>' },
   { source_id: 'carabinieri.it', statusCode: 503, headers: {}, body: '' },
 ] });
-check('a page read is saved under its host and the start of the run', pages.files.map((f) => f.name), ['notizie_abitarearoma.it_20261110T220700Z.xml']);
+check('a page read is saved under its host, the start of the run and its number', pages.files.map((f) => f.name), ['notizie_abitarearoma.it_20261110T220700Z_1.xml']);
+const two = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, answers: [
+  Object.assign({ source_id: 'abitarearoma.it' }, ok('<rss>1</rss>')), Object.assign({ source_id: 'abitarearoma.it' }, ok('<rss>2</rss>')),
+  Object.assign({ source_id: 'cdn.ilfaroonline.it' }, ok('<rss>3</rss>'))] });
+check('two answers of one host in a run never share a file', two.files.map((f) => f.name),
+  ['notizie_abitarearoma.it_20261110T220700Z_1.xml', 'notizie_abitarearoma.it_20261110T220700Z_2.xml', 'notizie_cdn.ilfaroonline.it_20261110T220700Z_1.xml']);
 check('a block page stops its host', pages.state.hosts['questure.poliziadistato.it'].stopped.reason, 'block page');
 check('a server error is counted, not a stop', [pages.state.hosts['carabinieri.it'].stopped, pages.state.hosts['carabinieri.it'].errors_in_row], [null, 1]);
 check('the register names the run and every outcome', [pages.log_file_name, pages.log.hosts.map((h) => h.outcome)],

@@ -197,9 +197,11 @@ function afterPages({ state, now, started_at, answers, robots_events }) {
   const stamp = compactInstant(started_at);
   const files = [];
   const hosts = [];
+  const seq = {};
   for (const a of answers || []) {
     const h = s.hosts[a.source_id];
     if (!h) throw new Error(`page answer for an unknown source: ${a.source_id}`);
+    seq[a.source_id] = (seq[a.source_id] || 0) + 1;
     const signal = blockSignal(a);
     const code = Number(a.statusCode);
     let outcome;
@@ -210,7 +212,8 @@ function afterPages({ state, now, started_at, answers, robots_events }) {
       h.errors_in_row = 0;
       const type = String((a.headers || {})['content-type'] || '');
       const ext = /xml|rss|atom/i.test(type) ? 'xml' : /json/i.test(type) ? 'json' : 'html';
-      const name = `notizie_${a.source_id}_${stamp}.${ext}`;
+      // One file per answer: the number of the host's answer in the run keeps every name apart.
+      const name = `notizie_${a.source_id}_${stamp}_${seq[a.source_id]}.${ext}`;
       files.push({ name, body: bodyText(a) });
       outcome = { source_id: a.source_id, status: code, outcome: 'saved', file: `originali/${name}` };
     } else {

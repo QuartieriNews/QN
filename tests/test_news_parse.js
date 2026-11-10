@@ -69,23 +69,23 @@ check('the listing gives no date: none is guessed', rel.map((r) => r.published_a
 
 console.log('records: only what was not seen before');
 const files = [
-  { name: 'notizie_cdn.ilfaroonline.it_20261110T220700Z.xml', body: RSS },
-  { name: 'notizie_questure.poliziadistato.it_20261110T220700Z.html', body: LISTING },
-  { name: 'notizie_carabinieri.it_20261110T220700Z.html', body: '<html></html>' },
+  { name: 'notizie_cdn.ilfaroonline.it_20261110T220700Z_1.xml', body: RSS },
+  { name: 'notizie_questure.poliziadistato.it_20261110T220700Z_1.html', body: LISTING },
+  { name: 'notizie_carabinieri.it_20261110T220700Z_1.html', body: '<html></html>' },
 ];
 const first = m.newRecords({ files, seen: [], retrieved_at: '2026-11-10T22:07:00Z' });
 check('the first run gives every record', first.records.length, 4);
 check('each record names its source and its saved page', [first.records[0].source_id, first.records[0].page],
-  ['cdn.ilfaroonline.it', 'originali/notizie_cdn.ilfaroonline.it_20261110T220700Z.xml']);
+  ['cdn.ilfaroonline.it', 'originali/notizie_cdn.ilfaroonline.it_20261110T220700Z_1.xml']);
 check('a source without a parser is said so', first.outcome.find((o) => o.source_id === 'carabinieri.it').outcome, 'no parser');
 const second = m.newRecords({ files, seen: first.seen, retrieved_at: '2026-11-10T23:07:00Z' });
 check('the next run with the same pages gives nothing new', second.records.length, 0);
 check('and says it read them', second.outcome.filter((o) => o.outcome === 'read').map((o) => o.new), [0, 0]);
 check('a trailing slash or a fragment is the same URL',
-  m.newRecords({ files: [{ name: 'notizie_cdn.ilfaroonline.it_20261110T230700Z.xml', body: RSS.replace('/primo/', '/primo#x') }], seen: first.seen }).records.length, 0);
-const broken = m.newRecords({ files: [{ name: 'notizie_abitarearoma.it_20261110T220700Z.xml', body: '<html>non è un feed</html>' }], seen: [] });
+  m.newRecords({ files: [{ name: 'notizie_cdn.ilfaroonline.it_20261110T230700Z_1.xml', body: RSS.replace('/primo/', '/primo#x') }], seen: first.seen }).records.length, 0);
+const broken = m.newRecords({ files: [{ name: 'notizie_abitarearoma.it_20261110T220700Z_1.xml', body: '<html>non è un feed</html>' }], seen: [] });
 check('a page that does not parse is counted, never read as nothing new', broken.outcome[0].outcome, 'unreadable');
-const empty = m.newRecords({ files: [{ name: 'notizie_abitarearoma.it_20261110T220700Z.xml', body: '<rss></rss>' }], seen: [] });
+const empty = m.newRecords({ files: [{ name: 'notizie_abitarearoma.it_20261110T220700Z_1.xml', body: '<rss></rss>' }], seen: [] });
 check('a feed without items is unreadable too', empty.outcome[0].reason, 'no items');
 check('a file that is not a collection page is a workflow error', /not a collection page/.test(thrown(() => m.newRecords({ files: [{ name: 'altro.json', body: '' }] })) || ''), true);
 const many = Array.from({ length: m.SEEN_MAX + 10 }, (_, i) => `https://esempio-inventato.it/${i}`);
