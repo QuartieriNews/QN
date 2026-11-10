@@ -1,9 +1,10 @@
 /**
  * merge-duplicate-events.js — DEC-025: the same event from several sources becomes one
  * published element. Same-event recognition reuses the strict criteria of the October
- * 2026 unified sheet (`tools/fonti/lavoro-2026-10/doppioni.py`, PR #21); precedence,
- * filling and the fate of secondary copies follow DEC-025, rules 1-4. The thresholds
- * and the stopword list are that script's, carried here unchanged.
+ * 2026 unified sheet (`tools/fonti/lavoro-2026-10/doppioni.py`, PR #21). Precedence,
+ * filling and identity follow DEC-025, rules 1-3; the way the same event is recognised
+ * and what goes to the queue (rule 4) are spelled out in docs/pilota/CONTRATTI.md,
+ * section 7. The thresholds and the stopword list are the October script's.
  *
  * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is
  * undefined, so the tail exports and stops; inside the n8n Code node ("Run Once for
@@ -23,7 +24,8 @@ const FILLABLE = [
 ];
 const LOCATION = new Set(['event.venue', 'event.address', 'event.latitude', 'event.longitude']);
 
-/** DEC-025 rule 4: starts further apart than this are not merged on their own. */
+/** CONTRATTI.md section 7 (DEC-025 rule 4): starts further apart than this are not
+ *  merged on their own. */
 const START_TOLERANCE_MS = 60 * 60 * 1000;
 
 /** DEC-025 rule 2: fields that go together come from one source. A unit is present in a
@@ -115,9 +117,9 @@ function tokens(s) {
   return words(s).filter((w) => w.length > 2 && !STOP.has(w));
 }
 
-/** DEC-025 rule 4, short identifiers: among the words the normalization drops, a number of
- *  one or two digits, a Roman numeral in I, V and X, or a single letter, except the
- *  one-letter Italian words and elisions. */
+/** CONTRATTI.md section 7 (DEC-025 rule 4), short identifiers: among the words the
+ *  normalization drops, a number of one or two digits, a Roman numeral in I, V and X, or
+ *  a single letter, except the one-letter Italian words and elisions. */
 const NOT_IDENTIFIERS = new Set(['a', 'e', 'i', 'o', 'c', 'd', 'l']);
 function identifiers(s) {
   return new Set(words(s).filter((w) => w.length <= 2 && !NOT_IDENTIFIERS.has(w) &&
@@ -191,8 +193,9 @@ function metres(fa, fb) {
   return 2 * 6371000 * Math.asin(Math.sqrt(a));
 }
 
-/** DEC-025 rule 4: both places known, at least half of their words in common, the same
- *  short identifiers, and no more than 1 km apart when both have coordinates. */
+/** CONTRATTI.md section 7 (DEC-025 rule 4): both places known, at least half of their
+ *  words in common, the same short identifiers, and no more than 1 km apart when both
+ *  have coordinates. */
 function placesCoincide(fa, fb) {
   if (!fa.venue.size || !fb.venue.size) return false;
   const inter = [...fa.venue].filter((w) => fb.venue.has(w)).length;
@@ -202,7 +205,7 @@ function placesCoincide(fa, fb) {
   return true;
 }
 
-/** 'same' (the October criteria), 'doubt' (DEC-025 rule 4 sends it to the queue
+/** 'same' (the October criteria), 'doubt' (CONTRATTI.md section 7 sends it to the queue
  *  without merging) or null. */
 function compare(fa, fb) {
   if (!fa.title.length || !fb.title.length) {
@@ -262,7 +265,8 @@ function mergeDuplicateEvents(docs) {
   out.forEach((_, i) => { const r = find(i); if (!groups.has(r)) groups.set(r, []); groups.get(r).push(i); });
   for (const members of groups.values()) {
     if (members.length < 2) continue;
-    // DEC-025 rule 4, groups: every pair must be the same event, or the whole group waits.
+    // CONTRATTI.md section 7 (DEC-025 rule 4), groups: every pair must be the same event,
+    // or the whole group waits.
     const pairs = members.flatMap((a, x) => members.slice(x + 1).map((b) => verdict.get(`${Math.min(a, b)},${Math.max(a, b)}`)));
     if (!pairs.every((c) => c === 'same')) { members.forEach(doubt); continue; }
     const byRank = members.slice().sort((a, b) => byPrecedence(out[a], out[b]));
