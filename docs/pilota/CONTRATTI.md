@@ -102,7 +102,8 @@ l'`archive_id` del record.
   di Roma; nessun altro workflow scrive lì. In staging è `staging_D_riserva`, la domenica
   alle 4:41. La copia del giorno è completa solo quando nella sua cartella c'è `COMPLETA.json`,
   scritto dopo l'ultima copia; un giro che trova la cartella senza quel file copia i record che
-  mancano e poi lo scrive. Gli originali non si
+  mancano e poi lo scrive. Se due giri insieme creano due cartelle dello stesso giorno, vale la
+  più vecchia, che entrambi riempiono; l'altra resta vuota. Gli originali non si
   copiano: non cambiano mai, e uno perso si riscarica dal portale e si riconosce dal suo
   `originale_sha256` nel record.
 
