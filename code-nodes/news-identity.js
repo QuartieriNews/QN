@@ -2,8 +2,9 @@
  * news-identity.js — workstream B: the identity of a news fact (its content_id and
  * canonical file name), its source_hash and the source_id of the page it came from. The
  * rules are in docs/pilota/CONTRATTI.md, section 7 («B · Notizie»); this file does not
- * restate them. The URL is made canonical with the rules of web-event-identity.js, and
- * tests/test_news_identity.js checks that the two never part.
+ * restate them. The URL is made canonical with the rules and the code of
+ * web-event-identity.js, read with patterns because the n8n Code node has no `URL`
+ * global; tests/test_news_identity.js checks that the two never part.
  *
  * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is
  * undefined, so the tail exports and stops; inside the n8n Code node ("Run Once for Each
@@ -16,32 +17,68 @@ const crypto = require('crypto');
 /** Query parameters that track a visit and never identify a page. */
 const TRACKING_PARAM = /^(utm_[a-z0-9_]+|fbclid|gclid|dclid|msclkid|mc_cid|mc_eid|_ga|_gl)$/i;
 
+/** The characters a path keeps as they are; any other is percent-encoded, as the WHATWG URL
+ *  parser does for http(s) paths. */
+const PATH_KEEP = /[A-Za-z0-9\-._~!$&'()*+,;=:@/%]/;
+
+/** application/x-www-form-urlencoded, the serialization of URLSearchParams. */
+function formEncode(s) {
+  return encodeURIComponent(s).replace(/[!'()~]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase()).replace(/%20/g, '+');
+}
+
+function formDecode(s) {
+  try {
+    return decodeURIComponent(s.replace(/\+/g, ' '));
+  } catch (e) {
+    return s;
+  }
+}
+
+/** The canonical form of an http(s) URL, read with patterns: the n8n Code node has no `URL`
+ *  global and no `url` module. tests/test_web_event_identity.js checks it against the WHATWG
+ *  parser on the forms the channels meet; a host that is not plain ASCII is refused rather
+ *  than guessed. */
 function canonicalUrl(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') throw new Error('url_missing');
-  let u;
-  try {
-    u = new URL(raw.trim());
-  } catch (e) {
-    throw new Error('url_invalid');
+  const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(raw.trim());
+  if (!sm) throw new Error('url_invalid');
+  let scheme = sm[1].toLowerCase();
+  if (scheme !== 'http' && scheme !== 'https') throw new Error('url_not_http');
+  const m = /^([A-Za-z][A-Za-z0-9+.-]*):\/\/([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#.*)?$/.exec(raw.trim());
+  if (!m) throw new Error('url_invalid');
+  const hm = /^(\[[0-9A-Fa-f:.]+\]|[^:@[\]]+)(?::(\d*))?$/.exec(m[2]);
+  if (!hm) throw new Error('url_invalid');
+  let host = hm[1].toLowerCase();
+  if (!/^(\[[0-9a-f:.]+\]|[a-z0-9.-]+)$/.test(host)) throw new Error('url_invalid');
+  let port = hm[2] === undefined || hm[2] === '' ? '' : String(Number(hm[2]));
+  if (port !== '' && Number(port) > 65535) throw new Error('url_invalid');
+  // The default port of the original scheme goes. An explicit port is part of the identity,
+  // and http on 443 stays http: upgrading it would make the port vanish and merge two addresses.
+  if ((scheme === 'http' && port === '80') || (scheme === 'https' && port === '443')) port = '';
+  if (!(scheme === 'http' && port === '443')) scheme = 'https';
+  host = host.replace(/^www\./, '');
+  const segments = [];
+  for (const seg of m[3].replace(/\\/g, '/').split('/').slice(1)) {
+    if (seg === '.' || seg.toLowerCase() === '%2e') continue;
+    if (seg === '..' || /^(\.|%2e)(\.|%2e)$/i.test(seg)) { segments.pop(); continue; }
+    segments.push([...seg].map((c) => (PATH_KEEP.test(c) ? c : encodeURIComponent(c))).join(''));
   }
-  if (u.protocol !== 'http:' && u.protocol !== 'https:') throw new Error('url_not_http');
-  // As in web-event-identity.js: an explicit port is part of the identity, and http on
-  // 443 stays http so that the port does not vanish.
-  if (!(u.protocol === 'http:' && u.port === '443')) u.protocol = 'https:';
-  u.hostname = u.hostname.toLowerCase().replace(/^www\./, '');
-  u.hash = '';
-  u.pathname = u.pathname.replace(/\/+$/, '') || '/';
-  const kept = [...u.searchParams.entries()]
+  const path = ('/' + segments.join('/')).replace(/\/+$/, '') || '/';
+  const kept = (m[4] === undefined ? [] : m[4].split('&'))
+    .filter((pair) => pair !== '')
+    .map((pair) => {
+      const i = pair.indexOf('=');
+      return i < 0 ? [formDecode(pair), ''] : [formDecode(pair.slice(0, i)), formDecode(pair.slice(i + 1))];
+    })
     .filter(([k]) => !TRACKING_PARAM.test(k))
     .sort((a, b) => (a[0] === b[0] ? (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0) : a[0] < b[0] ? -1 : 1));
-  u.search = '';
-  for (const [k, v] of kept) u.searchParams.append(k, v);
-  return u.toString();
+  const query = kept.map(([k, v]) => `${formEncode(k)}=${formEncode(v)}`).join('&');
+  return `${scheme}://${host}${port ? ':' + port : ''}${path}${query ? '?' + query : ''}`;
 }
 
 /** A site's `source_id` is its host, lowercase, without `www.` (CONTRATTI.md, section 2). */
 function sourceIdFromUrl(raw) {
-  return new URL(canonicalUrl(raw)).hostname;
+  return /^https?:\/\/([^/:?#]+|\[[^\]]+\])/.exec(canonicalUrl(raw))[1];
 }
 
 const sha256 = (text) => crypto.createHash('sha256').update(text, 'utf8').digest('hex');

@@ -68,6 +68,8 @@ for (const u of [URL_A, 'http://www.esempio-inventato.it:8080/a/?z=1&utm_medium=
   check(`same canonical URL: ${u}`, m.canonicalUrl(u), web.canonicalUrl(u));
 }
 check('same list of tracking parameters', String(m.TRACKING_PARAM), String(web.TRACKING_PARAM));
+check('the node does not use the URL global, which n8n does not have', /new URL\(|URLSearchParams\(/.test(fs.readFileSync(FILE, 'utf8')), false);
+check('a host that is not plain ASCII is refused, never guessed', thrown(() => m.newsIdentity({ opening_url: 'https://caffè.esempio-inventato.it/x' })), 'url_invalid');
 
 console.log('source_hash: the lead record');
 const h = m.newsSourceHash(LEAD);
@@ -93,7 +95,8 @@ console.log('n8n adapter — exact committed file, stubbed $input/$json/require'
 const src = fs.readFileSync(FILE, 'utf8');
 function runNode(json) {
   const item = { json };
-  return new Function('$input', '$json', 'require', src)({ item }, json, require);
+  // n8n's Code node has neither URL nor URLSearchParams: the adapter runs without them.
+  return new Function('$input', '$json', 'require', 'URL', 'URLSearchParams', src)({ item }, json, require, undefined, undefined);
 }
 {
   const out = runNode({ opening_url: URL_A, lead: LEAD });
