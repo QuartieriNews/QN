@@ -73,40 +73,67 @@ una lettura per parole chiave) e il rapporto con DEC-102.
 
 Owner's answers (sessione del builder, 11 novembre 2026, una domanda alla volta con le
 opzioni qui sopra): Q1 «Solo prova forte», Q2 «Escludile tutte», Q3 «Rileggere le pagine»,
-Q4 «Mai». Domanda successiva, dopo il secondo giro di revisione della PR #46: 4 comitati di
-quartiere e 1 associazione locale che Facebook classifica come organizzazione politica o
-attività commerciale; risposta «Tienili dentro» (conta che cosa è l'organizzazione, non
-l'etichetta di Facebook). Domanda successiva, dopo il terzo giro di revisione della PR #46: un
-evento organizzato da un bar o da un partito, con l'URL raccolto a mano dall'owner; risposta
-«Solo il registro», con questa spiegazione: «Le pagine restano fuori dal registro e non le
-rileggiamo. Un evento che raccogli tu lo giudica il filtro, come oggi: il concerto nel pub può
-uscire. Il filtro non cambia.»
+Q4 «Mai». Domande successive, nella revisione della PR #46:
+- dopo il secondo giro: 4 comitati di quartiere e 1 associazione locale che Facebook classifica
+  come organizzazione politica o attività commerciale; risposta «Tienili dentro» (conta che cosa
+  è l'organizzazione, non l'etichetta di Facebook);
+- dopo il terzo giro: un evento organizzato da un bar o da un partito, con l'URL raccolto a mano
+  dall'owner; risposta «Solo il registro», con questa spiegazione: «Le pagine restano fuori dal
+  registro e non le rileggiamo. Un evento che raccogli tu lo giudica il filtro, come oggi: il
+  concerto nel pub può uscire. Il filtro non cambia.»;
+- dopo il quarto giro: le pagine «rientra» che il registro segna `locale` sono associazioni che
+  Facebook chiama «Local business»; risposta «Quinto giro», cioè correggere la decisione:
+  un'attività commerciale si esclude per quello che è, non per l'etichetta di Facebook;
+- nello stesso giro: 7 pagine «tenere» del registro con il `tipo` `politico` scritto a ottobre,
+  che il censimento non ha letto (3 comitati elettorali o di un candidato, 4 comitati su un
+  tema); risposta «Tutte e 7» (vale il `tipo` `politico` scritto a ottobre).
 
 Decision:
 1. **Q1 — b).** Entrano subito come «tenere» le pagine con una prova forte (eventi futuri
    su Facebook, date future sul sito); le altre «rientra» entrano dopo un mese di lettura dei
    loro siti, se la lettura ne conferma l'attività. L'esclusione del punto 2 vale prima di
-   questo punto. Contate nel registro della PR #21 (`docs/wiki/fonti-eventi/fonti_eventi.json`,
-   388 «rientra»): delle 68 con prova forte 5 sono attività commerciali, quindi entrano subito
-   63 pagine; delle altre 320, 13 sono politiche o commerciali, quindi le candidate dopo il mese
-   sono 307. La tabella del censimento ne conta 390 perché conta le righe dell'elenco letto, non
-   le pagine: tre pagine vi compaiono due volte e il registro ne tiene una sola, con la prima
-   lettura (`S-EV-0575`, `S-EV-0777`, `S-EV-0855`). Le due righe «rientra» in più sono seconde
-   letture di queste pagine, tutte e due senza prova forte. Una pagina segue un percorso solo:
-   quello del mese, se una delle sue letture è «rientra». `S-EV-0575` è già fra le 307;
-   `S-EV-0777` e `S-EV-0855`, che il registro segna «da valutare», si aggiungono se la loro
-   seconda lettura nel foglio del censimento è «rientra» (al più 309 candidate).
+   questo punto, e prima di promuovere una pagina si controlla che cosa è l'organizzazione
+   (punto 2). Contate nel registro della PR #21 (`docs/wiki/fonti-eventi/fonti_eventi.json`,
+   388 «rientra»): 68 hanno una prova forte e 320 no. Delle 68 il punto 2 non ne esclude
+   nessuna: le 5 che il registro segna `locale` sono associazioni; entrano subito 68 pagine.
+   Delle 320 sono politiche due: `S-FE-0369`, un comitato referendario che è anche fra le 28
+   del punto 2, e `S-EV-0912`, un'associazione di area politica che il registro segna `locale`.
+   Le altre 11 segnate `locale` sono associazioni: le candidate dopo il mese sono 318.
+   La tabella del censimento conta 390 «rientra» perché conta le righe dell'elenco letto, non le
+   pagine: tre pagine vi compaiono due volte e il registro ne tiene una sola, con la prima
+   lettura (`S-EV-0575`, `S-EV-0777`, `S-EV-0855`); le due righe «rientra» in più sono seconde
+   letture di queste pagine. Una pagina segue un percorso solo, con quello che hanno trovato
+   tutte le sue letture: è «rientra» se una lettura lo è, e ha una prova forte se una lettura ne
+   ha una. `S-EV-0575` è già fra le 318.
+   `S-EV-0777` e `S-EV-0855` il registro le segna «da valutare»; se la loro seconda lettura nel
+   foglio del censimento è «rientra», `S-EV-0777`, che ha date future sul sito, entra subito (69
+   pagine) e `S-EV-0855` si aggiunge alle candidate del mese (319).
 2. **Q2 — b).** Restano fuori dal registro le organizzazioni politiche (partiti, liste,
-   candidati) e le attività commerciali (negozi, bar, palestre). Conta che cosa è
-   l'organizzazione, cioè il `tipo` del registro (`politico`, `organizzazione_politica`,
-   `locale`), non la categoria di Facebook: i comitati di quartiere e le associazioni locali
-   restano fonti anche quando Facebook li chiama politici o commerciali (la prima domanda
-   successiva qui sopra). Le pagine escluse che il registro segna già «tenere» (21 politiche)
-   non si cancellano: passano a «scartare» con il motivo «DEC-024 Q2» e tengono la loro storia.
-   La rilettura del punto 3 le salta. L'esclusione vale per il registro, non per gli eventi (la
-   seconda domanda successiva): un evento che l'owner raccoglie a mano (DEC-102) lo giudica
-   `prompts/EDITORIAL_FILTER.md`, che non cambia, anche quando l'organizzatore è un partito o
-   un'attività commerciale.
+   candidati, comitati elettorali e referendari) e, fra le pagine del censimento, le attività
+   commerciali (negozi, bar, palestre). Conta che cosa è l'organizzazione, non l'etichetta di
+   Facebook (prima e terza domanda successiva): i comitati di quartiere e le associazioni restano
+   fonti anche quando Facebook li chiama politici o commerciali.
+   - **Pagine del censimento.** Il `tipo` del registro non basta, perché lo strumento lo copia
+     dalla categoria di Facebook (`FB_CATEGORIA_TIPO` in `tools/wiki/build_fonti_eventi.py`,
+     nella PR #21: «Local business» diventa `locale`, le categorie politiche
+     `organizzazione_politica`): che cosa è l'organizzazione si controlla sul nome e sul sito.
+     All'11 novembre nel censimento non c'è nessuna attività commerciale: le 54 pagine che il
+     censimento segna «locale» e le 17 «rientra» con il `tipo` `locale` sono associazioni o
+     comitati che Facebook chiama «Local business». Quelli politici si escludono come politici
+     (`S-EV-0912`; `S-FE-0343` e `S-FE-0366`, che sono fra le 28 qui sotto). Le 54 non sono
+     «rientra»: tolte le 2 politiche, 6 sono già «tenere» e 46 restano candidate, come le pagine
+     che il punto 1 non promuove.
+   - **Pagine già «tenere».** Vale il `tipo` scritto nel registro del 13 ottobre
+     (`registro.tipo`, quarta domanda successiva): le 28 con il `tipo` `politico` passano a
+     «scartare» con il motivo «DEC-024 Q2», non si cancellano e tengono la loro storia. Nessuna
+     ha il `tipo` `locale`. I luoghi e gli organizzatori commerciali che il registro ha da altre
+     fonti (club, cinema, fiere, un mercato, una libreria) non erano nella domanda Q2, che
+     parlava delle pagine del censimento, e restano: il luogo non decide da solo
+     (`prompts/EDITORIAL_FILTER.md`, «`venue_nature` is a prior, not a shortcut»).
+   - **Rilettura ed eventi.** La rilettura del punto 3 salta le pagine escluse. L'esclusione vale
+     per il registro, non per gli eventi (seconda domanda successiva): un evento che l'owner
+     raccoglie a mano (DEC-102) lo giudica `prompts/EDITORIAL_FILTER.md`, che non cambia, anche
+     quando l'organizzatore è un partito o un'attività commerciale.
 3. **Q3 — b), con il controllo trimestrale della raccomandazione.** All'owner l'opzione è
    stata posta così: «Ogni due settimane rileggo le pagine del registro. Una volta ogni tre
    mesi faccio una ricerca per parole chiave, solo come controllo». Le pagine del registro si
