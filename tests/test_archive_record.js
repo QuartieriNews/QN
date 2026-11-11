@@ -307,6 +307,13 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
     act(4, { dtRpr: '2025-12-10' }), act(5, { dtRpr: 'ieri' })] })] }).pass_result;
   const closed = m.closeTipologia({ tipologia: 'CMD', reading_day: DAY, started_at: RS, passes: [mixed(1), mixed(2)] });
   check('closing: two equal passes with an unreadable row leave the tipologia incomplete (DEC-033, rule 5)', [closed.complete, closed.passes, closed.total], [false, 2, 5]);
+  const noIds = (pass) => m.searchPass({ tipologia: 'CMD', reading_day: DAY, started_at: RS, pass, pages: [ok({ total: 4, elencoAtti: [
+    act(1), act(null), act(undefined), act('x')] })] }).pass_result;
+  check('closing: rows without a valid idDoc are each counted, not merged under one empty key (DEC-033, rule 5)',
+    m.closeTipologia({ tipologia: 'CMD', reading_day: DAY, started_at: RS, passes: [noIds(1), noIds(2)] }).left_out, { riga_illeggibile: 3 });
+  check('closing: the same unreadable rows in two passes are counted once, by the pass that holds the most',
+    m.closeTipologia({ tipologia: 'CMD', reading_day: DAY, started_at: RS, passes: [noIds(1), m.searchPass({ tipologia: 'CMD', reading_day: DAY, started_at: RS, pass: 2,
+      pages: [ok({ total: 2, elencoAtti: [act(1), act(null)] })] }).pass_result] }).left_out, { riga_illeggibile: 3 });
   const clean = (pass) => m.searchPass({ tipologia: 'CMD', reading_day: DAY, started_at: RS, pass, pages: [ok({ total: 2, elencoAtti: [act(1), act(2, { dscStrOrg: 'Municipio Roma II' })] })] }).pass_result;
   check('closing: two equal passes where every row reads complete the tipologia',
     m.closeTipologia({ tipologia: 'CMD', reading_day: DAY, passes: [clean(1), clean(2)] }).complete, true);

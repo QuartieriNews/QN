@@ -89,9 +89,20 @@ function mergePasses(passes) {
   if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {
     throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');
   }
-  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));
+  const validId = (r) => /^[0-9]+$/.test(normalizeKey(r.idDoc));
+  const ids = (p) => new Set((p.rows || []).filter(validId).map((r) => normalizeKey(r.idDoc)));
   const byId = new Map();
-  for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);
+  // A row without a valid idDoc has no key to merge by: each one is kept, to be counted (DEC-033,
+  // rule 5). The same rows come back in every pass, so the pass that holds the most of them counts.
+  let unreadable = [];
+  for (const p of passes) {
+    const bad = [];
+    for (const r of p.rows || []) {
+      if (validId(r)) byId.set(normalizeKey(r.idDoc), r);
+      else bad.push(r);
+    }
+    if (bad.length > unreadable.length) unreadable = bad;
+  }
   // A pass is whole when it holds exactly the rows it declares, each with a valid idDoc of its
   // own: a truncated pagination, or a row that cannot be read, is never complete, however stable.
   const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && Array.isArray(p.rows) &&
@@ -108,7 +119,7 @@ function mergePasses(passes) {
   // The ids of each pass are gathered once: a tipologia holds ten thousand rows and more.
   const sameIds = (x, y) => { const inY = ids(y); return [...ids(x)].every((k) => inY.has(k)); };
   const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total && sameIds(a, b);
-  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };
+  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values(), ...unreadable] };
 }
 
 /** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */
