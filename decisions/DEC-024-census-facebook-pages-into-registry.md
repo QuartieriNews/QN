@@ -1,9 +1,10 @@
 # DEC-024 — Censimento delle pagine Facebook di associazioni: cosa entra nel registro e come si continua a cercare su Facebook
 
 Status: DECIDED (11 novembre 2026, owner nella sessione del builder, sulle opzioni poste dal builder)
-Blocks: nothing. Mentre era aperta bloccava la promozione delle candidate del censimento del
-24 ottobre 2026 nel registro fonti v2, il flusso continuo di ricerca eventi su Facebook e la
-rilettura delle pagine dormienti.
+Blocks: la schedulazione della rilettura del punto 3, finché DEC-004 (il tetto di eventi per
+corsa, ancora aperta) non è decisa. Mentre era aperta bloccava la promozione delle candidate del
+censimento del 24 ottobre 2026 nel registro fonti v2, il flusso continuo di ricerca eventi su
+Facebook e la rilettura delle pagine dormienti.
 
 Context: il 24 ottobre 2026 le 1.169 pagine Facebook di associazioni fornite dall'owner
 sono state lette con Apify (dati di pagina, eventi futuri, post degli ultimi sei mesi) e
@@ -120,9 +121,12 @@ Decision:
      All'11 novembre nel censimento non c'è nessuna attività commerciale: le 54 pagine che il
      censimento segna «locale» e le 17 «rientra» con il `tipo` `locale` sono associazioni o
      comitati che Facebook chiama «Local business». Quelli politici si escludono come politici
-     (`S-EV-0912`; `S-FE-0343` e `S-FE-0366`, che sono fra le 28 qui sotto). Le 54 non sono
-     «rientra»: tolte le 2 politiche, 6 sono già «tenere» e 46 restano candidate, come le pagine
-     che il punto 1 non promuove.
+     (`S-EV-0912`; `S-FE-0343` e `S-FE-0366`, che sono fra le 28 qui sotto). Delle 54, tolte le
+     2 politiche, 6 sono già «tenere». Le altre 46 non sono «rientra»: il censimento non ha
+     trovato eventi futuri, né su Facebook né sul sito, né date sul sito negli ultimi sei mesi,
+     e 40 non hanno nemmeno post recenti. Hanno la sorte delle pagine lette allo stesso modo: 40
+     quella delle dormienti (punto 4), 6 quella delle «attive su Facebook, senza annunci di
+     eventi». Nessuna entra come «tenere» e la rilettura del punto 3 non le legge.
    - **Pagine già «tenere».** Vale il `tipo` scritto nel registro del 13 ottobre
      (`registro.tipo`, quarta domanda successiva): le 28 con il `tipo` `politico` passano a
      «scartare» con il motivo «DEC-024 Q2», non si cancellano e tengono la loro storia. Nessuna
@@ -139,7 +143,8 @@ Decision:
    mesi faccio una ricerca per parole chiave, solo come controllo». Le pagine del registro si
    rileggono ogni due settimane con `pageUrls`; una lettura per parole chiave al massimo ogni
    tre mesi, come controllo. Tetto di spesa mensile scritto nel workflow prima che la
-   schedulazione parta. DEC-102 resta com'è, come diceva la domanda all'owner («Gli URL degli
+   schedulazione parta; la schedulazione aspetta anche DEC-004, ancora aperta, che fissa il
+   tetto di eventi per corsa (Blocks, qui sopra). DEC-102 resta com'è, come diceva la domanda all'owner («Gli URL degli
    eventi da pubblicare restano raccolti da te, come prevede DEC-102»): la rilettura e la
    ricerca dicono quali pagine sono attive e quali eventi annunciano, aggiornano lo stato delle
    pagine nel registro e arrivano all'owner come elenco. Non alimentano il canale C: un evento

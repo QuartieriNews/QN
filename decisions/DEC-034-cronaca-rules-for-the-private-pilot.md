@@ -1,7 +1,9 @@
 # DEC-034 — Le regole della cronaca per il pilota privato (canale B)
 
 Status: DECIDED (11 novembre 2026, owner nella sessione del builder, sulle opzioni poste dal builder)
-Blocks: nothing.
+Blocks: la pubblicazione dei casi che R-C05 manda in coda manuale, finché `docs/REVIEW_QUEUE.md`
+non dà alle notizie una priorità o un tempo («What changes when the other blocks arrive»):
+R-C08 chiede di pubblicare entro 48 ore, e la coda oggi si rivede una volta alla settimana.
 
 Context:
 - Il contratto del pilota ha già una regola sull'unità: lo stesso fatto raccontato da più
@@ -49,7 +51,10 @@ domanda):
 1. **Regole di lavoro del pilota privato da subito:** R-C01, R-C02, R-C04, R-C05, R-C06,
    R-C07, R-C08 e R-C10. Un comunicato di riepilogo dà un elemento per fatto (R-C01). Il
    capofila di un fatto è la fonte ufficiale, se c'è; altrimenti la prima testata aperta
-   che lo riporta (R-C02).
+   che lo riporta (R-C02). Di R-C10 vale la parte decisa: nessuna foto di persone né foto
+   prese dalle testate. La scelta fra un'immagine generata (la mappa del luogo) e nessuna
+   immagine resta aperta (baseline §2.D, come dice R-C10): finché non è decisa, il canale non
+   mette immagini.
 2. **R-C09** dopo il primo mese di dati, con N fissato dall'owner.
 3. **Al parere legale:** di R-C03 solo l'uso di titoli ed estratti delle testate (scrivere
    con parole proprie, citando e linkando le testate, è già DEC-108); di R-C11 la procedura
@@ -68,4 +73,5 @@ domanda):
      vittime adulte, i testimoni, i familiari, le persone coinvolte in suicidi o tentati
      suicidi, i dati sanitari e gli altri dati sensibili.
 
-Decided by: Owner · Date: 11 novembre 2026 · Affected components: canale B del pilota, `docs/pilota/CONTRATTI.md`.
+Decided by: Owner · Date: 11 novembre 2026 · Affected components: canale B del pilota, `docs/pilota/CONTRATTI.md`,
+`docs/REVIEW_QUEUE.md` (la priorità delle notizie, Blocks).
