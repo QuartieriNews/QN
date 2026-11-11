@@ -249,6 +249,12 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('a password field stops it', m.blockSignal(ok('<form><input type="password" name="p"></form>')), 'login page');
   check('the empty answer is not a block', m.blockSignal({ statusCode: 500, body: STRUTS }), null);
   check('rows are not a block', m.blockSignal(page(1, [1])), null);
+  const CHECK = '<html>\n<head></head>\n<body>\n<script type="text/javascript">/* a check of the browser */</script>\n</body>\n</html>';
+  check('a 200 HTML page in place of data is a block: a script that checks the browser names no captcha',
+    m.htmlInstead(ok(CHECK), 'the answer'), 'an HTML page instead of the answer');
+  check('the empty answer is not that block', m.htmlInstead({ statusCode: 200, body: STRUTS }, 'the answer'), null);
+  check('an HTML error page is not that block', m.htmlInstead({ statusCode: 500, body: '<html>altro</html>' }, 'the answer'), null);
+  check('JSON is not that block', m.htmlInstead(page(1, [1]), 'the answer'), null);
 
   check('an answer with rows', m.parseSearch(page(2, [1, 2])).kind, 'rows');
   check('the empty answer', m.parseSearch({ statusCode: 500, body: STRUTS }), { kind: 'empty' });
@@ -272,7 +278,11 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
     m.searchPass({ tipologia: 'MMC', reading_day: DAY, started_at: RS, pass: 1, pages: [page(501, [1]), page(502, [2])] }).pass_result.error,
     'the declared total changed between pages');
   check('an error page leaves the pass incomplete',
-    m.searchPass({ tipologia: 'CMD', reading_day: DAY, started_at: RS, pass: 1, pages: [page(2, [1]), ok('<html>altro</html>')] }).pass_result.total, null);
+    m.searchPass({ tipologia: 'CMD', reading_day: DAY, started_at: RS, pass: 1, pages: [page(2, [1]), { statusCode: 500, body: '<html>altro</html>' }] }).pass_result.total, null);
+  check('a 200 HTML page in place of a page of rows stops the reading (DEC-033, rule 4)',
+    /blocked \(an HTML page instead of the answer\)/.test(thrown(() => m.searchPass({ tipologia: 'CMD', reading_day: DAY, started_at: RS, pass: 1, pages: [page(2, [1]), ok(CHECK)] })) || ''), true);
+  check('a 200 HTML page in place of the historical check stops it too',
+    /blocked \(an HTML page/.test(thrown(() => m.searchPass({ tipologia: 'KD', reading_day: DAY, started_at: RS, pass: 1, pages: [{ statusCode: 500, body: STRUTS }], historical: ok(CHECK) })) || ''), true);
   const empty = m.searchPass({ tipologia: 'KD', reading_day: DAY, started_at: RS, pass: 1, pages: [{ statusCode: 500, body: STRUTS }] });
   check('an empty first answer asks for the historical check', [empty.needs_historical, empty.pass_result], [true, null]);
   check('with acts in the historical interval the pass is empty',
@@ -377,7 +387,13 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
     m.checkPdf({ response: { statusCode: 200, headers: {} }, mime: 'application/octet-stream', file_extension: 'pdf', has_content: true }).ok, true);
   check('octet-stream without a .pdf name is not', m.checkPdf({ response: { statusCode: 200 }, mime: 'application/octet-stream', file_extension: 'html', has_content: true }).ok, false);
   check('a missing PDF is counted, not written', m.checkPdf({ response: { statusCode: 404 }, mime: 'text/html', has_content: true }).ok, false);
-  check('an HTML page is not an original', m.checkPdf({ response: { statusCode: 200 }, mime: 'text/html', has_content: true }).reason, 'not a PDF: text/html');
+  check('an HTML page served with 200 in place of a PDF stops the reading (DEC-033, rule 4)',
+    /blocked \(an HTML page instead of the PDF\)/.test(thrown(() => m.checkPdf({ response: { statusCode: 200 }, mime: 'text/html', has_content: true })) || ''), true);
+  check('a page that checks the browser with a script, served with 200, stops it too',
+    /blocked \(an HTML page instead of the PDF\)/.test(thrown(() => m.checkPdf({ response: { statusCode: 200, headers: { 'content-type': 'text/html' }, body: CHECK }, mime: 'text/html; charset=utf-8', has_content: true })) || ''), true);
+  check('an HTML body under another MIME type stops it as well',
+    /blocked \(an HTML page instead of the PDF\)/.test(thrown(() => m.checkPdf({ response: { statusCode: 200, body: CHECK }, mime: 'application/octet-stream', file_extension: 'bin', has_content: true })) || ''), true);
+  check('a plain text answer is not an original, and is counted', m.checkPdf({ response: { statusCode: 200, body: 'testo' }, mime: 'text/plain', has_content: true }).reason, 'not a PDF: text/plain');
   check('an empty file is not an original', m.checkPdf({ response: { statusCode: 200 }, mime: 'application/pdf', has_content: false }).reason, 'empty file');
 
   console.log('n8n adapter, reading stages — exact committed file');
@@ -451,9 +467,12 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('pdf: the binary as n8n writes it for the portal\'s answer is ok', portal.json.pdf.ok, true);
   const zero = runWith({ stage: 'pdf', response: { statusCode: 200, headers: {} } }, { data: { mimeType: 'application/pdf', fileSize: '0 B' } });
   check('pdf: n8n\'s "0 B" is an empty file', zero.json.pdf.reason, 'empty file');
-  const asText = runWith({ stage: 'pdf', mime: 'text/html', file_extension: 'html',
-    response: { statusCode: 200, headers: {}, body: '<html><p>Documento non disponibile</p></html>' } });
-  check('pdf: an answer turned into text is judged by its type, and counted', asText.json.pdf, { ok: false, reason: 'not a PDF: text/html' });
+  const asText = runWith({ stage: 'pdf', mime: 'text/plain', file_extension: 'txt',
+    response: { statusCode: 200, headers: {}, body: 'Documento non disponibile' } });
+  check('pdf: an answer turned into text is judged by its type, and counted', asText.json.pdf, { ok: false, reason: 'not a PDF: text/plain' });
+  check('pdf: an HTML page turned into text stops the reading, whatever it says (DEC-033, rule 4)',
+    /an HTML page instead of the PDF/.test(thrown(() => runWith({ stage: 'pdf', mime: 'text/html', file_extension: 'html',
+      response: { statusCode: 200, headers: {}, body: '<html><p>Documento non disponibile</p></html>' } })) || ''), true);
   checks += 1;
   try {
     runWith({ stage: 'pdf', mime: 'text/html', response: { statusCode: 200, headers: {}, body: '<script src="https://www.google.com/recaptcha/api.js"></script><div class="g-recaptcha"></div>' } });

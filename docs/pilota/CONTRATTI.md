@@ -153,9 +153,11 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   che non conta per il tetto. `<inizio>` è l'ora UTC
   d'inizio, `YYYYMMDDTHHMMSSZ`.
 - **Segnali di blocco.** Oltre a 403, 429, captcha e pagina di accesso, fermano la lettura
-  anche 401 e qualunque rinvio: il portale non rinvia nelle risposte normali. Una risposta che
-  non è un PDF si legge come testo, così un captcha o una pagina di accesso serviti con 200 al
-  posto del documento la fermano. Se un workflow D si ferma, per un segnale di blocco o per un
+  anche 401 e qualunque rinvio: il portale non rinvia nelle risposte normali. La ferma anche
+  una pagina HTML servita con 200 dove il portale manda dati (l'elenco, il PDF), fuori dalla
+  risposta vuota: una pagina che controlla il browser con uno script non dice «captcha». Una
+  risposta che non è un PDF si legge come testo, così la si riconosce anche al posto del
+  documento. Se un workflow D si ferma, per un segnale di blocco o per un
   errore, `staging_D_avviso` scrive `AVVISO_attiweb_<ora>.json` in `D Storico/letture/` con il
   workflow, l'esecuzione, il nodo e il messaggio: è il registro della lettura o del giro
   interrotto, che resta incompleto, e il coordinatore avvisa l'owner. Il workflow d'avviso resta
@@ -163,8 +165,9 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
 - **Righe illeggibili.** Una riga che non si legge si conta nel registro e lascia incompleta la
   sua tipologia, quindi la lettura (DEC-033, regola 5).
 - **PDF.** Il portale manda i PDF come `application/octet-stream` con un nome `.pdf`: valgono
-  come originali. Una pagina HTML, un file vuoto o un codice diverso da 200 si contano nel
-  registro del download e non si scrivono.
+  come originali. Un file vuoto, un altro tipo di file o un codice diverso da 200 si contano
+  nel registro del download e non si scrivono; una pagina HTML ferma il giro (segnali di
+  blocco), anche se il portale la usasse per un documento che manca.
 - **Versioni.** Gli `archive_id` nuovi si scaricano per primi; con il tetto che resta nel
   giorno si riscaricano quelli già nello storico, da quello verificato da più tempo, così ogni
   documento si ricontrolla nel tempo. Lo stesso originale (stesso SHA-256) non aggiunge

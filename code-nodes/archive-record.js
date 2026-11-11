@@ -355,6 +355,17 @@ function blockSignal(res) {
   return null;
 }
 
+const HTML_PAGE = /<!doctype html|<html[\s>]|<body[\s>]/i;
+
+/** DEC-033, rule 4: a 200 answer that is an HTML page where the portal sends data (`what`) is a
+ *  block too, since a page that checks the browser with a script names no captcha. The empty
+ *  answer of the search is the one HTML page the portal sends in place of data. */
+function htmlInstead(res, what) {
+  if (Number(res.statusCode) !== 200) return null;
+  const body = bodyText(res);
+  return HTML_PAGE.test(body) && !EMPTY_ANSWER.test(body) ? `an HTML page instead of ${what}` : null;
+}
+
 /** One answer of the search: its rows and the total it declares, the empty answer, or an
  *  error, which leaves the pass incomplete. */
 function parseSearch(res) {
@@ -390,7 +401,7 @@ function searchPass({ tipologia, reading_day, started_at, pass, pages, historica
   if (!Number.isInteger(pass) || pass < 1 || pass > 3) throw new Error('pass is 1, 2 or 3 (CONTRATTI.md, «Lo storico»)');
   if (!Array.isArray(pages) || pages.length === 0) throw new Error('a pass has at least one answer');
   for (const res of pages.concat(historical ? [historical] : [])) {
-    const signal = blockSignal(res);
+    const signal = blockSignal(res) || htmlInstead(res, 'the answer');
     if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
   }
   const files = pages.map((res, i) => ({ name: elencoFileName(reading_day, started_at, tipo, pass, i), body: bodyText(res) }));
@@ -614,9 +625,12 @@ function downloadLog({ reading_day, started_at, finished_at, workflow, workflow_
  *  and extension, whether it has content) is an original to hash, a block that stops the reading,
  *  or something else, which is counted and not written. The portal sends its PDFs as
  *  `application/octet-stream` with a `.pdf` file name; any other answer reaches this stage with its
- *  text in `body`, so that a captcha or a login page served with 200 stops the reading too. */
+ *  text in `body`, so that a captcha, a login page or any HTML page served with 200 stops the
+ *  reading too. */
 function checkPdf({ response, mime, file_extension, has_content }) {
-  const signal = blockSignal(Object.assign({ body: '' }, response));
+  const res = Object.assign({ body: '' }, response);
+  const html = Number(res.statusCode) === 200 && /^text\/html\b/i.test(String(mime || '')) ? 'an HTML page instead of the PDF' : null;
+  const signal = blockSignal(res) || html || htmlInstead(res, 'the PDF');
   if (signal) throw new Error(`blocked (${signal}): the reading stops (DEC-033, rule 4)`);
   if (Number(response.statusCode) !== 200) return { ok: false, reason: `HTTP ${response.statusCode}` };
   const pdf = mime === 'application/pdf' || (mime === 'application/octet-stream' && String(file_extension).toLowerCase() === 'pdf');
@@ -635,7 +649,7 @@ if (typeof $input === 'undefined') {
   module.exports = {
     SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,
     planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,
-    archiveRecord, recordFileName, menuCodes, blockSignal, parseSearch, elencoFileName, searchPass,
+    archiveRecord, recordFileName, menuCodes, blockSignal, htmlInstead, parseSearch, elencoFileName, searchPass,
     closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
     downloadResultName, downloadLog, reservationHolds,
   };
