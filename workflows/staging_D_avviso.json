@@ -1,0 +1,144 @@
+{
+  "name": "staging_D_avviso",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8725e5e1-79f5-4e44-bfe2-dac57c91398e",
+      "name": "Errore"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "76de16c7-baa8-4da0-8b55-3877f6df078b",
+              "name": "name",
+              "type": "string",
+              "value": "=AVVISO_attiweb_{{ $now.toUTC().toFormat(\"yyyyLLdd'T'HHmmss'Z'\") }}.json"
+            },
+            {
+              "id": "67a5ffea-cf24-490b-b6b7-a7261098ba4d",
+              "name": "text",
+              "type": "string",
+              "value": "={{ JSON.stringify({ avviso: 'un workflow D si è fermato: la lettura o il giro restano incompleti; avvisare l\\'owner (DEC-033, regole 4 e 5)', workflow: $json.workflow.name, workflow_id: $json.workflow.id, esecuzione: $json.execution.id, nodo: $json.execution.lastNodeExecuted, messaggio: ($json.execution.error || {}).message, modo: $json.execution.mode, alle: $now.toUTC().toISO() }, null, 1) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        200,
+        0
+      ],
+      "id": "f59c6bca-a38c-4a37-9977-31b47a50d1a9",
+      "name": "Avviso"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "820e6a05-caf6-4bd6-9c25-e3464008fed1",
+      "name": "File avviso"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1L7uCZC9MVieKpiVTkh6XeXbF0tzIMCGU"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        600,
+        0
+      ],
+      "id": "58395113-6046-4adf-b78d-6d930f6c7484",
+      "name": "Salva avviso",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Errore": {
+      "main": [
+        [
+          {
+            "node": "Avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avviso": {
+      "main": [
+        [
+          {
+            "node": "File avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File avviso": {
+      "main": [
+        [
+          {
+            "node": "Salva avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "executionOrder": "v1"
+  },
+  "versionId": "7d617cbf-22b9-4452-8196-8e099d54f18e",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "mFrh9UN4BVbhZAHz",
+  "tags": []
+}
