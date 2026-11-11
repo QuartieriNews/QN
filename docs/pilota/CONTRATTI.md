@@ -255,6 +255,26 @@ si applicano.
 Un canale si apre con una PR del coordinatore, che lo aggiunge qui. Un canale che non è in
 questa sezione non scrive elementi (sezione 3).
 
+### B · Notizie (`news`)
+
+Il canale si apre in due tempi. Questa sezione fissa l'elemento, la sua identità e la raccolta.
+La geografia, il filtro editoriale, la scrittura in parole nostre e la seconda verifica
+(DEC-108) arrivano con le PR successive. Finché non ci sono, il canale salva solo gli
+originali in `B Notizie/originali/` e non scrive elementi.
+
+| Che cosa | Regola |
+|---|---|
+| Elemento | il fatto, non l'articolo della fonte: lo stesso fatto da più fonti è un elemento solo (sezione 2). Se un comunicato di riepilogo dia più elementi, uno per fatto, lo decide l'owner con DEC-034 (R-C01): l'identità ha già il posto per il numero del fatto |
+| File | un JSON per fatto in `B Notizie/`, `roma__nws__<chiave>[-f<n>].json`. Le chiavi di primo livello sono quelle degli eventi, con `news` al posto di `event`: `schema_version` (`pilot-news-0.1`), `content_id`, `content_type` e `stream` (`news`), `source`, `news`, `geography`, `editorial`, `quality`, `lifecycle`, `pilot` |
+| Identità | `content_id` = `qn:roma:nws:<chiave>`, con la chiave dai primi 16 caratteri dello SHA-256 dell'URL canonico del record che ha aperto il fatto, con le regole di `web-event-identity.js`. Se quel record contiene più fatti, si aggiunge `-f<n>`, con `n` il posto del fatto nel record (un intero da 1), fissato alla prima divisione. La calcola `code-nodes/news-identity.js`, con i test in `tests/test_news_identity.js` |
+| `source_hash` | lo SHA-256 di titolo, testo, ora di pubblicazione e luogo dichiarato del record che ha aperto il fatto, normalizzati (`news-identity.js`). Se la fonte dà solo il giorno, l'ora è il giorno, con `date_precision: day` |
+| Capofila | da decidere: DEC-034 (R-C02). Finché la decisione non c'è, il canale non scrive elementi; il `source_hash` si calcola sul record che ha aperto il fatto |
+| Colonne della coda | `block = news`; `source_channel` è `news_official` (Questura, Carabinieri), `news_press` (testata aperta) o `news_index` (solo titolo, link e ora di una testata chiusa, da un indice terzo) |
+| Pubblicabile | lo decide DEC-108; come si contano gli editori sta in `docs/sources/CRONACA_PROCESSO_2026-10.md`, sezione 4.6. Il canale scrive per ogni fatto le fonti che quella regola conta, nelle `attribuzioni` (sezione 2), e non pubblica niente prima della PR che applica la regola |
+| Fonti al 10 novembre 2026 | ufficiali: l'elenco dei comunicati della Questura di Roma e quello dei Carabinieri (le pagine di elenco: il feed dei Carabinieri è escluso da `robots.txt`). Testate aperte: Abitare a Roma e Il Faro Online, dai loro feed. Il sito del Comune oggi rinvia `robots.txt` alla pagina di accesso: non si legge finché il rinvio resta (sezione 6) |
+| Raccolta | ogni ora; una richiesta alla volta, almeno 5 secondi fra due, di più dove `robots.txt` chiede un `Crawl-delay`. Si legge la prima pagina dell'elenco o del feed. Un host si ferma al primo 401, 403 o 429, captcha, pagina di accesso, rinvio verso un altro host o pagina di blocco servita con 200. Il blocco non si aggira; si avvisa il coordinatore. `robots.txt` si ricontrolla una volta al giorno |
+| Originali | le risposte come arrivano, una per file, in `B Notizie/originali/notizie_<host>_<inizio>_<n>.<estensione>`, con `<n>` il numero della risposta di quell'host nella corsa, da 1: nessun file si sovrascrive; il registro di ogni corsa in `B Notizie/letture/notizie_<inizio>.json`, con le richieste, gli esiti e gli host fermati per host. `<inizio>` è l'ora UTC d'inizio, `YYYYMMDDTHHMMSSZ` |
+
 ### C · Eventi da Facebook (`fb_event`)
 
 | Che cosa | Regola |
