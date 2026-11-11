@@ -201,12 +201,18 @@ function sourceDay(v, field) {
 
 const CONVOCATION = /^(\d{1,2}\/\d{1,2}\/\d{4})<br\s*\/?>((?:\s*\(\d{1,2}\/\d{1,2}\/\d{4}\)(?:<br\s*\/?>)?)+)$/i;
 
+/** The convocation tipologie of the menu (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3). */
+const CONVOCAZIONI = Object.freeze(['CMC', 'CPC', 'MMC']);
+
 /** CONTRATTI.md «Lo storico», «Data della seduta»: the sitting days a convocation gives in
- *  brackets after its `dtRpr`, as Rome days in the order written; [] for any other row. */
+ *  brackets after its `dtRpr`, as Rome days in the order written, then its `dtSeduta` when that
+ *  day is not among them; [] for any other row. */
 function seduteDays(row) {
   const m = typeof row.dtRpr === 'string' ? CONVOCATION.exec(row.dtRpr.trim()) : null;
-  if (!m) return [];
-  return [...m[2].matchAll(/\((\d{1,2}\/\d{1,2}\/\d{4})\)/g)].map((x) => sourceDay(x[1], 'dtRpr'));
+  const days = m ? [...m[2].matchAll(/\((\d{1,2}\/\d{1,2}\/\d{4})\)/g)].map((x) => sourceDay(x[1], 'dtRpr')) : [];
+  const seduta = CONVOCAZIONI.includes(normalizeKey(row.tipologia)) ? sourceDay(row.dtSeduta, 'dtSeduta') : null;
+  if (seduta && !days.includes(seduta)) days.push(seduta);
+  return days;
 }
 
 /** CONTRATTI.md «Lo storico»: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps

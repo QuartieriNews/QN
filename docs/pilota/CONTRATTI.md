@@ -148,8 +148,10 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   parentesi vanno in `date_seduta`. Lo ha verificato il builder l'11 novembre 2026 su dieci
   convocazioni dei Municipi X, V e I, leggendo i PDF già nello storico, su richiesta
   dell'owner: ogni PDF porta la data del protocollo e convoca la seduta nel giorno fra
-  parentesi. I record scritti prima di questa regola non hanno `date_seduta`: un record non si
-  riscrive.
+  parentesi. Una convocazione (`CMC`, `CPC`, `MMC`) che dà il giorno della seduta in `dtSeduta`
+  lo porta in `date_seduta`, dopo quelli fra parentesi e senza ripeterlo; il `dtSeduta` degli
+  altri atti non è una seduta convocata. I record scritti prima di questa regola non hanno
+  `date_seduta`: un record non si riscrive.
 - **Municipio.** Un atto è di una struttura del Municipio quando `dscStrOrg` dice «MUNIC…»,
   poi «ROMA» se c'è, poi il numero romano, confrontato per intero (X non è IX né XI);
   un'annotazione fra parentesi come «(EX MUNICIPIO V)» nomina il Municipio di prima e non

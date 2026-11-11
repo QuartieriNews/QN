@@ -235,6 +235,21 @@ check('a convocation of several sittings is no longer unreadable: its first date
   m.sourceDay('02/03/2026<br>(05/03/2026)<br>(12/03/2026)<br>', 'dtRpr'), '2026-03-02');
 check('a row with a single date gives no sitting day', m.seduteDays({ dtRpr: '2026-03-10' }), []);
 check('a row without dtRpr gives none either', m.seduteDays({}), []);
+// Codex on #47: a convocation may give its sitting day in dtSeduta, beside a single dtRpr.
+check('a convocation with dtSeduta gives that sitting day',
+  m.seduteDays({ tipologia: 'CMC', dtRpr: '2025-12-22', dtSeduta: '2026-01-08' }), ['2026-01-08']);
+check('the commissions\' convocations too', m.seduteDays({ tipologia: 'MMC', dtRpr: '2026-03-02', dtSeduta: '05/03/2026' }), ['2026-03-05']);
+check('dtSeduta joins the bracketed days when it is not among them',
+  m.seduteDays({ tipologia: 'CMC', dtRpr: '02/03/2026<br>(05/03/2026)<br>', dtSeduta: '2026-03-12' }), ['2026-03-05', '2026-03-12']);
+check('and is not repeated when it is',
+  m.seduteDays({ tipologia: 'CMC', dtRpr: '02/03/2026<br>(05/03/2026)<br>', dtSeduta: '2026-03-05' }), ['2026-03-05']);
+check('the dtSeduta of an act that is not a convocation is no sitting day of a convocation',
+  m.seduteDays({ tipologia: 'CMD', dtRpr: '2026-03-10', dtSeduta: '2026-03-20' }), []);
+check('an empty dtSeduta adds nothing', m.seduteDays({ tipologia: 'CMC', dtRpr: '2026-03-10', dtSeduta: '' }), []);
+check('an unreadable dtSeduta of a convocation stays unreadable',
+  /dtSeduta: unreadable date/.test(thrown(() => m.seduteDays({ tipologia: 'CMC', dtRpr: '2026-03-10', dtSeduta: 'domani' })) || ''), true);
+check('the row of a convocation with dtSeduta keeps it in date_seduta',
+  m.describeRow(row({ tipologia: 'CMC', dtRpr: '2025-12-22', dtSeduta: '2026-01-08' }), today).date_seduta, ['2026-01-08']);
 check('an impossible sitting day stays unreadable', /unreadable date/.test(thrown(() => m.seduteDays({ dtRpr: '09/03/2026<br>(31/02/2026)<br>' })) || ''), true);
 {
   const conv = m.describeRow({ tipologia: 'CMC', idDoc: 5750, dtRpr: '09/11/2026<br>(12/11/2026)<br>', dtSeduta: null,
