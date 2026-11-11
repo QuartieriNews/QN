@@ -89,9 +89,22 @@ function mergePasses(passes) {
   if (!Array.isArray(passes) || passes.length === 0 || passes.length > 3) {
     throw new Error('one to three passes over a tipologia (CONTRATTI.md, «Lo storico»)');
   }
-  const ids = (p) => new Set((p.rows || []).map((r) => normalizeKey(r.idDoc)).filter((k) => /^[0-9]+$/.test(k)));
+  const validId = (r) => /^[0-9]+$/.test(normalizeKey(r.idDoc));
+  const ids = (p) => new Set((p.rows || []).filter(validId).map((r) => normalizeKey(r.idDoc)));
   const byId = new Map();
-  for (const p of passes) for (const r of p.rows || []) byId.set(normalizeKey(r.idDoc), r);
+  // A row without a valid idDoc has no key to merge by: it is known by what it says, every field
+  // but the saved page it came from. Each distinct row counts (DEC-033, rule 5), as many times as
+  // the pass that holds it most often, since the same rows come back in every pass.
+  const said = (r) => JSON.stringify(Object.keys(r).filter((k) => k !== 'elenco' && r[k] !== undefined).sort().map((k) => [k, r[k]]));
+  const unreadable = new Map();
+  for (const p of passes) {
+    const bad = new Map();
+    for (const r of p.rows || []) {
+      if (validId(r)) byId.set(normalizeKey(r.idDoc), r);
+      else bad.set(said(r), (bad.get(said(r)) || []).concat([r]));
+    }
+    for (const [k, rows] of bad) if (rows.length > (unreadable.get(k) || []).length) unreadable.set(k, rows);
+  }
   // A pass is whole when it holds exactly the rows it declares, each with a valid idDoc of its
   // own: a truncated pagination, or a row that cannot be read, is never complete, however stable.
   const whole = (p) => Number.isSafeInteger(p.total) && p.total >= 0 && Array.isArray(p.rows) &&
@@ -108,7 +121,7 @@ function mergePasses(passes) {
   // The ids of each pass are gathered once: a tipologia holds ten thousand rows and more.
   const sameIds = (x, y) => { const inY = ids(y); return [...ids(x)].every((k) => inY.has(k)); };
   const stable = !missing && passes.length >= 2 && whole(a) && whole(b) && a.total === b.total && sameIds(a, b);
-  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values()] };
+  return { complete: stable, needs_another_pass: !stable && !missing && passes.length < 3, rows: [...byId.values(), ...[...unreadable.values()].flat()] };
 }
 
 /** `roma__arc__comune.roma.it__CMD__123`: the stem of the record and original file names. */
