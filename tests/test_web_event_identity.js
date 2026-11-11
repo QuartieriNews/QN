@@ -149,6 +149,8 @@ for (const u of [
   '\u00a0https://esempio.it/e', 'https://esempio.it/e\u00a0', '\u3000https://esempio.it/e\u2028', '\ufeffhttps://esempio.it/e', ' \u00a0\u0000https://esempio.it/e',
   'https://a~b.esempio.it/x', "https://a!b$c&d'e(f)g*h+i,j;k=l.esempio.it/x",
   'https://www./evento', 'https://WWW./evento', 'http://www.:8080/a', 'https://www.www/x',
+  'https://a../evento', 'https://www../evento', 'https://./x', 'https://a.b./x',
+  'https://x.test/e?q=\ud800\t\udc00', 'https://x.test/e\ud800\n\udc00', 'https://x.test/e\ud800\r\udc00#f',
 ]) {
   check(`same as the WHATWG reading: ${u}`, canonicalUrl(u), reference(u));
 }
