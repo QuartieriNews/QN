@@ -15,28 +15,88 @@ const crypto = require('crypto');
 /** Query parameters that track a visit and never identify a page. */
 const TRACKING_PARAM = /^(utm_[a-z0-9_]+|fbclid|gclid|dclid|msclkid|mc_cid|mc_eid|_ga|_gl)$/i;
 
+/** The characters the WHATWG URL standard percent-encodes in an http(s) path: C0 controls,
+ *  space, `"`, `<`, `>`, `^`, `` ` ``, `{`, `}`, DEL and everything outside ASCII. Any other
+ *  character, `%` included, is kept as it is. `^` follows the current standard, as Node 24
+ *  does; older parsers keep it. */
+const PATH_ENCODE = /[\u0000-\u0020"<>^`{}\u007f-\u{10ffff}]/u;
+/** An unpaired UTF-16 surrogate, which the URL standard reads as U+FFFD. */
+const LONE_SURROGATE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g;
+
+/** application/x-www-form-urlencoded, the serialization of URLSearchParams. */
+function formEncode(s) {
+  return encodeURIComponent(s).replace(/[!'()~]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase()).replace(/%20/g, '+');
+}
+
+/** The forgiving decoding of URLSearchParams: `+` is a space, a `%` not followed by two hex
+ *  digits stays as it is, and bytes that are not UTF-8 become U+FFFD. */
+function formDecode(s) {
+  const bytes = [];
+  const t = s.replace(/\+/g, ' ');
+  for (let i = 0; i < t.length; i += 1) {
+    if (t[i] === '%' && /^[0-9A-Fa-f]{2}$/.test(t.slice(i + 1, i + 3))) {
+      bytes.push(parseInt(t.slice(i + 1, i + 3), 16));
+      i += 2;
+    } else {
+      const cp = t.codePointAt(i);
+      const ch = String.fromCodePoint(cp);
+      if (cp > 0xffff) i += 1;
+      for (const b of Buffer.from(ch, 'utf8')) bytes.push(b);
+    }
+  }
+  return Buffer.from(bytes).toString('utf8');
+}
+
+/** The canonical form of an http(s) URL, read with patterns: the n8n Code node has no `URL`
+ *  global and no `url` module. tests/test_web_event_identity.js checks it against the WHATWG
+ *  parser; what that parser would rewrite in ways a pattern cannot follow is refused rather
+ *  than guessed: a host that is not plain ASCII, and a literal IP address. */
 function canonicalUrl(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') throw new Error('url_missing');
-  let u;
-  try {
-    u = new URL(raw.trim());
-  } catch (e) {
-    throw new Error('url_invalid');
+  // Whitespace at both ends goes first, Unicode spaces included (the reading before this file
+  // did the same); then the standard drops C0 controls and spaces at both ends, and tabs and
+  // line breaks anywhere.
+  const input = raw.trim().replace(/^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, '').replace(/[\t\n\r]/g, '').replace(LONE_SURROGATE, '\uFFFD');
+  const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(input);
+  if (!sm) throw new Error('url_invalid');
+  let scheme = sm[1].toLowerCase();
+  if (scheme !== 'http' && scheme !== 'https') throw new Error('url_not_http');
+  // For http(s) the standard accepts any run of slashes or backslashes after the scheme, none
+  // included: `https:esempio.it`, `https:/esempio.it` and `https:\\esempio.it` are one URL.
+  const m = /^[A-Za-z][A-Za-z0-9+.-]*:[/\\]*([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#[\s\S]*)?$/.exec(input);
+  if (!m) throw new Error('url_invalid');
+  const hm = /^([^:@[\]]+)(?::(\d*))?$/.exec(m[1]);
+  if (!hm) throw new Error('url_invalid');
+  let host = hm[1].toLowerCase();
+  // ASCII the standard keeps as it is in a host; `%`, which it would decode, is refused.
+  if (!/^[a-z0-9.\-_~!$&'()*+,;=`{}"]+$/.test(host)) throw new Error('url_invalid');
+  // A last label that is a number makes the host an IPv4 address to the WHATWG parser.
+  const last = host.replace(/\.$/, '').split('.').pop();
+  if (last === '' || /^(\d+|0x[0-9a-f]*)$/.test(last)) throw new Error('url_invalid');
+  let port = hm[2] === undefined || hm[2] === '' ? '' : String(Number(hm[2]));
+  if (port !== '' && Number(port) > 65535) throw new Error('url_invalid');
+  // The default port of the original scheme goes. An explicit port is part of the identity,
+  // and http on 443 stays http: upgrading it would make the port vanish and merge two addresses.
+  if ((scheme === 'http' && port === '80') || (scheme === 'https' && port === '443')) port = '';
+  if (!(scheme === 'http' && port === '443')) scheme = 'https';
+  host = host.replace(/^www\.(?=.)/, ''); // a host that is only `www.` keeps it, as the standard does
+  const segments = [];
+  for (const seg of m[2].replace(/\\/g, '/').split('/').slice(1)) {
+    if (seg === '.' || seg.toLowerCase() === '%2e') continue;
+    if (seg === '..' || /^(\.|%2e)(\.|%2e)$/i.test(seg)) { segments.pop(); continue; }
+    segments.push([...seg].map((c) => (PATH_ENCODE.test(c) ? encodeURIComponent(c) : c)).join(''));
   }
-  if (u.protocol !== 'http:' && u.protocol !== 'https:') throw new Error('url_not_http');
-  // The URL parser already drops the default port of the original scheme, so a
-  // port still present is explicit and part of the identity. http on 443 stays
-  // http: upgrading it would make the port vanish and merge two addresses.
-  if (!(u.protocol === 'http:' && u.port === '443')) u.protocol = 'https:';
-  u.hostname = u.hostname.toLowerCase().replace(/^www\./, '');
-  u.hash = '';
-  u.pathname = u.pathname.replace(/\/+$/, '') || '/';
-  const kept = [...u.searchParams.entries()]
+  const path = ('/' + segments.join('/')).replace(/\/+$/, '') || '/';
+  const kept = (m[3] === undefined ? [] : m[3].split('&'))
+    .filter((pair) => pair !== '')
+    .map((pair) => {
+      const i = pair.indexOf('=');
+      return i < 0 ? [formDecode(pair), ''] : [formDecode(pair.slice(0, i)), formDecode(pair.slice(i + 1))];
+    })
     .filter(([k]) => !TRACKING_PARAM.test(k))
     .sort((a, b) => (a[0] === b[0] ? (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0) : a[0] < b[0] ? -1 : 1));
-  u.search = '';
-  for (const [k, v] of kept) u.searchParams.append(k, v);
-  return u.toString();
+  const query = kept.map(([k, v]) => `${formEncode(k)}=${formEncode(v)}`).join('&');
+  return `${scheme}://${host}${port ? ':' + port : ''}${path}${query ? '?' + query : ''}`;
 }
 
 const ISO_INSTANT = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.\d{1,9})?)?(Z|[+-](\d{2}):?(\d{2}))$/;
