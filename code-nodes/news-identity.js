@@ -55,15 +55,18 @@ function formDecode(s) {
  *  than guessed: a host that is not plain ASCII, and a literal IP address. */
 function canonicalUrl(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') throw new Error('url_missing');
-  // The standard drops C0 controls and spaces at both ends, and tabs and line breaks anywhere.
-  const input = raw.replace(/^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, '').replace(/[\t\n\r]/g, '').replace(LONE_SURROGATE, '\uFFFD');
+  // Unpaired surrogates become U+FFFD first, as the conversion of the argument to a string of
+  // Unicode scalar values does before the standard's parser runs; then whitespace at both ends,
+  // Unicode spaces included (the reading before this file did the same); then the standard
+  // drops C0 controls and spaces at both ends, and tabs and line breaks anywhere.
+  const input = raw.replace(LONE_SURROGATE, '\uFFFD').trim().replace(/^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, '').replace(/[\t\n\r]/g, '');
   const sm = /^([A-Za-z][A-Za-z0-9+.-]*):/.exec(input);
   if (!sm) throw new Error('url_invalid');
   let scheme = sm[1].toLowerCase();
   if (scheme !== 'http' && scheme !== 'https') throw new Error('url_not_http');
   // For http(s) the standard accepts any run of slashes or backslashes after the scheme, none
   // included: `https:esempio.it`, `https:/esempio.it` and `https:\\esempio.it` are one URL.
-  const m = /^[A-Za-z][A-Za-z0-9+.-]*:[/\\]*([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#.*)?$/.exec(input);
+  const m = /^[A-Za-z][A-Za-z0-9+.-]*:[/\\]*([^/?#\\]*)([^?#]*)(?:\?([^#]*))?(?:#[\s\S]*)?$/.exec(input);
   if (!m) throw new Error('url_invalid');
   const hm = /^([^:@[\]]+)(?::(\d*))?$/.exec(m[1]);
   if (!hm) throw new Error('url_invalid');
@@ -72,14 +75,16 @@ function canonicalUrl(raw) {
   if (!/^[a-z0-9.\-_~!$&'()*+,;=`{}"]+$/.test(host)) throw new Error('url_invalid');
   // A last label that is a number makes the host an IPv4 address to the WHATWG parser.
   const last = host.replace(/\.$/, '').split('.').pop();
-  if (last === '' || /^(\d+|0x[0-9a-f]*)$/.test(last)) throw new Error('url_invalid');
+  // An empty last label (the host ends in more than one dot) is not a number: the host stays a
+  // domain, as the standard reads it.
+  if (/^(\d+|0x[0-9a-f]*)$/.test(last)) throw new Error('url_invalid');
   let port = hm[2] === undefined || hm[2] === '' ? '' : String(Number(hm[2]));
   if (port !== '' && Number(port) > 65535) throw new Error('url_invalid');
   // The default port of the original scheme goes. An explicit port is part of the identity,
   // and http on 443 stays http: upgrading it would make the port vanish and merge two addresses.
   if ((scheme === 'http' && port === '80') || (scheme === 'https' && port === '443')) port = '';
   if (!(scheme === 'http' && port === '443')) scheme = 'https';
-  host = host.replace(/^www\./, '');
+  host = host.replace(/^www\.(?=.)/, ''); // a host that is only `www.` keeps it, as the standard does
   const segments = [];
   for (const seg of m[2].replace(/\\/g, '/').split('/').slice(1)) {
     if (seg === '.' || seg.toLowerCase() === '%2e') continue;

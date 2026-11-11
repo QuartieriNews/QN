@@ -62,7 +62,24 @@ check('an IPv6 host too', thrown(() => m.newsIdentity({ opening_url: 'https://[0
 check('the slash forms after the scheme are one URL', m.canonicalUrl('https:esempio-inventato.it/n'), m.canonicalUrl('https://esempio-inventato.it/n'));
 check('^ in a path is encoded, as the current URL standard does', m.canonicalUrl('https://esempio-inventato.it/a^b'), 'https://esempio-inventato.it/a%5Eb');
 check('a lone surrogate is U+FFFD, not a failure', m.canonicalUrl('https://esempio-inventato.it/\ud800'), 'https://esempio-inventato.it/%EF%BF%BD');
+// The canonical URL here is the one of web-event-identity.js, rule for rule: every edge case of its
+// differential suite gives the same string in both files.
+{
+  const web = require(path.join(__dirname, '..', 'code-nodes', 'web-event-identity.js'));
+  const read = (f, u) => { try { return f(u); } catch (e) { return `throws ${e.message}`; } };
+  for (const u of ['https://a../evento', 'https://www../evento', 'https://www./evento', 'https://./x', 'https://a.b./x',
+    'https://x.test/e?q=\ud800\t\udc00', 'https://x.test/e\ud800\n\udc00', 'https://x.test/e#\u2028x', ' \u00a0https://x.test/e\u2028',
+    'https://WWW.Esempio.IT/Percorso/', 'https://esempio.it/e?utm_source=x&id=7']) {
+    check(`the same canonical URL as web-event-identity.js: ${JSON.stringify(u)}`, read(m.canonicalUrl, u), read(web.canonicalUrl, u));
+  }
+}
 check('controls at the ends are dropped', m.canonicalUrl('\u0001https://esempio-inventato.it/n\u0000'), 'https://esempio-inventato.it/n');
+check('a no-break space at either end is dropped, as web-event-identity.js does',
+  [m.canonicalUrl('https://esempio-inventato.it/n\u00a0'), m.canonicalUrl('\u00a0https://esempio-inventato.it/n')],
+  ['https://esempio-inventato.it/n', 'https://esempio-inventato.it/n']);
+check('a fragment may hold Unicode line separators, and goes',
+  [m.canonicalUrl('https://esempio-inventato.it/n#\u2028x'), m.canonicalUrl('https://esempio-inventato.it/n?a=1#\u2029')],
+  ['https://esempio-inventato.it/n', 'https://esempio-inventato.it/n?a=1']);
 check('a host with an underscore is kept', m.canonicalUrl('https://foo_bar.esempio-inventato.it/n'), 'https://foo_bar.esempio-inventato.it/n');
 check('a fact index that is not a whole number is refused', thrown(() => m.newsIdentity({ opening_url: URL_A, fact_index: '2' })), 'fact_index_invalid');
 check('no URL, no id', thrown(() => m.newsIdentity({ opening_url: ' ' })), 'url_missing');
