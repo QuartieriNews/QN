@@ -63,7 +63,9 @@ domanda):
      attribuzione), non «mai in automatico»;
    - le identità che DEC-108 toglie sempre (minori coinvolti in un procedimento penale o
      come vittime o testimoni, vittime di violenza sessuale) le toglie la pipeline, senza
-     coda, come dice DEC-108: la coda manuale di R-C05 resta per gli altri casi
-     (suicidi e tentati suicidi, dati sanitari).
+     coda, come dice DEC-108. Tutti gli altri casi di R-C05 e di DEC-016, che DEC-108 lascia
+     invariata per le fonti ufficiali, restano in coda manuale: i minori negli altri casi, le
+     vittime adulte, i testimoni, i familiari, le persone coinvolte in suicidi o tentati
+     suicidi, i dati sanitari e gli altri dati sensibili.
 
 Decided by: Owner · Date: 11 novembre 2026 · Affected components: canale B del pilota, `docs/pilota/CONTRATTI.md`.

@@ -73,21 +73,38 @@ una lettura per parole chiave) e il rapporto con DEC-102.
 
 Owner's answers (sessione del builder, 11 novembre 2026, una domanda alla volta con le
 opzioni qui sopra): Q1 «Solo prova forte», Q2 «Escludile tutte», Q3 «Rileggere le pagine»,
-Q4 «Mai».
+Q4 «Mai». Domanda successiva, dopo il secondo giro di revisione della PR #46: 4 comitati di
+quartiere e 1 associazione locale che Facebook classifica come organizzazione politica o
+attività commerciale; risposta «Tienili dentro» (conta che cosa è l'organizzazione, non
+l'etichetta di Facebook).
 
 Decision:
-1. **Q1 — b).** Entrano subito come «tenere» le 68 pagine con una prova forte (eventi futuri
-   su Facebook, date future sul sito). Le altre 322 «rientra» entrano dopo un mese di
-   lettura dei loro siti, se la lettura ne conferma l'attività.
-2. **Q2 — b).** Le pagine di organizzazioni politiche (24) e le attività commerciali (54)
-   restano fuori dal registro in blocco, eventi compresi.
+1. **Q1 — b).** Entrano subito come «tenere» le pagine con una prova forte (eventi futuri
+   su Facebook, date future sul sito); le altre «rientra» entrano dopo un mese di lettura dei
+   loro siti, se la lettura ne conferma l'attività. L'esclusione del punto 2 vale prima di
+   questo punto. Contate nel registro della PR #21 (`docs/wiki/fonti-eventi/fonti_eventi.json`,
+   388 «rientra»; la tabella del censimento ne conta 390): delle 68 con prova forte 5 sono
+   attività commerciali, quindi entrano subito 63 pagine; delle altre 320, 13 sono politiche o
+   commerciali, quindi le candidate dopo il mese sono 307.
+2. **Q2 — b).** Restano fuori dal registro le organizzazioni politiche (partiti, liste,
+   candidati) e le attività commerciali (negozi, bar, palestre), eventi compresi. Conta che cosa
+   è l'organizzazione, cioè il `tipo` del registro (`politico`, `organizzazione_politica`,
+   `locale`), non la categoria di Facebook: i comitati di quartiere e le associazioni locali
+   restano fonti anche quando Facebook li chiama politici o commerciali (la domanda successiva
+   qui sopra). Le pagine escluse che il registro segna già «tenere» (21 politiche) non si
+   cancellano: passano a «scartare» con il motivo «DEC-024 Q2» e tengono la loro storia. La
+   rilettura del punto 3 le salta.
 3. **Q3 — b), con il controllo trimestrale della raccomandazione.** All'owner l'opzione è
    stata posta così: «Ogni due settimane rileggo le pagine del registro. Una volta ogni tre
    mesi faccio una ricerca per parole chiave, solo come controllo». Le pagine del registro si
    rileggono ogni due settimane con `pageUrls`; una lettura per parole chiave al massimo ogni
-   tre mesi, come controllo. Tetto di spesa
-   mensile scritto nel workflow prima che la schedulazione parta. DEC-102 resta com'è: gli
-   URL degli eventi da pubblicare li raccoglie l'owner.
+   tre mesi, come controllo. Tetto di spesa mensile scritto nel workflow prima che la
+   schedulazione parta. DEC-102 resta com'è, come diceva la domanda all'owner («Gli URL degli
+   eventi da pubblicare restano raccolti da te, come prevede DEC-102»): la rilettura e la
+   ricerca dicono quali pagine sono attive e quali eventi annunciano, aggiornano lo stato delle
+   pagine nel registro e arrivano all'owner come elenco. Non alimentano il canale C: un evento
+   si pubblica solo dagli URL che l'owner raccoglie a mano (DEC-102; `docs/pilota/CONTRATTI.md`,
+   «C · Eventi da Facebook», URL delle fonti).
 4. **Q4 — b).** Le 275 pagine dormienti non si rileggono, salvo segnalazione.
 
 Decided by: Owner · Date: 11 novembre 2026 · Affected components: registro fonti v2, `docs/wiki/fonti-eventi`,
