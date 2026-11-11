@@ -9,3 +9,8 @@ diff between versions; this folder is that diff. If production and this folder d
 the divergence is a defect — fix it by exporting, not by editing the JSON here.
 
 How to export: n8n → open the workflow → menu (⋯) → *Download*. Commit the file unmodified.
+
+`staging_*.json` are the staging workflows of the pilot (docs/pilota/CONTRATTI.md), exported
+the same way but without their static data, which holds the state of the runs.
+`tests/test_workflow_exports.js` checks that every Code node taken from `code-nodes/` is that
+file byte for byte.
