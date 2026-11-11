@@ -79,7 +79,7 @@ function canonicalUrl(raw) {
   // and http on 443 stays http: upgrading it would make the port vanish and merge two addresses.
   if ((scheme === 'http' && port === '80') || (scheme === 'https' && port === '443')) port = '';
   if (!(scheme === 'http' && port === '443')) scheme = 'https';
-  host = host.replace(/^www\./, '');
+  host = host.replace(/^www\.(?=.)/, ''); // a host that is only `www.` keeps it, as the standard does
   const segments = [];
   for (const seg of m[2].replace(/\\/g, '/').split('/').slice(1)) {
     if (seg === '.' || seg.toLowerCase() === '%2e') continue;
