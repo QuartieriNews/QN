@@ -574,7 +574,7 @@
       "parameters": {
         "resource": "fileFolder",
         "searchMethod": "query",
-        "queryString": "'1-xG1DHDqxt_W1jnAmztM7nnzXG6HpXRh' in parents and name contains '__v' and mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+        "queryString": "'1-xG1DHDqxt_W1jnAmztM7nnzXG6HpXRh' in parents and mimeType != 'application/vnd.google-apps.folder' and trashed = false",
         "returnAll": true,
         "filter": {
           "driveId": {
@@ -773,7 +773,7 @@
               "id": "b43923a5-8de4-4851-86d7-ab8c50f1014d",
               "name": "text",
               "type": "string",
-              "value": "={{ JSON.stringify({ giorno: $('Giorno').first().json.day, record: $('Record').all().filter((r) => r.json.id).length, copiati_in_questo_giro: $('Mancanti').all().filter((r) => r.json.id).length, finito_alle: $now.toUTC().toISO() }, null, 1) }}"
+              "value": "={{ JSON.stringify({ giorno: $('Giorno').first().json.day, record: $('Solo record').all().filter((r) => r.json.id).length, copiati_in_questo_giro: $('Mancanti').all().filter((r) => r.json.id).length, finito_alle: $now.toUTC().toISO() }, null, 1) }}"
             }
           ]
         }
@@ -1280,6 +1280,87 @@
       "retryOnFail": true,
       "maxTries": 5,
       "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "eed8f8e5-f089-43f0-b77d-d52b3e24bc89",
+              "leftValue": "={{ $json.name || '' }}",
+              "rightValue": "__v[0-9]+\\.json$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        2520,
+        250
+      ],
+      "id": "fd666ff8-a2f8-4435-a93a-548839d42358",
+      "name": "Solo record",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cca0f394-4bb6-4da0-948d-da955454fa38",
+              "leftValue": "={{ $('Solo record').all().filter((r) => r.json.id).length > 0 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3320,
+        230
+      ],
+      "id": "37a27304-f896-44e6-9b77-b7d8f67de9a8",
+      "name": "Ci sono record?"
+    },
+    {
+      "parameters": {
+        "errorMessage": "no record found in D Storico: the backup of the day is not marked complete"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        3440,
+        390
+      ],
+      "id": "85e7212d-0e69-494f-82ec-c5655c4a2792",
+      "name": "Nessun record"
     }
   ],
   "pinData": {},
@@ -1523,7 +1604,7 @@
       "main": [
         [
           {
-            "node": "Mancanti",
+            "node": "Solo record",
             "type": "main",
             "index": 0
           }
@@ -1585,7 +1666,7 @@
       "main": [
         [
           {
-            "node": "Testo segno",
+            "node": "Ci sono record?",
             "type": "main",
             "index": 0
           }
@@ -1780,6 +1861,35 @@
         ],
         []
       ]
+    },
+    "Solo record": {
+      "main": [
+        [
+          {
+            "node": "Mancanti",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ci sono record?": {
+      "main": [
+        [
+          {
+            "node": "Testo segno",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Nessun record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -1787,12 +1897,13 @@
     "saveManualExecutions": true,
     "saveDataErrorExecution": "all",
     "saveDataSuccessExecution": "all",
+    "errorWorkflow": "mFrh9UN4BVbhZAHz",
     "timezone": "Europe/Rome",
     "executionOrder": "v1"
   },
-  "versionId": "a047cbdf-8762-4c47-b8e0-2bb713b7fc82",
+  "versionId": "b802551e-1b1f-4684-bba8-d1add65f42ea",
   "meta": {},
   "nodeGroups": [],
-  "id": "Hlh9mCB3fVgGu8ba",
+  "id": "n64GJt5f25ua1Kks",
   "tags": []
 }

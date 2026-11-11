@@ -101,9 +101,12 @@ l'`archive_id` del record.
   storico; nessun altro workflow scrive in `D Storico/riserva/`. In staging è
   `staging_D_riserva`, la domenica alle 4:41 di Roma, e cerca solo in «Il mio Drive».
   - **Record.** I record `__v<versione>.json` vanno in `riserva/<data>/`, con `<data>` il giorno
-    di Roma. La copia del giorno è completa solo quando nella sua cartella c'è `COMPLETA.json`,
-    scritto dopo l'ultima copia; un giro che trova la cartella senza quel file copia i record
-    che mancano e poi lo scrive.
+    di Roma. Il giro elenca tutti i file dello storico che non sono cartelle e tiene quelli il
+    cui nome finisce in `__v<numero>.json`: il filtro sta nel workflow, non nella ricerca di
+    Drive, che sui nomi confronta solo l'inizio delle parole. La copia del giorno è completa solo
+    quando nella sua cartella c'è `COMPLETA.json`, scritto dopo l'ultima copia; un giro che trova
+    la cartella senza quel file copia i record che mancano e poi lo scrive. Un giro che non trova
+    nessun record si ferma con un avviso (`staging_D_avviso`) e non scrive `COMPLETA.json`.
   - **Originali.** Ogni file di `originali/`, PDF degli atti e pagine della ricerca, si copia una
     volta sola in `riserva/originali/`: non cambia mai, e uno perso alla fonte non si potrebbe
     riavere. La copia porta nella descrizione l'id del file da cui viene, e un giro copia solo
