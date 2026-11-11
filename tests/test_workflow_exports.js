@@ -64,6 +64,10 @@ check('the reading starts only from its schedule',
 const day = 24 * 3600;
 check('the reading times out in less than a day, so two scheduled runs never overlap',
   Number.isInteger(D.list.settings.executionTimeout) && D.list.settings.executionTimeout > 0 && D.list.settings.executionTimeout < day);
+for (const k of ['tipologia', 'pass', 'download']) {
+  const trig = D[k].nodes.filter((n) => n.type === 'n8n-nodes-base.executeWorkflowTrigger');
+  check(`${D[k].name} starts from its sub-workflow trigger`, trig.length === 1 && ((D[k].connections[trig[0].name] || {}).main || [[]])[0].length === 1);
+}
 for (const [k, caller] of [['tipologia', 'list'], ['pass', 'tipologia'], ['download', 'list']]) {
   check(`${D[k].name} answers only ${D[caller].name}`,
     D[k].settings.callerPolicy === 'workflowsFromAList' && String(D[k].settings.callerIds) === D[caller].id);
