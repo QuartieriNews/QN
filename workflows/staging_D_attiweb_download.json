@@ -27,13 +27,13 @@
             {
               "id": "5e09e41e-ff7a-43a5-8e8f-d60c940de946",
               "name": "workflow_version",
-              "value": "2026-11-11.2",
+              "value": "2026-11-11.3",
               "type": "string"
             },
             {
               "id": "376717ab-1132-47d0-9065-0da2ccf57c28",
               "name": "cap",
-              "value": "300",
+              "value": "100",
               "type": "number"
             },
             {
@@ -404,7 +404,7 @@
     },
     {
       "parameters": {
-        "amount": 5
+        "amount": 15
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -2182,7 +2182,7 @@
     "callerPolicy": "workflowsFromAList",
     "callerIds": "MSR74xpgrjd2Kw3E"
   },
-  "versionId": "67a3cea2-8652-4552-919c-038b16b18206",
+  "versionId": "b2c35905-5e14-4acc-a4e7-63feb5a85a72",
   "meta": {},
   "nodeGroups": [],
   "id": "lmVSzCU1iRKUweBp",

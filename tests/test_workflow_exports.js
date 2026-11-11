@@ -83,6 +83,23 @@ check('the download keeps an explicit run_limit of 0', runLimit({ run_limit: 0 }
 check('the download takes the default run_limit when none is given', runLimit({}) === 50 && runLimit({ run_limit: null }) === 50);
 check('the download keeps the run_limit the reading passes', runLimit({ run_limit: 300 }) === 300);
 
+// The owner's pace for Atti Web (CONTRATTI.md, «Il ritmo del pilota»): 15 seconds before every
+// request to the portal, 100 documents a day.
+{
+  const waits = { list: ['Pausa', 'Pausa download'], tipologia: ['Pausa 2', 'Pausa 3'], pass: ['Pausa storico'], download: ['Pausa'] };
+  for (const [k, names] of Object.entries(waits)) {
+    for (const name of names) {
+      const n = D[k].nodes.find((x) => x.name === name);
+      check(`${D[k].name}: "${name}" waits at least 15 seconds before the portal`, !!n && n.type === 'n8n-nodes-base.wait' && Number(n.parameters.amount) >= 15 && !n.parameters.unit);
+    }
+  }
+  const cerca = D.pass.nodes.find((x) => x.name === 'Cerca');
+  check('the pages of a search are at least 15 seconds apart', Number(cerca.parameters.options.pagination.pagination.requestInterval) >= 15000);
+  const value = (wf, node, field) => wf.nodes.find((x) => x.name === node).parameters.assignments.assignments.find((a) => a.name === field).value;
+  check('the reading downloads at most 100 documents a run', Number(value(D.list, 'Limite del giro', 'run_limit')) <= 100);
+  check('the day is capped at 100 documents', Number(value(D.download, 'Inizio', 'cap')) <= 100);
+}
+
 console.log('');
 if (failures === 0) {
   console.log(`ALL PASS (${checks} checks)`);

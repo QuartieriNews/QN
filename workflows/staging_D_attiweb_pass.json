@@ -60,7 +60,7 @@
               "completeExpression": "={{ (() => { let b = $response.body; if (typeof b === 'string') { try { b = JSON.parse(b); } catch (e) { return true; } } return !b || !Array.isArray(b.elencoAtti) || b.elencoAtti.length < 500; })() }}",
               "limitPagesFetched": true,
               "maxRequests": 100,
-              "requestInterval": 5000
+              "requestInterval": 15000
             }
           }
         },
@@ -217,7 +217,7 @@
     },
     {
       "parameters": {
-        "amount": 5
+        "amount": 15
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -661,7 +661,7 @@
     "callerPolicy": "workflowsFromAList",
     "callerIds": "txxLXoK5VO5es1HS"
   },
-  "versionId": "ffcaf5cf-4ad6-482d-84b2-b23355858c52",
+  "versionId": "ec6a41e1-170f-4bb1-853c-0b8cdb08f025",
   "meta": {},
   "nodeGroups": [],
   "id": "yHxhtuJ7XBgOvXBv",

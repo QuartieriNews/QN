@@ -170,7 +170,7 @@
     },
     {
       "parameters": {
-        "amount": 5
+        "amount": 15
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -340,7 +340,7 @@
     },
     {
       "parameters": {
-        "amount": 5
+        "amount": 15
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -715,7 +715,7 @@
     "callerPolicy": "workflowsFromAList",
     "callerIds": "MSR74xpgrjd2Kw3E"
   },
-  "versionId": "9a1d210d-8170-46ae-b51f-93d0a6f3c331",
+  "versionId": "d0f2a509-0a9b-4f7b-80d3-5bb7d6317ce1",
   "meta": {},
   "nodeGroups": [],
   "id": "txxLXoK5VO5es1HS",

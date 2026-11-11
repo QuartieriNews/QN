@@ -27,7 +27,7 @@
             {
               "id": "795d78e9-0e23-42e9-a230-bb51eeb2f0d5",
               "name": "workflow_version",
-              "value": "2026-11-11.2",
+              "value": "2026-11-11.3",
               "type": "string"
             },
             {
@@ -227,7 +227,7 @@
     },
     {
       "parameters": {
-        "amount": 5
+        "amount": 15
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -517,7 +517,7 @@
     },
     {
       "parameters": {
-        "amount": 5
+        "amount": 15
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -540,7 +540,7 @@
               "id": "4b93df49-76b0-4502-bd23-63cd298f20d5",
               "name": "run_limit",
               "type": "number",
-              "value": "300"
+              "value": "100"
             }
           ]
         }
@@ -824,7 +824,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "executionTimeout": 72000
   },
-  "versionId": "20044962-9e54-4c83-b594-816f3ddbb2be",
+  "versionId": "43148dc5-2d28-42e3-9247-53634fc1a423",
   "meta": {},
   "nodeGroups": [],
   "id": "MSR74xpgrjd2Kw3E",

@@ -168,6 +168,12 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   chiede più niente, e i documenti rimasti vanno nell'esito come non richiesti, per un giro del
   giorno nuovo. `<inizio>` è l'ora UTC
   d'inizio, `YYYYMMDDTHHMMSSZ`.
+- **Il ritmo del pilota.** Dentro la regola 2 di DEC-033 (almeno 5 secondi, al massimo 300
+  documenti al giorno), l'owner ha scelto l'11 novembre 2026 un ritmo più lento, dopo la pagina
+  anti-bot della corsa di quella notte: almeno 15 secondi prima di ogni richiesta al portale
+  (le pause della lettura, delle passate, del controllo storico, del download e l'intervallo
+  fra le pagine della ricerca) e al massimo 100 documenti al giorno. L'attesa sulla
+  prenotazione è su Drive, non sul portale, e resta di 5 secondi.
 - **Una corsa alla volta.** Le richieste ad Atti Web vanno una alla volta (DEC-033, regola 2).
   Per questo la lettura parte solo dal suo orario giornaliero: i workflow D non hanno webhook.
   Ogni sotto-workflow risponde solo a chi lo chiama: la tipologia e il download alla lettura, la
