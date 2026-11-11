@@ -77,12 +77,13 @@ function parseRobots(text) {
       if (!lastWasAgent) { current = { agents: [], rules: [] }; groups.push(current); }
       current.agents.push(value.toLowerCase());
       lastWasAgent = true;
-    } else {
+    } else if (key === 'allow' || key === 'disallow' || key === 'crawl-delay') {
       lastWasAgent = false;
       if (!current) continue;
-      if (key === 'allow' || key === 'disallow') current.rules.push({ allow: key === 'allow', path: value });
       if (key === 'crawl-delay') current.crawl_delay = Number(value);
+      else current.rules.push({ allow: key === 'allow', path: value });
     }
+    // Any other record (Sitemap and the like) neither ends a group nor starts one (RFC 9309, 2.2.4).
   }
   return groups;
 }
@@ -303,7 +304,7 @@ function afterPages({ state, now, started_at, answers, robots_events, robots_sto
       outcome = { source_id: a.source_id, status: code, outcome: moved ? 'moved' : 'error',
         reason: moved ? `moved to ${(a.headers || {}).location || ''}` : `HTTP ${a.statusCode}` };
     }
-    hosts.push(outcome);
+    hosts.push(Object.assign({ source_id: a.source_id, url: src.url }, outcome));
   }
   const stopped = Object.entries(s.hosts).filter(([, h]) => h.stopped).map(([id, h]) => ({ source_id: id, since: h.stopped.at, reason: h.stopped.reason }));
   return {

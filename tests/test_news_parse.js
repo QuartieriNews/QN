@@ -105,6 +105,10 @@ check('rows whose link no longer parses make the listing unreadable, not empty',
   m.newRecords({ files: [{ name: 'notizie_carabinieri.it_20261110T220700Z_1.html',
     body: `<table><tbody>${row('10/11/2026 10:00', 'Comune Inventato (RM)', 'Inventato', 'Comando Provinciale di|Roma').replace(/<a [^>]*>/, '<a>')}</tbody></table>` }], seen: [] }).outcome[0],
   { source_id: 'carabinieri.it', outcome: 'unreadable', reason: 'no release rows in the listing' });
+check('rows whose link does not resolve make the listing unreadable, never read and empty',
+  m.newRecords({ files: [{ name: 'notizie_carabinieri.it_20261110T220700Z_1.html',
+    body: `<table><tbody>${row('10/11/2026 10:00', 'Comune Inventato (RM)', 'Inventato', 'Comando Provinciale di|Roma').replace(/href=\S+?>/, 'href=relativo/senza-barra>')}</tbody></table>` }], seen: [] }).outcome[0],
+  { source_id: 'carabinieri.it', outcome: 'unreadable', reason: 'no release rows in the listing' });
 check('a table without rows is unreadable', /no release rows/.test(thrown(() => m.parseCarabinieriListing('<table><tbody></tbody></table>', 'https://www.carabinieri.it')) || ''), true);
 check('a page without the table is refused', /no table/.test(thrown(() => m.parseCarabinieriListing('<html></html>', 'https://www.carabinieri.it')) || ''), true);
 

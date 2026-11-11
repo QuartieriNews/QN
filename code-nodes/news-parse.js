@@ -138,6 +138,10 @@ function parseCarabinieriListing(html, origin) {
     const when = /(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/.exec(text(cells[0]));
     const a = /<a [^>]*href=["']?([^"' >]+)["']?[^>]*>([\s\S]*?)<\/a>/i.exec(cells[1]);
     if (!a) continue;
+    // A row counts as read only when its link resolves: rows whose link no longer parses leave
+    // the listing unreadable, never empty.
+    const url = absolute(a[1], origin);
+    if (!url) continue;
     scanned += 1;
     const place = (/_lblLuogo>([\s\S]*?)<\/span>/i.exec(a[2]) || [])[1];
     const placeText = place ? text(place).replace(/\s*-\s*$/, '') : '';
@@ -145,8 +149,6 @@ function parseCarabinieriListing(html, origin) {
     const command = text(cells[2]);
     const province = (/\(([A-Z]{2})\)/.exec(placeText) || [])[1] || null;
     if (province !== 'RM' && command.toLowerCase().replace(/\s+/g, ' ') !== ROME_COMMAND) continue;
-    const url = absolute(a[1], origin);
-    if (!url) continue;
     out.push({ url, title, published_at_utc: when ? romeLocalToUtc(+when[3], +when[2], +when[1], +when[4], +when[5]) : null,
       categories: [], agency: false, place: placeText, province, command });
   }

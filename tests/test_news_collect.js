@@ -85,6 +85,14 @@ const LATER = '2026-11-10T22:08:30Z';
 const plan = m.planRun({ state: undefined, now: NOW });
 check('the first run reads robots.txt of every source', plan.robots.map((r) => r.source_id), m.SOURCES.map((s) => s.source_id));
 check('robots.txt is at the origin of the page', plan.robots[1].url, 'https://www.carabinieri.it/robots.txt');
+{
+  // RFC 9309, 2.2.4: a Sitemap record between the user-agent lines of a group does not end it.
+  const g = m.parseRobots('User-agent: altro\nSitemap: https://x.invalid/sitemap.xml\nUser-agent: QuartieriNews\nDisallow: /privato\n');
+  check('a Sitemap record between user-agent lines leaves them one group (RFC 9309, 2.2.4)',
+    [g.length, g[0].agents, g[0].rules], [1, ['altro', 'quartierinews'], [{ allow: false, path: '/privato' }]]);
+  const h = m.parseRobots('User-agent: *\nDisallow: /a\nSitemap: https://x.invalid/s.xml\nDisallow: /b\n');
+  check('a Sitemap record between rules leaves them in their group', [h.length, h[0].rules.map((r) => r.path)], [1, ['/a', '/b']]);
+}
 const answers = [
   { source_id: 'questure.poliziadistato.it', statusCode: 200, body: 'User-agent: *\nDisallow: /sendemail/\n' },
   { source_id: 'carabinieri.it', statusCode: 200, body: ROBOTS_FEEDS },
@@ -159,8 +167,8 @@ const timeout = m.afterPages({ state: r1.state, now: LATER, started_at: NOW, ans
   Object.assign({ source_id: 'abitarearoma.it' }, ok('<rss></rss>'))] });
 check('a page that does not answer (timeout) is counted in the streak and the run goes on with the other hosts',
   [timeout.log.hosts, timeout.state.hosts['carabinieri.it'].errors_in_row, timeout.files.map((f) => f.name)],
-  [[{ source_id: 'carabinieri.it', status: null, outcome: 'error', reason: 'timeout of 60000ms exceeded' },
-    { source_id: 'abitarearoma.it', status: 200, outcome: 'saved', file: 'originali/notizie_abitarearoma.it_20261110T220700Z_1.xml' }],
+  [[{ source_id: 'carabinieri.it', url: 'https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa', status: null, outcome: 'error', reason: 'timeout of 60000ms exceeded' },
+    { source_id: 'abitarearoma.it', url: 'https://abitarearoma.it/feed/', status: 200, outcome: 'saved', file: 'originali/notizie_abitarearoma.it_20261110T220700Z_1.xml' }],
   1, ['notizie_abitarearoma.it_20261110T220700Z_1.xml']]);
 let streak = r1.state;
 for (const code of [500, 500, 404, 500, 500]) streak = m.afterPages({ state: streak, now: LATER, started_at: NOW, answers: [{ source_id: 'carabinieri.it', statusCode: code, body: '' }] }).state;
