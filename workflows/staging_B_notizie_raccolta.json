@@ -1,0 +1,1409 @@
+{
+  "name": "staging_B_notizie_raccolta",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "7 * * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        200
+      ],
+      "id": "44f3cbe7-7230-4f7a-beb7-c24436b6651b",
+      "name": "Ogni ora"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "2135b1b6-34b9-4b1f-bd9d-9694da65ae32",
+        "responseMode": "onReceived",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        400
+      ],
+      "id": "de65a1b9-2874-4d4d-bebe-4ac029a2579e",
+      "name": "Webhook",
+      "webhookId": "2135b1b6-34b9-4b1f-bd9d-9694da65ae32",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pA1sDdXav0jboi8h",
+          "name": "staging webhook header"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95552a72-c281-4cbd-9a73-41baff24010d",
+              "name": "stage",
+              "type": "string",
+              "value": "plan"
+            },
+            {
+              "id": "659bba07-0c9f-4a69-b9af-5f4a67edd793",
+              "name": "now",
+              "type": "string",
+              "value": "={{ $now.toUTC().toISO() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        300
+      ],
+      "id": "09549a97-e1cb-4186-bbe5-3bef4d91b33a",
+      "name": "Inizio"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * news-collect.js — workstream B, the hourly collection of the news sources: which\n * requests a run makes, what robots.txt allows, which answers stop a host, and which\n * files and register the run writes. The rules are in docs/pilota/CONTRATTI.md,\n * section 7 («B · Notizie», rows «Fonti», «Raccolta», «Originali»); this file does not\n * restate them. It writes no news element: the channel only collects originals until\n * the next PRs arrive.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is\n * undefined, so the tail exports and stops; inside the n8n Code node (\"Run Once for Each\n * Item\") the same file runs its adapter, keeping the state of the hosts in the\n * workflow's static data. `stage` on the item says which step it takes:\n *   - 'plan': the robots.txt to read before this run's pages;\n *   - 'robots': their answers become the hosts allowed and the pages to request;\n *   - 'pages': the answers become the files to save in originali/ and the run's register.\n * The requests and the pause between them belong to the workflow.\n */\n'use strict';\n\n/** CONTRATTI.md section 7 (B), «Fonti al 10 novembre 2026». */\nconst SOURCES = Object.freeze([\n  { source_id: 'questure.poliziadistato.it', channel: 'news_official',\n    url: 'https://questure.poliziadistato.it/it/Roma/archivio/category/5730dc9d86cad683338531/1/' },\n  { source_id: 'carabinieri.it', channel: 'news_official',\n    url: 'https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa' },\n  { source_id: 'abitarearoma.it', channel: 'news_press', url: 'https://abitarearoma.it/feed/' },\n  { source_id: 'cdn.ilfaroonline.it', channel: 'news_press', url: 'https://cdn.ilfaroonline.it/feed/' },\n]);\n\n/** The user agent the requests declare, the token robots.txt groups are matched on, and the\n *  AI agents whose groups apply to us as well: the most restrictive group wins. */\nconst USER_AGENT = 'QuartieriNews-staging/0.1 (+https://quartierinews.it)';\nconst AGENT_TOKENS = Object.freeze(['quartierinews', 'gptbot', 'chatgpt-user', 'claudebot', 'claude-web', 'anthropic-ai',\n  'ccbot', 'google-extended', 'perplexitybot', 'bytespider']);\n/** After this many server errors or timeouts in a row a host stops too. */\nconst ERRORS_TO_STOP = 5;\n\n/** Origin and path of an http(s) URL. The n8n Code node has no `URL` global and no `url`\n *  module, so the two parts are read with a pattern. */\nfunction urlParts(u) {\n  const m = typeof u === 'string' && /^(https?:\\/\\/[^/?#]+)(\\/[^?#]*)?/i.exec(u);\n  if (!m) throw new Error(`not an http(s) URL: ${JSON.stringify(u)}`);\n  return { origin: m[1].toLowerCase(), pathname: m[2] || '/' };\n}\n\nconst ROME_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit' });\nconst romeDay = (iso) => ROME_DAY.format(new Date(iso));\nconst compactInstant = (iso) => new Date(iso).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';\nconst bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));\n/** The status of an answer; a request that got none (a timeout, a refused connection: the\n *  workflow passes them on with `error`) has NaN. */\nconst statusOf = (res) => (res.error || res.statusCode === null || res.statusCode === undefined || res.statusCode === '' ? NaN : Number(res.statusCode));\n/** What a run records for an answer that is not a page. */\nconst failure = (res) => (res.error ? String(res.error) : `HTTP ${res.statusCode}`);\n\nfunction instant(v) {\n  if (typeof v !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$/.test(v) || Number.isNaN(Date.parse(v))) {\n    throw new Error('now must be a UTC instant');\n  }\n  return v;\n}\n\n/** Robots.txt as groups: each with its agents (lower case) and its Allow/Disallow rules. */\nfunction parseRobots(text) {\n  if (typeof text !== 'string') throw new Error('robots_unreadable');\n  const groups = [];\n  let current = null;\n  let lastWasAgent = false;\n  for (const raw of text.split(/\\r?\\n/)) {\n    const line = raw.replace(/#.*$/, '').trim();\n    if (!line) continue;\n    const m = /^([A-Za-z-]+)\\s*:\\s*(.*)$/.exec(line);\n    if (!m) continue;\n    const key = m[1].toLowerCase();\n    const value = m[2].trim();\n    if (key === 'user-agent') {\n      if (!lastWasAgent) { current = { agents: [], rules: [] }; groups.push(current); }\n      current.agents.push(value.toLowerCase());\n      lastWasAgent = true;\n    } else if (key === 'allow' || key === 'disallow' || key === 'crawl-delay') {\n      lastWasAgent = false;\n      if (!current) continue;\n      if (key === 'crawl-delay') current.crawl_delay = Number(value);\n      else current.rules.push({ allow: key === 'allow', path: value });\n    }\n    // Any other record (Sitemap and the like) neither ends a group nor starts one (RFC 9309, 2.2.4).\n  }\n  return groups;\n}\n\n/** RFC 9309 matching: `*` is any sequence, a final `$` anchors the end. */\nfunction ruleMatches(rulePath, path) {\n  if (rulePath === '') return false;\n  const anchored = rulePath.endsWith('$');\n  const body = anchored ? rulePath.slice(0, -1) : rulePath;\n  const re = new RegExp('^' + body.split('*').map((p) => p.replace(/[.+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('.*') + (anchored ? '$' : ''));\n  return re.test(path);\n}\n\n/** Whether one group allows a path: the longest matching rule wins, Allow on a tie. */\nfunction groupAllows(group, path) {\n  let best = null;\n  for (const r of group.rules) {\n    if (!ruleMatches(r.path, path)) continue;\n    const len = r.path.replace(/\\$$/, '').length;\n    if (!best || len > best.len || (len === best.len && r.allow)) best = { len, allow: r.allow };\n  }\n  return best ? best.allow : true;\n}\n\n/** What robots.txt says for us on a path. The rules of every group naming the same agent\n *  count as one group (RFC 9309); the groups that name us, else `*`, apply, and so does the\n *  group of every AI agent: the path is allowed only if all of them allow it. */\nfunction robotsVerdict(text, path) {\n  const groups = parseRobots(text);\n  const merged = (token) => {\n    const gs = groups.filter((g) => g.agents.includes(token));\n    if (!gs.length) return null;\n    const delays = gs.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);\n    return { rules: [].concat(...gs.map((g) => g.rules)), crawl_delay: delays.length ? Math.max(...delays) : undefined };\n  };\n  const apply = [merged('quartierinews') || merged('*')]\n    .concat(AGENT_TOKENS.filter((t) => t !== 'quartierinews').map(merged)).filter(Boolean);\n  const allowed = apply.every((g) => groupAllows(g, path));\n  const delays = apply.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);\n  return { allowed, crawl_delay: delays.length ? Math.max(...delays) : null };\n}\n\nconst hostOf = (u) => ((/^https?:\\/\\/([^/?#:]+)/i.exec(u || '') || [])[1] || '').toLowerCase();\nconst pathOf = (u) => (/^https?:\\/\\/[^/?#]+([^#]*)/i.exec(u || '') || [])[1] || '';\n/** A redirect target, made absolute against the URL that was asked for. */\nfunction resolveLocation(loc, requested) {\n  if (/^https?:\\/\\//i.test(loc)) return loc;\n  if (loc.startsWith('//')) return (/^(https?:)/i.exec(requested) || ['', 'https:'])[1] + loc;\n  if (loc.startsWith('/')) return urlParts(requested).origin + loc;\n  return urlParts(requested).origin + urlParts(requested).pathname.replace(/[^/]*$/, '') + loc;\n}\n/** A path that is a sign-in page, wherever the redirect goes. */\nconst LOGIN = /(^|[/._?=&-])(login|logon|signin|sign-in|sso|auth|oauth|accedi)([/._?=&-]|$)/i;\n/** The marks a challenge page carries in its structure, not in the text of the news. */\nconst CHALLENGE = /class=[\"'][^\"']*\\b(g-recaptcha|h-captcha|cf-turnstile)\\b|id=[\"']?(challenge-form|captcha)\\b|recaptcha\\/api\\.js|hcaptcha\\.com\\/1\\/api\\.js|challenges\\.cloudflare\\.com/i;\n\nconst isHtml = (res) => /html/i.test(String((res.headers || {})['content-type'] || '')) || /^\\s*(<!doctype html|<html)/i.test(bodyText(res));\nconst titleAndHeading = (body) => [(/<title[^>]*>([\\s\\S]*?)<\\/title>/i.exec(body) || [])[1], (/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i.exec(body) || [])[1]]\n  .filter(Boolean).join(' ').replace(/<[^>]*>/g, ' ');\n\n/** CONTRATTI.md section 7 (B), «Raccolta»: the signal on one answer to `requested` that stops a\n *  host, or null. A redirect stops it when it leaves the host or leads to a sign-in page; within\n *  the host it is a move, which the run records. A feed is judged by its status alone: the text\n *  of the news never stops a host. */\nfunction blockSignal(res, requested) {\n  if (!res || typeof res !== 'object') return 'no answer';\n  const code = Number(res.statusCode);\n  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;\n  if (code >= 300 && code < 400) {\n    const h = res.headers || {};\n    const loc = String(h.location || h.Location || '');\n    if (!loc) return 'redirect without a location';\n    const target = requested ? resolveLocation(loc, requested) : loc;\n    if (!requested || hostOf(target) !== hostOf(requested) || LOGIN.test(pathOf(target))) return `redirect to ${loc}`;\n    return null;\n  }\n  if (!isHtml(res)) return null;\n  const body = bodyText(res);\n  if (CHALLENGE.test(body)) return 'captcha';\n  if (/<input[^>]+type=[\"']?password/i.test(body)) return 'login page';\n  if (/\\b(accesso\\s+negato|access\\s+denied|forbidden)\\b/i.test(titleAndHeading(body))) return 'block page';\n  // A block page is short; a listing that only mentions those words in a title is not.\n  const visible = body.replace(/<script[\\s\\S]*?<\\/script>|<style[\\s\\S]*?<\\/style>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/\\s+/g, ' ').trim();\n  if (visible.length < 1500 && /\\b(accesso\\s+negato|access\\s+denied)\\b/i.test(visible)) return 'block page';\n  return null;\n}\n\nfunction freshState(state) {\n  const s = state && typeof state === 'object' ? JSON.parse(JSON.stringify(state)) : {};\n  s.hosts = s.hosts && typeof s.hosts === 'object' ? s.hosts : {};\n  for (const src of SOURCES) {\n    s.hosts[src.source_id] = Object.assign({ stopped: null, robots_day: null, robots_allowed: null, errors_in_row: 0 },\n      s.hosts[src.source_id]);\n  }\n  return s;\n}\n\n/** Stage 'plan': the robots.txt to read before this run's pages (once a day per host). */\nfunction planRun({ state, now }) {\n  const day = romeDay(instant(now));\n  const s = freshState(state);\n  const robots = SOURCES.filter((src) => !s.hosts[src.source_id].stopped && s.hosts[src.source_id].robots_day !== day)\n    .map((src) => ({ source_id: src.source_id, url: `${urlParts(src.url).origin}/robots.txt` }));\n  return { state: s, robots };\n}\n\n/** Stage 'robots': the answers to robots.txt (`{ source_id, statusCode, headers, body, error }`)\n *  update the hosts; the pages of the hosts allowed today are the requests of the run. Every\n *  answer is an event of the register. A robots.txt that moved within its host, a server error\n *  or no answer at all leave the host unread for this run, not stopped (the last two count in\n *  its streak); an HTML page where the rules should be is never read as rules. */\nfunction afterRobots({ state, now, answers }) {\n  const day = romeDay(instant(now));\n  const s = freshState(state);\n  const events = [];\n  const stopped_now = [];\n  const stop = (id, reason) => { s.hosts[id].stopped = { at: now, reason }; stopped_now.push({ source_id: id, reason }); };\n  for (const a of answers || []) {\n    const h = s.hosts[a.source_id];\n    const src = SOURCES.find((x) => x.source_id === a.source_id);\n    if (!h || !src) throw new Error(`robots answer for an unknown source: ${a.source_id}`);\n    const url = `${urlParts(src.url).origin}/robots.txt`;\n    const code = statusOf(a);\n    // The rules are plain text, whatever type the server declares: only a body that is an HTML\n    // document is judged as a page; the comments of a robots.txt never stop a host.\n    const htmlPage = code === 200 && /<!doctype\\s+html|<html[\\s>]|<body[\\s>]/i.test(bodyText(a));\n    const signal = blockSignal(code !== 200 ? a\n      : htmlPage ? Object.assign({}, a, { headers: Object.assign({}, a.headers, { 'content-type': 'text/html' }) })\n        : Object.assign({}, a, { body: '' }), url);\n    let outcome;\n    let reason = null;\n    if (signal) {\n      stop(a.source_id, `robots.txt: ${signal}`);\n      outcome = 'stopped';\n    } else if (code >= 300 && code < 400) {\n      outcome = 'moved';\n      reason = `moved to ${(a.headers || {}).location || ''}`;\n    } else if (code >= 500 || !Number.isFinite(code)) {\n      h.errors_in_row = (h.errors_in_row || 0) + 1;\n      if (h.errors_in_row >= ERRORS_TO_STOP) stop(a.source_id, `robots.txt: ${ERRORS_TO_STOP} server errors in a row`);\n      outcome = h.stopped ? 'stopped' : 'error';\n      reason = `robots.txt: ${failure(a)}`;\n    } else if (code !== 200) {\n      stop(a.source_id, `robots.txt: HTTP ${a.statusCode}`);\n      outcome = 'stopped';\n    } else if (htmlPage) {\n      stop(a.source_id, 'robots.txt unreadable: an HTML page instead of the rules');\n      outcome = 'stopped';\n    } else {\n      h.errors_in_row = 0;\n      let v = null;\n      try {\n        v = robotsVerdict(bodyText(a), urlParts(src.url).pathname);\n      } catch (e) {\n        stop(a.source_id, 'robots.txt unreadable');\n      }\n      if (v) {\n        h.robots_day = day;\n        h.robots_allowed = v.allowed;\n        h.crawl_delay = v.crawl_delay;\n        if (!v.allowed) stop(a.source_id, 'robots.txt disallows the page');\n      }\n      outcome = h.stopped ? 'stopped' : 'allowed';\n    }\n    events.push({ source_id: a.source_id, url, status: Number.isFinite(code) ? code : null, outcome,\n      reason: h.stopped ? h.stopped.reason : reason });\n  }\n  const pages = SOURCES.filter((src) => {\n    const h = s.hosts[src.source_id];\n    return !h.stopped && h.robots_day === day && h.robots_allowed === true;\n  }).map((src) => ({ source_id: src.source_id, url: src.url, wait_ms: Math.max(5000, (s.hosts[src.source_id].crawl_delay || 0) * 1000) }));\n  return { state: s, pages, events, stopped_now };\n}\n\n/** Stage 'pages': the answers to the pages become the files to save and the run's register,\n *  with the hosts that stopped in this run apart (`stopped_now`), for the coordinator. */\nfunction afterPages({ state, now, started_at, answers, robots_events, robots_stopped }) {\n  instant(now);\n  instant(started_at);\n  const s = freshState(state);\n  const stamp = compactInstant(started_at);\n  const files = [];\n  const hosts = [];\n  const stopped_now = Array.isArray(robots_stopped) ? robots_stopped.slice() : [];\n  const seq = {};\n  for (const a of answers || []) {\n    const h = s.hosts[a.source_id];\n    const src = SOURCES.find((x) => x.source_id === a.source_id);\n    if (!h || !src) throw new Error(`page answer for an unknown source: ${a.source_id}`);\n    seq[a.source_id] = (seq[a.source_id] || 0) + 1;\n    const signal = blockSignal(a, src.url);\n    const code = statusOf(a);\n    let outcome;\n    if (signal) {\n      h.stopped = { at: now, reason: signal };\n      stopped_now.push({ source_id: a.source_id, reason: signal });\n      outcome = { source_id: a.source_id, status: code, outcome: 'stopped', reason: signal };\n    } else if (code === 200) {\n      h.errors_in_row = 0;\n      const type = String((a.headers || {})['content-type'] || '');\n      const ext = /xml|rss|atom/i.test(type) ? 'xml' : /json/i.test(type) ? 'json' : 'html';\n      // One file per answer: the number of the host's answer in the run keeps every name apart.\n      const name = `notizie_${a.source_id}_${stamp}_${seq[a.source_id]}.${ext}`;\n      files.push({ name, body: bodyText(a) });\n      outcome = { source_id: a.source_id, status: code, outcome: 'saved', file: `originali/${name}` };\n    } else if (code >= 500 || !Number.isFinite(code)) {\n      // Only server errors and timeouts make a streak; any other answer breaks it.\n      h.errors_in_row = (h.errors_in_row || 0) + 1;\n      if (h.errors_in_row >= ERRORS_TO_STOP) {\n        h.stopped = { at: now, reason: `${ERRORS_TO_STOP} server errors in a row` };\n        stopped_now.push({ source_id: a.source_id, reason: h.stopped.reason });\n      }\n      outcome = { source_id: a.source_id, status: Number.isFinite(code) ? code : null, outcome: h.stopped ? 'stopped' : 'error',\n        reason: h.stopped ? h.stopped.reason : failure(a) };\n    } else {\n      h.errors_in_row = 0;\n      const moved = code >= 300 && code < 400;\n      outcome = { source_id: a.source_id, status: code, outcome: moved ? 'moved' : 'error',\n        reason: moved ? `moved to ${(a.headers || {}).location || ''}` : `HTTP ${a.statusCode}` };\n    }\n    hosts.push(Object.assign({ source_id: a.source_id, url: src.url }, outcome));\n  }\n  const stopped = Object.entries(s.hosts).filter(([, h]) => h.stopped).map(([id, h]) => ({ source_id: id, since: h.stopped.at, reason: h.stopped.reason }));\n  return {\n    state: s,\n    files,\n    log_file_name: `notizie_${stamp}.json`,\n    alert_file_name: stopped_now.length ? `AVVISO_notizie_${stamp}.json` : null,\n    log: { workflow: 'staging_B_notizie_raccolta', started_at, finished_at: now, user_agent: USER_AGENT,\n      robots: robots_events || [], hosts, stopped_now, stopped },\n  };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { SOURCES, USER_AGENT, AGENT_TOKENS, ERRORS_TO_STOP, urlParts, parseRobots, ruleMatches, groupAllows,\n    robotsVerdict, resolveLocation, blockSignal, planRun, afterRobots, afterPages };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter: the state of the hosts lives in the\n * workflow's static data, saved by n8n after a production run. */\nconst store = $getWorkflowStaticData('global');\nlet out;\nif ($json.stage === 'plan') {\n  out = planRun({ state: store.news_collect, now: $json.now });\n  $json.robots = out.robots;\n} else if ($json.stage === 'robots') {\n  out = afterRobots({ state: store.news_collect, now: $json.now, answers: $json.answers });\n  $json.pages = out.pages;\n  $json.robots_events = out.events;\n  $json.robots_stopped = out.stopped_now;\n  delete $json.answers;\n} else if ($json.stage === 'pages') {\n  out = afterPages({ state: store.news_collect, now: $json.now, started_at: $json.started_at, answers: $json.answers,\n    robots_events: $json.robots_events, robots_stopped: $json.robots_stopped });\n  $json.files = out.files;\n  $json.log_file_name = out.log_file_name;\n  $json.alert_file_name = out.alert_file_name;\n  $json.log = out.log;\n  delete $json.answers;\n} else {\n  throw new Error(`unknown stage ${JSON.stringify($json.stage)}`);\n}\nstore.news_collect = out.state;\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        300
+      ],
+      "id": "64dce1ab-f6e6-4ed2-a67b-5124a32592e7",
+      "name": "Piano"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c8f7b3df-f837-4d3b-8f8f-cd0ef2f350e7",
+              "leftValue": "={{ $json.robots.length > 0 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        300
+      ],
+      "id": "69724e94-e0a8-4cdd-a4e2-f823aeb328cd",
+      "name": "Robots da leggere?"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "robots",
+        "include": "noOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        880,
+        200
+      ],
+      "id": "004b4924-804e-47c8-951f-8bd54f028994",
+      "name": "Uno per host"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "QuartieriNews-staging/0.1 (+https://quartierinews.it)"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 5000
+            }
+          },
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          },
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "text",
+              "outputPropertyName": "body"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        200
+      ],
+      "id": "ed3f58c5-43a4-4871-a41a-aa4fcb0f3800",
+      "name": "robots.txt",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7e27b77-69fb-4ab9-abae-221187c4a6d7",
+              "name": "source_id",
+              "type": "string",
+              "value": "={{ $('Uno per host').item.json.source_id }}"
+            },
+            {
+              "id": "ad7c4f6c-0bf1-42aa-8e42-b4bf1afe56ec",
+              "name": "statusCode",
+              "type": "number",
+              "value": "={{ $json.statusCode ?? null }}"
+            },
+            {
+              "id": "7470ebab-5410-48d2-8b69-c89818827e31",
+              "name": "headers",
+              "type": "object",
+              "value": "={{ $json.headers ?? {} }}"
+            },
+            {
+              "id": "d8e34ec9-58a8-48f6-92e7-0f120bd31d81",
+              "name": "body",
+              "type": "string",
+              "value": "={{ $json.body ?? '' }}"
+            },
+            {
+              "id": "52618bb9-d526-4d76-ac33-73dd765cdcf6",
+              "name": "error",
+              "type": "string",
+              "value": "={{ $json.error ? String($json.error.message || $json.error) : '' }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1320,
+        200
+      ],
+      "id": "0ec55d8c-6f06-41a5-bc6f-5a99c8135e22",
+      "name": "Risposta robots"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "answers",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        200
+      ],
+      "id": "7fa2e592-5b0b-4132-805b-9deb2f0a29e6",
+      "name": "Risposte robots"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "516b755d-2207-42df-86c7-5fa4d1cf499a",
+              "name": "answers",
+              "type": "array",
+              "value": "={{ [] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        400
+      ],
+      "id": "c24800f0-d960-4d5f-8bc5-78edd6bdc531",
+      "name": "Nessun robots"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3209b423-aa4a-4989-bc6b-b298d4a81fbd",
+              "name": "stage",
+              "type": "string",
+              "value": "robots"
+            },
+            {
+              "id": "16b0eb3f-2294-4726-ab94-2692b9b062b2",
+              "name": "now",
+              "type": "string",
+              "value": "={{ $('Inizio').first().json.now }}"
+            },
+            {
+              "id": "33defe7b-3a63-4b9a-a2e7-d5fb151d253a",
+              "name": "answers",
+              "type": "array",
+              "value": "={{ $json.answers }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        300
+      ],
+      "id": "761b4761-496f-4690-b370-3f2caf6f6ebc",
+      "name": "Prepara robots"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * news-collect.js — workstream B, the hourly collection of the news sources: which\n * requests a run makes, what robots.txt allows, which answers stop a host, and which\n * files and register the run writes. The rules are in docs/pilota/CONTRATTI.md,\n * section 7 («B · Notizie», rows «Fonti», «Raccolta», «Originali»); this file does not\n * restate them. It writes no news element: the channel only collects originals until\n * the next PRs arrive.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is\n * undefined, so the tail exports and stops; inside the n8n Code node (\"Run Once for Each\n * Item\") the same file runs its adapter, keeping the state of the hosts in the\n * workflow's static data. `stage` on the item says which step it takes:\n *   - 'plan': the robots.txt to read before this run's pages;\n *   - 'robots': their answers become the hosts allowed and the pages to request;\n *   - 'pages': the answers become the files to save in originali/ and the run's register.\n * The requests and the pause between them belong to the workflow.\n */\n'use strict';\n\n/** CONTRATTI.md section 7 (B), «Fonti al 10 novembre 2026». */\nconst SOURCES = Object.freeze([\n  { source_id: 'questure.poliziadistato.it', channel: 'news_official',\n    url: 'https://questure.poliziadistato.it/it/Roma/archivio/category/5730dc9d86cad683338531/1/' },\n  { source_id: 'carabinieri.it', channel: 'news_official',\n    url: 'https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa' },\n  { source_id: 'abitarearoma.it', channel: 'news_press', url: 'https://abitarearoma.it/feed/' },\n  { source_id: 'cdn.ilfaroonline.it', channel: 'news_press', url: 'https://cdn.ilfaroonline.it/feed/' },\n]);\n\n/** The user agent the requests declare, the token robots.txt groups are matched on, and the\n *  AI agents whose groups apply to us as well: the most restrictive group wins. */\nconst USER_AGENT = 'QuartieriNews-staging/0.1 (+https://quartierinews.it)';\nconst AGENT_TOKENS = Object.freeze(['quartierinews', 'gptbot', 'chatgpt-user', 'claudebot', 'claude-web', 'anthropic-ai',\n  'ccbot', 'google-extended', 'perplexitybot', 'bytespider']);\n/** After this many server errors or timeouts in a row a host stops too. */\nconst ERRORS_TO_STOP = 5;\n\n/** Origin and path of an http(s) URL. The n8n Code node has no `URL` global and no `url`\n *  module, so the two parts are read with a pattern. */\nfunction urlParts(u) {\n  const m = typeof u === 'string' && /^(https?:\\/\\/[^/?#]+)(\\/[^?#]*)?/i.exec(u);\n  if (!m) throw new Error(`not an http(s) URL: ${JSON.stringify(u)}`);\n  return { origin: m[1].toLowerCase(), pathname: m[2] || '/' };\n}\n\nconst ROME_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit' });\nconst romeDay = (iso) => ROME_DAY.format(new Date(iso));\nconst compactInstant = (iso) => new Date(iso).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';\nconst bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));\n/** The status of an answer; a request that got none (a timeout, a refused connection: the\n *  workflow passes them on with `error`) has NaN. */\nconst statusOf = (res) => (res.error || res.statusCode === null || res.statusCode === undefined || res.statusCode === '' ? NaN : Number(res.statusCode));\n/** What a run records for an answer that is not a page. */\nconst failure = (res) => (res.error ? String(res.error) : `HTTP ${res.statusCode}`);\n\nfunction instant(v) {\n  if (typeof v !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$/.test(v) || Number.isNaN(Date.parse(v))) {\n    throw new Error('now must be a UTC instant');\n  }\n  return v;\n}\n\n/** Robots.txt as groups: each with its agents (lower case) and its Allow/Disallow rules. */\nfunction parseRobots(text) {\n  if (typeof text !== 'string') throw new Error('robots_unreadable');\n  const groups = [];\n  let current = null;\n  let lastWasAgent = false;\n  for (const raw of text.split(/\\r?\\n/)) {\n    const line = raw.replace(/#.*$/, '').trim();\n    if (!line) continue;\n    const m = /^([A-Za-z-]+)\\s*:\\s*(.*)$/.exec(line);\n    if (!m) continue;\n    const key = m[1].toLowerCase();\n    const value = m[2].trim();\n    if (key === 'user-agent') {\n      if (!lastWasAgent) { current = { agents: [], rules: [] }; groups.push(current); }\n      current.agents.push(value.toLowerCase());\n      lastWasAgent = true;\n    } else if (key === 'allow' || key === 'disallow' || key === 'crawl-delay') {\n      lastWasAgent = false;\n      if (!current) continue;\n      if (key === 'crawl-delay') current.crawl_delay = Number(value);\n      else current.rules.push({ allow: key === 'allow', path: value });\n    }\n    // Any other record (Sitemap and the like) neither ends a group nor starts one (RFC 9309, 2.2.4).\n  }\n  return groups;\n}\n\n/** RFC 9309 matching: `*` is any sequence, a final `$` anchors the end. */\nfunction ruleMatches(rulePath, path) {\n  if (rulePath === '') return false;\n  const anchored = rulePath.endsWith('$');\n  const body = anchored ? rulePath.slice(0, -1) : rulePath;\n  const re = new RegExp('^' + body.split('*').map((p) => p.replace(/[.+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('.*') + (anchored ? '$' : ''));\n  return re.test(path);\n}\n\n/** Whether one group allows a path: the longest matching rule wins, Allow on a tie. */\nfunction groupAllows(group, path) {\n  let best = null;\n  for (const r of group.rules) {\n    if (!ruleMatches(r.path, path)) continue;\n    const len = r.path.replace(/\\$$/, '').length;\n    if (!best || len > best.len || (len === best.len && r.allow)) best = { len, allow: r.allow };\n  }\n  return best ? best.allow : true;\n}\n\n/** What robots.txt says for us on a path. The rules of every group naming the same agent\n *  count as one group (RFC 9309); the groups that name us, else `*`, apply, and so does the\n *  group of every AI agent: the path is allowed only if all of them allow it. */\nfunction robotsVerdict(text, path) {\n  const groups = parseRobots(text);\n  const merged = (token) => {\n    const gs = groups.filter((g) => g.agents.includes(token));\n    if (!gs.length) return null;\n    const delays = gs.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);\n    return { rules: [].concat(...gs.map((g) => g.rules)), crawl_delay: delays.length ? Math.max(...delays) : undefined };\n  };\n  const apply = [merged('quartierinews') || merged('*')]\n    .concat(AGENT_TOKENS.filter((t) => t !== 'quartierinews').map(merged)).filter(Boolean);\n  const allowed = apply.every((g) => groupAllows(g, path));\n  const delays = apply.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);\n  return { allowed, crawl_delay: delays.length ? Math.max(...delays) : null };\n}\n\nconst hostOf = (u) => ((/^https?:\\/\\/([^/?#:]+)/i.exec(u || '') || [])[1] || '').toLowerCase();\nconst pathOf = (u) => (/^https?:\\/\\/[^/?#]+([^#]*)/i.exec(u || '') || [])[1] || '';\n/** A redirect target, made absolute against the URL that was asked for. */\nfunction resolveLocation(loc, requested) {\n  if (/^https?:\\/\\//i.test(loc)) return loc;\n  if (loc.startsWith('//')) return (/^(https?:)/i.exec(requested) || ['', 'https:'])[1] + loc;\n  if (loc.startsWith('/')) return urlParts(requested).origin + loc;\n  return urlParts(requested).origin + urlParts(requested).pathname.replace(/[^/]*$/, '') + loc;\n}\n/** A path that is a sign-in page, wherever the redirect goes. */\nconst LOGIN = /(^|[/._?=&-])(login|logon|signin|sign-in|sso|auth|oauth|accedi)([/._?=&-]|$)/i;\n/** The marks a challenge page carries in its structure, not in the text of the news. */\nconst CHALLENGE = /class=[\"'][^\"']*\\b(g-recaptcha|h-captcha|cf-turnstile)\\b|id=[\"']?(challenge-form|captcha)\\b|recaptcha\\/api\\.js|hcaptcha\\.com\\/1\\/api\\.js|challenges\\.cloudflare\\.com/i;\n\nconst isHtml = (res) => /html/i.test(String((res.headers || {})['content-type'] || '')) || /^\\s*(<!doctype html|<html)/i.test(bodyText(res));\nconst titleAndHeading = (body) => [(/<title[^>]*>([\\s\\S]*?)<\\/title>/i.exec(body) || [])[1], (/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i.exec(body) || [])[1]]\n  .filter(Boolean).join(' ').replace(/<[^>]*>/g, ' ');\n\n/** CONTRATTI.md section 7 (B), «Raccolta»: the signal on one answer to `requested` that stops a\n *  host, or null. A redirect stops it when it leaves the host or leads to a sign-in page; within\n *  the host it is a move, which the run records. A feed is judged by its status alone: the text\n *  of the news never stops a host. */\nfunction blockSignal(res, requested) {\n  if (!res || typeof res !== 'object') return 'no answer';\n  const code = Number(res.statusCode);\n  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;\n  if (code >= 300 && code < 400) {\n    const h = res.headers || {};\n    const loc = String(h.location || h.Location || '');\n    if (!loc) return 'redirect without a location';\n    const target = requested ? resolveLocation(loc, requested) : loc;\n    if (!requested || hostOf(target) !== hostOf(requested) || LOGIN.test(pathOf(target))) return `redirect to ${loc}`;\n    return null;\n  }\n  if (!isHtml(res)) return null;\n  const body = bodyText(res);\n  if (CHALLENGE.test(body)) return 'captcha';\n  if (/<input[^>]+type=[\"']?password/i.test(body)) return 'login page';\n  if (/\\b(accesso\\s+negato|access\\s+denied|forbidden)\\b/i.test(titleAndHeading(body))) return 'block page';\n  // A block page is short; a listing that only mentions those words in a title is not.\n  const visible = body.replace(/<script[\\s\\S]*?<\\/script>|<style[\\s\\S]*?<\\/style>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/\\s+/g, ' ').trim();\n  if (visible.length < 1500 && /\\b(accesso\\s+negato|access\\s+denied)\\b/i.test(visible)) return 'block page';\n  return null;\n}\n\nfunction freshState(state) {\n  const s = state && typeof state === 'object' ? JSON.parse(JSON.stringify(state)) : {};\n  s.hosts = s.hosts && typeof s.hosts === 'object' ? s.hosts : {};\n  for (const src of SOURCES) {\n    s.hosts[src.source_id] = Object.assign({ stopped: null, robots_day: null, robots_allowed: null, errors_in_row: 0 },\n      s.hosts[src.source_id]);\n  }\n  return s;\n}\n\n/** Stage 'plan': the robots.txt to read before this run's pages (once a day per host). */\nfunction planRun({ state, now }) {\n  const day = romeDay(instant(now));\n  const s = freshState(state);\n  const robots = SOURCES.filter((src) => !s.hosts[src.source_id].stopped && s.hosts[src.source_id].robots_day !== day)\n    .map((src) => ({ source_id: src.source_id, url: `${urlParts(src.url).origin}/robots.txt` }));\n  return { state: s, robots };\n}\n\n/** Stage 'robots': the answers to robots.txt (`{ source_id, statusCode, headers, body, error }`)\n *  update the hosts; the pages of the hosts allowed today are the requests of the run. Every\n *  answer is an event of the register. A robots.txt that moved within its host, a server error\n *  or no answer at all leave the host unread for this run, not stopped (the last two count in\n *  its streak); an HTML page where the rules should be is never read as rules. */\nfunction afterRobots({ state, now, answers }) {\n  const day = romeDay(instant(now));\n  const s = freshState(state);\n  const events = [];\n  const stopped_now = [];\n  const stop = (id, reason) => { s.hosts[id].stopped = { at: now, reason }; stopped_now.push({ source_id: id, reason }); };\n  for (const a of answers || []) {\n    const h = s.hosts[a.source_id];\n    const src = SOURCES.find((x) => x.source_id === a.source_id);\n    if (!h || !src) throw new Error(`robots answer for an unknown source: ${a.source_id}`);\n    const url = `${urlParts(src.url).origin}/robots.txt`;\n    const code = statusOf(a);\n    // The rules are plain text, whatever type the server declares: only a body that is an HTML\n    // document is judged as a page; the comments of a robots.txt never stop a host.\n    const htmlPage = code === 200 && /<!doctype\\s+html|<html[\\s>]|<body[\\s>]/i.test(bodyText(a));\n    const signal = blockSignal(code !== 200 ? a\n      : htmlPage ? Object.assign({}, a, { headers: Object.assign({}, a.headers, { 'content-type': 'text/html' }) })\n        : Object.assign({}, a, { body: '' }), url);\n    let outcome;\n    let reason = null;\n    if (signal) {\n      stop(a.source_id, `robots.txt: ${signal}`);\n      outcome = 'stopped';\n    } else if (code >= 300 && code < 400) {\n      outcome = 'moved';\n      reason = `moved to ${(a.headers || {}).location || ''}`;\n    } else if (code >= 500 || !Number.isFinite(code)) {\n      h.errors_in_row = (h.errors_in_row || 0) + 1;\n      if (h.errors_in_row >= ERRORS_TO_STOP) stop(a.source_id, `robots.txt: ${ERRORS_TO_STOP} server errors in a row`);\n      outcome = h.stopped ? 'stopped' : 'error';\n      reason = `robots.txt: ${failure(a)}`;\n    } else if (code !== 200) {\n      stop(a.source_id, `robots.txt: HTTP ${a.statusCode}`);\n      outcome = 'stopped';\n    } else if (htmlPage) {\n      stop(a.source_id, 'robots.txt unreadable: an HTML page instead of the rules');\n      outcome = 'stopped';\n    } else {\n      h.errors_in_row = 0;\n      let v = null;\n      try {\n        v = robotsVerdict(bodyText(a), urlParts(src.url).pathname);\n      } catch (e) {\n        stop(a.source_id, 'robots.txt unreadable');\n      }\n      if (v) {\n        h.robots_day = day;\n        h.robots_allowed = v.allowed;\n        h.crawl_delay = v.crawl_delay;\n        if (!v.allowed) stop(a.source_id, 'robots.txt disallows the page');\n      }\n      outcome = h.stopped ? 'stopped' : 'allowed';\n    }\n    events.push({ source_id: a.source_id, url, status: Number.isFinite(code) ? code : null, outcome,\n      reason: h.stopped ? h.stopped.reason : reason });\n  }\n  const pages = SOURCES.filter((src) => {\n    const h = s.hosts[src.source_id];\n    return !h.stopped && h.robots_day === day && h.robots_allowed === true;\n  }).map((src) => ({ source_id: src.source_id, url: src.url, wait_ms: Math.max(5000, (s.hosts[src.source_id].crawl_delay || 0) * 1000) }));\n  return { state: s, pages, events, stopped_now };\n}\n\n/** Stage 'pages': the answers to the pages become the files to save and the run's register,\n *  with the hosts that stopped in this run apart (`stopped_now`), for the coordinator. */\nfunction afterPages({ state, now, started_at, answers, robots_events, robots_stopped }) {\n  instant(now);\n  instant(started_at);\n  const s = freshState(state);\n  const stamp = compactInstant(started_at);\n  const files = [];\n  const hosts = [];\n  const stopped_now = Array.isArray(robots_stopped) ? robots_stopped.slice() : [];\n  const seq = {};\n  for (const a of answers || []) {\n    const h = s.hosts[a.source_id];\n    const src = SOURCES.find((x) => x.source_id === a.source_id);\n    if (!h || !src) throw new Error(`page answer for an unknown source: ${a.source_id}`);\n    seq[a.source_id] = (seq[a.source_id] || 0) + 1;\n    const signal = blockSignal(a, src.url);\n    const code = statusOf(a);\n    let outcome;\n    if (signal) {\n      h.stopped = { at: now, reason: signal };\n      stopped_now.push({ source_id: a.source_id, reason: signal });\n      outcome = { source_id: a.source_id, status: code, outcome: 'stopped', reason: signal };\n    } else if (code === 200) {\n      h.errors_in_row = 0;\n      const type = String((a.headers || {})['content-type'] || '');\n      const ext = /xml|rss|atom/i.test(type) ? 'xml' : /json/i.test(type) ? 'json' : 'html';\n      // One file per answer: the number of the host's answer in the run keeps every name apart.\n      const name = `notizie_${a.source_id}_${stamp}_${seq[a.source_id]}.${ext}`;\n      files.push({ name, body: bodyText(a) });\n      outcome = { source_id: a.source_id, status: code, outcome: 'saved', file: `originali/${name}` };\n    } else if (code >= 500 || !Number.isFinite(code)) {\n      // Only server errors and timeouts make a streak; any other answer breaks it.\n      h.errors_in_row = (h.errors_in_row || 0) + 1;\n      if (h.errors_in_row >= ERRORS_TO_STOP) {\n        h.stopped = { at: now, reason: `${ERRORS_TO_STOP} server errors in a row` };\n        stopped_now.push({ source_id: a.source_id, reason: h.stopped.reason });\n      }\n      outcome = { source_id: a.source_id, status: Number.isFinite(code) ? code : null, outcome: h.stopped ? 'stopped' : 'error',\n        reason: h.stopped ? h.stopped.reason : failure(a) };\n    } else {\n      h.errors_in_row = 0;\n      const moved = code >= 300 && code < 400;\n      outcome = { source_id: a.source_id, status: code, outcome: moved ? 'moved' : 'error',\n        reason: moved ? `moved to ${(a.headers || {}).location || ''}` : `HTTP ${a.statusCode}` };\n    }\n    hosts.push(Object.assign({ source_id: a.source_id, url: src.url }, outcome));\n  }\n  const stopped = Object.entries(s.hosts).filter(([, h]) => h.stopped).map(([id, h]) => ({ source_id: id, since: h.stopped.at, reason: h.stopped.reason }));\n  return {\n    state: s,\n    files,\n    log_file_name: `notizie_${stamp}.json`,\n    alert_file_name: stopped_now.length ? `AVVISO_notizie_${stamp}.json` : null,\n    log: { workflow: 'staging_B_notizie_raccolta', started_at, finished_at: now, user_agent: USER_AGENT,\n      robots: robots_events || [], hosts, stopped_now, stopped },\n  };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { SOURCES, USER_AGENT, AGENT_TOKENS, ERRORS_TO_STOP, urlParts, parseRobots, ruleMatches, groupAllows,\n    robotsVerdict, resolveLocation, blockSignal, planRun, afterRobots, afterPages };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter: the state of the hosts lives in the\n * workflow's static data, saved by n8n after a production run. */\nconst store = $getWorkflowStaticData('global');\nlet out;\nif ($json.stage === 'plan') {\n  out = planRun({ state: store.news_collect, now: $json.now });\n  $json.robots = out.robots;\n} else if ($json.stage === 'robots') {\n  out = afterRobots({ state: store.news_collect, now: $json.now, answers: $json.answers });\n  $json.pages = out.pages;\n  $json.robots_events = out.events;\n  $json.robots_stopped = out.stopped_now;\n  delete $json.answers;\n} else if ($json.stage === 'pages') {\n  out = afterPages({ state: store.news_collect, now: $json.now, started_at: $json.started_at, answers: $json.answers,\n    robots_events: $json.robots_events, robots_stopped: $json.robots_stopped });\n  $json.files = out.files;\n  $json.log_file_name = out.log_file_name;\n  $json.alert_file_name = out.alert_file_name;\n  $json.log = out.log;\n  delete $json.answers;\n} else {\n  throw new Error(`unknown stage ${JSON.stringify($json.stage)}`);\n}\nstore.news_collect = out.state;\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        300
+      ],
+      "id": "92d8bc73-f147-4cae-9034-656d832446e1",
+      "name": "Dopo robots"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "60eaa688-ccbc-47d4-8435-ed026d8f48f1",
+              "leftValue": "={{ $json.pages.length > 0 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2200,
+        300
+      ],
+      "id": "777924b4-adaf-4484-b51f-8015d0caf0f5",
+      "name": "Pagine da leggere?"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "pages",
+        "include": "noOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2420,
+        200
+      ],
+      "id": "aa215d0e-b109-4725-b660-f59ea77280ca",
+      "name": "Una per fonte"
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        200
+      ],
+      "id": "62a67561-7448-444e-aa56-567a68d63ff2",
+      "name": "Pagine"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.wait_ms / 1000 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2860,
+        300
+      ],
+      "id": "58310949-abc4-400d-b06c-3874c3720a29",
+      "name": "Attesa",
+      "webhookId": "d01003db-65da-48ea-9f1e-43160923b648"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "QuartieriNews-staging/0.1 (+https://quartierinews.it)"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          },
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "text",
+              "outputPropertyName": "body"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3080,
+        300
+      ],
+      "id": "317d837e-f53e-493d-8810-b9b8efd0ab44",
+      "name": "Pagina",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1503def5-0d10-4ba3-aff3-a0184afa622f",
+              "name": "source_id",
+              "type": "string",
+              "value": "={{ $('Pagine').first().json.source_id }}"
+            },
+            {
+              "id": "75fc29f3-725b-4882-9a58-b4c07c59d1ae",
+              "name": "statusCode",
+              "type": "number",
+              "value": "={{ $json.statusCode ?? null }}"
+            },
+            {
+              "id": "38450d77-e52f-4e7f-84a8-33b6b03f572a",
+              "name": "headers",
+              "type": "object",
+              "value": "={{ $json.headers ?? {} }}"
+            },
+            {
+              "id": "e6afce2f-9af8-4b69-8a4f-c164e0cb1431",
+              "name": "body",
+              "type": "string",
+              "value": "={{ $json.body ?? '' }}"
+            },
+            {
+              "id": "cd052777-3ca1-483d-ad99-75d142a2b1ce",
+              "name": "error",
+              "type": "string",
+              "value": "={{ $json.error ? String($json.error.message || $json.error) : '' }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3300,
+        300
+      ],
+      "id": "bae85743-5d3b-4a4a-80de-4b621fef31d8",
+      "name": "Risposta pagina"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "answers",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3300,
+        100
+      ],
+      "id": "6b88f453-ce55-4d2d-8212-affc43f92e4d",
+      "name": "Risposte pagine"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6274ad5f-ebd6-4f0f-a404-83e18d238b53",
+              "name": "answers",
+              "type": "array",
+              "value": "={{ [] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2420,
+        400
+      ],
+      "id": "686903a0-0d36-4870-b87b-632f4a0252dc",
+      "name": "Nessuna pagina"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b356738b-fbb8-42c2-91e9-8e1e9468dcc9",
+              "name": "stage",
+              "type": "string",
+              "value": "pages"
+            },
+            {
+              "id": "086c4c39-80ea-41a8-a4bc-ac7b21e73e60",
+              "name": "now",
+              "type": "string",
+              "value": "={{ $now.toUTC().toISO() }}"
+            },
+            {
+              "id": "2f86c39a-c554-48de-b7e0-180b09796f75",
+              "name": "started_at",
+              "type": "string",
+              "value": "={{ $('Inizio').first().json.now }}"
+            },
+            {
+              "id": "9df6e640-f9b7-49aa-858f-9a827464dae8",
+              "name": "answers",
+              "type": "array",
+              "value": "={{ $json.answers }}"
+            },
+            {
+              "id": "afbe087d-0bca-4d7a-aeca-b3b00c63cd7f",
+              "name": "robots_events",
+              "type": "array",
+              "value": "={{ $('Dopo robots').first().json.robots_events }}"
+            },
+            {
+              "id": "87c30429-2cb4-4e2d-97b2-bdaef061cc4d",
+              "name": "robots_stopped",
+              "type": "array",
+              "value": "={{ $('Dopo robots').first().json.robots_stopped || [] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3520,
+        300
+      ],
+      "id": "beb26020-f2b7-467c-be49-2903284d7326",
+      "name": "Prepara pagine"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * news-collect.js — workstream B, the hourly collection of the news sources: which\n * requests a run makes, what robots.txt allows, which answers stop a host, and which\n * files and register the run writes. The rules are in docs/pilota/CONTRATTI.md,\n * section 7 («B · Notizie», rows «Fonti», «Raccolta», «Originali»); this file does not\n * restate them. It writes no news element: the channel only collects originals until\n * the next PRs arrive.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is\n * undefined, so the tail exports and stops; inside the n8n Code node (\"Run Once for Each\n * Item\") the same file runs its adapter, keeping the state of the hosts in the\n * workflow's static data. `stage` on the item says which step it takes:\n *   - 'plan': the robots.txt to read before this run's pages;\n *   - 'robots': their answers become the hosts allowed and the pages to request;\n *   - 'pages': the answers become the files to save in originali/ and the run's register.\n * The requests and the pause between them belong to the workflow.\n */\n'use strict';\n\n/** CONTRATTI.md section 7 (B), «Fonti al 10 novembre 2026». */\nconst SOURCES = Object.freeze([\n  { source_id: 'questure.poliziadistato.it', channel: 'news_official',\n    url: 'https://questure.poliziadistato.it/it/Roma/archivio/category/5730dc9d86cad683338531/1/' },\n  { source_id: 'carabinieri.it', channel: 'news_official',\n    url: 'https://www.carabinieri.it/in-vostro-aiuto/informazioni/comunicati-stampa' },\n  { source_id: 'abitarearoma.it', channel: 'news_press', url: 'https://abitarearoma.it/feed/' },\n  { source_id: 'cdn.ilfaroonline.it', channel: 'news_press', url: 'https://cdn.ilfaroonline.it/feed/' },\n]);\n\n/** The user agent the requests declare, the token robots.txt groups are matched on, and the\n *  AI agents whose groups apply to us as well: the most restrictive group wins. */\nconst USER_AGENT = 'QuartieriNews-staging/0.1 (+https://quartierinews.it)';\nconst AGENT_TOKENS = Object.freeze(['quartierinews', 'gptbot', 'chatgpt-user', 'claudebot', 'claude-web', 'anthropic-ai',\n  'ccbot', 'google-extended', 'perplexitybot', 'bytespider']);\n/** After this many server errors or timeouts in a row a host stops too. */\nconst ERRORS_TO_STOP = 5;\n\n/** Origin and path of an http(s) URL. The n8n Code node has no `URL` global and no `url`\n *  module, so the two parts are read with a pattern. */\nfunction urlParts(u) {\n  const m = typeof u === 'string' && /^(https?:\\/\\/[^/?#]+)(\\/[^?#]*)?/i.exec(u);\n  if (!m) throw new Error(`not an http(s) URL: ${JSON.stringify(u)}`);\n  return { origin: m[1].toLowerCase(), pathname: m[2] || '/' };\n}\n\nconst ROME_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit' });\nconst romeDay = (iso) => ROME_DAY.format(new Date(iso));\nconst compactInstant = (iso) => new Date(iso).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';\nconst bodyText = (res) => (typeof res.body === 'string' ? res.body : JSON.stringify(res.body === undefined ? null : res.body));\n/** The status of an answer; a request that got none (a timeout, a refused connection: the\n *  workflow passes them on with `error`) has NaN. */\nconst statusOf = (res) => (res.error || res.statusCode === null || res.statusCode === undefined || res.statusCode === '' ? NaN : Number(res.statusCode));\n/** What a run records for an answer that is not a page. */\nconst failure = (res) => (res.error ? String(res.error) : `HTTP ${res.statusCode}`);\n\nfunction instant(v) {\n  if (typeof v !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$/.test(v) || Number.isNaN(Date.parse(v))) {\n    throw new Error('now must be a UTC instant');\n  }\n  return v;\n}\n\n/** Robots.txt as groups: each with its agents (lower case) and its Allow/Disallow rules. */\nfunction parseRobots(text) {\n  if (typeof text !== 'string') throw new Error('robots_unreadable');\n  const groups = [];\n  let current = null;\n  let lastWasAgent = false;\n  for (const raw of text.split(/\\r?\\n/)) {\n    const line = raw.replace(/#.*$/, '').trim();\n    if (!line) continue;\n    const m = /^([A-Za-z-]+)\\s*:\\s*(.*)$/.exec(line);\n    if (!m) continue;\n    const key = m[1].toLowerCase();\n    const value = m[2].trim();\n    if (key === 'user-agent') {\n      if (!lastWasAgent) { current = { agents: [], rules: [] }; groups.push(current); }\n      current.agents.push(value.toLowerCase());\n      lastWasAgent = true;\n    } else if (key === 'allow' || key === 'disallow' || key === 'crawl-delay') {\n      lastWasAgent = false;\n      if (!current) continue;\n      if (key === 'crawl-delay') current.crawl_delay = Number(value);\n      else current.rules.push({ allow: key === 'allow', path: value });\n    }\n    // Any other record (Sitemap and the like) neither ends a group nor starts one (RFC 9309, 2.2.4).\n  }\n  return groups;\n}\n\n/** RFC 9309 matching: `*` is any sequence, a final `$` anchors the end. */\nfunction ruleMatches(rulePath, path) {\n  if (rulePath === '') return false;\n  const anchored = rulePath.endsWith('$');\n  const body = anchored ? rulePath.slice(0, -1) : rulePath;\n  const re = new RegExp('^' + body.split('*').map((p) => p.replace(/[.+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('.*') + (anchored ? '$' : ''));\n  return re.test(path);\n}\n\n/** Whether one group allows a path: the longest matching rule wins, Allow on a tie. */\nfunction groupAllows(group, path) {\n  let best = null;\n  for (const r of group.rules) {\n    if (!ruleMatches(r.path, path)) continue;\n    const len = r.path.replace(/\\$$/, '').length;\n    if (!best || len > best.len || (len === best.len && r.allow)) best = { len, allow: r.allow };\n  }\n  return best ? best.allow : true;\n}\n\n/** What robots.txt says for us on a path. The rules of every group naming the same agent\n *  count as one group (RFC 9309); the groups that name us, else `*`, apply, and so does the\n *  group of every AI agent: the path is allowed only if all of them allow it. */\nfunction robotsVerdict(text, path) {\n  const groups = parseRobots(text);\n  const merged = (token) => {\n    const gs = groups.filter((g) => g.agents.includes(token));\n    if (!gs.length) return null;\n    const delays = gs.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);\n    return { rules: [].concat(...gs.map((g) => g.rules)), crawl_delay: delays.length ? Math.max(...delays) : undefined };\n  };\n  const apply = [merged('quartierinews') || merged('*')]\n    .concat(AGENT_TOKENS.filter((t) => t !== 'quartierinews').map(merged)).filter(Boolean);\n  const allowed = apply.every((g) => groupAllows(g, path));\n  const delays = apply.map((g) => g.crawl_delay).filter((d) => Number.isFinite(d) && d > 0);\n  return { allowed, crawl_delay: delays.length ? Math.max(...delays) : null };\n}\n\nconst hostOf = (u) => ((/^https?:\\/\\/([^/?#:]+)/i.exec(u || '') || [])[1] || '').toLowerCase();\nconst pathOf = (u) => (/^https?:\\/\\/[^/?#]+([^#]*)/i.exec(u || '') || [])[1] || '';\n/** A redirect target, made absolute against the URL that was asked for. */\nfunction resolveLocation(loc, requested) {\n  if (/^https?:\\/\\//i.test(loc)) return loc;\n  if (loc.startsWith('//')) return (/^(https?:)/i.exec(requested) || ['', 'https:'])[1] + loc;\n  if (loc.startsWith('/')) return urlParts(requested).origin + loc;\n  return urlParts(requested).origin + urlParts(requested).pathname.replace(/[^/]*$/, '') + loc;\n}\n/** A path that is a sign-in page, wherever the redirect goes. */\nconst LOGIN = /(^|[/._?=&-])(login|logon|signin|sign-in|sso|auth|oauth|accedi)([/._?=&-]|$)/i;\n/** The marks a challenge page carries in its structure, not in the text of the news. */\nconst CHALLENGE = /class=[\"'][^\"']*\\b(g-recaptcha|h-captcha|cf-turnstile)\\b|id=[\"']?(challenge-form|captcha)\\b|recaptcha\\/api\\.js|hcaptcha\\.com\\/1\\/api\\.js|challenges\\.cloudflare\\.com/i;\n\nconst isHtml = (res) => /html/i.test(String((res.headers || {})['content-type'] || '')) || /^\\s*(<!doctype html|<html)/i.test(bodyText(res));\nconst titleAndHeading = (body) => [(/<title[^>]*>([\\s\\S]*?)<\\/title>/i.exec(body) || [])[1], (/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i.exec(body) || [])[1]]\n  .filter(Boolean).join(' ').replace(/<[^>]*>/g, ' ');\n\n/** CONTRATTI.md section 7 (B), «Raccolta»: the signal on one answer to `requested` that stops a\n *  host, or null. A redirect stops it when it leaves the host or leads to a sign-in page; within\n *  the host it is a move, which the run records. A feed is judged by its status alone: the text\n *  of the news never stops a host. */\nfunction blockSignal(res, requested) {\n  if (!res || typeof res !== 'object') return 'no answer';\n  const code = Number(res.statusCode);\n  if (code === 401 || code === 403 || code === 429) return `HTTP ${code}`;\n  if (code >= 300 && code < 400) {\n    const h = res.headers || {};\n    const loc = String(h.location || h.Location || '');\n    if (!loc) return 'redirect without a location';\n    const target = requested ? resolveLocation(loc, requested) : loc;\n    if (!requested || hostOf(target) !== hostOf(requested) || LOGIN.test(pathOf(target))) return `redirect to ${loc}`;\n    return null;\n  }\n  if (!isHtml(res)) return null;\n  const body = bodyText(res);\n  if (CHALLENGE.test(body)) return 'captcha';\n  if (/<input[^>]+type=[\"']?password/i.test(body)) return 'login page';\n  if (/\\b(accesso\\s+negato|access\\s+denied|forbidden)\\b/i.test(titleAndHeading(body))) return 'block page';\n  // A block page is short; a listing that only mentions those words in a title is not.\n  const visible = body.replace(/<script[\\s\\S]*?<\\/script>|<style[\\s\\S]*?<\\/style>/gi, ' ').replace(/<[^>]*>/g, ' ').replace(/\\s+/g, ' ').trim();\n  if (visible.length < 1500 && /\\b(accesso\\s+negato|access\\s+denied)\\b/i.test(visible)) return 'block page';\n  return null;\n}\n\nfunction freshState(state) {\n  const s = state && typeof state === 'object' ? JSON.parse(JSON.stringify(state)) : {};\n  s.hosts = s.hosts && typeof s.hosts === 'object' ? s.hosts : {};\n  for (const src of SOURCES) {\n    s.hosts[src.source_id] = Object.assign({ stopped: null, robots_day: null, robots_allowed: null, errors_in_row: 0 },\n      s.hosts[src.source_id]);\n  }\n  return s;\n}\n\n/** Stage 'plan': the robots.txt to read before this run's pages (once a day per host). */\nfunction planRun({ state, now }) {\n  const day = romeDay(instant(now));\n  const s = freshState(state);\n  const robots = SOURCES.filter((src) => !s.hosts[src.source_id].stopped && s.hosts[src.source_id].robots_day !== day)\n    .map((src) => ({ source_id: src.source_id, url: `${urlParts(src.url).origin}/robots.txt` }));\n  return { state: s, robots };\n}\n\n/** Stage 'robots': the answers to robots.txt (`{ source_id, statusCode, headers, body, error }`)\n *  update the hosts; the pages of the hosts allowed today are the requests of the run. Every\n *  answer is an event of the register. A robots.txt that moved within its host, a server error\n *  or no answer at all leave the host unread for this run, not stopped (the last two count in\n *  its streak); an HTML page where the rules should be is never read as rules. */\nfunction afterRobots({ state, now, answers }) {\n  const day = romeDay(instant(now));\n  const s = freshState(state);\n  const events = [];\n  const stopped_now = [];\n  const stop = (id, reason) => { s.hosts[id].stopped = { at: now, reason }; stopped_now.push({ source_id: id, reason }); };\n  for (const a of answers || []) {\n    const h = s.hosts[a.source_id];\n    const src = SOURCES.find((x) => x.source_id === a.source_id);\n    if (!h || !src) throw new Error(`robots answer for an unknown source: ${a.source_id}`);\n    const url = `${urlParts(src.url).origin}/robots.txt`;\n    const code = statusOf(a);\n    // The rules are plain text, whatever type the server declares: only a body that is an HTML\n    // document is judged as a page; the comments of a robots.txt never stop a host.\n    const htmlPage = code === 200 && /<!doctype\\s+html|<html[\\s>]|<body[\\s>]/i.test(bodyText(a));\n    const signal = blockSignal(code !== 200 ? a\n      : htmlPage ? Object.assign({}, a, { headers: Object.assign({}, a.headers, { 'content-type': 'text/html' }) })\n        : Object.assign({}, a, { body: '' }), url);\n    let outcome;\n    let reason = null;\n    if (signal) {\n      stop(a.source_id, `robots.txt: ${signal}`);\n      outcome = 'stopped';\n    } else if (code >= 300 && code < 400) {\n      outcome = 'moved';\n      reason = `moved to ${(a.headers || {}).location || ''}`;\n    } else if (code >= 500 || !Number.isFinite(code)) {\n      h.errors_in_row = (h.errors_in_row || 0) + 1;\n      if (h.errors_in_row >= ERRORS_TO_STOP) stop(a.source_id, `robots.txt: ${ERRORS_TO_STOP} server errors in a row`);\n      outcome = h.stopped ? 'stopped' : 'error';\n      reason = `robots.txt: ${failure(a)}`;\n    } else if (code !== 200) {\n      stop(a.source_id, `robots.txt: HTTP ${a.statusCode}`);\n      outcome = 'stopped';\n    } else if (htmlPage) {\n      stop(a.source_id, 'robots.txt unreadable: an HTML page instead of the rules');\n      outcome = 'stopped';\n    } else {\n      h.errors_in_row = 0;\n      let v = null;\n      try {\n        v = robotsVerdict(bodyText(a), urlParts(src.url).pathname);\n      } catch (e) {\n        stop(a.source_id, 'robots.txt unreadable');\n      }\n      if (v) {\n        h.robots_day = day;\n        h.robots_allowed = v.allowed;\n        h.crawl_delay = v.crawl_delay;\n        if (!v.allowed) stop(a.source_id, 'robots.txt disallows the page');\n      }\n      outcome = h.stopped ? 'stopped' : 'allowed';\n    }\n    events.push({ source_id: a.source_id, url, status: Number.isFinite(code) ? code : null, outcome,\n      reason: h.stopped ? h.stopped.reason : reason });\n  }\n  const pages = SOURCES.filter((src) => {\n    const h = s.hosts[src.source_id];\n    return !h.stopped && h.robots_day === day && h.robots_allowed === true;\n  }).map((src) => ({ source_id: src.source_id, url: src.url, wait_ms: Math.max(5000, (s.hosts[src.source_id].crawl_delay || 0) * 1000) }));\n  return { state: s, pages, events, stopped_now };\n}\n\n/** Stage 'pages': the answers to the pages become the files to save and the run's register,\n *  with the hosts that stopped in this run apart (`stopped_now`), for the coordinator. */\nfunction afterPages({ state, now, started_at, answers, robots_events, robots_stopped }) {\n  instant(now);\n  instant(started_at);\n  const s = freshState(state);\n  const stamp = compactInstant(started_at);\n  const files = [];\n  const hosts = [];\n  const stopped_now = Array.isArray(robots_stopped) ? robots_stopped.slice() : [];\n  const seq = {};\n  for (const a of answers || []) {\n    const h = s.hosts[a.source_id];\n    const src = SOURCES.find((x) => x.source_id === a.source_id);\n    if (!h || !src) throw new Error(`page answer for an unknown source: ${a.source_id}`);\n    seq[a.source_id] = (seq[a.source_id] || 0) + 1;\n    const signal = blockSignal(a, src.url);\n    const code = statusOf(a);\n    let outcome;\n    if (signal) {\n      h.stopped = { at: now, reason: signal };\n      stopped_now.push({ source_id: a.source_id, reason: signal });\n      outcome = { source_id: a.source_id, status: code, outcome: 'stopped', reason: signal };\n    } else if (code === 200) {\n      h.errors_in_row = 0;\n      const type = String((a.headers || {})['content-type'] || '');\n      const ext = /xml|rss|atom/i.test(type) ? 'xml' : /json/i.test(type) ? 'json' : 'html';\n      // One file per answer: the number of the host's answer in the run keeps every name apart.\n      const name = `notizie_${a.source_id}_${stamp}_${seq[a.source_id]}.${ext}`;\n      files.push({ name, body: bodyText(a) });\n      outcome = { source_id: a.source_id, status: code, outcome: 'saved', file: `originali/${name}` };\n    } else if (code >= 500 || !Number.isFinite(code)) {\n      // Only server errors and timeouts make a streak; any other answer breaks it.\n      h.errors_in_row = (h.errors_in_row || 0) + 1;\n      if (h.errors_in_row >= ERRORS_TO_STOP) {\n        h.stopped = { at: now, reason: `${ERRORS_TO_STOP} server errors in a row` };\n        stopped_now.push({ source_id: a.source_id, reason: h.stopped.reason });\n      }\n      outcome = { source_id: a.source_id, status: Number.isFinite(code) ? code : null, outcome: h.stopped ? 'stopped' : 'error',\n        reason: h.stopped ? h.stopped.reason : failure(a) };\n    } else {\n      h.errors_in_row = 0;\n      const moved = code >= 300 && code < 400;\n      outcome = { source_id: a.source_id, status: code, outcome: moved ? 'moved' : 'error',\n        reason: moved ? `moved to ${(a.headers || {}).location || ''}` : `HTTP ${a.statusCode}` };\n    }\n    hosts.push(Object.assign({ source_id: a.source_id, url: src.url }, outcome));\n  }\n  const stopped = Object.entries(s.hosts).filter(([, h]) => h.stopped).map(([id, h]) => ({ source_id: id, since: h.stopped.at, reason: h.stopped.reason }));\n  return {\n    state: s,\n    files,\n    log_file_name: `notizie_${stamp}.json`,\n    alert_file_name: stopped_now.length ? `AVVISO_notizie_${stamp}.json` : null,\n    log: { workflow: 'staging_B_notizie_raccolta', started_at, finished_at: now, user_agent: USER_AGENT,\n      robots: robots_events || [], hosts, stopped_now, stopped },\n  };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { SOURCES, USER_AGENT, AGENT_TOKENS, ERRORS_TO_STOP, urlParts, parseRobots, ruleMatches, groupAllows,\n    robotsVerdict, resolveLocation, blockSignal, planRun, afterRobots, afterPages };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter: the state of the hosts lives in the\n * workflow's static data, saved by n8n after a production run. */\nconst store = $getWorkflowStaticData('global');\nlet out;\nif ($json.stage === 'plan') {\n  out = planRun({ state: store.news_collect, now: $json.now });\n  $json.robots = out.robots;\n} else if ($json.stage === 'robots') {\n  out = afterRobots({ state: store.news_collect, now: $json.now, answers: $json.answers });\n  $json.pages = out.pages;\n  $json.robots_events = out.events;\n  $json.robots_stopped = out.stopped_now;\n  delete $json.answers;\n} else if ($json.stage === 'pages') {\n  out = afterPages({ state: store.news_collect, now: $json.now, started_at: $json.started_at, answers: $json.answers,\n    robots_events: $json.robots_events, robots_stopped: $json.robots_stopped });\n  $json.files = out.files;\n  $json.log_file_name = out.log_file_name;\n  $json.alert_file_name = out.alert_file_name;\n  $json.log = out.log;\n  delete $json.answers;\n} else {\n  throw new Error(`unknown stage ${JSON.stringify($json.stage)}`);\n}\nstore.news_collect = out.state;\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        300
+      ],
+      "id": "21bff6e0-c3b8-4f20-877a-aaef4155bafa",
+      "name": "Dopo pagine"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "files",
+        "include": "noOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3960,
+        200
+      ],
+      "id": "aebc3711-7642-4001-8c98-cd57ae1d8f02",
+      "name": "File"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "body",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        4180,
+        200
+      ],
+      "id": "bfce7486-dd14-4ddd-af57-331103878f4f",
+      "name": "In file"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "161R2jguiqHLg9JMvsUpMwj6YP4Vdk97H"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4400,
+        200
+      ],
+      "id": "978097a2-b23a-4fe6-ae71-d6a0143e54f4",
+      "name": "Salva originale",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "91d8af02-3a7f-45f1-91ac-2383a68f3cfd",
+              "name": "name",
+              "type": "string",
+              "value": "={{ $json.log_file_name }}"
+            },
+            {
+              "id": "773d17b9-8d3d-42b1-946a-9f6ebd626142",
+              "name": "text",
+              "type": "string",
+              "value": "={{ JSON.stringify(Object.assign({}, $json.log, { records: $json.records_outcome }), null, 2) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3960,
+        420
+      ],
+      "id": "a970f30e-a41b-4b45-841e-3679b34f8ef0",
+      "name": "Testo registro"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        4180,
+        420
+      ],
+      "id": "01aa6208-e9ae-453e-8e86-c8514af11711",
+      "name": "File registro"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4400,
+        420
+      ],
+      "id": "fb6b12bd-74c8-4932-ab75-aae1c21508ca",
+      "name": "Salva registro",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * news-parse.js — workstream B: the pages a collection run saved become source records\n * (URL, title, publication time, categories), and only the records not seen before go on.\n * The rules are in docs/pilota/CONTRATTI.md, section 7 («B · Notizie»); this file does not\n * restate them. It writes no news element: the records are the input of the steps that\n * the next PRs add (geography, editorial filter, our own writing).\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is\n * undefined, so the tail exports and stops; inside the n8n Code node (\"Run Once for Each\n * Item\") the same file runs its adapter, keeping the URLs already seen in the workflow's\n * static data. The n8n Code node has no `URL` global, so URLs are read with patterns.\n */\n'use strict';\n\n/** How many URLs the index of what was seen keeps, the newest last. */\nconst SEEN_MAX = 5000;\n/** Categories that mark an agency dispatch, which never counts as an independent publisher\n *  (CONTRATTI.md section 7, B, «Pubblicabile»). */\nconst AGENCY = /^(adnkronos|ansa|italpress|agenzia dire|dire|askanews|agi|agenzia nova|lapresse)$/i;\n\nconst MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };\n\nfunction decodeEntities(s) {\n  return s\n    .replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, '$1')\n    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))\n    .replace(/&#(\\d+);/g, (_, d) => String.fromCodePoint(Number(d)))\n    .replace(/&quot;/g, '\"').replace(/&apos;|&#39;/g, \"'\").replace(/&lt;/g, '<').replace(/&gt;/g, '>')\n    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');\n}\n\n/** Visible text of a fragment: entities decoded first, so markup written as entities\n *  (`&lt;em&gt;`) is dropped like the rest, then tags dropped and whitespace collapsed. */\nfunction text(fragment) {\n  const raw = String(fragment).replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, '$1');\n  return decodeEntities(raw.replace(/<[^>]*>/g, ' ')).replace(/<[^>]*>/g, ' ').replace(/\\s+/g, ' ').trim();\n}\n\n/** The named zones of RFC 822, as hours from UTC. */\nconst ZONES = { UT: 0, UTC: 0, GMT: 0, Z: 0, EST: -5, EDT: -4, CST: -6, CDT: -5, MST: -7, MDT: -6, PST: -8, PDT: -7 };\n\n/** RFC 822 dates of RSS (`Tue, 10 Nov 2026 20:19:10 +0000`) as a UTC instant, or null when the\n *  date does not read: a record without a time is kept, never given a guessed one. */\nfunction rfc822(v) {\n  const m = typeof v === 'string' &&\n    /^\\s*(?:[A-Za-z]{3},\\s*)?(\\d{1,2})\\s+([A-Za-z]{3})\\s+(\\d{4})\\s+(\\d{2}):(\\d{2})(?::(\\d{2}))?\\s+([A-Za-z]{1,3}|[+-]\\d{4})\\s*$/.exec(v);\n  if (!m) return null;\n  const mo = MONTHS[m[2].toLowerCase()];\n  const [d, y, h, mi, s] = [m[1], m[3], m[4], m[5], m[6] || '0'].map(Number);\n  if (!mo || h > 23 || mi > 59 || s > 59) return null;\n  const t = new Date(Date.UTC(y, mo - 1, d, h, mi, s));\n  if (t.getUTCDate() !== d || t.getUTCMonth() !== mo - 1) return null;\n  let off;\n  if (/^[+-]\\d{4}$/.test(m[7])) {\n    const [oh, om] = [Number(m[7].slice(1, 3)), Number(m[7].slice(3, 5))];\n    if (oh > 23 || om > 59) return null;\n    off = (m[7][0] === '-' ? -1 : 1) * (oh * 60 + om);\n  } else if (Object.prototype.hasOwnProperty.call(ZONES, m[7].toUpperCase())) {\n    off = ZONES[m[7].toUpperCase()] * 60;\n  } else {\n    return null;\n  }\n  return new Date(t.getTime() - off * 60000).toISOString();\n}\n\nfunction absolute(href, origin) {\n  const h = decodeEntities(href.trim());\n  if (/^https?:\\/\\//i.test(h)) return h;\n  if (h.startsWith('/')) return origin.replace(/\\/+$/, '') + h;\n  return null;\n}\n\n/** The items of an RSS 2.0 feed. */\nfunction parseRss(xml) {\n  if (typeof xml !== 'string' || !/<rss[\\s>]/i.test(xml)) throw new Error('not an RSS feed');\n  const out = [];\n  for (const m of xml.matchAll(/<item[\\s>]([\\s\\S]*?)<\\/item>/gi)) {\n    const it = m[1];\n    const tag = (name) => { const t = new RegExp(`<${name}[^>]*>([\\\\s\\\\S]*?)<\\\\/${name}>`, 'i').exec(it); return t ? text(t[1]) : null; };\n    // A guid is a link only when the feed does not say it is not a permalink.\n    const guid = /<guid([^>]*)>([\\s\\S]*?)<\\/guid>/i.exec(it);\n    const permalink = guid && !/isPermaLink\\s*=\\s*[\"']?false/i.test(guid[1]) ? text(guid[2]) : null;\n    const link = tag('link') || permalink;\n    if (!link || !/^https?:\\/\\//i.test(link)) continue;\n    const categories = [...it.matchAll(/<category[^>]*>([\\s\\S]*?)<\\/category>/gi)].map((c) => text(c[1])).filter(Boolean);\n    out.push({ url: link, title: tag('title') || '', published_at_utc: rfc822(tag('pubDate')), categories,\n      agency: categories.some((c) => AGENCY.test(c)) });\n  }\n  return out;\n}\n\n/** The releases of the Questura listing: an `elenco_notizie` block each, with its link and\n *  title. The listing gives no date: the record has none until a later step reads it. */\nfunction parseQuesturaListing(html, origin) {\n  if (typeof html !== 'string') throw new Error('not a listing page');\n  const out = [];\n  for (const m of html.matchAll(/<div class=\"elenco_notizie[^\"]*\">[\\s\\S]*?<h3>\\s*<a href=\"([^\"]+)\"[^>]*>([\\s\\S]*?)<\\/a>/gi)) {\n    const url = absolute(m[1], origin);\n    if (!url) continue;\n    out.push({ url, title: text(m[2]), published_at_utc: null, categories: [], agency: false });\n  }\n  return out;\n}\n\n/** The issuer of the provincial command, as the listing writes it (compared without case). */\nconst ROME_COMMAND = 'comando provinciale di roma';\n\nconst ROME_PARTS = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit',\n  day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });\n\n/** A wall-clock time in Rome as a UTC instant (Spec v2.5 T17): the offset is +1 or +2 hours,\n *  and the one whose instant reads back as that wall clock wins; in the repeated hour of the\n *  October change the first of the two is taken. A time that does not exist is null. */\nfunction romeLocalToUtc(y, mo, d, h, mi) {\n  const want = `${String(d).padStart(2, '0')}/${String(mo).padStart(2, '0')}/${y}, ${String(h).padStart(2, '0')}:${String(mi).padStart(2, '0')}`;\n  for (const off of [2, 1]) {\n    const t = Date.UTC(y, mo - 1, d, h - off, mi);\n    if (ROME_PARTS.format(new Date(t)) === want) return new Date(t).toISOString();\n  }\n  return null;\n}\n\n/** The releases of the Carabinieri listing (national): one table row each, with the time in\n *  Rome, the place with its province, the link with the title and the issuing command. Only\n *  the rows of the province of Rome go on, by the filter of docs/sources/SOURCE_REGISTRY.md\n *  (C2): «(RM)» in the place, or the provincial command of Rome as the issuer. A listing\n *  whose rows no longer parse is unreadable, not a listing with nothing of Rome. */\nfunction parseCarabinieriListing(html, origin) {\n  if (typeof html !== 'string') throw new Error('not a listing page');\n  const at = html.indexOf('<tbody>');\n  if (at < 0) throw new Error('no table in the listing');\n  const body = html.slice(at);\n  const out = [];\n  let scanned = 0;\n  for (const row of body.split(/<tr[\\s>]/).slice(1)) {\n    const cells = row.split(/<td class=[\"']?tabellaD[\"']?>/).slice(1);\n    if (cells.length < 3) continue;\n    const when = /(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})\\s+(\\d{1,2}):(\\d{2})/.exec(text(cells[0]));\n    const a = /<a [^>]*href=[\"']?([^\"' >]+)[\"']?[^>]*>([\\s\\S]*?)<\\/a>/i.exec(cells[1]);\n    if (!a) continue;\n    // A row counts as read only when its link resolves: rows whose link no longer parses leave\n    // the listing unreadable, never empty.\n    const url = absolute(a[1], origin);\n    if (!url) continue;\n    scanned += 1;\n    const place = (/_lblLuogo>([\\s\\S]*?)<\\/span>/i.exec(a[2]) || [])[1];\n    const placeText = place ? text(place).replace(/\\s*-\\s*$/, '') : '';\n    const title = text(a[2].replace(/<span[^>]*_lblLuogo>[\\s\\S]*?<\\/span>/i, ''));\n    const command = text(cells[2]);\n    const province = (/\\(([A-Z]{2})\\)/.exec(placeText) || [])[1] || null;\n    if (province !== 'RM' && command.toLowerCase().replace(/\\s+/g, ' ') !== ROME_COMMAND) continue;\n    out.push({ url, title, published_at_utc: when ? romeLocalToUtc(+when[3], +when[2], +when[1], +when[4], +when[5]) : null,\n      categories: [], agency: false, place: placeText, province, command });\n  }\n  if (scanned === 0) throw new Error('no release rows in the listing');\n  // A listing read with no row of the province of Rome is read, not unreadable.\n  out.scanned = scanned;\n  return out;\n}\n\n/** The key of a URL in the index of what was seen: scheme and host in lower case, without\n *  `www.`; path and query as they are, which a server may tell apart by case; no fragment and no\n *  trailing slash. */\nfunction seenKey(url) {\n  const m = /^(https?):\\/\\/([^/?#]+)([^#]*)/i.exec(url);\n  if (!m) return url;\n  return `${m[1].toLowerCase()}://${m[2].toLowerCase().replace(/^www\\./, '')}${m[3].replace(/\\/+$/, '').replace(/\\/+\\?/, '?')}`;\n}\n\n/** The parser of each source (news-collect.js, SOURCES); a source without one is skipped. */\nconst PARSERS = {\n  'questure.poliziadistato.it': (body) => parseQuesturaListing(body, 'https://questure.poliziadistato.it'),\n  'carabinieri.it': (body) => parseCarabinieriListing(body, 'https://www.carabinieri.it'),\n  'abitarearoma.it': parseRss,\n  'cdn.ilfaroonline.it': parseRss,\n};\n\n/** Stage 'records': the files a run saved (`{ name, body }`, named `notizie_<source>_<start>_<n>`)\n *  become the records not seen before, with the index of what was seen. A page that does not\n *  parse is counted, never read as «nothing new». */\nfunction newRecords({ files, seen, retrieved_at }) {\n  if (!Array.isArray(files)) throw new Error('files must list the pages saved by the run');\n  const index = Array.isArray(seen) ? seen.slice() : [];\n  const known = new Set(index);\n  const records = [];\n  const outcome = [];\n  for (const f of files) {\n    const m = /^notizie_(.+)_(\\d{8}T\\d{6}Z)_(\\d+)\\.(xml|html|json)$/.exec((f && f.name) || '');\n    if (!m) throw new Error(`a file that is not a collection page: ${f && f.name}`);\n    const source_id = m[1];\n    const parse = PARSERS[source_id];\n    if (!parse) { outcome.push({ source_id, outcome: 'no parser' }); continue; }\n    let items;\n    try {\n      items = parse(f.body);\n    } catch (e) {\n      outcome.push({ source_id, outcome: 'unreadable', reason: e.message });\n      continue;\n    }\n    if (items.length === 0 && !items.scanned) { outcome.push({ source_id, outcome: 'unreadable', reason: 'no items' }); continue; }\n    let fresh = 0;\n    for (const it of items) {\n      const key = seenKey(it.url);\n      if (known.has(key)) continue;\n      known.add(key);\n      index.push(key);\n      fresh += 1;\n      records.push(Object.assign({ source_id, page: `originali/${f.name}`, retrieved_at: retrieved_at || null }, it));\n    }\n    outcome.push({ source_id, outcome: 'read', items: items.length, new: fresh });\n  }\n  return { records, seen: index.slice(-SEEN_MAX), outcome };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { SEEN_MAX, AGENCY, ZONES, decodeEntities, text, rfc822, parseRss, parseQuesturaListing, romeLocalToUtc,\n    parseCarabinieriListing, seenKey, PARSERS, newRecords };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter: the index of what was seen lives in\n * the workflow's static data, saved by n8n after a production run. */\nconst store = $getWorkflowStaticData('global');\nconst res = newRecords({ files: $json.files, seen: store.news_seen, retrieved_at: $json.now });\nstore.news_seen = res.seen;\n$json.records = res.records;\n$json.records_outcome = res.outcome;\n$json.records_file_name = res.records.length ? String($json.log_file_name).replace(/^notizie_/, 'notizie_righe_') : null;\nreturn $input.item;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3960,
+        640
+      ],
+      "id": "c07827ff-8595-4999-8306-03602011a9fe",
+      "name": "Righe"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6081856f-f419-4a31-b41d-dd98392e1261",
+              "leftValue": "={{ $json.records_file_name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4180,
+        640
+      ],
+      "id": "3d1449c0-e990-4d51-94ec-50e7d9ba9277",
+      "name": "Righe nuove?"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "05d1f3e5-665d-4a6c-8eb0-e465fb1c9c10",
+              "name": "name",
+              "type": "string",
+              "value": "={{ $json.records_file_name }}"
+            },
+            {
+              "id": "80f639dd-a50d-4317-8469-cfe05eb8cbb8",
+              "name": "text",
+              "type": "string",
+              "value": "={{ JSON.stringify({ records: $json.records, outcome: $json.records_outcome }, null, 1) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4400,
+        640
+      ],
+      "id": "37bd00e6-6636-4833-882d-487c78e3487a",
+      "name": "Testo righe"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        4620,
+        640
+      ],
+      "id": "186af793-e51e-4f16-8d84-447948c25234",
+      "name": "File righe"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4840,
+        640
+      ],
+      "id": "0c9f5eb8-21f0-4df8-8c96-5b91d3c9dd81",
+      "name": "Salva righe",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9ccd3232-a0ab-4ff4-91d9-9cddbcbdc067",
+              "leftValue": "={{ $json.alert_file_name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3960,
+        860
+      ],
+      "id": "1d2c5a73-a674-416f-83ef-15e6eaa915d7",
+      "name": "Avviso?"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "70a027ca-70bb-4b0c-a19b-ed84b673a930",
+              "name": "name",
+              "type": "string",
+              "value": "={{ $json.alert_file_name }}"
+            },
+            {
+              "id": "50f87ed6-8bec-4158-a6c7-9e26204b2356",
+              "name": "text",
+              "type": "string",
+              "value": "={{ JSON.stringify({ avviso: \"host fermati in questa corsa: avvisare il coordinatore\", stopped_now: $json.log.stopped_now, started_at: $json.log.started_at }, null, 1) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4180,
+        860
+      ],
+      "id": "e9f9f065-981c-49c6-a6b0-40a20fd1add6",
+      "name": "Testo avviso"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        4400,
+        860
+      ],
+      "id": "5cba86b1-a6db-4982-86a6-e753bee107e7",
+      "name": "File avviso"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4620,
+        860
+      ],
+      "id": "1b602dc2-1eeb-4627-bcf6-e205d1eed137",
+      "name": "Salva avviso",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Ogni ora": {
+      "main": [
+        [
+          {
+            "node": "Inizio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Inizio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inizio": {
+      "main": [
+        [
+          {
+            "node": "Piano",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Piano": {
+      "main": [
+        [
+          {
+            "node": "Robots da leggere?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Robots da leggere?": {
+      "main": [
+        [
+          {
+            "node": "Uno per host",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Nessun robots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Uno per host": {
+      "main": [
+        [
+          {
+            "node": "robots.txt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "robots.txt": {
+      "main": [
+        [
+          {
+            "node": "Risposta robots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risposta robots": {
+      "main": [
+        [
+          {
+            "node": "Risposte robots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risposte robots": {
+      "main": [
+        [
+          {
+            "node": "Prepara robots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nessun robots": {
+      "main": [
+        [
+          {
+            "node": "Prepara robots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara robots": {
+      "main": [
+        [
+          {
+            "node": "Dopo robots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dopo robots": {
+      "main": [
+        [
+          {
+            "node": "Pagine da leggere?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pagine da leggere?": {
+      "main": [
+        [
+          {
+            "node": "Una per fonte",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Nessuna pagina",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Una per fonte": {
+      "main": [
+        [
+          {
+            "node": "Pagine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pagine": {
+      "main": [
+        [
+          {
+            "node": "Risposte pagine",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Attesa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attesa": {
+      "main": [
+        [
+          {
+            "node": "Pagina",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pagina": {
+      "main": [
+        [
+          {
+            "node": "Risposta pagina",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risposta pagina": {
+      "main": [
+        [
+          {
+            "node": "Pagine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risposte pagine": {
+      "main": [
+        [
+          {
+            "node": "Prepara pagine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nessuna pagina": {
+      "main": [
+        [
+          {
+            "node": "Prepara pagine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara pagine": {
+      "main": [
+        [
+          {
+            "node": "Dopo pagine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dopo pagine": {
+      "main": [
+        [
+          {
+            "node": "Righe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File": {
+      "main": [
+        [
+          {
+            "node": "In file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "In file": {
+      "main": [
+        [
+          {
+            "node": "Salva originale",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo registro": {
+      "main": [
+        [
+          {
+            "node": "File registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File registro": {
+      "main": [
+        [
+          {
+            "node": "Salva registro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Righe": {
+      "main": [
+        [
+          {
+            "node": "File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Testo registro",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Righe nuove?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Avviso?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Righe nuove?": {
+      "main": [
+        [
+          {
+            "node": "Testo righe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo righe": {
+      "main": [
+        [
+          {
+            "node": "File righe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File righe": {
+      "main": [
+        [
+          {
+            "node": "Salva righe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avviso?": {
+      "main": [
+        [
+          {
+            "node": "Testo avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo avviso": {
+      "main": [
+        [
+          {
+            "node": "File avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File avviso": {
+      "main": [
+        [
+          {
+            "node": "Salva avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "timezone": "Europe/Rome",
+    "executionOrder": "v1"
+  },
+  "versionId": "05ccabc5-8c87-4532-87a7-bec4d13e74cd",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "RezgWyCOpElb6c7o",
+  "tags": []
+}

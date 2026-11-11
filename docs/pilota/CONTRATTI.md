@@ -168,6 +168,12 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   chiede più niente, e i documenti rimasti vanno nell'esito come non richiesti, per un giro del
   giorno nuovo. `<inizio>` è l'ora UTC
   d'inizio, `YYYYMMDDTHHMMSSZ`.
+- **Una corsa alla volta.** Le richieste ad Atti Web vanno una alla volta (DEC-033, regola 2).
+  Per questo la lettura parte solo dal suo orario giornaliero: i workflow D non hanno webhook.
+  Ogni sotto-workflow risponde solo a chi lo chiama: la tipologia e il download alla lettura, la
+  passata alla tipologia. La lettura ha un tempo massimo di 20 ore, così due corse dell'orario
+  non si sovrappongono. Una corsa a mano dall'editor di n8n si fa solo con la lettura
+  disattivata.
 - **Segnali di blocco.** Oltre a 403, 429, captcha e pagina di accesso, fermano la lettura
   anche 401 e qualunque rinvio: il portale non rinvia nelle risposte normali. La ferma anche
   una pagina HTML servita con 200 dove il portale manda dati (l'elenco, il PDF), fuori dalla
@@ -278,8 +284,8 @@ originali in `B Notizie/originali/` e non scrive elementi.
 | Colonne della coda | `block = news`; `source_channel` è `news_official` (Questura, Carabinieri), `news_press` (testata aperta) o `news_index` (solo titolo, link e ora di una testata chiusa, da un indice terzo) |
 | Pubblicabile | lo decide DEC-108; come si contano gli editori sta in `docs/sources/CRONACA_PROCESSO_2026-10.md`, sezione 4.6. Il canale scrive per ogni fatto le fonti che quella regola conta, nelle `attribuzioni` (sezione 2), e non pubblica niente prima della PR che applica la regola |
 | Fonti al 10 novembre 2026 | ufficiali: l'elenco dei comunicati della Questura di Roma e quello dei Carabinieri (le pagine di elenco: il feed dei Carabinieri è escluso da `robots.txt`). Testate aperte: Abitare a Roma e Il Faro Online, dai loro feed. Il sito del Comune oggi rinvia `robots.txt` alla pagina di accesso: non si legge finché il rinvio resta (sezione 6) |
-| Raccolta | ogni ora; una richiesta alla volta, almeno 5 secondi fra due, di più dove `robots.txt` chiede un `Crawl-delay`. Si legge la prima pagina dell'elenco o del feed. Un host si ferma al primo 401, 403 o 429, captcha, pagina di accesso, rinvio verso un altro host o pagina di blocco servita con 200. Il blocco non si aggira; si avvisa il coordinatore. `robots.txt` si ricontrolla una volta al giorno |
-| Originali | le risposte come arrivano, una per file, in `B Notizie/originali/notizie_<host>_<inizio>_<n>.<estensione>`, con `<n>` il numero della risposta di quell'host nella corsa, da 1: nessun file si sovrascrive; il registro di ogni corsa in `B Notizie/letture/notizie_<inizio>.json`, con le richieste, gli esiti e gli host fermati per host. `<inizio>` è l'ora UTC d'inizio, `YYYYMMDDTHHMMSSZ` |
+| Raccolta | ogni ora; una richiesta alla volta, almeno 5 secondi fra due, di più dove `robots.txt` chiede un `Crawl-delay`. Si legge la prima pagina dell'elenco o del feed. Un host si ferma al primo 401, 403 o 429, captcha, pagina di accesso, rinvio verso un altro host o pagina di blocco servita con 200. Il blocco non si aggira; si avvisa il coordinatore. Un errore del server o una richiesta senza risposta lasciano l'host non letto in quella corsa; cinque di fila lo fermano. `robots.txt` si ricontrolla una volta al giorno; una pagina HTML al suo posto non vale come regole, e l'host si ferma |
+| Originali | le risposte come arrivano, una per file, in `B Notizie/originali/notizie_<host>_<inizio>_<n>.<estensione>`, con `<n>` il numero della risposta di quell'host nella corsa, da 1: nessun file si sovrascrive; il registro di ogni corsa in `B Notizie/letture/notizie_<inizio>.json`, con le richieste, gli esiti e gli host fermati per host, e l'esito della lettura di ogni pagina salvata, anche quando non c'è niente di nuovo. `<inizio>` è l'ora UTC d'inizio, `YYYYMMDDTHHMMSSZ` |
 
 ### C · Eventi da Facebook (`fb_event`)
 
