@@ -118,9 +118,10 @@ Decision:
      dalla categoria di Facebook (`FB_CATEGORIA_TIPO` in `tools/wiki/build_fonti_eventi.py`,
      nella PR #21: «Local business» diventa `locale`, le categorie politiche
      `organizzazione_politica`): che cosa è l'organizzazione si controlla sul nome e sul sito.
-     All'11 novembre nel censimento non c'è nessuna attività commerciale: le 54 pagine che il
-     censimento segna «locale» e le 17 «rientra» con il `tipo` `locale` sono associazioni o
-     comitati che Facebook chiama «Local business». Quelli politici si escludono come politici
+     All'11 novembre nel censimento non c'è nessuna attività commerciale. Sono due gruppi
+     distinti di associazioni o comitati che Facebook chiama «Local business»: le 54 pagine con
+     il verdetto «locale» del censimento, e le 17 con un verdetto «rientra» e il `tipo` `locale`
+     (il punto 1 le conta già fra le 68 e le 320). Quelli politici si escludono come politici
      (`S-EV-0912`; `S-FE-0343` e `S-FE-0366`, che sono fra le 28 qui sotto). Delle 54, tolte le
      2 politiche, 6 sono già «tenere». Le altre 46 non sono «rientra»: il censimento non ha
      trovato eventi futuri, né su Facebook né sul sito, né date sul sito negli ultimi sei mesi,

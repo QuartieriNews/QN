@@ -2,8 +2,11 @@
 
 Status: DECIDED (11 novembre 2026, owner nella sessione del builder, sulle opzioni poste dal builder)
 Blocks: la pubblicazione dei casi che R-C05 manda in coda manuale, finché `docs/REVIEW_QUEUE.md`
-non dà alle notizie una priorità o un tempo («What changes when the other blocks arrive»):
-R-C08 chiede di pubblicare entro 48 ore, e la coda oggi si rivede una volta alla settimana.
+non ha due cose: una priorità o un tempo per le notizie («What changes when the other blocks
+arrive»), perché R-C08 chiede di pubblicare entro 48 ore e la coda oggi si rivede una volta alla
+settimana; e una decisione che tolga un dettaglio prima di pubblicare, con una scrittura di
+ritorno deterministica, perché oggi le decisioni sono solo `publish`, `discard`, `fix_zone` e
+`skip`.
 
 Context:
 - Il contratto del pilota ha già una regola sull'unità: lo stesso fatto raccontato da più
