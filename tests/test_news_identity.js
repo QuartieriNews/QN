@@ -63,6 +63,12 @@ check('the slash forms after the scheme are one URL', m.canonicalUrl('https:esem
 check('^ in a path is encoded, as the current URL standard does', m.canonicalUrl('https://esempio-inventato.it/a^b'), 'https://esempio-inventato.it/a%5Eb');
 check('a lone surrogate is U+FFFD, not a failure', m.canonicalUrl('https://esempio-inventato.it/\ud800'), 'https://esempio-inventato.it/%EF%BF%BD');
 check('controls at the ends are dropped', m.canonicalUrl('\u0001https://esempio-inventato.it/n\u0000'), 'https://esempio-inventato.it/n');
+check('a no-break space at either end is dropped, as web-event-identity.js does',
+  [m.canonicalUrl('https://esempio-inventato.it/n\u00a0'), m.canonicalUrl('\u00a0https://esempio-inventato.it/n')],
+  ['https://esempio-inventato.it/n', 'https://esempio-inventato.it/n']);
+check('a fragment may hold Unicode line separators, and goes',
+  [m.canonicalUrl('https://esempio-inventato.it/n#\u2028x'), m.canonicalUrl('https://esempio-inventato.it/n?a=1#\u2029')],
+  ['https://esempio-inventato.it/n', 'https://esempio-inventato.it/n?a=1']);
 check('a host with an underscore is kept', m.canonicalUrl('https://foo_bar.esempio-inventato.it/n'), 'https://foo_bar.esempio-inventato.it/n');
 check('a fact index that is not a whole number is refused', thrown(() => m.newsIdentity({ opening_url: URL_A, fact_index: '2' })), 'fact_index_invalid');
 check('no URL, no id', thrown(() => m.newsIdentity({ opening_url: ' ' })), 'url_missing');
