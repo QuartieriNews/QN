@@ -57,9 +57,13 @@ domanda):
 4. **Primo chiarimento.** Il testo dell'opzione A diceva che le regole segnate ⚖ restano
    fuori, ma ne includeva due (R-C04 e R-C05). Vale questo: R-C04 e R-C05 entrano subito,
    perché aggiungono solo prudenza; il parere legale potrà renderle più strette.
-5. **Secondo chiarimento.** R-C05 vale com'è scritta, salvo l'ultima frase: per i nomi
-   letti sulla stampa vale DEC-108, punto 2 (due editori diversi, adulto arrestato o
-   indagato, presunzione di innocenza, verifica della seconda AI, attribuzione), non «mai
-   in automatico».
+5. **Secondo chiarimento.** R-C05 vale dentro DEC-108, in due punti:
+   - per i nomi letti sulla stampa vale DEC-108, punto 2 (due editori diversi, adulto
+     arrestato o indagato, presunzione di innocenza, verifica della seconda AI,
+     attribuzione), non «mai in automatico»;
+   - le identità che DEC-108 toglie sempre (minori coinvolti in un procedimento penale o
+     come vittime o testimoni, vittime di violenza sessuale) le toglie la pipeline, senza
+     coda, come dice DEC-108: la coda manuale di R-C05 resta per gli altri casi
+     (suicidi e tentati suicidi, dati sanitari).
 
 Decided by: Owner · Date: 11 novembre 2026 · Affected components: canale B del pilota, `docs/pilota/CONTRATTI.md`.
