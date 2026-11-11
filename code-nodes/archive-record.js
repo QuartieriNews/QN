@@ -577,12 +577,14 @@ function reservationHolds({ reservations, mine, reading_day, cap }) {
   if (!isDay(reading_day)) throw new Error(`reading_day ${JSON.stringify(reading_day)} is not a YYYY-MM-DD day`);
   if (!Number.isSafeInteger(cap) || cap < 0 || cap > MAX_PER_DAY) throw new Error(`cap must be a whole number from 0 to ${MAX_PER_DAY} (DEC-033, rule 2)`);
   const rows = [];
-  const finished = new Set();
+  const finished = new Set(); // the reservations (by Drive id) whose run wrote its outcome
+  const finishedByStart = new Set(); // outcomes written before they carried that id
   for (const r of reservations) {
     const name = r && typeof r.name === 'string' ? r.name : '';
-    const mm = /^attiweb_(download|scaricati)_(\d{4}-\d{2}-\d{2})_n(\d+)_(\d{8}T\d{6}Z)\.json$/.exec(name);
+    const mm = /^attiweb_(download|scaricati)_(\d{4}-\d{2}-\d{2})_n(\d+)_(\d{8}T\d{6}Z)(?:_([A-Za-z0-9_-]+))?\.json$/.exec(name);
     if (!mm || mm[2] !== reading_day) continue;
-    if (mm[1] === 'scaricati') { finished.add(mm[4]); continue; }
+    if (mm[1] === 'scaricati') { if (mm[5]) finished.add(mm[5]); else finishedByStart.add(mm[4]); continue; }
+    if (mm[5]) continue;
     const at = Date.parse(r.createdTime);
     if (!Number.isFinite(at)) throw new Error(`reservation ${name} without the time it was written`);
     rows.push({ id: String(r.id || ''), name, n: Number(mm[3]), stamp: mm[4], at });
@@ -591,32 +593,39 @@ function reservationHolds({ reservations, mine, reading_day, cap }) {
   const idx = rows.findIndex((r) => r.id === mine);
   if (!mine || idx < 0) throw new Error(`the run's reservation ${mine} is not among the day's yet`);
   const used = rows.slice(0, idx + 1).reduce((t, r) => t + r.n, 0);
-  const busy = rows.slice(0, idx).filter((r) => r.n > 0 && !finished.has(r.stamp)).map((r) => r.name);
+  const busy = rows.slice(0, idx).filter((r) => r.n > 0 && !finished.has(r.id) && !finishedByStart.has(r.stamp)).map((r) => r.name);
   return { holds: used <= cap && busy.length === 0, used, cap, busy };
 }
 
 /** The outcome of one download run, written at its end: not counted toward the cap, which the
  *  reservation already holds. */
-function downloadResultName(readingDay, count, startedAt) {
-  return downloadLogName(readingDay, count, startedAt).replace(/^attiweb_download_/, 'attiweb_scaricati_');
+function downloadResultName(readingDay, count, startedAt, reservationId) {
+  if (typeof reservationId !== 'string' || !/^[A-Za-z0-9_-]+$/.test(reservationId)) {
+    throw new Error('reservation_id must be the Drive id of the run\'s reservation');
+  }
+  return downloadLogName(readingDay, count, startedAt).replace(/^attiweb_download_/, 'attiweb_scaricati_').replace(/\.json$/, `_${reservationId}.json`);
 }
 
 /** Stage 'download_log': the outcome of one download run, from the outcome of each document it
  *  read (`{ archive_id, written, reason }`); its name carries the day and the count. */
-function downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, esiti }) {
+function downloadLog({ reading_day, started_at, finished_at, workflow, workflow_version, reservation_id, esiti }) {
   if (!utcInstant(finished_at)) throw new Error('finished_at must be a UTC instant');
   if (typeof workflow !== 'string' || !workflow.startsWith('staging_')) throw new Error('workflow must name the staging_ workflow');
   if (typeof workflow_version !== 'string' || !workflow_version.trim()) throw new Error('workflow_version must name the version');
   if (!Array.isArray(esiti)) throw new Error('esiti must list the documents read');
-  const read = esiti.filter((e) => e && typeof e.archive_id === 'string');
-  if (read.length !== esiti.length) throw new Error('an outcome without its archive_id');
+  const all = esiti.filter((e) => e && typeof e.archive_id === 'string');
+  if (all.length !== esiti.length) throw new Error('an outcome without its archive_id');
+  // A document left unasked (the Rome day changed during the run) is not read: the next day's
+  // run reserves it on its own cap.
+  const read = all.filter((e) => e.requested !== false);
   return {
-    name: downloadResultName(reading_day, read.length, started_at),
+    name: downloadResultName(reading_day, read.length, started_at, reservation_id),
     log: {
-      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version,
+      source_id: SOURCE_ID, reading_day, started_at, finished_at, workflow, workflow_version, reservation_id,
       read: read.length,
       written: read.filter((e) => e.written === true).length,
       not_written: read.filter((e) => e.written !== true).map((e) => ({ archive_id: e.archive_id, reason: e.reason || null })),
+      not_requested: all.filter((e) => e.requested === false).map((e) => e.archive_id),
     },
   };
 }
@@ -693,9 +702,9 @@ if ($json.stage === 'plan') {
   const why = $json.confirm.busy.length ? 'an earlier run of the day has no outcome yet'
     : !$json.confirm.holds ? 'another run reserved the cap first' : Number($json.count) === 0 ? 'nothing to download' : null;
   if (why) {
-    $json.stop_name = downloadResultName($json.reading_day, 0, $json.started_at);
+    $json.stop_name = downloadResultName($json.reading_day, 0, $json.started_at, $json.reservation_id);
     $json.stop_log = { source_id: SOURCE_ID, reading_day: $json.reading_day, started_at: $json.started_at, read: 0,
-      stopped: why, used: $json.confirm.used, cap: $json.cap, busy: $json.confirm.busy };
+      stopped: why, used: $json.confirm.used, cap: $json.cap, busy: $json.confirm.busy, reservation_id: $json.reservation_id };
   }
   delete $json.reservations;
 } else if ($json.stage === 'download_log') {

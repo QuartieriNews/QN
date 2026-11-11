@@ -149,8 +149,12 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   si ferma, o che non ha niente da scaricare, scrive comunque l'esito, con zero documenti, e la sua
   prenotazione resta e conta. Un giro interrotto senza esito ferma i giri seguenti del giorno
   finché il coordinatore non legge il suo avviso. A fine giro
-  scrive l'esito, documento per documento, in `attiweb_scaricati_<giorno>_n<letti>_<inizio>.json`,
-  che non conta per il tetto. `<inizio>` è l'ora UTC
+  scrive l'esito, documento per documento, in
+  `attiweb_scaricati_<giorno>_n<letti>_<inizio>_<id>.json`, con l'id del file della sua
+  prenotazione: l'esito si lega alla prenotazione da quell'id, e non conta per il tetto. Prima di
+  ogni richiesta il giro controlla il giorno di Roma: se non è più quello della prenotazione, non
+  chiede più niente, e i documenti rimasti vanno nell'esito come non richiesti, per un giro del
+  giorno nuovo. `<inizio>` è l'ora UTC
   d'inizio, `YYYYMMDDTHHMMSSZ`.
 - **Segnali di blocco.** Oltre a 403, 429, captcha e pagina di accesso, fermano la lettura
   anche 401 e qualunque rinvio: il portale non rinvia nelle risposte normali. La ferma anche

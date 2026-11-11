@@ -379,7 +379,7 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('a login page served with 200 in place of a PDF stops it too',
     /blocked \(login page\)/.test(thrown(() => m.checkPdf({ response: { statusCode: 200, headers: {}, body: '<form><input type="password" name="p"></form>' }, mime: 'text/html', has_content: true })) || ''), true);
   check('the outcome of a run is not counted toward the cap: its reservation is',
-    m.downloadedToday([m.downloadLogName(DAY, 50, START), m.downloadResultName(DAY, 12, START)], DAY), 50);
+    m.downloadedToday([m.downloadLogName(DAY, 50, START), m.downloadResultName(DAY, 12, START, 'r1')], DAY), 50);
   check('a PDF to hash', m.checkPdf({ response: { statusCode: 200, headers: {} }, mime: 'application/pdf', has_content: true }), { ok: true, reason: null });
   check('a block on a PDF stops the reading', /blocked \(HTTP 403\)/.test(thrown(() => m.checkPdf({ response: { statusCode: 403 }, mime: 'text/html', has_content: true })) || ''), true);
   check('a redirect on a PDF stops it too', /blocked \(redirect/.test(thrown(() => m.checkPdf({ response: { statusCode: 302, headers: {} }, mime: '', has_content: false })) || ''), true);
@@ -420,7 +420,7 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   const RA = m.downloadLogName(DAY, 250, '2026-11-11T01:00:00Z');
   const RB = m.downloadLogName(DAY, 50, '2026-11-11T02:00:00Z');
   const RC = m.downloadLogName(DAY, 50, '2026-11-11T02:00:05Z');
-  const OA = m.downloadResultName(DAY, 250, '2026-11-11T01:00:00Z');
+  const OA = m.downloadResultName(DAY, 250, '2026-11-11T01:00:00Z', 'a');
   const day = [{ id: 'a', name: RA, createdTime: '2026-11-11T01:00:03.000Z' }, { id: 'oa', name: OA, createdTime: '2026-11-11T01:40:00.000Z' },
     { id: 'b', name: RB, createdTime: '2026-11-11T02:00:04.000Z' }, { id: 'c', name: RC, createdTime: '2026-11-11T02:00:06.000Z' }];
   check('confirm: the first of two overlapping runs goes on, an earlier finished run counts but does not hold it',
@@ -443,20 +443,33 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   const stop = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:05Z', cap: 300, count: 50, reservation_id: 'c', reservations: day.concat([{}]) });
   check('confirm in n8n: a run that stops writes an outcome of zero documents, with the reason',
     [stop.json.confirm.holds, stop.json.stop_name, stop.json.stop_log.read, stop.json.stop_log.stopped, stop.json.reservations],
-    [false, 'attiweb_scaricati_2026-11-10_n0_20261111T020005Z.json', 0, 'an earlier run of the day has no outcome yet', undefined]);
+    [false, 'attiweb_scaricati_2026-11-10_n0_20261111T020005Z_c.json', 0, 'an earlier run of the day has no outcome yet', undefined]);
   const go = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:00Z', cap: 300, count: 50, reservation_id: 'b', reservations: day });
   check('confirm in n8n: a run that holds has no outcome to write yet', [go.json.confirm.holds, go.json.stop_name], [true, undefined]);
   const none = runWith({ stage: 'confirm', reading_day: DAY, started_at: '2026-11-11T02:00:00Z', cap: 300, count: 0, reservation_id: 'b', reservations: day });
   check('confirm in n8n: a run with nothing to download writes its outcome of zero documents',
-    [none.json.stop_name, none.json.stop_log.stopped], ['attiweb_scaricati_2026-11-10_n0_20261111T020000Z.json', 'nothing to download']);
-  const dlog = m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1',
+    [none.json.stop_name, none.json.stop_log.stopped], ['attiweb_scaricati_2026-11-10_n0_20261111T020000Z_b.json', 'nothing to download']);
+  const dlog = m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', reservation_id: 'r1',
     esiti: [{ archive_id: 'a', written: true }, { archive_id: 'b', written: false, reason: 'not a PDF: text/html' }] });
   check('download register: named by day and count, outcomes kept', [dlog.name, dlog.log.read, dlog.log.written, dlog.log.not_written],
-    ['attiweb_scaricati_2026-11-10_n2_20261110T201500Z.json', 2, 1, [{ archive_id: 'b', reason: 'not a PDF: text/html' }]]);
+    ['attiweb_scaricati_2026-11-10_n2_20261110T201500Z_r1.json', 2, 1, [{ archive_id: 'b', reason: 'not a PDF: text/html' }]]);
   check('download register: an outcome without its id is a workflow error',
     /without its archive_id/.test(thrown(() => m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', esiti: [{}] })) || ''), true);
-  const dl = runWith({ stage: 'download_log', reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', esiti: [{ archive_id: 'a', written: true }] });
-  check('download_log: the register, the outcomes dropped', [dl.json.name, dl.json.esiti], ['attiweb_scaricati_2026-11-10_n1_20261110T201500Z.json', undefined]);
+  const dl = runWith({ stage: 'download_log', reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', reservation_id: 'r1', esiti: [{ archive_id: 'a', written: true }] });
+  check('download_log: the register, the outcomes dropped', [dl.json.name, dl.json.esiti], ['attiweb_scaricati_2026-11-10_n1_20261110T201500Z_r1.json', undefined]);
+  const late = m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', reservation_id: 'r1',
+    esiti: [{ archive_id: 'a', written: true }, { archive_id: 'b', written: false, requested: false, reason: 'the Rome day changed: left for the next run' }] });
+  check('download register: a document left unasked when the Rome day changed is not read, and is listed apart',
+    [late.name, late.log.read, late.log.not_requested], ['attiweb_scaricati_2026-11-10_n1_20261110T201500Z_r1.json', 1, ['b']]);
+  check('download register: an outcome without its reservation is a workflow error',
+    /reservation_id/.test(thrown(() => m.downloadLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'staging_D_attiweb_download', workflow_version: '1', esiti: [] })) || ''), true);
+  const same = [{ id: 'p1', name: RB, createdTime: '2026-11-11T02:00:04.000Z' }, { id: 'p2', name: RB, createdTime: '2026-11-11T02:00:05.000Z' },
+    { id: 'p3', name: RB, createdTime: '2026-11-11T02:00:06.000Z' }, { id: 'o2', name: m.downloadResultName(DAY, 0, '2026-11-11T02:00:00Z', 'p2'), createdTime: '2026-11-11T02:00:12.000Z' }];
+  check('confirm: three runs in the same second: the outcome of the second never frees the first, still running',
+    m.reservationHolds({ reservations: same, mine: 'p3', reading_day: DAY, cap: 300 }).busy, [RB]);
+  check('confirm: an outcome written before outcomes carried the id is still matched by the start',
+    m.reservationHolds({ reservations: [{ id: 'q1', name: RB, createdTime: '2026-11-11T02:00:04.000Z' }, { id: 'q0', name: 'attiweb_scaricati_2026-11-10_n50_20261111T020000Z.json', createdTime: '2026-11-11T02:30:00Z' },
+      { id: 'q2', name: RC, createdTime: '2026-11-11T03:00:00Z' }], mine: 'q2', reading_day: DAY, cap: 300 }).busy, []);
   const arcItem = m.describeRow(Object.assign(act(7), { tipologia: 'CMD' }), DAY);
   const rec = runWith({ stage: 'record', archive: arcItem, download: DL, existing: [] });
   check('record: the stage name gives the record too', rec.json.record_file_name, 'roma__arc__comune.roma.it__CMD__7__v1.json');
