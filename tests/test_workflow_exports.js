@@ -107,6 +107,7 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
     next('Una volta')[0].join() === 'Ci sono record?' && next('Ci sono record?')[0].join() === 'Testo segno' &&
     next('Ci sono record?')[1].join() === 'Nessun record' && node('Nessun record').type === 'n8n-nodes-base.stopAndError');
   check('backup: a stop reaches the alert workflow', R.settings.errorWorkflow === 'mFrh9UN4BVbhZAHz');
+}
 
 // The owner's pace for Atti Web (CONTRATTI.md, «Il ritmo del pilota»): 15 seconds between two
 // requests to the portal, 100 documents a day. The menu, the run's first request, follows none.
