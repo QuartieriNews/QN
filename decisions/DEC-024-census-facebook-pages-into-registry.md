@@ -76,24 +76,37 @@ opzioni qui sopra): Q1 «Solo prova forte», Q2 «Escludile tutte», Q3 «Rilegg
 Q4 «Mai». Domanda successiva, dopo il secondo giro di revisione della PR #46: 4 comitati di
 quartiere e 1 associazione locale che Facebook classifica come organizzazione politica o
 attività commerciale; risposta «Tienili dentro» (conta che cosa è l'organizzazione, non
-l'etichetta di Facebook).
+l'etichetta di Facebook). Domanda successiva, dopo il terzo giro di revisione della PR #46: un
+evento organizzato da un bar o da un partito, con l'URL raccolto a mano dall'owner; risposta
+«Solo il registro», con questa spiegazione: «Le pagine restano fuori dal registro e non le
+rileggiamo. Un evento che raccogli tu lo giudica il filtro, come oggi: il concerto nel pub può
+uscire. Il filtro non cambia.»
 
 Decision:
 1. **Q1 — b).** Entrano subito come «tenere» le pagine con una prova forte (eventi futuri
    su Facebook, date future sul sito); le altre «rientra» entrano dopo un mese di lettura dei
    loro siti, se la lettura ne conferma l'attività. L'esclusione del punto 2 vale prima di
    questo punto. Contate nel registro della PR #21 (`docs/wiki/fonti-eventi/fonti_eventi.json`,
-   388 «rientra»; la tabella del censimento ne conta 390): delle 68 con prova forte 5 sono
-   attività commerciali, quindi entrano subito 63 pagine; delle altre 320, 13 sono politiche o
-   commerciali, quindi le candidate dopo il mese sono 307.
+   388 «rientra»): delle 68 con prova forte 5 sono attività commerciali, quindi entrano subito
+   63 pagine; delle altre 320, 13 sono politiche o commerciali, quindi le candidate dopo il mese
+   sono 307. La tabella del censimento ne conta 390 perché conta le righe dell'elenco letto, non
+   le pagine: tre pagine vi compaiono due volte e il registro ne tiene una sola, con la prima
+   lettura (`S-EV-0575`, `S-EV-0777`, `S-EV-0855`). Le due righe «rientra» in più sono seconde
+   letture di queste pagine, tutte e due senza prova forte. Una pagina segue un percorso solo:
+   quello del mese, se una delle sue letture è «rientra». `S-EV-0575` è già fra le 307;
+   `S-EV-0777` e `S-EV-0855`, che il registro segna «da valutare», si aggiungono se la loro
+   seconda lettura nel foglio del censimento è «rientra» (al più 309 candidate).
 2. **Q2 — b).** Restano fuori dal registro le organizzazioni politiche (partiti, liste,
-   candidati) e le attività commerciali (negozi, bar, palestre), eventi compresi. Conta che cosa
-   è l'organizzazione, cioè il `tipo` del registro (`politico`, `organizzazione_politica`,
+   candidati) e le attività commerciali (negozi, bar, palestre). Conta che cosa è
+   l'organizzazione, cioè il `tipo` del registro (`politico`, `organizzazione_politica`,
    `locale`), non la categoria di Facebook: i comitati di quartiere e le associazioni locali
-   restano fonti anche quando Facebook li chiama politici o commerciali (la domanda successiva
-   qui sopra). Le pagine escluse che il registro segna già «tenere» (21 politiche) non si
-   cancellano: passano a «scartare» con il motivo «DEC-024 Q2» e tengono la loro storia. La
-   rilettura del punto 3 le salta.
+   restano fonti anche quando Facebook li chiama politici o commerciali (la prima domanda
+   successiva qui sopra). Le pagine escluse che il registro segna già «tenere» (21 politiche)
+   non si cancellano: passano a «scartare» con il motivo «DEC-024 Q2» e tengono la loro storia.
+   La rilettura del punto 3 le salta. L'esclusione vale per il registro, non per gli eventi (la
+   seconda domanda successiva): un evento che l'owner raccoglie a mano (DEC-102) lo giudica
+   `prompts/EDITORIAL_FILTER.md`, che non cambia, anche quando l'organizzatore è un partito o
+   un'attività commerciale.
 3. **Q3 — b), con il controllo trimestrale della raccomandazione.** All'owner l'opzione è
    stata posta così: «Ogni due settimane rileggo le pagine del registro. Una volta ogni tre
    mesi faccio una ricerca per parole chiave, solo come controllo». Le pagine del registro si
@@ -108,5 +121,5 @@ Decision:
 4. **Q4 — b).** Le 275 pagine dormienti non si rileggono, salvo segnalazione.
 
 Decided by: Owner · Date: 11 novembre 2026 · Affected components: registro fonti v2, `docs/wiki/fonti-eventi`,
-`prompts/EDITORIAL_FILTER.md` (Q2), `workflows/scrape-fb-events-rome.json` (Q3),
+`workflows/scrape-fb-events-rome.json` (Q3),
 `tools/fonti/leggi_eventi_siti.py` (Q1b).

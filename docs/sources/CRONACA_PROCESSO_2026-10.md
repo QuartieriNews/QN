@@ -61,6 +61,11 @@ comunicato della Questura e in tre testate, produrrebbe quattro notizie.
 Sono proposte del builder. Diventano regole quando l'owner le adotta, e alcune
 (segnate ⚖) solo dopo il parere legale (D12).
 
+**Per il pilota privato l'owner le ha adottate l'11 novembre con DEC-034**, anche due regole
+segnate ⚖ (R-C04 e R-C05). Quali valgono da subito, quali dopo il primo mese e quali
+aspettano il parere legale lo dice la decisione, che vince su questa sezione; dice anche
+come R-C05 si applica dentro DEC-108.
+
 - **R-C01 · Un fatto, una scheda.** Il fatto è l'unità: un evento con luogo, data e
   protagonisti. Un'operazione su più luoghi è un fatto con più luoghi (esito M). Un
   comunicato di riepilogo produce tante schede quanti sono i fatti riconoscibili. Gli
@@ -84,7 +89,8 @@ Sono proposte del builder. Diventano regole quando l'owner le adotta, e alcune
   dettagli che identificano minori (anche come autori), vittime di reati sessuali,
   persone coinvolte in suicidi o tentati suicidi, dati sanitari. Questi casi vanno
   sempre in coda manuale. Un nome letto solo su una testata non si riproduce in
-  automatico: DEC-016 copre solo le fonti ufficiali. ⚖
+  automatico: DEC-016 copre solo le fonti ufficiali. ⚖ Per il pilota privato vale come
+  la legge DEC-034, punto 5: i nomi presi dalla stampa seguono DEC-108.
 - **R-C06 · Luogo del fatto.** Il luogo è quello dove il fatto è avvenuto, non quello
   della caserma o del commissariato che ha operato né la residenza dell'arrestato. «Zona
   Tuscolana» senza altri elementi vale come strada lunga e dà D (protocollo, casi
@@ -597,8 +603,9 @@ parere (D12).
 2. **Registrazione della testata, da anticipare?** Serve per le liste stampa degli enti
    (§5.3 n. 1), che sono il canale più ricco e più pulito. Oggi la registrazione sta nel
    percorso legale (I) della fase 2.
-3. **Regole R-C01…R-C11 (§3):** adottarle, modificarle o rinviarle. Quelle segnate ⚖
-   entrano nel pacchetto per il legale (D12), insieme a tre domande nuove:
+3. **Regole R-C01…R-C11 (§3):** adottarle, modificarle o rinviarle. **Deciso dall'owner
+   l'11 novembre per il pilota privato:** DEC-034. Quelle segnate ⚖ entrano nel pacchetto
+   per il legale (D12), insieme a tre domande nuove:
    - art. 101 l. 633/1941: un fatto scoperto dalla stampa e confermato da un ente può
      diventare una notizia di QN?
    - art. 43-bis: i link e i titoli delle testate sono ammessi?
