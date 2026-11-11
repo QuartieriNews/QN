@@ -144,10 +144,51 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   conta. È la forma che lo studio di settembre ha riconosciuto su tutte le 1.426 righe delle
   tipologie municipali (`tools/sources-study/a2_tipologie.py`). Gli atti dei gruppi della Polizia
   Locale (`P.L. - <numero> GRUPPO …`) restano fuori, con il motivo `polizia_locale`.
+- **File della lettura.** Le risposte della ricerca si salvano come arrivano, una per pagina, in
+  `originali/attiweb_elenco_<giorno>_<inizio>_<tipologia>_p<passata>_<pagina>.json`, con l'inizio
+  della lettura, così due letture dello stesso giorno non danno mai lo stesso nome; ogni riga
+  dello storico rimanda alla sua (`provenienza.elenco`). Il registro di ogni lettura sta in
+  `D Storico/letture/attiweb_lettura_<inizio>.json`: per ogni tipologia se è completa, le
+  passate, il totale, il dato mancante, gli errori, le righe tenute e quelle lasciate fuori per
+  motivo. Le righe tenute vanno in `attiweb_righe_<inizio>.json`, da cui legge il download.
+  Ogni giro di download scrive, prima della prima richiesta, la prenotazione
+  `attiweb_download_<giorno>_n<documenti>_<inizio>.json`, con i documenti che chiederà: il tetto
+  del giorno si conta da quei nomi, e un giro che si ferma a metà conta per intero. Scritta la
+  prenotazione, il giro rilegge prenotazioni ed esiti del giorno nell'ordine in cui Drive li ha
+  scritti, e riconosce la sua dall'id del file. Si ferma prima di ogni richiesta se con la sua il
+  totale supera il tetto, o se una prenotazione scritta prima, con dei documenti, non ha ancora il
+  suo esito: due giri non scaricano mai insieme, e nessun record si scrive due volte. Un giro che
+  si ferma, o che non ha niente da scaricare, scrive comunque l'esito, con zero documenti, e la sua
+  prenotazione resta e conta. Un giro interrotto senza esito ferma i giri seguenti del giorno
+  finché il coordinatore non legge il suo avviso. A fine giro
+  scrive l'esito, documento per documento, in
+  `attiweb_scaricati_<giorno>_n<letti>_<inizio>_<id>.json`, con l'id del file della sua
+  prenotazione: l'esito si lega alla prenotazione da quell'id, e non conta per il tetto. Prima di
+  ogni richiesta il giro controlla il giorno di Roma: se non è più quello della prenotazione, non
+  chiede più niente, e i documenti rimasti vanno nell'esito come non richiesti, per un giro del
+  giorno nuovo. `<inizio>` è l'ora UTC
+  d'inizio, `YYYYMMDDTHHMMSSZ`.
+- **Segnali di blocco.** Oltre a 403, 429, captcha e pagina di accesso, fermano la lettura
+  anche 401 e qualunque rinvio: il portale non rinvia nelle risposte normali. La ferma anche
+  una pagina HTML servita con 200 dove il portale manda dati (l'elenco, il PDF), fuori dalla
+  risposta vuota: una pagina che controlla il browser con uno script non dice «captcha». Una
+  risposta che non è un PDF si legge come testo, così la si riconosce anche al posto del
+  documento. Se un workflow D si ferma, per un segnale di blocco o per un
+  errore, `staging_D_avviso` scrive `AVVISO_attiweb_<ora>.json` in `D Storico/letture/` con il
+  workflow, l'esecuzione, il nodo e il messaggio: è il registro della lettura o del giro
+  interrotto, che resta incompleto, e il coordinatore avvisa l'owner. Il workflow d'avviso resta
+  attivo: n8n non chiama un workflow d'errore non pubblicato.
+- **Righe illeggibili.** Una riga che non si legge si conta nel registro e lascia incompleta la
+  sua tipologia, quindi la lettura (DEC-033, regola 5).
+- **PDF.** Il portale manda i PDF come `application/octet-stream` con un nome `.pdf`: valgono
+  come originali. Un file vuoto, un altro tipo di file o un codice diverso da 200 si contano
+  nel registro del download e non si scrivono; una pagina HTML ferma il giro (segnali di
+  blocco), anche se il portale la usasse per un documento che manca.
 - **Versioni.** Gli `archive_id` nuovi si scaricano per primi; con il tetto che resta nel
   giorno si riscaricano quelli già nello storico, da quello verificato da più tempo, così ogni
   documento si ricontrolla nel tempo. Lo stesso originale (stesso SHA-256) non aggiunge
-  versioni, un originale diverso ne aggiunge una.
+  versioni, un originale diverso ne aggiunge una. Il riscaricamento arriva con la PR del
+  registro delle verifiche: finché non c'è, il download prende solo gli `archive_id` nuovi.
 
 ## 3. Dove sta che cosa
 
@@ -156,6 +197,7 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
 | Elementi del giorno | Drive, `QN Hub / 30 Staging pilota 2026-11 / <workstream>/` (cartella privata), nel file fissato dalla PR che apre il canale (qui sotto e sezione 7) |
 | Record dello storico (DEC-023) | Drive, `D Storico/` nella stessa cartella, in sola aggiunta; la copia di riserva in `D Storico/riserva/` |
 | Originali delle fonti: testi, trascrizioni, PDF degli atti | Drive, sottocartella `originali/` dello stesso workstream o dello storico |
+| Registri delle letture dello storico | Drive, `D Storico/letture/` |
 | Registro fonti (fonte di verità, DEC-023) | Drive, `Registro fonti/`, foglio Google |
 | Codice, test con esempi inventati, contratti, decisioni | GitHub |
 
