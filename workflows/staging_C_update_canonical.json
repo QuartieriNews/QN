@@ -1,0 +1,230 @@
+{
+  "name": "staging_C_update_canonical",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b0a52a7b-bd67-4174-8a88-03c959d6ff51",
+        "responseMode": "onReceived",
+        "options": {},
+        "authentication": "headerAuth"
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ],
+      "id": "9e735816-3b0e-4d15-869e-a8895add2a70",
+      "name": "Webhook",
+      "webhookId": "b0a52a7b-bd67-4174-8a88-03c959d6ff51",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pA1sDdXav0jboi8h",
+          "name": "staging webhook header"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "'1BBM4OHob8RA7O6V7MJNq3k8cCwFaPeNv' in parents and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        440,
+        300
+      ],
+      "id": "ace8ed90-ad52-4546-b691-95918631c572",
+      "name": "Elenco C Eventi",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// staging_C update: canonical files -> Drive C Eventi, updating the file of the same name\n// (Drive keeps the previous revision) or uploading it when there is none. At most 300.\nconst files = ($('Webhook').first().json.body || {}).files;\nif (!Array.isArray(files) || files.length === 0 || files.length > 300) throw new Error('files: 1 to 300 required');\nconst ids = new Map();\nfor (const it of $input.all()) {\n  const n = it.json.name, id = it.json.id;\n  if (!n || !id) continue;\n  if (ids.has(n)) throw new Error('two files named ' + n + ' in C Eventi: fix by hand first');\n  ids.set(n, id);\n}\nconst seen = new Set();\nreturn files.map((f) => {\n  if (!/^roma__evt__[a-z0-9_.-]+\\.json$/.test(f.name)) throw new Error('bad file name: ' + f.name);\n  if (seen.has(f.name)) throw new Error('file listed twice: ' + f.name);\n  seen.add(f.name);\n  JSON.parse(f.content);\n  return { json: { name: f.name, fileId: ids.get(f.name) || null },\n    binary: { data: { data: Buffer.from(f.content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: f.name } } };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ],
+      "id": "076ce82e-0aac-4845-a3aa-378207411371",
+      "name": "Prepara"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cdd693f2-1348-4275-8def-46691cff99fd",
+              "leftValue": "={{ $json.fileId }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        300
+      ],
+      "id": "90d82250-ed2b-4c75-aab9-c82c06291982",
+      "name": "Esiste?"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.fileId }}",
+          "mode": "id"
+        },
+        "changeFileContent": true,
+        "inputDataFieldName": "data",
+        "updateFields": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1100,
+        200
+      ],
+      "id": "f043a307-04ed-4388-b4d7-54dc4b484a5e",
+      "name": "Aggiorna",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1BBM4OHob8RA7O6V7MJNq3k8cCwFaPeNv"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1100,
+        400
+      ],
+      "id": "afd7caf9-2bb3-4d11-8c41-6711c15eea2a",
+      "name": "Carica",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Elenco C Eventi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elenco C Eventi": {
+      "main": [
+        [
+          {
+            "node": "Prepara",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara": {
+      "main": [
+        [
+          {
+            "node": "Esiste?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esiste?": {
+      "main": [
+        [
+          {
+            "node": "Aggiorna",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Carica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "executionOrder": "v1"
+  },
+  "versionId": "eb95adee-3d08-4f38-aa87-9dd077d45171",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "gbx0qguFwhkzIjTx",
+  "tags": []
+}

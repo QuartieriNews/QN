@@ -1,0 +1,316 @@
+{
+  "name": "staging_C_fb_events_fetch",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9251f00f-6ffd-45c3-ae2b-451a5645fde0",
+        "responseMode": "onReceived",
+        "options": {},
+        "authentication": "headerAuth"
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        0
+      ],
+      "id": "n1",
+      "name": "Webhook",
+      "webhookId": "9251f00f-6ffd-45c3-ae2b-451a5645fde0",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pA1sDdXav0jboi8h",
+          "name": "staging webhook header"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/apify~facebook-events-scraper/runs?memory=2048",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.apifyInput) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "n2",
+      "name": "Start Apify run",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "cNHvQowQq8HNuWyR",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 120
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        0
+      ],
+      "id": "n3",
+      "name": "Wait",
+      "webhookId": "283edc34-41c7-454c-a31b-28b4c00e5579"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $('Start Apify run').item.json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        660,
+        0
+      ],
+      "id": "n4",
+      "name": "Get run",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "cNHvQowQq8HNuWyR",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ ['READY','RUNNING'].includes($json.data.status) }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              },
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        880,
+        0
+      ],
+      "id": "n5",
+      "name": "Finished?"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items?clean=true&format=json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1100,
+        -100
+      ],
+      "id": "n6",
+      "name": "Get dataset items",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "cNHvQowQq8HNuWyR",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "once",
+        "options": {
+          "fileName": "=apify_fb_events_{{ $now.toFormat('yyyy-LL-dd_HHmm') }}.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1320,
+        -100
+      ],
+      "id": "n7",
+      "name": "To JSON file"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1Vw7s8BAT6eWd7h8tmPHALX8HVjR9ZaU6"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1540,
+        -100
+      ],
+      "id": "n8",
+      "name": "Upload to C Eventi originali",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// staging_C: validates the requested Apify input. Hard caps: 60 URLs, 5 events per URL.\nconst b = $json.body || {};\nconst urls = Array.isArray(b.startUrls) ? b.startUrls : [];\nconst clean = [...new Set(urls.map(u => String(u).trim()).filter(u => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\nif (clean.length === 0 || clean.length > 60) throw new Error('startUrls: 1 to 60 facebook.com URLs required');\nconst maxEvents = Math.min(Math.max(parseInt(b.maxEvents || 5, 10) || 5, 1), 5);\nreturn [{ json: { apifyInput: { startUrls: clean.map(url => ({ url })), maxEvents } } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "n0",
+      "name": "Build Apify input"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Build Apify input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start Apify run": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get run": {
+      "main": [
+        [
+          {
+            "node": "Finished?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finished?": {
+      "main": [
+        [
+          {
+            "node": "Get dataset items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get dataset items": {
+      "main": [
+        [
+          {
+            "node": "To JSON file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "To JSON file": {
+      "main": [
+        [
+          {
+            "node": "Upload to C Eventi originali",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Apify input": {
+      "main": [
+        [
+          {
+            "node": "Start Apify run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "saveManualExecutions": true,
+    "saveDataSuccessExecution": "all",
+    "executionOrder": "v1"
+  },
+  "versionId": "8bd5efa0-0e6c-42b9-81a5-ade4e8c0ba3a",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "a442LZE59XzO5ZJw",
+  "tags": []
+}

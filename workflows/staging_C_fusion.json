@@ -1,0 +1,281 @@
+{
+  "name": "staging_C_fusion",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "29492b39-d942-4f57-9513-4fb93eecf69f",
+        "responseMode": "onReceived",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ],
+      "id": "bf7bfba1-e624-4db3-b352-06ed82c25260",
+      "name": "Webhook",
+      "webhookId": "29492b39-d942-4f57-9513-4fb93eecf69f",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pA1sDdXav0jboi8h",
+          "name": "staging webhook header"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        480
+      ],
+      "id": "1ace6725-85ec-4450-9422-be5d4a28ad75",
+      "name": "Da un altro workflow"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "'1BBM4OHob8RA7O6V7MJNq3k8cCwFaPeNv' in parents and name contains 'roma__evt__' and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        440,
+        300
+      ],
+      "id": "65b4f6de-1fbd-4abd-b262-f7aebca63d58",
+      "name": "Elenco",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        660,
+        300
+      ],
+      "id": "30285a82-d8ee-4188-8777-5d484ff92143",
+      "name": "Scarica",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        880,
+        300
+      ],
+      "id": "4a2d1cf9-3028-481e-9436-e8a56de23164",
+      "name": "Leggi"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// staging_C fusion: the active canonical events of C Eventi, as the fusion node takes them\n// (DEC-025). Inactive ones are left as they are.\nreturn $input.all().map((it) => it.json.data).filter((d) => d && (d.lifecycle || {}).status === 'active').map((json) => ({ json }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        300
+      ],
+      "id": "4c18a018-d2d6-4167-b159-0746ed92f814",
+      "name": "Attivi"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "/**\n * merge-duplicate-events.js — DEC-025: the same event from several sources becomes one\n * published element. Same-event recognition reuses the strict criteria of the October\n * 2026 unified sheet (`tools/fonti/lavoro-2026-10/doppioni.py`, PR #21). Precedence,\n * filling and identity follow DEC-025, rules 1-3; the way the same event is recognised\n * and what goes to the queue (rule 4) are spelled out in docs/pilota/CONTRATTI.md,\n * section 7. The thresholds and the stopword list are the October script's.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is\n * undefined, so the tail exports and stops; inside the n8n Code node (\"Run Once for\n * All Items\", JavaScript) the same file runs its adapter on the whole batch.\n */\n'use strict';\n\n/** DEC-025 rule 1, nearest source first: the organiser's site is one rank, read directly\n *  or reached through a link. Unknown types rank last. */\nconst PRECEDENCE = ['web_page', 'culture_roma', 'facebook_event', 'roma_today'];\n\n/** Fields another copy may fill when the element lacks them (DEC-025 rule 2). Geography\n *  is never among them: only location evidence moves, and the gazetteer resolves again. */\nconst FILLABLE = [\n  'event.venue', 'event.address', 'event.latitude', 'event.longitude', 'event.booking_url',\n  'event.price_text', 'event.organizer_name',\n];\nconst LOCATION = new Set(['event.venue', 'event.address', 'event.latitude', 'event.longitude']);\n\n/** CONTRATTI.md section 7 (DEC-025 rule 4): starts further apart than this are not\n *  merged on their own. */\nconst START_TOLERANCE_MS = 60 * 60 * 1000;\n\n/** DEC-025 rule 2: fields that go together come from one source. A unit is present in a\n *  file when its first field is (for times, the start) or, for coordinates, both are. */\nconst UNITS = [\n  ['event.start_at_utc', 'event.end_at_utc', 'event.effective_end_utc', 'event.date_precision'],\n  ['event.latitude', 'event.longitude'],\n];\nfunction units(paths) {\n  const out = [];\n  const seen = new Set();\n  for (const p of paths) {\n    if (seen.has(p)) continue;\n    const u = (UNITS.find((g) => g.includes(p)) || [p]).filter((x) => paths.includes(x));\n    u.forEach((x) => seen.add(x));\n    out.push(u);\n  }\n  return out;\n}\n\n/** Flags the merge itself sets; an earlier run's are cleared and set again. */\nconst MERGE_FLAGS = new Set(['duplicate_suspected', 'duplicate_doubt', 'merge_deferred',\n  'geo_verified_conflict']);\n\n/** Sources that may give no FILLABLE field: Roma Today is a third-party index only\n *  (DEC-025 rule 2, DEC-108). */\nconst NO_FILL = new Set(['roma_today']);\n\n/** What the leading source gives an element that keeps another identity (DEC-025 rule 3). */\nconst LEAD_FIELDS = [\n  'event.start_at_utc', 'event.end_at_utc', 'event.effective_end_utc', 'event.date_precision',\n  'event.venue', 'event.address', 'event.latitude', 'event.longitude', 'event.booking_url',\n  'pilot.source_title',\n];\n\n/** What a Roma Today lead may give: name, time and link only (DEC-025 rule 2, DEC-108). */\nconst NO_FILL_LEAD = new Set(['event.start_at_utc', 'event.end_at_utc', 'event.effective_end_utc',\n  'event.date_precision', 'pilot.source_title']);\n\nconst STOP = new Set(('a al alla alle allo ai agli di del della delle dello dei degli da dal dalla dalle in nel ' +\n  'nella nelle con su per tra fra e ed il lo la le i gli un una uno the of and at teatro roma edizione ' +\n  'spettacolo concerto evento mostra festival live presentazione libro visita guidata').split(' '));\n\n/** Port of Python difflib.SequenceMatcher(None, a, b).ratio(), checked against CPython. */\nfunction ratio(a, b) {\n  const b2j = new Map();\n  for (let j = 0; j < b.length; j++) {\n    const c = b[j];\n    if (!b2j.has(c)) b2j.set(c, []);\n    b2j.get(c).push(j);\n  }\n  if (b.length >= 200) {\n    const ntest = Math.floor(b.length / 100) + 1;\n    for (const [c, idx] of [...b2j]) if (idx.length > ntest) b2j.delete(c);\n  }\n  function longest(alo, ahi, blo, bhi) {\n    let besti = alo, bestj = blo, bestsize = 0;\n    let j2len = new Map();\n    for (let i = alo; i < ahi; i++) {\n      const newj2len = new Map();\n      for (const j of b2j.get(a[i]) || []) {\n        if (j < blo) continue;\n        if (j >= bhi) break;\n        const k = (j2len.get(j - 1) || 0) + 1;\n        newj2len.set(j, k);\n        if (k > bestsize) { besti = i - k + 1; bestj = j - k + 1; bestsize = k; }\n      }\n      j2len = newj2len;\n    }\n    while (besti > alo && bestj > blo && a[besti - 1] === b[bestj - 1]) { besti--; bestj--; bestsize++; }\n    while (besti + bestsize < ahi && bestj + bestsize < bhi && a[besti + bestsize] === b[bestj + bestsize]) bestsize++;\n    return [besti, bestj, bestsize];\n  }\n  let matches = 0;\n  const queue = [[0, a.length, 0, b.length]];\n  while (queue.length) {\n    const [alo, ahi, blo, bhi] = queue.pop();\n    const [i, j, k] = longest(alo, ahi, blo, bhi);\n    if (k) {\n      matches += k;\n      if (alo < i && blo < j) queue.push([alo, i, blo, j]);\n      if (i + k < ahi && j + k < bhi) queue.push([i + k, ahi, j + k, bhi]);\n    }\n  }\n  const t = a.length + b.length;\n  return t ? (2 * matches) / t : 1;\n}\n\nfunction words(s) {\n  // Python's encode('ascii', 'ignore'): every non-ASCII code point is dropped, not spaced.\n  return String(s || '').normalize('NFKD').replace(/[^\\x00-\\x7f]/g, '').toLowerCase()\n    .replace(/[^a-z0-9 ]+/g, ' ').split(' ').filter((w) => w !== '');\n}\n\n/** The October sheet's normalization: NFKD, no diacritics, lower case, words of 3+\n *  letters or digits outside the stopword list. */\nfunction tokens(s) {\n  return words(s).filter((w) => w.length > 2 && !STOP.has(w));\n}\n\n/** CONTRATTI.md section 7 (DEC-025 rule 4), identifiers: a number of one or two digits, a\n *  Roman numeral up to C (XL, XLV, XC; the additive XXXXV too), or a single letter, except\n *  the Italian words and elisions they would collide with. */\nconst NOT_IDENTIFIERS = new Set(['a', 'e', 'i', 'o', 'c', 'd', 'l', 'ci', 'li']);\nconst ROMAN = /^((xc|xl|l?x{0,3})(ix|iv|v?i{0,3})|x{4,9}v?i{0,4})$/; // up to C (C itself is 'c')\nfunction identifiers(s) {\n  return new Set(words(s).filter((w) => !NOT_IDENTIFIERS.has(w) &&\n    (/^[0-9]{1,2}$/.test(w) || ROMAN.test(w) || /^[a-z]$/.test(w))));\n}\nconst sameSet = (a, b) => a.size === b.size && [...a].every((x) => b.has(x));\n\nfunction similarity(ta, tb) {\n  if (!ta.length || !tb.length) return 0;\n  const A = new Set(ta), B = new Set(tb);\n  let inter = 0;\n  for (const w of A) if (B.has(w)) inter += 1;\n  const j = inter / (A.size + B.size - inter);\n  // difflib's ratio depends on the order of its arguments; the smaller of the two orders\n  // keeps the result independent of arrival (DEC-025 rule 1) and never looser than October.\n  const a = ta.join(' '), b = tb.join(' ');\n  return Math.max(j, Math.min(ratio(a, b), ratio(b, a)));\n}\n\nfunction romeDay(instant) {\n  if (typeof instant !== 'string' || !/(Z|[+-]\\d\\d:?\\d\\d)$/.test(instant) || Number.isNaN(Date.parse(instant))) return null;\n  const parts = new Intl.DateTimeFormat('en-US', {\n    timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit',\n  }).formatToParts(new Date(Date.parse(instant)));\n  const get = (type) => parts.find((p) => p.type === type).value;\n  return `${get('year')}-${get('month')}-${get('day')}`;\n}\n\nfunction get(obj, dotted) {\n  return dotted.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);\n}\nfunction set(obj, dotted, value) {\n  const keys = dotted.split('.');\n  let o = obj;\n  for (const k of keys.slice(0, -1)) o = o[k] = Object.assign({}, o[k]);\n  o[keys[keys.length - 1]] = value;\n}\nconst empty = (v) => v === undefined || v === null || v === '';\n\n/** A real UTC instant written as YYYY-MM-DDTHH:MM:SS(.fff)Z: no 30 February, no hour 24. */\nfunction utcInstant(v) {\n  const m = typeof v === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d+)?Z$/.exec(v);\n  if (!m) return false;\n  const [y, mo, d, h, mi, se] = m.slice(1, 7).map(Number);\n  const t = new Date(Date.UTC(y, mo - 1, d, h, mi, se));\n  return t.getUTCFullYear() === y && t.getUTCMonth() === mo - 1 && t.getUTCDate() === d &&\n    t.getUTCHours() === h && t.getUTCMinutes() === mi && t.getUTCSeconds() === se;\n}\n\nfunction features(doc) {\n  // DEC-025 rule 1: the name at the source, never our article title. A file without it\n  // would silently match nothing, so it stops the merge instead.\n  const name = doc.pilot && doc.pilot.source_title;\n  if (typeof name !== 'string' || name.trim() === '') {\n    throw new Error(`${doc.content_id}: pilot.source_title missing (DEC-025 rule 1)`);\n  }\n  // DEC-025 rule 3: the order of first writing decides which identity stays.\n  if (!utcInstant(doc.pilot.first_written_at)) {\n    throw new Error(`${doc.content_id}: pilot.first_written_at missing or not a UTC instant (DEC-025 rule 3)`);\n  }\n  const ev = doc.event || {};\n  const start = romeDay(ev.start_at_utc);\n  const end = ev.date_precision === 'exact' ? romeDay(ev.end_at_utc) : null;\n  return {\n    title: tokens(doc.pilot.source_title),\n    titleIds: identifiers(doc.pilot.source_title),\n    venue: new Set(tokens(ev.venue)),\n    venueIds: identifiers(ev.venue),\n    start,\n    end: end || start,\n    series: !!(doc.series && doc.series.is_series !== false),\n    noTime: (((doc.quality || {}).review_flags) || []).includes('start_time_unknown'),\n    known: PRECEDENCE.includes(doc.source && doc.source.type),\n    startMs: typeof ev.start_at_utc === 'string' ? Date.parse(ev.start_at_utc) : NaN,\n    lat: typeof ev.latitude === 'number' ? ev.latitude : null,\n    lng: typeof ev.longitude === 'number' ? ev.longitude : null,\n  };\n}\n\n/** Great-circle distance in metres (haversine). */\nfunction metres(fa, fb) {\n  const r = (d) => (d * Math.PI) / 180;\n  const a = Math.sin(r(fb.lat - fa.lat) / 2) ** 2 +\n    Math.cos(r(fa.lat)) * Math.cos(r(fb.lat)) * Math.sin(r(fb.lng - fa.lng) / 2) ** 2;\n  return 2 * 6371000 * Math.asin(Math.sqrt(a));\n}\n\n/** CONTRATTI.md section 7 (DEC-025 rule 4): both places known, at least half of their\n *  words in common, the same short identifiers, and no more than 1 km apart when both\n *  have coordinates. */\nfunction placesCoincide(fa, fb) {\n  if (!fa.venue.size || !fb.venue.size) return false;\n  const inter = [...fa.venue].filter((w) => fb.venue.has(w)).length;\n  if (inter / (fa.venue.size + fb.venue.size - inter) < 0.5) return false;\n  if (!sameSet(fa.venueIds, fb.venueIds)) return false;\n  if (fa.lat !== null && fa.lng !== null && fb.lat !== null && fb.lng !== null) return metres(fa, fb) <= 1000;\n  return true;\n}\n\n/** 'same' (the October criteria), 'doubt' (CONTRATTI.md section 7 sends it to the queue\n *  without merging) or null. */\nfunction compare(fa, fb) {\n  if (!fa.title.length || !fb.title.length) {\n    // An empty normalized title never merges; on the same day at the same place it waits.\n    return fa.start && fa.start === fb.start && placesCoincide(fa, fb) ? 'doubt' : null;\n  }\n  const s = similarity(fa.title, fb.title);\n  if (s < 0.72) return null;\n  if (!fa.start || !fb.start) return 'doubt'; // an undated event is never merged\n  const ov = fa.start <= fb.end && fb.start <= fa.end;\n  if (!ov) return null;\n  if (fa.series || fb.series) return 'doubt'; // a series against anything: a person decides\n  if (!fa.known || !fb.known) return 'doubt'; // a source with no rank: not foreseen, so it waits\n  if (s < 0.85 && fa.start !== fb.start) return 'doubt';\n  if (!placesCoincide(fa, fb)) return 'doubt';\n  if (!sameSet(fa.titleIds, fb.titleIds)) return 'doubt'; // «Corso 1» and «Corso 2»\n  if (fa.noTime || fb.noTime) return 'doubt'; // a day without a time cannot be matched to a performance\n  // Same title, same day, hours apart: two performances until a person says otherwise.\n  const gap = Math.abs(fa.startMs - fb.startMs);\n  return Number.isNaN(gap) || gap <= START_TOLERANCE_MS ? 'same' : 'doubt';\n}\n\nfunction rank(doc) {\n  const i = PRECEDENCE.indexOf(doc.source && doc.source.type);\n  return i < 0 ? PRECEDENCE.length : i;\n}\n\n/** DEC-025 rule 1, the tie-break inside a rank: an event's own page before a listing,\n *  then content_id, so the result never depends on the order of arrival. */\nconst fromListing = (doc) => (((doc.quality || {}).review_flags || []).includes('identity_from_listing') ? 1 : 0);\nfunction byPrecedence(a, b) {\n  return rank(a) - rank(b) || fromListing(a) - fromListing(b) ||\n    String(a.content_id).localeCompare(String(b.content_id));\n}\n\nfunction addFlag(doc, flag) {\n  const q = Object.assign({ review_flags: [] }, doc.quality);\n  if (!q.review_flags.includes(flag)) q.review_flags = q.review_flags.concat(flag);\n  doc.quality = q;\n}\n\nfunction mergeDuplicateEvents(docs) {\n  const out = docs.map((d) => JSON.parse(JSON.stringify(d)));\n  // What an earlier run derived is derived again: links and merge flags never outlive the\n  // comparison that set them (an un-merged evening show becomes visible again).\n  for (const d of out) {\n    // An element still in the queue is left exactly as the reviewer sees it.\n    if (d.pilot && d.pilot.review_pending) continue;\n    if (d.quality && Array.isArray(d.quality.review_flags)) {\n      d.quality.review_flags = d.quality.review_flags.filter((f) => !MERGE_FLAGS.has(f));\n    }\n    if (!d.pilot) continue;\n    delete d.pilot.duplicate_of; delete d.pilot.duplicates; delete d.pilot.lead;\n    if (!d.pilot.review_pending) delete d.pilot.lead_url; // the reviewer keeps seeing the same link\n    // Fields the merge filled go back to the element's own value (pilot.native), so this\n    // run takes them again from the sources as they are now; an element still in the queue\n    // keeps what the reviewer sees.\n    // A field whose value is no longer the one the merge set (pilot.derived) was written\n    // again by the element's own source: that value stays and becomes its own.\n    if (!d.pilot.review_pending && d.pilot.filled_from) {\n      const native = d.pilot.native || {};\n      const derived = d.pilot.derived || {};\n      const value = (p) => JSON.stringify(get(d, p) === undefined ? null : get(d, p));\n      // Fields that go together (times, coordinates) are judged and restored as one unit.\n      for (const u of units(Object.keys(d.pilot.filled_from).filter((p) => p !== 'pilot.lead_url'))) {\n        const stillDerived = u.every((p) => !Object.prototype.hasOwnProperty.call(derived, p) ||\n          value(p) === JSON.stringify(derived[p]));\n        if (!stillDerived) continue;\n        for (const p of u) {\n          if (Object.prototype.hasOwnProperty.call(native, p)) set(d, p, native[p]); else set(d, p, null);\n        }\n      }\n      delete d.pilot.filled_from; delete d.pilot.native; delete d.pilot.derived;\n    }\n    // requires_review is withdrawn only when the merge had set it (merge_review records the\n    // reasons present then) and no other phase has added a reason since.\n    const mr = d.pilot.merge_review;\n    if (mr && d.quality) {\n      const before = new Set(mr.flags || []);\n      const added = (d.quality.review_flags || []).some((f) => !before.has(f)) ||\n        (d.quality.reject_reason || null) !== (mr.reject_reason || null);\n      if (!added) d.quality.requires_review = false;\n    }\n    delete d.pilot.merge_review;\n  }\n  const feats = out.map(features);\n  const parent = out.map((_, i) => i);\n  const find = (x) => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };\n  const verdict = new Map();\n  const review = (doc) => {\n    if (doc.quality.requires_review) return; // asked for already: not the merge's to withdraw\n    const flags = (doc.quality.review_flags || []).filter((f) => !MERGE_FLAGS.has(f));\n    doc.quality.requires_review = true;\n    doc.pilot = Object.assign({}, doc.pilot, { merge_review: { flags, reject_reason: doc.quality.reject_reason || null } });\n  };\n  const doubt = (k) => { addFlag(out[k], 'duplicate_doubt'); review(out[k]); };\n  for (let i = 0; i < out.length; i++) {\n    for (let j = i + 1; j < out.length; j++) {\n      const c = compare(feats[i], feats[j]);\n      verdict.set(`${i},${j}`, c);\n      // Groups are built over doubts too, so a doubtful third copy keeps the pair unmerged.\n      if (c === 'same' || c === 'doubt') parent[find(i)] = find(j);\n      if (c === 'doubt') { doubt(i); doubt(j); }\n    }\n  }\n  const groups = new Map();\n  out.forEach((_, i) => { const r = find(i); if (!groups.has(r)) groups.set(r, []); groups.get(r).push(i); });\n  for (const members of groups.values()) {\n    if (members.length < 2) continue;\n    // CONTRATTI.md section 7 (DEC-025 rule 4), groups: every pair must be the same event,\n    // or the whole group waits.\n    const pairs = members.flatMap((a, x) => members.slice(x + 1).map((b) => verdict.get(`${Math.min(a, b)},${Math.max(a, b)}`)));\n    if (!pairs.every((c) => c === 'same')) { members.forEach(doubt); continue; }\n    // A group with a member still in the queue waits as a whole: no field moves and no copy\n    // is hidden until the decision; the first run after it merges the group.\n    if (members.some((k) => out[k].pilot && out[k].pilot.review_pending)) {\n      members.forEach((k) => addFlag(out[k], 'merge_deferred'));\n      continue;\n    }\n    const byRank = members.slice().sort((a, b) => byPrecedence(out[a], out[b]));\n    const lead = byRank[0];\n    // DEC-025 rule 3: the element written first keeps its identity; a tie goes to the lead.\n    const written = (k) => Date.parse(out[k].pilot.first_written_at); // instants, not strings\n    const keep = byRank.slice().sort((a, b) => written(a) - written(b) ||\n      byRank.indexOf(a) - byRank.indexOf(b))[0];\n    const element = out[keep];\n    // Provenance of fields filled on an earlier run stays; this run adds or replaces entries.\n    const filled = Object.assign({}, element.pilot.filled_from);\n    const native = Object.assign({}, element.pilot.native);\n    const derived = Object.assign({}, element.pilot.derived);\n    let moved = false;\n    // DEC-025 rule 2: a human_verified geography is never recalculated, so no location\n    // evidence moves into it; different evidence sends the element to the queue instead.\n    const verified = ((element.geography || {}).geo_verification_status) === 'human_verified';\n    // Every copy's place evidence is checked against a verified geography, not only the\n    // fields that would be filled: different evidence goes to the queue.\n    if (verified && members.some((k) => k !== keep && [...LOCATION].some((p) => {\n      const v = get(out[k], p);\n      return !empty(v) && JSON.stringify(v) !== JSON.stringify(get(element, p));\n    }))) { addFlag(element, 'geo_verified_conflict'); review(element); }\n    const present = (doc, u) => (u[0] === 'event.start_at_utc' ? !empty(get(doc, u[0])) : u.every((p) => !empty(get(doc, p))));\n    const same = (a, b, u) => u.every((p) => JSON.stringify(get(a, p)) === JSON.stringify(get(b, p)));\n    const take = (u, from) => {\n      if (verified && u.some((p) => LOCATION.has(p))) {\n        if (!same(element, out[from], u)) {\n          addFlag(element, 'geo_verified_conflict');\n          review(element);\n        }\n        return;\n      }\n      for (const p of u) {\n        if (!Object.prototype.hasOwnProperty.call(native, p)) native[p] = empty(get(element, p)) ? null : get(element, p);\n        set(element, p, get(out[from], p)); filled[p] = out[from].content_id;\n        derived[p] = empty(get(out[from], p)) ? null : get(out[from], p);\n      }\n      if (u.some((p) => LOCATION.has(p))) moved = true;\n    };\n    if (keep !== lead) {\n      const leadNoFill = NO_FILL.has(out[lead].source && out[lead].source.type);\n      for (const u of units(LEAD_FIELDS)) {\n        if (leadNoFill && !u.every((p) => NO_FILL_LEAD.has(p))) continue;\n        if (present(out[lead], u) && !same(element, out[lead], u)) take(u, lead);\n      }\n      // DEC-025 rule 1, the link: the element keeps its own source, and publishes the lead's.\n      const url = out[lead].source && out[lead].source.url;\n      if (!empty(url)) { element.pilot = Object.assign({}, element.pilot, { lead_url: url }); filled['pilot.lead_url'] = out[lead].content_id; }\n    }\n    const donors = byRank.filter((k) => k !== keep && !NO_FILL.has(out[k].source && out[k].source.type));\n    {\n      for (const u of units(FILLABLE)) {\n        if (present(element, u)) continue;\n        const d = donors.find((k) => present(out[k], u));\n        if (d !== undefined) take(u, d);\n      }\n    }\n    element.pilot = Object.assign({}, element.pilot, {\n      lead: out[lead].content_id,\n      duplicates: members.filter((k) => k !== keep).map((k) => out[k].content_id).sort(),\n      filled_from: filled,\n    });\n    if (Object.keys(native).length) { element.pilot.native = native; element.pilot.derived = derived; }\n    if (moved) element.pilot.geo_recompute = true; // the gazetteer resolves the new place\n    for (const k of members) {\n      if (k === keep) continue;\n      out[k].pilot = Object.assign({}, out[k].pilot, { duplicate_of: element.content_id });\n      addFlag(out[k], 'duplicate_suspected');\n    }\n  }\n  return out;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = {\n    PRECEDENCE, FILLABLE, NO_FILL, LEAD_FIELDS, ratio, tokens, identifiers, similarity, features, compare,\n    mergeDuplicateEvents,\n  };\n  return;\n}\n\n/* n8n Code node, \"Run Once for All Items\" — the batch adapter: every canonical\n * event of the run in, the same events out with the DEC-025 fields set. */\nreturn mergeDuplicateEvents($input.all().map((it) => it.json)).map((json) => ({ json }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        300
+      ],
+      "id": "b07c38f6-5e2d-4a5f-b2ab-8facb47ed8f3",
+      "name": "Fusione"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// The events the fusion changed, each with its Drive file and the new content.\nconst ids = new Map($('Elenco').all().map((it) => [it.json.name, it.json.id]));\nconst before = new Map($('Attivi').all().map((it) => [it.json.content_id, JSON.stringify(it.json)]));\nconst fileName = (cid) => cid.replace(/^qn:/, '').split(':').join('__') + '.json';\nconst out = [];\nfor (const it of $input.all()) {\n  const d = it.json;\n  if (before.get(d.content_id) === JSON.stringify(d)) continue;\n  const name = fileName(d.content_id);\n  const fileId = ids.get(name);\n  if (!fileId) throw new Error('no file in C Eventi for ' + d.content_id);\n  const content = JSON.stringify(d, null, 2) + '\\n';\n  out.push({ json: { name, fileId }, binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } });\n}\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        300
+      ],
+      "id": "148208a7-ecb4-4e56-b34e-3fed6c84bba3",
+      "name": "Cambiati"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.fileId }}",
+          "mode": "id"
+        },
+        "changeFileContent": true,
+        "inputDataFieldName": "data",
+        "updateFields": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1760,
+        300
+      ],
+      "id": "ae8b0b46-2e26-4173-bf73-f4ec73a06ac5",
+      "name": "Aggiorna",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Elenco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Da un altro workflow": {
+      "main": [
+        [
+          {
+            "node": "Elenco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elenco": {
+      "main": [
+        [
+          {
+            "node": "Scarica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scarica": {
+      "main": [
+        [
+          {
+            "node": "Leggi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leggi": {
+      "main": [
+        [
+          {
+            "node": "Attivi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attivi": {
+      "main": [
+        [
+          {
+            "node": "Fusione",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fusione": {
+      "main": [
+        [
+          {
+            "node": "Cambiati",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cambiati": {
+      "main": [
+        [
+          {
+            "node": "Aggiorna",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "ffbc810e-354d-467a-9030-bae9e9e6ec17",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "WUumzz3GGYlxrgLQ",
+  "tags": []
+}
