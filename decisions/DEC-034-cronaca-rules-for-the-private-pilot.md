@@ -1,8 +1,12 @@
 # DEC-034 — Le regole della cronaca per il pilota privato (canale B)
 
-Status: OPEN (10 novembre 2026, bozza del builder)
-Blocks: il canale B «Notizie» che scrive elementi (`docs/pilota/CONTRATTI.md`, sezione 7). La
-raccolta degli originali nello staging non dipende da questa decisione.
+Status: DECIDED (11 novembre 2026, owner nella sessione del builder, sulle opzioni poste dal builder)
+Blocks: la pubblicazione dei casi che R-C05 manda in coda manuale, finché `docs/REVIEW_QUEUE.md`
+non ha due cose: una priorità o un tempo per le notizie («What changes when the other blocks
+arrive»), perché R-C08 chiede di pubblicare entro 48 ore e la coda oggi si rivede una volta alla
+settimana; e una decisione che tolga un dettaglio prima di pubblicare, con una scrittura di
+ritorno deterministica, perché oggi le decisioni sono solo `publish`, `discard`, `fix_zone` e
+`skip`.
 
 Context:
 - Il contratto del pilota ha già una regola sull'unità: lo stesso fatto raccontato da più
@@ -41,4 +45,36 @@ Impact:
 - I passi del canale che scrivono elementi (geografia, filtro, scrittura, verifica)
   partono dalle PR successive.
 
-Decided by: — · Date: — · Affected components: canale B del pilota, `docs/pilota/CONTRATTI.md`.
+Owner's answer (sessione del builder, 11 novembre 2026): «Quasi tutte», l'opzione A, dopo
+che il builder ha spiegato ogni regola a parole e la ha messa a confronto con le decisioni
+già prese (DEC-016, DEC-020, DEC-108).
+
+Decision (opzione A, con due chiarimenti del builder accettati dall'owner nella stessa
+domanda):
+1. **Regole di lavoro del pilota privato da subito:** R-C01, R-C02, R-C04, R-C05, R-C06,
+   R-C07, R-C08 e R-C10. Un comunicato di riepilogo dà un elemento per fatto (R-C01). Il
+   capofila di un fatto è la fonte ufficiale, se c'è; altrimenti la prima testata aperta
+   che lo riporta (R-C02). Di R-C10 vale la parte decisa: nessuna foto di persone né foto
+   prese dalle testate. La scelta fra un'immagine generata (la mappa del luogo) e nessuna
+   immagine resta aperta (baseline §2.D, come dice R-C10): finché non è decisa, il canale non
+   mette immagini.
+2. **R-C09** dopo il primo mese di dati, con N fissato dall'owner.
+3. **Al parere legale:** di R-C03 solo l'uso di titoli ed estratti delle testate (scrivere
+   con parole proprie, citando e linkando le testate, è già DEC-108); di R-C11 la procedura
+   per le richieste di deindicizzazione (le correzioni sono già DEC-020).
+4. **Primo chiarimento.** Il testo dell'opzione A diceva che le regole segnate ⚖ restano
+   fuori, ma ne includeva due (R-C04 e R-C05). Vale questo: R-C04 e R-C05 entrano subito,
+   perché aggiungono solo prudenza; il parere legale potrà renderle più strette.
+5. **Secondo chiarimento.** R-C05 vale dentro DEC-108, in due punti:
+   - per i nomi letti sulla stampa vale DEC-108, punto 2 (due editori diversi, adulto
+     arrestato o indagato, presunzione di innocenza, verifica della seconda AI,
+     attribuzione), non «mai in automatico»;
+   - le identità che DEC-108 toglie sempre (minori coinvolti in un procedimento penale o
+     come vittime o testimoni, vittime di violenza sessuale) le toglie la pipeline, senza
+     coda, come dice DEC-108. Tutti gli altri casi di R-C05 e di DEC-016, che DEC-108 lascia
+     invariata per le fonti ufficiali, restano in coda manuale: i minori negli altri casi, le
+     vittime adulte, i testimoni, i familiari, le persone coinvolte in suicidi o tentati
+     suicidi, i dati sanitari e gli altri dati sensibili.
+
+Decided by: Owner · Date: 11 novembre 2026 · Affected components: canale B del pilota, `docs/pilota/CONTRATTI.md`,
+`docs/REVIEW_QUEUE.md` (la priorità delle notizie, Blocks).
