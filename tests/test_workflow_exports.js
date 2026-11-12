@@ -54,6 +54,23 @@ for (const f of files) {
   }
 }
 
+// The Apify run of staging_C_fb_events_fetch (code-nodes/apify-run.js; workflows/README.md): only a
+// SUCCEEDED run reaches the dataset, the wait ends, and every run writes its cost.
+{
+  const F = JSON.parse(fs.readFileSync(path.join(DIR, 'staging_C_fb_events_fetch.json'), 'utf8'));
+  const to = (name, out) => (((F.connections[name] || {}).main || [])[out || 0] || []).map((x) => x.node).join();
+  const node = (name) => F.nodes.find((n) => n.name === name);
+  const apify = fs.readFileSync(path.join(CODE, 'apify-run.js'), 'utf8');
+  check('C fetch: the request, the check of the run and the cost run apify-run.js',
+    ['Build Apify input', 'Controlla corsa', 'Costo'].every((nm) => node(nm) && node(nm).parameters.jsCode === apify));
+  check('C fetch: the run state goes to the check, never straight to the dataset', to('Get run') === 'Prepara controllo' && to('Prepara controllo') === 'Controlla corsa');
+  check('C fetch: only a run to read reaches the dataset', to('Da leggere?', 0) === 'Get dataset items' &&
+    Object.entries(F.connections).filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Get dataset items'))).map(([k]) => k).join() === 'Da leggere?');
+  check('C fetch: a run to wait waits, any other stops with an error', to('Da aspettare?', 0) === 'Wait' && to('Da aspettare?', 1) === 'Ferma' &&
+    node('Ferma').type === 'n8n-nodes-base.stopAndError');
+  check('C fetch: after the dataset is saved, the cost file', to('Upload to C Eventi originali') === 'Prepara costo' && to('Prepara costo') === 'Costo' && to('Costo') === 'Carica costo');
+}
+
 // DEC-033, rule 2: one stream of requests to Atti Web. The reading starts only from its daily
 // schedule, and each sub-workflow answers only the workflow that calls it.
 const load = (name) => JSON.parse(fs.readFileSync(path.join(DIR, `${name}.json`), 'utf8'));
