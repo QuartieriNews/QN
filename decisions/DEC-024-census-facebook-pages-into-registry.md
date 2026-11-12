@@ -100,6 +100,11 @@ Decision:
    Delle 320 sono politiche due: `S-FE-0369`, un comitato referendario che è anche fra le 28
    del punto 2, e `S-EV-0912`, un'associazione di area politica che il registro segna `locale`.
    Le altre 11 segnate `locale` sono associazioni: le candidate dopo il mese sono 318.
+   La lettura del mese parte dagli indirizzi del sito in `dove_cercare`
+   (`tools/fonti/leggi_eventi_siti.py`, nella PR #21). Delle 318, 36 non ne hanno nessuno: sono
+   «rientra» solo per gli annunci nei post di Facebook. La lettura dei siti non le può
+   confermare: restano candidate e non entrano come «tenere», finché l'owner non sceglie per
+   loro un'altra conferma.
    La tabella del censimento conta 390 «rientra» perché conta le righe dell'elenco letto, non le
    pagine: tre pagine vi compaiono due volte e il registro ne tiene una sola, con la prima
    lettura (`S-EV-0575`, `S-EV-0777`, `S-EV-0855`); le due righe «rientra» in più sono seconde
@@ -151,7 +156,9 @@ Decision:
    pagine nel registro e arrivano all'owner come elenco. Non alimentano il canale C: un evento
    si pubblica solo dagli URL che l'owner raccoglie a mano (DEC-102; `docs/pilota/CONTRATTI.md`,
    «C · Eventi da Facebook», URL delle fonti).
-4. **Q4 — b).** Le 275 pagine dormienti non si rileggono, salvo segnalazione.
+4. **Q4 — b).** Le 275 pagine dormienti non si rileggono, salvo segnalazione. Il README della
+   wiki nella PR #21 (`docs/wiki/fonti-eventi/README.md`) dice ancora che si rileggono a marzo
+   2027, che era l'opzione a): quando la #21 si aggiorna, quel paragrafo rimanda a questo punto.
 
 Decided by: Owner · Date: 11 novembre 2026 · Affected components: registro fonti v2, `docs/wiki/fonti-eventi`,
 `workflows/scrape-fb-events-rome.json` (Q3),
