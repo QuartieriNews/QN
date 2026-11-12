@@ -15,9 +15,10 @@ the same way but without their static data, which holds the state of the runs.
 `tests/test_workflow_exports.js` checks that every Code node taken from `code-nodes/` is that
 file byte for byte.
 
-**`staging_C_*` are off, and stay off until four defects are fixed.** The review of their first
-export (PR #48) found them in the workflows as they stand; the fix goes to n8n and comes back
-here as a new export, in the pull request that turns channel C on again:
+**`staging_C_*` are off, and stay off until the defects found in the review of their first
+export (PR #48) are fixed.** They are in the workflows as they stand; the fix goes to n8n and
+comes back here as a new export, in the pull request that turns channel C on again. Any other
+finding of that review counts the same way, even if it is not listed here:
 
 - `staging_C_fb_events_fetch`, «Finished?»: an Apify run that ends `FAILED`, `ABORTED` or
   `TIMED-OUT` goes on as if it had succeeded; only `SUCCEEDED` may reach «Get dataset items».
@@ -28,3 +29,12 @@ here as a new export, in the pull request that turns channel C on again:
   has to travel with each document.
 - `staging_C_fusion`: nothing sets `pilot.review_pending` before «Fusione», as
   `docs/pilota/CONTRATTI.md` («C · La fusione dei doppioni») requires.
+- `staging_C_fusion`: nothing reads `pilot.geo_recompute`, so an event whose venue, address or
+  coordinates came from another source keeps its old geography; the gazetteer resolution has
+  to run before «Aggiorna», leaving `human_verified` geography as it is.
+- `staging_C_fusion` and `staging_C_update_canonical` can run at the same time, and fusion then
+  writes back a copy older than the one the update wrote; the two have to run one after the
+  other, or the write has to check the revision it read.
+- `staging_C_fb_events_fetch`: the wait for the Apify run has no limit of attempts or time, and
+  the workflow has no execution timeout; and a retried call starts a second paid run, because
+  nothing records the call before «Start Apify run».
