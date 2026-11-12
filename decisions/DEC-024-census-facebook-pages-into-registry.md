@@ -99,9 +99,12 @@ Decision:
    nessuna: le 5 che il registro segna `locale` sono associazioni; entrano subito 68 pagine.
    Delle 320 sono politiche due: `S-FE-0369`, un comitato referendario che è anche fra le 28
    del punto 2, e `S-EV-0912`, un'associazione di area politica che il registro segna `locale`.
-   Le altre 11 segnate `locale` sono associazioni: le candidate dopo il mese sono 318.
+   Le altre 11 segnate `locale` sono associazioni: restano 318 pagine senza prova forte.
+   Una pagina che il registro segna già «tenere» resta «tenere» e non torna al percorso del
+   mese. Delle 68 lo sono 12, quindi le nuove «tenere» sono 56; delle 318 lo sono 35, quindi le
+   candidate dopo il mese sono 283.
    La lettura del mese parte dagli indirizzi del sito in `dove_cercare`
-   (`tools/fonti/leggi_eventi_siti.py`, nella PR #21). Delle 318, 36 non ne hanno nessuno: sono
+   (`tools/fonti/leggi_eventi_siti.py`, nella PR #21). Delle 283, 25 non ne hanno nessuno: sono
    «rientra» solo per gli annunci nei post di Facebook. La lettura dei siti non le può
    confermare: restano candidate e non entrano come «tenere», finché l'owner non sceglie per
    loro un'altra conferma.
@@ -110,10 +113,10 @@ Decision:
    lettura (`S-EV-0575`, `S-EV-0777`, `S-EV-0855`); le due righe «rientra» in più sono seconde
    letture di queste pagine. Una pagina segue un percorso solo, con quello che hanno trovato
    tutte le sue letture: è «rientra» se una lettura lo è, e ha una prova forte se una lettura ne
-   ha una. `S-EV-0575` è già fra le 318.
+   ha una. `S-EV-0575` è già fra le 283.
    `S-EV-0777` e `S-EV-0855` il registro le segna «da valutare»; se la loro seconda lettura nel
-   foglio del censimento è «rientra», `S-EV-0777`, che ha date future sul sito, entra subito (69
-   pagine) e `S-EV-0855` si aggiunge alle candidate del mese (319).
+   foglio del censimento è «rientra», `S-EV-0777`, che ha date future sul sito, entra subito (57
+   nuove «tenere») e `S-EV-0855` si aggiunge alle candidate del mese (284).
 2. **Q2 — b).** Restano fuori dal registro le organizzazioni politiche (partiti, liste,
    candidati, comitati elettorali e referendari) e, fra le pagine del censimento, le attività
    commerciali (negozi, bar, palestre). Conta che cosa è l'organizzazione, non l'etichetta di
