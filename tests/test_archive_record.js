@@ -403,6 +403,54 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('only a staging_ workflow writes the register',
     /staging_/.test(thrown(() => m.readingLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'D_attiweb_list', workflow_version: '1', tipologie: [] })) || ''), true);
 
+  // CONTRATTI.md, «Una corsa alla volta»: the reading starts no tipologia past 20 hours, without
+  // the n8n timeout, which n8n Cloud cuts to 5 minutes (test of 12 November 2026).
+  const H20 = '2026-11-11T16:15:00Z';
+  check('within 20 hours the reading may start one more tipologia',
+    m.readingBudget({ tipologia: 'GD', started_at: START, now: '2026-11-11T16:14:59Z' }), { in_time: true, result: null });
+  const timeUp = m.readingBudget({ tipologia: 'GD', started_at: START, now: H20 });
+  check('at 20 hours it starts no other: the tipologia is closed unread, incomplete, with the reason',
+    [timeUp.in_time, timeUp.result.tipologia, timeUp.result.complete, timeUp.result.passes, timeUp.result.errors, timeUp.result.kept],
+    [false, 'GD', false, 0, ['tempo_scaduto'], []]);
+  check('the budget is 20 hours', m.READING_BUDGET_MS, 20 * 3600 * 1000);
+  const lateLog = m.readingLog({ reading_day: DAY, started_at: START, finished_at: H20, workflow: 'staging_D_attiweb_list', workflow_version: '1',
+    tipologie: closeAll('GD').concat([timeUp.result]) });
+  check('a tipologia closed for time makes the reading incomplete, and the register says why',
+    [lateLog.log.complete, lateLog.log.incomplete, lateLog.log.unread, lateLog.log.tipologie.find((r) => r.tipologia === 'GD').errors],
+    [false, ['GD'], [], ['tempo_scaduto']]);
+  const partial = Object.assign({}, closed, { errors: [] });
+  check('before a second or third pass, in time: the tipologia goes on as it is',
+    m.readingBudget({ started_at: START, now: '2026-11-11T16:14:59Z', result: partial }), { in_time: true, result: partial });
+  const cut = m.readingBudget({ started_at: START, now: H20, result: partial });
+  check('past 20 hours before another pass: what was read stays, the tipologia is closed incomplete with the reason',
+    [cut.in_time, cut.result.complete, cut.result.passes, cut.result.kept.length, cut.result.errors],
+    [false, false, partial.passes, partial.kept.length, ['tempo_scaduto']]);
+  check('…and the result it was given is not changed', partial.errors, []);
+  check('before the download: in time, or not, with nothing to close',
+    [m.readingBudget({ started_at: START, now: '2026-11-11T16:14:59Z' }), m.readingBudget({ started_at: START, now: H20 })],
+    [{ in_time: true, result: null }, { in_time: false, result: null }]);
+  check('a result that is not a closed tipologia is an error',
+    /closed tipologia/.test(thrown(() => m.readingBudget({ started_at: START, now: H20, result: { tipologia: 'ZZZ' } })) || ''), true);
+  check('a budget checked before the start of the reading is an error',
+    /before started_at/.test(thrown(() => m.readingBudget({ tipologia: 'GD', started_at: START, now: '2026-11-10T20:14:59Z' })) || ''), true);
+  check('a start that is not a UTC instant is an error',
+    /UTC instants/.test(thrown(() => m.readingBudget({ tipologia: 'GD', started_at: '2026-11-10 20:15', now: H20 })) || ''), true);
+  check('a tipologia outside tipo is an error',
+    /not a value of tipo/.test(thrown(() => m.readingBudget({ tipologia: 'ZZZ', started_at: START, now: H20 })) || ''), true);
+  {
+    const recent = new Date(Date.now() - 60 * 1000).toISOString();
+    const old = new Date(Date.now() - 21 * 3600 * 1000).toISOString();
+    const go = runNode({ stage: 'budget', tipologia: 'GD', started_at: recent, reading_day: DAY });
+    check('adapter, stage budget: in time, no result', [go.json.in_time, go.json.result], [true, undefined]);
+    const stop = runNode({ stage: 'budget', tipologia: 'GD', started_at: old, reading_day: DAY });
+    check('adapter, stage budget: past 20 hours, the closed result', [stop.json.in_time, stop.json.result.errors], [false, ['tempo_scaduto']]);
+    const mid = runNode({ stage: 'budget', tipologia: 'CMD', started_at: old, reading_day: DAY, result: Object.assign({}, closed, { errors: [] }) });
+    check('adapter, stage budget with a result: the result closed incomplete', [mid.json.in_time, mid.json.result.complete, mid.json.result.errors],
+      [false, false, ['tempo_scaduto']]);
+    const dl = runNode({ stage: 'budget', started_at: old });
+    check('adapter, stage budget before the download: not in time, no result', [dl.json.in_time, dl.json.result], [false, undefined]);
+  }
+
   const righe = [closed.kept[0],
     { archive: m.describeRow(Object.assign(act(7), { tipologia: 'CMD' }), DAY), elenco: 'originali/x.json' },
     { archive: m.describeRow(Object.assign(act(8), { tipologia: 'CMD' }), DAY), elenco: 'originali/x.json' }];

@@ -193,9 +193,16 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
 - **Una corsa alla volta.** Le richieste ad Atti Web vanno una alla volta (DEC-033, regola 2).
   Per questo la lettura parte solo dal suo orario giornaliero: i workflow D non hanno webhook.
   Ogni sotto-workflow risponde solo a chi lo chiama: la tipologia e il download alla lettura, la
-  passata alla tipologia. La lettura ha un tempo massimo di 20 ore, così due corse dell'orario
-  non si sovrappongono. Una corsa a mano dall'editor di n8n si fa solo con la lettura
-  disattivata.
+  passata alla tipologia. La lettura si dà 20 ore (`readingBudget` in
+  `code-nodes/archive-record.js`), e lo controlla prima di ogni tipologia, prima della seconda e
+  della terza passata e prima del download. Passate le 20 ore non va al portale: una tipologia
+  non cominciata e una letta in parte vanno nel registro come incomplete, con il motivo
+  `tempo_scaduto`, e il download non parte. Dopo l'ultimo controllo resta al più una passata o il
+  download, ciascuno fino a 100 richieste con 90 secondi di tempo massimo e 15 di pausa, cioè
+  meno di 3 ore: così due corse dell'orario non si sovrappongono.
+  Il tempo massimo di n8n non si usa: n8n Cloud lo riduce a 5 minuti per la lettura e per i
+  sotto-workflow che chiama (prova del 12 novembre 2026). Una corsa a mano dall'editor di n8n
+  si fa solo con la lettura disattivata.
 - **Segnali di blocco.** Oltre a 403, 429, captcha e pagina di accesso, fermano la lettura
   anche 401 e qualunque rinvio: il portale non rinvia nelle risposte normali. La ferma anche
   una pagina HTML servita con 200 dove il portale manda dati (l'elenco, il PDF), fuori dalla

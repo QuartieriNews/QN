@@ -8,7 +8,7 @@
  *
  * The Atti Web workflows (staging_D_attiweb_*) run one execution at a time (DEC-033, rule 2;
  * CONTRATTI.md, «Lo storico»): no webhook, each sub-workflow callable only by its one caller,
- * the reading under a timeout shorter than a day.
+ * no n8n timeout, and the reading starts no tipologia past its 20 hours.
  *
  * The weekly backup chooses its records by name in the workflow, not with Drive's search, and
  * never marks an empty copy complete (CONTRATTI.md, «Copia di riserva»).
@@ -64,9 +64,43 @@ for (const [k, wf] of Object.entries(D)) {
 }
 check('the reading starts only from its schedule',
   D.list.nodes.filter((n) => /Trigger$/.test(n.type)).map((n) => n.type).join() === 'n8n-nodes-base.scheduleTrigger');
-const day = 24 * 3600;
-check('the reading times out in less than a day, so two scheduled runs never overlap',
-  Number.isInteger(D.list.settings.executionTimeout) && D.list.settings.executionTimeout > 0 && D.list.settings.executionTimeout < day);
+// CONTRATTI.md, «Una corsa alla volta»: two scheduled runs never overlap because the reading starts
+// no tipologia past 20 hours. n8n's own timeout is not used: n8n Cloud cuts any value to 5 minutes
+// (test of 12 November 2026), and sub-workflows stop with it.
+const D_ALL = [D.list, D.tipologia, D.pass, D.download];
+check('no D workflow sets an n8n execution timeout', D_ALL.every((wf) => !('executionTimeout' in (wf.settings || {}))));
+const byName = (wf, name) => wf.nodes.find((n) => n.name === name);
+const next = (wf, name, out) => (((wf.connections[name] || {}).main || [])[out || 0] || []).map((x) => x.node);
+check('each tipologia goes first to the 20-hour check', next(D.list, 'Tipologie', 1).join() === 'Prepara tempo');
+const prep = byName(D.list, 'Prepara tempo');
+check('the check is the budget stage of archive-record.js', !!prep && prep.parameters.includeOtherFields === true &&
+  prep.parameters.assignments.assignments.some((a) => a.name === 'stage' && a.value === 'budget') &&
+  next(D.list, 'Prepara tempo').join() === 'Tempo' && byName(D.list, 'Tempo').parameters.jsCode === fs.readFileSync(path.join(CODE, 'archive-record.js'), 'utf8'));
+const gate = byName(D.list, 'Entro le 20 ore?');
+check('in time the tipologia is read; past 20 hours it goes back to the loop closed unread',
+  next(D.list, 'Tempo').join() === 'Entro le 20 ore?' && gate.parameters.conditions.conditions.length === 1 &&
+  gate.parameters.conditions.conditions[0].leftValue === '={{ $json.in_time }}' &&
+  next(D.list, 'Entro le 20 ore?', 0).join() === 'Pausa' && next(D.list, 'Entro le 20 ore?', 1).join() === 'Tipologie');
+const leadsTo = (wf, target) => Object.entries(wf.connections)
+  .filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === target))).map(([k]) => k).join();
+check('only the check leads to the pause before a tipologia', leadsTo(D.list, 'Pausa') === 'Entro le 20 ore?');
+// The same check before the second and third pass and before the download: after the last check
+// at most one pass or the download is left (CONTRATTI.md, «Una corsa alla volta»).
+const archiveCode = fs.readFileSync(path.join(CODE, 'archive-record.js'), 'utf8');
+const gateOk = (wf, suffix, pause, closed) => {
+  const p = byName(wf, `Prepara tempo ${suffix}`);
+  const g = byName(wf, `Entro le 20 ore? ${suffix}`);
+  return !!p && !!g && p.parameters.assignments.assignments.some((a) => a.name === 'stage' && a.value === 'budget') &&
+    p.parameters.assignments.assignments.some((a) => a.name === 'started_at') &&
+    next(wf, `Prepara tempo ${suffix}`).join() === `Tempo ${suffix}` && byName(wf, `Tempo ${suffix}`).parameters.jsCode === archiveCode &&
+    next(wf, `Tempo ${suffix}`).join() === `Entro le 20 ore? ${suffix}` && g.parameters.conditions.conditions[0].leftValue === '={{ $json.in_time }}' &&
+    next(wf, `Entro le 20 ore? ${suffix}`, 0).join() === pause && next(wf, `Entro le 20 ore? ${suffix}`, 1).join() === closed &&
+    leadsTo(wf, pause) === `Entro le 20 ore? ${suffix}`;
+};
+check('before the second pass the tipologia checks the 20 hours, and past them closes what it read', gateOk(D.tipologia, '2', 'Pausa 2', 'Esito tipologia'));
+check('before the third pass, the same', gateOk(D.tipologia, '3', 'Pausa 3', 'Esito tipologia'));
+check('before the download the reading checks the 20 hours, and past them does not download', gateOk(D.list, 'download', 'Pausa download', ''));
+check('the passes after a check take only their own fields', ['Passata 2', 'Passata 3'].every((nm) => byName(D.tipologia, nm).parameters.includeOtherFields === false));
 for (const k of ['tipologia', 'pass', 'download']) {
   const trig = D[k].nodes.filter((n) => n.type === 'n8n-nodes-base.executeWorkflowTrigger');
   check(`${D[k].name} starts from its sub-workflow trigger`, trig.length === 1 && ((D[k].connections[trig[0].name] || {}).main || [[]])[0].length === 1);
