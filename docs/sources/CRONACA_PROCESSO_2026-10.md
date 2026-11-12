@@ -61,6 +61,11 @@ comunicato della Questura e in tre testate, produrrebbe quattro notizie.
 Sono proposte del builder. Diventano regole quando l'owner le adotta, e alcune
 (segnate ⚖) solo dopo il parere legale (D12).
 
+**Per il pilota privato l'owner le ha adottate l'11 novembre con DEC-034**, anche due regole
+segnate ⚖ (R-C04 e R-C05). Quali valgono da subito, quali dopo il primo mese e quali
+aspettano il parere legale lo dice la decisione, che vince su questa sezione; dice anche
+come R-C05 si applica dentro DEC-108.
+
 - **R-C01 · Un fatto, una scheda.** Il fatto è l'unità: un evento con luogo, data e
   protagonisti. Un'operazione su più luoghi è un fatto con più luoghi (esito M). Un
   comunicato di riepilogo produce tante schede quanti sono i fatti riconoscibili. Gli
@@ -84,7 +89,8 @@ Sono proposte del builder. Diventano regole quando l'owner le adotta, e alcune
   dettagli che identificano minori (anche come autori), vittime di reati sessuali,
   persone coinvolte in suicidi o tentati suicidi, dati sanitari. Questi casi vanno
   sempre in coda manuale. Un nome letto solo su una testata non si riproduce in
-  automatico: DEC-016 copre solo le fonti ufficiali. ⚖
+  automatico: DEC-016 copre solo le fonti ufficiali. ⚖ Per il pilota privato vale come
+  la legge DEC-034, punto 5: i nomi presi dalla stampa seguono DEC-108.
 - **R-C06 · Luogo del fatto.** Il luogo è quello dove il fatto è avvenuto, non quello
   della caserma o del commissariato che ha operato né la residenza dell'arrestato. «Zona
   Tuscolana» senza altri elementi vale come strada lunga e dà D (protocollo, casi
@@ -576,7 +582,7 @@ parere (D12).
 | P-08 | **Verifica.** Le testate sbagliano o divergono sui dettagli; un fatto ripreso da cinque siti può avere una sola origine (agenzia o comunicato). | Regola R-C02 (conferma ufficiale, o due fonti indipendenti dove ammesso); riconoscere le riprese d'agenzia; seconda AI sui fatti (DEC-015); `case_status` visibile. | builder, owner |
 | P-09 | **Lo stesso fatto in più fonti e più giorni.** | Fase 3 di fusione: confronto su tipo, luogo, data ±3 giorni, dettagli (età, numero di persone, oggetto); `fatto_id` e catena degli aggiornamenti; in dubbio, coda. | builder |
 | P-10 | **Luogo.** Sede del reparto scambiata per luogo del fatto; «zona Tuscolana»; fatti senza luogo. | Protocollo di assegnazione e livelli (DEC-106); R-C06; esito D quando il luogo è una strada lunga; T per i fatti cittadini. | builder |
-| P-11 | **Persone e casi sensibili.** Minori, vittime, suicidi, dati sanitari; nomi che compaiono solo sulla stampa. | DEC-016 e R-C05; coda manuale; i nomi letti solo sulla stampa non si riproducono in automatico. | legale, owner |
+| P-11 | **Persone e casi sensibili.** Minori, vittime, suicidi, dati sanitari; nomi che compaiono solo sulla stampa. | DEC-016 e R-C05; coda manuale; nel pilota privato i nomi letti sulla stampa seguono DEC-108, punto 2 (DEC-034, punto 5). | legale, owner |
 | P-12 | **Presunzione di innocenza e sviluppi.** Gli enti comunicano meno dopo il d.lgs. 188/2021; arresti poi non convalidati; assoluzioni. | R-C04; aggiornamento di `case_status`; pubblicazione degli sviluppi favorevoli; deindicizzazione su richiesta (R-C11). | legale, builder |
 | P-13 | **Rettifiche.** | DEC-020; procedura con tempi; storico interno delle versioni. | owner |
 | P-14 | **Immagini.** Nessuna fonte lecita chiara per la cronaca. | Mappa generata o nessuna immagine (baseline §2.D, decisione aperta). | owner |
@@ -597,8 +603,9 @@ parere (D12).
 2. **Registrazione della testata, da anticipare?** Serve per le liste stampa degli enti
    (§5.3 n. 1), che sono il canale più ricco e più pulito. Oggi la registrazione sta nel
    percorso legale (I) della fase 2.
-3. **Regole R-C01…R-C11 (§3):** adottarle, modificarle o rinviarle. Quelle segnate ⚖
-   entrano nel pacchetto per il legale (D12), insieme a tre domande nuove:
+3. **Regole R-C01…R-C11 (§3):** adottarle, modificarle o rinviarle. **Deciso dall'owner
+   l'11 novembre per il pilota privato:** DEC-034. Quelle segnate ⚖ entrano nel pacchetto
+   per il legale (D12), insieme a tre domande nuove:
    - art. 101 l. 633/1941: un fatto scoperto dalla stampa e confermato da un ente può
      diventare una notizia di QN?
    - art. 43-bis: i link e i titoli delle testate sono ammessi?

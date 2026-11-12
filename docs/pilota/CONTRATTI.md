@@ -298,11 +298,11 @@ originali in `B Notizie/originali/` e non scrive elementi.
 
 | Che cosa | Regola |
 |---|---|
-| Elemento | il fatto, non l'articolo della fonte: lo stesso fatto da più fonti è un elemento solo (sezione 2). Se un comunicato di riepilogo dia più elementi, uno per fatto, lo decide l'owner con DEC-034 (R-C01): l'identità ha già il posto per il numero del fatto |
+| Elemento | il fatto, non l'articolo della fonte: lo stesso fatto da più fonti è un elemento solo (sezione 2). Un comunicato di riepilogo dà un elemento per fatto (DEC-034, R-C01): l'identità ha il posto per il numero del fatto |
 | File | un JSON per fatto in `B Notizie/`, `roma__nws__<chiave>[-f<n>].json`. Le chiavi di primo livello sono quelle degli eventi, con `news` al posto di `event`: `schema_version` (`pilot-news-0.1`), `content_id`, `content_type` e `stream` (`news`), `source`, `news`, `geography`, `editorial`, `quality`, `lifecycle`, `pilot` |
 | Identità | `content_id` = `qn:roma:nws:<chiave>`, con la chiave dai primi 16 caratteri dello SHA-256 dell'URL canonico del record che ha aperto il fatto, con le regole di `web-event-identity.js`. Se quel record contiene più fatti, si aggiunge `-f<n>`, con `n` il posto del fatto nel record (un intero da 1), fissato alla prima divisione. La calcola `code-nodes/news-identity.js`, con i test in `tests/test_news_identity.js` |
 | `source_hash` | lo SHA-256 di titolo, testo, ora di pubblicazione e luogo dichiarato del record che ha aperto il fatto, normalizzati (`news-identity.js`). Se la fonte dà solo il giorno, l'ora è il giorno, con `date_precision: day` |
-| Capofila | da decidere: DEC-034 (R-C02). Finché la decisione non c'è, il canale non scrive elementi; il `source_hash` si calcola sul record che ha aperto il fatto |
+| Capofila | quella di DEC-034, R-C02. Il `source_hash` si calcola sul record che ha aperto il fatto |
 | Colonne della coda | `block = news`; `source_channel` è `news_official` (Questura, Carabinieri), `news_press` (testata aperta) o `news_index` (solo titolo, link e ora di una testata chiusa, da un indice terzo) |
 | Pubblicabile | lo decide DEC-108; come si contano gli editori sta in `docs/sources/CRONACA_PROCESSO_2026-10.md`, sezione 4.6. Il canale scrive per ogni fatto le fonti che quella regola conta, nelle `attribuzioni` (sezione 2), e non pubblica niente prima della PR che applica la regola |
 | Fonti al 10 novembre 2026 | ufficiali: l'elenco dei comunicati della Questura di Roma e quello dei Carabinieri (le pagine di elenco: il feed dei Carabinieri è escluso da `robots.txt`). Testate aperte: Abitare a Roma e Il Faro Online, dai loro feed. Il sito del Comune oggi rinvia `robots.txt` alla pagina di accesso: non si legge finché il rinvio resta (sezione 6) |
