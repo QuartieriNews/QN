@@ -81,8 +81,26 @@ check('in time the tipologia is read; past 20 hours it goes back to the loop clo
   next(D.list, 'Tempo').join() === 'Entro le 20 ore?' && gate.parameters.conditions.conditions.length === 1 &&
   gate.parameters.conditions.conditions[0].leftValue === '={{ $json.in_time }}' &&
   next(D.list, 'Entro le 20 ore?', 0).join() === 'Pausa' && next(D.list, 'Entro le 20 ore?', 1).join() === 'Tipologie');
-check('only the check leads to the pause before a tipologia', Object.entries(D.list.connections)
-  .filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Pausa'))).map(([k]) => k).join() === 'Entro le 20 ore?');
+const leadsTo = (wf, target) => Object.entries(wf.connections)
+  .filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === target))).map(([k]) => k).join();
+check('only the check leads to the pause before a tipologia', leadsTo(D.list, 'Pausa') === 'Entro le 20 ore?');
+// The same check before the second and third pass and before the download: after the last check
+// at most one pass or the download is left (CONTRATTI.md, «Una corsa alla volta»).
+const archiveCode = fs.readFileSync(path.join(CODE, 'archive-record.js'), 'utf8');
+const gateOk = (wf, suffix, pause, closed) => {
+  const p = byName(wf, `Prepara tempo ${suffix}`);
+  const g = byName(wf, `Entro le 20 ore? ${suffix}`);
+  return !!p && !!g && p.parameters.assignments.assignments.some((a) => a.name === 'stage' && a.value === 'budget') &&
+    p.parameters.assignments.assignments.some((a) => a.name === 'started_at') &&
+    next(wf, `Prepara tempo ${suffix}`).join() === `Tempo ${suffix}` && byName(wf, `Tempo ${suffix}`).parameters.jsCode === archiveCode &&
+    next(wf, `Tempo ${suffix}`).join() === `Entro le 20 ore? ${suffix}` && g.parameters.conditions.conditions[0].leftValue === '={{ $json.in_time }}' &&
+    next(wf, `Entro le 20 ore? ${suffix}`, 0).join() === pause && next(wf, `Entro le 20 ore? ${suffix}`, 1).join() === closed &&
+    leadsTo(wf, pause) === `Entro le 20 ore? ${suffix}`;
+};
+check('before the second pass the tipologia checks the 20 hours, and past them closes what it read', gateOk(D.tipologia, '2', 'Pausa 2', 'Esito tipologia'));
+check('before the third pass, the same', gateOk(D.tipologia, '3', 'Pausa 3', 'Esito tipologia'));
+check('before the download the reading checks the 20 hours, and past them does not download', gateOk(D.list, 'download', 'Pausa download', ''));
+check('the passes after a check take only their own fields', ['Passata 2', 'Passata 3'].every((nm) => byName(D.tipologia, nm).parameters.includeOtherFields === false));
 for (const k of ['tipologia', 'pass', 'download']) {
   const trig = D[k].nodes.filter((n) => n.type === 'n8n-nodes-base.executeWorkflowTrigger');
   check(`${D[k].name} starts from its sub-workflow trigger`, trig.length === 1 && ((D[k].connections[trig[0].name] || {}).main || [[]])[0].length === 1);

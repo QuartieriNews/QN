@@ -418,6 +418,19 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('a tipologia closed for time makes the reading incomplete, and the register says why',
     [lateLog.log.complete, lateLog.log.incomplete, lateLog.log.unread, lateLog.log.tipologie.find((r) => r.tipologia === 'GD').errors],
     [false, ['GD'], [], ['tempo_scaduto']]);
+  const partial = Object.assign({}, closed, { errors: [] });
+  check('before a second or third pass, in time: the tipologia goes on as it is',
+    m.readingBudget({ started_at: START, now: '2026-11-11T16:14:59Z', result: partial }), { in_time: true, result: partial });
+  const cut = m.readingBudget({ started_at: START, now: H20, result: partial });
+  check('past 20 hours before another pass: what was read stays, the tipologia is closed incomplete with the reason',
+    [cut.in_time, cut.result.complete, cut.result.passes, cut.result.kept.length, cut.result.errors],
+    [false, false, partial.passes, partial.kept.length, ['tempo_scaduto']]);
+  check('…and the result it was given is not changed', partial.errors, []);
+  check('before the download: in time, or not, with nothing to close',
+    [m.readingBudget({ started_at: START, now: '2026-11-11T16:14:59Z' }), m.readingBudget({ started_at: START, now: H20 })],
+    [{ in_time: true, result: null }, { in_time: false, result: null }]);
+  check('a result that is not a closed tipologia is an error',
+    /closed tipologia/.test(thrown(() => m.readingBudget({ started_at: START, now: H20, result: { tipologia: 'ZZZ' } })) || ''), true);
   check('a budget checked before the start of the reading is an error',
     /before started_at/.test(thrown(() => m.readingBudget({ tipologia: 'GD', started_at: START, now: '2026-11-10T20:14:59Z' })) || ''), true);
   check('a start that is not a UTC instant is an error',
@@ -431,6 +444,11 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
     check('adapter, stage budget: in time, no result', [go.json.in_time, go.json.result], [true, undefined]);
     const stop = runNode({ stage: 'budget', tipologia: 'GD', started_at: old, reading_day: DAY });
     check('adapter, stage budget: past 20 hours, the closed result', [stop.json.in_time, stop.json.result.errors], [false, ['tempo_scaduto']]);
+    const mid = runNode({ stage: 'budget', tipologia: 'CMD', started_at: old, reading_day: DAY, result: Object.assign({}, closed, { errors: [] }) });
+    check('adapter, stage budget with a result: the result closed incomplete', [mid.json.in_time, mid.json.result.complete, mid.json.result.errors],
+      [false, false, ['tempo_scaduto']]);
+    const dl = runNode({ stage: 'budget', started_at: old });
+    check('adapter, stage budget before the download: not in time, no result', [dl.json.in_time, dl.json.result], [false, undefined]);
   }
 
   const righe = [closed.kept[0],
