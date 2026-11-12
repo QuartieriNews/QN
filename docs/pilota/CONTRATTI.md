@@ -291,10 +291,11 @@ questa sezione non scrive elementi (sezione 3).
 
 ### B · Notizie (`news`)
 
-Il canale si apre in due tempi. Questa sezione fissa l'elemento, la sua identità e la raccolta.
-La geografia, il filtro editoriale, la scrittura in parole nostre e la seconda verifica
-(DEC-108) arrivano con le PR successive. Finché non ci sono, il canale salva solo gli
-originali in `B Notizie/originali/` e non scrive elementi.
+Il canale si apre in due tempi. Questa sezione fissa l'elemento, la sua identità, la raccolta e
+che cosa permettono le fonti di un fatto. Il raggruppamento dei record in fatti, la geografia,
+il filtro editoriale, la scrittura in parole nostre e la seconda verifica (DEC-108) arrivano con
+le PR successive. Finché non ci sono, il canale salva solo gli originali in
+`B Notizie/originali/` e non scrive elementi.
 
 | Che cosa | Regola |
 |---|---|
@@ -302,9 +303,9 @@ originali in `B Notizie/originali/` e non scrive elementi.
 | File | un JSON per fatto in `B Notizie/`, `roma__nws__<chiave>[-f<n>].json`. Le chiavi di primo livello sono quelle degli eventi, con `news` al posto di `event`: `schema_version` (`pilot-news-0.1`), `content_id`, `content_type` e `stream` (`news`), `source`, `news`, `geography`, `editorial`, `quality`, `lifecycle`, `pilot` |
 | Identità | `content_id` = `qn:roma:nws:<chiave>`, con la chiave dai primi 16 caratteri dello SHA-256 dell'URL canonico del record che ha aperto il fatto, con le regole di `web-event-identity.js`. Se quel record contiene più fatti, si aggiunge `-f<n>`, con `n` il posto del fatto nel record (un intero da 1), fissato alla prima divisione. La calcola `code-nodes/news-identity.js`, con i test in `tests/test_news_identity.js` |
 | `source_hash` | lo SHA-256 di titolo, testo, ora di pubblicazione e luogo dichiarato del record che ha aperto il fatto, normalizzati (`news-identity.js`). Se la fonte dà solo il giorno, l'ora è il giorno, con `date_precision: day` |
-| Capofila | quella di DEC-034, R-C02. Il `source_hash` si calcola sul record che ha aperto il fatto |
+| Capofila | quella di DEC-034, R-C02. La sceglie `code-nodes/news-fact.js` fra i record del fatto, in ordine di pubblicazione: un record senza ora viene dopo gli altri, e a pari ora vale l'ordine di arrivo. Un fatto visto solo su testate chiuse non ha capofila. Il `source_hash` si calcola sul record che ha aperto il fatto |
 | Colonne della coda | `block = news`; `source_channel` è `news_official` (Questura, Carabinieri), `news_press` (testata aperta) o `news_index` (solo titolo, link e ora di una testata chiusa, da un indice terzo) |
-| Pubblicabile | lo decide DEC-108; come si contano gli editori sta in `docs/sources/CRONACA_PROCESSO_2026-10.md`, sezione 4.6. Il canale scrive per ogni fatto le fonti che quella regola conta, nelle `attribuzioni` (sezione 2), e non pubblica niente prima della PR che applica la regola |
+| Pubblicabile | lo decide DEC-108; come si contano gli editori sta in `docs/sources/CRONACA_PROCESSO_2026-10.md`, sezione 4.6. Lo applica `code-nodes/news-fact.js`, con i test in `tests/test_news_fact.js`. Ogni fatto ha una categoria: `ufficiale`, `stampa_due_fonti`, `stampa_una_fonte`, `chiuse_due_fonti` o `chiuse_una_fonte`, i nomi della prova di giugno; si pubblicano solo le prime due. Le fonti ufficiali non sono editori; per le testate dello stesso gruppo e le riprese d'agenzia valgono la sezione 4.6 e R-C02, e l'elenco dei gruppi sta in `news-fact.js`. Nel file, in `pilot`: le `attribuzioni` (sezione 2), una per fonte con il suo primo record, testate chiuse comprese (DEC-108: contano e si linkano); `pubblicazione`, con categoria, pubblicabile, editori e capofila. Niente si pubblica prima della PR che raggruppa i record in fatti |
 | Fonti al 10 novembre 2026 | ufficiali: l'elenco dei comunicati della Questura di Roma e quello dei Carabinieri (le pagine di elenco: il feed dei Carabinieri è escluso da `robots.txt`). Testate aperte: Abitare a Roma e Il Faro Online, dai loro feed. Il sito del Comune oggi rinvia `robots.txt` alla pagina di accesso: non si legge finché il rinvio resta (sezione 6) |
 | Raccolta | ogni ora; una richiesta alla volta, almeno 5 secondi fra due, di più dove `robots.txt` chiede un `Crawl-delay`. Si legge la prima pagina dell'elenco o del feed. Un host si ferma al primo 401, 403 o 429, captcha, pagina di accesso, rinvio verso un altro host o pagina di blocco servita con 200. Il blocco non si aggira; si avvisa il coordinatore. Un errore del server o una richiesta senza risposta lasciano l'host non letto in quella corsa; cinque di fila lo fermano. `robots.txt` si ricontrolla una volta al giorno; una pagina HTML al suo posto non vale come regole, e l'host si ferma |
 | Originali | le risposte come arrivano, una per file, in `B Notizie/originali/notizie_<host>_<inizio>_<n>.<estensione>`, con `<n>` il numero della risposta di quell'host nella corsa, da 1: nessun file si sovrascrive; il registro di ogni corsa in `B Notizie/letture/notizie_<inizio>.json`, con le richieste, gli esiti e gli host fermati per host, e l'esito della lettura di ogni pagina salvata, anche quando non c'è niente di nuovo. `<inizio>` è l'ora UTC d'inizio, `YYYYMMDDTHHMMSSZ` |
