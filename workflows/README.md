@@ -38,3 +38,9 @@ finding of that review counts the same way, even if it is not listed here:
 - `staging_C_fb_events_fetch`: the wait for the Apify run has no limit of attempts or time, and
   the workflow has no execution timeout; and a retried call starts a second paid run, because
   nothing records the call before «Start Apify run».
+- `staging_C_fb_events_fetch`: no step reads the cost of the Apify run or adds it to
+  `costi.jsonl` and to `pilot.costo`, as `docs/pilota/CONTRATTI.md` («Costi») requires.
+- `staging_C_update_canonical`: two calls at the same time for a name not yet on Drive both
+  upload it, and Drive keeps both.
+- `staging_C_fusion`: every file of `C Eventi` is downloaded and compared on every run, with no
+  bound on the files read or on the time of the execution.
