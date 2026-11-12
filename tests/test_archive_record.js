@@ -403,6 +403,36 @@ const page = (total, ids, extra) => ok({ total, elencoAtti: ids.map((i) => act(i
   check('only a staging_ workflow writes the register',
     /staging_/.test(thrown(() => m.readingLog({ reading_day: DAY, started_at: START, finished_at: END, workflow: 'D_attiweb_list', workflow_version: '1', tipologie: [] })) || ''), true);
 
+  // CONTRATTI.md, «Una corsa alla volta»: the reading starts no tipologia past 20 hours, without
+  // the n8n timeout, which n8n Cloud cuts to 5 minutes (test of 12 November 2026).
+  const H20 = '2026-11-11T16:15:00Z';
+  check('within 20 hours the reading may start one more tipologia',
+    m.readingBudget({ tipologia: 'GD', started_at: START, now: '2026-11-11T16:14:59Z' }), { in_time: true, result: null });
+  const timeUp = m.readingBudget({ tipologia: 'GD', started_at: START, now: H20 });
+  check('at 20 hours it starts no other: the tipologia is closed unread, incomplete, with the reason',
+    [timeUp.in_time, timeUp.result.tipologia, timeUp.result.complete, timeUp.result.passes, timeUp.result.errors, timeUp.result.kept],
+    [false, 'GD', false, 0, ['tempo_scaduto'], []]);
+  check('the budget is 20 hours', m.READING_BUDGET_MS, 20 * 3600 * 1000);
+  const lateLog = m.readingLog({ reading_day: DAY, started_at: START, finished_at: H20, workflow: 'staging_D_attiweb_list', workflow_version: '1',
+    tipologie: closeAll('GD').concat([timeUp.result]) });
+  check('a tipologia closed for time makes the reading incomplete, and the register says why',
+    [lateLog.log.complete, lateLog.log.incomplete, lateLog.log.unread, lateLog.log.tipologie.find((r) => r.tipologia === 'GD').errors],
+    [false, ['GD'], [], ['tempo_scaduto']]);
+  check('a budget checked before the start of the reading is an error',
+    /before started_at/.test(thrown(() => m.readingBudget({ tipologia: 'GD', started_at: START, now: '2026-11-10T20:14:59Z' })) || ''), true);
+  check('a start that is not a UTC instant is an error',
+    /UTC instants/.test(thrown(() => m.readingBudget({ tipologia: 'GD', started_at: '2026-11-10 20:15', now: H20 })) || ''), true);
+  check('a tipologia outside tipo is an error',
+    /not a value of tipo/.test(thrown(() => m.readingBudget({ tipologia: 'ZZZ', started_at: START, now: H20 })) || ''), true);
+  {
+    const recent = new Date(Date.now() - 60 * 1000).toISOString();
+    const old = new Date(Date.now() - 21 * 3600 * 1000).toISOString();
+    const go = runNode({ stage: 'budget', tipologia: 'GD', started_at: recent, reading_day: DAY });
+    check('adapter, stage budget: in time, no result', [go.json.in_time, go.json.result], [true, undefined]);
+    const stop = runNode({ stage: 'budget', tipologia: 'GD', started_at: old, reading_day: DAY });
+    check('adapter, stage budget: past 20 hours, the closed result', [stop.json.in_time, stop.json.result.errors], [false, ['tempo_scaduto']]);
+  }
+
   const righe = [closed.kept[0],
     { archive: m.describeRow(Object.assign(act(7), { tipologia: 'CMD' }), DAY), elenco: 'originali/x.json' },
     { archive: m.describeRow(Object.assign(act(8), { tipologia: 'CMD' }), DAY), elenco: 'originali/x.json' }];

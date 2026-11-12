@@ -10,6 +10,7 @@
  * Item"). The staging workflows use it in several nodes, byte-identical; `stage` on the item
  * says which step it takes:
  *   - 'plan': the menu answer becomes the tipologie to read;
+ *   - 'budget': whether the reading may start one more tipologia, or closes it unread;
  *   - 'pass': the answers of one pass over a tipologia become a pass and the pages to save;
  *   - 'close': the passes over a tipologia are merged and each row is described;
  *   - 'log': the closed tipologie become the register of the reading and its kept rows;
@@ -492,6 +493,23 @@ function closeTipologia({ tipologia, reading_day, passes }) {
   };
 }
 
+/** How long a reading may go on starting tipologie (CONTRATTI.md, «Una corsa alla volta»). */
+const READING_BUDGET_MS = 20 * 3600 * 1000;
+
+/** Stage 'budget': whether the reading may start one more tipologia. Past the budget the
+ *  tipologia is closed unread and incomplete, so the register lists it (DEC-033, rule 5) and no
+ *  request goes to the portal. */
+function readingBudget({ tipologia, started_at, now }) {
+  const tipo = normalizeKey(tipologia);
+  if (!TIPI.includes(tipo)) throw new Error(`tipologia ${JSON.stringify(tipologia)} is not a value of tipo`);
+  if (!utcInstant(started_at) || !utcInstant(now)) throw new Error('started_at and now must be UTC instants');
+  const elapsed = Date.parse(now) - Date.parse(started_at);
+  if (elapsed < 0) throw new Error('now is before started_at');
+  if (elapsed < READING_BUDGET_MS) return { in_time: true, result: null };
+  return { in_time: false, result: { tipologia: tipo, complete: false, needs_another_pass: false, passes: 0, total: null,
+    missing_data: false, errors: ['tempo_scaduto'], kept: [], left_out: {} } };
+}
+
 /** `20261110T201500Z` from a UTC instant: the time part of the reading's file names. */
 const compactInstant = (v) => v.slice(0, 19).replace(/[-:]/g, '') + 'Z';
 
@@ -690,7 +708,7 @@ if (typeof $input === 'undefined') {
     SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,
     planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, seduteDays, dataDocumento, municipalityCode, describeRow,
     archiveRecord, recordFileName, menuCodes, blockSignal, htmlInstead, parseSearch, elencoFileName, searchPass,
-    closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
+    closeTipologia, READING_BUDGET_MS, readingBudget, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
     downloadResultName, downloadLog, reservationHolds,
   };
   return;
@@ -704,6 +722,10 @@ if ($json.stage === 'plan') {
   Object.assign($json, searchPass($json));
   delete $json.pages;
   delete $json.historical;
+} else if ($json.stage === 'budget') {
+  const b = readingBudget({ tipologia: $json.tipologia, started_at: $json.started_at, now: new Date().toISOString() });
+  $json.in_time = b.in_time;
+  if (!b.in_time) $json.result = b.result;
 } else if ($json.stage === 'close') {
   $json.result = closeTipologia($json);
   delete $json.passes;
