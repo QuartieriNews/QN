@@ -81,6 +81,7 @@ l'`archive_id` del record.
 | `versione` | 1 alla prima scrittura (vedi la correzione, qui sotto) |
 | `source_id`, `registro_id`, `source_url` | come per gli elementi |
 | `data_documento` | la data dell'atto o della seduta, `YYYY-MM-DD` |
+| `date_seduta` | per le convocazioni, il giorno di ogni seduta convocata, `YYYY-MM-DD`, nell'ordine dato dalla fonte; `[]` per gli altri atti |
 | `municipality_code` | il campo canonico della geografia, quando è noto |
 | `tipo` | il tipo di documento. Per Atti Web è il codice della tipologia del portale, fra le 48 del menu al 15 settembre 2026, tutte lette per DEC-033 (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 3, con le denominazioni): l'elenco sta in `code-nodes/archive-record.js`, e un codice fuori elenco ferma la lettura |
 | `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione, la pagina dell'elenco salvata in `originali/` da cui viene la riga (`elenco`), e il campo della fonte da cui viene `data_documento` (`data_documento_da`) |
@@ -141,6 +142,16 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   giorno di Roma; il record dice da quale campo viene (`data_documento_da`). Si tengono gli
   atti con `data_documento` fra il 1° gennaio 2026 e il giorno della lettura: una
   convocazione per una seduta futura si prende a una lettura successiva.
+- **Data della seduta.** Le convocazioni danno `dtRpr` come il giorno del protocollo seguito,
+  fra parentesi, dal giorno di ogni seduta: `09/11/2026<br>(12/11/2026)<br>`, o più date fra
+  parentesi per una convocazione di più sedute. Il primo giorno è `data_documento`; quelli fra
+  parentesi vanno in `date_seduta`. Lo ha verificato il builder l'11 novembre 2026 su dieci
+  convocazioni dei Municipi X, V e I, leggendo i PDF già nello storico, su richiesta
+  dell'owner: ogni PDF porta la data del protocollo e convoca la seduta nel giorno fra
+  parentesi. Una convocazione (`CMC`, `CPC`, `MMC`) che dà il giorno della seduta in `dtSeduta`
+  lo porta in `date_seduta`, dopo quelli fra parentesi e senza ripeterlo; il `dtSeduta` degli
+  altri atti non è una seduta convocata. I record scritti prima di questa regola non hanno
+  `date_seduta`: un record non si riscrive.
 - **Municipio.** Un atto è di una struttura del Municipio quando `dscStrOrg` dice «MUNIC…»,
   poi «ROMA» se c'è, poi il numero romano, confrontato per intero (X non è IX né XI);
   un'annotazione fra parentesi come «(EX MUNICIPIO V)» nomina il Municipio di prima e non

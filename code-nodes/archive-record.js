@@ -173,11 +173,11 @@ function sourceDay(v, field) {
   if (typeof v !== 'string') throw bad();
   let s = v.trim();
   if (s === '') return null;
-  // The convocations give `dtRpr` as two dates, `01/12/2025<br>(04/12/2025)<br>`: the first is
-  // the repertorio date the search filters on, as the source study read it; the one in
-  // brackets takes no part. Any other markup stays unreadable.
-  const two = /^(\d{1,2}\/\d{1,2}\/\d{4})<br\s*\/?>\s*\(\d{1,2}\/\d{1,2}\/\d{4}\)(?:<br\s*\/?>)?$/i.exec(s);
-  if (two) s = two[1];
+  // The convocations give `dtRpr` as the repertorio date the search filters on, then the day of
+  // each sitting in brackets (CONTRATTI.md «Lo storico», «Data della seduta»):
+  // `01/12/2025<br>(04/12/2025)<br>`. The first is this field's day; `seduteDays` reads the rest.
+  const convocation = CONVOCATION.exec(s);
+  if (convocation) s = convocation[1];
   let m = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.\d{1,9})?)?(Z|[+-]\d{2}:?\d{2})?)?$/.exec(s);
   if (m) {
     const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
@@ -197,6 +197,22 @@ function sourceDay(v, field) {
     return `${y}-${pad(mo)}-${pad(d)}`;
   }
   throw bad();
+}
+
+const CONVOCATION = /^(\d{1,2}\/\d{1,2}\/\d{4})<br\s*\/?>((?:\s*\(\d{1,2}\/\d{1,2}\/\d{4}\)(?:<br\s*\/?>)?)+)$/i;
+
+/** The convocation tipologie of the menu (docs/sources/A2_ATTIWEB_TIPOLOGIE.md, section 3). */
+const CONVOCAZIONI = Object.freeze(['CMC', 'CPC', 'MMC']);
+
+/** CONTRATTI.md «Lo storico», «Data della seduta»: the sitting days a convocation gives in
+ *  brackets after its `dtRpr`, as Rome days in the order written, then its `dtSeduta` when that
+ *  day is not among them; [] for any other row. */
+function seduteDays(row) {
+  const m = typeof row.dtRpr === 'string' ? CONVOCATION.exec(row.dtRpr.trim()) : null;
+  const days = m ? [...m[2].matchAll(/\((\d{1,2}\/\d{1,2}\/\d{4})\)/g)].map((x) => sourceDay(x[1], 'dtRpr')) : [];
+  const seduta = CONVOCAZIONI.includes(normalizeKey(row.tipologia)) ? sourceDay(row.dtSeduta, 'dtSeduta') : null;
+  if (seduta && !days.includes(seduta)) days.push(seduta);
+  return days;
 }
 
 /** CONTRATTI.md «Lo storico»: `dtSeduta` when there is one, otherwise `dtRpr`; the record keeps
@@ -247,6 +263,7 @@ function describeRow(row, readingDay) {
     reason,
     data_documento: day,
     data_documento_da: from,
+    date_seduta: seduteDays(row),
     municipality_code: code,
     pdf_url: pdfUrl(row.tipologia, row.idDoc),
     file_stem: fileStem(id),
@@ -298,6 +315,7 @@ function archiveRecord(archive, download, existing) {
     registro_id: download.registro_id || null,
     source_url: archive.pdf_url,
     data_documento: archive.data_documento,
+    date_seduta: Array.isArray(archive.date_seduta) ? archive.date_seduta : [],
     municipality_code: archive.municipality_code,
     tipo: archive.tipo,
     provenienza: {
@@ -670,7 +688,7 @@ function recordFileName(record) {
 if (typeof $input === 'undefined') {
   module.exports = {
     SOURCE_ID, TIPI, MUNICIPI, PERIOD_START, SEARCH_START, PAGE_SIZE, MAX_PER_DAY, normalizeKey, archiveId,
-    planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, dataDocumento, municipalityCode, describeRow,
+    planTipologie, mergePasses, fileStem, pdfUrl, sourceDay, seduteDays, dataDocumento, municipalityCode, describeRow,
     archiveRecord, recordFileName, menuCodes, blockSignal, htmlInstead, parseSearch, elencoFileName, searchPass,
     closeTipologia, readingLog, selectDownloads, checkPdf, planFromMenu, downloadLogName, downloadedToday,
     downloadResultName, downloadLog, reservationHolds,
