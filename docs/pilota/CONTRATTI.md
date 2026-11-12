@@ -81,6 +81,7 @@ l'`archive_id` del record.
 | `versione` | 1 alla prima scrittura (vedi la correzione, qui sotto) |
 | `source_id`, `registro_id`, `source_url` | come per gli elementi |
 | `data_documento` | la data dell'atto o della seduta, `YYYY-MM-DD` |
+| `date_seduta` | per le convocazioni, il giorno di ogni seduta convocata, `YYYY-MM-DD`, nell'ordine dato dalla fonte; `[]` per gli altri atti |
 | `municipality_code` | il campo canonico della geografia, quando è noto |
 | `tipo` | il tipo di documento. Per Atti Web è il codice della tipologia del portale, fra le 48 del menu al 15 settembre 2026, tutte lette per DEC-033 (`docs/sources/A2_ATTIWEB_TIPOLOGIE.md`, sezione 3, con le denominazioni): l'elenco sta in `code-nodes/archive-record.js`, e un codice fuori elenco ferma la lettura |
 | `provenienza` | come il record è stato ottenuto: l'URL letto, l'ora della lettura (`retrieved_at`, UTC), il workflow `staging_` e la sua versione, la pagina dell'elenco salvata in `originali/` da cui viene la riga (`elenco`), e il campo della fonte da cui viene `data_documento` (`data_documento_da`) |
@@ -141,6 +142,16 @@ c'è il modo di leggere il portale, che `code-nodes/archive-record.js` applica c
   giorno di Roma; il record dice da quale campo viene (`data_documento_da`). Si tengono gli
   atti con `data_documento` fra il 1° gennaio 2026 e il giorno della lettura: una
   convocazione per una seduta futura si prende a una lettura successiva.
+- **Data della seduta.** Le convocazioni danno `dtRpr` come il giorno del protocollo seguito,
+  fra parentesi, dal giorno di ogni seduta: `09/11/2026<br>(12/11/2026)<br>`, o più date fra
+  parentesi per una convocazione di più sedute. Il primo giorno è `data_documento`; quelli fra
+  parentesi vanno in `date_seduta`. Lo ha verificato il builder l'11 novembre 2026 su dieci
+  convocazioni dei Municipi X, V e I, leggendo i PDF già nello storico, su richiesta
+  dell'owner: ogni PDF porta la data del protocollo e convoca la seduta nel giorno fra
+  parentesi. Una convocazione (`CMC`, `CPC`, `MMC`) che dà il giorno della seduta in `dtSeduta`
+  lo porta in `date_seduta`, dopo quelli fra parentesi e senza ripeterlo; il `dtSeduta` degli
+  altri atti non è una seduta convocata. I record scritti prima di questa regola non hanno
+  `date_seduta`: un record non si riscrive.
 - **Municipio.** Un atto è di una struttura del Municipio quando `dscStrOrg` dice «MUNIC…»,
   poi «ROMA» se c'è, poi il numero romano, confrontato per intero (X non è IX né XI);
   un'annotazione fra parentesi come «(EX MUNICIPIO V)» nomina il Municipio di prima e non
@@ -292,7 +303,7 @@ le PR successive. Finché non ci sono, il canale salva solo gli originali in
 | File | un JSON per fatto in `B Notizie/`, `roma__nws__<chiave>[-f<n>].json`. Le chiavi di primo livello sono quelle degli eventi, con `news` al posto di `event`: `schema_version` (`pilot-news-0.1`), `content_id`, `content_type` e `stream` (`news`), `source`, `news`, `geography`, `editorial`, `quality`, `lifecycle`, `pilot` |
 | Identità | `content_id` = `qn:roma:nws:<chiave>`, con la chiave dai primi 16 caratteri dello SHA-256 dell'URL canonico del record che ha aperto il fatto, con le regole di `web-event-identity.js`. Se quel record contiene più fatti, si aggiunge `-f<n>`, con `n` il posto del fatto nel record (un intero da 1), fissato alla prima divisione. La calcola `code-nodes/news-identity.js`, con i test in `tests/test_news_identity.js` |
 | `source_hash` | lo SHA-256 di titolo, testo, ora di pubblicazione e luogo dichiarato del record che ha aperto il fatto, normalizzati (`news-identity.js`). Se la fonte dà solo il giorno, l'ora è il giorno, con `date_precision: day` |
-| Capofila | la fonte ufficiale, se c'è; altrimenti la prima testata aperta che riporta il fatto (DEC-034, R-C02). La sceglie `code-nodes/news-fact.js` fra i record del fatto, il primo per ora di pubblicazione: un record senza ora viene dopo gli altri, e a pari ora vale l'ordine di arrivo. Un fatto visto solo su testate chiuse non ha capofila. Il `source_hash` si calcola sul record che ha aperto il fatto |
+| Capofila | quella di DEC-034, R-C02. La sceglie `code-nodes/news-fact.js` fra i record del fatto, in ordine di pubblicazione: un record senza ora viene dopo gli altri, e a pari ora vale l'ordine di arrivo. Un fatto visto solo su testate chiuse non ha capofila. Il `source_hash` si calcola sul record che ha aperto il fatto |
 | Colonne della coda | `block = news`; `source_channel` è `news_official` (Questura, Carabinieri), `news_press` (testata aperta) o `news_index` (solo titolo, link e ora di una testata chiusa, da un indice terzo) |
 | Pubblicabile | lo decide DEC-108; come si contano gli editori sta in `docs/sources/CRONACA_PROCESSO_2026-10.md`, sezione 4.6. Lo applica `code-nodes/news-fact.js`, con i test in `tests/test_news_fact.js`. Ogni fatto ha una categoria: `ufficiale`, `stampa_due_fonti`, `stampa_una_fonte`, `chiuse_due_fonti` o `chiuse_una_fonte`, i nomi della prova di giugno; si pubblicano solo le prime due. Le fonti ufficiali non sono editori. Due testate dello stesso gruppo valgono un editore (l'elenco dei gruppi sta in `news-fact.js`), e un lancio d'agenzia vale come la sua agenzia, ovunque sia ripreso (R-C02). Nel file, in `pilot`: le `attribuzioni` (sezione 2), una per fonte con il suo primo record, testate chiuse comprese (DEC-108: contano e si linkano); `pubblicazione`, con categoria, pubblicabile, editori e capofila. Niente si pubblica prima della PR che raggruppa i record in fatti |
 | Fonti al 10 novembre 2026 | ufficiali: l'elenco dei comunicati della Questura di Roma e quello dei Carabinieri (le pagine di elenco: il feed dei Carabinieri è escluso da `robots.txt`). Testate aperte: Abitare a Roma e Il Faro Online, dai loro feed. Il sito del Comune oggi rinvia `robots.txt` alla pagina di accesso: non si legge finché il rinvio resta (sezione 6) |

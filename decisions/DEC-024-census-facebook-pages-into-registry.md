@@ -1,9 +1,10 @@
 # DEC-024 — Censimento delle pagine Facebook di associazioni: cosa entra nel registro e come si continua a cercare su Facebook
 
 Status: DECIDED (11 novembre 2026, owner nella sessione del builder, sulle opzioni poste dal builder)
-Blocks: nothing. Mentre era aperta bloccava la promozione delle candidate del censimento del
-24 ottobre 2026 nel registro fonti v2, il flusso continuo di ricerca eventi su Facebook e la
-rilettura delle pagine dormienti.
+Blocks: la schedulazione della rilettura del punto 3, finché DEC-004 (il tetto di eventi per
+corsa, ancora aperta) non è decisa. Mentre era aperta bloccava la promozione delle candidate del
+censimento del 24 ottobre 2026 nel registro fonti v2, il flusso continuo di ricerca eventi su
+Facebook e la rilettura delle pagine dormienti.
 
 Context: il 24 ottobre 2026 le 1.169 pagine Facebook di associazioni fornite dall'owner
 sono state lette con Apify (dati di pagina, eventi futuri, post degli ultimi sei mesi) e
@@ -98,16 +99,24 @@ Decision:
    nessuna: le 5 che il registro segna `locale` sono associazioni; entrano subito 68 pagine.
    Delle 320 sono politiche due: `S-FE-0369`, un comitato referendario che è anche fra le 28
    del punto 2, e `S-EV-0912`, un'associazione di area politica che il registro segna `locale`.
-   Le altre 11 segnate `locale` sono associazioni: le candidate dopo il mese sono 318.
+   Le altre 11 segnate `locale` sono associazioni: restano 318 pagine senza prova forte.
+   Una pagina che il registro segna già «tenere» resta «tenere» e non torna al percorso del
+   mese. Delle 68 lo sono 12, quindi le nuove «tenere» sono 56; delle 318 lo sono 35, quindi le
+   candidate dopo il mese sono 283.
+   La lettura del mese parte dagli indirizzi del sito in `dove_cercare`
+   (`tools/fonti/leggi_eventi_siti.py`, nella PR #21). Delle 283, 25 non ne hanno nessuno: sono
+   «rientra» solo per gli annunci nei post di Facebook. La lettura dei siti non le può
+   confermare: restano candidate e non entrano come «tenere», finché l'owner non sceglie per
+   loro un'altra conferma.
    La tabella del censimento conta 390 «rientra» perché conta le righe dell'elenco letto, non le
    pagine: tre pagine vi compaiono due volte e il registro ne tiene una sola, con la prima
    lettura (`S-EV-0575`, `S-EV-0777`, `S-EV-0855`); le due righe «rientra» in più sono seconde
    letture di queste pagine. Una pagina segue un percorso solo, con quello che hanno trovato
    tutte le sue letture: è «rientra» se una lettura lo è, e ha una prova forte se una lettura ne
-   ha una. `S-EV-0575` è già fra le 318.
+   ha una. `S-EV-0575` è già fra le 283.
    `S-EV-0777` e `S-EV-0855` il registro le segna «da valutare»; se la loro seconda lettura nel
-   foglio del censimento è «rientra», `S-EV-0777`, che ha date future sul sito, entra subito (69
-   pagine) e `S-EV-0855` si aggiunge alle candidate del mese (319).
+   foglio del censimento è «rientra», `S-EV-0777`, che ha date future sul sito, entra subito (57
+   nuove «tenere») e `S-EV-0855` si aggiunge alle candidate del mese (284).
 2. **Q2 — b).** Restano fuori dal registro le organizzazioni politiche (partiti, liste,
    candidati, comitati elettorali e referendari) e, fra le pagine del censimento, le attività
    commerciali (negozi, bar, palestre). Conta che cosa è l'organizzazione, non l'etichetta di
@@ -117,12 +126,16 @@ Decision:
      dalla categoria di Facebook (`FB_CATEGORIA_TIPO` in `tools/wiki/build_fonti_eventi.py`,
      nella PR #21: «Local business» diventa `locale`, le categorie politiche
      `organizzazione_politica`): che cosa è l'organizzazione si controlla sul nome e sul sito.
-     All'11 novembre nel censimento non c'è nessuna attività commerciale: le 54 pagine che il
-     censimento segna «locale» e le 17 «rientra» con il `tipo` `locale` sono associazioni o
-     comitati che Facebook chiama «Local business». Quelli politici si escludono come politici
-     (`S-EV-0912`; `S-FE-0343` e `S-FE-0366`, che sono fra le 28 qui sotto). Le 54 non sono
-     «rientra»: tolte le 2 politiche, 6 sono già «tenere» e 46 restano candidate, come le pagine
-     che il punto 1 non promuove.
+     All'11 novembre nel censimento non c'è nessuna attività commerciale. Sono due gruppi
+     distinti di associazioni o comitati che Facebook chiama «Local business»: le 54 pagine con
+     il verdetto «locale» del censimento, e le 17 con un verdetto «rientra» e il `tipo` `locale`
+     (il punto 1 le conta già fra le 68 e le 320). Quelli politici si escludono come politici
+     (`S-EV-0912`; `S-FE-0343` e `S-FE-0366`, che sono fra le 28 qui sotto). Delle 54, tolte le
+     2 politiche, 6 sono già «tenere». Le altre 46 non sono «rientra»: il censimento non ha
+     trovato eventi futuri, né su Facebook né sul sito, né date sul sito negli ultimi sei mesi,
+     e 40 non hanno nemmeno post recenti. Hanno la sorte delle pagine lette allo stesso modo: 40
+     quella delle dormienti (punto 4), 6 quella delle «attive su Facebook, senza annunci di
+     eventi». Nessuna entra come «tenere» e la rilettura del punto 3 non le legge.
    - **Pagine già «tenere».** Vale il `tipo` scritto nel registro del 13 ottobre
      (`registro.tipo`, quarta domanda successiva): le 28 con il `tipo` `politico` passano a
      «scartare» con il motivo «DEC-024 Q2», non si cancellano e tengono la loro storia. Nessuna
@@ -139,13 +152,16 @@ Decision:
    mesi faccio una ricerca per parole chiave, solo come controllo». Le pagine del registro si
    rileggono ogni due settimane con `pageUrls`; una lettura per parole chiave al massimo ogni
    tre mesi, come controllo. Tetto di spesa mensile scritto nel workflow prima che la
-   schedulazione parta. DEC-102 resta com'è, come diceva la domanda all'owner («Gli URL degli
+   schedulazione parta; la schedulazione aspetta anche DEC-004, ancora aperta, che fissa il
+   tetto di eventi per corsa (Blocks, qui sopra). DEC-102 resta com'è, come diceva la domanda all'owner («Gli URL degli
    eventi da pubblicare restano raccolti da te, come prevede DEC-102»): la rilettura e la
    ricerca dicono quali pagine sono attive e quali eventi annunciano, aggiornano lo stato delle
    pagine nel registro e arrivano all'owner come elenco. Non alimentano il canale C: un evento
    si pubblica solo dagli URL che l'owner raccoglie a mano (DEC-102; `docs/pilota/CONTRATTI.md`,
    «C · Eventi da Facebook», URL delle fonti).
-4. **Q4 — b).** Le 275 pagine dormienti non si rileggono, salvo segnalazione.
+4. **Q4 — b).** Le 275 pagine dormienti non si rileggono, salvo segnalazione. Il README della
+   wiki nella PR #21 (`docs/wiki/fonti-eventi/README.md`) dice ancora che si rileggono a marzo
+   2027, che era l'opzione a): quando la #21 si aggiorna, quel paragrafo rimanda a questo punto.
 
 Decided by: Owner · Date: 11 novembre 2026 · Affected components: registro fonti v2, `docs/wiki/fonti-eventi`,
 `workflows/scrape-fb-events-rome.json` (Q3),

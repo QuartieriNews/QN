@@ -226,6 +226,40 @@ check('a convocation keeps its repertorio day as data_documento',
   m.dataDocumento({ dtRpr: '09/03/2026<br>(12/03/2026)<br>', dtSeduta: null }), { day: '2026-03-09', from: 'dtRpr' });
 check('other markup stays unreadable', /unreadable date/.test(thrown(() => m.sourceDay('09/03/2026<br>altro', 'dtRpr')) || ''), true);
 check('a bracketed date that is not a date stays unreadable', /unreadable date/.test(thrown(() => m.sourceDay('09/03/2026<br>(ieri)<br>', 'dtRpr')) || ''), true);
+// The bracketed date is the day of the sitting: checked on ten convocations of Municipi X, V and I
+// (CONTRATTI.md «Lo storico», «Data della seduta»).
+check('a convocation gives its sitting day', m.seduteDays({ dtRpr: '09/11/2026<br>(12/11/2026)<br>' }), ['2026-11-12']);
+check('a convocation of several sittings gives each day, in the order written',
+  m.seduteDays({ dtRpr: '02/03/2026<br>(05/03/2026)<br>(12/03/2026)<br>(19/03/2026)<br>' }), ['2026-03-05', '2026-03-12', '2026-03-19']);
+check('a convocation of several sittings is no longer unreadable: its first date is the repertorio day',
+  m.sourceDay('02/03/2026<br>(05/03/2026)<br>(12/03/2026)<br>', 'dtRpr'), '2026-03-02');
+check('a row with a single date gives no sitting day', m.seduteDays({ dtRpr: '2026-03-10' }), []);
+check('a row without dtRpr gives none either', m.seduteDays({}), []);
+// Codex on #47: a convocation may give its sitting day in dtSeduta, beside a single dtRpr.
+check('a convocation with dtSeduta gives that sitting day',
+  m.seduteDays({ tipologia: 'CMC', dtRpr: '2025-12-22', dtSeduta: '2026-01-08' }), ['2026-01-08']);
+check('the commissions\' convocations too', m.seduteDays({ tipologia: 'MMC', dtRpr: '2026-03-02', dtSeduta: '05/03/2026' }), ['2026-03-05']);
+check('dtSeduta joins the bracketed days when it is not among them',
+  m.seduteDays({ tipologia: 'CMC', dtRpr: '02/03/2026<br>(05/03/2026)<br>', dtSeduta: '2026-03-12' }), ['2026-03-05', '2026-03-12']);
+check('and is not repeated when it is',
+  m.seduteDays({ tipologia: 'CMC', dtRpr: '02/03/2026<br>(05/03/2026)<br>', dtSeduta: '2026-03-05' }), ['2026-03-05']);
+check('the dtSeduta of an act that is not a convocation is no sitting day of a convocation',
+  m.seduteDays({ tipologia: 'CMD', dtRpr: '2026-03-10', dtSeduta: '2026-03-20' }), []);
+check('an empty dtSeduta adds nothing', m.seduteDays({ tipologia: 'CMC', dtRpr: '2026-03-10', dtSeduta: '' }), []);
+check('an unreadable dtSeduta of a convocation stays unreadable',
+  /dtSeduta: unreadable date/.test(thrown(() => m.seduteDays({ tipologia: 'CMC', dtRpr: '2026-03-10', dtSeduta: 'domani' })) || ''), true);
+check('the row of a convocation with dtSeduta keeps it in date_seduta',
+  m.describeRow(row({ tipologia: 'CMC', dtRpr: '2025-12-22', dtSeduta: '2026-01-08' }), today).date_seduta, ['2026-01-08']);
+check('an impossible sitting day stays unreadable', /unreadable date/.test(thrown(() => m.seduteDays({ dtRpr: '09/03/2026<br>(31/02/2026)<br>' })) || ''), true);
+{
+  const conv = m.describeRow({ tipologia: 'CMC', idDoc: 5750, dtRpr: '09/11/2026<br>(12/11/2026)<br>', dtSeduta: null,
+    dscStrOrg: 'Municipio Roma V - Ufficio inventato' }, '2026-11-11');
+  check('the row of a convocation keeps the act day and the sitting day apart',
+    [conv.keep, conv.data_documento, conv.data_documento_da, conv.date_seduta], [true, '2026-11-09', 'dtRpr', ['2026-11-12']]);
+  const rec = m.archiveRecord(conv, { sha256: 'a'.repeat(64), retrieved_at: '2026-11-11T04:32:21.304Z', workflow: 'staging_D_attiweb_download',
+    workflow_version: 'prova', elenco: 'originali/attiweb_elenco_prova.json' }, []);
+  check('the record keeps the sitting days', [rec.data_documento, rec.date_seduta], ['2026-11-09', ['2026-11-12']]);
+}
 
 console.log('the reading: menu, answers, passes (CONTRATTI «Lo storico», DEC-033 rules 2, 4, 5)');
 const DAY = '2026-11-10';
