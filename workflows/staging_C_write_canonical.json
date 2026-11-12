@@ -1,0 +1,108 @@
+{
+  "name": "staging_C_write_canonical",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1c885c0f-f2ae-44ec-834e-273c058d0f8e",
+        "responseMode": "onReceived",
+        "options": {
+          "rawBody": false
+        },
+        "authentication": "headerAuth"
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "w1",
+      "name": "Webhook",
+      "webhookId": "1c885c0f-f2ae-44ec-834e-273c058d0f8e",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pA1sDdXav0jboi8h",
+          "name": "staging webhook header"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// staging_C write: canonical files -> Drive C Eventi. Only spec file names, at most 100.\nconst files = ($json.body && Array.isArray($json.body.files)) ? $json.body.files : [];\nif (files.length === 0 || files.length > 100) throw new Error('files: 1 to 100 required');\nreturn files.map(f => {\n  if (!/^roma__evt__facebook__\\d+\\.json$/.test(f.name)) throw new Error('bad file name: ' + f.name);\n  JSON.parse(f.content);\n  return { json: { name: f.name }, binary: { data: { data: Buffer.from(f.content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: f.name } } };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "w2",
+      "name": "Files"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1BBM4OHob8RA7O6V7MJNq3k8cCwFaPeNv"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "w3",
+      "name": "Upload to C Eventi",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Files": {
+      "main": [
+        [
+          {
+            "node": "Upload to C Eventi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "614c9d5d-01d8-4430-9dfa-bba8fa1e283f",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "E0dr1ADp3Gd6RoPF",
+  "tags": []
+}
