@@ -38,16 +38,21 @@ check('no facebook URL stops before any paid call', /startUrls/.test(thrown(() =
 check('more than 60 URLs stop', /startUrls/.test(thrown(() => m.buildInput({ startUrls: Array.from({ length: 61 }, (_, i) => `${PAGE}?p=${i}`) })) || ''), true);
 check('a missing body stops', /startUrls/.test(thrown(() => m.buildInput(undefined)) || ''), true);
 
-console.log('poll: only SUCCEEDED reads the dataset, and the wait ends');
+console.log('poll: only SUCCEEDED reads the dataset, costs settle, and the wait ends');
 const T0 = '2026-11-13T01:00:00.000Z';
-check('SUCCEEDED reads the dataset', m.pollDecision({ status: 'SUCCEEDED', startedAt: T0 }, '2026-11-13T01:05:00Z'), { next: 'read', reason: null });
+const END = '2026-11-13T01:04:00.000Z';
+check('SUCCEEDED, settled, reads the dataset', m.pollDecision({ status: 'SUCCEEDED', startedAt: T0, finishedAt: END }, '2026-11-13T01:05:00Z'), { next: 'read', reason: null });
+check('SUCCEEDED less than 15 seconds ago is read again first', m.pollDecision({ status: 'SUCCEEDED', startedAt: T0, finishedAt: END }, '2026-11-13T01:04:10Z'), { next: 'settle', reason: null });
+check('an ended run without its end time is read again', m.pollDecision({ status: 'SUCCEEDED', startedAt: T0 }, '2026-11-13T01:05:00Z').next, 'settle');
 for (const s of ['FAILED', 'ABORTED', 'TIMED-OUT', 'TIMING-OUT', 'ABORTING']) {
-  check(`${s} stops, never reads a partial dataset`, m.pollDecision({ status: s, startedAt: T0 }, '2026-11-13T01:05:00Z'), { next: 'stop', reason: `run ${s}` });
+  check(`${s} stops, never reads a partial dataset`, m.pollDecision({ status: s, startedAt: T0, finishedAt: END }, '2026-11-13T01:05:00Z'), { next: 'stop', reason: `run ${s}` });
 }
-check('RUNNING within 60 minutes waits', m.pollDecision({ status: 'RUNNING', startedAt: T0 }, '2026-11-13T01:59:59Z'), { next: 'wait', reason: null });
-check('READY within 60 minutes waits', m.pollDecision({ status: 'READY', startedAt: T0 }, '2026-11-13T01:10:00Z').next, 'wait');
-check('still running at 60 minutes stops', m.pollDecision({ status: 'RUNNING', startedAt: T0 }, '2026-11-13T02:00:00Z'),
-  { next: 'stop', reason: 'run still waiting after 60 minutes' });
+check('a failed run settles too, so its cost is the final one', m.pollDecision({ status: 'FAILED', startedAt: T0, finishedAt: END }, '2026-11-13T01:04:05Z').next, 'settle');
+check('RUNNING within 75 minutes waits', m.pollDecision({ status: 'RUNNING', startedAt: T0 }, '2026-11-13T02:14:59Z'), { next: 'wait', reason: null });
+check('READY waits', m.pollDecision({ status: 'READY', startedAt: T0 }, '2026-11-13T01:10:00Z').next, 'wait');
+check('still running at 75 minutes stops', m.pollDecision({ status: 'RUNNING', startedAt: T0 }, '2026-11-13T02:15:00Z'),
+  { next: 'stop', reason: 'run still waiting after 75 minutes' });
+check('the wait outlasts the run\'s own timeout', m.MAX_WAIT_MS > m.APIFY_TIMEOUT_S * 1000, true);
 check('a waiting run without a start time stops', m.pollDecision({ status: 'RUNNING' }, '2026-11-13T01:10:00Z').next, 'stop');
 check('an unknown state stops', m.pollDecision({ status: 'PAUSED', startedAt: T0 }, '2026-11-13T01:10:00Z').next, 'stop');
 check('no run at all stops', m.pollDecision(undefined, '2026-11-13T01:10:00Z').next, 'stop');
@@ -66,7 +71,7 @@ console.log('n8n adapter, from the exact committed file');
   const src = fs.readFileSync(FILE, 'utf8');
   const run = (json) => { const item = { json }; return new Function('$input', '$json', 'require', 'module', src)({ item }, json, require, { exports: {} }); };
   check('input: the Apify input', run({ stage: 'input', body: { startUrls: [PAGE] } }).json, { apifyInput: { startUrls: [{ url: PAGE }], maxEvents: 5 } });
-  const polled = run({ stage: 'poll', data: { status: 'FAILED', startedAt: T0 } }).json;
+  const polled = run({ stage: 'poll', data: { status: 'FAILED', startedAt: T0, finishedAt: '2026-11-13T00:00:00.000Z' } }).json;
   check('poll: the decision added to the run', [polled.next, polled.reason, polled.data.status], ['stop', 'run FAILED', 'FAILED']);
   const c = run({ stage: 'cost', run: RUN, events: 18 });
   check('cost: the entry and its file', [c.json.cost_file_name, c.binary.data.fileName, c.binary.data.mimeType],

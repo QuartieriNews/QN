@@ -1,8 +1,9 @@
 /**
  * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request
  * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch
- * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the wait for
- * the run has an end, and every run leaves its cost (docs/pilota/CONTRATTI.md, «Costi»). A retried
+ * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and
+ * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost
+ * (docs/pilota/CONTRATTI.md, «Costi»). A retried
  * request is still not recognised: that needs a record visible to a second execution while the first
  * runs, and stays in the list of workflows/README.md.
  *
@@ -18,8 +19,15 @@
 /** The caps of a request, as the workflow had them before this file. */
 const MAX_URLS = 60;
 const MAX_EVENTS_PER_URL = 5;
-/** How long the workflow waits for one run before it stops. */
-const MAX_WAIT_MS = 60 * 60 * 1000;
+/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this
+ *  point, as TIMED-OUT. */
+const APIFY_TIMEOUT_S = 3600;
+/** How long the workflow waits for one run before it stops: past the run's own timeout, so the
+ *  last state it reads is Apify's. */
+const MAX_WAIT_MS = 75 * 60 * 1000;
+/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read
+ *  again before its cost is written. */
+const SETTLE_MS = 15 * 1000;
 const WAITING = ['READY', 'RUNNING'];
 const FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT', 'TIMING-OUT', 'ABORTING'];
 
@@ -33,16 +41,20 @@ function buildInput(body) {
   return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };
 }
 
-/** Stage 'poll': `next` is 'wait', 'read' or 'stop'. Only SUCCEEDED reads the dataset; a failed or
- *  unknown state stops, and so does a run still waiting past MAX_WAIT_MS from its start. */
+/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than
+ *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops
+ *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */
 function pollDecision(run, now) {
   const status = run && typeof run.status === 'string' ? run.status : null;
-  if (status === 'SUCCEEDED') return { next: 'read', reason: null };
-  if (status && FAILED.includes(status)) return { next: 'stop', reason: `run ${status}` };
+  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {
+    const finished = Date.parse(run.finishedAt);
+    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };
+    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };
+  }
   if (status && WAITING.includes(status)) {
     const started = Date.parse(run.startedAt);
     if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };
-    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 60 minutes' };
+    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };
     return { next: 'wait', reason: null };
   }
   return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };
@@ -69,7 +81,7 @@ function costFileName(entry) {
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
-  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, MAX_WAIT_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,
+  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,
     costFileName };
   return;
 }

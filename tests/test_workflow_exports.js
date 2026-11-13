@@ -66,7 +66,11 @@ for (const f of files) {
   check('C fetch: the run state goes to the check, never straight to the dataset', to('Get run') === 'Prepara controllo' && to('Prepara controllo') === 'Controlla corsa');
   check('C fetch: only a run to read reaches the dataset', to('Da leggere?', 0) === 'Get dataset items' &&
     Object.entries(F.connections).filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Get dataset items'))).map(([k]) => k).join() === 'Da leggere?');
-  check('C fetch: a run to wait waits, any other stops with an error', to('Da aspettare?', 0) === 'Wait' && to('Da aspettare?', 1) === 'Ferma' &&
+  check('C fetch: a run that just ended is read again after a pause, for its settled cost',
+    to('Da leggere?', 1) === 'Da assestare?' && to('Da assestare?', 0) === 'Attesa costo' && to('Attesa costo') === 'Get run' && node('Attesa costo').parameters.amount >= 15);
+  check('C fetch: a run to wait waits; any other writes its cost and then stops with an error',
+    to('Da assestare?', 1) === 'Da aspettare?' && to('Da aspettare?', 0) === 'Wait' && to('Da aspettare?', 1) === 'Prepara costo errore' &&
+    to('Prepara costo errore') === 'Costo' && to('Carica costo') === 'Era un errore?' && to('Era un errore?', 0) === 'Ferma' &&
     node('Ferma').type === 'n8n-nodes-base.stopAndError');
   check('C fetch: after the dataset is saved, the cost file', to('Upload to C Eventi originali') === 'Prepara costo' && to('Prepara costo') === 'Costo' && to('Costo') === 'Carica costo');
 }
