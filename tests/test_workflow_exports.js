@@ -72,6 +72,9 @@ for (const f of files) {
     to('Da assestare?', 1) === 'Da aspettare?' && to('Da aspettare?', 0) === 'Wait' && to('Da aspettare?', 1) === 'Prepara costo errore' &&
     to('Prepara costo errore') === 'Costo' && to('Carica costo') === 'Era un errore?' && to('Era un errore?', 0) === 'Ferma' &&
     node('Ferma').type === 'n8n-nodes-base.stopAndError');
+  check('C fetch: the error says why the run stopped', /\$\('Controlla corsa'\)\.last\(\)\.json\.reason/.test(node('Ferma').parameters.errorMessage));
+  check('C fetch: a failed run records its events as unknown, never zero',
+    !node('Prepara costo errore').parameters.assignments.assignments.some((a) => a.name === 'events'));
   check('C fetch: after the dataset is saved, the cost file', to('Upload to C Eventi originali') === 'Prepara costo' && to('Prepara costo') === 'Costo' && to('Costo') === 'Carica costo');
 }
 

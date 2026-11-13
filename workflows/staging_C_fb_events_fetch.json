@@ -304,7 +304,7 @@
     },
     {
       "parameters": {
-        "errorMessage": "={{ 'Apify: ' + $json.reason }}"
+        "errorMessage": "={{ 'Apify: ' + $('Controlla corsa').last().json.reason }}"
       },
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
@@ -454,12 +454,6 @@
               "name": "run",
               "value": "={{ $json.data }}",
               "type": "object"
-            },
-            {
-              "id": "6bb0eb1a-21d2-4a9d-8be1-cf7ff5b0c77c",
-              "name": "events",
-              "value": 0,
-              "type": "number"
             }
           ]
         },
@@ -761,7 +755,7 @@
     "saveDataSuccessExecution": "all",
     "executionOrder": "v1"
   },
-  "versionId": "ce114ca4-b761-4f70-855c-43fc3f1da905",
+  "versionId": "ad086943-5442-4864-b9d8-72207970838c",
   "meta": {},
   "nodeGroups": [],
   "id": "a442LZE59XzO5ZJw",
