@@ -275,9 +275,14 @@ spostare fra i workstream:
 | D Storico | 5 € | download ed estrazione del testo |
 | Riserva | 5 € | del coordinatore |
 
-Ogni spesa entra nel campo `costo` dell'elemento o del record dello storico e in
-`costi.jsonl` della cartella del workstream. Il coordinatore somma le spese di tutti i
-workstream e applica DEC-031, punto 6, al totale del mese, non a ogni singola quota.
+Ogni spesa entra nel campo `costo` dell'elemento o del record dello storico e nel registro delle
+spese del workstream. Drive non aggiunge righe a un file, quindi in staging il registro è la
+cartella `costi/` del workstream, con un file JSON per spesa, `costo_<servizio>_<id>.json`: la riga
+che `costi.jsonl` avrebbe avuto. Il primo a scriverlo è `staging_C_fb_events_fetch`
+(`code-nodes/apify-run.js`). Una spesa si conta una volta per il suo id (`run_id` per Apify): un
+file caricato due volte non la raddoppia. Una quantità che non si conosce, come gli eventi di una
+corsa fallita, è `null`, mai zero. Il coordinatore somma le spese di tutti i workstream e applica
+DEC-031, punto 6, al totale del mese, non a ogni singola quota.
 
 ## 6. Regole delle fonti che restano in vigore
 
