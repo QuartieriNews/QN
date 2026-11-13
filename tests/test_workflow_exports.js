@@ -64,7 +64,9 @@ for (const f of files) {
   check('C fetch: the request, the check of the run and the cost run apify-run.js',
     ['Build Apify input', 'Controlla corsa', 'Costo'].every((nm) => node(nm) && node(nm).parameters.jsCode === apify));
   check('C fetch: the run state goes to the check, never straight to the dataset', to('Get run') === 'Prepara controllo' && to('Prepara controllo') === 'Controlla corsa');
-  check('C fetch: only a run to read reaches the dataset', to('Da leggere?', 0) === 'Get dataset items' &&
+  check('C fetch: only a run to read reaches the dataset, and its cost is written beside it, not after it',
+    to('Da leggere?', 0) === 'Get dataset items,Prepara costo' && !F.connections['Upload to C Eventi originali'] &&
+    !node('Prepara costo').parameters.assignments.assignments.some((a) => a.name === 'events') &&
     Object.entries(F.connections).filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Get dataset items'))).map(([k]) => k).join() === 'Da leggere?');
   check('C fetch: a run that just ended is read again after a pause, for its settled cost',
     to('Da leggere?', 1) === 'Da assestare?' && to('Da assestare?', 0) === 'Attesa costo' && to('Attesa costo') === 'Get run' && node('Attesa costo').parameters.amount >= 15);
@@ -75,7 +77,7 @@ for (const f of files) {
   check('C fetch: the error says why the run stopped', /\$\('Controlla corsa'\)\.last\(\)\.json\.reason/.test(node('Ferma').parameters.errorMessage));
   check('C fetch: a failed run records its events as unknown, never zero',
     !node('Prepara costo errore').parameters.assignments.assignments.some((a) => a.name === 'events'));
-  check('C fetch: after the dataset is saved, the cost file', to('Upload to C Eventi originali') === 'Prepara costo' && to('Prepara costo') === 'Costo' && to('Costo') === 'Carica costo');
+  check('C fetch: the cost file', to('Prepara costo') === 'Costo' && to('Costo') === 'Carica costo');
 }
 
 // DEC-033, rule 2: one stream of requests to Atti Web. The reading starts only from its daily

@@ -44,12 +44,16 @@ const END = '2026-11-13T01:04:00.000Z';
 check('SUCCEEDED, settled, reads the dataset', m.pollDecision({ status: 'SUCCEEDED', startedAt: T0, finishedAt: END }, '2026-11-13T01:05:00Z'), { next: 'read', reason: null });
 check('SUCCEEDED less than 15 seconds ago is read again first', m.pollDecision({ status: 'SUCCEEDED', startedAt: T0, finishedAt: END }, '2026-11-13T01:04:10Z'), { next: 'settle', reason: null });
 check('an ended run without its end time is read again', m.pollDecision({ status: 'SUCCEEDED', startedAt: T0 }, '2026-11-13T01:05:00Z').next, 'settle');
-for (const s of ['FAILED', 'ABORTED', 'TIMED-OUT', 'TIMING-OUT', 'ABORTING']) {
+for (const s of ['FAILED', 'ABORTED', 'TIMED-OUT']) {
   check(`${s} stops, never reads a partial dataset`, m.pollDecision({ status: s, startedAt: T0, finishedAt: END }, '2026-11-13T01:05:00Z'), { next: 'stop', reason: `run ${s}` });
 }
 check('a failed run settles too, so its cost is the final one', m.pollDecision({ status: 'FAILED', startedAt: T0, finishedAt: END }, '2026-11-13T01:04:05Z').next, 'settle');
 check('RUNNING within 75 minutes waits', m.pollDecision({ status: 'RUNNING', startedAt: T0 }, '2026-11-13T02:14:59Z'), { next: 'wait', reason: null });
 check('READY waits', m.pollDecision({ status: 'READY', startedAt: T0 }, '2026-11-13T01:10:00Z').next, 'wait');
+for (const s of ['TIMING-OUT', 'ABORTING']) {
+  check(`${s} is a state in transition: it waits`, m.pollDecision({ status: s, startedAt: T0 }, '2026-11-13T01:10:00Z').next, 'wait');
+  check(`${s} stuck past 75 minutes stops`, m.pollDecision({ status: s, startedAt: T0 }, '2026-11-13T02:15:00Z').next, 'stop');
+}
 check('still running at 75 minutes stops', m.pollDecision({ status: 'RUNNING', startedAt: T0 }, '2026-11-13T02:15:00Z'),
   { next: 'stop', reason: 'run still waiting after 75 minutes' });
 check('the wait outlasts the run\'s own timeout', m.MAX_WAIT_MS > m.APIFY_TIMEOUT_S * 1000, true);

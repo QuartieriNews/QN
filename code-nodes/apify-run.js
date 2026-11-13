@@ -28,8 +28,10 @@ const MAX_WAIT_MS = 75 * 60 * 1000;
 /** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read
  *  again before its cost is written. */
 const SETTLE_MS = 15 * 1000;
-const WAITING = ['READY', 'RUNNING'];
-const FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT', 'TIMING-OUT', 'ABORTING'];
+/** Apify's run states: the waiting ones include the two in transition to an end, which have no
+ *  `finishedAt` yet and stay under MAX_WAIT_MS. */
+const WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];
+const FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];
 
 /** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */
 function buildInput(body) {
