@@ -22,7 +22,9 @@ Contesto:
 - Regole degli host, lette da n8n il 14 novembre (la seconda volta alle 13:23 UTC). L'HTML
   della home del portale, un'applicazione JavaScript, non ha link a condizioni d'uso; la
   pagina disegnata non è stata vista. Le note legali del Comune, lette per DEC-033, non hanno
-  una regola sull'accesso automatico.
+  una regola sull'accesso automatico. Dopo le quattro risposte qui sotto l'owner ha indicato
+  quelle stesse note come le condizioni del portale:
+  «https://www.comune.roma.it/web/it/note-legali.page».
 
 | Host | `robots.txt` | A che cosa serve |
 |---|---|---|
