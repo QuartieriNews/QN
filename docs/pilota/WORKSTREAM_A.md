@@ -57,7 +57,7 @@ mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-036, punto 4.
   usciti tutti il 10 luglio, da 22 a 36 giorni dopo. Novembre: un Consiglio del X uscito 16
   giorni dopo, le capitoline entro poche ore. YouTube del I: lo stesso giorno (15 su 15 nel feed
   di settembre). Quando compare il WebVTT rispetto alla pubblicazione non è misurato: lo prende
-  lo sguardo indietro di 40 giorni dell'elenco (CONTRATTI, sezione 7 A, «Raccolta»).
+  lo sguardo indietro di 100 giorni dell'elenco (CONTRATTI, sezione 7 A, «Raccolta»).
 - **Prati al 14 novembre:** da n8n il feed risponde; la pagina del video dà la pagina di
   consenso UE, senza tracce dei sottotitoli. Per DEC-036, punto 3, e per la riga «Raccolta» è
   il primo segnale di blocco: `www.youtube.com` è fermo da allora, e l'owner lo sa con A1 (corpo
@@ -132,7 +132,7 @@ prova), lo fa il nodo Data table, che prende la presa prima del giro sulla fonte
 ogni pezzo e la lascia alla fine; una corsa di testo la tiene quindi fino a 4 minuti. Chi la
 trova presa: l'elenco aspetta, con un nodo Wait, al più fino alla scadenza della presa
 (5 minuti), poi salta quella fonte in quella corsa e lo scrive nel registro (lo sguardo indietro
-di 40 giorni recupera alla corsa dopo); il testo non comincia e finisce pulito, perché lo
+di 100 giorni recupera alla corsa dopo); il testo non comincia e finisce pulito, perché lo
 richiama l'elenco a fine corsa. L'ordine di scrittura è: file su Drive, poi la riga; un file
 già presente con lo stesso nome si sostituisce (specifica v2.5, fase 5.2), così una ripresa non
 lascia doppioni.
@@ -140,7 +140,12 @@ lascia doppioni.
 **La ripresa del testo.** Per il testo comandano i file, non la riga, che dice solo da dove
 cominciare a guardare. Prima di chiamare OpenAI per una registrazione, una corsa elenca i file
 dei suoi pezzi in `temporanei/` (la strada dell'audio, passo 7) e comincia dal primo pezzo
-che non ha il suo file. Poi elenca le spese della registrazione in `costi/`: per ogni
+che non ha il suo file con il modello in uso. Un testo ha un modello solo, perché
+`transcript_source` è uno e entra nel `source_hash` (CONTRATTI, sezione 7 A): se ci sono pezzi di
+un altro modello, perché A4 ha cambiato modello mentre la registrazione era in
+`testo_in_corso`, la corsa li cancella per sempre, dopo il controllo delle spese qui sotto, e
+il testo riparte dal primo pezzo. Il cambio costa al più il testo già fatto delle
+registrazioni in corso in quel momento. Poi elenca le spese della registrazione in `costi/`: per ogni
 esecuzione che ha scritto pezzi senza scrivere le sue spese, le scrive lei, con l'id di
 quell'esecuzione e l'uso letto nei file dei pezzi. Lo stesso controllo delle spese viene prima
 di ogni cancellazione in `temporanei/`. Così una corsa che muore dopo il file di un pezzo e
@@ -240,8 +245,8 @@ segmento: la spesa si rifà, al più circa 0,6 $ con `gpt-4o-mini-transcribe` pe
    secondi, 6.000 token audio e 1.756 in uscita, nessun tempo interno; `whisper-1` con
    `verbose_json`: 27 secondi, 80 segmenti con i tempi, 601 secondi fatturati.
 7. Ogni pezzo trascritto va subito in un suo file di `temporanei/`, con un nome che dipende
-   solo dalla registrazione e dal numero del pezzo: il testo con i tempi, l'uso restituito da
-   OpenAI e l'id dell'esecuzione. Alla fine della corsa l'uso dei pezzi che ha scritto diventa
+   solo dalla registrazione, dal modello di trascrizione e dal numero del pezzo: il testo con i
+   tempi, l'uso restituito da OpenAI e l'id dell'esecuzione. Alla fine della corsa l'uso dei pezzi che ha scritto diventa
    le spese della registrazione in quella corsa, in `costi/` (riga «Costi»); poi la riga
    avanza. Se una corsa muore a metà, la successiva riparte dai file (sezione 4, «La ripresa
    del testo»). Sono circa sei scritture al minuto su Drive: A3 misura che stiano nella quota
@@ -265,8 +270,8 @@ la PR che li porta.
 | A1 apertura (questa), in due PR perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4) | A1a: CONTRATTI, sezioni 5, 6 e 7 A; DEC-036; questo brief. A1b: il nodo e i test | A1b: `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
 | A2 raccolta | elenco dei cataloghi e del feed, schede, stato, presa, stop delle fonti, controllo di `robots.txt` | `romatv-list.js`, `youtube-list.js`, `recording-state.js` | Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
 | A3 testo | la strada dell'audio; i pezzi da 60 secondi; i testi della piattaforma (JSON del parlato, WebVTT di riserva) e i sottotitoli di YouTube in una forma sola con i tempi; il confine della seduta; le spese | `hls-audio.js` (dal prototipo nella cartella di passaggio, sezione 3), `recording-text.js`, `session-boundary.js` | `staging_A_testo` |
-| A4 lettura | i fatti candidati secondo `tools/sources-study/report2/SPECIFICA_VIDEO.md`, con l'evidenza `[mm:ss]`, in `letture/`; il modello di trascrizione si fissa qui, dopo il confronto (sezione 6) | il nodo della lettura | `staging_A_lettura` |
-| A5 elementi | geografia con una porta JS della risoluzione del gazetteer sui luoghi estratti; classi editoriali di `institutional` dal build del gazetteer; seconda verifica di DEC-015; coda di revisione; proiezione per il prototipo | la porta del gazetteer, la scrittura dell'elemento | `staging_A_elementi`; gli elementi in `A Amministrazione/` |
+| A4 lettura | i fatti candidati secondo `tools/sources-study/report2/SPECIFICA_VIDEO.md`, con l'evidenza `[mm:ss]`, in `letture/`, senza il riscontro con atti e notizie (sotto, «Il riscontro»); il modello di trascrizione si fissa qui, dopo il confronto (sezione 6) | il nodo della lettura | `staging_A_lettura` |
+| A5 elementi | il riscontro con atti e notizie (sotto); geografia con una porta JS della risoluzione del gazetteer sui luoghi estratti; classi editoriali di `institutional` dal build del gazetteer; seconda verifica di DEC-015; coda di revisione; proiezione per il prototipo | la porta del gazetteer, la scrittura dell'elemento | `staging_A_elementi`; gli elementi in `A Amministrazione/` |
 
 **Il confine (A3).** `session-boundary.js` cerca nel testo con i tempi gli atti formali di
 `SPECIFICA_NOMI_E_TERRITORIO.md`, sezione 2, e ne ricava gli intervalli della seduta aperta.
@@ -286,6 +291,16 @@ il primo tratto di una parte non legata, mai materiale di prima dell'apertura. I
 corsa dice quali registrazioni dello stesso organo e giorno non si sono legate, e perché. Se il
 confine non si fissa: DEC-036, punto 5.
 
+**Il riscontro (A4 e A5).** `novita_rispetto_agli_atti` di `SPECIFICA_VIDEO.md` (l'emendamento del
+16 settembre) vale `solo dal parlato` solo quando il fatto non compare in nessun atto e in nessuna notizia
+già estratta. Nello studio il riscontro era sugli atti di un mese chiuso; nel pilota gli atti
+(canale D) e le notizie (canale B) arrivano anche dopo la lettura, che parte appena il confine è
+fissato. Per questo A4 non fa il riscontro e non scrive quel campo. Lo fa A5, sugli atti e sulle
+notizie che ci sono in quel momento, e scrive la data del riscontro e su quale materiale è
+fatto, come chiede la specifica. Un `solo dal parlato` resta provvisorio, e A5 lo rifà quando D
+o B aggiungono atti o notizie. Quante volte, per quanto tempo e con quale test lo fissa la PR di
+A5.
+
 ## 6. Prove
 
 **Test unitari** (CI, `npm test`), con fixture inventate; un id per caso nel nome del test.
@@ -300,8 +315,10 @@ A2:
 - T-A2-02 `municipality_code` dal catalogo: una voce di `Municipio X` intitolata «Commissione IV …»
   ha X; i cataloghi capitolini non danno un Municipio.
 - T-A2-03 l'inizio: una seduta alle 00:30 del 1° novembre di Roma entra, una del 31 ottobre no.
-- T-A2-04 la finestra di 40 giorni: le pagine si fermano alla prima voce più vecchia; una
-  pubblicazione tardiva entra; una voce già vista non dà una seconda riga.
+- T-A2-04 la finestra (CONTRATTI, sezione 7 A, «Raccolta»): le pagine si fermano alla prima voce
+  di una seduta di più di 100 giorni prima o anteriore al 1° novembre; una pubblicazione tardiva
+  entra, anche a 51 e a 94 giorni dalla seduta, una a 101 no; una voce già vista non dà una
+  seconda riga.
 - T-A2-05 la trascrizione della piattaforma aggiunta dopo: la scheda si aggiorna; se il nostro
   testo non è iniziato si usa quella, se è fatto resta il nostro, senza seconda spesa.
 - T-A2-06 seduta divisa (sezione 5, «Il confine»): due parti dichiarate dai titoli, in ordine e
@@ -327,8 +344,8 @@ A2:
   testo: l'elenco aspetta al più fino alla scadenza, poi salta la fonte e lo scrive nel
   registro; il testo che la trova presa non comincia.
 - T-A2-13 il tetto delle pagine (CONTRATTI, sezione 7 A, «Raccolta»): un catalogo che ripete
-  una pagina, le cui date risalgono da una pagina all'altra, o che in 3 pagine non arriva alla
-  registrazione di più di 40 giorni prima si ferma, mai oltre la terza richiesta; il registro
+  una pagina, le cui date risalgono da una pagina all'altra, o che in 4 pagine non esce dalla
+  finestra di T-A2-04 si ferma, mai oltre la quarta richiesta; il registro
   lo dice incompleto, con il motivo, e parte l'avviso; gli altri cataloghi della corsa si
   leggono.
 
@@ -372,6 +389,10 @@ A3:
   senza i suoi file, dopo il controllo delle spese; la pulizia del giorno cancella i file di una
   riga in `errore`, `scartata` o senza riga, salta una riga con la presa viva e lascia quelli di
   `testo_in_corso` e `testo_completo`; la ripartenza a mano riparte dal primo segmento.
+- T-A3-19 il modello dei pezzi (sezione 4, «La ripresa del testo»): con pezzi di
+  `gpt-4o-mini-transcribe` in `temporanei/` e il modello in uso cambiato, la corsa scrive le
+  spese mancanti, cancella quei pezzi e riparte dal primo; un testo finito ha i pezzi di un
+  modello solo e un solo `transcript_source`; con lo stesso modello, la ripresa di T-A3-17.
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
 repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-036, punto 6.
