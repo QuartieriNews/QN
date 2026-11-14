@@ -12,11 +12,13 @@ Contesto:
   38,6 (YouTube), del V 18,3 e del X 12,1; commissioni capitoline 51,6; Assemblea capitolina
   41,3. La piattaforma trascrive solo i Consigli municipali (82 su 86); alcuni Consigli del V
   sono usciti fino a 36 giorni dopo la seduta.
-- Sonde del builder su n8n Cloud, 14 novembre (flussi `staging_A_sonda_*`, spenti dopo una
-  corsa; circa 0,20 $): l'elenco di RomaTV risponde senza login; l'audio delle commissioni è
+- Sonde del builder su n8n Cloud, 14 novembre (flussi `staging_A_sonda_*`, spenti dopo le
+  corse di prova; circa 0,20 $): l'elenco di RomaTV risponde senza login; l'audio delle commissioni è
   HLS cifrato AES-128, con la chiave che il portale dà a ogni spettatore senza login; farne un
-  M4A in un nodo Code e trascriverlo con OpenAI funziona. Le esecuzioni 919, 921 e 922 (audio
-  e testo dei primi 10 minuti) sono state cancellate su n8n per il confine della seduta.
+  M4A in un nodo Code e trascriverlo con OpenAI funziona. Le esecuzioni 919 (audio dei primi
+  6 minuti, nessun testo: OpenAI ha rifiutato l'ADTS grezzo), 921 e 922 (audio e testo dei
+  primi 10 minuti) sono state cancellate su n8n per il confine della seduta, e con loro le copie
+  nei file di lavoro della sessione.
 - Regole degli host, lette da n8n il 14 novembre (la seconda volta alle 13:23 UTC). L'HTML
   della home del portale, un'applicazione JavaScript, non ha link a condizioni d'uso; la
   pagina disegnata non è stata vista. Le note legali del Comune, lette per DEC-033, non hanno
@@ -150,7 +152,8 @@ che l'owner conferma con il merge.
    classi editoriali, della scrittura e della seconda verifica (DEC-015, se l'owner la
    conferma per il pilota: `docs/pilota/WORKSTREAM_A.md`, sezione 9) il canale non scrive
    elementi, come B (#36): solo record delle registrazioni, originali, testo della seduta
-   aperta e registri delle corse.
+   aperta, registri delle corse e spese in `costi/`; il testo intero sta in `temporanei/` solo
+   finché serve (punto 5). L'elenco esatto è in CONTRATTI, sezione 7 A.
 2. **RomaTV, lettura lenta** (domanda 1, opzione A). Elenco e audio si leggono come fa il
    lettore del portale, una richiesta alla volta, con pause. L'audio non si conserva mai:
    resta il testo della seduta aperta, con credito e link alla registrazione (DEC-102).
@@ -180,7 +183,10 @@ che l'owner conferma con il merge.
    Quali fatti diventano elementi, e su quale pagina, lo fissano le PR della lettura e della
    geografia (DEC-106, DEC-107). La quota mensile di A sale a circa 27 €; il totale del pilota
    resta i 50 € di DEC-031, punto 6. Come le quote si dividono fra i workstream lo dice
-   CONTRATTI, sezione 5.
+   CONTRATTI, sezione 5. Lettura del builder, che l'owner conferma con il merge: le commissioni
+   capitoline tutte, con i soli fatti di I, V e X, vengono dalla premessa della domanda, su cui
+   l'owner non ha obiettato; il totale resta 50 €, non «sotto», perché le quote sommavano già
+   50 € (Impact).
 5. **Fuori seduta: temporaneo, poi cancellato** (domanda 4, opzione A). La trascrizione
    completa di una registrazione, nostra, della piattaforma o di YouTube, sta solo nella
    cartella privata `A Amministrazione/temporanei/` finché il confine della seduta aperta non è
@@ -204,8 +210,9 @@ Impact:
   punti 2 e 3; sezione 7, «A · Amministrazione».
 - Quote. Le quote sommavano già 50 €: una A a circa 27 € chiede di togliere 7 € alle altre.
   L'opzione B della domanda 3 diceva il contrario («il totale del pilota resta sotto i 50 €»):
-  era sbagliata. Le sue cifre, 8 € e 6,5 €, erano dollari (0,157 $ l'ora): in euro circa
-  7,5 e 6. Il 14 novembre il coordinatore ha spostato i 7 € su A, come gli
+  era sbagliata. Le cifre della domanda erano dollari (0,157 $ l'ora): 8 e 6,5
+  sono in euro circa 7,5 e 6; i circa 15 con le commissioni municipali erano circa 13 $ di
+  trascrizione più la lettura. Il 14 novembre il coordinatore ha spostato i 7 € su A, come gli
   consente CONTRATTI, sezione 5, dove sta la divisione.
 - Drive: `QN Hub / 30 Staging pilota 2026-11 / A Amministrazione/`. n8n: i flussi `staging_A_*`.
 - Niente in produzione; gazetteer, prompt, registro dei venue e CI invariati. Non supera

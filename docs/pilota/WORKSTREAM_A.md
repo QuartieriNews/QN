@@ -46,9 +46,10 @@ mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-035, punto 4.
   YouTube del V (senza sedute dopo il 12 giugno 2026) e del X (fermo da febbraio 2025) non si leggono.
   L'Assemblea è anche sul canale YouTube di Roma Capitale: non si legge (sezione 9, doppioni).
 - **RomaTV al 14 novembre** (sonda 918): 244 voci del V, 681 del X, 5.615 commissioni
-  capitoline, 498 voci dell'Assemblea. Ritmo: commissioni del V quasi ogni giorno, del X ogni
-  giorno lavorativo (20–45 minuti), più i Consigli; 5–6 commissioni capitoline al giorno (20–75
-  minuti); l'Assemblea 2–3 volte a settimana, da 1 a 6 ore, spesso in parti (la più lunga vista:
+  capitoline, 498 voci dell'Assemblea. Ritmo: commissioni del V quasi ogni giorno; del X circa un
+  giorno lavorativo su due (9 su 16 fra il 23 ottobre e il 13 novembre; 10 su 22 a giugno), per
+  lo più da 30 a 50 minuti e fino a un'ora e mezza, più i Consigli; commissioni capitoline circa
+  4 al giorno nei giorni di seduta (da 1 a 8 a giugno), da 15 a 95 minuti; l'Assemblea 2–3 volte a settimana, da 1 a 6 ore, spesso in parti (la più lunga vista:
   5 ore e 51). Alcuni titoli capitolini sono generici.
 - **Ritardo di pubblicazione,** giugno, RomaTV: mediana 0 giorni, 387 su 496 entro 7, massimo
   94; commissioni capitoline 73 su 75 lo stesso giorno (massimo 5); Assemblea 7 su 7 lo stesso
@@ -67,15 +68,15 @@ mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-035, punto 4.
 ## 3. I mezzi
 
 Stato al 14 novembre 2026. Gli id delle esecuzioni sono quelli delle sonde (`staging_A_sonda_*`,
-spente dopo una corsa).
+spente dopo le corse di prova).
 
 | Mezzo | Stato | Note |
 |---|---|---|
 | n8n Cloud, piano Starter (`quartierinews.app.n8n.cloud`) | PRESENTE | nodo Code con `require('crypto')` (AES-128-CBC), `Buffer`, `setTimeout`, `this.helpers.httpRequest` (testo o `arraybuffer`, risposta intera, errori HTTP senza eccezione); niente `process` (916); niente `URL` né il modulo `url` (non dalle sonde: commit 2e6a288, `code-nodes/news-collect.js`); altri moduli non provati, non si usano |
-| RomaTV raggiunto da n8n | PRESENTE | elenco (`search_frontend`), WebVTT, JSON del parlato, playlist, chiave e segmenti rispondono 200 (918, 921), sempre con `Origin` e `Referer` del portale: se servono non è provato (sezione 4, la strada dell'audio, passo 3) |
-| YouTube raggiunto da n8n | FERMO dal 14/11 | feed 200; pagina del video = pagina di consenso UE (918): primo segnale di blocco (sezione 2); riparte solo a mano, se l'owner lo dice |
+| RomaTV raggiunto da n8n | PRESENTE | elenco (`search_frontend`), WebVTT, JSON del parlato, playlist, chiave e segmenti rispondono 200 (918, 921); l'elenco e la chiave sono stati chiesti sempre con `Origin` e `Referer` del portale, e se servono non è provato; WebVTT, JSON del parlato, playlist e segmenti hanno risposto senza (sezione 4, la strada dell'audio, passo 3) |
+| YouTube raggiunto da n8n | FERMO dal 14/11 | feed 200; pagina del video = pagina di consenso UE (918): primo segnale di blocco (sezione 2); riparte solo quando l'owner lo dice (CONTRATTI, sezione 7 A, «Raccolta») |
 | Credenziale «OpenAI account» (`openAiApi`) | PRESENTE | condivisa dall'owner il 14/11 col progetto dei flussi `staging_`; `gpt-4o-mini-transcribe` e `whisper-1` rispondono 200 su un M4A di 10 minuti (921) |
-| Credenziale «Google Drive account» (`googleDriveOAuth2Api`) | PRESENTE; via API DA PROVARE (A2) | condivisa il 14/11; c'è una quota di richieste al minuto (D si è fermato il 13/11). POST e PUT con la credenziale sono provati solo su nodi `openAiApi` (918, 921); per un nodo Drive le sessioni precedenti hanno visto il contrario (`PASSAGGIO_2026-11-12.md`, sezione 5; «Carica costo» di `a442LZE59XzO5ZJw` senza credenziale): sezione 8, punto 3 |
+| Credenziale «Google Drive account» (`googleDriveOAuth2Api`) | PRESENTE; via API DA PROVARE (A2) | condivisa il 14/11; c'è una quota di richieste al minuto (D si è fermato il 13/11). POST e PUT con la credenziale sono provati solo su nodi `openAiApi` (918, 921); per un nodo Drive le sessioni precedenti hanno visto il contrario (`PASSAGGIO_2026-11-12.md`, sezione 5): sezione 8, punto 3 |
 | Cartella Drive `A Amministrazione/` | PRESENTE | sotto `30 Staging pilota 2026-11`; gli id di questa cartella e delle sottocartelle sono nel passaggio `PASSAGGIO_2026-11-14.md`, nella cartella di passaggio, non nel repository |
 | Sottocartelle di CONTRATTI, sezione 7 A | PRESENTI, vuote (create il 14/11) | `registrazioni/`, `temporanei/`, `originali/`, `letture/`, `costi/`; i loro id vanno nel nodo «Inizio» dei flussi |
 | Data table di n8n | PRESENTE | la licenza le ha (`GET /data-tables` 200), nessuna creata; le Variables no (403); i dati statici si salvano solo a fine corsa di produzione |
@@ -229,7 +230,7 @@ la PR che li porta.
 
 | PR | Che cosa | Nodi Code e test | Su n8n e Drive |
 |---|---|---|---|
-| A1 apertura (questa) | CONTRATTI, sezioni 5, 6 e 7 A; DEC-035; questo brief | `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
+| A1 apertura (questa), in due PR perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4) | A1a: CONTRATTI, sezioni 5, 6 e 7 A; DEC-035; questo brief. A1b: il nodo e i test | A1b: `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
 | A2 raccolta | elenco dei cataloghi e del feed, schede, stato, presa, stop delle fonti, controllo di `robots.txt` | `romatv-list.js`, `youtube-list.js`, `recording-state.js` | Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
 | A3 testo | la strada dell'audio; i pezzi da 60 secondi; i testi della piattaforma (JSON del parlato, WebVTT di riserva) e i sottotitoli di YouTube in una forma sola con i tempi; il confine della seduta; le spese | `hls-audio.js` (dal prototipo nella cartella di passaggio, sezione 3), `recording-text.js`, `session-boundary.js` | `staging_A_testo` |
 | A4 lettura | i fatti candidati secondo `tools/sources-study/report2/SPECIFICA_VIDEO.md`, con l'evidenza `[mm:ss]`, in `letture/`; il modello di trascrizione si fissa qui, dopo il confronto (sezione 6) | il nodo della lettura | `staging_A_lettura` |
@@ -262,16 +263,19 @@ A2:
   testo non è iniziato si usa quella, se è fatto resta il nostro, senza seconda spesa.
 - T-A2-06 seduta divisa: le parti (stesso catalogo, organo e giorno di Roma) si legano, in ordine.
 - T-A2-07 gli stop di RomaTV della riga «Raccolta», uno per caso: l'host si ferma, parte
-  l'avviso, e riparte solo a mano dopo che l'owner è stato avvisato; un errore del server
-  lascia la voce per la corsa dopo, cinque di fila fermano l'host.
+  l'avviso, e riparte solo quando l'owner lo dice; un errore del server lascia la voce per la
+  corsa dopo, cinque di fila fermano l'host fino al giorno dopo.
 - T-A2-08 `robots.txt` cambiato rispetto al 14 novembre, o illeggibile dove si leggeva: l'host
   si ferma e parte l'avviso.
 - T-A2-09 feed di YouTube: `youtube:<id>` solo per un id di 11 caratteri; `source_id` è il canale.
-- T-A2-10 gli stop di YouTube di DEC-035, punto 3, e della riga «Raccolta» (429, captcha,
-  consenso, controllo anti-bot, accesso), uno per caso: l'host si ferma, parte l'avviso, e
-  riparte solo a mano dopo che l'owner è stato avvisato, come per RomaTV (T-A2-07), mai da solo
-  il giorno dopo; con l'host fermo nessuna richiesta parte; ogni richiesta porta lo user agent
-  dichiarato.
+- T-A2-10 gli stop della riga «Raccolta» e di DEC-035, punto 3, su YouTube, uno per caso,
+  compreso il rinvio al controllo anti-bot su un altro host: l'host si ferma, parte l'avviso, e
+  riparte solo quando l'owner lo dice, come per RomaTV (T-A2-07), mai da solo il giorno dopo;
+  con l'host fermo nessuna richiesta parte; ogni richiesta porta lo user agent dichiarato.
+- T-A2-12 il ritmo della riga «Raccolta», con un orologio finto: le pause minime per host,
+  dalla fine di una risposta alla richiesta seguente (5 secondi agli host di RomaTV, 1 a quello
+  dei media, 60 a YouTube), una richiesta alla volta per fonte, e il tetto di 30 richieste di
+  YouTube per giorno di Roma; lo stesso modulo dà il ritmo ai segmenti di A3.
 - T-A2-11 la presa: due corse sulla stessa riga, una sola lavora; una presa scaduta si riprende;
   gli stati cambiano solo lungo la tabella della sezione 4. La presa di una fonte tenuta dal
   testo: l'elenco aspetta al più fino alla scadenza, poi salta la fonte e lo scrive nel
@@ -360,8 +364,9 @@ Fuori dalla stima restano voci note, tutte verso l'alto:
 - la scrittura e la seconda verifica di A5: si fissano con A5, su quanto resta della quota.
 
 Con le prime tre la stima arriva a circa 33 €, sopra la quota. Lo dicono le spese vere del primo
-mese, nei file di `costi/`; se passano 27 €, il coordinatore lo dice all'owner (CONTRATTI,
-sezione 5; DEC-031, punto 6). I testi della piattaforma e i sottotitoli non costano.
+mese, nei file di `costi/`; se passano 27 €, il coordinatore lo dice all'owner, anche se il
+totale del pilota resta sotto i 50 € (regola di questo brief, più stretta di CONTRATTI, sezione
+5, che applica DEC-031, punto 6, al totale). I testi della piattaforma e i sottotitoli non costano.
 `whisper-1` per tutto (0,006 $ al minuto) farebbe circa 41 €, più del doppio: fuori quota. Una
 tantum, questo mese: le prove in staging (tetto 2 €) e il confronto (tetto 1 €). La spesa è una
 stima dall'uso che OpenAI restituisce (CONTRATTI, sezione 7 A, «Costi»); la somma del mese la fa
@@ -421,6 +426,7 @@ il coordinatore.
 | Prati: la pagina di consenso UE del 14 novembre ha fermato `www.youtube.com` (sezione 2). Se e come riprovare il feed e i sottotitoli, dentro DEC-035, punto 3; finché l'owner non decide, Prati resta senza testo | owner, avvisato con A1 | ora |
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
 | L'ora di riferimento di un video di YouTube: il feed dà solo la pubblicazione | builder | A2 |
+| Le condizioni d'uso del portale RomaTV: la pagina disegnata si guarda in un browser prima della prima corsa a orario (CONTRATTI, sezione 7 A, «Fonti»). Il 14 novembre il proxy della sessione non apriva il portale: la guarda l'owner, o una sessione con l'host consentito | builder, con l'owner | A2, prima di accendere l'elenco a orario |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
 | Se le corse chiamate da un altro flusso contano nel piano: se contano, A non ci sta già con A2 e A3 (sezione 4), e servono il piano superiore o meno corse | il builder misura, l'owner decide il piano | A2, prima di accendere l'elenco a orario |
 | `Origin` e `Referer` del portale nelle richieste all'elenco e alla chiave: se servono, la PR che lo misura lo scrive in CONTRATTI, sezione 7 A | builder | A2 (elenco), A3 (chiave) |
