@@ -210,6 +210,8 @@ che l'owner conferma con il merge.
 Impact:
 - `docs/pilota/CONTRATTI.md`: sezione 5, le quote; sezione 6, il rimando alle eccezioni dei
   punti 2 e 3; sezione 7, «A · Amministrazione».
+- `tools/sources-study/report2/SPECIFICA_NOMI_E_TERRITORIO.md`, sezione 2: il rimando
+  all'eccezione del punto 5, accanto alla regola per cui il fuori seduta non entra nei file.
 - Quote. Le quote sommavano già 50 €: una A a circa 27 € chiede di togliere 7 € alle altre.
   L'opzione B della domanda 3 diceva il contrario («il totale del pilota resta sotto i 50 €»):
   era sbagliata. Le cifre della domanda erano dollari (0,157 $ l'ora): 8 e 6,5

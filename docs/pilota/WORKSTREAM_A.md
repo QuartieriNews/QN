@@ -114,12 +114,12 @@ scheda in `registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A)
 | Stato | Lo mette | Vuol dire |
 |---|---|---|
 | `nuova` | elenco | vista e dentro il perimetro |
-| `testo_in_corso` | testo | pezzi del testo intero in `temporanei/`; la riga dice da quale segmento riprendere |
+| `testo_in_corso` | testo | pezzi del testo intero in `temporanei/`; la riga dice da quale segmento riprendere, i file lo confermano (sotto, «La ripresa del testo») |
 | `testo_completo` | testo | testo intero in `temporanei/` |
 | `confini_fissati` | testo | testo della seduta aperta in `originali/`; niente più in `temporanei/` |
 | `letta` | lettura (A4) | fatti candidati in `letture/` |
-| `scartata` | elenco o testo | fuori perimetro, confine non fissabile, testo di YouTube non ottenibile: il motivo è nella riga |
-| `errore` | qualunque flusso | tre tentativi falliti; parte l'avviso; si riparte solo a mano |
+| `scartata` | elenco o testo | fuori perimetro, confine non fissabile, testo di YouTube non ottenibile: il motivo è nella riga; niente in `temporanei/` |
+| `errore` | qualunque flusso | tre tentativi falliti; parte l'avviso; i file della registrazione in `temporanei/` si cancellano subito (sotto, «La pulizia»); si riparte solo a mano, dal primo segmento |
 
 **La presa.** Una corsa scrive nella riga il proprio id di esecuzione e una scadenza (ora più 5
 minuti) solo se la riga è libera o la presa è scaduta, poi rilegge la riga e lavora solo se la
@@ -136,6 +136,33 @@ di 40 giorni recupera alla corsa dopo); il testo non comincia e finisce pulito, 
 richiama l'elenco a fine corsa. L'ordine di scrittura è: file su Drive, poi la riga; un file
 già presente con lo stesso nome si sostituisce (specifica v2.5, fase 5.2), così una ripresa non
 lascia doppioni.
+
+**La ripresa del testo.** Per il testo comandano i file, non la riga, che dice solo da dove
+cominciare a guardare. Prima di chiamare OpenAI per una registrazione, una corsa elenca i file
+dei suoi pezzi in `temporanei/` (la strada dell'audio, passo 7) e comincia dal primo pezzo
+che non ha il suo file. Poi elenca le spese della registrazione in `costi/`: per ogni
+esecuzione che ha scritto pezzi senza scrivere le sue spese, le scrive lei, con l'id di
+quell'esecuzione e l'uso letto nei file dei pezzi. Lo stesso controllo delle spese viene prima
+di ogni cancellazione in `temporanei/`. Così una corsa che muore dopo il file di un pezzo e
+prima della riga non fa ripetere la spesa dei pezzi già scritti, e le sue spese non si
+perdono; una spesa già scritta ha lo stesso nome e si sostituisce, non si conta due volte. Resta
+un caso: una corsa che muore fra la risposta di OpenAI e il file del pezzo fa rifare quel
+pezzo, e la prima spesa non arriva in `costi/`. È al più un pezzo di 60 secondi, meno di un
+centesimo di dollaro (0,003 $ con `gpt-4o-mini-transcribe`, 0,006 $ con `whisper-1`, ai prezzi
+di CONTRATTI, sezione 7 A, «Costi»).
+
+**La pulizia.** Una registrazione che si ferma prima del confine non lascia testo in
+`temporanei/` (CONTRATTI, sezione 7 A, «Confine della seduta»). Quando il testo mette una riga in
+`errore`, o la scarta, cancella per sempre i suoi file di `temporanei/`, dopo il controllo delle
+spese. La prima corsa di testo di ogni giorno di Roma elenca `temporanei/` e cancella per sempre i
+file di ogni registrazione che non è in `testo_in_corso` o `testo_completo`, o che non ha una
+riga, saltando le righe con una presa viva. Così un file sfuggito a una cancellazione, per
+esempio con Drive che non risponde proprio mentre la riga va in `errore`, non resta più di un
+giorno. La pulizia la fa il testo e non l'elenco perché legge l'uso nei file dei pezzi, che
+hanno il testo: i dati delle esecuzioni del testo non si salvano (sotto, «Dati delle
+esecuzioni»). Ripartire a mano una registrazione in `errore` la rimette in `nuova`, dal primo
+segmento: la spesa si rifà, al più circa 0,6 $ con `gpt-4o-mini-transcribe` per le 3,5 ore della prova dell'Assemblea
+(sezione 6), sotto la soglia di DEC-036, punto 6.
 
 **I limiti misurati.**
 - `executionTimeout`: n8n Cloud taglia a 300 secondi un flusso che lo imposta, insieme ai
@@ -212,11 +239,16 @@ lascia doppioni.
 6. `gpt-4o-mini-transcribe` su ogni pezzo, che prende come tempo il suo inizio. Su 10 minuti: 15
    secondi, 6.000 token audio e 1.756 in uscita, nessun tempo interno; `whisper-1` con
    `verbose_json`: 27 secondi, 80 segmenti con i tempi, 601 secondi fatturati.
-7. Il testo dei pezzi della corsa va in un file di `temporanei/`; l'uso restituito da OpenAI
-   diventa le spese della registrazione in quella corsa, in `costi/` (riga «Costi»); la riga avanza. L'audio
-   non si scrive mai.
+7. Ogni pezzo trascritto va subito in un suo file di `temporanei/`, con un nome che dipende
+   solo dalla registrazione e dal numero del pezzo: il testo con i tempi, l'uso restituito da
+   OpenAI e l'id dell'esecuzione. Alla fine della corsa l'uso dei pezzi che ha scritto diventa
+   le spese della registrazione in quella corsa, in `costi/` (riga «Costi»); poi la riga
+   avanza. Se una corsa muore a metà, la successiva riparte dai file (sezione 4, «La ripresa
+   del testo»). Sono circa sei scritture al minuto su Drive: A3 misura che stiano nella quota
+   per minuto della credenziale (sezione 3). L'audio non si scrive mai.
 8. A testo completo, il confine (sezione 5, A3) taglia la seduta aperta, che va in `originali/`,
-   e i file della registrazione in `temporanei/` si cancellano per sempre: il nodo Google Drive
+   e, dopo il controllo delle spese (sezione 4, «La ripresa del testo»), i file della
+   registrazione in `temporanei/` si cancellano per sempre: il nodo Google Drive
    di n8n con la cancellazione definitiva (`deletePermanently`), mai il cestino, dove un file
    resta circa 30 giorni con le sue revisioni. Il connettore Drive delle sessioni sa solo
    spostare nel cestino: in `temporanei/` cancella solo n8n.
@@ -239,9 +271,20 @@ la PR che li porta.
 **Il confine (A3).** `session-boundary.js` cerca nel testo con i tempi gli atti formali di
 `SPECIFICA_NOMI_E_TERRITORIO.md`, sezione 2, e ne ricava gli intervalli della seduta aperta.
 Dove le formule mancano o si contraddicono, un modello legge solo i tratti intorno ai candidati
-(costo nella riga della lettura, sezione 7). Le parti di una seduta divisa si legano in ordine:
-lo stato alla fine di una parte è lo stato all'inizio della successiva, e una parte aspetta la
-precedente. Se il confine non si fissa: DEC-036, punto 5.
+(costo nella riga della lettura, sezione 7). Le parti di una seduta divisa si legano in ordine
+(lo stato alla fine di una parte è lo stato all'inizio della successiva, e una parte aspetta la
+precedente) solo quando la fonte le dichiara: stesso catalogo, organo e giorno di Roma; titoli
+che dicono la parte («parte 1», «I parte», «seconda parte») con numeri che si seguono; nessuna
+sovrapposizione, cioè la parte dopo comincia dopo la fine della precedente (ora di riferimento
+più durata). Stesso organo e stesso giorno non bastano. A giugno, con l'organo come lo dà il
+CSV A3, 127 gruppi di catalogo, organo e giorno su 300 hanno più di una registrazione, e in 118
+coppie consecutive la seconda comincia prima che finisca la prima: per esempio due commissioni
+del X del 9 giugno, alle 13:00 per 68 minuti e alle 14:00. Ogni altra registrazione sta a sé.
+Lettura del builder: comincia fuori seduta, e la seduta si apre al primo atto formale, come una
+ripresa non dichiarata (`SPECIFICA_NOMI_E_TERRITORIO.md`, sezione 2). Così un dubbio costa al più
+il primo tratto di una parte non legata, mai materiale di prima dell'apertura. Il registro della
+corsa dice quali registrazioni dello stesso organo e giorno non si sono legate, e perché. Se il
+confine non si fissa: DEC-036, punto 5.
 
 ## 6. Prove
 
@@ -261,7 +304,10 @@ A2:
   pubblicazione tardiva entra; una voce già vista non dà una seconda riga.
 - T-A2-05 la trascrizione della piattaforma aggiunta dopo: la scheda si aggiorna; se il nostro
   testo non è iniziato si usa quella, se è fatto resta il nostro, senza seconda spesa.
-- T-A2-06 seduta divisa: le parti (stesso catalogo, organo e giorno di Roma) si legano, in ordine.
+- T-A2-06 seduta divisa (sezione 5, «Il confine»): due parti dichiarate dai titoli, in ordine e
+  senza sovrapposizione, si legano. Restano separate, e il registro le elenca: due registrazioni
+  dello stesso organo e giorno senza parti dichiarate; due parti che si sovrappongono, come la
+  coppia del 9 giugno, con dati inventati; una «seconda parte» senza la prima.
 - T-A2-07 gli stop di RomaTV della riga «Raccolta», uno per caso: l'host si ferma, parte
   l'avviso, e riparte solo quando l'owner lo dice; un errore del server lascia la voce per la
   corsa dopo, cinque di fila fermano l'host fino al giorno dopo.
@@ -280,6 +326,11 @@ A2:
   gli stati cambiano solo lungo la tabella della sezione 4. La presa di una fonte tenuta dal
   testo: l'elenco aspetta al più fino alla scadenza, poi salta la fonte e lo scrive nel
   registro; il testo che la trova presa non comincia.
+- T-A2-13 il tetto delle pagine (CONTRATTI, sezione 7 A, «Raccolta»): un catalogo che ripete
+  una pagina, le cui date risalgono da una pagina all'altra, o che in 3 pagine non arriva alla
+  registrazione di più di 40 giorni prima si ferma, mai oltre la terza richiesta; il registro
+  lo dice incompleto, con il motivo, e parte l'avviso; gli altri cataloghi della corsa si
+  leggono.
 
 A3:
 - T-A3-01 playlist con un IV per segmento; senza IV, il numero di sequenza (RFC 8216); la chiave
@@ -299,7 +350,8 @@ A3:
   seduta aperta; del resto esistenza, minuto e durata.
 - T-A3-10 ripresa non dichiarata: dal primo atto formale, con atto, minuto e motivo scritti;
   «sospesa» come argomento non sospende; «fuori verbale» non sospende.
-- T-A3-11 seduta divisa: la seconda parte comincia aperta se la prima finisce aperta.
+- T-A3-11 seduta divisa: la seconda parte di una seduta legata comincia aperta se la prima finisce
+  aperta; una registrazione non legata comincia fuori seduta fino al primo atto formale.
 - T-A3-12 confine non fissabile: niente testo, `temporanei/` vuota con la cancellazione
   definitiva, `scartata`.
 - T-A3-13 file di costo: uno per quantità con il suo prezzo e la sua `unita`, i token di
@@ -312,6 +364,14 @@ A3:
 - T-A3-16 esportazione di `staging_A_testo` (`tests/test_workflow_exports.js`): ogni nodo
   Google Drive che cancella ha `deletePermanently`; `executionTimeout` 300; i quattro
   `settings` dei dati della sezione 4; le chiamate a sé stesso e alla lettura senza attesa.
+- T-A3-17 la ripresa del testo (sezione 4), con un Drive e un OpenAI finti: la corsa muore
+  dopo il file di un pezzo, dopo le spese, prima della riga. La corsa dopo non chiama OpenAI per
+  un pezzo che ha il suo file, scrive le spese mancanti con l'id della corsa morta, e una spesa
+  già scritta non si conta due volte. Morta prima del file, il pezzo si rifà una volta sola.
+- T-A3-18 la pulizia (sezione 4): una riga che va in `errore` o `scartata` lascia `temporanei/`
+  senza i suoi file, dopo il controllo delle spese; la pulizia del giorno cancella i file di una
+  riga in `errore`, `scartata` o senza riga, salta una riga con la presa viva e lascia quelli di
+  `testo_in_corso` e `testo_completo`; la ripartenza a mano riparte dal primo segmento.
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
 repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-036, punto 6.
