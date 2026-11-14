@@ -101,7 +101,7 @@ spente dopo le corse di prova).
 |---|---|---|---|---|
 | `staging_A_elenco` | orario, quello di CONTRATTI, sezione 7 A, «Raccolta» | i quattro cataloghi RomaTV; il feed del canale del I solo quando l'owner fa ripartire YouTube (sezione 2) | righe `nuova` nella Data table, schede delle registrazioni, risposte come arrivano, registro della corsa | `registrazioni/`, `originali/`, `letture/` |
 | `staging_A_testo` | chiamato dall'elenco a fine corsa, e da sé stesso finché c'è lavoro, senza aspettare la fine; al massimo 8 corse al giorno (sotto, «Esecuzioni») | le registrazioni prese dalla Data table, una dopo l'altra, finché il budget di tempo non è finito | testo intero a pezzi, confini, testo della seduta aperta, le spese di ogni registrazione in ogni corsa | `temporanei/`, `originali/`, `costi/`, `letture/` |
-| `staging_A_lettura` (A4) | chiamato dal testo, senza aspettare la fine, quando una registrazione arriva a `confini_fissati` | il testo della seduta aperta | i fatti candidati | `letture/` |
+| `staging_A_lettura` (A4) | chiamato dal testo a fine corsa, senza aspettare la fine, quando nella Data table c'è almeno una riga in `confini_fissati` senza una presa viva; prende con la presa quelle righe, una dopo l'altra, anche quelle rimaste da una corsa di testo morta prima di chiamarlo | il testo della seduta aperta | i fatti candidati | `letture/` |
 | `staging_A_elementi` (A5) | da fissare in A5 | le letture | gli elementi | `A Amministrazione/` |
 | `staging_A_avviso` | `errorWorkflow` di ogni `staging_A_*` | l'errore | `AVVISO_A_<ora UTC>.json`, senza testo | `letture/` |
 
@@ -119,7 +119,7 @@ scheda in `registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A)
 | `confini_fissati` | testo | testo della seduta aperta in `originali/`; niente più in `temporanei/` |
 | `letta` | lettura (A4) | fatti candidati in `letture/` |
 | `scartata` | elenco o testo | fuori perimetro, confine non fissabile, testo di YouTube non ottenibile: il motivo è nella riga; niente in `temporanei/` |
-| `errore` | qualunque flusso | tre tentativi falliti; parte l'avviso; i file della registrazione in `temporanei/` si cancellano subito (sotto, «La pulizia»); si riparte solo a mano, dal primo segmento |
+| `errore` | qualunque flusso | tre tentativi falliti; parte l'avviso; la riga tiene lo stato da cui è caduta. Si riparte solo a mano, da quello stato (sotto, «La pulizia»): caduta durante il testo, i suoi file in `temporanei/` si cancellano subito e si riparte dal primo segmento; caduta in lettura o negli elementi, si riparte da `confini_fissati` o da `letta`, con il testo della seduta aperta che è già in `originali/` |
 
 **La presa.** Una corsa scrive nella riga il proprio id di esecuzione e una scadenza (ora più 5
 minuti) solo se la riga è libera o la presa è scaduta, poi rilegge la riga e lavora solo se la
@@ -165,9 +165,10 @@ riga, saltando le righe con una presa viva. Così un file sfuggito a una cancell
 esempio con Drive che non risponde proprio mentre la riga va in `errore`, non resta più di un
 giorno. La pulizia la fa il testo e non l'elenco perché legge l'uso nei file dei pezzi, che
 hanno il testo: i dati delle esecuzioni del testo non si salvano (sotto, «Dati delle
-esecuzioni»). Ripartire a mano una registrazione in `errore` la rimette in `nuova`, dal primo
-segmento: la spesa si rifà, al più circa 0,6 $ con `gpt-4o-mini-transcribe` per le 3,5 ore della prova dell'Assemblea
-(sezione 6), sotto la soglia di DEC-036, punto 6.
+esecuzioni»). Ripartire a mano una registrazione caduta durante il testo la rimette in `nuova`,
+dal primo segmento: la spesa si rifà, al più circa 0,6 $ con `gpt-4o-mini-transcribe` per le
+3,5 ore della prova dell'Assemblea (sezione 6), sotto la soglia di DEC-036, punto 6. Una caduta
+dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascrizione.
 
 **I limiti misurati.**
 - `executionTimeout`: n8n Cloud taglia a 300 secondi un flusso che lo imposta, insieme ai
@@ -288,8 +289,12 @@ del X del 9 giugno, alle 13:00 per 68 minuti e alle 14:00. Ogni altra registrazi
 Lettura del builder: comincia fuori seduta, e la seduta si apre al primo atto formale, come una
 ripresa non dichiarata (`SPECIFICA_NOMI_E_TERRITORIO.md`, sezione 2). Così un dubbio costa al più
 il primo tratto di una parte non legata, mai materiale di prima dell'apertura. Il registro della
-corsa dice quali registrazioni dello stesso organo e giorno non si sono legate, e perché. Se il
-confine non si fissa: DEC-036, punto 5.
+corsa dice quali registrazioni dello stesso organo e giorno non si sono legate, e perché. Una
+parte aspetta la precedente solo finché questa può finire: se la precedente è `scartata` o in
+`errore`, la successiva non aspetta più, si fa come una registrazione a sé, e il registro lo
+dice; se la precedente riparte a mano più tardi, la successiva resta com'è. Se il confine non si
+fissa: DEC-036, punto 5. Le spese del modello che legge i tratti intorno ai candidati vanno in
+`costi/` come quelle della trascrizione (CONTRATTI, sezione 7 A, «Costi»).
 
 **Il riscontro (A4 e A5).** `novita_rispetto_agli_atti` di `SPECIFICA_VIDEO.md` (l'emendamento del
 16 settembre) vale `solo dal parlato` solo quando il fatto non compare in nessun atto e in nessuna notizia
@@ -368,13 +373,15 @@ A3:
 - T-A3-10 ripresa non dichiarata: dal primo atto formale, con atto, minuto e motivo scritti;
   «sospesa» come argomento non sospende; «fuori verbale» non sospende.
 - T-A3-11 seduta divisa: la seconda parte di una seduta legata comincia aperta se la prima finisce
-  aperta; una registrazione non legata comincia fuori seduta fino al primo atto formale.
+  aperta; una registrazione non legata comincia fuori seduta fino al primo atto formale; con la
+  prima parte `scartata` o in `errore` la seconda non aspetta e si fa a sé, con il registro.
 - T-A3-12 confine non fissabile: niente testo, `temporanei/` vuota con la cancellazione
   definitiva, `scartata`.
 - T-A3-13 file di costo: uno per quantità con il suo prezzo e la sua `unita`, i token di
   `gpt-4o-mini-transcribe` e i secondi di `whisper-1`, in dollari (`usd` e `prezzo_usd`), il
-  nome `costo_openai_<id>.json` e i campi della riga «Costi»; lo stesso id non conta due volte;
-  una ripresa non ripete la spesa di un tratto fatto.
+  nome `costo_openai_<id>.json` e i campi della riga «Costi»; le due quantità del modello del
+  confine a ogni sua chiamata; lo stesso id non conta due volte; una ripresa non ripete la spesa
+  di un tratto fatto.
 - T-A3-14 budget di tempo: la corsa si ferma pulita e la successiva riparte dal segmento giusto.
 - T-A3-15 nessun testo nei registri e nelle spese: una parola marcatrice della fixture non
   compare.
@@ -388,11 +395,18 @@ A3:
 - T-A3-18 la pulizia (sezione 4): una riga che va in `errore` o `scartata` lascia `temporanei/`
   senza i suoi file, dopo il controllo delle spese; la pulizia del giorno cancella i file di una
   riga in `errore`, `scartata` o senza riga, salta una riga con la presa viva e lascia quelli di
-  `testo_in_corso` e `testo_completo`; la ripartenza a mano riparte dal primo segmento.
+  `testo_in_corso` e `testo_completo`; la ripartenza a mano di una riga caduta durante il testo
+  riparte dal primo segmento, quella di una riga caduta in lettura o negli elementi riparte da
+  `confini_fissati` o da `letta`, senza chiedere audio né trascrizione.
 - T-A3-19 il modello dei pezzi (sezione 4, «La ripresa del testo»): con pezzi di
   `gpt-4o-mini-transcribe` in `temporanei/` e il modello in uso cambiato, la corsa scrive le
   spese mancanti, cancella quei pezzi e riparte dal primo; un testo finito ha i pezzi di un
-  modello solo e un solo `transcript_source`; con lo stesso modello, la ripresa di T-A3-17.
+  modello solo e un solo `transcript_source`; con lo stesso modello, la ripresa di T-A3-17; un
+  testo già in `testo_completo` o oltre non si tocca.
+- T-A3-20 il passaggio alla lettura (sezione 4, tabella dei flussi): la corsa di testo muore dopo
+  aver messo una riga in `confini_fissati` e prima di chiamare la lettura; la corsa di testo
+  dopo chiama la lettura, che prende quella riga; una riga presa da una lettura viva non si
+  prende due volte.
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
 repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-036, punto 6.
@@ -423,8 +437,13 @@ non si spenga a pilota in corso; il costo più basso vale solo fra `gpt-4o-mini-
 `whisper-1`. Si misurano parole, quota di testo ripetuto (a giugno 57 registrazioni su 318
 oltre il 10 %), grana dei tempi, nomi del gazetteer riconosciuti, tempo e spesa. In `letture/`
 vanno solo i numeri. I testi degli altri modelli sono testo della seduta aperta e vanno in
-`originali/`, accanto all'altro, con il modello nel nome; la lettura usa solo quello del
-modello fissato.
+`originali/`, accanto all'altro, con il modello nel nome; per quelle tre registrazioni la
+lettura usa il testo del modello fissato. Il modello fissato vale per i testi che cominciano
+dopo, e per quelli in corso (sezione 4, «La ripresa del testo»). Un testo già finito, cioè in
+`testo_completo` o oltre, resta com'è e si legge con il suo testo: il suo `transcript_source`
+dice il modello, e la lettura lo accetta. Ritrascrivere i testi finiti con il modello nuovo è una
+scelta di spesa: sotto i 5 € la fa il builder e la registra, da 5 € in su decide l'owner (DEC-036,
+punto 6).
 
 ## 7. Costi previsti per mese
 
