@@ -77,7 +77,7 @@ spente dopo le corse di prova).
 | YouTube raggiunto da n8n | FERMO dal 14/11 | feed 200; pagina del video = pagina di consenso UE (918): primo segnale di blocco (sezione 2); riparte solo quando l'owner lo dice (CONTRATTI, sezione 7 A, «Raccolta») |
 | Credenziale «OpenAI account» (`openAiApi`) | PRESENTE | condivisa dall'owner il 14/11 col progetto dei flussi `staging_`; `gpt-4o-mini-transcribe` e `whisper-1` rispondono 200 su un M4A di 10 minuti (921) |
 | Credenziale «Google Drive account» (`googleDriveOAuth2Api`) | PRESENTE; via API DA PROVARE (A2) | condivisa il 14/11; c'è una quota di richieste al minuto (D si è fermato il 13/11). POST e PUT con la credenziale sono provati solo su nodi `openAiApi` (918, 921); per un nodo Drive le sessioni precedenti hanno visto il contrario (`PASSAGGIO_2026-11-12.md`, sezione 5): sezione 8, punto 3 |
-| Cartella Drive `A Amministrazione/` | PRESENTE | sotto `30 Staging pilota 2026-11`; gli id di questa cartella e delle sottocartelle sono nel passaggio `PASSAGGIO_2026-11-14.md`, nella cartella di passaggio, non nel repository |
+| Cartella Drive `A Amministrazione/` | PRESENTE | sotto `30 Staging pilota 2026-11`; gli id di questa cartella e delle sottocartelle sono nel passaggio `PASSAGGIO_2026-11-14_canale-A.md`, nella cartella di passaggio, non nel repository |
 | Sottocartelle di CONTRATTI, sezione 7 A | PRESENTI, vuote (create il 14/11) | `registrazioni/`, `temporanei/`, `originali/`, `letture/`, `costi/`; i loro id vanno nel nodo «Inizio» dei flussi |
 | Data table di n8n | PRESENTE | la licenza le ha (`GET /data-tables` 200), nessuna creata; le Variables no (403); i dati statici si salvano solo a fine corsa di produzione |
 | API pubblica di n8n dal sandbox | PRESENTE | la chiave la mette il proxy (sezione 8) |
@@ -379,7 +379,7 @@ il coordinatore.
    `staging_`; i flussi di produzione e quelli «Roma Pipeline» si leggono e basta.
 2. **Creare.** `POST /workflows` con nodi, collegamenti e `settings`. Le credenziali per id,
    come nelle esportazioni: «OpenAI account» e «Google Drive account», con gli id del passaggio
-   `PASSAGGIO_2026-11-14.md`. `settings` ammessi: `executionOrder`, `saveManualExecutions`,
+   `PASSAGGIO_2026-11-14_canale-A.md`. `settings` ammessi: `executionOrder`, `saveManualExecutions`,
    `saveDataSuccessExecution`, `saveDataErrorExecution`, `saveExecutionProgress`,
    `callerPolicy`, `callerIds`, `timezone` (`Europe/Rome`), `errorWorkflow` (l'id di
    `staging_A_avviso`), `executionTimeout`.
