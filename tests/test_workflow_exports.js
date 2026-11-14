@@ -94,6 +94,11 @@ for (const f of files) {
   check('C fetch: a failed run records its events as unknown, never zero',
     !node('Prepara costo errore').parameters.assignments.assignments.some((a) => a.name === 'events'));
   check('C fetch: the cost file', to('Prepara costo') === 'Costo' && to('Costo') === 'Carica costo');
+  // apify-run.js, APIFY_TIMEOUT_S: Apify stops the run at its own timeout, so the wait reads its last state.
+  let timeout = null;
+  try { timeout = new URL(String(node('Start Apify run').parameters.url).replace(/^=/, '')).searchParams.get('timeout'); } catch (e) { timeout = e.message; }
+  check('C fetch: the run starts with its own timeout, APIFY_TIMEOUT_S of apify-run.js',
+    timeout === String(require(path.join(CODE, 'apify-run.js')).APIFY_TIMEOUT_S), `timeout in the URL: ${timeout}`);
 }
 
 // DEC-033, rule 2: one stream of requests to Atti Web. The reading starts only from its daily

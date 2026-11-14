@@ -27,7 +27,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://api.apify.com/v2/acts/apify~facebook-events-scraper/runs?memory=2048",
+        "url": "https://api.apify.com/v2/acts/apify~facebook-events-scraper/runs?memory=2048&timeout=3600",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
@@ -770,7 +770,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "2effe7cc-c64a-49dd-8717-9b221cfc0615",
+  "versionId": "ca5965d8-7e01-4b56-b792-7eb26e30e172",
   "meta": null,
   "nodeGroups": [],
   "id": "a442LZE59XzO5ZJw",
