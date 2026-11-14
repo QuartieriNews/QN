@@ -40,6 +40,24 @@ roles and the review rules there bind you too. Then:
   Drive folders and Firestore collections) is where pipeline work runs until
   APPROVED plus a verified smoke test.
 
+## Consumption
+
+The owner's rules for keeping sessions cheap (13 November 2026):
+
+- **One chat per job.** When the job is closed (a pull request ready, or a report
+  given), write a short hand-off `PASSAGGIO_<date>.md` in the Drive hand-off folder
+  named in the opening message, and tell the owner to open a new chat. Tell the owner
+  too when the chat is getting long.
+- **Heavy reads go to a helper.** n8n executions with `includeData`, large files,
+  searches across many files and workflow exports are read by a subagent (the Agent
+  tool, model `sonnet`), not by you. The helper saves the raw data in the scratchpad
+  and returns only the result, in a few lines. You keep the decisions, the code and
+  the answers to Codex.
+- **No long JSON in the chat.** Filter with `python3` or `jq` and show only the
+  numbers.
+- **Recurring checks are scheduled tasks** that start a fresh session on Sonnet 5.5,
+  never wake-ups inside a working chat: a wake-up re-reads the whole chat.
+
 ## Strategic Council mode (DEC-008)
 
 Everything above is Builder mode. An explicit Strategic Council request — the
