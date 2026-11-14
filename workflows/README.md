@@ -21,7 +21,7 @@ comes back here as a new export, in the pull request that turns channel C on aga
 finding of that review counts the same way, even if it is not listed here. Fixed so far: in
 `staging_C_fb_events_fetch` only a `SUCCEEDED` run reaches the dataset, the wait ends after 75
 minutes, and every run that ends, failed or not, writes its settled cost
-(`code-nodes/apify-run.js`). Still open:
+(`code-nodes/apify-run.js`), a run that succeeded with the count of its events. Still open:
 
 - `staging_C_write_canonical`: a retried call uploads the same file name again, and Drive keeps
   both; the write has to look the name up first.
@@ -41,10 +41,16 @@ minutes, and every run that ends, failed or not, writes its settled cost
   is saved only when an execution ends).
 - `staging_C_fb_events_fetch`, «Carica costo»: the node that writes the cost file has no Google
   Drive credential yet; the n8n API cannot attach it, the owner does in the editor.
+- `staging_C_fb_events_fetch`, «Get dataset items»: the cost of a run that succeeded comes after
+  its dataset, for the count of its events (the owner's choice of 14 November 2026, PR #51), so a
+  dataset read that fails stops the execution before the cost is written. A retry on that node
+  waits for the credential below.
 - `staging_C_fb_events_fetch`, «Start Apify run»: the URL needs `&timeout=3600`, so Apify itself
   stops a run after the hour (`APIFY_TIMEOUT_S` in `apify-run.js`) and the 75-minute wait reads its
-  last state. The n8n API does not change a node that holds a credential: the owner adds it in the
-  editor.
+  last state. The three Apify nodes use the credential «Bearer Auth account», and on 14 November
+  2026 neither the n8n API (it answers «You don't have access to the credentials») nor the owner's
+  editor (it saves the workflow without the change) could change a setting of one of them: the
+  credential has to be usable by the one who edits first.
 - The cost of a run does not yet reach `pilot.costo` of the events it gave: the canonical writer
   has to read it from `C Eventi/costi/`.
 - `staging_C_update_canonical`: two calls at the same time for a name not yet on Drive both

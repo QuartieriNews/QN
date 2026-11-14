@@ -62,8 +62,9 @@ function pollDecision(run, now) {
   return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };
 }
 
-/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total;
- *  a run that reports none is recorded with `usd: null`, never with a guessed value. */
+/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,
+ *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,
+ *  never with a guessed value. */
 function costEntry(run, events) {
   if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');
   const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;

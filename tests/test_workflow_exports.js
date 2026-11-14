@@ -64,10 +64,26 @@ for (const f of files) {
   check('C fetch: the request, the check of the run and the cost run apify-run.js',
     ['Build Apify input', 'Controlla corsa', 'Costo'].every((nm) => node(nm) && node(nm).parameters.jsCode === apify));
   check('C fetch: the run state goes to the check, never straight to the dataset', to('Get run') === 'Prepara controllo' && to('Prepara controllo') === 'Controlla corsa');
-  check('C fetch: only a run to read reaches the dataset, and its cost is written beside it, not after it',
-    to('Da leggere?', 0) === 'Get dataset items,Prepara costo' && !F.connections['Upload to C Eventi originali'] &&
-    !node('Prepara costo').parameters.assignments.assignments.some((a) => a.name === 'events') &&
+  check('C fetch: only a run to read reaches the dataset',
     Object.entries(F.connections).filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Get dataset items'))).map(([k]) => k).join() === 'Da leggere?');
+  // The owner's choice of 14 November 2026 (PR #51): the cost of a run that succeeded comes after
+  // its dataset, with the count of its events, and does not wait for the upload of the original.
+  // A Merge in append mode runs with one input when the other stays empty (tried on n8n Cloud on
+  // 14 November 2026), so an empty dataset, which gives no item, still reaches the cost.
+  const merge = node('Dopo il dataset') || { parameters: {} };
+  const into = (name, out) => (((F.connections[name] || {}).main || [])[out || 0] || []).map((x) => `${x.node}#${x.index}`).join();
+  check('C fetch: the cost waits for the dataset, and an empty dataset still reaches it',
+    merge.type === 'n8n-nodes-base.merge' && (merge.parameters.mode || 'append') === 'append' &&
+    into('Da leggere?', 0) === 'Get dataset items#0,Dopo il dataset#0' && into('Get dataset items') === 'To JSON file#0,Dopo il dataset#1' &&
+    to('Dopo il dataset') === 'Prepara costo' && !F.connections['Upload to C Eventi originali']);
+  check('C fetch: the cost of a run that succeeded is written once, whatever its events',
+    node('Prepara costo').executeOnce === true);
+  const eventsExpr = (node('Prepara costo').parameters.assignments.assignments.find((a) => a.name === 'events') || {}).value || '';
+  const events = (items) => {
+    try { return new Function('$', `return (${eventsExpr.replace(/^=\{\{/, '').replace(/\}\}$/, '')});`)(() => ({ all: () => items })); } catch (e) { return e.message; }
+  };
+  check('C fetch: an empty dataset counts 0 events', events([]) === 0);
+  check('C fetch: a dataset counts its events', events([{ json: { id: 'e1' } }, { json: { id: 'e2' } }]) === 2);
   check('C fetch: a run that just ended is read again after a pause, for its settled cost',
     to('Da leggere?', 1) === 'Da assestare?' && to('Da assestare?', 0) === 'Attesa costo' && to('Attesa costo') === 'Get run' && node('Attesa costo').parameters.amount >= 15);
   check('C fetch: a run to wait waits; any other writes its cost and then stops with an error',
