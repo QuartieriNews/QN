@@ -303,8 +303,9 @@ A3:
 - T-A3-12 confine non fissabile: niente testo, `temporanei/` vuota con la cancellazione
   definitiva, `scartata`.
 - T-A3-13 file di costo: uno per quantità con il suo prezzo e la sua `unita`, i token di
-  `gpt-4o-mini-transcribe` e i secondi di `whisper-1`, 0,92 € per dollaro, i campi della riga
-  «Costi»; una ripresa non ripete la spesa di un tratto fatto.
+  `gpt-4o-mini-transcribe` e i secondi di `whisper-1`, in dollari (`usd` e `prezzo_usd`), il
+  nome `costo_openai_<id>.json` e i campi della riga «Costi»; lo stesso id non conta due volte;
+  una ripresa non ripete la spesa di un tratto fatto.
 - T-A3-14 budget di tempo: la corsa si ferma pulita e la successiva riparte dal segmento giusto.
 - T-A3-15 nessun testo nei registri e nelle spese: una parola marcatrice della fixture non
   compare.
@@ -346,9 +347,13 @@ modello fissato.
 
 ## 7. Costi previsti per mese
 
+Stime in euro per confrontarle con la quota, al cambio di 0,92 € per dollaro di
+`docs/sources/TRIAL_LEDGER.md`. Il registro delle spese resta in dollari, e il coordinatore
+converte il totale del mese con il tasso della BCE (CONTRATTI, sezione 5; DEC-035).
+
 | Voce | Base | € al mese |
 |---|---|---|
-| Trascrizione nostra | 123,3 ore a 0,157 $ l'ora (misura di giugno: 318 registrazioni, 227,7 ore, 35,76 $), 0,92 € per dollaro | circa 18 |
+| Trascrizione nostra | 123,3 ore a 0,157 $ l'ora (misura di giugno: 318 registrazioni, 227,7 ore, 35,76 $) | circa 18 |
 | Lettura e confine | circa 178 ore di testo (nostro, della piattaforma, di YouTube) con un modello di fascia media, al prezzo di `gpt-4.1-mini`, che si spegne il 14 gennaio 2027 (sezione 6): il prezzo si rilegge con il modello che sceglie A4 | 2–3 |
 | Imprevisti | 20 % | circa 4 |
 | Totale | | circa 25, nella quota di A di 27 € (CONTRATTI, sezione 5) |
