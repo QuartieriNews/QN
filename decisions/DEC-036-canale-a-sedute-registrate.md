@@ -1,4 +1,4 @@
-# DEC-035 — Canale A: le sedute registrate per il blocco «Dal Municipio»
+# DEC-036 — Canale A: le sedute registrate per il blocco «Dal Municipio»
 
 Status: DECIDED (14 novembre 2026, owner nella sessione del builder, sulle opzioni poste dal builder)
 Blocks: nothing.

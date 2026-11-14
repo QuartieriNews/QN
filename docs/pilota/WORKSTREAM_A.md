@@ -2,7 +2,7 @@
 
 Stato: apertura del canale, PR A1 (14 novembre 2026). Le regole del canale stanno in
 `docs/pilota/CONTRATTI.md`, sezione 7, «A · Amministrazione», e le scelte dell'owner in
-DEC-035: qui non si ripetono, si rimanda. Questo documento dice che cosa si costruisce, con
+DEC-036: qui non si ripetono, si rimanda. Questo documento dice che cosa si costruisce, con
 quali mezzi e come si prova; la sessione che costruisce i flussi parte da qui. Se una regola
 cambia, cambia là, e qui si corregge solo il rimando.
 
@@ -11,7 +11,7 @@ cambia, cambia là, e qui si corregge solo il rimando.
 A porta al blocco «Dal Municipio» (`institutional`) i fatti delle sedute registrate dei
 Municipi I, V e X, delle commissioni capitoline e dell'Assemblea capitolina, presi solo dalla
 seduta aperta (DEC-031, punto 2A; DEC-105). Legge le sedute future, dal 1° novembre 2026,
-partendo da quelle già pubblicate; lo storico non si ricostruisce (DEC-035, punto 1). Il canale
+partendo da quelle già pubblicate; lo storico non si ricostruisce (DEC-036, punto 1). Il canale
 si apre a passi, come B (#36): fino alle PR della lettura, della geografia, delle classi
 editoriali, della scrittura e della seconda verifica non scrive elementi, solo quello che
 CONTRATTI, sezione 7 A, elenca. Tutto gira in staging: flussi `staging_A_*` su n8n Cloud e la
@@ -37,7 +37,7 @@ con i CSV; i totali sì: valgono i CSV).
 | tutte e tre | Assemblea capitolina | RomaTV, `Assemblee Capitoline` | nostra | 41,3 |
 
 Da trascrivere noi: 30,4 ore municipali, 51,6 capitoline e 41,3 dell'Assemblea, 123,3 ore al
-mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-035, punto 4.
+mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-036, punto 4.
 
 - **Trascrizione della piattaforma:** solo i Consigli municipali (82 su 86 in giugno, su tutti
   i Municipi). Il 14 novembre l'avevano le parti dei Consigli del V pubblicate il 10 e il
@@ -59,7 +59,7 @@ mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-035, punto 4.
   di settembre). Quando compare il WebVTT rispetto alla pubblicazione non è misurato: lo prende
   lo sguardo indietro di 40 giorni dell'elenco (CONTRATTI, sezione 7 A, «Raccolta»).
 - **Prati al 14 novembre:** da n8n il feed risponde; la pagina del video dà la pagina di
-  consenso UE, senza tracce dei sottotitoli. Per DEC-035, punto 3, e per la riga «Raccolta» è
+  consenso UE, senza tracce dei sottotitoli. Per DEC-036, punto 3, e per la riga «Raccolta» è
   il primo segnale di blocco: `www.youtube.com` è fermo da allora, e l'owner lo sa con A1 (corpo
   della PR e rapporto). Non si prova un'altra strada, né in A3 né dopo: A2 costruisce e prova
   con fixture la lettura del feed, ma nessun flusso chiede niente a YouTube finché l'owner non
@@ -90,7 +90,7 @@ spente dopo le corse di prova).
 | `staging_A_elenco`, `staging_A_testo`, poi `staging_A_lettura` e `staging_A_elementi` | DA COSTRUIRE | A2–A5 |
 | `staging_A_avviso` | DA COSTRUIRE | A2; sempre attivo |
 | Fixture dei test | DA COSTRUIRE | byte e testi inventati (DEC-109), mai presi da una fonte |
-| Credenziali condivise e DEC-035 | DALL'OWNER, fatto il 14/11 | |
+| Credenziali condivise e DEC-036 | DALL'OWNER, fatto il 14/11 | |
 | Chiave di un modello di un'altra famiglia, per la seconda verifica di DEC-015 | DALL'OWNER, con A5 | solo se l'owner dice che DEC-015 vale per il pilota (sezione 9); su n8n oggi c'è solo OpenAI |
 | Foglio della coda di revisione | DALL'OWNER, con A5 | non esiste su Drive |
 | Piano n8n superiore | DALL'OWNER, solo se serve | se le corse chiamate da un altro flusso contano, A non sta nel piano già con A2 e A3: la domanda arriva con la misura di A2 (sezione 4) |
@@ -183,7 +183,7 @@ lascia doppioni.
   è misurata: la misura la prova dell'Assemblea (sezione 6).
 - Dati delle esecuzioni: per testo, lettura ed elementi `saveDataSuccessExecution` e
   `saveDataErrorExecution` sono `none`, `saveManualExecutions` e `saveExecutionProgress` sono
-  `false` (DEC-035, punto 5; CONTRATTI, sezione 7 A, «Testo»: l'audio non si scrive mai). Un
+  `false` (DEC-036, punto 5; CONTRATTI, sezione 7 A, «Testo»: l'audio non si scrive mai). Un
   errore si legge dall'avviso di `staging_A_avviso`, con flusso, nodo, messaggio e ora; l'id
   dell'esecuzione può mancare, perché l'esecuzione non si salva. Nessun nodo di esito porta un
   campione di testo (la sonda 921 lo faceva; quell'esecuzione è cancellata).
@@ -201,7 +201,7 @@ lascia doppioni.
    fa il lettore, alla chiave e all'elenco, mai senza: se servono non è provato. A2 (elenco) e
    A3 (chiave) provano una volta senza: se rispondono, non si mandano; se no, la PR che lo
    misura scrive in CONTRATTI, sezione 7 A, che le richieste portano `Origin` e `Referer` del
-   portale, come ha accettato l'owner con «come fa il lettore» (DEC-035, punto 2).
+   portale, come ha accettato l'owner con «come fa il lettore» (DEC-036, punto 2).
 4. Segmenti uno alla volta, in ordine: AES-128-CBC con il loro IV, poi via il tag ID3, poi le
    trame ADTS (sincronia `0xFFF1`, 48 kHz, mono). Bitrate vero circa 124 kbps. In n8n, 60
    segmenti (10 minuti) si sono scaricati e decifrati in 27 secondi, con una pausa di 0,1
@@ -230,7 +230,7 @@ la PR che li porta.
 
 | PR | Che cosa | Nodi Code e test | Su n8n e Drive |
 |---|---|---|---|
-| A1 apertura (questa), in due PR perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4) | A1a: CONTRATTI, sezioni 5, 6 e 7 A; DEC-035; questo brief. A1b: il nodo e i test | A1b: `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
+| A1 apertura (questa), in due PR perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4) | A1a: CONTRATTI, sezioni 5, 6 e 7 A; DEC-036; questo brief. A1b: il nodo e i test | A1b: `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
 | A2 raccolta | elenco dei cataloghi e del feed, schede, stato, presa, stop delle fonti, controllo di `robots.txt` | `romatv-list.js`, `youtube-list.js`, `recording-state.js` | Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
 | A3 testo | la strada dell'audio; i pezzi da 60 secondi; i testi della piattaforma (JSON del parlato, WebVTT di riserva) e i sottotitoli di YouTube in una forma sola con i tempi; il confine della seduta; le spese | `hls-audio.js` (dal prototipo nella cartella di passaggio, sezione 3), `recording-text.js`, `session-boundary.js` | `staging_A_testo` |
 | A4 lettura | i fatti candidati secondo `tools/sources-study/report2/SPECIFICA_VIDEO.md`, con l'evidenza `[mm:ss]`, in `letture/`; il modello di trascrizione si fissa qui, dopo il confronto (sezione 6) | il nodo della lettura | `staging_A_lettura` |
@@ -241,7 +241,7 @@ la PR che li porta.
 Dove le formule mancano o si contraddicono, un modello legge solo i tratti intorno ai candidati
 (costo nella riga della lettura, sezione 7). Le parti di una seduta divisa si legano in ordine:
 lo stato alla fine di una parte è lo stato all'inizio della successiva, e una parte aspetta la
-precedente. Se il confine non si fissa: DEC-035, punto 5.
+precedente. Se il confine non si fissa: DEC-036, punto 5.
 
 ## 6. Prove
 
@@ -268,7 +268,7 @@ A2:
 - T-A2-08 `robots.txt` cambiato rispetto al 14 novembre, o illeggibile dove si leggeva: l'host
   si ferma e parte l'avviso.
 - T-A2-09 feed di YouTube: `youtube:<id>` solo per un id di 11 caratteri; `source_id` è il canale.
-- T-A2-10 gli stop della riga «Raccolta» e di DEC-035, punto 3, su YouTube, uno per caso,
+- T-A2-10 gli stop della riga «Raccolta» e di DEC-036, punto 3, su YouTube, uno per caso,
   compreso il rinvio al controllo anti-bot su un altro host: l'host si ferma, parte l'avviso, e
   riparte solo quando l'owner lo dice, come per RomaTV (T-A2-07), mai da solo il giorno dopo;
   con l'host fermo nessuna richiesta parte; ogni richiesta porta lo user agent dichiarato.
@@ -313,7 +313,7 @@ A3:
   `settings` dei dati della sezione 4; le chiamate a sé stesso e alla lettura senza attesa.
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
-repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-035, punto 6.
+repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-036, punto 6.
 
 | Prova | Che cosa dimostra | Costo atteso |
 |---|---|---|
@@ -321,7 +321,7 @@ repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-03
 | Una commissione del X | la strada dell'audio intera, pezzi, spesa | 0,07 € (30 minuti) |
 | Una commissione capitolina | catalogo capitolino, nessun Municipio dal titolo | 0,10 € (45 minuti) |
 | Una parte dell'Assemblea di 3 ore o più | memoria per esecuzione e tempo, ripresa su più corse | 0,50 € (3,5 ore) |
-| Un video del Municipio I, solo se l'owner fa ripartire YouTube (sezione 2) | feed e sottotitoli dentro DEC-035, punto 3, o lo stop | 0 € |
+| Un video del Municipio I, solo se l'owner fa ripartire YouTube (sezione 2) | feed e sottotitoli dentro DEC-036, punto 3, o lo stop | 0 € |
 | La stessa registrazione rifatta | nessun file doppio, nessuna spesa doppia | 0 € |
 | Un errore forzato | `staging_A_avviso` scrive l'avviso in `letture/`, anche con i dati degli errori non salvati | 0 € |
 | Un nodo Drive con la credenziale, creato con POST e cambiato con PUT, che scrive in `letture/` (A2) | la credenziale Drive regge sui flussi fatti dall'API (sezione 8, punto 3) | 0 € |
@@ -401,7 +401,7 @@ il coordinatore.
    risponde con i numeri. Il testo di una seduta non entra mai nella chat.
 7. **Cancellare.** Con i `settings` della sezione 4 un'esecuzione con audio o testo non si
    salva. Se una ne resta, come 919, 921 e 922, fatte prima di queste regole, si cancella con
-   `DELETE /executions/{id}` appena vista, senza scaricarne i dati (DEC-035, punto 5).
+   `DELETE /executions/{id}` appena vista, senza scaricarne i dati (DEC-036, punto 5).
 8. **Data table e cartelle.** La Data table si crea una volta, dall'API se l'endpoint lo
    permette, se no la crea l'owner nell'editor. Le sottocartelle ci sono già (sezione 3); i loro
    id vanno nell'«Inizio». I file grandi li muove solo n8n (CONTRATTI, sezione 3).
@@ -423,7 +423,7 @@ il coordinatore.
 | Immagini degli elementi: nessuna regola decisa per questo blocco (DEC-101 è per gli eventi) | owner | A5 |
 | Citazioni testuali del parlato | owner | A4 |
 | Atti capitolini (ordini del giorno, convocazioni) per verificare i fatti: fuori da DEC-033, che copre gli atti dei Municipi I, V e X | owner | A4 |
-| Prati: la pagina di consenso UE del 14 novembre ha fermato `www.youtube.com` (sezione 2). Se e come riprovare il feed e i sottotitoli, dentro DEC-035, punto 3; finché l'owner non decide, Prati resta senza testo | owner, avvisato con A1 | ora |
+| Prati: la pagina di consenso UE del 14 novembre ha fermato `www.youtube.com` (sezione 2). Se e come riprovare il feed e i sottotitoli, dentro DEC-036, punto 3; finché l'owner non decide, Prati resta senza testo | owner, avvisato con A1 | ora |
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
 | L'ora di riferimento di un video di YouTube: il feed dà solo la pubblicazione | builder | A2 |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
