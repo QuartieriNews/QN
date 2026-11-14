@@ -64,10 +64,26 @@ for (const f of files) {
   check('C fetch: the request, the check of the run and the cost run apify-run.js',
     ['Build Apify input', 'Controlla corsa', 'Costo'].every((nm) => node(nm) && node(nm).parameters.jsCode === apify));
   check('C fetch: the run state goes to the check, never straight to the dataset', to('Get run') === 'Prepara controllo' && to('Prepara controllo') === 'Controlla corsa');
-  check('C fetch: only a run to read reaches the dataset, and its cost is written beside it, not after it',
-    to('Da leggere?', 0) === 'Get dataset items,Prepara costo' && !F.connections['Upload to C Eventi originali'] &&
-    !node('Prepara costo').parameters.assignments.assignments.some((a) => a.name === 'events') &&
+  check('C fetch: only a run to read reaches the dataset',
+    to('Da leggere?', 0) === 'Get dataset items' &&
     Object.entries(F.connections).filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Get dataset items'))).map(([k]) => k).join() === 'Da leggere?');
+  // The owner's choice of 14 November 2026 (PR #51): the cost of a run that succeeded comes after
+  // its dataset, with the count of its events, and does not wait for the upload of the original.
+  check('C fetch: an empty dataset still gives one item, so its cost is written',
+    node('Get dataset items').alwaysOutputData === true && to('Get dataset items') === 'Eventi,Prepara costo' &&
+    !F.connections['Upload to C Eventi originali']);
+  check('C fetch: the cost of a run that succeeded is written once, whatever its events',
+    node('Prepara costo').executeOnce === true);
+  const eventsExpr = (node('Prepara costo').parameters.assignments.assignments.find((a) => a.name === 'events') || {}).value || '';
+  const events = (items) => {
+    try { return new Function('$', `return (${eventsExpr.replace(/^=\{\{/, '').replace(/\}\}$/, '')});`)(() => ({ all: () => items })); } catch (e) { return e.message; }
+  };
+  check('C fetch: an empty dataset counts 0 events (n8n\'s placeholder item is not an event)', events([{ json: {} }]) === 0);
+  check('C fetch: a dataset counts its events', events([{ json: { id: 'e1' } }, { json: { id: 'e2' } }]) === 2);
+  const eventiCond = ((node('Eventi') || {}).parameters || { conditions: { conditions: [] } }).conditions.conditions;
+  check('C fetch: n8n\'s placeholder item never becomes an original', to('Eventi') === 'To JSON file' &&
+    node('Eventi').type === 'n8n-nodes-base.filter' && eventiCond.length === 1 &&
+    eventiCond[0].leftValue === '={{ Object.keys($json).length > 0 }}' && eventiCond[0].operator.operation === 'true');
   check('C fetch: a run that just ended is read again after a pause, for its settled cost',
     to('Da leggere?', 1) === 'Da assestare?' && to('Da assestare?', 0) === 'Attesa costo' && to('Attesa costo') === 'Get run' && node('Attesa costo').parameters.amount >= 15);
   check('C fetch: a run to wait waits; any other writes its cost and then stops with an error',

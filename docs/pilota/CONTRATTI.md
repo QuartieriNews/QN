@@ -281,8 +281,10 @@ cartella `costi/` del workstream, con un file JSON per spesa, `costo_<servizio>_
 che `costi.jsonl` avrebbe avuto. Il primo a scriverlo è `staging_C_fb_events_fetch`
 (`code-nodes/apify-run.js`). Una spesa si conta una volta per il suo id (`run_id` per Apify): un
 file caricato due volte non la raddoppia. Una quantità che non si conosce, come gli eventi di una
-corsa fallita, è `null`, mai zero. Il coordinatore somma le spese di tutti i workstream e applica
-DEC-031, punto 6, al totale del mese, non a ogni singola quota.
+corsa fallita, è `null`, mai zero. Una spesa si registra nella valuta in cui è addebitata: quella
+di Apify in dollari, nel campo `usd`, e la conversione in euro si fa sul totale del mese, come dice
+DEC-035. Il coordinatore somma le spese di tutti i workstream e applica DEC-031, punto 6, al
+totale del mese, non a ogni singola quota.
 
 ## 6. Regole delle fonti che restano in vigore
 
