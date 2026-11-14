@@ -115,7 +115,7 @@ scheda in `registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A)
 |---|---|---|
 | `nuova` | elenco | vista e dentro il perimetro |
 | `testo_in_corso` | testo | pezzi del testo intero in `temporanei/`; la riga dice da quale segmento riprendere, i file lo confermano (sotto, «La ripresa del testo») |
-| `testo_completo` | testo | testo intero in `temporanei/` |
+| `testo_completo` | testo | testo intero in `temporanei/`; se c'è già il testo della seduta aperta in `originali/`, il confine è fatto (sotto, «La ripresa del confine») |
 | `confini_fissati` | testo | testo della seduta aperta in `originali/`; niente più in `temporanei/` |
 | `letta` | lettura (A4) | fatti candidati in `letture/` |
 | `scartata` | elenco o testo | fuori perimetro, confine non fissabile, testo di YouTube non ottenibile: il motivo è nella riga; niente in `temporanei/` |
@@ -145,7 +145,12 @@ che non ha il suo file con il modello in uso. Un testo ha un modello solo, perch
 un altro modello, perché A4 ha cambiato modello mentre la registrazione era in
 `testo_in_corso`, la corsa li cancella per sempre, dopo il controllo delle spese qui sotto, e
 il testo riparte dal primo pezzo. Il cambio costa al più il testo già fatto delle
-registrazioni in corso in quel momento. Poi elenca le spese della registrazione in `costi/`: per ogni
+registrazioni in corso in quel momento. Un testo ha anche una fonte sola: se la trascrizione
+della piattaforma compare mentre la registrazione è in `testo_in_corso`, la corsa, dopo lo stesso
+controllo delle spese, cancella per sempre i pezzi e usa quella, che non costa (CONTRATTI,
+sezione 7 A, «Testo»). La spesa già fatta resta in `costi/`, non se ne fa altra, e
+`transcript_source` è quello della piattaforma; un testo già in `testo_completo` o oltre resta il
+nostro (T-A2-05). Poi elenca le spese della registrazione in `costi/`: per ogni
 esecuzione che ha scritto pezzi senza scrivere le sue spese, le scrive lei, con l'id di
 quell'esecuzione e l'uso letto nei file dei pezzi. Lo stesso controllo delle spese viene prima
 di ogni cancellazione in `temporanei/`. Così una corsa che muore dopo il file di un pezzo e
@@ -155,6 +160,22 @@ un caso: una corsa che muore fra la risposta di OpenAI e il file del pezzo fa ri
 pezzo, e la prima spesa non arriva in `costi/`. È al più un pezzo di 60 secondi, meno di un
 centesimo di dollaro (0,003 $ con `gpt-4o-mini-transcribe`, 0,006 $ con `whisper-1`, ai prezzi
 di CONTRATTI, sezione 7 A, «Costi»).
+
+**La ripresa del confine.** Anche dopo il testo, nessun passo che spende o cancella si fida della
+riga: prima lascia un file con un nome che dipende solo da che cosa è, e una corsa riparte dai
+file (sezione 5, «Il confine»).
+- Ogni chiamata del modello del confine scrive subito la risposta e l'uso in un suo file di
+  `temporanei/`, con un nome che dipende solo dalla registrazione, dal modello e dall'inizio del
+  tratto letto. Una corsa che trova quel file non rifà la chiamata, e il controllo delle spese
+  legge questi file come quelli dei pezzi. Come per i pezzi, una corsa che muore fra la risposta
+  e il file fa rifare quella sola chiamata, e quella spesa non arriva in `costi/`: i token di un
+  tratto.
+- Il testo della seduta aperta va in `originali/` con un nome che dipende solo dalla
+  registrazione, ed è il segno che il confine è fatto. Una corsa che lo trova per una riga ancora
+  in `testo_in_corso` o `testo_completo` non chiede audio, non chiama OpenAI e non rifà il
+  confine: fa il controllo delle spese, cancella per sempre quello che resta della registrazione
+  in `temporanei/` e mette la riga in `confini_fissati`. Così una corsa che muore dopo quel file
+  e prima della riga non fa ripetere niente, anche se ha già cancellato una parte dei pezzi.
 
 **La pulizia.** Una registrazione che si ferma prima del confine non lascia testo in
 `temporanei/` (CONTRATTI, sezione 7 A, «Confine della seduta»). Quando il testo mette una riga in
@@ -252,11 +273,12 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
    avanza. Se una corsa muore a metà, la successiva riparte dai file (sezione 4, «La ripresa
    del testo»). Sono circa sei scritture al minuto su Drive: A3 misura che stiano nella quota
    per minuto della credenziale (sezione 3). L'audio non si scrive mai.
-8. A testo completo, il confine (sezione 5, A3) taglia la seduta aperta, che va in `originali/`,
+8. A testo completo, il confine (sezione 5, A3) taglia la seduta aperta, che va in `originali/`
+   (il segno che il confine è fatto: sezione 4, «La ripresa del confine»),
    e, dopo il controllo delle spese (sezione 4, «La ripresa del testo»), i file della
    registrazione in `temporanei/` si cancellano per sempre: il nodo Google Drive
    di n8n con la cancellazione definitiva (`deletePermanently`), mai il cestino, dove un file
-   resta circa 30 giorni con le sue revisioni. Il connettore Drive delle sessioni sa solo
+   resta circa 30 giorni con le sue revisioni; poi la riga va in `confini_fissati`. Il connettore Drive delle sessioni sa solo
    spostare nel cestino: in `temporanei/` cancella solo n8n.
 
 ## 5. Ordine di costruzione
@@ -294,7 +316,8 @@ parte aspetta la precedente solo finché questa può finire: se la precedente è
 `errore`, la successiva non aspetta più, si fa come una registrazione a sé, e il registro lo
 dice; se la precedente riparte a mano più tardi, la successiva resta com'è. Se il confine non si
 fissa: DEC-036, punto 5. Le spese del modello che legge i tratti intorno ai candidati vanno in
-`costi/` come quelle della trascrizione (CONTRATTI, sezione 7 A, «Costi»).
+`costi/` come quelle della trascrizione (CONTRATTI, sezione 7 A, «Costi»), e ogni sua risposta va
+prima in un file (sezione 4, «La ripresa del confine»).
 
 **Il riscontro (A4 e A5).** `novita_rispetto_agli_atti` di `SPECIFICA_VIDEO.md` (l'emendamento del
 16 settembre) vale `solo dal parlato` solo quando il fatto non compare in nessun atto e in nessuna notizia
@@ -325,7 +348,8 @@ A2:
   entra, anche a 51 e a 94 giorni dalla seduta, una a 101 no; una voce già vista non dà una
   seconda riga.
 - T-A2-05 la trascrizione della piattaforma aggiunta dopo: la scheda si aggiorna; se il nostro
-  testo non è iniziato si usa quella, se è fatto resta il nostro, senza seconda spesa.
+  testo non è iniziato si usa quella, se è in corso si passa a quella (T-A3-19), se è fatto
+  resta il nostro, senza seconda spesa.
 - T-A2-06 seduta divisa (sezione 5, «Il confine»): due parti dichiarate dai titoli, in ordine e
   senza sovrapposizione, si legano. Restano separate, e il registro le elenca: due registrazioni
   dello stesso organo e giorno senza parti dichiarate; due parti che si sovrappongono, come la
@@ -398,15 +422,23 @@ A3:
   `testo_in_corso` e `testo_completo`; la ripartenza a mano di una riga caduta durante il testo
   riparte dal primo segmento, quella di una riga caduta in lettura o negli elementi riparte da
   `confini_fissati` o da `letta`, senza chiedere audio né trascrizione.
-- T-A3-19 il modello dei pezzi (sezione 4, «La ripresa del testo»): con pezzi di
+- T-A3-19 il modello e la fonte dei pezzi (sezione 4, «La ripresa del testo»): con pezzi di
   `gpt-4o-mini-transcribe` in `temporanei/` e il modello in uso cambiato, la corsa scrive le
   spese mancanti, cancella quei pezzi e riparte dal primo; un testo finito ha i pezzi di un
-  modello solo e un solo `transcript_source`; con lo stesso modello, la ripresa di T-A3-17; un
-  testo già in `testo_completo` o oltre non si tocca.
+  modello solo e un solo `transcript_source`; con lo stesso modello, la ripresa di T-A3-17. Con
+  la trascrizione della piattaforma comparsa in `testo_in_corso`, la corsa scrive le spese
+  mancanti, cancella i pezzi e usa quella, senza chiamare OpenAI, con il `transcript_source`
+  della piattaforma. Un testo già in `testo_completo` o oltre non si tocca.
 - T-A3-20 il passaggio alla lettura (sezione 4, tabella dei flussi): la corsa di testo muore dopo
   aver messo una riga in `confini_fissati` e prima di chiamare la lettura; la corsa di testo
   dopo chiama la lettura, che prende quella riga; una riga presa da una lettura viva non si
   prende due volte.
+- T-A3-21 la ripresa del confine (sezione 4), con un Drive e un OpenAI finti: la corsa muore
+  dopo il file di una chiamata del modello del confine; la corsa dopo non rifà quella chiamata
+  e ne scrive la spesa una volta, con l'id della corsa morta. La corsa muore dopo il testo della
+  seduta aperta in `originali/` e prima della riga, con i pezzi cancellati tutti, in parte o per
+  niente; la corsa dopo non chiede audio, non chiama OpenAI, fa il controllo delle spese,
+  cancella i file rimasti e mette la riga in `confini_fissati`.
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
 repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-036, punto 6.
