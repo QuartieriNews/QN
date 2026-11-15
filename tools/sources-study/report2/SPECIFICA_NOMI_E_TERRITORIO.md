@@ -191,6 +191,10 @@ sospesa», «direttiva sospesa» sono argomenti di discussione, non sospensioni 
 Il materiale fuori seduta non entra nei file, nemmeno anonimizzato, e non si riproduce nei
 log: se ne dichiara solo l'esistenza, il minutaggio e la durata.
 
+Eccezione decisa dall'owner per il canale A del pilota: il testo intero di una registrazione
+sta in una cartella privata finché il confine non è fissato, poi si cancella. Dove e fino a
+quando: DEC-036, punto 5, e `docs/pilota/CONTRATTI.md`, sezione 7 A, «Confine della seduta».
+
 ## 3. Il territorio: Municipio e quartiere
 
 Dal luogo citato si ricavano **due attribuzioni distinte**, verificando che corrispondano
