@@ -106,7 +106,7 @@ const numberOf = (w) => {
   if (/^\d+$/.test(k)) return Number(k);
   return ROMAN[k] || ORDINALS[k] || null;
 };
-const fold = (t) => t.normalize('NFC').toLowerCase().replace(/[\s\-–—:,;.()]+/g, ' ').trim();
+const fold = (t) => t.normalize('NFC').toLowerCase().replace(/[\p{P}\s]+/gu, '');
 const tidy = (t) => t.replace(/\(\s*\)/g, ' ').replace(/^[\s\-–—:,;.]+|[\s\-–—:,;.]+$/g, '').replace(/\s+/g, ' ');
 
 /** WORKSTREAM_A, section 5, «Il confine»: the part a title declares, the title without it as

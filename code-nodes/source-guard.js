@@ -236,7 +236,8 @@ function robotsKind(res, url) {
 
 /** T-A2-08: the daily check of one host, against CONTRATTI section 7 (A), row Raccolta (the
  *  builder's reading of an unreadable robots.txt is there). The same kind as on 14 November marks
- *  the day checked; any other kind stops the host until the owner says. */
+ *  the day checked and, when it is an answer of the host and not its expected server error, ends
+ *  the streak of server errors; any other kind stops the host until the owner says. */
 function afterRobots(host, state, res, now) {
   const base = (HOSTS[host] || {}).robots;
   if (!base) throw new Error(`no robots.txt check for ${host}`);
@@ -244,6 +245,7 @@ function afterRobots(host, state, res, now) {
   const kind = robotsKind(res, `https://${host}/robots.txt`);
   if (kind === base) {
     s.robots_giorno = romeDay(instant(now));
+    if (kind !== 'unreadable' && !isStopped(s, now)) s.errori_di_fila = 0;
     return { state: s, read: !isStopped(s, now), stopped_now: false, kind };
   }
   if (kind === 'unreadable') {

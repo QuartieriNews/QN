@@ -100,7 +100,7 @@ console.log('T-A2-02 — the Municipality from the catalogue');
       m.readEntry(entry({ n: 15, ref: '2026-11-12T10:00:00+01:00', title: 'Consiglio Inventato (parte III)' }), 'Municipio V').rec.organo],
     ['Consiglio inventato', 'Consiglio Inventato del 9/11', 'Consiglio Inventato']);
   check('T-A2-02 its key is folded, for the binding of parts',
-    m.readEntry(entry({ n: 16, ref: '2026-11-12T10:00:00+01:00', title: 'Consiglio Inventato - parte II' }), 'Municipio V').rec.organo_chiave, 'consiglio inventato');
+    m.readEntry(entry({ n: 16, ref: '2026-11-12T10:00:00+01:00', title: 'Consiglio Inventato - parte II' }), 'Municipio V').rec.organo_chiave, 'consiglioinventato');
 }
 
 console.log('T-A2-03 — the first day');
@@ -177,7 +177,13 @@ console.log('T-A2-06 — split sittings');
       'Consiglio inventato 2ª parte', 'Commissione IV inventata', 'Consiglio inventato'].map((t) => m.partOf(t).part),
     [1, 1, 2, 3, 2, null, null]);
   check('T-A2-06 the part goes, the organ stays: the Roman numeral of a commission is not a part',
-    [m.partOf('Commissione IV inventata - parte 2').base, m.partOf('Commissione IV inventata').base], ['commissione iv inventata', 'commissione iv inventata']);
+    [m.partOf('Commissione IV inventata - parte 2').base, m.partOf('Commissione IV inventata').base], ['commissioneivinventata', 'commissioneivinventata']);
+  const sp1 = rec(40, 'Commissione Lavori / Mobilità dell\'Ente - parte 1', '2026-11-09T15:00:00+01:00', '01:00:00.0000000');
+  const sp2 = rec(41, 'COMMISSIONE lavori Mobilità dell’ Ente – parte 2', '2026-11-09T16:05:00+01:00');
+  check('T-A2-06 the same organ written with other capitals, spaces or punctuation is the same organ: its parts are bound',
+    [sp1.organo_chiave === sp2.organo_chiave, m.linkParts([sp1, sp2]).links, m.linkParts([sp1, sp2]).unbound],
+    [true, { [sp2.recording_ref]: { parte_precedente: sp1.recording_ref, prima_parte: sp1.recording_ref } }, []]);
+  check('T-A2-06 another word is another organ', m.partOf('Commissione Lavori e Mobilità - parte 2').base === sp1.organo_chiave, false);
   const p1 = rec(30, 'Consiglio inventato parte 1', '2026-11-09T09:00:00+01:00', '01:00:00.0000000');
   const p2 = rec(31, 'Consiglio inventato parte 2', '2026-11-09T10:05:00+01:00', '01:00:00.0000000');
   const p3 = rec(32, 'Consiglio inventato terza parte', '2026-11-09T11:10:00+01:00');

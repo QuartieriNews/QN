@@ -350,7 +350,7 @@ proposte: li fissa la PR che li porta.
 | PR | Che cosa | Nodi Code e test | Su n8n e Drive |
 |---|---|---|---|
 | A1 apertura (questa), in due PR perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4) | A1a: CONTRATTI, sezioni 5, 6 e 7 A; DEC-036; questo brief. A1b: il nodo e i test | A1b: `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
-| A2 raccolta | elenco dei cataloghi e, per YouTube, dei video del canale da un Actor di Apify (DEC-037), schede, stato, presa, stop delle fonti, controllo di `robots.txt` | `source-guard.js`, `romatv-list.js`, `youtube-list.js`, `recording-state.js`, con i loro test | Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
+| A2 raccolta, in due PR perché insieme passano di molto le 1.000 righe (protocollo, sezione 2, punto 4) | elenco dei cataloghi e, per YouTube, dei video del canale da un Actor di Apify (DEC-037), schede, stato, presa, stop delle fonti, controllo di `robots.txt`. A2a: i nodi e i test. A2b: il flusso, costruito sui nodi già rivisti, con la sua esportazione | A2a: `source-guard.js`, `romatv-list.js`, `youtube-list.js`, `recording-state.js`, con i loro test (T-A2-01…T-A2-13). A2b: T-A2-14 in `tests/test_workflow_exports.js` | A2a: niente. A2b: Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
 | A3 testo | la strada dell'audio di RomaTV; l'audio di YouTube da un Actor di Apify, con la riserva e, per ultimi, i sottotitoli automatici (DEC-037, punto 3); i pezzi da 60 secondi; i testi della piattaforma (JSON del parlato, WebVTT di riserva) e i sottotitoli di YouTube in una forma sola con i tempi; il confine della seduta; le spese | `hls-audio.js` (dal prototipo nella cartella di passaggio, sezione 3), `youtube-audio.js`, `recording-text.js`, `session-boundary.js` | `staging_A_testo` |
 | A4 lettura | i fatti candidati secondo `tools/sources-study/report2/SPECIFICA_VIDEO.md`, con l'evidenza `[mm:ss]`, in `letture/`, senza il riscontro con atti e notizie (sotto, «Il riscontro»); il modello di trascrizione si fissa qui, dopo il confronto (sezione 6) | il nodo della lettura | `staging_A_lettura` |
 | A5 elementi | il riscontro con atti e notizie (sotto); geografia con una porta JS della risoluzione del gazetteer sui luoghi estratti; classi editoriali di `institutional` dal build del gazetteer; seconda verifica di DEC-015; coda di revisione; proiezione per il prototipo | la porta del gazetteer, la scrittura dell'elemento | `staging_A_elementi`; gli elementi in `A Amministrazione/` |
@@ -398,7 +398,7 @@ A5.
 A1: T-A1-01…T-A1-19 in `tests/test_institutional_identity.js`: identità, nomi dei file,
 colonne della coda, ora e durata, `source_hash`, l'adattatore di n8n.
 
-A2:
+A2 (T-A2-01…T-A2-13 con A2a; T-A2-14 con A2b):
 - T-A2-01 una pagina di catalogo: guid in minuscolo, titolo come pubblicato, ora di riferimento
   con offset portata in UTC, durata `hh:mm:ss.fffffff` in secondi, trascrizione della
   piattaforma riconosciuta dalle tracce, SMIL solo audio.
@@ -444,14 +444,15 @@ A2:
   gli stati cambiano solo lungo la tabella della sezione 4. La presa di una fonte tenuta dal
   testo: l'elenco aspetta al più fino alla scadenza, poi salta la fonte e lo scrive nel
   registro; il testo che la trova presa non comincia.
-- T-A2-14 esportazione di `staging_A_elenco` (`tests/test_workflow_exports.js`), con il flusso: i
-  nodi Code identici ai file; `fetch` riceve un item per esecuzione; ogni scrittura della presa e
+- T-A2-14 (A2b: arriva con il flusso, non con i nodi) esportazione di `staging_A_elenco`
+  (`tests/test_workflow_exports.js`): i nodi Code identici ai file; `fetch` riceve un item per esecuzione; ogni scrittura della presa e
   di una riga porta il suo `where`, con «Must Match» preso da `where.match`; una riga si legge per
   `ref`; il file dell'avviso viene prima della riga dell'host o dell'elenco; ogni nodo HTTP verso
   Apify viene dopo `may`, porta lo user agent dichiarato e passa la risposta ad `answer`; da
   `poll`, `leave` scrive la lettura nel registro e lo stato dell'elenco nella sua riga, con l'id
-  della corsa, e finisce la corsa, e `lost` passa dalla fase `lost`; un blocco o un errore del
-  server dell'API di Apify non arriva mai a `lost`.
+  della corsa, e finisce la corsa, e `lost` passa dalla fase `lost`; `poll` riceve la riga
+  dell'elenco (`list_row`) e `lost`, per uno stato che non si conosce, la corsa (`run`); un blocco
+  o un errore del server dell'API di Apify non arriva mai a `lost`.
 - T-A2-13 il tetto delle pagine (CONTRATTI, sezione 7 A, «Raccolta»): un catalogo che ripete
   una pagina, le cui date risalgono da una pagina all'altra, o che in 4 pagine non esce dalla
   finestra di T-A2-04 si ferma, mai oltre la quarta richiesta; il registro

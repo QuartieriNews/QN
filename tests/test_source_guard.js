@@ -145,6 +145,17 @@ const text = (body, code) => ({ statusCode: code || 200, headers: { 'content-typ
   const down = g.afterRobots(PORTAL, {}, text('', 503), NOW);
   check('T-A2-08 a server error on rules that were readable: not checked today, not read, one in the streak, not stopped',
     [down.kind, down.read, down.stopped_now, down.state.robots_giorno, down.state.errori_di_fila, down.state.fermo], ['unreadable', false, false, '', 1, '']);
+  const twice = g.afterRobots(PORTAL, down.state, text('', 503), NOW).state;
+  const rulesBack = g.afterRobots(PORTAL, twice, text('User-agent: *\nAllow: /\n'), NOW).state;
+  let after = rulesBack;
+  const afterBack = [];
+  for (let i = 0; i < 4; i++) { const r = g.afterVerdict(after, { outcome: 'server_error', reason: 'x' }, NOW); after = r.state; afterBack.push(r.stopped_now); }
+  check('T-A2-08 the rules read again end the streak: five server errors stop a host only when they are in a row',
+    [twice.errori_di_fila, rulesBack.errori_di_fila, rulesBack.robots_giorno, afterBack, after.errori_di_fila, g.afterVerdict(after, { outcome: 'server_error', reason: 'x' }, NOW).stopped_now],
+    [2, 0, '2026-11-16', [false, false, false, false], 4, true]);
+  check('T-A2-08 the HTML page the media host has always sent ends its streak too; the 503 the API has always sent is no answer, and does not',
+    [g.afterRobots(MEDIA, { errori_di_fila: 3 }, html('<html><body>Wowza</body></html>'), NOW).state.errori_di_fila,
+      g.afterRobots('api-ovp.streamcloud.it', { errori_di_fila: 3 }, text('Service Unavailable', 503), NOW).state.errori_di_fila], [0, 3]);
   const api = g.afterRobots('api-ovp.streamcloud.it', {}, text('Service Unavailable', 503), NOW);
   check('T-A2-08 the API with its 503 of 14 November: checked, read', [api.kind, api.read, api.state.robots_giorno], ['unreadable', true, '2026-11-16']);
   check('T-A2-08 the API without an answer is still unreadable', g.afterRobots('api-ovp.streamcloud.it', {}, { error: 'ETIMEDOUT' }, NOW).read, true);

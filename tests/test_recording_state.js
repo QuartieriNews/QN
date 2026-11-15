@@ -263,6 +263,12 @@ function runNode(json) {
   check('listing: an update carries its ref, for the upsert', [update.json.action, update.json.fields.ref], ['upsert', `romatv:${GUID}`]);
   const restarted = runNode({ stage: 'restart', row: Object.assign({}, first.json.fields, { stato: 'errore', stato_prima_errore: 'testo_in_corso', tentativi: 3 }) });
   check('restart: the restart by hand, from its stage', [restarted.json.fields.stato, restarted.json.fields.tentativi], ['nuova', 0]);
+  check('restart: the state changes, so the record of registrazioni/ is written again, and the row by its ref',
+    [restarted.json.record_file_name, JSON.parse(restarted.json.record).stato, JSON.parse(restarted.json.record).recording_ref, restarted.json.where],
+    [`romatv__${GUID}.json`, 'nuova', `romatv:${GUID}`, { match: 'allConditions', conditions: [{ keyName: 'ref', condition: 'eq', keyValue: `romatv:${GUID}` }] }]);
+  check('restart: a row without its ref, or not in errore, writes nothing',
+    [thrown(() => runNode({ stage: 'restart', row: { stato: 'errore' } })), thrown(() => runNode({ stage: 'restart', row: first.json.fields }))],
+    ['ref_invalid', 'restart_only_from_errore']);
   const lease = runNode({ stage: 'claim', lease_row: s.LEASE_SEED[0], execution_id: 7, who: 'list' });
   check('claim: a free lease is taken by this execution', [lease.json.lease.action, lease.json.lease.fields.presa_id], ['take', '7']);
   const rel = runNode({ stage: 'release', lease_row: Object.assign({}, s.LEASE_SEED[0], lease.json.lease.fields), execution_id: 7 });

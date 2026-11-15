@@ -272,8 +272,9 @@ if (typeof $input === 'undefined') {
  * every `where` is { match, conditions } for the Data table update; 'listing' reads `rec`, `link` and `row` (the row read for the
  * same ref, if any) and writes `action` ('upsert' or 'none'), `where`, `fields`, `record_file_name`
  * and `record`: an upsert on `ref`, so that the same recording twice in a run gives one row;
- * 'restart' reads `row` and writes `fields`; 'log' reads `run` and writes `log`, `log_file_name`
- * and `alert`. */
+ * 'restart' reads `row` and writes `fields`, `where`, `record_file_name` and `record`, as 'listing'
+ * does: a state that changes changes the record; 'log' reads `run` and writes `log`,
+ * `log_file_name` and `alert`. */
 const nowMs = Date.now();
 const nowIso = new Date(nowMs).toISOString();
 if ($json.stage === 'claim') {
@@ -305,7 +306,9 @@ if ($json.stage === 'listing') {
   return $input.item;
 }
 if ($json.stage === 'restart') {
-  $json.fields = restart($json.row, nowIso);
+  const fields = restart($json.row, nowIso);
+  Object.assign($json, { fields, where: allOf(byRef(fields.ref)), record_file_name: recordFileName(fields.ref),
+    record: JSON.stringify(record(fields), null, 2) + '\n' });
   return $input.item;
 }
 if ($json.stage === 'log') {

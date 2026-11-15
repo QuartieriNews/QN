@@ -111,10 +111,10 @@ console.log('T-A2-09 — the run of the list: its limits and its cost file');
     [y.pollDecision(run('SUCCEEDED', { finishedAt: null, startedAt: ago(NOW, 60000) }), NOW).next, y.pollDecision(run('SUCCEEDED', { finishedAt: null, startedAt: ago(NOW, 3 * 3600000) }), NOW).next,
       y.pollDecision(run('FAILED', { finishedAt: null, startedAt: null }), NOW).next],
     ['settle', 'read', 'read']);
-  check('T-A2-09 without a start a run that just ended still waits for its settled cost; an end in the future does not hold it',
+  check('T-A2-09 without a start a run that just ended still waits for its settled cost, also with an end a moment ahead of this clock; an end far in the future does not hold it',
     [y.pollDecision(run('SUCCEEDED', { startedAt: null, finishedAt: ago(NOW, 5000) }), NOW).next, y.pollDecision(run('SUCCEEDED', { startedAt: null, finishedAt: ago(NOW, 60000) }), NOW).next,
-      y.pollDecision(run('FAILED', { startedAt: null, finishedAt: ago(NOW, -3600000) }), NOW).next],
-    ['settle', 'read', 'read']);
+      y.pollDecision(run('SUCCEEDED', { startedAt: null, finishedAt: ago(NOW, -2000) }), NOW).next, y.pollDecision(run('FAILED', { startedAt: null, finishedAt: ago(NOW, -3600000) }), NOW).next],
+    ['settle', 'read', 'settle', 'read']);
   check('T-A2-10 a run not finished never reaches its list or its cost',
     [thrown(() => y.finishedRun(run('RUNNING'), NOW)), thrown(() => y.finishedRun(run('SUCCEEDED', { finishedAt: ago(NOW, 5000) }), NOW))],
     ['run_not_finished: RUNNING', 'run_not_finished: SUCCEEDED']);
@@ -171,6 +171,12 @@ console.log('T-A2-10 — the stops of the list, and a run left behind');
   check('T-A2-10 a run left still waiting keeps its id in the row and counts each time; five in a row stop the list, and the run is still resumed',
     leftSeen, [1, 2, 3, 4, 5].map((n) => ['resume', 'runStuck1234', n, false, n === 5]));
   check('T-A2-10 the day done before it is not touched', left.ultimo_ok_giorno, '2026-11-15');
+  check('T-A2-10 the next day the stop has run out: a list not read then is the first of a new streak, with no stop',
+    (() => { const r = y.afterListLeft(left, { id: 'runStuck1234', status: 'RUNNING' }, 'run still waiting', '2026-11-17T18:40:00Z'); return [r.state.fermo, r.state.fermo_fino, r.state.errori_di_fila, r.stopped_now]; })(),
+    ['', '', 1, false]);
+  check('T-A2-10 once Apify ends that run well, its list is read and its id leaves the row',
+    (() => { const r = y.afterListRun(left, run('SUCCEEDED'), '2026-11-17T18:40:00Z', y.readDataset([item(33, { publishedAt: '2026-10-30T10:00:00Z' })], '2026-11-17T18:40:00Z')); return [r.state.apify_run_id, r.read, r.state.errori_di_fila]; })(),
+    ['', true, 0]);
   check('T-A2-10 once Apify closes that run it is read as any other, and its id leaves the row',
     (() => { const r = y.afterListRun(left, run('ABORTED'), '2026-11-16T20:40:00Z', null); return [r.state.apify_run_id, r.read, r.stopped_now]; })(), ['', false, false]);
   check('T-A2-10 the id kept is that of the run, also when the copy of the row has none; an id no Apify run has is never written',

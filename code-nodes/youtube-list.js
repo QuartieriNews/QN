@@ -200,7 +200,7 @@ function pollDecision(run, now) {
   if (status === 'SUCCEEDED' || FAILED.includes(status)) {
     const sinceEnd = Date.parse(now) - Date.parse(run.finishedAt);
     if (!late && (Number.isNaN(sinceEnd) || sinceEnd < SETTLE_MS)) return { next: 'settle', reason: null };
-    if (Number.isNaN(started) && sinceEnd >= 0 && sinceEnd < SETTLE_MS) return { next: 'settle', reason: null };
+    if (Number.isNaN(started) && sinceEnd > -MAX_WAIT_MS && sinceEnd < SETTLE_MS) return { next: 'settle', reason: null };
     return { next: 'read', reason: null };
   }
   if (WAITING.includes(status)) {
