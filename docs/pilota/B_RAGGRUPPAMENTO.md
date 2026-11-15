@@ -278,10 +278,8 @@ elementi, righe della coda o file del sito, e `staging_B_notizie_raccolta` non s
    originali su Drive): ogni fusione automatica, ogni dubbio, e 50 coppie dello stesso tipo, nella
    finestra, non fuse. Nel passaggio solo i numeri.
 
-Spesa massima dichiarata: 1 €; la replica si ferma se la supera. L'esito proposto (scelta 2): almeno
-il 95% delle fusioni automatiche giuste; nessuna fusione sbagliata che renda pubblicabile un fatto o
-gli dia una fonte che non ne ha scritto; dubbi sotto il 10% delle schede di cronaca. Se le fusioni
-sbagliano, la regola si stringe; non si allarga.
+Spesa massima dichiarata: 1 €; la replica si ferma se la supera. L'esito che la prova deve dare, e
+che cosa succede alla regola dopo, sono in DEC-039, punto 2.
 
 Che cosa mostrerà comunque: pochi fatti di stampa arrivano a due editori, perché a giugno la seconda
 fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezione 4.6).
@@ -296,6 +294,11 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 | dopo | i dubbi nella coda (scelta 3), poi geografia, filtro, scrittura e verifica | |
 
 ## 10. Le scelte dell'owner
+
+L'owner le ha prese il 15 novembre 2026: sono in DEC-039, che vince su questa sezione. Qui sotto
+restano con il consiglio del builder, com'erano alla domanda tranne due frasi che vengono dalla
+revisione: nella scelta 1 quella sulla lista tagliata, nella 3(b) quella sull'aggiornamento in
+dubbio. In DEC-039 sono letture del builder.
 
 1. **Leggere la pagina di ogni record nuovo** della Questura, dei Carabinieri e di Abitare a Roma:
    circa 30 richieste al giorno, con le regole della raccolta. Senza, un riepilogo della Questura si
@@ -325,8 +328,8 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 
 ## 11. Che cosa chiede ai contratti
 
-Questo documento non cambia CONTRATTI. Le righe che servono le propone al coordinatore il passaggio
-della sessione (`PASSAGGIO_2026-11-15_B-raggruppamento.md`, nella cartella di passaggio): il
-raggruppamento in 7 B; la lettura delle pagine, se l'owner la sceglie; le Data table di B e `prove/`
-nella sezione 3; i file di spesa di B; i segnali presi dagli eventi; `source_channel` e `source_id`
-nei record.
+Questo documento non cambia CONTRATTI. Le righe che servivano sono in CONTRATTI con DEC-039: nella
+sezione 7 B il raggruppamento, la lettura delle pagine, i file di spesa di B e i segnali presi dagli
+eventi; nella sezione 3 le Data table di B e `prove/`. `source_channel` e `source_id` nei record non
+sono righe di CONTRATTI: li sistema il passo 1 (sezione 2), e scriverli all'origine tocca alla PR di
+B su `news-parse.js`.
