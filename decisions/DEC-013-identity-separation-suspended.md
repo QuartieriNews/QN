@@ -3,6 +3,9 @@
 Status: DECIDED
 Identity separation restored in part by DEC-029 — see DEC-029 for the current identity
 state. Everything else in this entry stands.
+Also: "the branch must be up to date with `main` before merging" (What is unchanged) is
+superseded by DEC-038, point 1: the owner removes this requirement from the ruleset, and
+while GitHub still asks for it the branch is still updated. See DEC-038 for current policy.
 Supersedes in part: DEC-010 and DEC-012 (each unchanged and not reopened; the clauses
 this entry suspends are listed below).
 

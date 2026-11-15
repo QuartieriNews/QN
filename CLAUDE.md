@@ -35,6 +35,17 @@ roles and the review rules there bind you too. Then:
   owner's (DEC-029), and follows `docs/github/PROTOCOLLO.md` (DEC-028): one
   writing session at a time, its pace, no close-and-reopen and no empty commits,
   and every write stops at the first sign of an account restriction.
+- In the pilot that one writing session is the coordinator's. A workstream chat
+  never writes to GitHub: it hands its branch to the coordinator as a git bundle
+  in its Drive folder (`docs/pilota/CONTRATTI.md`, section 4; DEC-038).
+- Before you deliver a bundle, or open a pull request of your own work as
+  coordinator, have the work reviewed by an internal reviewer that did not write
+  it: a subagent given the diff and the contracts, never your conclusions. You
+  apply the fixes, in the same commit as the work; the review and your answers
+  stay beside the bundle or in the hand-off note (`PASSAGGIO_<date>.md`), never
+  in a commit or on GitHub. As coordinator, open no pull request for a bundle
+  that comes without its review. It is not a Codex cycle and replaces none
+  (protocol, section 2, point 5; DEC-038).
 - Never touch: generated gazetteer files by hand, `venue-registry/venues.json`
   regeneration, DECIDED entries, production n8n. Staging (`staging_`-prefixed
   Drive folders and Firestore collections) is where pipeline work runs until

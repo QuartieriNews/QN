@@ -254,12 +254,14 @@ produzione non si toccano (`CLAUDE.md`).
 
 ## 4. GitHub e revisioni
 
-- Scrive su GitHub solo il coordinatore (DEC-030, DEC-031).
+- Scrive su GitHub solo il coordinatore (DEC-030, DEC-031, DEC-038): le chat dei workstream
+  non scrivono su GitHub.
 - Un workstream consegna il codice al coordinatore come bundle git del proprio branch,
-  caricato nella sua cartella Drive. Il coordinatore lo verifica, fa girare i test e apre
-  la PR.
-- Le PR sono piccole (protocollo, sezione 2, punto 4). La revisione segue il protocollo,
-  sezione 4, e DEC-032.
+  caricato nella sua cartella Drive, dopo la revisione interna (protocollo, sezione 2,
+  punto 5). Il coordinatore lo verifica, fa girare i test e apre la PR.
+- Le PR sono piccole (protocollo, sezione 2, punto 4). Quante stanno nel giro di revisione
+  insieme, e quali file stanno in una sola PR aperta alla volta, lo dice il protocollo,
+  sezione 2, punto 3 (DEC-038). La revisione segue il protocollo, sezione 4, e DEC-032.
 
 ## 5. Costi
 

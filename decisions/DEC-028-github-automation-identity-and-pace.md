@@ -3,6 +3,8 @@
 Status: DECIDED (4 November 2026, owner in the builder session, on the recommendations put by the builder)
 Punto 1 superato in parte da DEC-030: l'app GitHub di Claude va su ogni repository dell'account
 in cui scrivono gli agenti, non sul solo QN. Il resto di questa decisione resta valido.
+Inoltre: domanda 2, la regola «Una PR alla volta», superata in parte da DEC-038: fino a tre
+PR nel giro di revisione, una per workstream. Vale DEC-038.
 Blocks: nothing since 4 November 2026. While open it blocked the restart of work on pull
 requests after the account was restored, and every new automation writing to GitHub.
 
