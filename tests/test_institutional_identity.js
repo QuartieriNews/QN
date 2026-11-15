@@ -297,13 +297,16 @@ function runNode(json) {
   check('T-A1-18 n null is n not given', 'content_id' in runNode(Object.assign({}, romatv, { n: null })).json, false);
   check('T-A1-18 without a transcript (null) the hash reads the transcript fields as empty', listed.json.source_hash,
     m.sourceHash({ recording_ref: REF, title: FIELDS.title, reference_at: FIELDS.reference_at, duration_s: 2710 }));
-  for (const [label, item] of [
-    ['a hashed key left off the item', Object.assign({}, romatv, { transcript_sha256: undefined })],
-    ['the duration under another name', Object.assign({}, romatv, { duration_s: undefined, duration: '00:45:10' })],
-    ['an item named like the record of registrazioni/', { platform: 'romatv', id: GUID, titolo: FIELDS.title,
-      ora_riferimento_utc: '2026-11-13T11:40:00Z', durata_secondi: 2710, transcript_source: null, transcript_sha256: null }]]) {
-    check(`T-A1-18 a naming slip fails, never hashed as empty: ${label}`, thrown(() => runNode(item)), 'hash_field_missing');
-  }
+  const noTextHash = Object.assign({}, romatv);
+  delete noTextHash.transcript_sha256;
+  check('T-A1-18 a hashed key left off the item hashes as empty, as null does (CONTRATTI 7 A, source_hash)',
+    runNode(noTextHash).json.source_hash, runNode(Object.assign({}, romatv, { transcript_sha256: null })).json.source_hash);
+  check('T-A1-18 an item as listed, without the transcript keys, hashes as the one with nulls',
+    runNode({ platform: 'romatv', id: GUID, title: FIELDS.title, reference_at: FIELDS.reference_at,
+      duration_s: '00:45:10.5000000' }).json.source_hash, listed.json.source_hash);
+  check('T-A1-18 only the keys of HASH_FIELDS are read, not the Italian names of the record of registrazioni/',
+    runNode({ platform: 'romatv', id: GUID, titolo: FIELDS.title, ora_riferimento_utc: '2026-11-13T11:40:00Z',
+      durata_secondi: 2710 }).json.source_hash, m.sourceHash({ recording_ref: REF }));
   const yt = runNode({ platform: 'youtube', id: VIDEO, channel_id: CHANNEL, title: 'Commissione inventata su YouTube',
     reference_at: '2026-11-12T09:00:00Z', duration_s: 1800, transcript_source: 'youtube_asr', transcript_sha256: TEXT_HASH, n: 1 });
   check('T-A1-18 YouTube: reference, record file, queue columns, content_id',

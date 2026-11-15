@@ -174,10 +174,10 @@ if (typeof $input === 'undefined') {
 /* n8n Code node, "Run Once for Each Item" — the per-item adapter (T-A1-18). It reads
  * `platform` (`romatv` or `youtube`), `id` (the guid or the video id), `channel_id` (YouTube
  * only), `n` (only once a reading has fixed it) and the hashed fields under the keys of
- * HASH_FIELDS other than `recording_ref`, which it computes. Each of those keys must be on the
- * item, null when it has no value yet: a key under another name fails instead of hashing as
- * empty. An item without a usable identity fails, it is never given a guessed one. Everything
- * is computed before the item is touched. */
+ * HASH_FIELDS other than `recording_ref`, which it computes. A key that is not on the item hashes
+ * as empty, as null does (CONTRATTI section 7 (A), row `source_hash`): a value under another name
+ * is not read. An item without a usable identity fails, it is never given a guessed one.
+ * Everything is computed before the item is touched. */
 const ref = recordingRef($json.platform, $json.id);
 const out = {
   recording_ref: ref,
@@ -185,13 +185,7 @@ const out = {
   source_channel: sourceChannel($json.platform),
   source_id: sourceId($json.platform, $json.channel_id),
 };
-const hashed = { recording_ref: ref };
-for (const k of HASH_FIELDS) {
-  if (k === 'recording_ref') continue;
-  if ($json[k] === undefined) throw new Error('hash_field_missing');
-  hashed[k] = $json[k];
-}
-out.source_hash = sourceHash(hashed);
+out.source_hash = sourceHash(Object.assign({}, $json, { recording_ref: ref }));
 if ($json.n !== undefined && $json.n !== null) {
   out.content_id = contentId(ref, $json.n);
   out.file_name = fileName(out.content_id);
