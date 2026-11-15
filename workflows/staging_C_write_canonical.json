@@ -5,7 +5,7 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "1c885c0f-f2ae-44ec-834e-273c058d0f8e",
-        "responseMode": "onReceived",
+        "responseMode": "responseNode",
         "options": {
           "rawBody": false
         },
@@ -15,7 +15,7 @@
       "typeVersion": 2,
       "position": [
         0,
-        0
+        300
       ],
       "id": "w1",
       "name": "Webhook",
@@ -29,20 +29,493 @@
     },
     {
       "parameters": {
-        "jsCode": "// staging_C write: canonical files -> Drive C Eventi. Only spec file names, at most 100.\nconst files = ($json.body && Array.isArray($json.body.files)) ? $json.body.files : [];\nif (files.length === 0 || files.length > 100) throw new Error('files: 1 to 100 required');\nreturn files.map(f => {\n  if (!/^roma__evt__facebook__\\d+\\.json$/.test(f.name)) throw new Error('bad file name: ' + f.name);\n  JSON.parse(f.content);\n  return { json: { name: f.name }, binary: { data: { data: Buffer.from(f.content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: f.name } } };\n});"
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c5ee6165-e755-55fc-9cce-f82bf3e72278",
+              "name": "stage",
+              "value": "request",
+              "type": "string"
+            },
+            {
+              "id": "8a0d448f-b717-583a-a537-d1eb804298df",
+              "name": "workflow",
+              "value": "={{ $workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "a719c78e-e9c0-52ea-8713-e81c09181b70",
+              "name": "execution_id",
+              "value": "={{ $execution.id }}",
+              "type": "string"
+            },
+            {
+              "id": "813011ca-4014-5f9a-b62f-7e0b464eaa27",
+              "name": "started_at",
+              "value": "={{ $now.toUTC().toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "b66a9deb-fc2f-534e-be1a-b3c72078db41",
+              "name": "files",
+              "value": "={{ $json.body.files }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        300
+      ],
+      "id": "04e37a2d-4460-57d7-89c6-66eb744bbd78",
+      "name": "Prepara richiesta"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "/**\n * canonical-write.js — workstream C: the canonical files of `C Eventi/`, as staging_C_write_canonical\n * and staging_C_update_canonical write them, one call at a time and the same after a retry. It closes\n * two defects of workflows/README.md: a retried call uploaded the same file name again, and two calls\n * at the same time both uploaded a name not yet on Drive.\n *\n * The write of each file is the deterministic upsert of specification v2.5, phase 5.2 (T23, T24),\n * and a file whose bytes are already on Drive is left as it is (T02). One call writes at a time\n * (specification v2.5, Part I, 4.1; T27), with the reservation of the Atti Web download\n * (docs/pilota/CONTRATTI.md, «Lo storico»; `reservationHolds` in archive-record.js), written in\n * `C Eventi/scritture/`, which the two workflows share. A reservation without its outcome stops\n * holding after the specification's `run_lock_max_age_minutes`, counted from the reservation, as\n * there is no heartbeat (T28). A reading, a step of this code or a Drive write that fails after the\n * reservation is recorded in the outcome, which frees the calls after it (T29). A call that dies\n * outright holds them until then: so does a failure in a node with no error route, a reservation\n * Drive saved without n8n hearing of it, or an outcome that cannot be saved. The workflow does the\n * requests: workflows/README.md, «The canonical write».\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for All Items\", JavaScript) the same\n * file runs its adapter on one item. `stage` on that item says which step it takes:\n *   - 'request': the files of the call are checked and its reservation is prepared;\n *   - 'turn': the reservations read again after it say whether the call goes on;\n *   - 'plan': the listing of `C Eventi/` gives each file its write, one item per file;\n *   - 'outcome': the results of the writes, or the stop, become the outcome and the answer.\n */\n'use strict';\n\nconst crypto = require('crypto');\n\n/** What each workflow accepts, as the workflows had it before this file. */\nconst FLOWS = Object.freeze({\n  staging_C_write_canonical: Object.freeze({ max: 100, name: /^roma__evt__facebook__\\d+\\.json$/ }),\n  staging_C_update_canonical: Object.freeze({ max: 300, name: /^roma__evt__[a-z0-9_.-]+\\.json$/ }),\n});\n/** Specification v2.5, Part I, 4.2: `run_lock_max_age_minutes`. */\nconst HOLD_MS = 120 * 60 * 1000;\n/** Specification v2.5, phase 5.2 and T28: the warnings of the run report. */\nconst DUPLICATES = 'duplicate_canonical_files_detected';\nconst LOST = 'lock_ownership_lost';\nconst ID = /^[A-Za-z0-9_-]+$/;\nconst RESERVATION = /^prenotazione_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst OUTCOME = /^esito_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst ACTIONS = ['created', 'updated', 'unchanged', 'failed'];\n/** Drive's own files (Docs, folders, shortcuts): never the canonical file, whatever their name. */\nconst GOOGLE = 'application/vnd.google-apps.';\n/** The folder of the reservations is a child of `C Eventi/`: a listing that does not show it is not\n *  the listing of the folder, and must never turn every file into a creation. */\nconst RESERVATIONS_FOLDER = 'scritture';\n\n/** A UTC instant written as n8n and Drive write it, or null: no 30 February, no hour 24. */\nfunction utcInstant(s) {\n  const m = typeof s === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d{1,3})?Z$/.exec(s);\n  if (!m) return null;\n  const t = Date.parse(s);\n  if (!Number.isFinite(t)) return null;\n  const d = new Date(t);\n  const same = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()]\n    .every((v, i) => v === Number(m[i + 1]));\n  return same ? t : null;\n}\n\nconst day = (t) => new Date(t).toISOString().slice(0, 10);\nconst stamp = (t) => new Date(t).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';\nconst byTimeThenId = (a, b) => a.at - b.at || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);\nconst md5 = (text) => crypto.createHash('md5').update(Buffer.from(text, 'utf8')).digest('hex');\n\n/** Stage 'request': the files of one call, checked before anything is written, and the reservation\n *  it writes first. The reservation lists names only, never the content of a file. */\nfunction request({ workflow, execution_id, started_at, files }) {\n  const rule = FLOWS[workflow];\n  if (!rule) throw new Error(`workflow ${JSON.stringify(workflow)} is not one of the canonical writers`);\n  if (typeof execution_id !== 'string' || !ID.test(execution_id)) throw new Error('execution_id must be the id of the n8n execution');\n  const t = utcInstant(started_at);\n  if (t === null) throw new Error('started_at must be a UTC instant');\n  if (!Array.isArray(files) || files.length === 0 || files.length > rule.max) throw new Error(`files: 1 to ${rule.max} required`);\n  const seen = new Set();\n  const clean = files.map((f) => {\n    const name = f && f.name;\n    if (typeof name !== 'string' || !rule.name.test(name)) throw new Error('bad file name: ' + name);\n    if (seen.has(name)) throw new Error('file listed twice: ' + name);\n    seen.add(name);\n    if (typeof f.content !== 'string') throw new Error(`${name}: content must be the text of the file`);\n    let doc;\n    try { doc = JSON.parse(f.content); } catch (e) { throw new Error(`${name}: content is not JSON`); }\n    if (!doc || typeof doc !== 'object' || Array.isArray(doc)) throw new Error(`${name}: content is not a JSON object`);\n    return { name, content: f.content };\n  });\n  const names = clean.map((f) => f.name);\n  const today = day(t);\n  const yesterday = day(t - 24 * 3600 * 1000);\n  const kinds = [`prenotazione_${today}_`, `esito_${today}_`, `prenotazione_${yesterday}_`, `esito_${yesterday}_`];\n  return {\n    files: clean,\n    names,\n    reservation_name: `prenotazione_${today}_${stamp(t)}_${execution_id}.json`,\n    reservation: { workflow, execution_id, started_at, files: names },\n    // Today's and yesterday's reservations and outcomes cover the HOLD_MS before this call.\n    reservations_query: `(${kinds.map((k) => `name contains '${k}'`).join(' or ')})`,\n  };\n}\n\n/** Stage 'turn': after writing its reservation, a call reads the reservations and outcomes again\n *  (`{ id, name, createdTime }`) and finds its own by the Drive id of the file it wrote (`mine`).\n *  It goes on only if every reservation written before its own, in Drive's order, has its outcome\n *  or is older than HOLD_MS: of two calls that overlap, the second stops before any canonical\n *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call\n *  that does not see its own reservation yet stops too: it has written nothing canonical, and its\n *  outcome frees the calls after it. */\nfunction turn({ reservations, mine }) {\n  if (!Array.isArray(reservations)) throw new Error('reservations must list the reservations and outcomes read again');\n  if (typeof mine !== 'string' || !ID.test(mine)) throw new Error('mine must be the Drive id of the call\\'s reservation');\n  const finished = new Set();\n  const rows = new Map();\n  for (const r of reservations) {\n    const name = r && typeof r.name === 'string' ? r.name : '';\n    const out = OUTCOME.exec(name);\n    if (out) { finished.add(out[3]); continue; }\n    if (!RESERVATION.test(name)) continue;\n    const id = String(r.id || '');\n    const at = Date.parse(r.createdTime);\n    if (!ID.test(id)) throw new Error(`reservation ${name} without its Drive id`);\n    if (!Number.isFinite(at)) throw new Error(`reservation ${name} without the time it was written`);\n    rows.set(id, { id, name, at });\n  }\n  const order = [...rows.values()].sort(byTimeThenId);\n  const idx = order.findIndex((r) => r.id === mine);\n  if (idx < 0) return { holds: false, busy: [], stale: [], reason: 'the call\\'s own reservation is not listed yet' };\n  const open = order.slice(0, idx).filter((r) => !finished.has(r.id));\n  const busy = open.filter((r) => order[idx].at - r.at < HOLD_MS).map((r) => r.name);\n  const stale = open.filter((r) => order[idx].at - r.at >= HOLD_MS).map((r) => r.name);\n  return { holds: busy.length === 0, busy, stale, reason: busy.length ? 'an earlier write has no outcome yet' : null };\n}\n\n/** Stage 'plan': each file of the call against the listing of `C Eventi/` (`{ id, name,\n *  createdTime, md5Checksum }`), by its exact name (phase 5.2). No file of that name: `create`.\n *  Otherwise the oldest by `createdTime` is the one written, the others are `duplicates`, never\n *  moved or deleted (T24); `unchanged` when its MD5 is the file's, so a retried call writes nothing\n *  (T02), `update` otherwise (T03). A listing without the MD5 counts as changed. A Drive file of the\n *  same name (GOOGLE) is never the one written: it is one of the duplicates, and when it is the only\n *  file of that name the file `failed`, so that no second file appears. A listing without\n *  RESERVATIONS_FOLDER stops the call before any canonical write. */\nfunction plan({ files, listing }) {\n  if (!Array.isArray(files) || files.length === 0) throw new Error('files must list the files of the call');\n  if (!Array.isArray(listing)) throw new Error('listing must list the files of C Eventi');\n  if (!listing.some((f) => f && f.name === RESERVATIONS_FOLDER && f.mimeType === GOOGLE + 'folder')) {\n    throw new Error(`the listing does not show ${RESERVATIONS_FOLDER}/: it is not the listing of C Eventi`);\n  }\n  const byName = new Map();\n  for (const f of listing) {\n    if (!f || typeof f.name !== 'string') continue;\n    if (!ID.test(String(f.id || ''))) throw new Error(`${f.name}: a listed file without its Drive id`);\n    if (!byName.has(f.name)) byName.set(f.name, []);\n    byName.get(f.name).push({ id: String(f.id), at: Date.parse(f.createdTime), md5: f.md5Checksum,\n      google: typeof f.mimeType === 'string' && f.mimeType.startsWith(GOOGLE) });\n  }\n  return files.map(({ name, content }) => {\n    const all = (byName.get(name) || []).slice().sort(byTimeThenId);\n    const same = all.filter((x) => !x.google);\n    const others = all.filter((x) => x.google).map((x) => x.id);\n    if (same.length === 0 && others.length > 0) {\n      return { name, action: 'failed', file_id: null, duplicates: others, content: null, error: 'only a Google Drive file of this name in C Eventi' };\n    }\n    if (same.length === 0) return { name, action: 'create', file_id: null, duplicates: [], content };\n    if (same.length > 1 && same.some((x) => !Number.isFinite(x.at))) {\n      throw new Error(`${name}: ${same.length} files of this name, not all with the time they were written`);\n    }\n    const [oldest, ...rest] = same;\n    const duplicates = rest.map((x) => x.id).concat(others);\n    if (typeof oldest.md5 === 'string' && oldest.md5.toLowerCase() === md5(content)) {\n      return { name, action: 'unchanged', file_id: oldest.id, duplicates, content: null };\n    }\n    return { name, action: 'update', file_id: oldest.id, duplicates, content };\n  });\n}\n\n/** Stage 'outcome': what a call did, file by file in the order of the call, written in\n *  `C Eventi/scritture/` next to its reservation and sent back as the answer. A call stopped by its\n *  turn has no files (409). `failure` is the error of a step that failed after the reservation:\n *  before the turn the call stops, after it every file is a failure, since the steps that can fail\n *  there come before any canonical write (500). A created or updated file without its Drive id is a\n *  failure (phase 5.2, step 3), and a failure leaves the call `incomplete` (500): a retry writes\n *  only what is missing. Once the reservation is known nothing here throws on the results, so that\n *  the outcome is always written. */\nfunction outcome({ workflow, execution_id, started_at, finished_at, reservation_id, names, turn: tr, results, failure }) {\n  const t0 = utcInstant(started_at);\n  const t1 = utcInstant(finished_at);\n  if (t0 === null || t1 === null) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof reservation_id !== 'string' || !ID.test(reservation_id)) throw new Error('reservation_id must be the Drive id of the call\\'s reservation');\n  if (!Array.isArray(names) || names.length === 0) throw new Error('names must list the files of the call');\n  const failed = typeof failure === 'string' && failure.trim() ? failure.trim() : null;\n  if (!failed && (!tr || typeof tr.holds !== 'boolean')) throw new Error('turn must say whether the call held its turn');\n  const esito_name = `esito_${day(t0)}_${stamp(t0)}_${reservation_id}.json`;\n  const head = { workflow, execution_id, started_at, finished_at, reservation_id, busy: (tr && tr.busy) || [], stale: (tr && tr.stale) || [] };\n  const counts = (files) => Object.fromEntries(ACTIONS.map((a) => [a, files.filter((f) => f.action === a).length]));\n  const stop = (why, code) => ({ esito_name, status_code: code,\n    esito: Object.assign(head, { status: 'stopped', stopped: why, files: [], counts: counts([]), warnings: [] }) });\n  if (failed && !(tr && tr.holds === true)) return stop(failed, 500);\n  if (!failed && !tr.holds) return stop(tr.reason || 'an earlier write has no outcome yet', 409);\n  const byName = new Map();\n  const twice = new Set();\n  const unexpected = [];\n  for (const r of failed || !Array.isArray(results) ? [] : results) {\n    if (!r || typeof r.name !== 'string') continue; // the empty item of a branch that wrote nothing\n    if (!names.includes(r.name)) unexpected.push(r.name);\n    else if (byName.has(r.name)) twice.add(r.name);\n    else byName.set(r.name, r);\n  }\n  const files = names.map((name) => {\n    const r = byName.get(name);\n    const duplicates = r && Array.isArray(r.duplicates) ? r.duplicates.map(String) : [];\n    if (failed) return { name, action: 'failed', file_id: null, duplicates, error: failed };\n    if (twice.has(name)) return { name, action: 'failed', file_id: null, duplicates, error: 'two results for this file' };\n    if (!r) return { name, action: 'failed', file_id: null, duplicates, error: 'no result from the write' };\n    if (!ACTIONS.includes(r.action)) return { name, action: 'failed', file_id: null, duplicates, error: `unknown action ${r.action}` };\n    // A Set node turns a missing id into the text \"null\" or \"undefined\": neither is an id.\n    const file_id = typeof r.file_id === 'string' && ID.test(r.file_id) && !['null', 'undefined'].includes(r.file_id) ? r.file_id : null;\n    if (r.action === 'failed') return { name, action: 'failed', file_id, duplicates, error: String(r.error || 'the write failed') };\n    if (!file_id) return { name, action: 'failed', file_id: null, duplicates, error: 'the Drive id of the file was not captured' };\n    return { name, action: r.action, file_id, duplicates };\n  });\n  const n = counts(files);\n  const warnings = [];\n  if (files.some((f) => f.duplicates.length > 0)) warnings.push(DUPLICATES);\n  if (t1 - t0 >= HOLD_MS) warnings.push(LOST);\n  const bad = n.failed > 0 || unexpected.length > 0;\n  const esito = Object.assign(head, { status: bad ? 'incomplete' : 'written', stopped: null, files, counts: n, warnings });\n  if (unexpected.length) esito.unexpected = unexpected;\n  return { esito_name, status_code: bad ? 500 : 200, esito };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { FLOWS, HOLD_MS, DUPLICATES, LOST, utcInstant, md5, request, turn, plan, outcome };\n  return;\n}\n\n/* n8n Code node, \"Run Once for All Items\" — one item in, its stage out (see the header). */\nconst items = $input.all();\nif (items.length !== 1) throw new Error(`one item expected, ${items.length} received`);\nconst j = items[0].json;\nif (j.stage === 'request') return [{ json: Object.assign({}, j, request(j)) }];\nif (j.stage === 'turn') {\n  const out = Object.assign({}, j, { turn: turn({ reservations: (j.reservations || []).filter((r) => r && r.name), mine: j.reservation_id }) });\n  delete out.reservations;\n  return [{ json: out }];\n}\nif (j.stage === 'plan') {\n  return plan(j).map((p) => {\n    const json = { name: p.name, action: p.action, file_id: p.file_id, duplicates: p.duplicates };\n    if (p.error) json.error = p.error;\n    if (p.content === null) return { json };\n    return { json, binary: { data: { data: Buffer.from(p.content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: p.name } } };\n  });\n}\nif (j.stage === 'outcome') return [{ json: outcome(j) }];\nthrow new Error(`unknown stage ${JSON.stringify(j.stage)}`);\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        220,
-        0
+        440,
+        300
       ],
-      "id": "w2",
-      "name": "Files"
+      "id": "b258df48-de81-5a48-a7e3-8611c9380899",
+      "name": "Richiesta"
     },
     {
       "parameters": {
-        "name": "={{ $json.name }}",
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6709002-0c30-5749-bccb-9f36c3ad7f87",
+              "name": "name",
+              "value": "={{ $json.reservation_name }}",
+              "type": "string"
+            },
+            {
+              "id": "799232a1-3053-5e8d-ac10-cf335a6333a6",
+              "name": "text",
+              "value": "={{ JSON.stringify($json.reservation, null, 1) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        660,
+        300
+      ],
+      "id": "82d86642-9247-5682-bd34-3a9fc56414f4",
+      "name": "Testo prenotazione"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        300
+      ],
+      "id": "6f09041c-7a84-5826-971e-7d17ffdf048f",
+      "name": "File prenotazione"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "13Ls3CUh_Dzrxqsv6NaU9qE_oPh1L8Moq"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1100,
+        300
+      ],
+      "id": "d2ab9fed-6b31-58ba-b0f0-9dcd58488726",
+      "name": "Salva prenotazione",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 5
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1320,
+        300
+      ],
+      "id": "ff671a5d-491f-5f54-b99d-49d454bd8fc9",
+      "name": "Attesa conferma",
+      "webhookId": "03985bf6-6ae3-5bbc-82a3-20416022930c"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='13Ls3CUh_Dzrxqsv6NaU9qE_oPh1L8Moq' in parents and trashed = false and {{ $('Richiesta').first().json.reservations_query }}",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "createdTime"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1540,
+        300
+      ],
+      "id": "352ac504-2158-5ec5-ab2f-83e90edaa80d",
+      "name": "Prenotazioni",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "reservations",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        300
+      ],
+      "id": "954a4b59-dc70-5c6d-9491-b3360702d266",
+      "name": "Elenco prenotazioni"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "248630cb-5912-567f-b84c-5f2c9a4f9325",
+              "name": "stage",
+              "value": "turn",
+              "type": "string"
+            },
+            {
+              "id": "79755c2a-80a3-580b-a70f-b375f81948b8",
+              "name": "workflow",
+              "value": "={{ $('Richiesta').first().json.workflow }}",
+              "type": "string"
+            },
+            {
+              "id": "6d59f9d5-00b4-5175-8c29-dc1ce259f51f",
+              "name": "execution_id",
+              "value": "={{ $('Richiesta').first().json.execution_id }}",
+              "type": "string"
+            },
+            {
+              "id": "20455dda-f458-5f69-b903-69a22cf99128",
+              "name": "started_at",
+              "value": "={{ $('Richiesta').first().json.started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "0acef778-7e6a-5aec-923d-126a9a32d7f0",
+              "name": "names",
+              "value": "={{ $('Richiesta').first().json.names }}",
+              "type": "array"
+            },
+            {
+              "id": "176dd719-20b5-5dbe-9e95-ab6539bf562a",
+              "name": "reservation_id",
+              "value": "={{ $('Salva prenotazione').first().json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "10fa7116-167f-5861-bdf0-e9969b6aa867",
+              "name": "reservations",
+              "value": "={{ $json.reservations }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1980,
+        300
+      ],
+      "id": "55dbe610-4661-5d44-8d06-5e3ec3b8cffa",
+      "name": "Prepara turno"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "/**\n * canonical-write.js — workstream C: the canonical files of `C Eventi/`, as staging_C_write_canonical\n * and staging_C_update_canonical write them, one call at a time and the same after a retry. It closes\n * two defects of workflows/README.md: a retried call uploaded the same file name again, and two calls\n * at the same time both uploaded a name not yet on Drive.\n *\n * The write of each file is the deterministic upsert of specification v2.5, phase 5.2 (T23, T24),\n * and a file whose bytes are already on Drive is left as it is (T02). One call writes at a time\n * (specification v2.5, Part I, 4.1; T27), with the reservation of the Atti Web download\n * (docs/pilota/CONTRATTI.md, «Lo storico»; `reservationHolds` in archive-record.js), written in\n * `C Eventi/scritture/`, which the two workflows share. A reservation without its outcome stops\n * holding after the specification's `run_lock_max_age_minutes`, counted from the reservation, as\n * there is no heartbeat (T28). A reading, a step of this code or a Drive write that fails after the\n * reservation is recorded in the outcome, which frees the calls after it (T29). A call that dies\n * outright holds them until then: so does a failure in a node with no error route, a reservation\n * Drive saved without n8n hearing of it, or an outcome that cannot be saved. The workflow does the\n * requests: workflows/README.md, «The canonical write».\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for All Items\", JavaScript) the same\n * file runs its adapter on one item. `stage` on that item says which step it takes:\n *   - 'request': the files of the call are checked and its reservation is prepared;\n *   - 'turn': the reservations read again after it say whether the call goes on;\n *   - 'plan': the listing of `C Eventi/` gives each file its write, one item per file;\n *   - 'outcome': the results of the writes, or the stop, become the outcome and the answer.\n */\n'use strict';\n\nconst crypto = require('crypto');\n\n/** What each workflow accepts, as the workflows had it before this file. */\nconst FLOWS = Object.freeze({\n  staging_C_write_canonical: Object.freeze({ max: 100, name: /^roma__evt__facebook__\\d+\\.json$/ }),\n  staging_C_update_canonical: Object.freeze({ max: 300, name: /^roma__evt__[a-z0-9_.-]+\\.json$/ }),\n});\n/** Specification v2.5, Part I, 4.2: `run_lock_max_age_minutes`. */\nconst HOLD_MS = 120 * 60 * 1000;\n/** Specification v2.5, phase 5.2 and T28: the warnings of the run report. */\nconst DUPLICATES = 'duplicate_canonical_files_detected';\nconst LOST = 'lock_ownership_lost';\nconst ID = /^[A-Za-z0-9_-]+$/;\nconst RESERVATION = /^prenotazione_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst OUTCOME = /^esito_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst ACTIONS = ['created', 'updated', 'unchanged', 'failed'];\n/** Drive's own files (Docs, folders, shortcuts): never the canonical file, whatever their name. */\nconst GOOGLE = 'application/vnd.google-apps.';\n/** The folder of the reservations is a child of `C Eventi/`: a listing that does not show it is not\n *  the listing of the folder, and must never turn every file into a creation. */\nconst RESERVATIONS_FOLDER = 'scritture';\n\n/** A UTC instant written as n8n and Drive write it, or null: no 30 February, no hour 24. */\nfunction utcInstant(s) {\n  const m = typeof s === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d{1,3})?Z$/.exec(s);\n  if (!m) return null;\n  const t = Date.parse(s);\n  if (!Number.isFinite(t)) return null;\n  const d = new Date(t);\n  const same = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()]\n    .every((v, i) => v === Number(m[i + 1]));\n  return same ? t : null;\n}\n\nconst day = (t) => new Date(t).toISOString().slice(0, 10);\nconst stamp = (t) => new Date(t).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';\nconst byTimeThenId = (a, b) => a.at - b.at || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);\nconst md5 = (text) => crypto.createHash('md5').update(Buffer.from(text, 'utf8')).digest('hex');\n\n/** Stage 'request': the files of one call, checked before anything is written, and the reservation\n *  it writes first. The reservation lists names only, never the content of a file. */\nfunction request({ workflow, execution_id, started_at, files }) {\n  const rule = FLOWS[workflow];\n  if (!rule) throw new Error(`workflow ${JSON.stringify(workflow)} is not one of the canonical writers`);\n  if (typeof execution_id !== 'string' || !ID.test(execution_id)) throw new Error('execution_id must be the id of the n8n execution');\n  const t = utcInstant(started_at);\n  if (t === null) throw new Error('started_at must be a UTC instant');\n  if (!Array.isArray(files) || files.length === 0 || files.length > rule.max) throw new Error(`files: 1 to ${rule.max} required`);\n  const seen = new Set();\n  const clean = files.map((f) => {\n    const name = f && f.name;\n    if (typeof name !== 'string' || !rule.name.test(name)) throw new Error('bad file name: ' + name);\n    if (seen.has(name)) throw new Error('file listed twice: ' + name);\n    seen.add(name);\n    if (typeof f.content !== 'string') throw new Error(`${name}: content must be the text of the file`);\n    let doc;\n    try { doc = JSON.parse(f.content); } catch (e) { throw new Error(`${name}: content is not JSON`); }\n    if (!doc || typeof doc !== 'object' || Array.isArray(doc)) throw new Error(`${name}: content is not a JSON object`);\n    return { name, content: f.content };\n  });\n  const names = clean.map((f) => f.name);\n  const today = day(t);\n  const yesterday = day(t - 24 * 3600 * 1000);\n  const kinds = [`prenotazione_${today}_`, `esito_${today}_`, `prenotazione_${yesterday}_`, `esito_${yesterday}_`];\n  return {\n    files: clean,\n    names,\n    reservation_name: `prenotazione_${today}_${stamp(t)}_${execution_id}.json`,\n    reservation: { workflow, execution_id, started_at, files: names },\n    // Today's and yesterday's reservations and outcomes cover the HOLD_MS before this call.\n    reservations_query: `(${kinds.map((k) => `name contains '${k}'`).join(' or ')})`,\n  };\n}\n\n/** Stage 'turn': after writing its reservation, a call reads the reservations and outcomes again\n *  (`{ id, name, createdTime }`) and finds its own by the Drive id of the file it wrote (`mine`).\n *  It goes on only if every reservation written before its own, in Drive's order, has its outcome\n *  or is older than HOLD_MS: of two calls that overlap, the second stops before any canonical\n *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call\n *  that does not see its own reservation yet stops too: it has written nothing canonical, and its\n *  outcome frees the calls after it. */\nfunction turn({ reservations, mine }) {\n  if (!Array.isArray(reservations)) throw new Error('reservations must list the reservations and outcomes read again');\n  if (typeof mine !== 'string' || !ID.test(mine)) throw new Error('mine must be the Drive id of the call\\'s reservation');\n  const finished = new Set();\n  const rows = new Map();\n  for (const r of reservations) {\n    const name = r && typeof r.name === 'string' ? r.name : '';\n    const out = OUTCOME.exec(name);\n    if (out) { finished.add(out[3]); continue; }\n    if (!RESERVATION.test(name)) continue;\n    const id = String(r.id || '');\n    const at = Date.parse(r.createdTime);\n    if (!ID.test(id)) throw new Error(`reservation ${name} without its Drive id`);\n    if (!Number.isFinite(at)) throw new Error(`reservation ${name} without the time it was written`);\n    rows.set(id, { id, name, at });\n  }\n  const order = [...rows.values()].sort(byTimeThenId);\n  const idx = order.findIndex((r) => r.id === mine);\n  if (idx < 0) return { holds: false, busy: [], stale: [], reason: 'the call\\'s own reservation is not listed yet' };\n  const open = order.slice(0, idx).filter((r) => !finished.has(r.id));\n  const busy = open.filter((r) => order[idx].at - r.at < HOLD_MS).map((r) => r.name);\n  const stale = open.filter((r) => order[idx].at - r.at >= HOLD_MS).map((r) => r.name);\n  return { holds: busy.length === 0, busy, stale, reason: busy.length ? 'an earlier write has no outcome yet' : null };\n}\n\n/** Stage 'plan': each file of the call against the listing of `C Eventi/` (`{ id, name,\n *  createdTime, md5Checksum }`), by its exact name (phase 5.2). No file of that name: `create`.\n *  Otherwise the oldest by `createdTime` is the one written, the others are `duplicates`, never\n *  moved or deleted (T24); `unchanged` when its MD5 is the file's, so a retried call writes nothing\n *  (T02), `update` otherwise (T03). A listing without the MD5 counts as changed. A Drive file of the\n *  same name (GOOGLE) is never the one written: it is one of the duplicates, and when it is the only\n *  file of that name the file `failed`, so that no second file appears. A listing without\n *  RESERVATIONS_FOLDER stops the call before any canonical write. */\nfunction plan({ files, listing }) {\n  if (!Array.isArray(files) || files.length === 0) throw new Error('files must list the files of the call');\n  if (!Array.isArray(listing)) throw new Error('listing must list the files of C Eventi');\n  if (!listing.some((f) => f && f.name === RESERVATIONS_FOLDER && f.mimeType === GOOGLE + 'folder')) {\n    throw new Error(`the listing does not show ${RESERVATIONS_FOLDER}/: it is not the listing of C Eventi`);\n  }\n  const byName = new Map();\n  for (const f of listing) {\n    if (!f || typeof f.name !== 'string') continue;\n    if (!ID.test(String(f.id || ''))) throw new Error(`${f.name}: a listed file without its Drive id`);\n    if (!byName.has(f.name)) byName.set(f.name, []);\n    byName.get(f.name).push({ id: String(f.id), at: Date.parse(f.createdTime), md5: f.md5Checksum,\n      google: typeof f.mimeType === 'string' && f.mimeType.startsWith(GOOGLE) });\n  }\n  return files.map(({ name, content }) => {\n    const all = (byName.get(name) || []).slice().sort(byTimeThenId);\n    const same = all.filter((x) => !x.google);\n    const others = all.filter((x) => x.google).map((x) => x.id);\n    if (same.length === 0 && others.length > 0) {\n      return { name, action: 'failed', file_id: null, duplicates: others, content: null, error: 'only a Google Drive file of this name in C Eventi' };\n    }\n    if (same.length === 0) return { name, action: 'create', file_id: null, duplicates: [], content };\n    if (same.length > 1 && same.some((x) => !Number.isFinite(x.at))) {\n      throw new Error(`${name}: ${same.length} files of this name, not all with the time they were written`);\n    }\n    const [oldest, ...rest] = same;\n    const duplicates = rest.map((x) => x.id).concat(others);\n    if (typeof oldest.md5 === 'string' && oldest.md5.toLowerCase() === md5(content)) {\n      return { name, action: 'unchanged', file_id: oldest.id, duplicates, content: null };\n    }\n    return { name, action: 'update', file_id: oldest.id, duplicates, content };\n  });\n}\n\n/** Stage 'outcome': what a call did, file by file in the order of the call, written in\n *  `C Eventi/scritture/` next to its reservation and sent back as the answer. A call stopped by its\n *  turn has no files (409). `failure` is the error of a step that failed after the reservation:\n *  before the turn the call stops, after it every file is a failure, since the steps that can fail\n *  there come before any canonical write (500). A created or updated file without its Drive id is a\n *  failure (phase 5.2, step 3), and a failure leaves the call `incomplete` (500): a retry writes\n *  only what is missing. Once the reservation is known nothing here throws on the results, so that\n *  the outcome is always written. */\nfunction outcome({ workflow, execution_id, started_at, finished_at, reservation_id, names, turn: tr, results, failure }) {\n  const t0 = utcInstant(started_at);\n  const t1 = utcInstant(finished_at);\n  if (t0 === null || t1 === null) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof reservation_id !== 'string' || !ID.test(reservation_id)) throw new Error('reservation_id must be the Drive id of the call\\'s reservation');\n  if (!Array.isArray(names) || names.length === 0) throw new Error('names must list the files of the call');\n  const failed = typeof failure === 'string' && failure.trim() ? failure.trim() : null;\n  if (!failed && (!tr || typeof tr.holds !== 'boolean')) throw new Error('turn must say whether the call held its turn');\n  const esito_name = `esito_${day(t0)}_${stamp(t0)}_${reservation_id}.json`;\n  const head = { workflow, execution_id, started_at, finished_at, reservation_id, busy: (tr && tr.busy) || [], stale: (tr && tr.stale) || [] };\n  const counts = (files) => Object.fromEntries(ACTIONS.map((a) => [a, files.filter((f) => f.action === a).length]));\n  const stop = (why, code) => ({ esito_name, status_code: code,\n    esito: Object.assign(head, { status: 'stopped', stopped: why, files: [], counts: counts([]), warnings: [] }) });\n  if (failed && !(tr && tr.holds === true)) return stop(failed, 500);\n  if (!failed && !tr.holds) return stop(tr.reason || 'an earlier write has no outcome yet', 409);\n  const byName = new Map();\n  const twice = new Set();\n  const unexpected = [];\n  for (const r of failed || !Array.isArray(results) ? [] : results) {\n    if (!r || typeof r.name !== 'string') continue; // the empty item of a branch that wrote nothing\n    if (!names.includes(r.name)) unexpected.push(r.name);\n    else if (byName.has(r.name)) twice.add(r.name);\n    else byName.set(r.name, r);\n  }\n  const files = names.map((name) => {\n    const r = byName.get(name);\n    const duplicates = r && Array.isArray(r.duplicates) ? r.duplicates.map(String) : [];\n    if (failed) return { name, action: 'failed', file_id: null, duplicates, error: failed };\n    if (twice.has(name)) return { name, action: 'failed', file_id: null, duplicates, error: 'two results for this file' };\n    if (!r) return { name, action: 'failed', file_id: null, duplicates, error: 'no result from the write' };\n    if (!ACTIONS.includes(r.action)) return { name, action: 'failed', file_id: null, duplicates, error: `unknown action ${r.action}` };\n    // A Set node turns a missing id into the text \"null\" or \"undefined\": neither is an id.\n    const file_id = typeof r.file_id === 'string' && ID.test(r.file_id) && !['null', 'undefined'].includes(r.file_id) ? r.file_id : null;\n    if (r.action === 'failed') return { name, action: 'failed', file_id, duplicates, error: String(r.error || 'the write failed') };\n    if (!file_id) return { name, action: 'failed', file_id: null, duplicates, error: 'the Drive id of the file was not captured' };\n    return { name, action: r.action, file_id, duplicates };\n  });\n  const n = counts(files);\n  const warnings = [];\n  if (files.some((f) => f.duplicates.length > 0)) warnings.push(DUPLICATES);\n  if (t1 - t0 >= HOLD_MS) warnings.push(LOST);\n  const bad = n.failed > 0 || unexpected.length > 0;\n  const esito = Object.assign(head, { status: bad ? 'incomplete' : 'written', stopped: null, files, counts: n, warnings });\n  if (unexpected.length) esito.unexpected = unexpected;\n  return { esito_name, status_code: bad ? 500 : 200, esito };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { FLOWS, HOLD_MS, DUPLICATES, LOST, utcInstant, md5, request, turn, plan, outcome };\n  return;\n}\n\n/* n8n Code node, \"Run Once for All Items\" — one item in, its stage out (see the header). */\nconst items = $input.all();\nif (items.length !== 1) throw new Error(`one item expected, ${items.length} received`);\nconst j = items[0].json;\nif (j.stage === 'request') return [{ json: Object.assign({}, j, request(j)) }];\nif (j.stage === 'turn') {\n  const out = Object.assign({}, j, { turn: turn({ reservations: (j.reservations || []).filter((r) => r && r.name), mine: j.reservation_id }) });\n  delete out.reservations;\n  return [{ json: out }];\n}\nif (j.stage === 'plan') {\n  return plan(j).map((p) => {\n    const json = { name: p.name, action: p.action, file_id: p.file_id, duplicates: p.duplicates };\n    if (p.error) json.error = p.error;\n    if (p.content === null) return { json };\n    return { json, binary: { data: { data: Buffer.from(p.content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: p.name } } };\n  });\n}\nif (j.stage === 'outcome') return [{ json: outcome(j) }];\nthrow new Error(`unknown stage ${JSON.stringify(j.stage)}`);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        300
+      ],
+      "id": "6581a812-c33e-523e-a06c-70f2b6120dce",
+      "name": "Turno",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8de3abba-36d4-588a-89b2-92577608975c",
+              "leftValue": "={{ $json.turn.holds }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2420,
+        300
+      ],
+      "id": "760a13b9-ef51-528b-952d-fe921854cfbe",
+      "name": "Tocca a noi?"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "'1BBM4OHob8RA7O6V7MJNq3k8cCwFaPeNv' in parents and trashed = false",
+        "returnAll": true,
+        "filter": {},
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType",
+            "createdTime",
+            "md5Checksum"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        160
+      ],
+      "id": "5751b382-4fb4-5ca8-8c53-0c7600142342",
+      "name": "Elenco C Eventi",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "listing",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        160
+      ],
+      "id": "17b0023a-63dc-530b-adf0-9e81ded69f5e",
+      "name": "Elenco file"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c607c63a-e304-5b7d-9710-da347a7943d6",
+              "name": "stage",
+              "value": "plan",
+              "type": "string"
+            },
+            {
+              "id": "d17e5f5e-e8cf-5731-9298-359a1accc7d4",
+              "name": "files",
+              "value": "={{ $('Richiesta').first().json.files }}",
+              "type": "array"
+            },
+            {
+              "id": "4adede77-ff6b-5234-be5c-707aa32d3ff4",
+              "name": "listing",
+              "value": "={{ $json.listing }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3080,
+        160
+      ],
+      "id": "8b525424-f211-5912-a263-06d7803efa72",
+      "name": "Prepara piano"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "/**\n * canonical-write.js — workstream C: the canonical files of `C Eventi/`, as staging_C_write_canonical\n * and staging_C_update_canonical write them, one call at a time and the same after a retry. It closes\n * two defects of workflows/README.md: a retried call uploaded the same file name again, and two calls\n * at the same time both uploaded a name not yet on Drive.\n *\n * The write of each file is the deterministic upsert of specification v2.5, phase 5.2 (T23, T24),\n * and a file whose bytes are already on Drive is left as it is (T02). One call writes at a time\n * (specification v2.5, Part I, 4.1; T27), with the reservation of the Atti Web download\n * (docs/pilota/CONTRATTI.md, «Lo storico»; `reservationHolds` in archive-record.js), written in\n * `C Eventi/scritture/`, which the two workflows share. A reservation without its outcome stops\n * holding after the specification's `run_lock_max_age_minutes`, counted from the reservation, as\n * there is no heartbeat (T28). A reading, a step of this code or a Drive write that fails after the\n * reservation is recorded in the outcome, which frees the calls after it (T29). A call that dies\n * outright holds them until then: so does a failure in a node with no error route, a reservation\n * Drive saved without n8n hearing of it, or an outcome that cannot be saved. The workflow does the\n * requests: workflows/README.md, «The canonical write».\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for All Items\", JavaScript) the same\n * file runs its adapter on one item. `stage` on that item says which step it takes:\n *   - 'request': the files of the call are checked and its reservation is prepared;\n *   - 'turn': the reservations read again after it say whether the call goes on;\n *   - 'plan': the listing of `C Eventi/` gives each file its write, one item per file;\n *   - 'outcome': the results of the writes, or the stop, become the outcome and the answer.\n */\n'use strict';\n\nconst crypto = require('crypto');\n\n/** What each workflow accepts, as the workflows had it before this file. */\nconst FLOWS = Object.freeze({\n  staging_C_write_canonical: Object.freeze({ max: 100, name: /^roma__evt__facebook__\\d+\\.json$/ }),\n  staging_C_update_canonical: Object.freeze({ max: 300, name: /^roma__evt__[a-z0-9_.-]+\\.json$/ }),\n});\n/** Specification v2.5, Part I, 4.2: `run_lock_max_age_minutes`. */\nconst HOLD_MS = 120 * 60 * 1000;\n/** Specification v2.5, phase 5.2 and T28: the warnings of the run report. */\nconst DUPLICATES = 'duplicate_canonical_files_detected';\nconst LOST = 'lock_ownership_lost';\nconst ID = /^[A-Za-z0-9_-]+$/;\nconst RESERVATION = /^prenotazione_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst OUTCOME = /^esito_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst ACTIONS = ['created', 'updated', 'unchanged', 'failed'];\n/** Drive's own files (Docs, folders, shortcuts): never the canonical file, whatever their name. */\nconst GOOGLE = 'application/vnd.google-apps.';\n/** The folder of the reservations is a child of `C Eventi/`: a listing that does not show it is not\n *  the listing of the folder, and must never turn every file into a creation. */\nconst RESERVATIONS_FOLDER = 'scritture';\n\n/** A UTC instant written as n8n and Drive write it, or null: no 30 February, no hour 24. */\nfunction utcInstant(s) {\n  const m = typeof s === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d{1,3})?Z$/.exec(s);\n  if (!m) return null;\n  const t = Date.parse(s);\n  if (!Number.isFinite(t)) return null;\n  const d = new Date(t);\n  const same = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()]\n    .every((v, i) => v === Number(m[i + 1]));\n  return same ? t : null;\n}\n\nconst day = (t) => new Date(t).toISOString().slice(0, 10);\nconst stamp = (t) => new Date(t).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';\nconst byTimeThenId = (a, b) => a.at - b.at || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);\nconst md5 = (text) => crypto.createHash('md5').update(Buffer.from(text, 'utf8')).digest('hex');\n\n/** Stage 'request': the files of one call, checked before anything is written, and the reservation\n *  it writes first. The reservation lists names only, never the content of a file. */\nfunction request({ workflow, execution_id, started_at, files }) {\n  const rule = FLOWS[workflow];\n  if (!rule) throw new Error(`workflow ${JSON.stringify(workflow)} is not one of the canonical writers`);\n  if (typeof execution_id !== 'string' || !ID.test(execution_id)) throw new Error('execution_id must be the id of the n8n execution');\n  const t = utcInstant(started_at);\n  if (t === null) throw new Error('started_at must be a UTC instant');\n  if (!Array.isArray(files) || files.length === 0 || files.length > rule.max) throw new Error(`files: 1 to ${rule.max} required`);\n  const seen = new Set();\n  const clean = files.map((f) => {\n    const name = f && f.name;\n    if (typeof name !== 'string' || !rule.name.test(name)) throw new Error('bad file name: ' + name);\n    if (seen.has(name)) throw new Error('file listed twice: ' + name);\n    seen.add(name);\n    if (typeof f.content !== 'string') throw new Error(`${name}: content must be the text of the file`);\n    let doc;\n    try { doc = JSON.parse(f.content); } catch (e) { throw new Error(`${name}: content is not JSON`); }\n    if (!doc || typeof doc !== 'object' || Array.isArray(doc)) throw new Error(`${name}: content is not a JSON object`);\n    return { name, content: f.content };\n  });\n  const names = clean.map((f) => f.name);\n  const today = day(t);\n  const yesterday = day(t - 24 * 3600 * 1000);\n  const kinds = [`prenotazione_${today}_`, `esito_${today}_`, `prenotazione_${yesterday}_`, `esito_${yesterday}_`];\n  return {\n    files: clean,\n    names,\n    reservation_name: `prenotazione_${today}_${stamp(t)}_${execution_id}.json`,\n    reservation: { workflow, execution_id, started_at, files: names },\n    // Today's and yesterday's reservations and outcomes cover the HOLD_MS before this call.\n    reservations_query: `(${kinds.map((k) => `name contains '${k}'`).join(' or ')})`,\n  };\n}\n\n/** Stage 'turn': after writing its reservation, a call reads the reservations and outcomes again\n *  (`{ id, name, createdTime }`) and finds its own by the Drive id of the file it wrote (`mine`).\n *  It goes on only if every reservation written before its own, in Drive's order, has its outcome\n *  or is older than HOLD_MS: of two calls that overlap, the second stops before any canonical\n *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call\n *  that does not see its own reservation yet stops too: it has written nothing canonical, and its\n *  outcome frees the calls after it. */\nfunction turn({ reservations, mine }) {\n  if (!Array.isArray(reservations)) throw new Error('reservations must list the reservations and outcomes read again');\n  if (typeof mine !== 'string' || !ID.test(mine)) throw new Error('mine must be the Drive id of the call\\'s reservation');\n  const finished = new Set();\n  const rows = new Map();\n  for (const r of reservations) {\n    const name = r && typeof r.name === 'string' ? r.name : '';\n    const out = OUTCOME.exec(name);\n    if (out) { finished.add(out[3]); continue; }\n    if (!RESERVATION.test(name)) continue;\n    const id = String(r.id || '');\n    const at = Date.parse(r.createdTime);\n    if (!ID.test(id)) throw new Error(`reservation ${name} without its Drive id`);\n    if (!Number.isFinite(at)) throw new Error(`reservation ${name} without the time it was written`);\n    rows.set(id, { id, name, at });\n  }\n  const order = [...rows.values()].sort(byTimeThenId);\n  const idx = order.findIndex((r) => r.id === mine);\n  if (idx < 0) return { holds: false, busy: [], stale: [], reason: 'the call\\'s own reservation is not listed yet' };\n  const open = order.slice(0, idx).filter((r) => !finished.has(r.id));\n  const busy = open.filter((r) => order[idx].at - r.at < HOLD_MS).map((r) => r.name);\n  const stale = open.filter((r) => order[idx].at - r.at >= HOLD_MS).map((r) => r.name);\n  return { holds: busy.length === 0, busy, stale, reason: busy.length ? 'an earlier write has no outcome yet' : null };\n}\n\n/** Stage 'plan': each file of the call against the listing of `C Eventi/` (`{ id, name,\n *  createdTime, md5Checksum }`), by its exact name (phase 5.2). No file of that name: `create`.\n *  Otherwise the oldest by `createdTime` is the one written, the others are `duplicates`, never\n *  moved or deleted (T24); `unchanged` when its MD5 is the file's, so a retried call writes nothing\n *  (T02), `update` otherwise (T03). A listing without the MD5 counts as changed. A Drive file of the\n *  same name (GOOGLE) is never the one written: it is one of the duplicates, and when it is the only\n *  file of that name the file `failed`, so that no second file appears. A listing without\n *  RESERVATIONS_FOLDER stops the call before any canonical write. */\nfunction plan({ files, listing }) {\n  if (!Array.isArray(files) || files.length === 0) throw new Error('files must list the files of the call');\n  if (!Array.isArray(listing)) throw new Error('listing must list the files of C Eventi');\n  if (!listing.some((f) => f && f.name === RESERVATIONS_FOLDER && f.mimeType === GOOGLE + 'folder')) {\n    throw new Error(`the listing does not show ${RESERVATIONS_FOLDER}/: it is not the listing of C Eventi`);\n  }\n  const byName = new Map();\n  for (const f of listing) {\n    if (!f || typeof f.name !== 'string') continue;\n    if (!ID.test(String(f.id || ''))) throw new Error(`${f.name}: a listed file without its Drive id`);\n    if (!byName.has(f.name)) byName.set(f.name, []);\n    byName.get(f.name).push({ id: String(f.id), at: Date.parse(f.createdTime), md5: f.md5Checksum,\n      google: typeof f.mimeType === 'string' && f.mimeType.startsWith(GOOGLE) });\n  }\n  return files.map(({ name, content }) => {\n    const all = (byName.get(name) || []).slice().sort(byTimeThenId);\n    const same = all.filter((x) => !x.google);\n    const others = all.filter((x) => x.google).map((x) => x.id);\n    if (same.length === 0 && others.length > 0) {\n      return { name, action: 'failed', file_id: null, duplicates: others, content: null, error: 'only a Google Drive file of this name in C Eventi' };\n    }\n    if (same.length === 0) return { name, action: 'create', file_id: null, duplicates: [], content };\n    if (same.length > 1 && same.some((x) => !Number.isFinite(x.at))) {\n      throw new Error(`${name}: ${same.length} files of this name, not all with the time they were written`);\n    }\n    const [oldest, ...rest] = same;\n    const duplicates = rest.map((x) => x.id).concat(others);\n    if (typeof oldest.md5 === 'string' && oldest.md5.toLowerCase() === md5(content)) {\n      return { name, action: 'unchanged', file_id: oldest.id, duplicates, content: null };\n    }\n    return { name, action: 'update', file_id: oldest.id, duplicates, content };\n  });\n}\n\n/** Stage 'outcome': what a call did, file by file in the order of the call, written in\n *  `C Eventi/scritture/` next to its reservation and sent back as the answer. A call stopped by its\n *  turn has no files (409). `failure` is the error of a step that failed after the reservation:\n *  before the turn the call stops, after it every file is a failure, since the steps that can fail\n *  there come before any canonical write (500). A created or updated file without its Drive id is a\n *  failure (phase 5.2, step 3), and a failure leaves the call `incomplete` (500): a retry writes\n *  only what is missing. Once the reservation is known nothing here throws on the results, so that\n *  the outcome is always written. */\nfunction outcome({ workflow, execution_id, started_at, finished_at, reservation_id, names, turn: tr, results, failure }) {\n  const t0 = utcInstant(started_at);\n  const t1 = utcInstant(finished_at);\n  if (t0 === null || t1 === null) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof reservation_id !== 'string' || !ID.test(reservation_id)) throw new Error('reservation_id must be the Drive id of the call\\'s reservation');\n  if (!Array.isArray(names) || names.length === 0) throw new Error('names must list the files of the call');\n  const failed = typeof failure === 'string' && failure.trim() ? failure.trim() : null;\n  if (!failed && (!tr || typeof tr.holds !== 'boolean')) throw new Error('turn must say whether the call held its turn');\n  const esito_name = `esito_${day(t0)}_${stamp(t0)}_${reservation_id}.json`;\n  const head = { workflow, execution_id, started_at, finished_at, reservation_id, busy: (tr && tr.busy) || [], stale: (tr && tr.stale) || [] };\n  const counts = (files) => Object.fromEntries(ACTIONS.map((a) => [a, files.filter((f) => f.action === a).length]));\n  const stop = (why, code) => ({ esito_name, status_code: code,\n    esito: Object.assign(head, { status: 'stopped', stopped: why, files: [], counts: counts([]), warnings: [] }) });\n  if (failed && !(tr && tr.holds === true)) return stop(failed, 500);\n  if (!failed && !tr.holds) return stop(tr.reason || 'an earlier write has no outcome yet', 409);\n  const byName = new Map();\n  const twice = new Set();\n  const unexpected = [];\n  for (const r of failed || !Array.isArray(results) ? [] : results) {\n    if (!r || typeof r.name !== 'string') continue; // the empty item of a branch that wrote nothing\n    if (!names.includes(r.name)) unexpected.push(r.name);\n    else if (byName.has(r.name)) twice.add(r.name);\n    else byName.set(r.name, r);\n  }\n  const files = names.map((name) => {\n    const r = byName.get(name);\n    const duplicates = r && Array.isArray(r.duplicates) ? r.duplicates.map(String) : [];\n    if (failed) return { name, action: 'failed', file_id: null, duplicates, error: failed };\n    if (twice.has(name)) return { name, action: 'failed', file_id: null, duplicates, error: 'two results for this file' };\n    if (!r) return { name, action: 'failed', file_id: null, duplicates, error: 'no result from the write' };\n    if (!ACTIONS.includes(r.action)) return { name, action: 'failed', file_id: null, duplicates, error: `unknown action ${r.action}` };\n    // A Set node turns a missing id into the text \"null\" or \"undefined\": neither is an id.\n    const file_id = typeof r.file_id === 'string' && ID.test(r.file_id) && !['null', 'undefined'].includes(r.file_id) ? r.file_id : null;\n    if (r.action === 'failed') return { name, action: 'failed', file_id, duplicates, error: String(r.error || 'the write failed') };\n    if (!file_id) return { name, action: 'failed', file_id: null, duplicates, error: 'the Drive id of the file was not captured' };\n    return { name, action: r.action, file_id, duplicates };\n  });\n  const n = counts(files);\n  const warnings = [];\n  if (files.some((f) => f.duplicates.length > 0)) warnings.push(DUPLICATES);\n  if (t1 - t0 >= HOLD_MS) warnings.push(LOST);\n  const bad = n.failed > 0 || unexpected.length > 0;\n  const esito = Object.assign(head, { status: bad ? 'incomplete' : 'written', stopped: null, files, counts: n, warnings });\n  if (unexpected.length) esito.unexpected = unexpected;\n  return { esito_name, status_code: bad ? 500 : 200, esito };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { FLOWS, HOLD_MS, DUPLICATES, LOST, utcInstant, md5, request, turn, plan, outcome };\n  return;\n}\n\n/* n8n Code node, \"Run Once for All Items\" — one item in, its stage out (see the header). */\nconst items = $input.all();\nif (items.length !== 1) throw new Error(`one item expected, ${items.length} received`);\nconst j = items[0].json;\nif (j.stage === 'request') return [{ json: Object.assign({}, j, request(j)) }];\nif (j.stage === 'turn') {\n  const out = Object.assign({}, j, { turn: turn({ reservations: (j.reservations || []).filter((r) => r && r.name), mine: j.reservation_id }) });\n  delete out.reservations;\n  return [{ json: out }];\n}\nif (j.stage === 'plan') {\n  return plan(j).map((p) => {\n    const json = { name: p.name, action: p.action, file_id: p.file_id, duplicates: p.duplicates };\n    if (p.error) json.error = p.error;\n    if (p.content === null) return { json };\n    return { json, binary: { data: { data: Buffer.from(p.content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: p.name } } };\n  });\n}\nif (j.stage === 'outcome') return [{ json: outcome(j) }];\nthrow new Error(`unknown stage ${JSON.stringify(j.stage)}`);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3300,
+        160
+      ],
+      "id": "75a20275-e64e-514a-a9e8-551f042866b0",
+      "name": "Piano",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7127b1cb-7268-596b-8122-9fc7583838be",
+              "leftValue": "={{ $json.action === 'create' || $json.action === 'update' }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3520,
+        160
+      ],
+      "id": "aa4cea3d-6e63-58cf-a966-d58b2cbd37a7",
+      "name": "Da scrivere?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "65c758ae-c5cd-5913-877a-b1f075464e2c",
+              "leftValue": "={{ $json.action === 'create' }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3740,
+        60
+      ],
+      "id": "3d609230-d6c2-5d9f-b2df-3945eb453271",
+      "name": "Nuovo?"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
         "driveId": {
           "__rl": true,
           "mode": "list",
@@ -58,17 +531,657 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        440,
-        0
+        3960,
+        -40
       ],
-      "id": "w3",
-      "name": "Upload to C Eventi",
+      "id": "20ffe20f-337e-5799-a8da-5ca9d22f86f4",
+      "name": "Carica",
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "7nJkjb7aldPHyXv4",
           "name": "Google Drive account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.file_id }}",
+          "mode": "id"
+        },
+        "changeFileContent": true,
+        "inputDataFieldName": "data",
+        "updateFields": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3960,
+        160
+      ],
+      "id": "8c6a517b-6e00-5f15-8cd6-d72e3de9d934",
+      "name": "Aggiorna",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a8e52fa2-54a7-5f93-92ab-8b1223edeffa",
+              "name": "name",
+              "value": "={{ $('Nuovo?').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "50bde058-709b-5948-8739-bc76e5435ae8",
+              "name": "action",
+              "value": "created",
+              "type": "string"
+            },
+            {
+              "id": "36ad9809-ddc0-5db6-bebc-7ecbebbe2883",
+              "name": "file_id",
+              "value": "={{ $json.id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "bd0eaddc-8e38-5f40-95c7-3c568dfcd4e5",
+              "name": "duplicates",
+              "value": "={{ $('Nuovo?').item.json.duplicates }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4180,
+        -40
+      ],
+      "id": "c76528b7-4a20-5361-b7fc-972d6789803d",
+      "name": "Creato"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "80eb155e-d1ea-5dbe-b9df-576b89717f58",
+              "name": "name",
+              "value": "={{ $('Nuovo?').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "363b5a67-5942-5e42-b9fa-381bd333336a",
+              "name": "action",
+              "value": "updated",
+              "type": "string"
+            },
+            {
+              "id": "855d00ef-d38b-579d-950e-2d2b2c4ed4b4",
+              "name": "file_id",
+              "value": "={{ $json.id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "a7ab89c4-b3a9-5b45-841f-834637925bf8",
+              "name": "duplicates",
+              "value": "={{ $('Nuovo?').item.json.duplicates }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4180,
+        160
+      ],
+      "id": "91a1a349-4c07-5d28-a39c-8620990ee65f",
+      "name": "Aggiornato"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "af27600a-523f-5654-a0ed-dd884dbf29e8",
+              "name": "name",
+              "value": "={{ $('Nuovo?').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5c0c3569-473d-5c46-a5da-e3bbac9a0e46",
+              "name": "action",
+              "value": "failed",
+              "type": "string"
+            },
+            {
+              "id": "6f15a953-04d9-5fae-bae1-ea43c7ac0714",
+              "name": "file_id",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "907dd3c7-1295-55f3-9fb9-3ffd261c12d9",
+              "name": "duplicates",
+              "value": "={{ $('Nuovo?').item.json.duplicates }}",
+              "type": "array"
+            },
+            {
+              "id": "b23ec149-754f-5eb4-901e-43b0c5e06ce2",
+              "name": "error",
+              "value": "={{ String(($json.error && ($json.error.message || $json.error)) || 'the step failed') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4180,
+        60
+      ],
+      "id": "1c82cf8d-a3fb-5301-9cfe-76d18a7a0997",
+      "name": "Non caricato"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1fa1463-9d78-5a4f-a04b-4a411fac8dd7",
+              "name": "name",
+              "value": "={{ $('Nuovo?').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "48d98e05-b7fc-5e71-9149-84f28e2b71eb",
+              "name": "action",
+              "value": "failed",
+              "type": "string"
+            },
+            {
+              "id": "1da8f945-5688-5e37-9167-041eb69074a3",
+              "name": "file_id",
+              "value": "={{ $('Nuovo?').item.json.file_id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "ff05c739-e22e-59a3-9849-386ad5bf4600",
+              "name": "duplicates",
+              "value": "={{ $('Nuovo?').item.json.duplicates }}",
+              "type": "array"
+            },
+            {
+              "id": "4a971b14-5715-5ccd-9024-d2801fbb7160",
+              "name": "error",
+              "value": "={{ String(($json.error && ($json.error.message || $json.error)) || 'the step failed') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4180,
+        360
+      ],
+      "id": "dd8c36b7-f040-5d57-bd88-8f93010ff154",
+      "name": "Non aggiornato"
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        4400,
+        160
+      ],
+      "id": "55ef4949-0fbf-587f-9a06-8f5aad91522d",
+      "name": "Risultati"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        4620,
+        160
+      ],
+      "id": "074ca633-1d1c-53cf-baf8-14ee8f6d81be",
+      "name": "Elenco risultati"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb355b8e-7347-582a-b0fb-2fd30ff2f486",
+              "name": "stage",
+              "value": "outcome",
+              "type": "string"
+            },
+            {
+              "id": "f5f71046-6882-5d35-aab7-38dcd32da554",
+              "name": "workflow",
+              "value": "={{ $('Turno').first().json.workflow }}",
+              "type": "string"
+            },
+            {
+              "id": "728a3ed5-bd10-5625-bc25-7d550f2947f7",
+              "name": "execution_id",
+              "value": "={{ $('Turno').first().json.execution_id }}",
+              "type": "string"
+            },
+            {
+              "id": "dc31e682-a122-51cb-9c5f-830ba44bb561",
+              "name": "started_at",
+              "value": "={{ $('Turno').first().json.started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "cbb9cb09-e563-5ca1-a9de-f95cbf8b556f",
+              "name": "finished_at",
+              "value": "={{ $now.toUTC().toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "6652f8a0-1800-5932-8f9c-7d7d60ac5705",
+              "name": "reservation_id",
+              "value": "={{ $('Turno').first().json.reservation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "a28c9efe-c372-5448-b4e8-f25b5bd2f8b8",
+              "name": "names",
+              "value": "={{ $('Turno').first().json.names }}",
+              "type": "array"
+            },
+            {
+              "id": "846f7b39-7651-5ac7-a802-94322b5a9af0",
+              "name": "turn",
+              "value": "={{ $('Turno').first().json.turn }}",
+              "type": "object"
+            },
+            {
+              "id": "f4fd2ea8-9095-5113-a6b0-6a5b3d161a27",
+              "name": "results",
+              "value": "={{ $json.results }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4840,
+        160
+      ],
+      "id": "de2f1d23-4a22-5faf-8d5e-8be2ec429f65",
+      "name": "Prepara esito"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "98a6bed8-4dc6-59d9-83cb-8f1c3c7bf157",
+              "name": "stage",
+              "value": "outcome",
+              "type": "string"
+            },
+            {
+              "id": "286710dd-997d-570b-83af-48c7a406761b",
+              "name": "workflow",
+              "value": "={{ $('Turno').first().json.workflow }}",
+              "type": "string"
+            },
+            {
+              "id": "c8db919c-4733-5baf-b082-5e4447ccf193",
+              "name": "execution_id",
+              "value": "={{ $('Turno').first().json.execution_id }}",
+              "type": "string"
+            },
+            {
+              "id": "1f2f44f2-2c4f-56a7-8492-01e6c37f3b9f",
+              "name": "started_at",
+              "value": "={{ $('Turno').first().json.started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "e3da0aa1-960f-5525-a996-e8d5bddfaece",
+              "name": "finished_at",
+              "value": "={{ $now.toUTC().toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "30aba7e9-12e1-5fa3-a770-c9df4465681c",
+              "name": "reservation_id",
+              "value": "={{ $('Turno').first().json.reservation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c19a8eed-1462-509f-9340-a32dd6b7b156",
+              "name": "names",
+              "value": "={{ $('Turno').first().json.names }}",
+              "type": "array"
+            },
+            {
+              "id": "2f239d07-ef0d-5d80-a385-caf54002716f",
+              "name": "turn",
+              "value": "={{ $('Turno').first().json.turn }}",
+              "type": "object"
+            },
+            {
+              "id": "4dc89971-7bca-59e9-b3bf-18cf44cb4d7a",
+              "name": "results",
+              "value": "={{ [] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2640,
+        460
+      ],
+      "id": "1d7848f0-2be0-5b85-877a-8216cb11c5e3",
+      "name": "Prepara fermo"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c920bc9c-bb76-555a-a6e3-cad644682bfd",
+              "name": "stage",
+              "value": "outcome",
+              "type": "string"
+            },
+            {
+              "id": "dcb0a14a-17ef-55a2-b7f3-22c9fcffd064",
+              "name": "workflow",
+              "value": "={{ $('Richiesta').first().json.workflow }}",
+              "type": "string"
+            },
+            {
+              "id": "cc21dc2c-ea67-5edd-bb84-cbb48f934a5d",
+              "name": "execution_id",
+              "value": "={{ $('Richiesta').first().json.execution_id }}",
+              "type": "string"
+            },
+            {
+              "id": "d8ff6c6e-4c01-567d-8b65-e80e37625b8a",
+              "name": "started_at",
+              "value": "={{ $('Richiesta').first().json.started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "b5fb6f64-152e-5376-b77a-1ec64ea3714e",
+              "name": "finished_at",
+              "value": "={{ $now.toUTC().toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "e7776443-cc28-5191-906c-0a69ae970b6d",
+              "name": "reservation_id",
+              "value": "={{ $('Salva prenotazione').first().json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "4d0c7d56-a4d5-59fa-97a6-b7d18619a308",
+              "name": "names",
+              "value": "={{ $('Richiesta').first().json.names }}",
+              "type": "array"
+            },
+            {
+              "id": "66dbaef4-0675-57da-a9c9-5fef5d15e1e3",
+              "name": "failure",
+              "value": "={{ String(($json.error && ($json.error.message || $json.error)) || 'the step failed') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1980,
+        560
+      ],
+      "id": "c94f2ac6-2b5b-5fbe-9c4c-86bc6fd376c6",
+      "name": "Prepara guasto prima"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f0ac7b00-28b7-5f59-b7c6-2584ba5adb4a",
+              "name": "stage",
+              "value": "outcome",
+              "type": "string"
+            },
+            {
+              "id": "eea347ea-5214-5416-9b29-d25a25f27bc6",
+              "name": "workflow",
+              "value": "={{ $('Turno').first().json.workflow }}",
+              "type": "string"
+            },
+            {
+              "id": "89a425c7-1560-5c18-9762-f99c2facf689",
+              "name": "execution_id",
+              "value": "={{ $('Turno').first().json.execution_id }}",
+              "type": "string"
+            },
+            {
+              "id": "d40a2695-a5bb-5204-8399-15f53f5f8eb4",
+              "name": "started_at",
+              "value": "={{ $('Turno').first().json.started_at }}",
+              "type": "string"
+            },
+            {
+              "id": "ce48449d-bbc0-5ed1-a131-47e86a6e97dd",
+              "name": "finished_at",
+              "value": "={{ $now.toUTC().toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "83e4b668-714e-576d-91f2-3586c7c4f8fe",
+              "name": "reservation_id",
+              "value": "={{ $('Turno').first().json.reservation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "52c32dbc-f817-55b4-8685-fc4933d8612f",
+              "name": "names",
+              "value": "={{ $('Turno').first().json.names }}",
+              "type": "array"
+            },
+            {
+              "id": "5da147b2-e2c9-5ac3-a3e7-42362dbb44e1",
+              "name": "turn",
+              "value": "={{ $('Turno').first().json.turn }}",
+              "type": "object"
+            },
+            {
+              "id": "e9f902bf-68cd-5529-a507-1bdc6d2e5c6c",
+              "name": "failure",
+              "value": "={{ String(($json.error && ($json.error.message || $json.error)) || 'the step failed') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3300,
+        460
+      ],
+      "id": "2e816055-c9d1-59b0-a2e5-34f0dc351697",
+      "name": "Prepara guasto dopo"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "/**\n * canonical-write.js — workstream C: the canonical files of `C Eventi/`, as staging_C_write_canonical\n * and staging_C_update_canonical write them, one call at a time and the same after a retry. It closes\n * two defects of workflows/README.md: a retried call uploaded the same file name again, and two calls\n * at the same time both uploaded a name not yet on Drive.\n *\n * The write of each file is the deterministic upsert of specification v2.5, phase 5.2 (T23, T24),\n * and a file whose bytes are already on Drive is left as it is (T02). One call writes at a time\n * (specification v2.5, Part I, 4.1; T27), with the reservation of the Atti Web download\n * (docs/pilota/CONTRATTI.md, «Lo storico»; `reservationHolds` in archive-record.js), written in\n * `C Eventi/scritture/`, which the two workflows share. A reservation without its outcome stops\n * holding after the specification's `run_lock_max_age_minutes`, counted from the reservation, as\n * there is no heartbeat (T28). A reading, a step of this code or a Drive write that fails after the\n * reservation is recorded in the outcome, which frees the calls after it (T29). A call that dies\n * outright holds them until then: so does a failure in a node with no error route, a reservation\n * Drive saved without n8n hearing of it, or an outcome that cannot be saved. The workflow does the\n * requests: workflows/README.md, «The canonical write».\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for All Items\", JavaScript) the same\n * file runs its adapter on one item. `stage` on that item says which step it takes:\n *   - 'request': the files of the call are checked and its reservation is prepared;\n *   - 'turn': the reservations read again after it say whether the call goes on;\n *   - 'plan': the listing of `C Eventi/` gives each file its write, one item per file;\n *   - 'outcome': the results of the writes, or the stop, become the outcome and the answer.\n */\n'use strict';\n\nconst crypto = require('crypto');\n\n/** What each workflow accepts, as the workflows had it before this file. */\nconst FLOWS = Object.freeze({\n  staging_C_write_canonical: Object.freeze({ max: 100, name: /^roma__evt__facebook__\\d+\\.json$/ }),\n  staging_C_update_canonical: Object.freeze({ max: 300, name: /^roma__evt__[a-z0-9_.-]+\\.json$/ }),\n});\n/** Specification v2.5, Part I, 4.2: `run_lock_max_age_minutes`. */\nconst HOLD_MS = 120 * 60 * 1000;\n/** Specification v2.5, phase 5.2 and T28: the warnings of the run report. */\nconst DUPLICATES = 'duplicate_canonical_files_detected';\nconst LOST = 'lock_ownership_lost';\nconst ID = /^[A-Za-z0-9_-]+$/;\nconst RESERVATION = /^prenotazione_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst OUTCOME = /^esito_(\\d{4}-\\d{2}-\\d{2})_(\\d{8}T\\d{6}Z)_([A-Za-z0-9_-]+)\\.json$/;\nconst ACTIONS = ['created', 'updated', 'unchanged', 'failed'];\n/** Drive's own files (Docs, folders, shortcuts): never the canonical file, whatever their name. */\nconst GOOGLE = 'application/vnd.google-apps.';\n/** The folder of the reservations is a child of `C Eventi/`: a listing that does not show it is not\n *  the listing of the folder, and must never turn every file into a creation. */\nconst RESERVATIONS_FOLDER = 'scritture';\n\n/** A UTC instant written as n8n and Drive write it, or null: no 30 February, no hour 24. */\nfunction utcInstant(s) {\n  const m = typeof s === 'string' && /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(\\.\\d{1,3})?Z$/.exec(s);\n  if (!m) return null;\n  const t = Date.parse(s);\n  if (!Number.isFinite(t)) return null;\n  const d = new Date(t);\n  const same = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()]\n    .every((v, i) => v === Number(m[i + 1]));\n  return same ? t : null;\n}\n\nconst day = (t) => new Date(t).toISOString().slice(0, 10);\nconst stamp = (t) => new Date(t).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z';\nconst byTimeThenId = (a, b) => a.at - b.at || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);\nconst md5 = (text) => crypto.createHash('md5').update(Buffer.from(text, 'utf8')).digest('hex');\n\n/** Stage 'request': the files of one call, checked before anything is written, and the reservation\n *  it writes first. The reservation lists names only, never the content of a file. */\nfunction request({ workflow, execution_id, started_at, files }) {\n  const rule = FLOWS[workflow];\n  if (!rule) throw new Error(`workflow ${JSON.stringify(workflow)} is not one of the canonical writers`);\n  if (typeof execution_id !== 'string' || !ID.test(execution_id)) throw new Error('execution_id must be the id of the n8n execution');\n  const t = utcInstant(started_at);\n  if (t === null) throw new Error('started_at must be a UTC instant');\n  if (!Array.isArray(files) || files.length === 0 || files.length > rule.max) throw new Error(`files: 1 to ${rule.max} required`);\n  const seen = new Set();\n  const clean = files.map((f) => {\n    const name = f && f.name;\n    if (typeof name !== 'string' || !rule.name.test(name)) throw new Error('bad file name: ' + name);\n    if (seen.has(name)) throw new Error('file listed twice: ' + name);\n    seen.add(name);\n    if (typeof f.content !== 'string') throw new Error(`${name}: content must be the text of the file`);\n    let doc;\n    try { doc = JSON.parse(f.content); } catch (e) { throw new Error(`${name}: content is not JSON`); }\n    if (!doc || typeof doc !== 'object' || Array.isArray(doc)) throw new Error(`${name}: content is not a JSON object`);\n    return { name, content: f.content };\n  });\n  const names = clean.map((f) => f.name);\n  const today = day(t);\n  const yesterday = day(t - 24 * 3600 * 1000);\n  const kinds = [`prenotazione_${today}_`, `esito_${today}_`, `prenotazione_${yesterday}_`, `esito_${yesterday}_`];\n  return {\n    files: clean,\n    names,\n    reservation_name: `prenotazione_${today}_${stamp(t)}_${execution_id}.json`,\n    reservation: { workflow, execution_id, started_at, files: names },\n    // Today's and yesterday's reservations and outcomes cover the HOLD_MS before this call.\n    reservations_query: `(${kinds.map((k) => `name contains '${k}'`).join(' or ')})`,\n  };\n}\n\n/** Stage 'turn': after writing its reservation, a call reads the reservations and outcomes again\n *  (`{ id, name, createdTime }`) and finds its own by the Drive id of the file it wrote (`mine`).\n *  It goes on only if every reservation written before its own, in Drive's order, has its outcome\n *  or is older than HOLD_MS: of two calls that overlap, the second stops before any canonical\n *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call\n *  that does not see its own reservation yet stops too: it has written nothing canonical, and its\n *  outcome frees the calls after it. */\nfunction turn({ reservations, mine }) {\n  if (!Array.isArray(reservations)) throw new Error('reservations must list the reservations and outcomes read again');\n  if (typeof mine !== 'string' || !ID.test(mine)) throw new Error('mine must be the Drive id of the call\\'s reservation');\n  const finished = new Set();\n  const rows = new Map();\n  for (const r of reservations) {\n    const name = r && typeof r.name === 'string' ? r.name : '';\n    const out = OUTCOME.exec(name);\n    if (out) { finished.add(out[3]); continue; }\n    if (!RESERVATION.test(name)) continue;\n    const id = String(r.id || '');\n    const at = Date.parse(r.createdTime);\n    if (!ID.test(id)) throw new Error(`reservation ${name} without its Drive id`);\n    if (!Number.isFinite(at)) throw new Error(`reservation ${name} without the time it was written`);\n    rows.set(id, { id, name, at });\n  }\n  const order = [...rows.values()].sort(byTimeThenId);\n  const idx = order.findIndex((r) => r.id === mine);\n  if (idx < 0) return { holds: false, busy: [], stale: [], reason: 'the call\\'s own reservation is not listed yet' };\n  const open = order.slice(0, idx).filter((r) => !finished.has(r.id));\n  const busy = open.filter((r) => order[idx].at - r.at < HOLD_MS).map((r) => r.name);\n  const stale = open.filter((r) => order[idx].at - r.at >= HOLD_MS).map((r) => r.name);\n  return { holds: busy.length === 0, busy, stale, reason: busy.length ? 'an earlier write has no outcome yet' : null };\n}\n\n/** Stage 'plan': each file of the call against the listing of `C Eventi/` (`{ id, name,\n *  createdTime, md5Checksum }`), by its exact name (phase 5.2). No file of that name: `create`.\n *  Otherwise the oldest by `createdTime` is the one written, the others are `duplicates`, never\n *  moved or deleted (T24); `unchanged` when its MD5 is the file's, so a retried call writes nothing\n *  (T02), `update` otherwise (T03). A listing without the MD5 counts as changed. A Drive file of the\n *  same name (GOOGLE) is never the one written: it is one of the duplicates, and when it is the only\n *  file of that name the file `failed`, so that no second file appears. A listing without\n *  RESERVATIONS_FOLDER stops the call before any canonical write. */\nfunction plan({ files, listing }) {\n  if (!Array.isArray(files) || files.length === 0) throw new Error('files must list the files of the call');\n  if (!Array.isArray(listing)) throw new Error('listing must list the files of C Eventi');\n  if (!listing.some((f) => f && f.name === RESERVATIONS_FOLDER && f.mimeType === GOOGLE + 'folder')) {\n    throw new Error(`the listing does not show ${RESERVATIONS_FOLDER}/: it is not the listing of C Eventi`);\n  }\n  const byName = new Map();\n  for (const f of listing) {\n    if (!f || typeof f.name !== 'string') continue;\n    if (!ID.test(String(f.id || ''))) throw new Error(`${f.name}: a listed file without its Drive id`);\n    if (!byName.has(f.name)) byName.set(f.name, []);\n    byName.get(f.name).push({ id: String(f.id), at: Date.parse(f.createdTime), md5: f.md5Checksum,\n      google: typeof f.mimeType === 'string' && f.mimeType.startsWith(GOOGLE) });\n  }\n  return files.map(({ name, content }) => {\n    const all = (byName.get(name) || []).slice().sort(byTimeThenId);\n    const same = all.filter((x) => !x.google);\n    const others = all.filter((x) => x.google).map((x) => x.id);\n    if (same.length === 0 && others.length > 0) {\n      return { name, action: 'failed', file_id: null, duplicates: others, content: null, error: 'only a Google Drive file of this name in C Eventi' };\n    }\n    if (same.length === 0) return { name, action: 'create', file_id: null, duplicates: [], content };\n    if (same.length > 1 && same.some((x) => !Number.isFinite(x.at))) {\n      throw new Error(`${name}: ${same.length} files of this name, not all with the time they were written`);\n    }\n    const [oldest, ...rest] = same;\n    const duplicates = rest.map((x) => x.id).concat(others);\n    if (typeof oldest.md5 === 'string' && oldest.md5.toLowerCase() === md5(content)) {\n      return { name, action: 'unchanged', file_id: oldest.id, duplicates, content: null };\n    }\n    return { name, action: 'update', file_id: oldest.id, duplicates, content };\n  });\n}\n\n/** Stage 'outcome': what a call did, file by file in the order of the call, written in\n *  `C Eventi/scritture/` next to its reservation and sent back as the answer. A call stopped by its\n *  turn has no files (409). `failure` is the error of a step that failed after the reservation:\n *  before the turn the call stops, after it every file is a failure, since the steps that can fail\n *  there come before any canonical write (500). A created or updated file without its Drive id is a\n *  failure (phase 5.2, step 3), and a failure leaves the call `incomplete` (500): a retry writes\n *  only what is missing. Once the reservation is known nothing here throws on the results, so that\n *  the outcome is always written. */\nfunction outcome({ workflow, execution_id, started_at, finished_at, reservation_id, names, turn: tr, results, failure }) {\n  const t0 = utcInstant(started_at);\n  const t1 = utcInstant(finished_at);\n  if (t0 === null || t1 === null) throw new Error('started_at and finished_at must be UTC instants');\n  if (typeof reservation_id !== 'string' || !ID.test(reservation_id)) throw new Error('reservation_id must be the Drive id of the call\\'s reservation');\n  if (!Array.isArray(names) || names.length === 0) throw new Error('names must list the files of the call');\n  const failed = typeof failure === 'string' && failure.trim() ? failure.trim() : null;\n  if (!failed && (!tr || typeof tr.holds !== 'boolean')) throw new Error('turn must say whether the call held its turn');\n  const esito_name = `esito_${day(t0)}_${stamp(t0)}_${reservation_id}.json`;\n  const head = { workflow, execution_id, started_at, finished_at, reservation_id, busy: (tr && tr.busy) || [], stale: (tr && tr.stale) || [] };\n  const counts = (files) => Object.fromEntries(ACTIONS.map((a) => [a, files.filter((f) => f.action === a).length]));\n  const stop = (why, code) => ({ esito_name, status_code: code,\n    esito: Object.assign(head, { status: 'stopped', stopped: why, files: [], counts: counts([]), warnings: [] }) });\n  if (failed && !(tr && tr.holds === true)) return stop(failed, 500);\n  if (!failed && !tr.holds) return stop(tr.reason || 'an earlier write has no outcome yet', 409);\n  const byName = new Map();\n  const twice = new Set();\n  const unexpected = [];\n  for (const r of failed || !Array.isArray(results) ? [] : results) {\n    if (!r || typeof r.name !== 'string') continue; // the empty item of a branch that wrote nothing\n    if (!names.includes(r.name)) unexpected.push(r.name);\n    else if (byName.has(r.name)) twice.add(r.name);\n    else byName.set(r.name, r);\n  }\n  const files = names.map((name) => {\n    const r = byName.get(name);\n    const duplicates = r && Array.isArray(r.duplicates) ? r.duplicates.map(String) : [];\n    if (failed) return { name, action: 'failed', file_id: null, duplicates, error: failed };\n    if (twice.has(name)) return { name, action: 'failed', file_id: null, duplicates, error: 'two results for this file' };\n    if (!r) return { name, action: 'failed', file_id: null, duplicates, error: 'no result from the write' };\n    if (!ACTIONS.includes(r.action)) return { name, action: 'failed', file_id: null, duplicates, error: `unknown action ${r.action}` };\n    // A Set node turns a missing id into the text \"null\" or \"undefined\": neither is an id.\n    const file_id = typeof r.file_id === 'string' && ID.test(r.file_id) && !['null', 'undefined'].includes(r.file_id) ? r.file_id : null;\n    if (r.action === 'failed') return { name, action: 'failed', file_id, duplicates, error: String(r.error || 'the write failed') };\n    if (!file_id) return { name, action: 'failed', file_id: null, duplicates, error: 'the Drive id of the file was not captured' };\n    return { name, action: r.action, file_id, duplicates };\n  });\n  const n = counts(files);\n  const warnings = [];\n  if (files.some((f) => f.duplicates.length > 0)) warnings.push(DUPLICATES);\n  if (t1 - t0 >= HOLD_MS) warnings.push(LOST);\n  const bad = n.failed > 0 || unexpected.length > 0;\n  const esito = Object.assign(head, { status: bad ? 'incomplete' : 'written', stopped: null, files, counts: n, warnings });\n  if (unexpected.length) esito.unexpected = unexpected;\n  return { esito_name, status_code: bad ? 500 : 200, esito };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { FLOWS, HOLD_MS, DUPLICATES, LOST, utcInstant, md5, request, turn, plan, outcome };\n  return;\n}\n\n/* n8n Code node, \"Run Once for All Items\" — one item in, its stage out (see the header). */\nconst items = $input.all();\nif (items.length !== 1) throw new Error(`one item expected, ${items.length} received`);\nconst j = items[0].json;\nif (j.stage === 'request') return [{ json: Object.assign({}, j, request(j)) }];\nif (j.stage === 'turn') {\n  const out = Object.assign({}, j, { turn: turn({ reservations: (j.reservations || []).filter((r) => r && r.name), mine: j.reservation_id }) });\n  delete out.reservations;\n  return [{ json: out }];\n}\nif (j.stage === 'plan') {\n  return plan(j).map((p) => {\n    const json = { name: p.name, action: p.action, file_id: p.file_id, duplicates: p.duplicates };\n    if (p.error) json.error = p.error;\n    if (p.content === null) return { json };\n    return { json, binary: { data: { data: Buffer.from(p.content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: p.name } } };\n  });\n}\nif (j.stage === 'outcome') return [{ json: outcome(j) }];\nthrow new Error(`unknown stage ${JSON.stringify(j.stage)}`);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5060,
+        300
+      ],
+      "id": "dad4df3f-4c19-5c94-a377-9819ca5ac6d9",
+      "name": "Esito"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "390d19bf-99a1-529d-8171-be8e1b746922",
+              "name": "name",
+              "value": "={{ $json.esito_name }}",
+              "type": "string"
+            },
+            {
+              "id": "b66a2068-13a2-53ec-9041-a44e1cff0d9a",
+              "name": "text",
+              "value": "={{ JSON.stringify($json.esito, null, 1) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5280,
+        300
+      ],
+      "id": "6ad1a179-89cc-51a0-9902-97873d4c3654",
+      "name": "Testo esito"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        5500,
+        300
+      ],
+      "id": "d140b56e-7279-5adb-a271-9b615a319dc2",
+      "name": "File esito"
+    },
+    {
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "13Ls3CUh_Dzrxqsv6NaU9qE_oPh1L8Moq"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5720,
+        300
+      ],
+      "id": "d6cfc8fc-ac96-558d-a893-f659e0d45117",
+      "name": "Salva esito",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($('Esito').first().json.esito) }}",
+        "options": {
+          "responseCode": "={{ $('Esito').first().json.status_code }}"
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        5940,
+        300
+      ],
+      "id": "9e370bf5-55a6-5b3c-a33b-ae5826083c31",
+      "name": "Rispondi"
     }
   ],
   "pinData": {},
@@ -77,20 +1190,435 @@
       "main": [
         [
           {
-            "node": "Files",
+            "node": "Prepara richiesta",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Files": {
+    "Prepara richiesta": {
       "main": [
         [
           {
-            "node": "Upload to C Eventi",
+            "node": "Richiesta",
             "type": "main",
             "index": 0
+          }
+        ]
+      ]
+    },
+    "Richiesta": {
+      "main": [
+        [
+          {
+            "node": "Testo prenotazione",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo prenotazione": {
+      "main": [
+        [
+          {
+            "node": "File prenotazione",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File prenotazione": {
+      "main": [
+        [
+          {
+            "node": "Salva prenotazione",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva prenotazione": {
+      "main": [
+        [
+          {
+            "node": "Attesa conferma",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attesa conferma": {
+      "main": [
+        [
+          {
+            "node": "Prenotazioni",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prenotazioni": {
+      "main": [
+        [
+          {
+            "node": "Elenco prenotazioni",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepara guasto prima",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elenco prenotazioni": {
+      "main": [
+        [
+          {
+            "node": "Prepara turno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara turno": {
+      "main": [
+        [
+          {
+            "node": "Turno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turno": {
+      "main": [
+        [
+          {
+            "node": "Tocca a noi?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepara guasto prima",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tocca a noi?": {
+      "main": [
+        [
+          {
+            "node": "Elenco C Eventi",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepara fermo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elenco C Eventi": {
+      "main": [
+        [
+          {
+            "node": "Elenco file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepara guasto dopo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Piano": {
+      "main": [
+        [
+          {
+            "node": "Da scrivere?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepara guasto dopo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elenco file": {
+      "main": [
+        [
+          {
+            "node": "Prepara piano",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara piano": {
+      "main": [
+        [
+          {
+            "node": "Piano",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara guasto prima": {
+      "main": [
+        [
+          {
+            "node": "Esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara guasto dopo": {
+      "main": [
+        [
+          {
+            "node": "Esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risultati": {
+      "main": [
+        [
+          {
+            "node": "Elenco risultati",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Elenco risultati": {
+      "main": [
+        [
+          {
+            "node": "Prepara esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara esito": {
+      "main": [
+        [
+          {
+            "node": "Esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara fermo": {
+      "main": [
+        [
+          {
+            "node": "Esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esito": {
+      "main": [
+        [
+          {
+            "node": "Testo esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testo esito": {
+      "main": [
+        [
+          {
+            "node": "File esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File esito": {
+      "main": [
+        [
+          {
+            "node": "Salva esito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva esito": {
+      "main": [
+        [
+          {
+            "node": "Rispondi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Da scrivere?": {
+      "main": [
+        [
+          {
+            "node": "Nuovo?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Risultati",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Nuovo?": {
+      "main": [
+        [
+          {
+            "node": "Carica",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggiorna",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carica": {
+      "main": [
+        [
+          {
+            "node": "Creato",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non caricato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggiorna": {
+      "main": [
+        [
+          {
+            "node": "Aggiornato",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non aggiornato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Creato": {
+      "main": [
+        [
+          {
+            "node": "Risultati",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggiornato": {
+      "main": [
+        [
+          {
+            "node": "Risultati",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Non caricato": {
+      "main": [
+        [
+          {
+            "node": "Risultati",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Non aggiornato": {
+      "main": [
+        [
+          {
+            "node": "Risultati",
+            "type": "main",
+            "index": 4
           }
         ]
       ]
@@ -100,7 +1628,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "614c9d5d-01d8-4430-9dfa-bba8fa1e283f",
+  "versionId": "221b13a5-46a0-4ad3-828c-5793ac3a88d6",
   "meta": {},
   "nodeGroups": [],
   "id": "E0dr1ADp3Gd6RoPF",
