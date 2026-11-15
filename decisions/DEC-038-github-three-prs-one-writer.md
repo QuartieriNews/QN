@@ -82,11 +82,15 @@ lettura del builder, che l'owner conferma con il merge.
    - Nel giro sta al più una PR per workstream (A, B, C, D) e una del coordinatore
      (decisioni e contratti), e al più tre in tutto.
    - Lettura del builder, sulle parole «nel giro» e «aperta»: una PR è nel giro da quando
-     si apre a quando revisione e CI sono finite sulla sua ultima testa, come nel
-     protocollo di prima. «Aperta» vuol dire aperta su GitHub e non fermata dall'owner,
-     fino al merge, anche a giro finito. Una PR che l'owner ha fermato (oggi la #16 e la
-     #21, in bozza) non è nel giro e non tiene i file comuni, finché l'owner non la rimette
-     in lavoro: era già così con una PR alla volta.
+     si apre a quando è pronta sulla sua ultima testa, cioè con la CI verde, senza rilievi
+     aperti e senza conflitti. Una PR con rilievi ancora da correggere tiene il suo posto;
+     un push su una PR già pronta la rimette nel giro, e si fa solo se c'è posto, per il
+     numero e per il workstream. «Aperta» vuol dire aperta su GitHub e non fermata
+     dall'owner, fino al merge, anche a giro finito. Una PR che l'owner ha fermato (oggi la
+     #16 e la #21, in bozza) non è nel giro e non tiene i file comuni: era già così con una
+     PR alla volta. Quando l'owner la rimette in lavoro, il coordinatore la riprende solo
+     se nel giro c'è posto e, se cambia file comuni, solo quando nessun'altra PR aperta li
+     tiene; altrimenti lo dice all'owner e aspetta.
    - Due PR nel giro insieme non cambiano gli stessi file. I file comuni stanno in una sola
      PR aperta alla volta: `docs/pilota/CONTRATTI.md`, `decisions/`, `CLAUDE.md`,
      `AGENTS.md`, `docs/github/`. Lettura del builder: `package.json` fa eccezione e non è
@@ -106,8 +110,10 @@ lettura del builder, che l'owner conferma con il merge.
      tutte le PR insieme.
    - Il merge resta dell'owner, su notifica. Dopo ogni merge il coordinatore controlla che
      le altre PR aperte non siano in conflitto, prima di segnalare la successiva come
-     pronta. Lettura del builder: se è in conflitto una PR già segnalata, il coordinatore
-     dice all'owner che quella notifica non vale più.
+     pronta. Lettura del builder: per una PR già segnalata come pronta il controllo è la
+     prova del punto 1, rifatta in locale sul nuovo `main`; se è in conflitto o la prova
+     fallisce, il coordinatore dice all'owner che quella notifica non vale più, e la
+     segnala di nuovo solo quando è di nuovo pronta.
    - **Ritorno indietro.** Al primo segnale di restrizione (PROTOCOLLO, sezione 5) si
      torna a una PR alla volta, oltre agli stop già previsti, e si avvisa l'owner. Lettura
      del builder: ci si resta finché l'owner non dice altrimenti; le PR già aperte restano

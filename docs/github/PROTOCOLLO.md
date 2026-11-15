@@ -33,9 +33,14 @@ aspettano le notifiche, al massimo una lettura di stato per PR a ogni evento.
 2. **Tutto verde in locale.** Le suite di `AGENTS.md` e quelle della PR passano in locale
    prima del push. Un push per ciclo di correzioni, con tutte le correzioni dentro.
 3. **Fino a tre PR nel giro di revisione, una per workstream** (DEC-038, punto 2). Una PR è
-   nel giro da quando si apre a quando revisione e CI sono finite sulla sua ultima testa.
-   Una PR che l'owner ha fermato non è nel giro e non tiene i file comuni, finché l'owner
-   non la rimette in lavoro.
+   nel giro da quando si apre a quando è pronta (sezione 4, «Merge su notifica») sulla sua
+   ultima testa: una PR con rilievi ancora da correggere tiene il suo posto. Un push su una
+   PR già pronta la rimette nel giro, e si fa solo se nel giro c'è posto, per il numero e
+   per il workstream.
+   Una PR che l'owner ha fermato non è nel giro e non tiene i file comuni. Quando l'owner la
+   rimette in lavoro, il coordinatore la riprende solo se nel giro c'è posto e, se cambia
+   file comuni, solo quando nessun'altra PR aperta li tiene; altrimenti lo dice all'owner e
+   aspetta.
    - Nel giro sta al più una PR per workstream del pilota (A, B, C, D) e una del
      coordinatore (decisioni e contratti), e al più tre in tutto. In un repository
      dell'account senza workstream resta una PR alla volta, che conta fra le tre.
@@ -104,9 +109,11 @@ I limiti ufficiali sono molto più alti: 80 richieste che generano contenuti al 
   coordinatore fa girare in locale le suite sulla PR unita al `main` di quel momento. Tolto
   l'obbligo, riallinea il ramo solo se c'è un conflitto o se quella prova fallisce.
 - **Dopo ogni merge** il coordinatore controlla che le altre PR aperte non siano in
-  conflitto, prima di segnalare la successiva come pronta; se è in conflitto una PR già
-  segnalata, dice all'owner che quella notifica non vale più. Se la CI su `main` si rompe
-  dopo un merge, la correzione è la prima PR a passare.
+  conflitto, prima di segnalare la successiva come pronta, e rifà in locale, sul nuovo
+  `main`, la prova di ogni PR già segnalata. Se una PR già segnalata è in conflitto o la
+  prova fallisce, dice all'owner che quella notifica non vale più, e la segnala di nuovo
+  solo quando è di nuovo pronta. Se la CI su `main` si rompe dopo un merge, la correzione è
+  la prima PR a passare.
 - **Ripiego sul canale API.** Solo dopo un'ora di silenzio del canale nativo, con un
   commento per ciclo (DEC-028, punto 3).
 - **Risposte nei thread.** Le risposte stanno nei thread dei rilievi (DEC-007), voce per
