@@ -1,6 +1,10 @@
 # DEC-036 — Canale A: le sedute registrate per il blocco «Dal Municipio»
 
 Status: DECIDED (14 novembre 2026, owner nella sessione del builder, sulle opzioni poste dal builder)
+Punto 3 (YouTube del Municipio I) superato da DEC-037, che porta la regola di oggi per YouTube.
+DEC-037 tocca anche, nel punto 4, la cifra della quota di A, che ora è quella di CONTRATTI,
+sezione 5, e nel punto 5 il «solo» per il testo dei sottotitoli di YouTube di ultima riserva.
+Il resto di questa decisione resta valido.
 Blocks: nothing.
 
 Question: come si apre il canale A del pilota (DEC-031, punto 2A) sulle sedute registrate: da

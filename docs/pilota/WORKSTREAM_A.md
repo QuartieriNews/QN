@@ -2,9 +2,9 @@
 
 Stato: apertura del canale, PR A1 (14 novembre 2026). Le regole del canale stanno in
 `docs/pilota/CONTRATTI.md`, sezione 7, «A · Amministrazione», e le scelte dell'owner in
-DEC-036: qui non si ripetono, si rimanda. Questo documento dice che cosa si costruisce, con
-quali mezzi e come si prova; la sessione che costruisce i flussi parte da qui. Se una regola
-cambia, cambia là, e qui si corregge solo il rimando.
+DEC-036 e DEC-037: qui non si ripetono, si rimanda. Questo documento dice che cosa si
+costruisce, con quali mezzi e come si prova; la sessione che costruisce i flussi parte da qui.
+Se una regola cambia, cambia là, e qui si corregge solo il rimando.
 
 ## 1. Scopo e confini
 
@@ -32,12 +32,13 @@ con i CSV; i totali sì: valgono i CSV).
 | Acilia (X) | commissioni del Municipio X | RomaTV, `Municipio X` | nostra | 12,1 |
 | Centocelle (V) | Consiglio del Municipio V | RomaTV, `Municipio V` | trascrizione della piattaforma | 8,8 |
 | Centocelle (V) | commissioni del Municipio V | RomaTV, `Municipio V` | nostra | 18,3 |
-| Prati (I) | Consiglio e commissioni del Municipio I | YouTube, canale `UCEZtd0d0UV5e8ZCWkNOiNjw` | sottotitoli automatici di YouTube: oggi non ottenibili (pagina di consenso, sotto) | 42,1 (3,5 + 38,6) |
+| Prati (I) | Consiglio e commissioni del Municipio I | YouTube, canale `UCEZtd0d0UV5e8ZCWkNOiNjw` | nostra, dall'audio preso con un Actor di Apify (DEC-037) | 42,1 (3,5 + 38,6) |
 | tutte e tre | commissioni capitoline | RomaTV, `Commissioni Capitoline` | nostra | 51,6 |
 | tutte e tre | Assemblea capitolina | RomaTV, `Assemblee Capitoline` | nostra | 41,3 |
 
-Da trascrivere noi: 30,4 ore municipali, 51,6 capitoline e 41,3 dell'Assemblea, 123,3 ore al
-mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-036, punto 4.
+Da trascrivere noi: 30,4 ore municipali di V e X, 42,1 del Municipio I, 51,6 capitoline e
+41,3 dell'Assemblea, 165,4 ore al mese (sezione 7). Quali fatti capitolini si tengono lo dice
+DEC-036, punto 4.
 
 - **Trascrizione della piattaforma:** solo i Consigli municipali (82 su 86 in giugno, su tutti
   i Municipi). Il 14 novembre l'avevano le parti dei Consigli del V pubblicate il 10 e il
@@ -58,23 +59,26 @@ mese (sezione 7). Quali fatti capitolini si tengono lo dice DEC-036, punto 4.
   giorni dopo, le capitoline entro poche ore. YouTube del I: lo stesso giorno (15 su 15 nel feed
   di settembre). Quando compare il WebVTT rispetto alla pubblicazione non è misurato: lo prende
   lo sguardo indietro di 100 giorni dell'elenco (CONTRATTI, sezione 7 A, «Raccolta»).
-- **Prati al 14 novembre:** da n8n il feed risponde; la pagina del video dà la pagina di
-  consenso UE, senza tracce dei sottotitoli. Per DEC-036, punto 3, e per la riga «Raccolta» è
-  il primo segnale di blocco: `www.youtube.com` è fermo da allora, e l'owner lo sa con A1 (corpo
-  della PR e rapporto). Non si prova un'altra strada, né in A3 né dopo: A2 costruisce e prova
-  con fixture la lettura del feed, ma nessun flusso chiede niente a YouTube finché l'owner non
-  fa ripartire l'host a mano, e Prati resta senza testo finché l'owner non decide (sezione 9).
+- **Prati.** Il 14 novembre, da n8n, il feed rispondeva e la pagina del video dava la pagina
+  di consenso UE, senza tracce dei sottotitoli: per DEC-036, punto 3, era un segnale di blocco,
+  e `www.youtube.com` si è fermato. Dal 15 novembre vale DEC-037: l'elenco dei video e
+  l'audio vengono da Actor di Apify e il testo dalla nostra trascrizione; n8n non chiede più
+  niente a YouTube. Manca ancora la prova degli Actor (sezione 6; dal 20 novembre, quando
+  Apify è di nuovo disponibile, come dice il passaggio del 15 novembre): fino ad allora A2 e
+  A3 costruiscono e provano con fixture, e Prati resta senza testo.
 
 ## 3. I mezzi
 
-Stato al 14 novembre 2026. Gli id delle esecuzioni sono quelli delle sonde (`staging_A_sonda_*`,
-spente dopo le corse di prova).
+Stato al 14 novembre 2026; le righe su YouTube e Apify sono del 15 (DEC-037). Gli id delle
+esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di prova).
 
 | Mezzo | Stato | Note |
 |---|---|---|
 | n8n Cloud, piano Starter (`quartierinews.app.n8n.cloud`) | PRESENTE | nodo Code con `require('crypto')` (AES-128-CBC), `Buffer`, `setTimeout`, `this.helpers.httpRequest` (testo o `arraybuffer`, risposta intera, errori HTTP senza eccezione); niente `process` (916); niente `URL` né il modulo `url` (non dalle sonde: commit 2e6a288, `code-nodes/news-collect.js`); altri moduli non provati, non si usano |
 | RomaTV raggiunto da n8n | PRESENTE | elenco (`search_frontend`), WebVTT, JSON del parlato, playlist, chiave e segmenti rispondono 200 (918, 921); l'elenco e la chiave sono stati chiesti sempre con `Origin` e `Referer` del portale, e se servono non è provato; WebVTT, JSON del parlato, playlist e segmenti hanno risposto senza (sezione 4, la strada dell'audio, passo 3) |
-| YouTube raggiunto da n8n | FERMO dal 14/11 | feed 200; pagina del video = pagina di consenso UE (918): primo segnale di blocco (sezione 2); riparte solo quando l'owner lo dice (CONTRATTI, sezione 7 A, «Raccolta») |
+| `www.youtube.com` da n8n | NON SI USA (DEC-037) | il 14/11: feed 200, pagina del video = pagina di consenso UE (918); dal 15/11 l'elenco e l'audio vengono da Apify, senza nessuna chiave di Google (sezione 2) |
+| Apify da n8n, per l'elenco e l'audio di YouTube | DA PROVARE, dal 20/11 | su n8n c'è la credenziale Apify del canale C, «Bearer Auth account» (`staging_C_fb_events_fetch`); il 14/11 l'API di n8n non la poteva usare e l'editor dell'owner non cambiava i nodi che la usano (`workflows/README.md`): se un flusso `staging_A` la può usare lo prova A2, con l'elenco, e se no la rende usabile l'owner. I due Actor dell'audio da provare: sezione 7; quello dell'elenco si sceglie alla prova; la prova: sezione 6 |
+| Riserva fuori da Apify, per l'audio di YouTube | DALL'OWNER, sulle opzioni del builder | DEC-037, punto 3; finché non c'è, la riserva è un secondo Actor (sezione 9) |
 | Credenziale «OpenAI account» (`openAiApi`) | PRESENTE | condivisa dall'owner il 14/11 col progetto dei flussi `staging_`; `gpt-4o-mini-transcribe` e `whisper-1` rispondono 200 su un M4A di 10 minuti (921) |
 | Credenziale «Google Drive account» (`googleDriveOAuth2Api`) | PRESENTE; via API DA PROVARE (A2) | condivisa il 14/11; c'è una quota di richieste al minuto (D si è fermato il 13/11). POST e PUT con la credenziale sono provati solo su nodi `openAiApi` (918, 921); per un nodo Drive le sessioni precedenti hanno visto il contrario (`PASSAGGIO_2026-11-12.md`, sezione 5): sezione 8, punto 3 |
 | Cartella Drive `A Amministrazione/` | PRESENTE | sotto `30 Staging pilota 2026-11`; gli id di questa cartella e delle sottocartelle sono nel passaggio `PASSAGGIO_2026-11-14_canale-A.md`, nella cartella di passaggio, non nel repository |
@@ -91,6 +95,7 @@ spente dopo le corse di prova).
 | `staging_A_avviso` | DA COSTRUIRE | A2; sempre attivo |
 | Fixture dei test | DA COSTRUIRE | byte e testi inventati (DEC-109), mai presi da una fonte |
 | Credenziali condivise e DEC-036 | DALL'OWNER, fatto il 14/11 | |
+| Chiave di un servizio Whisper più economico, per il confronto dei modelli | DALL'OWNER, se il confronto lo prova | DEC-037, punto 4; sezione 6 |
 | Chiave di un modello di un'altra famiglia, per la seconda verifica di DEC-015 | DALL'OWNER, con A5 | solo se l'owner dice che DEC-015 vale per il pilota (sezione 9); su n8n oggi c'è solo OpenAI |
 | Foglio della coda di revisione | DALL'OWNER, con A5 | non esiste su Drive |
 | Piano n8n superiore | DALL'OWNER, solo se serve | se le corse chiamate da un altro flusso contano, A non sta nel piano già con A2 e A3: la domanda arriva con la misura di A2 (sezione 4) |
@@ -99,7 +104,7 @@ spente dopo le corse di prova).
 
 | Flusso | Trigger | Ingresso | Uscita | Cartella |
 |---|---|---|---|---|
-| `staging_A_elenco` | orario, quello di CONTRATTI, sezione 7 A, «Raccolta» | i quattro cataloghi RomaTV; il feed del canale del I solo quando l'owner fa ripartire YouTube (sezione 2) | righe `nuova` nella Data table, schede delle registrazioni, risposte come arrivano, registro della corsa | `registrazioni/`, `originali/`, `letture/` |
+| `staging_A_elenco` | orario, quello di CONTRATTI, sezione 7 A, «Raccolta» | i quattro cataloghi RomaTV; l'elenco dei video del canale del I da un Actor di Apify, quando la credenziale Apify è usabile (sezione 3) | righe `nuova` nella Data table, schede delle registrazioni, risposte come arrivano, registro della corsa, la spesa della corsa di Apify dell'elenco | `registrazioni/`, `originali/`, `letture/`, `costi/` |
 | `staging_A_testo` | chiamato dall'elenco a fine corsa, e da sé stesso finché c'è lavoro, senza aspettare la fine; al massimo 8 corse al giorno (sotto, «Esecuzioni») | le registrazioni prese dalla Data table, una dopo l'altra, finché il budget di tempo non è finito | testo intero a pezzi, confini, testo della seduta aperta, le spese di ogni registrazione in ogni corsa | `temporanei/`, `originali/`, `costi/`, `letture/` |
 | `staging_A_lettura` (A4) | chiamato dal testo a fine corsa, senza aspettare la fine, quando nella Data table c'è almeno una riga in `confini_fissati` senza una presa viva; prende con la presa quelle righe, una dopo l'altra, anche quelle rimaste da una corsa di testo morta prima di chiamarlo | il testo della seduta aperta | i fatti candidati | `letture/` |
 | `staging_A_elementi` (A5) | da fissare in A5 | le letture | gli elementi | `A Amministrazione/` |
@@ -118,7 +123,7 @@ scheda in `registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A)
 | `testo_completo` | testo | testo intero in `temporanei/`; se c'è già il testo della seduta aperta in `originali/`, il confine è fatto (sotto, «La ripresa del confine») |
 | `confini_fissati` | testo | testo della seduta aperta in `originali/`; niente più in `temporanei/` |
 | `letta` | lettura (A4) | fatti candidati in `letture/` |
-| `scartata` | elenco o testo | fuori perimetro, confine non fissabile, testo di YouTube non ottenibile: il motivo è nella riga; niente in `temporanei/` |
+| `scartata` | elenco o testo | fuori perimetro, confine non fissabile, video di YouTube uscito dalla finestra senza testo: il motivo è nella riga; niente in `temporanei/`. Un video di YouTube di cui non si ottengono né l'audio né i sottotitoli non si scarta e non va in `errore`: resta `nuova`, con l'avviso, e si riprova nelle corse dopo finché è dentro la finestra (DEC-037, punto 3). Ogni quanto si riprova lo stesso video e si avvisa, e se una ripresa conta fra i 5 video al giorno, lo fissa la PR del testo (A3), con i test (T-A3-22) |
 | `errore` | qualunque flusso | tre tentativi falliti; parte l'avviso; la riga tiene lo stato da cui è caduta. Si riparte solo a mano, da quello stato (sotto, «La pulizia»): caduta durante il testo, i suoi file in `temporanei/` si cancellano subito e si riparte dal primo segmento; caduta in lettura o negli elementi, si riparte da `confini_fissati` o da `letta`, con il testo della seduta aperta che è già in `originali/` |
 
 **La presa.** Una corsa scrive nella riga il proprio id di esecuzione e una scadenza (ora più 5
@@ -186,8 +191,10 @@ riga, saltando le righe con una presa viva. Così un file sfuggito a una cancell
 esempio con Drive che non risponde proprio mentre la riga va in `errore`, non resta più di un
 giorno. La pulizia la fa il testo e non l'elenco perché legge l'uso nei file dei pezzi, che
 hanno il testo: i dati delle esecuzioni del testo non si salvano (sotto, «Dati delle
-esecuzioni»). Ripartire a mano una registrazione caduta durante il testo la rimette in `nuova`,
-dal primo segmento: la spesa si rifà, al più circa 0,6 $ con `gpt-4o-mini-transcribe` per le
+esecuzioni»). La stessa pulizia cancella su Apify lo storage delle corse di YouTube rimasto
+dopo una corsa morta o una riga finita in `errore` o `scartata` (DEC-037, punto 2; T-A3-22).
+Ripartire a mano una registrazione caduta durante il testo la rimette in `nuova`, dal primo
+segmento: la spesa si rifà, al più circa 0,6 $ con `gpt-4o-mini-transcribe` per le
 3,5 ore della prova dell'Assemblea (sezione 6), sotto la soglia di DEC-036, punto 6. Una caduta
 dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascrizione.
 
@@ -209,12 +216,16 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   giorno da trigger e circa 49 corse chiamate da un altro flusso (sotto-workflow): 750–870 al
   mese se le seconde non contano, 2.220–2.340 se contano. Obiettivo di A: al massimo 500 corse
   che contano. Conto di giugno: elenco 240 (8 corse al giorno, da trigger). Testo: una corsa
-  prende più registrazioni in fila finché il budget non è finito, e 123,3 ore a 20–25 minuti
-  per corsa fanno 300–370 corse; con una registrazione per corsa, la riserva se una corsa non
+  prende più registrazioni in fila finché il budget non è finito, e le 123,3 ore di RomaTV a
+  20–25 minuti per corsa fanno 300–370 corse; con una registrazione per corsa, la riserva se
+  una corsa non
   riesce a prenderne più di una, 350–430 corse per 117 registrazioni (304 a 30 minuti per
-  corsa, dal CSV A3). I testi senza audio (20 Consigli con la trascrizione della piattaforma; i
-  77 video del I, se YouTube riparte) entrano nelle stesse corse. Il testo è chiamato
-  dall'elenco e da sé stesso: è un sotto-workflow.
+  corsa, dal CSV A3). I testi senza audio (20 Consigli con la trascrizione della piattaforma)
+  entrano nelle stesse corse. I 77 video del I non sono più testi senza audio (DEC-037): sono
+  altre 42,1 ore da trascrivere, 165,4 in tutto. Alla resa di RomaTV sarebbero altre 100–125
+  corse al mese; ma il loro audio arriva da Apify in un file, senza le pause dei segmenti, e
+  quante corse servono lo misura A3. Il testo è chiamato dall'elenco e da sé stesso: è un
+  sotto-workflow.
   - Se le corse chiamate non contano (insights: 143 di produzione contro 382 salvate, 245
     chiamate; non provato), di A conta solo l'elenco, 240, e con B e D si arriva a 990–1.110:
     il piano basta.
@@ -226,7 +237,8 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   - Il tetto del testo viene dall'obiettivo: 500 − 240 = 260 corse al mese, cioè 8 al giorno.
     Vale finché A2 non dimostra che le corse chiamate non contano; allora lo rifissa A3 sul
     tempo misurato. Con 8 corse da 20–25 minuti si trascrivono 80–100 ore al mese, meno delle
-    123,3 di giugno: anche questo va nella domanda all'owner.
+    123,3 di giugno di RomaTV, e molto meno delle 165,4 con il Municipio I: anche questo va
+    nella domanda all'owner.
 - Binari e memoria: un binario costruito in base64 in un nodo Code resta nel JSON
   dell'esecuzione, senza id, e ogni nodo che lo passa ne fa una copia (921: 12,4 MB di base64
   per 9,3 MB di M4A, nel nodo «Audio» e di nuovo in «Di nuovo 1»; 919: 44 MB di esecuzione per
@@ -237,10 +249,11 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   è misurata: la misura la prova dell'Assemblea (sezione 6).
 - Dati delle esecuzioni: per testo, lettura ed elementi `saveDataSuccessExecution` e
   `saveDataErrorExecution` sono `none`, `saveManualExecutions` e `saveExecutionProgress` sono
-  `false` (DEC-036, punto 5; CONTRATTI, sezione 7 A, «Testo»: l'audio non si scrive mai). Un
-  errore si legge dall'avviso di `staging_A_avviso`, con flusso, nodo, messaggio e ora; l'id
-  dell'esecuzione può mancare, perché l'esecuzione non si salva. Nessun nodo di esito porta un
-  campione di testo (la sonda 921 lo faceva; quell'esecuzione è cancellata).
+  `false` (DEC-036, punto 5; CONTRATTI, sezione 7 A, «Testo»: l'audio non si scrive mai su
+  Drive né su n8n). Un errore si legge dall'avviso di `staging_A_avviso`, con flusso, nodo,
+  messaggio e ora; l'id dell'esecuzione può mancare, perché l'esecuzione non si salva.
+  Nessun nodo di esito porta un campione di testo (la sonda 921 lo faceva; quell'esecuzione
+  è cancellata).
 - Prove con un trigger a orario: ogni corsa di prova ha una scadenza scritta nel codice, perché
   lo spegnimento via API arriva tardi (l'esecuzione 922 è partita un minuto dopo la 921).
 
@@ -291,8 +304,8 @@ proposte: li fissa la PR che li porta.
 | PR | Che cosa | Nodi Code e test | Su n8n e Drive |
 |---|---|---|---|
 | A1 apertura (questa), in due PR perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4) | A1a: CONTRATTI, sezioni 5, 6 e 7 A; DEC-036; questo brief. A1b: il nodo e i test | A1b: `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
-| A2 raccolta | elenco dei cataloghi e del feed, schede, stato, presa, stop delle fonti, controllo di `robots.txt` | `romatv-list.js`, `youtube-list.js`, `recording-state.js` | Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
-| A3 testo | la strada dell'audio; i pezzi da 60 secondi; i testi della piattaforma (JSON del parlato, WebVTT di riserva) e i sottotitoli di YouTube in una forma sola con i tempi; il confine della seduta; le spese | `hls-audio.js` (dal prototipo nella cartella di passaggio, sezione 3), `recording-text.js`, `session-boundary.js` | `staging_A_testo` |
+| A2 raccolta | elenco dei cataloghi e, per YouTube, dei video del canale da un Actor di Apify (DEC-037), schede, stato, presa, stop delle fonti, controllo di `robots.txt` | `romatv-list.js`, `youtube-list.js`, `recording-state.js` | Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
+| A3 testo | la strada dell'audio di RomaTV; l'audio di YouTube da un Actor di Apify, con la riserva e, per ultimi, i sottotitoli automatici (DEC-037, punto 3); i pezzi da 60 secondi; i testi della piattaforma (JSON del parlato, WebVTT di riserva) e i sottotitoli di YouTube in una forma sola con i tempi; il confine della seduta; le spese | `hls-audio.js` (dal prototipo nella cartella di passaggio, sezione 3), `youtube-audio.js`, `recording-text.js`, `session-boundary.js` | `staging_A_testo` |
 | A4 lettura | i fatti candidati secondo `tools/sources-study/report2/SPECIFICA_VIDEO.md`, con l'evidenza `[mm:ss]`, in `letture/`, senza il riscontro con atti e notizie (sotto, «Il riscontro»); il modello di trascrizione si fissa qui, dopo il confronto (sezione 6) | il nodo della lettura | `staging_A_lettura` |
 | A5 elementi | il riscontro con atti e notizie (sotto); geografia con una porta JS della risoluzione del gazetteer sui luoghi estratti; classi editoriali di `institutional` dal build del gazetteer; seconda verifica di DEC-015; coda di revisione; proiezione per il prototipo | la porta del gazetteer, la scrittura dell'elemento | `staging_A_elementi`; gli elementi in `A Amministrazione/` |
 
@@ -359,15 +372,22 @@ A2:
   corsa dopo, cinque di fila fermano l'host fino al giorno dopo.
 - T-A2-08 `robots.txt` cambiato rispetto al 14 novembre, o illeggibile dove si leggeva: l'host
   si ferma e parte l'avviso.
-- T-A2-09 feed di YouTube: `youtube:<id>` solo per un id di 11 caratteri; `source_id` è il canale.
-- T-A2-10 gli stop della riga «Raccolta» e di DEC-036, punto 3, su YouTube, uno per caso,
-  compreso il rinvio al controllo anti-bot su un altro host: l'host si ferma, parte l'avviso, e
-  riparte solo quando l'owner lo dice, come per RomaTV (T-A2-07), mai da solo il giorno dopo;
-  con l'host fermo nessuna richiesta parte; ogni richiesta porta lo user agent dichiarato.
+- T-A2-09 elenco di YouTube da un Actor di Apify (DEC-037, punto 2), con un Apify finto:
+  `youtube:<id>` solo per un id di 11 caratteri; `source_id` è il canale; si tengono i video
+  dentro la finestra di T-A2-04, e un video già visto non dà una seconda riga; un elenco che
+  non arriva a coprire la finestra è incompleto, con il motivo e l'avviso; la corsa
+  dell'elenco ha il suo file di costo.
+- T-A2-10 gli stop della riga «Raccolta» su Apify, uno per caso: un 401, 403 o 429 dell'API
+  di Apify ferma Apify, parte l'avviso, e riparte solo quando l'owner lo dice, come per
+  RomaTV (T-A2-07); una corsa fallita dell'Actor dell'elenco lascia l'elenco non letto in
+  quella corsa e ha il suo file di costo, e cinque di fila fermano l'elenco fino al giorno
+  dopo, con l'avviso; con Apify fermo nessuna richiesta parte; nessuna richiesta va a YouTube, né
+  al sito né all'interfaccia ufficiale; ogni richiesta di n8n porta lo user agent dichiarato.
 - T-A2-12 il ritmo della riga «Raccolta», con un orologio finto: le pause minime per host,
   dalla fine di una risposta alla richiesta seguente (5 secondi agli host di RomaTV, 1 a quello
-  dei media, 60 a YouTube), una richiesta alla volta per fonte, e il tetto di 30 richieste di
-  YouTube per giorno di Roma; lo stesso modulo dà il ritmo ai segmenti di A3.
+  dei media), una richiesta alla volta per fonte, e per YouTube la cadenza dell'elenco che
+  fissa A2, un video alla volta e al più 5 video per giorno di Roma; lo stesso modulo dà il
+  ritmo ai segmenti di A3.
 - T-A2-11 la presa: due corse sulla stessa riga, una sola lavora; una presa scaduta si riprende;
   gli stati cambiano solo lungo la tabella della sezione 4. La presa di una fonte tenuta dal
   testo: l'elenco aspetta al più fino alla scadenza, poi salta la fonte e lo scrive nel
@@ -391,7 +411,8 @@ A3:
 - T-A3-06 pezzi da 6 segmenti con tempi 0, 60, 120…; l'ultimo corto; un segmento fallito ferma
   il pezzo senza buchi silenziosi.
 - T-A3-07 JSON del parlato e WebVTT nella stessa forma con i tempi; `transcript_source` giusto.
-- T-A3-08 sottotitoli di YouTube nella stessa forma; `youtube_asr`.
+- T-A3-08 sottotitoli di YouTube, l'ultima riserva di DEC-037, punto 3, nella stessa forma;
+  `youtube_asr`.
 - T-A3-09 confine: apertura, sospensione, ripresa e chiusura a minuti inventati; resta solo la
   seduta aperta; del resto esistenza, minuto e durata.
 - T-A3-10 ripresa non dichiarata: dal primo atto formale, con atto, minuto e motivo scritti;
@@ -439,9 +460,23 @@ A3:
   seduta aperta in `originali/` e prima della riga, con i pezzi cancellati tutti, in parte o per
   niente; la corsa dopo non chiede audio, non chiama OpenAI, fa il controllo delle spese,
   cancella i file rimasti e mette la riga in `confini_fissati`.
+- T-A3-22 l'audio di YouTube (DEC-037, punti 2 e 3), con un Apify finto: l'Actor principale
+  riuscito dà il testo con `asr:<modello>`; fallito il principale, la riserva (fallita vuol
+  dire almeno: una corsa che non finisce riuscita, e un audio più corto del video; CONTRATTI,
+  sezione 7 A, «Raccolta»); falliti tutti e due, i sottotitoli automatici, con `youtube_asr`;
+  se non arriva niente il video resta `nuova`, senza passare a `errore`, con l'avviso, e si
+  riprova nelle corse dopo, con la cadenza e il conto fra i 5 video che fissa A3; uscito
+  dalla finestra senza testo, il testo lo mette in `scartata`, con
+  il motivo. Un 401, 403 o 429 dell'API di Apify ferma Apify e non conta come corsa fallita.
+  Il ritmo e il tetto sono quelli di T-A2-12. Lo storage della corsa su Apify si cancella
+  dopo la trascrizione e anche dopo un fallimento; rimasto dopo una corsa morta, o per una
+  riga finita in `errore` o `scartata`, lo cancella la corsa dopo o la pulizia del giorno.
+  Ogni corsa di Apify, anche fallita, ha il suo file di costo (CONTRATTI, sezione 7 A,
+  «Costi»), e nessuna richiesta porta cookie o un login.
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
-repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-036, punto 6.
+repository. Totale atteso circa 1,2 € più la corsa dell'elenco di YouTube, tetto 2 €, dentro
+la delega di DEC-036, punto 6.
 
 | Prova | Che cosa dimostra | Costo atteso |
 |---|---|---|
@@ -449,13 +484,14 @@ repository. Totale atteso circa 0,7 €, tetto 2 €, dentro la delega di DEC-03
 | Una commissione del X | la strada dell'audio intera, pezzi, spesa | 0,07 € (30 minuti) |
 | Una commissione capitolina | catalogo capitolino, nessun Municipio dal titolo | 0,10 € (45 minuti) |
 | Una parte dell'Assemblea di 3 ore o più | memoria per esecuzione e tempo, ripresa su più corse | 0,50 € (3,5 ore) |
-| Un video del Municipio I, solo se l'owner fa ripartire YouTube (sezione 2) | feed e sottotitoli dentro DEC-036, punto 3, o lo stop | 0 € |
+| L'elenco del canale del Municipio I con un Actor di Apify, dal 20 novembre, con la spesa prevista dichiarata prima (DEC-037, punto 6) | che l'elenco copra la finestra di 100 giorni; quali ore dà per un video; tempo e costo vero della corsa | da leggere prima sulla pagina dell'Actor |
+| Uno o due video del Municipio I con i due Actor di Apify, dal 20 novembre, con la spesa prevista dichiarata prima (DEC-037, punto 6) | qualità dell'audio (traccia e bitrate), durata intera, tempo e costo vero della corsa; quale Actor è il principale e quale la riserva | 0,5 € (due video di un'ora: Apify e trascrizione) |
 | La stessa registrazione rifatta | nessun file doppio, nessuna spesa doppia | 0 € |
 | Un errore forzato | `staging_A_avviso` scrive l'avviso in `letture/`, anche con i dati degli errori non salvati | 0 € |
 | Un nodo Drive con la credenziale, creato con POST e cambiato con PUT, che scrive in `letture/` (A2) | la credenziale Drive regge sui flussi fatti dall'API (sezione 8, punto 3) | 0 € |
 | `staging_A_sonda_catena` (A2) | i 300 secondi non passano a una corsa chiamata senza attesa; se le corse chiamate contano nel piano (sezione 4) | 0 € |
 | Elenco (A2) e chiave (A3) senza `Origin` e `Referer`, una volta | se servono (sezione 4, la strada dell'audio, passo 3) | 0 € |
-| Chiusura | `temporanei/` vuota e nessun suo file nel cestino (`trashed = true`); nessuna esecuzione con dati di audio o testo su n8n | 0 € |
+| Chiusura | `temporanei/` vuota e nessun suo file nel cestino (`trashed = true`); nessuna esecuzione con dati di audio o testo su n8n; nessuno storage di corsa rimasto su Apify | 0 € |
 
 **Il confronto dei modelli,** prima di A4, sugli intervalli della seduta aperta già fissati di
 tre registrazioni delle prove: `whisper-1` (`verbose_json`) e `gpt-transcribe` contro il testo
@@ -464,9 +500,15 @@ circa 0,7 €; il prezzo di `gpt-transcribe` si legge prima di provarlo, e se no
 riducono le ore). Date di spegnimento lette dall'API di OpenAI (`/v1/models`) il 14 novembre,
 sonda 918: `gpt-4o-mini-transcribe` e `whisper-1` il 26 febbraio 2027, a circa tre mesi e mezzo
 dall'inizio; `gpt-4.1-mini` il 14 gennaio 2027; `gpt-5-mini` l'11 dicembre 2026; nessuna data
-per `gpt-transcribe`, `gpt-live-transcribe` e `gpt-realtime-whisper`. A4 fissa un modello che
-non si spenga a pilota in corso; il costo più basso vale solo fra `gpt-4o-mini-transcribe` e
-`whisper-1`. Si misurano parole, quota di testo ripetuto (a giugno 57 registrazioni su 318
+per `gpt-transcribe`, `gpt-live-transcribe` e `gpt-realtime-whisper`. DEC-037, punto 4,
+allarga il confronto. Entrano i servizi più economici basati su Whisper (per esempio
+`whisper-large-v3-turbo` di Groq: il prezzo si legge prima, e serve una chiave dall'owner).
+Ogni modello si prova con e senza una guida dei nomi, corta, fatta con l'ordine del giorno
+della seduta (atti del canale D) e con i luoghi principali del Municipio nel gazetteer. Si
+giudica prima sulla correttezza dei nomi di luogo (vie, piazze, luoghi del Municipio), poi sul
+resto, poi sul costo. Il tetto resta 1 €: se le prove in più non ci stanno, si riducono le ore.
+A4 fissa un modello che non si spenga a pilota in corso, scelto in quell'ordine. Si misurano
+parole, quota di testo ripetuto (a giugno 57 registrazioni su 318
 oltre il 10 %), grana dei tempi, nomi del gazetteer riconosciuti, tempo e spesa. In `letture/`
 vanno solo i numeri. I testi degli altri modelli sono testo della seduta aperta e vanno in
 `originali/`, accanto all'altro, con il modello nel nome; per quelle tre registrazioni la
@@ -485,10 +527,12 @@ converte il totale del mese con il tasso della BCE (CONTRATTI, sezione 5; DEC-03
 
 | Voce | Base | € al mese |
 |---|---|---|
-| Trascrizione nostra | 123,3 ore a 0,157 $ l'ora (misura di giugno: 318 registrazioni, 227,7 ore, 35,76 $) | circa 18 |
-| Lettura e confine | circa 178 ore di testo (nostro, della piattaforma, di YouTube) con un modello di fascia media, al prezzo di `gpt-4.1-mini`, che si spegne il 14 gennaio 2027 (sezione 6): il prezzo si rilegge con il modello che sceglie A4 | 2–3 |
-| Imprevisti | 20 % | circa 4 |
-| Totale | | circa 25, nella quota di A di 27 € (CONTRATTI, sezione 5) |
+| Trascrizione nostra | 165,4 ore, con le 42,1 del Municipio I (DEC-037), a 0,157 $ l'ora (misura di giugno: 318 registrazioni, 227,7 ore, 35,76 $) | circa 24 |
+| Apify, per l'audio di YouTube | 77 video e 42,1 ore a giugno, ai prezzi di listino letti il 15 novembre, da verificare alla prova: 0,006 $ a video (`datapipe/youtube-video-downloader`) o 0,002 $ al minuto (`lurkapi/youtube-to-mp3-audio-downloader`) | da 0,4 a 4,6 |
+| Lettura e confine | circa 178 ore di testo (nostro e della piattaforma; di YouTube solo in ultima riserva) con un modello di fascia media, al prezzo di `gpt-4.1-mini`, che si spegne il 14 gennaio 2027 (sezione 6): il prezzo si rilegge con il modello che sceglie A4 | 2–3 |
+| Apify, per l'elenco di YouTube | l'Actor si sceglie alla prova e il suo prezzo si legge prima; la cadenza la fissa A2 | non ancora stimato |
+| Imprevisti | 20 % | da 5 a 6 |
+| Totale | | da circa 32 a circa 38, senza l'elenco di YouTube, a cavallo della quota di A di 33 € (CONTRATTI, sezione 5) |
 
 Fuori dalla stima restano voci note, tutte verso l'alto:
 - i Consigli del V e del X che l'elenco vede senza la trascrizione della piattaforma passano
@@ -497,17 +541,30 @@ Fuori dalla stima restano voci note, tutte verso l'alto:
 - le commissioni capitoline di novembre vanno più forte di giugno: 9,3 ore in 3 giorni
   lavorativi, circa 65 al mese contro 51,6, circa 1,9 € in più;
 - gli imprevisti al 40 % invece del 20, per le trascrizioni da rifare (a giugno 57
-  registrazioni su 318 con più del 10 % di testo ripetuto, sezione 6): circa 4 € in più;
-- la scrittura e la seconda verifica di A5: si fissano con A5, su quanto resta della quota.
+  registrazioni su 318 con più del 10 % di testo ripetuto, sezione 6): da 5 a 6 € in più;
+- la scrittura e la seconda verifica di A5: si fissano con A5, su quanto resta della quota;
+- l'elenco di YouTube da Apify, non ancora stimato (tabella): il prezzo dell'Actor si legge
+  prima della prova e la cadenza la fissa A2.
 
-Con le prime tre la stima arriva a circa 33 €, sopra la quota. Lo dicono le spese vere del primo
-mese, nei file di `costi/`; se passano 27 €, il coordinatore lo dice all'owner, anche se il
-totale del pilota resta sotto i 50 € (regola di questo brief, più stretta di CONTRATTI, sezione
-5, che applica DEC-031, punto 6, al totale). I testi della piattaforma e i sottotitoli non costano.
-`whisper-1` per tutto (0,006 $ al minuto) farebbe circa 41 €, più del doppio: fuori quota. Una
+Con le prime tre, e senza l'elenco di YouTube, la stima arriva a circa 41–48 €, sopra la
+quota. Lo dicono le spese vere del primo mese, nei file di `costi/`: il coordinatore avvisa
+l'owner quando la quota di A o il totale del pilota passano il 50 % e l'80 % (DEC-037,
+punto 6), e quando la quota di 33 € è superata, anche se il totale del pilota resta sotto i
+50 € (regola di questo brief, più stretta di CONTRATTI, sezione 5, che applica DEC-031,
+punto 6, al totale). Nessuna di queste soglie ferma un flusso.
+I testi della piattaforma non costano; i sottotitoli di ultima riserva costano la sola corsa
+di Apify. `whisper-1` per tutto (0,006 $ al
+minuto) farebbe circa 55 €, più del doppio: fuori quota. Una
 tantum, questo mese: le prove in staging (tetto 2 €) e il confronto (tetto 1 €). La spesa è una
 stima dall'uso che OpenAI restituisce (CONTRATTI, sezione 7 A, «Costi»); la somma del mese la fa
 il coordinatore.
+
+**A regime** (stima del builder, DEC-037, Contesto): con i 15 Municipi, le commissioni
+capitoline e l'Assemblea, a giugno le ore da trascrivere noi sarebbero circa 410 al mese
+(RomaTV circa 330, YouTube circa 80; altre 77 ore di Consigli le trascrive già la
+piattaforma), circa 80 € al mese per il canale A al modello di oggi e con il prezzo di Apify
+a video (circa 90 con quello al minuto), prima della scrittura e senza l'elenco di YouTube.
+Il grosso è la trascrizione, non Apify.
 
 ## 8. Come si lavora su n8n da una sessione
 
@@ -547,7 +604,8 @@ il coordinatore.
    `staticData`. I nodi Code identici byte per byte ai file di `code-nodes/`
    (`tests/test_workflow_exports.js`); `workflow_version` dell'«Inizio» cambia a ogni modifica.
 10. **Chiudere.** Flussi di prova spenti, nessuna esecuzione con audio o testo su n8n,
-    `temporanei/` vuota e senza file nel cestino (`trashed = true`); il passaggio
+    `temporanei/` vuota e senza file nel cestino (`trashed = true`), nessuno storage di corsa
+    rimasto su Apify; il passaggio
     `PASSAGGIO_<data>.md` nella cartella di passaggio (`CLAUDE.md`, «Consumption»).
 
 ## 9. Punti aperti
@@ -560,11 +618,14 @@ il coordinatore.
 | Immagini degli elementi: nessuna regola decisa per questo blocco (DEC-101 è per gli eventi) | owner | A5 |
 | Citazioni testuali del parlato | owner | A4 |
 | Atti capitolini (ordini del giorno, convocazioni) per verificare i fatti: fuori da DEC-033, che copre gli atti dei Municipi I, V e X | owner | A4 |
-| Prati: la pagina di consenso UE del 14 novembre ha fermato `www.youtube.com` (sezione 2). Se e come riprovare il feed e i sottotitoli, dentro DEC-036, punto 3; finché l'owner non decide, Prati resta senza testo | owner, avvisato con A1 | ora |
+| Prati: deciso con DEC-037 (15 novembre). Il testo viene dall'audio; l'elenco e l'audio da Apify. Manca la prova degli Actor | builder | dal 20 novembre |
+| Gli Actor di Apify per YouTube, quello dell'elenco e, per l'audio, principale e riserva, dopo la prova (sezione 6); quante volte al giorno si chiede l'elenco; come arrivano i sottotitoli di ultima riserva; la credenziale Apify usabile da un flusso `staging_A` (sezione 3) | builder; l'owner per la credenziale | dal 20 novembre: l'Actor dell'elenco, la cadenza e la credenziale con A2; il resto prima di A3 |
+| La riserva fuori da Apify (un programma su un computer con connessione di casa, o un servizio di un'altra azienda): il builder porta le opzioni, con costi e manutenzione (DEC-037, punto 3) | owner | prima che A3 vada a regime |
+| L'audio di un video intero di YouTube su n8n: memoria per esecuzione, formato e divisione in pezzi; come si trova e si cancella lo storage di una corsa di Apify rimasto dopo una corsa morta | builder | A3 |
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
-| L'ora di riferimento di un video di YouTube: il feed dà solo la pubblicazione | builder | A2 |
+| L'ora di riferimento di un video di YouTube: quale ora dell'elenco dell'Actor vale, la pubblicazione o l'inizio della diretta | builder | A2 |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
 | Se le corse chiamate da un altro flusso contano nel piano: se contano, A non ci sta già con A2 e A3 (sezione 4), e servono il piano superiore o meno corse | il builder misura, l'owner decide il piano | A2, prima di accendere l'elenco a orario |
 | `Origin` e `Referer` del portale nelle richieste all'elenco e alla chiave: se servono, la PR che lo misura lo scrive in CONTRATTI, sezione 7 A | builder | A2 (elenco), A3 (chiave) |
-| La stima di spesa con le voci che ne restano fuori arriva a circa 33 €, sopra la quota di 27 € (sezione 7) | il coordinatore, sulle spese del primo mese; l'owner se si va oltre | fine del primo mese |
+| La stima di spesa con le voci che ne restano fuori arriva a circa 41–48 €, senza l'elenco di YouTube, sopra la quota di 33 € (sezione 7) | il coordinatore, sulle spese del primo mese; l'owner se si va oltre | fine del primo mese |
 | File del repository che hanno già testo di notizie preso dalle fonti: `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md`, sezione 6 («Possibili notizie»), e `docs/wiki/`. Segnalati, non toccati qui | owner | ora |
