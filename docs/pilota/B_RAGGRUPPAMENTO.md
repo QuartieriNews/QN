@@ -95,7 +95,8 @@ inventati.
 ## 5. Le regole del confronto
 
 - **Candidati:** i fatti con una scheda di cronaca di un tipo della stessa famiglia (una tabella nel
-  nodo, con i test: per esempio furto, rapina e truffa insieme), cercati in tre modi:
+  nodo, con i test: per esempio furto, rapina e truffa insieme), cercati in tre modi; solo per un
+  aggiornamento la famiglia non filtra (terzo modo):
   - **per data:** con la data del fatto in tutte e due le schede, al più 3 giorni (P-09); altrimenti
     al più 7 giorni fra le date di pubblicazione: la prova di giugno cercava da 7 giorni prima del
     comunicato a 5 dopo (`ISTRUZIONI_AVANTI.md`), qui nei due versi perché si confrontano anche due
@@ -109,39 +110,49 @@ inventati.
   - **per luogo, senza limite di giorni:** i fatti con lo stesso luogo di livello `via` o `luogo`
     (testi normalizzati uguali). Un comunicato arriva anche giorni o mesi dopo il fatto (P-03, R-C08):
     così ritrova il fatto che la stampa ha già scritto;
-  - **tutti i fatti già nella tabella, senza limite di giorni,** in due casi: quando la scheda ha un
-    `aggiornamento`, perché un aggiornamento deve ritrovare il suo fatto anche dopo mesi (R-C01,
-    R-C04); e quando è di una fonte ufficiale e non ha la data del fatto, perché il giorno di un
-    comunicato non dice quando il fatto è avvenuto (P-03).
+  - **senza limite di giorni, quando una delle due schede non dice il giorno del fatto:**
+    - per una scheda con `aggiornamento`, tutti i fatti già nella tabella, di qualunque famiglia.
+      Un aggiornamento deve ritrovare il suo fatto anche dopo mesi (R-C01, R-C04), e chi scrive
+      della sentenza può dare al reato un altro tipo: per un aggiornamento la famiglia non filtra
+      i candidati. Se la famiglia non è la stessa la scheda non è mai certa, e va in dubbio;
+    - per una scheda di una fonte ufficiale senza la data del fatto, tutti i fatti della stessa
+      famiglia già nella tabella: il giorno di un comunicato non dice quando il fatto è avvenuto
+      (P-03);
+    - per ogni scheda, i fatti della stessa famiglia in cui nessuna scheda dice il giorno del
+      fatto, perché li ha aperti un comunicato senza la data del fatto o un aggiornamento che non
+      la dice: la ricerca vale nei due versi, qualunque dei due arrivi prima.
 
   Al più 10 candidati, scelti con quello che il codice sa già confrontare, guardando di ogni fatto
   la scheda che ha più cose uguali: prima i fatti che possono essere certi (qui sotto: lo stesso
-  luogo di livello `via` o `luogo` e le date a posto); poi gli altri, prima quelli con più cose uguali
-  (lo stesso luogo ne conta una, ogni dettaglio uguale una) e, a parità, prima quelli trovati per
-  data; poi i più vicini per data; infine in ordine di `content_id`. Così un fatto che ha le prove
-  non esce dalla lista per far posto a fatti solo più recenti, e i fatti vecchi di un luogo dove ne
-  accadono molti non tolgono il posto a quelli dei giorni vicini. Il tetto di 10 e quest'ordine sono
-  proposte del builder, senza una fonte. Dove il codice non ha niente da confrontare (nessun luogo
-  di livello `via` o `luogo`, nessun dettaglio uguale) decide la vicinanza per data, che per un
-  aggiornamento o un comunicato lontani dal loro fatto dice poco: oltre i 10 quel fatto non arriva al
-  passo 4. Per questo, per una scheda che cerca fra tutti i fatti, una lista tagliata non basta a
-  dire «diverso» (qui sotto, «Dubbio»); la prova conta le liste tagliate (sezione 8). Le date sono
-  giorni di Roma.
+  luogo di livello `via` o `luogo` e le date a posto); poi gli altri, prima quelli con più cose
+  uguali (lo stesso luogo ne conta una, ogni dettaglio uguale una) e, a parità, prima quelli trovati
+  per data, poi quelli della stessa famiglia; poi i più vicini per data; infine in ordine di
+  `content_id`. Così un fatto che ha le prove non esce dalla lista per far posto a fatti solo più
+  recenti, e i fatti vecchi di un luogo dove ne accadono molti non tolgono il posto a quelli dei
+  giorni vicini. Di ogni candidato il modello vede al più tre schede: quella che ha aperto il fatto
+  e le due con più cose uguali, a parità quelle con lo `scheda_id` che viene prima. Così la
+  richiesta resta nella stima della sezione 7 anche per un fatto con molte fonti e molti
+  aggiornamenti. Il tetto di 10, le tre schede e quest'ordine sono proposte del builder, senza una
+  fonte. Dove il codice non ha niente da confrontare (nessun luogo di livello `via` o `luogo`,
+  nessun dettaglio uguale) decide la vicinanza per data, che per un aggiornamento o un comunicato
+  lontani dal loro fatto dice poco: oltre i 10 quel fatto non arriva al passo 4. Per questo, per una
+  scheda che cerca fra tutti i fatti, una lista tagliata non basta a dire «diverso» (qui sotto,
+  «Dubbio»); la prova conta le liste tagliate (sezione 8). Le date sono giorni di Roma.
 - **Certa,** la scheda si aggiunge da sola: il modello dice `stesso` e il codice trova, nella scheda
-  e nella scheda del fatto che il modello cita, la stessa famiglia di tipo, lo stesso luogo di
-  livello `via` o `luogo` (testi normalizzati uguali; un quartiere non basta; una strada lunga qui non
-  si riconosce, e la prova conta le fusioni fatte su una via), i dettagli che la regola chiede con
-  lo stesso valore, e le date a posto. Le date sono a posto in due casi: le due schede stanno nella
-  finestra della ricerca per data; oppure la scheda ha un `aggiornamento` senza la data del fatto e
-  la scheda citata viene prima di lei, a qualunque distanza (la data del fatto della scheda citata
-  o, se manca, il giorno del suo record non è dopo il giorno del record dell'aggiornamento), perché
-  un aggiornamento si aggancia al suo fatto (R-C01). Un aggiornamento che dice il giorno del suo
-  fatto vale come le altre schede: conta la finestra. Fuori da questi due casi niente è certo, e la
-  scheda va in dubbio: quando ha trovato il fatto solo per luogo, quando è un comunicato senza la
-  data del fatto lontano dal suo fatto, quando la scheda citata è un aggiornamento senza la data del
-  fatto. Quanti dettagli è la scelta 2. Una scheda le cui date vengono solo da `retrieved_at` non è
-  mai certa. Il codice controlla che le prove ci siano, non che il modello abbia ragione: quello lo
-  misura la prova (sezione 8).
+  e nella scheda del fatto che il modello cita, una di quelle che ha visto, la stessa famiglia di
+  tipo, lo stesso luogo di livello `via` o `luogo` (testi normalizzati uguali; un quartiere non
+  basta; una strada lunga qui non si riconosce, e la prova conta le fusioni fatte su una via), i
+  dettagli che la regola chiede con lo stesso valore, e le date a posto. Le date sono a posto in due
+  casi: le due schede stanno nella finestra della ricerca per data; oppure la scheda ha un
+  `aggiornamento` senza la data del fatto e la scheda citata viene prima di lei, a qualunque
+  distanza (la data del fatto della scheda citata o, se manca, il giorno del suo record non è dopo
+  il giorno del record dell'aggiornamento), perché un aggiornamento si aggancia al suo fatto
+  (R-C01). Un aggiornamento che dice il giorno del suo fatto vale come le altre schede: conta la
+  finestra. Fuori da questi due casi niente è certo, e la scheda va in dubbio: quando ha trovato il
+  fatto solo per luogo, quando è un comunicato senza la data del fatto lontano dal suo fatto, quando
+  la scheda citata è un aggiornamento senza la data del fatto. Quanti dettagli è la scelta 2. Una
+  scheda le cui date vengono solo da `retrieved_at` non è mai certa. Il codice controlla che le
+  prove ci siano, non che il modello abbia ragione: quello lo misura la prova (sezione 8).
 - **Dubbio:** un `stesso` senza prove verificate, o un `forse`; anche una scheda certa con due fatti,
   perché un ponte non fonde due fatti da solo. E una scheda che cerca fra tutti i fatti (un
   aggiornamento, un comunicato senza la data del fatto) quando la lista dei candidati è stata
@@ -165,9 +176,15 @@ inventati.
   ordine, e può trovare il suo fatto già aperto da un record venuto dopo. Il `content_id` di quel
   fatto resta quello dato: un'identità assegnata non cambia (CONTRATTI, sezione 2).
 - **Due fatti che diventano uno,** quando un dubbio si scioglie: resta quello con l'`aperto_il` più
-  vecchio, a pari istante il primo per `content_id`, con il suo `content_id`; l'altro riceve
-  `duplicate_of` e non si pubblica. Un comunicato che arriva dopo la stampa si aggiunge al fatto e ne
-  diventa la capofila (`news-fact.js`); il `content_id` resta.
+  vecchio, a pari istante il primo per `content_id`, con il suo `content_id`. I record dell'altro
+  passano a quello che resta, ognuno con la sua scheda e il suo `scheda_id` e con il ruolo che
+  avrebbe avuto aggiungendosi (`stesso_fatto` o `aggiornamento`): così `news-fact.js` calcola
+  categoria, capofila, editori e attribuzioni su tutte le fonti del fatto. Poi l'altro diventa
+  `unito`, riceve `duplicate_of` e non si pubblica. Le scritture vanno in quest'ordine: interrotte
+  in mezzo lasciano i record in tutti e due i fatti, mai in nessuno, e ripetere il passo dà lo
+  stesso risultato. Il passo arriva con la coda (sezione 9), con il suo test: un dubbio sciolto fra
+  un fatto ufficiale e uno di stampa. Un comunicato che arriva dopo la stampa si aggiunge al fatto
+  e ne diventa la capofila (`news-fact.js`); il `content_id` resta.
 - **Le schede `non_cronaca`** si scrivono e si fermano lì: aspettano la scelta 5.
 
 **Esempio inventato.** Il comunicato di un ente racconta due interventi in un quartiere immaginario:
@@ -190,9 +207,9 @@ schede: certa. Il fatto resta `qn:roma:nws:<chiave del comunicato>-f1`, con due 
 - Le risposte del modello si salvano prima di mettere le schede al loro posto: le schede di un
   record, e il giudizio di una scheda con la lista a cui risponde, cioè i candidati e, di ognuno, le
   schede mostrate al modello. Una corsa che ritrova la stessa lista usa il giudizio salvato: rifatta
-  sugli stessi record, non chiama il modello e dà gli stessi fatti. Un candidato che nel frattempo
-  ha preso una scheda in più non è più la stessa lista: il giudizio salvato non vale, e si chiede
-  di nuovo.
+  sugli stessi record, non chiama il modello e dà gli stessi fatti. Un candidato le cui schede
+  mostrate sono cambiate, perché ne ha presa una che entra fra le tre (sezione 5), non è più la
+  stessa lista: il giudizio salvato non vale, e si chiede di nuovo.
 - Una corsa interrotta lascia quello che ha scritto; la corsa dopo riparte dal file più vecchio con
   lavoro in sospeso, che un segnalibro nella tabella dei fatti tiene aggiornato (i `fermo` non
   contano), così una corsa non rilegge tutti i file dal 10 novembre. Nessun record si perde, nemmeno
@@ -239,8 +256,9 @@ elementi, righe della coda o file del sito, e `staging_B_notizie_raccolta` non s
    senza data del fatto che va in dubbio, la scelta dei 10 che tiene il fatto con le prove e quello
    dei giorni vicini, una lista tagliata che manda in dubbio chi cerca fra tutti i fatti, il giorno
    di un aggiornamento che non vale come giorno del fatto, dettagli uguali per valore e non per
-   forma, `source_id` dall'URL del record e il canale dalla fonte letta, certa, dubbio e diverso,
-   prove
+   forma, un aggiornamento con il tipo di un'altra famiglia, un comunicato senza data ritrovato da
+   una scheda arrivata dopo, un fatto con molte schede di cui il modello ne vede tre, `source_id`
+   dall'URL del record e il canale dalla fonte letta, certa, dubbio e diverso, prove
    citate che non ci sono, luoghi solo di quartiere, date solo da `retrieved_at`, un ponte, l'ordine,
    id stabili, `-f<n>` fisso, record rimasti indietro, ripresa, risposte fuori forma; una scheda o un
    giudizio mancati, o arrivati fuori forma, e poi ripresi danno gli stessi fatti di una corsa pulita.
