@@ -1,6 +1,8 @@
 # DEC-032 — Revisione automatica di Codex, e nessun tetto a PR e merge
 
 Status: DECIDED (9 novembre 2026, owner nella sessione del builder)
+Punto 4 di questa decisione, dove dice che resta «una PR alla volta nel giro di revisione»,
+superato in parte da DEC-038: fino a tre PR nel giro, una per workstream. Vale DEC-038.
 Supersedes in part: DEC-031, punto 7 (la revisione chiesta dall'owner, circa quattro volte al
 giorno). DEC-031 resta invariata e non si riapre; riceve un rimando sotto la riga `Status:`
 (`decisions/README.md`, regola 2).

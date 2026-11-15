@@ -4,6 +4,8 @@ Status: DECIDED (9 novembre 2026, owner nella sessione del builder)
 Punto 7 superato in parte da DEC-032: la revisione di Codex parte da sola anche per le PR di
 `QN-Builder`, e non c'è un tetto di PR o di merge al giorno. Il resto di questa decisione
 resta valido.
+Inoltre: Impact, dove dice che le PR del coordinatore arrivano «una alla volta», superato in
+parte da DEC-038: fino a tre PR nel giro di revisione, una per workstream. Vale DEC-038.
 Blocks: nothing.
 
 Question: come arrivare in fretta a qualcosa di concreto da guardare, un sito anche solo

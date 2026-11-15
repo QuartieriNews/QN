@@ -283,10 +283,10 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
 
 ## 5. Ordine di costruzione
 
-Una PR alla volta nel giro di revisione (protocollo, sezione 2). Ogni PR porta i suoi nodi Code
-(una fonte, due contesti: `code-nodes/README.md`), i test con la riga in `package.json`, e
-l'esportazione dei flussi in un commit separato. I nomi dei file nuovi sono proposte: li fissa
-la PR che li porta.
+Una PR di A alla volta nel giro di revisione (protocollo, sezione 2, punto 3). Ogni PR porta i
+suoi nodi Code (una fonte, due contesti: `code-nodes/README.md`), i test con la riga in
+`package.json`, e l'esportazione dei flussi in un commit separato. I nomi dei file nuovi sono
+proposte: li fissa la PR che li porta.
 
 | PR | Che cosa | Nodi Code e test | Su n8n e Drive |
 |---|---|---|---|
