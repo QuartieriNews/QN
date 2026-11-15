@@ -100,6 +100,14 @@ builder, che l'owner conferma con il merge.
    divieto resta solo la parte su un nostro login e cookie nostri. n8n non chiede più
    niente a YouTube, né al sito né all'interfaccia ufficiale: l'elenco, l'audio e i
    sottotitoli di riserva arrivano da Apify.
+
+   Lettura del builder, sull'audio: «non va mai su Drive né altrove» vuol dire che non lo
+   conserviamo in nessun altro posto. Per essere trascritto l'audio passa dalla memoria di
+   una corsa di n8n, che non salva i dati di quelle esecuzioni, e va a pezzi al servizio di
+   trascrizione, come quello di RomaTV (DEC-036, punti 2 e 5). Che cosa quel servizio
+   conserva lo dicono le sue condizioni, che si leggono prima di fissare il modello
+   (punto 4). «Il tempo della trascrizione» può durare più corse: lo storage della corsa di
+   Apify resta finché il testo non è completo, poi si cancella.
 3. **Principale e riserva.** Se il principale fallisce si usa la riserva; se fallisce
    anche la riserva, i sottotitoli automatici; se non si ottiene niente, il video resta da
    fare, si riprova nelle corse dopo dentro la finestra e si avvisa l'owner.
@@ -139,7 +147,9 @@ builder, che l'owner conferma con il merge.
      sezione 5).
    - Il coordinatore riporta all'owner la spesa del mese per workstream e il totale di
      Apify, e lo avvisa quando una quota o il totale del pilota (50 €) passano il 50 % e
-     l'80 %.
+     l'80 %. Lettura del builder: per questi avvisi, durante il mese, i dollari si contano
+     al cambio prudente delle stime, 0,92 € per dollaro (`docs/sources/TRIAL_LEDGER.md`);
+     il totale del mese resta quello di DEC-035, con il tasso della BCE.
    - Una prova fatta da una chat dichiara prima la spesa prevista e dopo quella fatta.
    - Il limite mensile dell'account Apify è un'impostazione dell'owner su Apify: questa
      decisione non lo tocca.

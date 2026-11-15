@@ -113,8 +113,9 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 **Lo stato** sta in una Data table, `staging_A_registrazioni`, una riga per registrazione: il
 `recording_ref`, lo stato, il motivo di uno scarto, catalogo o canale, `municipality_code`, ora
 di riferimento, durata, se c'è la trascrizione della piattaforma, la prima parte della seduta
-quando è divisa, il segmento da cui riprendere, i tentativi, la presa. Mai un testo. La
-scheda in `registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A).
+quando è divisa, il segmento da cui riprendere, i tentativi, la presa e, per un video di
+YouTube, l'id della corsa di Apify e del suo storage. Mai un testo. La scheda in
+`registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A).
 
 | Stato | Lo mette | Vuol dire |
 |---|---|---|
@@ -191,8 +192,11 @@ riga, saltando le righe con una presa viva. Così un file sfuggito a una cancell
 esempio con Drive che non risponde proprio mentre la riga va in `errore`, non resta più di un
 giorno. La pulizia la fa il testo e non l'elenco perché legge l'uso nei file dei pezzi, che
 hanno il testo: i dati delle esecuzioni del testo non si salvano (sotto, «Dati delle
-esecuzioni»). La stessa pulizia cancella su Apify lo storage delle corse di YouTube rimasto
-dopo una corsa morta o una riga finita in `errore` o `scartata` (DEC-037, punto 2; T-A3-22).
+esecuzioni»). La stessa pulizia cancella su Apify lo storage delle corse di YouTube di ogni
+riga che non è in `testo_in_corso`, o che non ha una riga: quello di una riga finita in
+`errore` o `scartata`, e quello rimasto dopo un testo completo. Finché la riga è in
+`testo_in_corso` lo storage resta, anche dopo una corsa morta, perché la corsa dopo riprende
+dal pezzo seguente senza un'altra corsa dell'Actor (DEC-037, punto 2; T-A3-22).
 Ripartire a mano una registrazione caduta durante il testo la rimette in `nuova`, dal primo
 segmento: la spesa si rifà, al più circa 0,6 $ con `gpt-4o-mini-transcribe` per le
 3,5 ore della prova dell'Assemblea (sezione 6), sotto la soglia di DEC-036, punto 6. Una caduta
@@ -468,9 +472,11 @@ A3:
   riprova nelle corse dopo, con la cadenza e il conto fra i 5 video che fissa A3; uscito
   dalla finestra senza testo, il testo lo mette in `scartata`, con
   il motivo. Un 401, 403 o 429 dell'API di Apify ferma Apify e non conta come corsa fallita.
-  Il ritmo e il tetto sono quelli di T-A2-12. Lo storage della corsa su Apify si cancella
-  dopo la trascrizione e anche dopo un fallimento; rimasto dopo una corsa morta, o per una
-  riga finita in `errore` o `scartata`, lo cancella la corsa dopo o la pulizia del giorno.
+  Il ritmo e il tetto sono quelli di T-A2-12. Lo storage della corsa su Apify resta finché
+  la riga è in `testo_in_corso`, con il suo id nella riga: una corsa di testo morta a metà
+  riprende dal pezzo seguente, senza un'altra corsa dell'Actor e senza una seconda spesa. Si
+  cancella quando il testo è completo e dopo un fallimento dell'Actor; quello di una riga
+  finita in `errore` o `scartata`, o rimasto senza riga, lo cancella la pulizia del giorno.
   Ogni corsa di Apify, anche fallita, ha il suo file di costo (CONTRATTI, sezione 7 A,
   «Costi»), e nessuna richiesta porta cookie o un login.
 
@@ -621,7 +627,8 @@ Il grosso è la trascrizione, non Apify.
 | Prati: deciso con DEC-037 (15 novembre). Il testo viene dall'audio; l'elenco e l'audio da Apify. Manca la prova degli Actor | builder | dal 20 novembre |
 | Gli Actor di Apify per YouTube, quello dell'elenco e, per l'audio, principale e riserva, dopo la prova (sezione 6); quante volte al giorno si chiede l'elenco; come arrivano i sottotitoli di ultima riserva; la credenziale Apify usabile da un flusso `staging_A` (sezione 3) | builder; l'owner per la credenziale | dal 20 novembre: l'Actor dell'elenco, la cadenza e la credenziale con A2; il resto prima di A3 |
 | La riserva fuori da Apify (un programma su un computer con connessione di casa, o un servizio di un'altra azienda): il builder porta le opzioni, con costi e manutenzione (DEC-037, punto 3) | owner | prima che A3 vada a regime |
-| L'audio di un video intero di YouTube su n8n: memoria per esecuzione, formato e divisione in pezzi; come si trova e si cancella lo storage di una corsa di Apify rimasto dopo una corsa morta | builder | A3 |
+| L'audio di un video intero di YouTube su n8n: memoria per esecuzione, formato e divisione in pezzi; come si trova lo storage di una corsa di Apify rimasto senza riga | builder | A3 |
+| Che cosa il servizio di trascrizione conserva dell'audio che riceve, di RomaTV e di YouTube: le sue condizioni si leggono prima di fissare il modello (DEC-037, punto 2) | il builder legge; l'owner se serve una scelta | A4 |
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
 | L'ora di riferimento di un video di YouTube: quale ora dell'elenco dell'Actor vale, la pubblicazione o l'inizio della diretta | builder | A2 |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
