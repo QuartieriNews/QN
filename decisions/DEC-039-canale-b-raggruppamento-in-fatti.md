@@ -1,6 +1,8 @@
 # DEC-039 — Canale B: le scelte sul raggruppamento delle notizie in fatti
 
 Status: DECIDED (15 novembre 2026, owner nella sessione del workstream B, sui consigli del builder)
+Punto 2 superato in parte da DEC-040 (16 novembre 2026): una scheda che fa nomi non si aggiunge
+da sola a un fatto in cui un'altra scheda fa nomi. Il resto di questa decisione resta valido.
 Blocks: niente per il pilota privato. Prima del lancio pubblico del blocco «Notizie» serve la
 coda del punto 3, con una decisione a sé.
 
