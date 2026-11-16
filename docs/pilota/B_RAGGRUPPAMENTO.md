@@ -1,7 +1,7 @@
 # Workstream B · Notizie: il raggruppamento dei record in fatti
 
-Stato: progetto, 15 novembre 2026. Nessun codice: arriva con le PR della sezione 9. Le regole
-stanno altrove e qui si rimanda: elemento, identità, capofila e pubblicabilità in
+Stato: progetto, 15 novembre 2026, rivisto il 16. Nessun codice: arriva con le PR della sezione 9.
+Le regole stanno altrove e qui si rimanda: elemento, identità, capofila e pubblicabilità in
 `docs/pilota/CONTRATTI.md`, sezione 7, «B · Notizie»; le regole della cronaca in DEC-034 (R-C01,
 R-C02, R-C04, R-C06, R-C08) e DEC-108; la fase 3, P-03 e P-09 in
 `docs/sources/CRONACA_PROCESSO_2026-10.md`. Se una regola cambia, cambia là. Gli esempi sono
@@ -24,7 +24,7 @@ automatica solo con le prove, il resto va in dubbio.
 
 | Che cosa | Da dove | Note |
 |---|---|---|
-| I record | `B Notizie/letture/notizie_righe_<inizio>.json` (`code-nodes/news-parse.js`) | tutti i file con lavoro in sospeso, non solo quello dell'ultima corsa (sezione 6). Il passo 1 sistema due campi. Manca `source_channel`, che `news-fact.js` chiede: viene da `SOURCES` di `news-collect.js`, per la fonte in cui il record è stato letto. E `source_id` è quello della fonte letta, che per Il Faro Online è l'host del feed (`cdn.ilfaroonline.it`) e non quello del sito: il passo 1 mette al suo posto l'host dell'URL del record (`sourceIdFromUrl` di `news-identity.js`), come vuole CONTRATTI, sezione 2, perché da `source_id` `news-fact.js` ricava gli editori e le attribuzioni. La fonte letta resta nel record, in `page` (il nome del file in `originali/`): il canale viene sempre da lì, e un record già preparato, preparato di nuovo, dà lo stesso risultato. Se l'host dell'URL non è quello della fonte letta, né un suo sottodominio, né il dominio di cui la fonte letta è un sottodominio, il record si ferma (`fermo`, con il motivo) invece di diventare un altro editore: una proposta del builder |
+| I record | `B Notizie/letture/notizie_righe_<inizio>.json` (`code-nodes/news-parse.js`) | tutti i file con lavoro in sospeso, non solo quello dell'ultima corsa (sezione 6). Il passo 1 sistema due campi. Manca `source_channel`, che `news-fact.js` chiede: viene da `SOURCES` di `news-collect.js`, per la fonte in cui il record è stato letto. E `source_id` è quello della fonte letta, che per Il Faro Online è l'host del feed (`cdn.ilfaroonline.it`) e non quello del sito: il passo 1 mette al suo posto l'host dell'URL del record (`sourceIdFromUrl` di `news-identity.js`), come vuole CONTRATTI, sezione 2, perché da `source_id` `news-fact.js` ricava gli editori e le attribuzioni. La fonte letta resta nel record, in `page` (il nome del file in `originali/`): il canale viene sempre da lì, e un record già preparato, preparato di nuovo, dà lo stesso risultato. Se l'host dell'URL non è quello della fonte letta, né un suo sottodominio, né il dominio di cui la fonte letta è un sottodominio, il record si ferma (`fermo`, con il motivo) invece di diventare un altro editore: una proposta del builder. Si ferma con il suo motivo, mai indovinato, anche un record che non si legge: senza la pagina in cui è stato letto, letto da un host che non è una fonte, con un `source_channel` diverso da quello della sua fonte, con una data che non si legge |
 | Il testo | `B Notizie/originali/`, la risposta in cui il record è stato letto | oggi Il Faro Online ha il testo intero nel feed, Abitare a Roma una descrizione di circa 150 caratteri, l'elenco dei Carabinieri un sunto di circa 200, la Questura solo il titolo. Con la scelta 1, il testo della pagina |
 | I fatti | la tabella dei fatti (sezione 3), tutta: due delle ricerche della sezione 5 non hanno limite di giorni | un fatto `in_dubbio` può essere candidato, un fatto `unito` no. Quante righe legge un passaggio e in quanto tempo lo misura la prova (sezione 8); come caricare solo i fatti che servono, quando la tabella cresce, lo fissa B-R2 |
 
@@ -55,6 +55,13 @@ giorno per voce: da verificare). Le testate chiuse non entrano: B non ha una fon
     stessa cosa («auto», «vettura») non sono uguali: la scheda allora non si fonde da sola, va in
     dubbio;
   - `case_status` e `persone`, i segnali dei casi di DEC-034, punto 5, come la scheda della fase 2;
+  - `fa_nomi`: sì o no, e nient'altro. Sì quando il testo che il modello legge del record indica per
+    nome almeno una persona coinvolta nel fatto di quella scheda, anche con il solo cognome o le
+    sole iniziali; non conta chi il fatto lo comunica o lo commenta. In un record con più fatti ogni
+    scheda risponde per il suo. Nessun nome, iniziale o impronta di un nome entra nella scheda, e il
+    prompt vieta i nomi anche in `sintesi`. Un `fa_nomi` che manca, o che non è un sì o un no, è una
+    risposta fuori forma (sezione 6), mai un no. È la sesta scelta (sezione 10); che cosa ne segue
+    sta nella sezione 5, «Certa»;
   - `aggiornamento`: vuoto, o `convalida`, `scarcerazione`, `processo`, `sentenza`, `indagini`, `altro`.
     Una scheda con `aggiornamento` è di cronaca e porta il `tipo` e la `data_fatto` del fatto a cui
     l'aggiornamento si riferisce, non quelli della convalida o della sentenza (R-C01: l'aggiornamento
@@ -65,13 +72,17 @@ giorno per voce: da verificare). Le testate chiuse non entrano: B non ha una fon
   `in_dubbio`, `unito`); i record, con il ruolo `apre`, `stesso_fatto` o `aggiornamento` (una
   scheda con `aggiornamento`). I record sono nella forma che `news-fact.js` legge: il nodo non cambia.
 - **I dubbi.** Un fatto `in_dubbio` porta i `content_id` dei candidati (nessuno, se è in dubbio per
-  una lista tagliata: sezione 5) e riceve `duplicate_doubt` e
-  `requires_review`, i segnali degli eventi (CONTRATTI, «La fusione dei doppioni»). Non si pubblica
-  finché il dubbio non è sciolto (scelta 3).
+  una lista tagliata o è un aggiornamento che non ha trovato il suo fatto: sezione 5) e i motivi del
+  dubbio, uno per candidato o quello senza candidati (le prove che non reggono, `forse`, `nomi`,
+  `certa` per un ponte, una risposta mancata o fuori forma, `lista_tagliata`,
+  `aggiornamento_senza_fatto`: sezione 5), e riceve `duplicate_doubt` e `requires_review`, i segnali
+  degli eventi (CONTRATTI, «La fusione dei doppioni»). Non si pubblica finché il dubbio non è
+  sciolto (scelta 3).
 - **Le spese** del modello, un file per spesa in `B Notizie/costi/` (CONTRATTI, sezione 5).
 
 Finché il canale non scrive elementi, schede e risposte del modello stanno nella Data table
-`staging_B_schede`, i fatti in `staging_B_fatti`, il rapporto di una prova in `B Notizie/prove/`.
+`staging_B_schede`, i fatti in `staging_B_fatti` (e, nella prova, quelli della regola di confronto
+in `staging_B_fatti_confronto`: sezione 8), il rapporto di una prova in `B Notizie/prove/`.
 Nessun file `roma__nws__…json`, nessuna riga nella coda, niente sul sito.
 
 ## 4. Che cosa è deterministico e che cosa chiede un modello
@@ -114,53 +125,91 @@ inventati.
     - per una scheda con `aggiornamento`, tutti i fatti già nella tabella, di qualunque famiglia.
       Un aggiornamento deve ritrovare il suo fatto anche dopo mesi (R-C01, R-C04), e chi scrive
       della sentenza può dare al reato un altro tipo: per un aggiornamento la famiglia non filtra
-      i candidati. Se la famiglia non è la stessa la scheda non è mai certa, e va in dubbio;
+      i candidati. Se la famiglia non è la stessa la scheda non è mai certa, e va in dubbio. Vale
+      anche per un aggiornamento che dice il giorno del suo fatto: cerca fra tutti i fatti, e per
+      «Certa» conta la finestra (qui sotto);
     - per una scheda di una fonte ufficiale senza la data del fatto, tutti i fatti della stessa
       famiglia già nella tabella: il giorno di un comunicato non dice quando il fatto è avvenuto
       (P-03);
-    - per ogni scheda, i fatti della stessa famiglia in cui nessuna scheda dice il giorno del
-      fatto, perché li ha aperti un comunicato senza la data del fatto o un aggiornamento che non
-      la dice: la ricerca vale nei due versi, qualunque dei due arrivi prima.
+    - per ogni scheda, i **fatti senza data** della stessa famiglia: quelli in cui nessuna scheda
+      dice il giorno del fatto, perché li ha aperti un comunicato senza la data del fatto o un
+      aggiornamento che non la dice. Un fatto così può essere avvenuto mesi prima del suo primo
+      record (P-03): la ricerca vale nei due versi, qualunque dei due arrivi prima.
 
   Al più 10 candidati, scelti con quello che il codice sa già confrontare, guardando di ogni fatto
   la scheda che ha più cose uguali: prima i fatti che possono essere certi (qui sotto: lo stesso
-  luogo di livello `via` o `luogo` e le date a posto); poi gli altri, prima quelli con più cose
-  uguali (lo stesso luogo ne conta una, ogni dettaglio uguale una) e, a parità, prima quelli trovati
-  per data, poi quelli della stessa famiglia; poi i più vicini per data; infine in ordine di
-  `content_id`. Così un fatto che ha le prove non esce dalla lista per far posto a fatti solo più
-  recenti, e i fatti vecchi di un luogo dove ne accadono molti non tolgono il posto a quelli dei
-  giorni vicini. Di ogni candidato il modello vede al più tre schede: quella che ha aperto il fatto
-  e le due con più cose uguali, a parità quelle con lo `scheda_id` che viene prima. Così la
-  richiesta resta nella stima della sezione 7 anche per un fatto con molte fonti e molti
-  aggiornamenti. Il tetto di 10, le tre schede e quest'ordine sono proposte del builder, senza una
-  fonte. Dove il codice non ha niente da confrontare (nessun luogo di livello `via` o `luogo`,
-  nessun dettaglio uguale) decide la vicinanza per data, che per un aggiornamento o un comunicato
-  lontani dal loro fatto dice poco: oltre i 10 quel fatto non arriva al passo 4. Per questo, per una
-  scheda che cerca fra tutti i fatti, una lista tagliata non basta a dire «diverso» (qui sotto,
-  «Dubbio»); la prova conta le liste tagliate (sezione 8). Le date sono giorni di Roma.
+  luogo di livello `via` o `luogo` e le date a posto, anche se poi la sesta scelta li manda in
+  dubbio); poi gli altri, prima quelli con più cose uguali (lo stesso luogo ne conta una, ogni
+  dettaglio uguale una) e, a parità, prima quelli trovati per data, poi quelli della stessa
+  famiglia; poi i più vicini per data; infine in ordine di `content_id`.
+  Così un fatto che ha le prove non esce dalla lista per far posto a fatti solo più recenti, e i
+  fatti vecchi di un luogo dove ne accadono molti non tolgono il posto a quelli dei giorni vicini.
+  Di ogni candidato il modello vede al più tre schede: quella che ha aperto il fatto e le due con
+  più cose uguali, a parità quelle con lo `scheda_id` che viene prima. Così la richiesta resta nella
+  stima della sezione 7 anche per un fatto con molte fonti e molti aggiornamenti. Il tetto di 10, le
+  tre schede e quest'ordine sono proposte del builder, senza una fonte. Dove il codice non ha niente
+  da confrontare (nessun luogo di livello `via` o `luogo`, nessun dettaglio uguale) decide la
+  vicinanza per data, che per un aggiornamento o un comunicato lontani dal loro fatto dice poco:
+  oltre i 10 quel fatto non arriva al passo 4. Che cosa vuol dire allora una lista tagliata lo dice
+  «La lista tagliata», qui sotto; la prova conta le liste tagliate (sezione 8). Le date sono giorni
+  di Roma.
 - **Certa,** la scheda si aggiunge da sola: il modello dice `stesso` e il codice trova, nella scheda
   e nella scheda del fatto che il modello cita, una di quelle che ha visto, la stessa famiglia di
   tipo, lo stesso luogo di livello `via` o `luogo` (testi normalizzati uguali; un quartiere non
   basta; una strada lunga qui non si riconosce, e la prova conta le fusioni fatte su una via), i
-  dettagli che la regola chiede con lo stesso valore, e le date a posto. Le date sono a posto in due
-  casi: le due schede stanno nella finestra della ricerca per data; oppure la scheda ha un
-  `aggiornamento` senza la data del fatto e la scheda citata viene prima di lei, a qualunque
-  distanza (la data del fatto della scheda citata o, se manca, il giorno del suo record non è dopo
-  il giorno del record dell'aggiornamento), perché un aggiornamento si aggancia al suo fatto
-  (R-C01). Un aggiornamento che dice il giorno del suo fatto vale come le altre schede: conta la
-  finestra. Fuori da questi due casi niente è certo, e la scheda va in dubbio: quando ha trovato il
-  fatto solo per luogo, quando è un comunicato senza la data del fatto lontano dal suo fatto, quando
-  la scheda citata è un aggiornamento senza la data del fatto. Quanti dettagli è la scelta 2. Una
-  scheda le cui date vengono solo da `retrieved_at` non è mai certa. Il codice controlla che le
-  prove ci siano, non che il modello abbia ragione: quello lo misura la prova (sezione 8).
-- **Dubbio:** un `stesso` senza prove verificate, o un `forse`; anche una scheda certa con due fatti,
-  perché un ponte non fonde due fatti da solo. E una scheda che cerca fra tutti i fatti (un
-  aggiornamento, un comunicato senza la data del fatto) quando la lista dei candidati è stata
-  tagliata e nessuno dei dieci è `stesso` o `forse`: i fatti rimasti fuori non li ha giudicati
-  nessuno, e il suo può essere fra quelli (R-C01). Apre il suo fatto in dubbio, con il motivo
-  `lista_tagliata` e senza candidati.
-- **Diverso:** nessun candidato, o `diverso` per tutti, salvo la lista tagliata qui sopra. La scheda
-  apre un fatto suo.
+  dettagli che la regola chiede con lo stesso valore, e le date a posto (la regola di confronto
+  della prova, sezione 8, si accontenta del quartiere e di nessun dettaglio); e la scheda e le
+  schede del fatto non fanno nomi insieme: se fa nomi la scheda e ne fa almeno una scheda del fatto,
+  anche una che il modello non cita, la scheda non è certa (sesta scelta, sezione 10); se ne fa una
+  parte sola, o nessuna, questa condizione non entra. Le date sono a posto in due casi: le due
+  schede stanno nella finestra della ricerca per data; oppure la scheda ha un `aggiornamento` senza
+  la data del fatto e la scheda citata viene prima di lei, a qualunque distanza (la data del fatto
+  della scheda citata o, se manca, il giorno del suo record non è dopo il giorno del record
+  dell'aggiornamento), perché un aggiornamento si aggancia al suo fatto (R-C01). Un aggiornamento
+  che dice il giorno del suo fatto vale come le altre schede: conta la finestra. Fuori da questi due
+  casi niente è certo, e la scheda va in dubbio: quando ha trovato il fatto solo per luogo, quando è
+  un comunicato senza la data del fatto a più di 7 giorni dal suo fatto, quando la scheda citata è
+  un aggiornamento senza la data del fatto. Quanti dettagli è la scelta 2. Una scheda le cui date
+  vengono solo da `retrieved_at` non è mai certa. Il codice controlla che le prove ci siano, non che
+  il modello abbia ragione: quello lo misura la prova (sezione 8).
+- **Dubbio:** un `stesso` senza prove verificate, o un `forse`; un `stesso` con le prove quando la
+  scheda e una del fatto fanno nomi (motivo `nomi`); una scheda certa con un fatto e, con un altro,
+  `forse` o `stesso` senza prove; anche una scheda certa con due fatti, perché un ponte non fonde
+  due fatti da solo. Il ponte vale anche quando uno dei due fatti è in dubbio per i nomi: un
+  comunicato che non fa nomi, arrivato dopo due articoli che ne fanno, finiti uno in un fatto e
+  l'altro in dubbio, va in dubbio se il modello lo trova uguale a tutti e due, e nel pilota non si
+  pubblica. Evitarlo vorrebbe dire aggiungerlo da solo a uno dei due fatti, quando l'altro è un
+  dubbio aperto proprio su quello: è una fusione automatica in più, e allargarla è dell'owner
+  (scelta 2). La prova conta questi ponti (sezione 8).
+- **La lista tagliata:** quando nessuno dei dieci è `stesso` o `forse`, la scheda va in dubbio se
+  fra i fatti rimasti fuori ce n'è uno che può essere il suo e che il codice non ha avuto modo di
+  tenere nella lista: per una scheda che cerca fra tutti i fatti (un aggiornamento, un comunicato
+  senza la data del fatto), qualunque fatto rimasto fuori; per ogni altra scheda, un fatto senza
+  data (qui sopra, terzo modo) nel suo limite. Un fatto senza data è **nel limite** della scheda
+  quando il fatto della scheda può essere avvenuto prima di quel primo record: la data del fatto
+  della scheda, se c'è, non viene dopo il giorno del primo record del fatto; senza, il giorno del
+  record della scheda non viene più di 7 giorni dopo, perché la stampa scrive di un fatto nei giorni
+  in cui avviene (la finestra della ricerca per data: una proposta del builder). Un fatto rimasto
+  fuori per data o per luogo, invece, ha lasciato il posto a dieci con più cose uguali o più vicini,
+  e la scheda può aprire un fatto suo. Una lista tagliata con uno `stesso` che regge fra i dieci è
+  certa: la prova conta quante (sezione 8). La scheda in dubbio apre il suo fatto con il motivo
+  `lista_tagliata` e senza candidati: i fatti rimasti fuori non li ha giudicati nessuno, e il suo
+  può essere fra quelli (R-C01). Capita a chi cerca fra tutti i fatti quando la tabella cresce; e
+  a una scheda di stampa quando nel suo limite c'è un fatto senza data della sua famiglia e la lista
+  è piena di fatti trovati per data, cioè quasi sempre finché le pagine non danno ai comunicati la
+  data del fatto (scelta 1).
+- **Un aggiornamento che non trova il suo fatto** (nessun candidato, o `diverso` per tutti) non apre
+  un fatto ordinario: apre il suo fatto in dubbio, con il motivo `aggiornamento_senza_fatto` e
+  senza candidati, anche quando dice il giorno del suo fatto. È una proposta del builder da R-C01,
+  per cui gli aggiornamenti si agganciano al fatto e non ne creano uno nuovo; per R-C08, poi, un
+  fatto più vecchio di 7 giorni entra solo come sviluppo di uno già pubblicato. Così nel pilota un
+  aggiornamento da solo non si pubblica, nemmeno da una fonte ufficiale. All'inizio del pilota ne
+  arrivano molti, perché i fatti di prima non sono nella tabella: la prova li conta a parte
+  (sezione 8). Il record che apre quel fatto ha il ruolo `apre`, come ogni primo record. Se la
+  lista era anche tagliata vale il motivo `lista_tagliata`. Se «fatto diverso» basti a pubblicare
+  un aggiornamento da solo lo dirà la decisione sulla coda (scelta 3): il builder propone di no.
+- **Diverso:** nessun candidato, o `diverso` per tutti, salvo i due casi qui sopra. La scheda apre un
+  fatto suo.
 - **La scheda in dubbio** apre il suo fatto, `in_dubbio`. I candidati vanno avanti: a differenza
   degli eventi (`merge_deferred`), il dubbio ferma solo chi è in dubbio. Vale anche per un
   aggiornamento: finito in dubbio, non aggiorna il suo fatto finché il dubbio non è sciolto (R-C04
@@ -243,40 +292,69 @@ listino di `gpt-4.1-mini` (0,40 $ e 1,60 $ per milione, letto il 15 novembre 202
 circa 1,8 €, sugli 8 € della quota di B (CONTRATTI, sezione 5: la tabella comprende già gli
 spostamenti del 14 e del 15 novembre), che paga anche la scrittura. È solo un riferimento: quel
 modello si spegne il 14 gennaio 2027 (`WORKSTREAM_A.md`, sezione 6), e B-R2 rilegge il prezzo del
-suo. La lettura delle pagine (scelta 1) aggiunge qualche decina di centesimi.
+suo. La lettura delle pagine (scelta 1) aggiunge qualche decina di centesimi. Nella prova, la
+regola di confronto riusa le schede e la maggior parte dei giudizi, e chiede un giudizio nuovo solo
+dove i suoi fatti hanno schede diverse: la spesa massima della sezione 8 vale per le due regole
+insieme.
 
 ## 8. La prova in staging, senza pubblicare
 
-La prova scrive solo nelle due Data table, in `B Notizie/prove/` e in `B Notizie/costi/`: niente
-elementi, righe della coda o file del sito, e `staging_B_notizie_raccolta` non si tocca.
+La prova scrive solo nelle Data table della sezione 3, in `B Notizie/prove/` e in
+`B Notizie/costi/`: niente elementi, righe della coda o file del sito, e
+`staging_B_notizie_raccolta` non si tocca.
 
 1. **Nel repository, senza rete:** `tests/test_news_group.js`, con record e risposte del modello
-   inventati: finestre (anche a cavallo del cambio dell'ora), famiglie, candidati trovati per luogo o
-   perché già nella tabella, un aggiornamento che si aggancia al suo fatto dopo mesi, un comunicato
-   senza data del fatto che va in dubbio, la scelta dei 10 che tiene il fatto con le prove e quello
-   dei giorni vicini, una lista tagliata che manda in dubbio chi cerca fra tutti i fatti, il giorno
-   di un aggiornamento che non vale come giorno del fatto, dettagli uguali per valore e non per
-   forma, un aggiornamento con il tipo di un'altra famiglia, un comunicato senza data ritrovato da
-   una scheda arrivata dopo, un fatto con molte schede di cui il modello ne vede tre, `source_id`
-   dall'URL del record e il canale dalla fonte letta, certa, dubbio e diverso, prove
-   citate che non ci sono, luoghi solo di quartiere, date solo da `retrieved_at`, un ponte, l'ordine,
-   id stabili, `-f<n>` fisso, record rimasti indietro, ripresa, risposte fuori forma; una scheda o un
-   giudizio mancati, o arrivati fuori forma, e poi ripresi danno gli stessi fatti di una corsa pulita.
+   inventati: finestre (anche a cavallo del cambio dell'ora), famiglie, candidati trovati per luogo
+   o perché già nella tabella, un aggiornamento che si aggancia al suo fatto dopo mesi, un
+   comunicato senza data del fatto che va in dubbio, un comunicato senza la data del fatto ritrovato
+   da una scheda arrivata dopo, la scelta dei 10 che tiene il fatto con le prove e quello dei giorni
+   vicini, una lista tagliata che manda in dubbio chi cerca fra tutti i fatti e una scheda di stampa
+   con un fatto senza data nel suo limite, ma non per uno fuori dal limite, il giorno di un
+   aggiornamento che non vale come giorno del fatto, un aggiornamento che non trova il suo fatto,
+   dettagli uguali per valore e non per forma, un aggiornamento con il tipo di un'altra famiglia, un
+   fatto con molte schede di cui il modello ne vede tre, `source_id` dall'URL del record e il canale
+   dalla fonte letta, certa, dubbio e diverso, prove citate che non ci sono, luoghi solo di
+   quartiere, date solo da `retrieved_at`, i nomi (in una scheda sola, in tutte e due, in una scheda
+   del fatto che il modello non cita, in un aggiornamento), un ponte, anche quello con un fatto in
+   dubbio per i nomi, l'ordine, id stabili, `-f<n>` fisso, record rimasti indietro, ripresa,
+   risposte fuori forma; una scheda o un giudizio mancati, o arrivati fuori forma, e poi ripresi
+   danno gli stessi fatti di una corsa pulita.
 2. **La replica:** `staging_B_raggruppamento`, avviato solo a mano, rilegge nell'ordine di lettura i file
    `notizie_righe_` dal 10 novembre fino a un ultimo file fissato prima di partire, su tabelle vuote.
-   Il rapporto: schede, fatti, dubbi (quanti di un fatto ufficiale, quanti di un aggiornamento e
-   quanti per una lista tagliata),
-   fusioni fatte su una via, candidati trovati solo per luogo o solo perché già nella tabella (e
-   quanti finiti in dubbio), schede a cui il tetto di 10 ha tolto candidati, righe della tabella
+   Il rapporto: schede, fatti, dubbi per motivo (quanti di un fatto ufficiale, quanti di un
+   aggiornamento, quanti per una lista tagliata e di quali schede, quanti di aggiornamenti che non
+   hanno trovato il loro fatto, quanti per i nomi della sesta scelta, quanti ponti e quanti di
+   questi con un fatto in dubbio per i nomi), fusioni fatte su una via, candidati trovati solo per
+   luogo o solo perché già nella tabella (e quanti finiti in dubbio), schede a cui il tetto di 10 ha
+   tolto candidati e quante di queste sono state certe lo stesso, righe della tabella
    lette da un passaggio e il suo tempo, l'aggiornamento più lontano agganciato, categorie di
    `news-fact.js`, chiamate e spesa. La replica ha pochi giorni di dati: un aggiornamento o un
-   comunicato arrivati dopo mesi li provano solo i test del punto 1.
-3. **La stessa replica un'altra volta,** sulle stesse tabelle: nessuna chiamata, gli stessi fatti.
-4. **La ripresa:** svuotata solo `staging_B_fatti`, una replica interrotta a metà e ripresa, con le
-   risposte salvate: nessuna chiamata, gli stessi fatti della 2.
+   comunicato arrivati dopo mesi li provano solo i test del punto 1. E rilegge record senza la
+   pagina: nel suo conto mancano i nomi che stanno solo nelle pagine.
+   **La regola di confronto** (settima scelta). La stessa replica gira una seconda volta sugli
+   stessi record con una regola larga, l'altro estremo: per «certa» basta il luogo di livello
+   `quartiere`, e non serve nessun dettaglio. Tutto il resto resta uguale: il tipo della stessa
+   famiglia, le date a posto, i nomi della sesta scelta, il ponte, la lista tagliata, e il modo di
+   scegliere i candidati. Le schede e le risposte sono quelle di `staging_B_schede`; i fatti vanno
+   in `staging_B_fatti_confronto`, e da lì non si pubblica niente: ogni fatto dice con quale regola è
+   stato scritto, e un fatto della regola di confronto non è mai pubblicabile. Perché la regola larga
+   possa fondere, il prompt dei giudizi (B-R2) deve lasciare al modello citare come prova anche un
+   luogo di livello `quartiere`: lo fissa B-R2. Il rapporto dà gli stessi numeri
+   per le due regole.
+3. **La stessa replica un'altra volta,** sulle stesse tabelle: nessuna chiamata, gli stessi fatti,
+   per tutte e due le regole.
+4. **La ripresa:** svuotata solo `staging_B_fatti` (e, per la regola di confronto, solo
+   `staging_B_fatti_confronto`), una replica interrotta a metà e ripresa, con le risposte salvate:
+   nessuna chiamata, gli stessi fatti della 2.
 5. **La misura,** da un revisore che non ha costruito il flusso (un subagent con il rapporto e gli
    originali su Drive): ogni fusione automatica, ogni dubbio, e 50 coppie dello stesso tipo, nella
-   finestra, non fuse. Nel passaggio solo i numeri.
+   finestra, non fuse. Poi i fatti che le due regole decidono in modo diverso: per ogni fusione
+   fatta solo dalla regola larga, se è giusta (la stessa notizia che la regola stretta perde) o
+   sbagliata (due notizie diverse fuse); e quali fatti diventano pubblicabili con una sola delle
+   due. Così si vedono i due rischi sui casi concreti. Un limite da sapere: le due regole scelgono i
+   dieci candidati allo stesso modo, con la via o il luogo, così le risposte salvate servono a tutte
+   e due; oltre i dieci, un fatto che ha in comune solo il quartiere può restare fuori, e la regola
+   larga risulta un po' meno larga di quanto è. Nel passaggio solo i numeri.
 
 Spesa massima dichiarata: 1 €; la replica si ferma se la supera. L'esito proposto (scelta 2): almeno
 il 95% delle fusioni automatiche giuste; nessuna fusione sbagliata che renda pubblicabile un fatto o
@@ -290,7 +368,7 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 
 | PR | Che cosa | Modello |
 |---|---|---|
-| B-R1 | `code-nodes/news-group.js` con `tests/test_news_group.js`: i passi 1, 3 e 5 e il controllo delle risposte | no |
+| B-R1 | `code-nodes/news-group.js` con `tests/test_news_group.js`: i passi 1, 3 e 5, il controllo delle risposte, e sopra a `news-fact.js` se il raggruppamento lascia pubblicare un fatto e l'elenco dei dubbi del giorno (scelta 3) | no |
 | contratti | del coordinatore: le righe di CONTRATTI che B-R2 usa (sezione 11). Viene prima di B-R2 | |
 | B-R2 | i due prompt, il flusso della prova (esportato in `workflows/`), le Data table; la prova della sezione 8; l'avvio in esercizio (sezione 6) solo dopo la prova | sì, in staging |
 | dopo | i dubbi nella coda (scelta 3), poi geografia, filtro, scrittura e verifica | |
@@ -302,7 +380,9 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
    legge dal solo titolo, senza data e senza dividerlo nei suoi fatti (R-C01); una sua scheda non è
    quasi mai certa, e il fatto ufficiale resta in dubbio (con la 3(b), non si pubblica) se il modello
    la trova simile a un fatto della stampa o se la lista dei suoi candidati è tagliata, cioè quasi
-   sempre (sezione 5, «Dubbio»). Il builder consiglia sì.
+   sempre (sezione 5, «Dubbio» e «La lista tagliata»); e i suoi fatti senza data, quando le liste
+   sono piene, mandano in dubbio anche le schede della stampa dei giorni vicini. Il builder consiglia
+   sì.
 2. **Quando due notizie si fondono da sole.** La prova di giugno aveva due regole «certa»: due
    dettagli concordi fra comunicati e testate (`ISTRUZIONI_AVANTI.md`), uno solo per i titoli delle
    testate chiuse (`ISTRUZIONI_CHIUSE.md`), con circa un abbinamento debole su dieci (`CRONACA_PROCESSO`,
@@ -322,6 +402,28 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 5. **Le notizie che non sono cronaca,** circa due terzi dei record delle testate: il blocco Notizie del
    pilota le porta? DEC-034 e DEC-108 parlano di cronaca; per le altre servono temi e una regola di
    pubblicazione. Il builder consiglia di tenerle ferme fino al primo mese di cronaca.
+6. **Le persone nominate.** Le schede non hanno nomi (sezione 3), e due fatti diversi con lo stesso
+   tipo, luogo, giorno e dettagli si fonderebbero da soli anche quando gli articoli nominano persone
+   diverse; R-C01 definisce il fatto anche con i protagonisti. Scelta presa dall'owner il 16
+   novembre 2026, fra quattro modi (un'impronta del nome, il solo segnale «fa nomi», un confronto
+   del modello sui due testi, nessun cambio): ogni scheda dice solo se fa nomi (`fa_nomi`, sezione
+   3), e se lo dicono la scheda in arrivo e una qualunque scheda del fatto la scheda non si aggiunge
+   da sola e va in dubbio (sezione 5, «Certa» e «Dubbio»). Vale per ogni fonte, anche per un
+   aggiornamento e per un comunicato; quando fa nomi una parte sola, o nessuna, vale la scelta 2. Il
+   prezzo: un fatto in cui due testate nominano la stessa persona resta fermo, e nel pilota nessun
+   nome letto sulla stampa arriva alla pubblicazione; e il ponte della sezione 5. La prova conta
+   questi dubbi a parte (sezione 8), e contano anche fra i dubbi della scelta 2; la regola si rivede
+   dopo la prova. Il passo dopo, se sono troppi o se l'owner vuole provare nel pilota i nomi letti
+   sulla stampa, è il confronto del modello sui due testi, senza salvare nomi: sceglierlo è
+   dell'owner, come ogni allargamento della fusione automatica.
+7. **Come si fissa la regola.** Scelta presa dall'owner il 16 novembre 2026. Si parte con una regola
+   di buon senso, quella della sezione 5, e la si misura sui casi concreti, invece di costruire
+   prima una regola complicata che forse cambia poco. Una regola troppo stretta perde la stessa
+   notizia quando non la associa, e senza la seconda testata un fatto di stampa non si pubblica.
+   Una regola troppo larga fonde notizie diverse: sono errori che si vedono e che tolgono serietà
+   al progetto. Per questo la prova fa girare accanto alla regola di esercizio una regola larga di
+   confronto (sezione 8, punto 2), e la misura (punto 5) conta che cosa cambia fra le due. Dopo la
+   prova l'owner sceglie sui numeri: tenere la regola, allargarla o stringerla.
 
 ## 11. Che cosa chiede ai contratti
 
