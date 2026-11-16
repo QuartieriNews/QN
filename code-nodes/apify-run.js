@@ -10,9 +10,11 @@
  * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the
  * tail exports and stops; inside the n8n Code node ("Run Once for Each Item", JavaScript) the same
  * file runs its adapter. `stage` on the item says which step it takes:
- *   - 'input': the webhook body becomes the Apify input, within its caps;
+ *   - 'input': the webhook body becomes the Apify input, within its caps, or the request for a
+ *     saved dataset that takes the place of a run (workflows/README.md, «Prova senza Apify»);
  *   - 'poll': the state of the run says whether to wait, read the dataset or stop;
- *   - 'cost': the finished run becomes one cost entry.
+ *   - 'cost': the finished run becomes one cost entry;
+ *   - 'fixture': the saved dataset, read from its file, becomes the events a run would have given.
  */
 'use strict';
 
@@ -81,17 +83,49 @@ function costFileName(entry) {
   return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;
 }
 
+/** A saved dataset stands for one run, so it gives at most the events one run can give. */
+const MAX_FIXTURE_EVENTS = MAX_URLS * MAX_EVENTS_PER_URL;
+const DRIVE_FILE_ID = /^[A-Za-z0-9_-]{20,200}$/;
+
+/** Stage 'input': a body with `fixture` asks for a saved dataset and never reaches Apify; any other
+ *  body is a run, within its caps. A body that asks for both stops before any call. */
+function buildRequest(body) {
+  const b = body || {};
+  if (b.fixture === undefined) return buildInput(b);
+  if (b.startUrls !== undefined) throw new Error('a request is startUrls or fixture, never both');
+  const f = b.fixture !== null && typeof b.fixture === 'object' ? b.fixture : {};
+  const fileId = typeof f.file_id === 'string' ? f.file_id.trim() : '';
+  if (!DRIVE_FILE_ID.test(fileId)) throw new Error('fixture.file_id: the id of a Drive file required');
+  const limit = f.limit === undefined ? MAX_FIXTURE_EVENTS : Number(f.limit);
+  if (!Number.isInteger(limit) || limit < 1 || limit > MAX_FIXTURE_EVENTS) throw new Error(`fixture.limit: 1 to ${MAX_FIXTURE_EVENTS}`);
+  return { fixture: { file_id: fileId, limit } };
+}
+
+/** Stage 'fixture': the file holds a dataset as Apify gives it, a JSON array of events; its first
+ *  `limit` events go on where the events of a run would. Any other content stops. */
+function fixtureEvents(data, fixture) {
+  if (!Array.isArray(data) || data.length === 0) throw new Error('fixture: the file must hold a non-empty JSON array of events');
+  if (!data.every((e) => e !== null && typeof e === 'object' && !Array.isArray(e))) throw new Error('fixture: every element of the file must be an event object');
+  const f = fixture || {};
+  const limit = Number.isInteger(f.limit) && f.limit >= 1 ? Math.min(f.limit, MAX_FIXTURE_EVENTS) : MAX_FIXTURE_EVENTS;
+  const events = data.slice(0, limit);
+  return { events, fixture: { file_id: typeof f.file_id === 'string' ? f.file_id : null, limit, events: events.length, in_file: data.length } };
+}
+
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
   module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,
-    costFileName };
+    costFileName, MAX_FIXTURE_EVENTS, buildRequest, fixtureEvents };
   return;
 }
 
 /* n8n Code node, "Run Once for Each Item" — the adapter. */
 if ($json.stage === 'input') {
-  return { json: buildInput($json.body) };
+  return { json: buildRequest($json.body) };
+}
+if ($json.stage === 'fixture') {
+  return { json: fixtureEvents($json.data, $json.fixture) };
 }
 if ($json.stage === 'poll') {
   Object.assign($json, pollDecision($json.data, new Date().toISOString()));
