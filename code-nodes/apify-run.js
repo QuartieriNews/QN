@@ -96,7 +96,7 @@ function buildRequest(body) {
   const f = b.fixture !== null && typeof b.fixture === 'object' ? b.fixture : {};
   const fileId = typeof f.file_id === 'string' ? f.file_id.trim() : '';
   if (!DRIVE_FILE_ID.test(fileId)) throw new Error('fixture.file_id: the id of a Drive file required');
-  const limit = f.limit === undefined ? MAX_FIXTURE_EVENTS : Number(f.limit);
+  const limit = f.limit === undefined ? MAX_FIXTURE_EVENTS : f.limit;
   if (!Number.isInteger(limit) || limit < 1 || limit > MAX_FIXTURE_EVENTS) throw new Error(`fixture.limit: 1 to ${MAX_FIXTURE_EVENTS}`);
   return { fixture: { file_id: fileId, limit } };
 }

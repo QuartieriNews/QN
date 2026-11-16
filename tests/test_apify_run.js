@@ -84,7 +84,7 @@ for (const [label, fixture] of [['no file id', {}], ['a file id that is not a Dr
   ['a null fixture', null]]) {
   check(`${label} stops`, /fixture\.file_id/.test(thrown(() => m.buildRequest({ fixture })) || ''), true);
 }
-for (const limit of [0, 301, 2.5, 'tre']) {
+for (const limit of [0, 301, 2.5, 'tre', '20', true, [2], null]) {
   check(`a limit of ${JSON.stringify(limit)} stops`, /fixture\.limit/.test(thrown(() => m.buildRequest({ fixture: { file_id: FILE_ID, limit } })) || ''), true);
 }
 check('the events of the file go on in their order', m.fixtureEvents(SAVED, { file_id: FILE_ID, limit: 300 }),

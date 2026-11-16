@@ -63,9 +63,9 @@ since then it saves one, as it saved this timeout. Still open:
 
 `staging_C_fb_events_fetch` also takes, in place of `startUrls`, a request for a saved dataset, so
 the channel can be tried without a paid run: `{"fixture": {"file_id": "<Drive file id>", "limit": 20}}`.
-The file holds a dataset as Apify gives it, a JSON array of events, such as those saved in
-`C Eventi/fixture/`; `limit` may be left out, and it never goes past the events one run can give
-(`MAX_FIXTURE_EVENTS` in `code-nodes/apify-run.js`). «Prova?» sends such a request to «Scarica
+The file holds a dataset as Apify gives it, a non-empty JSON array of events, such as those saved
+in `C Eventi/fixture/`; `limit`, a JSON number, may be left out, and it never goes past the events
+one run can give (`MAX_FIXTURE_EVENTS` in `code-nodes/apify-run.js`). «Prova?» sends such a request to «Scarica
 prova» before any paid call: it never reaches Apify and writes no cost, and its events reach «To
 JSON file» and `C Eventi/originali/` where the dataset of a run would, in a file whose name ends in
 `_prova`. A body with both `startUrls` and `fixture` stops before any call.
