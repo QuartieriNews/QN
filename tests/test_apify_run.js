@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * Executable acceptance for code-nodes/apify-run.js: the request caps, the decision on each state
- * of an Apify run (only SUCCEEDED reads the dataset, the wait ends after 60 minutes) and the cost
- * entry of a run (docs/pilota/CONTRATTI.md, «Costi»; the defects of workflows/README.md), and the
+ * of an Apify run (only SUCCEEDED reads the dataset, the wait ends at MAX_WAIT_MS) and the cost
+ * entry of a run (docs/pilota/CONTRATTI.md, «Costi»; the defects of workflows/README.md), the saved
+ * dataset in place of a run (stage 'fixture'; workflows/README.md, «Prova senza Apify»), and the
  * n8n adapter evaluated from the exact committed file with stubbed $input/$json. Every URL and id
  * is invented (DEC-109).
  *
@@ -70,6 +71,31 @@ check('a count that is not a whole number is null', m.costEntry(RUN, -1).quantit
 check('a run without its id is an error', /run/.test(thrown(() => m.costEntry({ status: 'SUCCEEDED' }, 1)) || ''), true);
 check('the file of an entry is named after its run, safely', m.costFileName({ run_id: 'run/../x' }), 'costo_apify_run____x.json');
 
+console.log('fixture: a saved dataset in place of a run (workflows/README.md, «Prova senza Apify»)');
+const FILE_ID = '1AbCdEfGhIjKlMnOpQrStUvWxYz_inventato';
+const SAVED = [{ id: 'e1', url: 'https://www.facebook.com/events/1' }, { id: 'e2' }, { id: 'e3' }];
+check('a body with fixture asks for the saved file, never for an Apify input', m.buildRequest({ fixture: { file_id: ` ${FILE_ID} ` } }),
+  { fixture: { file_id: FILE_ID, limit: 300 } });
+check('a body without fixture is still a run, within its caps', m.buildRequest({ startUrls: [PAGE] }), m.buildInput({ startUrls: [PAGE] }));
+check('a saved dataset gives at most what one run can give', m.MAX_FIXTURE_EVENTS, m.MAX_URLS * m.MAX_EVENTS_PER_URL);
+check('the limit of a fixture is kept', m.buildRequest({ fixture: { file_id: FILE_ID, limit: 2 } }).fixture.limit, 2);
+check('a body that asks for both stops', /never both/.test(thrown(() => m.buildRequest({ startUrls: [PAGE], fixture: { file_id: FILE_ID } })) || ''), true);
+for (const [label, fixture] of [['no file id', {}], ['a file id that is not a Drive id', { file_id: '../x' }], ['a fixture that is not an object', 'x'],
+  ['a null fixture', null]]) {
+  check(`${label} stops`, /fixture\.file_id/.test(thrown(() => m.buildRequest({ fixture })) || ''), true);
+}
+for (const limit of [0, 301, 2.5, 'tre', '20', true, [2], null]) {
+  check(`a limit of ${JSON.stringify(limit)} stops`, /fixture\.limit/.test(thrown(() => m.buildRequest({ fixture: { file_id: FILE_ID, limit } })) || ''), true);
+}
+check('the events of the file go on in their order', m.fixtureEvents(SAVED, { file_id: FILE_ID, limit: 300 }),
+  { events: SAVED, fixture: { file_id: FILE_ID, limit: 300, events: 3, in_file: 3 } });
+check('only the first limit events go on', m.fixtureEvents(SAVED, { file_id: FILE_ID, limit: 2 }).events.map((e) => e.id), ['e1', 'e2']);
+check('a limit past one run is brought back to it', m.fixtureEvents(SAVED, { file_id: FILE_ID, limit: 9999 }).fixture.limit, 300);
+for (const [label, data] of [['an empty file', []], ['a file that is not a list', { id: 'e1' }], ['a list with a non-event', [{ id: 'e1' }, 'x']],
+  ['a list with null', [null]], ['a list whose event is a list', [[1]]], ['nothing read', undefined]]) {
+  check(`${label} stops`, /fixture:/.test(thrown(() => m.fixtureEvents(data, { file_id: FILE_ID, limit: 300 })) || ''), true);
+}
+
 console.log('n8n adapter, from the exact committed file');
 {
   const src = fs.readFileSync(FILE, 'utf8');
@@ -81,6 +107,10 @@ console.log('n8n adapter, from the exact committed file');
   check('cost: the entry and its file', [c.json.cost_file_name, c.binary.data.fileName, c.binary.data.mimeType],
     ['costo_apify_runInventato01.json', 'costo_apify_runInventato01.json', 'application/json']);
   check('cost: the file holds the entry', JSON.parse(Buffer.from(c.binary.data.data, 'base64').toString('utf8')), m.costEntry(RUN, 18));
+  check('input: a fixture request, with no Apify input', run({ stage: 'input', body: { fixture: { file_id: FILE_ID, limit: 2 } } }).json,
+    { fixture: { file_id: FILE_ID, limit: 2 } });
+  check('fixture: the events of the file read by the workflow', run({ stage: 'fixture', data: SAVED, fixture: { file_id: FILE_ID, limit: 2 } }).json,
+    m.fixtureEvents(SAVED, { file_id: FILE_ID, limit: 2 }));
   check('an unknown stage is an error', /unknown stage/.test(thrown(() => run({ stage: 'x' })) || ''), true);
 }
 

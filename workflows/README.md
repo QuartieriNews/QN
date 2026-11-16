@@ -21,7 +21,12 @@ comes back here as a new export, in the pull request that turns channel C on aga
 finding of that review counts the same way, even if it is not listed here. Fixed so far: in
 `staging_C_fb_events_fetch` only a `SUCCEEDED` run reaches the dataset, the wait ends after 75
 minutes, and every run that ends, failed or not, writes its settled cost
-(`code-nodes/apify-run.js`), a run that succeeded with the count of its events. Still open:
+(`code-nodes/apify-run.js`), a run that succeeded with the count of its events. «Start Apify run»
+gives the run its own timeout (`APIFY_TIMEOUT_S` in `apify-run.js`), so Apify stops a run before
+the wait ends and the wait reads its last state; on 16 November 2026 it is not yet tried with a
+run. The three Apify nodes use the credential «Bearer Auth account»: until the owner shared it
+with the workflow's project, on 14 November 2026, the n8n API refused a change to one of them;
+since then it saves one, as it saved this timeout. Still open:
 
 - `staging_C_write_canonical`: a retried call uploads the same file name again, and Drive keeps
   both; the write has to look the name up first.
@@ -40,20 +45,27 @@ minutes, and every run that ends, failed or not, writes its settled cost
   second execution can see records the call before «Start Apify run» (the workflow's static data
   is saved only when an execution ends).
 - `staging_C_fb_events_fetch`, «Carica costo»: the node that writes the cost file has no Google
-  Drive credential yet; the n8n API cannot attach it, the owner does in the editor.
+  Drive credential yet. «Google Drive account» is shared with the workflow's project since 14
+  November 2026, and «Scarica prova», added on 15 November 2026, carries it: it can be attached to
+  «Carica costo» the same way, by the API or in the editor.
 - `staging_C_fb_events_fetch`, «Get dataset items»: the cost of a run that succeeded comes after
   its dataset, for the count of its events (the owner's choice of 14 November 2026, PR #51), so a
-  dataset read that fails stops the execution before the cost is written. A retry on that node
-  waits for the credential below.
-- `staging_C_fb_events_fetch`, «Start Apify run»: the URL needs `&timeout=3600`, so Apify itself
-  stops a run after the hour (`APIFY_TIMEOUT_S` in `apify-run.js`) and the 75-minute wait reads its
-  last state. The three Apify nodes use the credential «Bearer Auth account», and on 14 November
-  2026 neither the n8n API (it answers «You don't have access to the credentials») nor the owner's
-  editor (it saves the workflow without the change) could change a setting of one of them: the
-  credential has to be usable by the one who edits first.
+  dataset read that fails stops the execution before the cost is written. The node has no retry
+  yet.
 - The cost of a run does not yet reach `pilot.costo` of the events it gave: the canonical writer
   has to read it from `C Eventi/costi/`.
 - `staging_C_update_canonical`: two calls at the same time for a name not yet on Drive both
   upload it, and Drive keeps both.
 - `staging_C_fusion`: every file of `C Eventi` is downloaded and compared on every run, with no
   bound on the files read or on the time of the execution.
+
+### Prova senza Apify
+
+`staging_C_fb_events_fetch` also takes, in place of `startUrls`, a request for a saved dataset, so
+the channel can be tried without a paid run: `{"fixture": {"file_id": "<Drive file id>", "limit": 20}}`.
+The file holds a dataset as Apify gives it, a non-empty JSON array of events, such as those saved
+in `C Eventi/fixture/`; `limit`, a JSON number, may be left out, and it never goes past the events
+one run can give (`MAX_FIXTURE_EVENTS` in `code-nodes/apify-run.js`). «Prova?» sends such a request to «Scarica
+prova» before any paid call: it never reaches Apify and writes no cost, and its events reach «To
+JSON file» and `C Eventi/originali/` where the dataset of a run would, in a file whose name ends in
+`_prova`. A body with both `startUrls` and `fixture` stops before any call.

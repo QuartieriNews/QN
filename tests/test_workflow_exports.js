@@ -61,8 +61,8 @@ for (const f of files) {
   const to = (name, out) => (((F.connections[name] || {}).main || [])[out || 0] || []).map((x) => x.node).join();
   const node = (name) => F.nodes.find((n) => n.name === name);
   const apify = fs.readFileSync(path.join(CODE, 'apify-run.js'), 'utf8');
-  check('C fetch: the request, the check of the run and the cost run apify-run.js',
-    ['Build Apify input', 'Controlla corsa', 'Costo'].every((nm) => node(nm) && node(nm).parameters.jsCode === apify));
+  check('C fetch: the request, the check of the run, the cost and the saved dataset run apify-run.js',
+    ['Build Apify input', 'Controlla corsa', 'Costo', 'Eventi di prova'].every((nm) => node(nm) && node(nm).parameters.jsCode === apify));
   check('C fetch: the run state goes to the check, never straight to the dataset', to('Get run') === 'Prepara controllo' && to('Prepara controllo') === 'Controlla corsa');
   check('C fetch: only a run to read reaches the dataset',
     Object.entries(F.connections).filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Get dataset items'))).map(([k]) => k).join() === 'Da leggere?');
@@ -94,6 +94,54 @@ for (const f of files) {
   check('C fetch: a failed run records its events as unknown, never zero',
     !node('Prepara costo errore').parameters.assignments.assignments.some((a) => a.name === 'events'));
   check('C fetch: the cost file', to('Prepara costo') === 'Costo' && to('Costo') === 'Carica costo');
+  // apify-run.js, APIFY_TIMEOUT_S: Apify stops the run at its own timeout, so the wait reads its last state.
+  const start = (node('Start Apify run') || {}).parameters || {};
+  let timeout = null;
+  try { timeout = new URL(String(start.url).replace(/^=/, '')).searchParams.getAll('timeout').join(); } catch (e) { timeout = e.message; }
+  check('C fetch: the run starts with its own timeout, APIFY_TIMEOUT_S of apify-run.js',
+    timeout === String(require(path.join(CODE, 'apify-run.js')).APIFY_TIMEOUT_S) && !start.sendQuery,
+    `timeout in the URL: ${timeout || 'none'}; query parameters set apart from the URL: ${Boolean(start.sendQuery)}`);
+  // «Prova senza Apify» (workflows/README.md): a request for a saved dataset takes its own branch
+  // before any paid call, and its events reach the original exactly where a run's would.
+  const reach = (from, out) => {
+    const seen = new Set();
+    const queue = (((F.connections[from] || {}).main || [])[out] || []).map((x) => x.node);
+    while (queue.length) {
+      const n = queue.shift();
+      if (seen.has(n)) continue;
+      seen.add(n);
+      for (const br of ((F.connections[n] || {}).main || [])) for (const x of br || []) queue.push(x.node);
+    }
+    return seen;
+  };
+  check('C fetch: every request meets the choice between a run and a saved dataset before any paid call',
+    to('Build Apify input') === 'Prova?' && to('Prova?', 1) === 'Start Apify run' && to('Prova?', 0) === 'Scarica prova');
+  const from = (target) => Object.entries(F.connections).flatMap(([src, c]) =>
+    ((c || {}).main || []).flatMap((br, i) => (br || []).filter((x) => x.node === target).map(() => `${src}#${i}`)));
+  check('C fetch: «Start Apify run» has one way in, the run side of «Prova?»',
+    from('Start Apify run').join() === 'Prova?#1', from('Start Apify run').join());
+  const mod = require(path.join(CODE, 'apify-run.js'));
+  const cond = (((node('Prova?') || {}).parameters || {}).conditions || {}).conditions || [];
+  check('C fetch: «Prova?» asks whether buildRequest gave a fixture',
+    cond.length === 1 && cond[0].leftValue === '={{ $json.fixture !== undefined }}' && cond[0].operator.operation === 'true' &&
+    mod.buildRequest({ fixture: { file_id: '1AbCdEfGhIjKlMnOpQrStUvWxYz_inventato' } }).fixture !== undefined &&
+    mod.buildRequest({ startUrls: ['https://www.facebook.com/pagina-inventata/events'] }).fixture === undefined,
+    JSON.stringify(cond.map((c) => [c.leftValue, c.operator && c.operator.operation])));
+  const prep = Object.fromEntries((((node('Prepara prova') || {}).parameters || {}).assignments || { assignments: [] })
+    .assignments.map((a) => [a.name, a.value]));
+  check('C fetch: the saved dataset is downloaded by the id buildRequest checked, and read in stage fixture',
+    ((node('Scarica prova') || {}).parameters || {}).fileId?.value === '={{ $json.fixture.file_id }}' &&
+    prep.stage === 'fixture' && prep.fixture === "={{ $('Build Apify input').first().json.fixture }}", JSON.stringify(prep));
+  const fixturePath = reach('Prova?', 0);
+  check('C fetch: a saved dataset reaches the original and never Apify or the cost register',
+    fixturePath.has('Upload to C Eventi originali') &&
+    ['Start Apify run', 'Wait', 'Get run', 'Get dataset items', 'Dopo il dataset', 'Prepara costo', 'Costo', 'Carica costo']
+      .every((nm) => !fixturePath.has(nm)), [...fixturePath].join(', '));
+  check('C fetch: the saved events reach the original one per item, like a dataset',
+    to('Eventi di prova') === 'Un evento per riga' && node('Un evento per riga').parameters.fieldToSplitOut === 'events' &&
+    to('Un evento per riga') === 'To JSON file');
+  check('C fetch: the original written from a saved dataset says so in its name',
+    /\$\('Build Apify input'\)\.first\(\)\.json\.fixture \? '_prova' : ''/.test(node('To JSON file').parameters.options.fileName));
 }
 
 // DEC-033, rule 2: one stream of requests to Atti Web. The reading starts only from its daily
