@@ -316,12 +316,17 @@ if ($json.stage === 'fetch') {
       stopped_now: false, alert: null });
     return $input.item;
   }
+  // n8n 2.x runs the node in its task runner, where `helpers` is a global and a strict function has
+  // no `this` (execution 1337, 16 November 2026). A missing helper is this node's fault: it stops
+  // the run, before the request, and never counts against the host.
+  const http = typeof helpers !== 'undefined' && helpers ? helpers : (this || {}).helpers;
+  if (!http || typeof http.httpRequest !== 'function') throw new Error('source-guard.js: no this.helpers.httpRequest in this Code node');
   return (async () => {
     const wait = waitMs(host, $json.last_end_ms, Date.now());
     if (wait > 0) await new Promise((r) => setTimeout(r, wait));
     let res;
     try {
-      res = await this.helpers.httpRequest(options);
+      res = await http.httpRequest(options);
     } catch (e) {
       res = { error: e && e.message ? e.message : 'request failed' };
     }

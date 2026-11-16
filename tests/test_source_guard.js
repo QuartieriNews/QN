@@ -227,15 +227,18 @@ console.log('T-A2-12 — the pause per host, with a fake clock');
 }
 
 console.log('T-A2-12 — the n8n adapter');
-function runNode(json, answer) {
+// As n8n 2.x's task runner calls the node: `helpers` a global, no `this` (execution 1337, 16 November
+// 2026); `how: 'this'` is the older call with `this.helpers`, `how: 'none'` a node with neither.
+function runNode(json, answer, how) {
   const calls = [];
   const waits = [];
   const helpers = { httpRequest: async (o) => { calls.push(o); if (answer instanceof Error) throw answer; return answer; } };
-  const ctx = { helpers };
-  const fn = new Function('$input', '$json', 'require', 'URL', 'URLSearchParams', 'process', 'module', 'setTimeout', src);
+  const ctx = how === 'this' ? { helpers } : undefined;
+  const fn = new Function('$input', '$json', 'require', 'URL', 'URLSearchParams', 'process', 'module', 'setTimeout', 'helpers', src);
   let out;
   try {
-    out = fn.call(ctx, { item: { json } }, json, require, undefined, undefined, undefined, undefined, (cb, ms) => { waits.push(ms); cb(); });
+    out = fn.call(ctx, { item: { json } }, json, require, undefined, undefined, undefined, undefined, (cb, ms) => { waits.push(ms); cb(); },
+      how ? undefined : helpers);
   } catch (e) {
     return Promise.reject(e);
   }
@@ -251,6 +254,11 @@ const tests = [
     check('T-A2-12 fetch: the verdict, the answer kept and the end of the answer',
       [item.json.verdict.outcome, item.json.answer.statusCode, Number.isFinite(item.json.last_end_ms)], ['ok', 200, true]);
   }),
+  runNode({ stage: 'fetch', request: { url: API, method: 'POST', body: {}, expects: 'json' }, host_state: checked, last_end_ms: Date.now() - 10000 }, json({}), 'this')
+    .then(({ item, calls }) => check('T-A2-12 fetch: the older call with this.helpers still asks', [calls.length, item.json.verdict.outcome], [1, 'ok'])),
+  runNode({ stage: 'fetch', request: { url: API, method: 'POST', body: {}, expects: 'json' }, host_state: checked }, json({}), 'none')
+    .then(() => check('T-A2-07 fetch: with no helper the node stops the run, and the host is not charged', 'no error', 'an error'),
+      (e) => check('T-A2-07 fetch: with no helper the node stops the run, and the host is not charged', /no this\.helpers\.httpRequest/.test(e.message), true)),
   runNode({ stage: 'fetch', request: { url: API, method: 'POST', body: {}, expects: 'json' }, host_state: checked, last_end_ms: Date.now() - 10000 },
     json({})).then(({ waits }) => check('T-A2-12 fetch: no wait when the pause has passed', waits.length, 0)),
   runNode({ stage: 'fetch', request: { url: API, expects: 'json' }, host_state: { fermo: 'owner', robots_giorno: day } }, json({}))
