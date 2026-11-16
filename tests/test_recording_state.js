@@ -217,6 +217,8 @@ console.log('the register and the alert');
   const log = s.runLog(run);
   check('the register says how each catalogue was read', log.readings, [{ fonte: 'romatv', catalogo: 'Municipio X', pages: 1, complete: null, reason: null, host_stopped: false, in_window: 1, skipped: [] }]);
   check('T-A3-15 no title and no text in the register', JSON.stringify(log).includes(MARK), false);
+  check('the register lists the rows a run leaves to the next one, and none when it leaves none',
+    [s.runLog(Object.assign({}, run, { deferred: [`romatv:${GUID}`] })).deferred_rows, log.deferred_rows], [[`romatv:${GUID}`], []]);
   check('a run that read every list whole has no alert', s.runAlert(Object.assign({}, log, { readings: [] })), null);
   const done = list.readPage(list.startReading('Municipio V'), { error: 'x' }, NOW);
   const alert = s.runAlert(s.runLog(Object.assign({}, run, { readings: [done] })));

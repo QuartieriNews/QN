@@ -238,7 +238,7 @@ function runLog(run) {
     workflow: run.workflow, execution_id: run.execution_id || null, started_at: run.started_at, finished_at: run.finished_at,
     user_agent: run.user_agent, portal_headers: run.portal_headers === true,
     robots: run.robots || [], hosts: run.hosts || [], readings: (run.readings || []).map(keep),
-    new_rows: run.new_rows || [], updated_rows: run.updated_rows || [], unbound_parts: run.unbound || [],
+    new_rows: run.new_rows || [], updated_rows: run.updated_rows || [], deferred_rows: run.deferred || [], unbound_parts: run.unbound || [],
     without_url: run.without_url || [], skipped_sources: run.skipped_sources || [], stopped_now: run.stopped_now || [],
   };
 }
