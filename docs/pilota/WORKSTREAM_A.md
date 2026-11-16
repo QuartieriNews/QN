@@ -74,7 +74,7 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 
 | Mezzo | Stato | Note |
 |---|---|---|
-| n8n Cloud, piano Starter (`quartierinews.app.n8n.cloud`) | PRESENTE | nodo Code con `require('crypto')` (AES-128-CBC), `Buffer`, `setTimeout`, `this.helpers.httpRequest` (testo o `arraybuffer`, risposta intera, errori HTTP senza eccezione); niente `process` (916); niente `URL` né il modulo `url` (non dalle sonde: commit 2e6a288, `code-nodes/news-collect.js`); altri moduli non provati, non si usano |
+| n8n Cloud, piano Starter (`quartierinews.app.n8n.cloud`) | PRESENTE | nodo Code con `require('crypto')` (AES-128-CBC), `Buffer`, `setTimeout`, `this.helpers.httpRequest` (testo o `arraybuffer`, risposta intera, errori HTTP senza eccezione; su n8n 2.x il nodo gira nel task runner, dove un file con `'use strict'` non ha `this` e `helpers` è una variabile globale: `code-nodes/source-guard.js`, esecuzione 1337); niente `process` (916); niente `URL` né il modulo `url` (non dalle sonde: commit 2e6a288, `code-nodes/news-collect.js`); altri moduli non provati, non si usano |
 | RomaTV raggiunto da n8n | PRESENTE | elenco (`search_frontend`), WebVTT, JSON del parlato, playlist, chiave e segmenti rispondono 200 (918, 921); l'elenco e la chiave sono stati chiesti sempre con `Origin` e `Referer` del portale, e se servono non è provato; WebVTT, JSON del parlato, playlist e segmenti hanno risposto senza (sezione 4, la strada dell'audio, passo 3) |
 | `www.youtube.com` da n8n | NON SI USA (DEC-037) | il 14/11: feed 200, pagina del video = pagina di consenso UE (918); dal 15/11 l'elenco e l'audio vengono da Apify, senza nessuna chiave di Google (sezione 2) |
 | Apify da n8n, per l'elenco e l'audio di YouTube | DA PROVARE, dal 20/11 | su n8n c'è la credenziale Apify del canale C, «Bearer Auth account» (`staging_C_fb_events_fetch`); il 14/11 l'API di n8n non la poteva usare e l'editor dell'owner non cambiava i nodi che la usano (`workflows/README.md`); il 15/11 una sonda del coordinatore ha creato dall'API un flusso `staging_` con un nodo che la riferisce (mai eseguito, cancellato subito): un flusso nuovo fatto dall'API la può riferire; che una corsa la usi lo dice la prova dal 20 novembre. Resta da riprovare la modifica dei nodi che già la usano in `staging_C_fb_events_fetch`, che tocca al canale C. I due Actor dell'audio da provare: sezione 7; quello dell'elenco si sceglie alla prova; la prova: sezione 6 |
@@ -89,10 +89,11 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 | Gazetteer | PRESENTE | `raw.githubusercontent.com/QuartieriNews/QN/<commit>/gazetteer/gazetteer.json` risponde 200 dal sandbox; da n8n si prova in A5 |
 | Prototipo dell'audio, `hls-audio.js` | PRESENTE, fuori dal repository | provato in locale con ffprobe e su n8n (921); sta nella cartella di passaggio (`30 Staging pilota 2026-11/`), con la sua prova locale, il codice della sonda e le note delle sonde, nessun testo delle fonti; entra in A3 con i test |
 | Modello del flusso d'errore | PRESENTE | `staging_D_avviso`, che scrive solo nella cartella di D |
-| Data table `staging_A_registrazioni` | DA COSTRUIRE | A2 (sezione 4) |
+| Data table `staging_A_registrazioni` | PRESENTE (16/11) | creata dall'API con le colonne di `COLUMNS` e le due righe delle prese; l'id è nel passaggio di A2 su n8n |
 | Nodi Code della sezione 5, con i test | quelli di A2 FATTI, provati con dati inventati; gli altri DA COSTRUIRE | A2 (sezione 5); A3–A5 |
-| `staging_A_elenco`, `staging_A_testo`, poi `staging_A_lettura` e `staging_A_elementi` | DA COSTRUIRE | A2–A5 |
-| `staging_A_avviso` | DA COSTRUIRE | A2; sempre attivo |
+| `staging_A_elenco` | PRESENTE per RomaTV, spento (16/11) | provato il 16/11 sulle versioni che hanno portato a quella esportata: 1341 (i controlli di `robots.txt` e 87 righe nuove), 1344 (righe già presenti), 1347 (una riga ricreata); 1348, sulla versione 2026-11-16.4 (la presa tenuta da un'altra corsa: attesa, poi presa; i nodi della presa sono gli stessi della versione esportata, a parte la riga `deferred_rows` di `recording-state.js`, che la presa non usa; la versione esportata aggiunge `deferred_rows` e toglie il riprovare ad «Aggiorna scheda», il tetto delle schede c'era già); 1350, sulla versione 2026-11-16.5 (una riga nuova con la scheda nuova, una ricreata con la scheda aggiornata, una cambiata, una seduta nuova vera); 1355, sulla versione esportata 2026-11-16.6, che ha i nodi Code di `main` dopo la #58, a parte l'orario, la scadenza di prova e il salvataggio delle corse riuscite (quattro cataloghi completi, sei sedute nuove). Il salto della fonte, con la presa tenuta oltre l'attesa, non è provato su n8n. Le corse riuscite non si salvano su n8n: ne resta il registro in `letture/` |
+| `staging_A_testo`, poi `staging_A_lettura` e `staging_A_elementi` | DA COSTRUIRE | A3–A5 |
+| `staging_A_avviso` | PRESENTE, acceso (16/11) | provato con un errore forzato; esportato in `workflows/` |
 | Fixture dei test | DA COSTRUIRE | byte e testi inventati (DEC-109), mai presi da una fonte |
 | Credenziali condivise e DEC-036 | DALL'OWNER, fatto il 14/11 | |
 | Chiave di un servizio Whisper più economico, per il confronto dei modelli | DALL'OWNER, se il confronto lo prova | DEC-037, punto 4; sezione 6 |
@@ -232,7 +233,26 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   Workflow con l'attesa spenta), così ogni corsa ha i suoi 300 secondi e una catena non muore
   dentro quelli della prima corsa. A2 lo prova con una sonda, `staging_A_sonda_catena`: un
   flusso a 300 secondi che si chiama due volte senza aspettare; l'ultima corsa deve finire
-  oltre i 300 secondi della prima.
+  oltre i 300 secondi della prima. Provato il 16 novembre 2026 (esecuzioni 1330, 1331, 1333):
+  tre corse da 200 secondi, l'ultima finita 602 secondi dopo l'inizio della prima, nessuna
+  tagliata. Su n8n 2.x un flusso chiamato deve essere acceso: la 1329, partita dall'orario, si è
+  fermata alla propria chiamata, fatta a sonda già spenta, con «Workflow is not active and
+  cannot be executed»; `staging_A_testo`
+  resta quindi acceso, anche se parte solo da chiamata.
+- Esecuzioni, misurate da A2 il 16 novembre 2026: il contatore del piano letto dall'owner è
+  salito da 268 a 273 per tre corse da trigger (1329, 1330 della sonda; 1332, il flusso B) e
+  due chiamate senza aspettare (1331, 1333). Fino alla lettura, l'API elenca dal 9 novembre 534
+  esecuzioni salvate: 191 da trigger, webhook o errore e 343 corse di D chiamate aspettando
+  (`waitForSubWorkflow: true`). Le esecuzioni dell'istanza cominciano il 9 novembre; il
+  ragionamento vale se il periodo del contatore, quello della fatturazione, comprende tutto il
+  9–16 novembre (la data in cui riparte si legge nel pannello del piano). Se queste contassero, il contatore non
+  potrebbe essere a 268:
+  non entrano nel contatore (la differenza fra 191 e 268 sono esecuzioni cancellate o non
+  salvate, che l'API non elenca). Una corsa chiamata conta quindi quando chi la chiama non la aspetta, cioè ogni
+  corsa del testo e della lettura. L'owner ha deciso il 16 novembre 2026 che l'obiettivo di 500
+  corse per A, scritto all'apertura, non vale più: il limite è il piano di 2.500, comune a tutti
+  i canali, con il margine per gli altri; il tetto del testo lo fissa A3 sul tempo misurato, e
+  il contatore del piano si legge ogni mese. Il conto che segue è quello dell'apertura.
 - Esecuzioni: 2.500 al mese sul piano Starter, con B e D. Oggi B e D fanno 25–29 corse al
   giorno da trigger e circa 49 corse chiamate da un altro flusso (sotto-workflow): 750–870 al
   mese se le seconde non contano, 2.220–2.340 se contano. Obiettivo di A: al massimo 500 corse
@@ -255,9 +275,9 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
     con la sonda della catena (il contatore del piano prima e dopo un numero noto di corse,
     letto dall'owner nel pannello di n8n se l'API non lo dà), prima di accendere l'elenco a
     orario; se contano, la domanda sul piano va all'owner allora (sezione 9).
-  - Il tetto del testo viene dall'obiettivo: 500 − 240 = 260 corse al mese, cioè 8 al giorno.
-    Vale finché A2 non dimostra che le corse chiamate non contano; allora lo rifissa A3 sul
-    tempo misurato. Con 8 corse da 20–25 minuti si trascrivono 80–100 ore al mese, meno delle
+  - Il tetto del testo veniva dall'obiettivo: 500 − 240 = 260 corse al mese, cioè 8 al giorno.
+    Superato dalla decisione dell'owner del 16 novembre (sopra): lo rifissa A3 sul tempo
+    misurato. Con 8 corse da 20–25 minuti si trascrivono 80–100 ore al mese, meno delle
     123,3 di giugno di RomaTV, e molto meno delle 165,4 con il Municipio I: anche questo va
     nella domanda all'owner.
 - Binari e memoria: un binario costruito in base64 in un nodo Code resta nel JSON
@@ -300,6 +320,17 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   `fonte:youtube_elenco` ha un `apify_run_id` (T-A3-22).
   Alla prova si guarda che l'Actor dia i video dal più recente (il criterio di «Raccolta» lo
   presuppone) e che 300 video bastino: a giugno il canale ne aveva circa 257 in 100 giorni.
+- Le schede e le righe di una corsa dell'elenco si scrivono dopo l'ultimo rinnovo della presa,
+  al più 25 nuove e 25 cambiate per corsa: un file su Drive ha preso circa 3 secondi
+  (esecuzione 1341), così la scrittura sta dentro la presa. Le altre le scrive la corsa dopo, che
+  le ritrova; il registro le elenca (`deferred_rows`). Accade dopo un fermo lungo o alla prima
+  corsa. Una scheda che Drive non scrive ferma la corsa, con l'avviso, senza riprovare: la corsa
+  dopo ritrova le schede per nome e riscrive le righe.
+- Le risposte dell'elenco in `originali/` (CONTRATTI, sezione 7 A, «Raccolta»): lettura del
+  builder, del 16 novembre, che l'owner conferma con il merge. Ci vanno le risposte che
+  `source-guard.js` giudica dati (`ok`), con il corpo JSON come n8n lo ha letto e riscritto;
+  una risposta che ferma l'host o lascia l'elenco incompleto resta nel registro e nell'avviso,
+  con il suo motivo.
 - Prove con un trigger a orario: ogni corsa di prova ha una scadenza scritta nel codice, perché
   lo spegnimento via API arriva tardi (l'esecuzione 922 è partita un minuto dopo la 921).
 
@@ -690,7 +721,7 @@ Il grosso è la trascrizione, non Apify.
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
 | L'ora di riferimento di un video di YouTube: fissata da A2, l'inizio della diretta quando l'Actor lo dà, se no la pubblicazione (CONTRATTI, sezione 7 A, «Raccolta»); se l'Actor scelto la dà si vede alla prova | builder | dal 20 novembre |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
-| Se le corse chiamate da un altro flusso contano nel piano: se contano, A non ci sta già con A2 e A3 (sezione 4), e servono il piano superiore o meno corse | il builder misura, l'owner decide il piano | A2, prima di accendere l'elenco a orario |
+| Il piano a regime, con tutti i Municipi: a giugno circa 340–350 ore da trascrivere, 800–1.050 corse di testo a 20–25 minuti per corsa, circa 1.800–2.150 con l'elenco, B e D, prima di C (`docs/sources/FATTIBILITA_RICOSTRUZIONE_2026-06.md`); le leve sono corse di testo più lunghe, il testo fuori da n8n, un piano superiore. A3 misura quante corse costa una seduta | il builder misura, l'owner decide | prima di allargare oltre i Municipi del pilota |
 | `Origin` e `Referer` del portale nelle richieste all'elenco e alla chiave: se servono, la PR che lo misura lo scrive in CONTRATTI, sezione 7 A | builder | A2 (elenco), A3 (chiave) |
 | La stima di spesa con le voci che ne restano fuori arriva a circa 41–48 €, senza l'elenco di YouTube, sopra la quota di 33 € (sezione 7) | il coordinatore, sulle spese del primo mese; l'owner se si va oltre | fine del primo mese |
 | File del repository che hanno già testo di notizie preso dalle fonti: `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md`, sezione 6 («Possibili notizie»), e `docs/wiki/`. Segnalati, non toccati qui | owner | ora |
