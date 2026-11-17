@@ -89,27 +89,34 @@ function request({ workflow, execution_id, started_at, files }) {
   const names = clean.map((f) => f.name);
   const today = day(t);
   const yesterday = day(t - 24 * 3600 * 1000);
-  const kinds = [`prenotazione_${today}_`, `esito_${today}_`, `prenotazione_${yesterday}_`, `esito_${yesterday}_`];
+  const tomorrow = day(t + 24 * 3600 * 1000);
+  const kinds = [today, yesterday, tomorrow].flatMap((d) => [`prenotazione_${d}_`, `esito_${d}_`]);
   return {
     files: clean,
     names,
     reservation_name: `prenotazione_${today}_${stamp(t)}_${execution_id}.json`,
     reservation: { workflow, execution_id, started_at, files: names },
-    // Today's and yesterday's reservations and outcomes cover the HOLD_MS before this call.
+    // Yesterday's and today's reservations and outcomes cover the HOLD_MS before this call;
+    // tomorrow's, one written by a call that started after midnight UTC while this one's
+    // reservation is saved after it (T27).
     reservations_query: `(${kinds.map((k) => `name contains '${k}'`).join(' or ')})`,
   };
 }
 
 /** Stage 'turn': after writing its reservation, a call reads the reservations and outcomes again
  *  (`{ id, name, createdTime }`) and finds its own by the Drive id of the file it wrote (`mine`).
+ *  A call whose own reservation is already older than HOLD_MS at `now` stops: the calls after it
+ *  no longer wait for it (T28).
  *  It goes on only if every reservation written before its own, in Drive's order, has its outcome
  *  or is older than HOLD_MS: of two calls that overlap, the second stops before any canonical
  *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call
  *  that does not see its own reservation yet stops too: it has written nothing canonical, and its
  *  outcome frees the calls after it. */
-function turn({ reservations, mine }) {
+function turn({ reservations, mine, now }) {
   if (!Array.isArray(reservations)) throw new Error('reservations must list the reservations and outcomes read again');
   if (typeof mine !== 'string' || !ID.test(mine)) throw new Error('mine must be the Drive id of the call\'s reservation');
+  const nowAt = utcInstant(now);
+  if (nowAt === null) throw new Error('now must be a UTC instant');
   const finished = new Set();
   const rows = new Map();
   for (const r of reservations) {
@@ -126,6 +133,7 @@ function turn({ reservations, mine }) {
   const order = [...rows.values()].sort(byTimeThenId);
   const idx = order.findIndex((r) => r.id === mine);
   if (idx < 0) return { holds: false, busy: [], stale: [], reason: 'the call\'s own reservation is not listed yet' };
+  if (nowAt - order[idx].at >= HOLD_MS) return { holds: false, busy: [], stale: [], reason: 'the call\'s own reservation holds no more' };
   const open = order.slice(0, idx).filter((r) => !finished.has(r.id));
   const busy = open.filter((r) => order[idx].at - r.at < HOLD_MS).map((r) => r.name);
   const stale = open.filter((r) => order[idx].at - r.at >= HOLD_MS).map((r) => r.name);
@@ -242,7 +250,7 @@ if (items.length !== 1) throw new Error(`one item expected, ${items.length} rece
 const j = items[0].json;
 if (j.stage === 'request') return [{ json: Object.assign({}, j, request(j)) }];
 if (j.stage === 'turn') {
-  const out = Object.assign({}, j, { turn: turn({ reservations: (j.reservations || []).filter((r) => r && r.name), mine: j.reservation_id }) });
+  const out = Object.assign({}, j, { turn: turn({ reservations: (j.reservations || []).filter((r) => r && r.name), mine: j.reservation_id, now: new Date().toISOString() }) });
   delete out.reservations;
   return [{ json: out }];
 }

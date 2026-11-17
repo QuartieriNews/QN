@@ -41,8 +41,10 @@ console.log('request: what a call may write, checked before anything is written'
   const r = m.request(req([fb('1001'), fb('1002')]));
   check('the reservation is named for the day, the start and the execution', r.reservation_name, 'prenotazione_2026-11-16_20261116T090000Z_501.json');
   check('the reservation lists the names, never the content', r.reservation, { workflow: W, execution_id: '501', started_at: T0, files: ['roma__evt__facebook__1001.json', 'roma__evt__facebook__1002.json'] });
-  check('the reservations read again: today\'s and yesterday\'s, reservations and outcomes', r.reservations_query,
-    "(name contains 'prenotazione_2026-11-16_' or name contains 'esito_2026-11-16_' or name contains 'prenotazione_2026-11-15_' or name contains 'esito_2026-11-15_')");
+  check('the reservations read again: today\'s, yesterday\'s and tomorrow\'s, reservations and outcomes', r.reservations_query,
+    "(name contains 'prenotazione_2026-11-16_' or name contains 'esito_2026-11-16_' or name contains 'prenotazione_2026-11-15_' or name contains 'esito_2026-11-15_' or name contains 'prenotazione_2026-11-17_' or name contains 'esito_2026-11-17_')");
+  check('T27: tomorrow too, for a call that starts after midnight UTC while this one\'s reservation is saved after it',
+    /prenotazione_2026-01-01_/.test(m.request(req([fb('1')], { started_at: '2025-12-31T23:59:59.000Z' })).reservations_query), true);
   check('yesterday across the new year', /prenotazione_2025-12-31_/.test(m.request(req([fb('1')], { started_at: '2026-01-01T00:30:00.000Z' })).reservations_query), true);
   check('the write takes only Facebook names', /bad file name/.test(thrown(() => m.request(req([{ name: 'roma__evt__web__abc.json', content: '{}' }]))) || ''), true);
   check('the update takes the other canonical names too', m.request(req([{ name: 'roma__evt__web__abc-series.json', content: '{}' }], { workflow: U })).names, ['roma__evt__web__abc-series.json']);
@@ -60,30 +62,35 @@ console.log('request: what a call may write, checked before anything is written'
 }
 
 console.log('turn: one call writes at a time (T27, T28)');
+const NOW_T = '2026-11-16T09:00:10.000Z';
 {
   const R = (id, at, exe) => ({ id, name: `prenotazione_2026-11-16_20261116T0900${String(at).padStart(2, '0')}Z_${exe}.json`, createdTime: `2026-11-16T09:00:${String(at).padStart(2, '0')}.000Z` });
   const E = (rid) => ({ id: `o${rid}`, name: `esito_2026-11-16_20261116T090000Z_${rid}.json`, createdTime: '2026-11-16T09:01:00.000Z' });
   const a = R('idA', 1, '501');
   const b = R('idB', 2, '502');
-  check('T27: of two calls that overlap, the first goes on', m.turn({ reservations: [b, a], mine: 'idA' }), { holds: true, busy: [], stale: [], reason: null });
-  check('T27: the second stops, naming the first', m.turn({ reservations: [a, b], mine: 'idB' }), { holds: false, busy: [a.name], stale: [], reason: 'an earlier write has no outcome yet' });
-  check('an earlier call with its outcome does not stop the next', m.turn({ reservations: [a, b, E('idA')], mine: 'idB' }).holds, true);
-  check('a stopped call writes its outcome too, so it holds nobody', m.turn({ reservations: [a, b, R('idC', 3, '503'), E('idA'), E('idB')], mine: 'idC' }).holds, true);
+  check('T27: of two calls that overlap, the first goes on', m.turn({ now: NOW_T, reservations: [b, a], mine: 'idA' }), { holds: true, busy: [], stale: [], reason: null });
+  check('T27: the second stops, naming the first', m.turn({ now: NOW_T, reservations: [a, b], mine: 'idB' }), { holds: false, busy: [a.name], stale: [], reason: 'an earlier write has no outcome yet' });
+  check('an earlier call with its outcome does not stop the next', m.turn({ now: NOW_T, reservations: [a, b, E('idA')], mine: 'idB' }).holds, true);
+  check('a stopped call writes its outcome too, so it holds nobody', m.turn({ now: NOW_T, reservations: [a, b, R('idC', 3, '503'), E('idA'), E('idB')], mine: 'idC' }).holds, true);
   const same = [Object.assign({}, a, { createdTime: b.createdTime }), b];
-  check('written in the same instant: the Drive id decides, the same for both', [m.turn({ reservations: same, mine: 'idA' }).holds, m.turn({ reservations: same.slice().reverse(), mine: 'idB' }).holds], [true, false]);
+  check('written in the same instant: the Drive id decides, the same for both', [m.turn({ now: NOW_T, reservations: same, mine: 'idA' }).holds, m.turn({ now: NOW_T, reservations: same.slice().reverse(), mine: 'idB' }).holds], [true, false]);
   const old = { id: 'idOld', name: 'prenotazione_2026-11-16_20261116T060000Z_499.json', createdTime: '2026-11-16T07:00:01.000Z' };
   const mine = { id: 'idM', name: 'prenotazione_2026-11-16_20261116T090001Z_510.json', createdTime: '2026-11-16T09:00:01.000Z' };
-  check('T28: a reservation without outcome holds no more after 120 minutes, and is named stale', m.turn({ reservations: [old, mine], mine: 'idM' }), { holds: true, busy: [], stale: [old.name], reason: null });
-  check('T28: one second short of 120 minutes it still holds', m.turn({ reservations: [Object.assign({}, old, { createdTime: '2026-11-16T07:00:02.000Z' }), mine], mine: 'idM' }).holds, false);
-  check('a call that does not see its own reservation yet stops, and its outcome frees the next', m.turn({ reservations: [a], mine: 'idB' }),
+  check('T28: a reservation without outcome holds no more after 120 minutes, and is named stale', m.turn({ now: NOW_T, reservations: [old, mine], mine: 'idM' }), { holds: true, busy: [], stale: [old.name], reason: null });
+  check('T28: one second short of 120 minutes it still holds', m.turn({ now: NOW_T, reservations: [Object.assign({}, old, { createdTime: '2026-11-16T07:00:02.000Z' }), mine], mine: 'idM' }).holds, false);
+  check('a call that does not see its own reservation yet stops, and its outcome frees the next', m.turn({ now: NOW_T, reservations: [a], mine: 'idB' }),
     { holds: false, busy: [], stale: [], reason: 'the call\'s own reservation is not listed yet' });
   const late = { id: 'idL', name: 'prenotazione_2026-11-16_20261116T090002Z_511.json', createdTime: '2026-11-16T09:00:02.000Z' };
   const lateOld = { id: 'idOld', name: old.name, createdTime: old.createdTime };
   check('T28: a stale call that writes its outcome late does not free the one that went on after it',
-    m.turn({ reservations: [lateOld, mine, late, { id: 'oOld', name: 'esito_2026-11-16_20261116T060000Z_idOld.json', createdTime: '2026-11-16T09:00:03.000Z' }], mine: 'idL' }),
+    m.turn({ now: NOW_T, reservations: [lateOld, mine, late, { id: 'oOld', name: 'esito_2026-11-16_20261116T060000Z_idOld.json', createdTime: '2026-11-16T09:00:03.000Z' }], mine: 'idL' }),
     { holds: false, busy: [mine.name], stale: [], reason: 'an earlier write has no outcome yet' });
-  check('a reservation without its time is an error', /without the time/.test(thrown(() => m.turn({ reservations: [{ id: 'x', name: a.name }, b], mine: 'idB' })) || ''), true);
-  check('other names in the folder are not reservations', m.turn({ reservations: [{ id: 'z', name: 'appunti.txt' }, { name: 'esito_bad.json' }, b], mine: 'idB' }).holds, true);
+  check('T28: a call whose own reservation is 120 minutes old at the turn stops, whoever is listed',
+    m.turn({ now: '2026-11-16T11:00:01.000Z', reservations: [mine], mine: 'idM' }), { holds: false, busy: [], stale: [], reason: 'the call\'s own reservation holds no more' });
+  check('T28: one second short of 120 minutes it goes on', m.turn({ now: '2026-11-16T11:00:00.999Z', reservations: [mine], mine: 'idM' }).holds, true);
+  check('the turn needs the instant it is taken', thrown(() => m.turn({ reservations: [mine], mine: 'idM' })), 'now must be a UTC instant');
+  check('a reservation without its time is an error', /without the time/.test(thrown(() => m.turn({ now: NOW_T, reservations: [{ id: 'x', name: a.name }, b], mine: 'idB' })) || ''), true);
+  check('other names in the folder are not reservations', m.turn({ now: NOW_T, reservations: [{ id: 'z', name: 'appunti.txt' }, { name: 'esito_bad.json' }, b], mine: 'idB' }).holds, true);
 }
 
 console.log('plan: each file by its exact name (phase 5.2)');
@@ -175,7 +182,7 @@ console.log('the calls played through a Drive in memory');
     return { r, res: create('scritture', r.reservation_name, JSON.stringify(r.reservation)) };
   };
   const finish = ({ r, res }) => {
-    const tr = m.turn({ reservations: drive.scritture.map(({ id, name, createdTime }) => ({ id, name, createdTime })), mine: res.id });
+    const tr = m.turn({ now: NOW_T, reservations: drive.scritture.map(({ id, name, createdTime }) => ({ id, name, createdTime })), mine: res.id });
     const results = [];
     if (tr.holds) {
       for (const p of m.plan({ files: r.files, listing: drive.canon })) {
@@ -207,7 +214,7 @@ console.log('the calls played through a Drive in memory');
   const realCreate = create;
   let refuse = 'roma__evt__facebook__3005.json';
   const finishFailing = (call) => {
-    const tr = m.turn({ reservations: drive.scritture.map(({ id, name, createdTime }) => ({ id, name, createdTime })), mine: call.res.id });
+    const tr = m.turn({ now: NOW_T, reservations: drive.scritture.map(({ id, name, createdTime }) => ({ id, name, createdTime })), mine: call.res.id });
     const results = m.plan({ files: call.r.files, listing: drive.canon }).map((p) => (p.name === refuse
       ? { name: p.name, action: 'failed', file_id: '', duplicates: p.duplicates, error: 'Drive 500' }
       : { name: p.name, action: 'created', file_id: realCreate('canon', p.name, p.content).id, duplicates: p.duplicates }));
@@ -229,8 +236,11 @@ console.log('n8n adapter, from the exact committed file');
   const run = (...jsons) => new Function('$input', 'require', 'module', src)({ all: () => jsons.map((json) => ({ json })) }, require, { exports: {} });
   const r = run({ stage: 'request', workflow: W, execution_id: '701', started_at: T0, files: [fb('4001')] });
   check('request: the item keeps its fields and gains the reservation', [r.length, r[0].json.stage, r[0].json.reservation_name, r[0].json.names], [1, 'request', 'prenotazione_2026-11-16_20261116T090000Z_701.json', ['roma__evt__facebook__4001.json']]);
-  const t = run({ stage: 'turn', reservation_id: 'idA', reservations: [{ id: 'idA', name: 'prenotazione_2026-11-16_20261116T090000Z_701.json', createdTime: T0 }, {}] });
+  const justNow = new Date(Date.now() - 1000).toISOString();
+  const t = run({ stage: 'turn', reservation_id: 'idA', reservations: [{ id: 'idA', name: 'prenotazione_2026-11-16_20261116T090000Z_701.json', createdTime: justNow }, {}] });
   check('turn: the decision, without the list read again', [t[0].json.turn, 'reservations' in t[0].json], [{ holds: true, busy: [], stale: [], reason: null }, false]);
+  const late = run({ stage: 'turn', reservation_id: 'idA', reservations: [{ id: 'idA', name: 'prenotazione_2026-11-16_20261116T090000Z_701.json', createdTime: T0 }] });
+  check('T28: turn takes the instant of the node, so an own reservation of yesterday holds no more', late[0].json.turn.holds, false);
   const a = fb('4002');
   const b = fb('4003');
   const p = run({ stage: 'plan', files: [a, b], listing: [SCR, { id: 'B1', name: b.name, createdTime: T0, md5Checksum: md5(b.content) }, {}] });
