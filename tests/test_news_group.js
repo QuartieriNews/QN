@@ -111,6 +111,7 @@ check('T-B-R1-01 the canonical URL of a record matches news-identity.js',
 /* ----- T-B-R1-02 preparation --------------------------------------------------- */
 
 console.log('T-B-R1-02 step 1, preparation');
+const I0 = '20261111T080000Z';
 {
   const r = rec('faro', 'furto-inventato', '2026-11-11T07:00:00.000Z');
   check('T-B-R1-02 a record of Il Faro Online takes source_id from its URL', r.source_id, 'ilfaroonline.it');
@@ -125,26 +126,41 @@ console.log('T-B-R1-02 step 1, preparation');
   check('T-B-R1-02 a record without a time takes the day of retrieved_at', [q.giorno, q.giorno_da_retrieved], ['2026-11-11', true]);
 
   const other = Object.assign(raw('faro', 'x', '2026-11-11T07:00:00.000Z'), { url: 'https://altrosito.it/x/' });
-  check('T-B-R1-02 a URL of another host stops the record', g.prepareRecord(other, 'i', 0).motivo, 'host_diverso');
+  check('T-B-R1-02 a URL of another host stops the record', g.prepareRecord(other, I0, 0).motivo, 'host_diverso');
   const bare = Object.assign(raw('faro', 'x', '2026-11-11T07:00:00.000Z'), { url: 'https://it/x/' });
-  check('T-B-R1-02 …a one-label host too', g.prepareRecord(bare, 'i', 0).motivo, 'host_diverso');
+  check('T-B-R1-02 …a one-label host too', g.prepareRecord(bare, I0, 0).motivo, 'host_diverso');
   const sub = Object.assign(raw('abit', 'x', '2026-11-11T07:00:00.000Z'), { url: 'https://foto.abitarearoma.it/x/' });
-  check('T-B-R1-02 a subdomain of the source read is the same source', g.prepareRecord(sub, 'i', 0).source_id, 'foto.abitarearoma.it');
+  check('T-B-R1-02 a subdomain of the source read is the same source', g.prepareRecord(sub, I0, 0).source_id, 'foto.abitarearoma.it');
   const noPage = Object.assign(raw('faro', 'x', '2026-11-11T07:00:00.000Z'), { page: undefined });
-  check('T-B-R1-02 a record without its page stops', g.prepareRecord(noPage, 'i', 0).motivo, 'pagina_mancante');
+  check('T-B-R1-02 a record without its page stops', g.prepareRecord(noPage, I0, 0).motivo, 'pagina_mancante');
   const unknown = Object.assign(raw('faro', 'x', '2026-11-11T07:00:00.000Z'), { page: 'originali/notizie_ilmessaggero.it_20261111T080000Z_1.xml' });
-  check('T-B-R1-02 a record read from a host that is not a source stops', g.prepareRecord(unknown, 'i', 0).motivo, 'fonte_sconosciuta');
+  check('T-B-R1-02 a record read from a host that is not a source stops', g.prepareRecord(unknown, I0, 0).motivo, 'fonte_sconosciuta');
   const chan = Object.assign(raw('faro', 'x', '2026-11-11T07:00:00.000Z'), { source_channel: 'news_official' });
-  check('T-B-R1-02 a source_channel other than its source\'s stops', g.prepareRecord(chan, 'i', 0).motivo, 'canale_diverso');
-  check('T-B-R1-02 a date that does not read stops', g.prepareRecord(raw('faro', 'x', '2026-02-30T07:00:00Z'), 'i', 0).motivo, 'data_illeggibile');
-  check('T-B-R1-02 …no time and no retrieved_at too', g.prepareRecord(Object.assign(raw('quest', 'x', null), { retrieved_at: null }), 'i', 0).motivo,
+  check('T-B-R1-02 a source_channel other than its source\'s stops', g.prepareRecord(chan, I0, 0).motivo, 'canale_diverso');
+  check('T-B-R1-02 a date that does not read stops', g.prepareRecord(raw('faro', 'x', '2026-02-30T07:00:00Z'), I0, 0).motivo, 'data_illeggibile');
+  check('T-B-R1-02 …no time and no retrieved_at too', g.prepareRecord(Object.assign(raw('quest', 'x', null), { retrieved_at: null }), I0, 0).motivo,
     'data_illeggibile');
-  check('T-B-R1-02 a URL that does not read stops', g.prepareRecord(Object.assign(raw('faro', 'x', null), { url: 'ftp://x' }), 'i', 0).motivo,
+  check('T-B-R1-02 a URL that does not read stops', g.prepareRecord(Object.assign(raw('faro', 'x', null), { url: 'ftp://x' }), I0, 0).motivo,
     'url_illeggibile');
   check('T-B-R1-02 a records file is named notizie_righe_<inizio>.json', thrown(() => g.prepareFile({ name: 'notizie_x.json', records: [] })),
     'not a records file: notizie_x.json');
   check('T-B-R1-02 prepareFile keeps the reading order', g.prepareFile({ name: 'notizie_righe_20261111T080000Z.json',
     records: [raw('faro', 'a', null), raw('abit', 'b', null)] }).map((x) => [x.inizio, x.index]), [['20261111T080000Z', 0], ['20261111T080000Z', 1]]);
+  check('T-B-R1-02 a page of another run stops the record', g.prepareRecord(raw('faro', 'x', null, null, '20261111T090000Z'), I0, 0).motivo,
+    'pagina_di_altra_corsa');
+  const files = [
+    { name: 'notizie_righe_20261111T080000Z.json', records: [raw('faro', 'a', null), raw('abit', 'b', null)] },
+    { name: 'notizie_righe_20261111T090000Z.json', records: [Object.assign(raw('faro', 'a', null, null, '20261111T090000Z'),
+      { url: 'https://www.ilfaroonline.it/2026/11/a/?utm_source=feed' })] },
+  ];
+  const all = g.prepareFiles(files);
+  check('T-B-R1-02 a record id already prepared in the pending files stops the later record', all.map((x) => [x.stato, x.motivo || null]),
+    [['pronto', null], ['pronto', null], ['fermo', 'record_ripetuto']]);
+  check('T-B-R1-02 …naming the first one', all[2].primo, { inizio: '20261111T080000Z', index: 0 });
+  check('T-B-R1-02 …and preparing the files again gives the same', g.prepareFiles([{ name: files[0].name, records: all.slice(0, 2) },
+    { name: files[1].name, records: all.slice(2) }]), all);
+  check('T-B-R1-02 a missing list of files fails', thrown(() => g.prepareFiles(undefined)), 'files_missing');
+  check('T-B-R1-02 …an empty one is no work', g.prepareFiles([]), []);
 }
 
 /* ----- T-B-R1-03 days of Rome ------------------------------------------------------ */
@@ -214,7 +230,7 @@ console.log('T-B-R1-25 what the file reads from the other nodes and documents');
     [['pronto', 'news_press', 'ilfaroonline.it']]);
   for (const u of ['https://www.carabinieri.it/x', 'https://questure.poliziadistato.it/it/Roma/articolo/y', 'https://WWW.AbitareARoma.it:443/z?utm_source=a']) {
     const page = /carabinieri/.test(u) ? 'carabinieri.it' : /questure/.test(u) ? 'questure.poliziadistato.it' : 'abitarearoma.it';
-    const r = g.prepareRecord({ url: u, page: `originali/notizie_${page}_20261111T080000Z_1.html`, published_at_utc: '2026-11-11T07:00:00Z' }, 'i', 0);
+    const r = g.prepareRecord({ url: u, page: `originali/notizie_${page}_20261111T080000Z_1.html`, published_at_utc: '2026-11-11T07:00:00Z' }, '20261111T080000Z', 0);
     check(`T-B-R1-25 source_id is sourceIdFromUrl of news-identity.js (${page})`, r.source_id, identity.sourceIdFromUrl(u));
   }
   const md = fs.readFileSync(path.join(__dirname, '..', 'tools', 'cronaca-prova', 'ISTRUZIONI_CHIUSE.md'), 'utf8');
@@ -237,9 +253,15 @@ function adapter(json) {
   const { item, out } = adapter({ stage: 'check_schede', risposta: { schede: [BASE] }, record: r, other: 'kept' });
   check('T-B-R1-22 the adapter returns the item', out === item, true);
   check('T-B-R1-22 …with the check', item.json.check.ok, true);
+  check('T-B-R1-22 …and each scheda with its record id and scheda id', [item.json.check.schede[0].record_id, item.json.check.schede[0].scheda_id],
+    [r.record_id, `${r.record_id}#1`]);
+  check('T-B-R1-22 …the same as withRecord', item.json.check.schede, schede(r, [{}]));
+  check('T-B-R1-22 an answer out of form keeps its motive', adapter({ stage: 'check_schede', risposta: { schede: [] }, record: r }).item.json.check,
+    { ok: false, motivo: 'nessuna_scheda' });
   check('T-B-R1-22 …keeping the other fields', item.json.other, 'kept');
   const prep = adapter({ stage: 'prepare', files: [{ name: 'notizie_righe_20261111T080000Z.json', records: [raw('faro', 'x', null)] }] }).item;
   check('T-B-R1-22 the prepare stage', prep.json.records.map((x) => x.source_id), ['ilfaroonline.it']);
+  check('T-B-R1-22 a prepare item without files fails', thrown(() => adapter({ stage: 'prepare' })), 'files_missing');
   check('T-B-R1-22 an unknown stage fails', thrown(() => adapter({ stage: 'altro' })), 'stage_unknown: altro');
 }
 
