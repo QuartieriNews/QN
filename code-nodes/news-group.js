@@ -183,6 +183,9 @@ function prepareRecord(record, inizio, index) {
   try { recordId = canonicalUrl(record.url); } catch (e) { return stop('url_illeggibile'); }
   const page = typeof record.page === 'string' ? PAGE.exec(record.page) : null;
   if (!page) return stop('pagina_mancante', { record_id: recordId });
+  // The page and the records file come from the same run (news-collect.js names both with its
+  // start): a page of another run would put the record out of the reading order (section 5).
+  if (page[2] !== inizio) return stop('pagina_di_altra_corsa', { record_id: recordId });
   const read = page[1];
   if (!has(SOURCE_CHANNELS, read)) return stop('fonte_sconosciuta', { record_id: recordId });
   const channel = SOURCE_CHANNELS[read];
@@ -206,6 +209,7 @@ function prepareRecord(record, inizio, index) {
   const out = Object.assign({}, record, base, { source_id: host, source_channel: channel, record_id: recordId, giorno,
     giorno_da_retrieved: fromRetrieved, stato: 'pronto' });
   delete out.motivo;
+  delete out.primo;
   return out;
 }
 
@@ -215,6 +219,20 @@ function prepareFile({ name, records }) {
   if (!m) throw new Error(`not a records file: ${name}`);
   if (!Array.isArray(records)) throw new Error(`records missing: ${name}`);
   return records.map((r, i) => prepareRecord(r, m[1], i));
+}
+
+/** Step 1 for every file with pending work (section 2). A record whose id is already prepared
+ *  in these files, the same page with its query written otherwise, stops (`record_ripetuto`,
+ *  with the first one): one record id has one set of schede (section 3). */
+function prepareFiles(files) {
+  if (!Array.isArray(files)) throw new Error('files_missing');
+  const first = new Map();
+  return files.flatMap(prepareFile).map((r) => {
+    if (r.stato !== 'pronto') return r;
+    const seen = first.get(r.record_id);
+    if (!seen) { first.set(r.record_id, r); return r; }
+    return Object.assign({}, r, { stato: 'fermo', motivo: 'record_ripetuto', primo: { inizio: seen.inizio, index: seen.index } });
+  });
 }
 
 /* ----- step 2: the check of the schede ------------------------------------ */
@@ -285,8 +303,8 @@ function checkOneScheda(s, record) {
 }
 
 /** Step 2, the code's part (section 4): the model's answer for one prepared record becomes its
- *  schede, each with the record's id and its place `n`, or `{ ok: false, motivo }` for an
- *  answer out of form, which is not saved (section 6). */
+ *  schede, each with its place `n` (`withRecord` adds the record's id), or
+ *  `{ ok: false, motivo }` for an answer out of form, which is not saved (section 6). */
 function checkSchede(risposta, record) {
   if (!record || record.stato !== 'pronto') throw new Error('record_not_prepared');
   if (!plainObject(risposta) || !Array.isArray(risposta.schede) || Object.keys(risposta).length !== 1) return { ok: false, motivo: 'forma' };
@@ -323,7 +341,7 @@ function withRecord(s, record, total) {
 if (typeof $input === 'undefined') {
   module.exports = { TRACKING_PARAM, PAGE, comparable, PATH_ENCODE, LONE_SURROGATE, formEncode, formDecode,
     canonicalUrl, ISO_INSTANT, validInstant, SOURCE_CHANNELS, TIPI, AMBITI, LIVELLI, GENERI, AGGIORNAMENTI, romeDay,
-    validDay, prepareRecord, prepareFile, checkSchede, withRecord, normKey };
+    validDay, prepareRecord, prepareFile, prepareFiles, checkSchede, withRecord, normKey };
   return;
 }
 
@@ -331,9 +349,10 @@ if (typeof $input === 'undefined') {
  * an item that does not read fails, it is never given a guessed result. */
 const stage = $json.stage;
 if (stage === 'prepare') {
-  $json.records = ($json.files || []).flatMap(prepareFile);
+  $json.records = prepareFiles($json.files);
 } else if (stage === 'check_schede') {
-  $json.check = checkSchede($json.risposta, $json.record);
+  const check = checkSchede($json.risposta, $json.record);
+  $json.check = check.ok ? { ok: true, schede: check.schede.map((s) => withRecord(s, $json.record, check.schede.length)) } : check;
 } else {
   throw new Error(`stage_unknown: ${stage}`);
 }
