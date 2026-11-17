@@ -160,9 +160,7 @@ const I0 = '20261111T080000Z';
   check('T-B-R1-02 …and preparing the files again gives the same', g.prepareFiles([{ name: files[0].name, records: all.slice(0, 2) },
     { name: files[1].name, records: all.slice(2) }]), all);
   const reversed = g.prepareFiles(files.slice().reverse());
-  check('T-B-R1-02 …whatever the order of the list of files: the first in reading order stays', reversed.map((x) => [x.inizio, x.index, x.stato]),
-    [['20261111T090000Z', 0, 'fermo'], ['20261111T080000Z', 0, 'pronto'], ['20261111T080000Z', 1, 'pronto']]);
-  check('T-B-R1-02 …and names the same first one', reversed[0].primo, { inizio: '20261111T080000Z', index: 0 });
+  check('T-B-R1-02 …whatever the order of the list of files: the same records, in reading order', reversed, all);
   check('T-B-R1-02 a missing list of files fails', thrown(() => g.prepareFiles(undefined)), 'files_missing');
   check('T-B-R1-02 …an empty one is no work', g.prepareFiles([]), []);
 }
