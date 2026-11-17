@@ -161,6 +161,9 @@ const I0 = '20261111T080000Z';
     { name: files[1].name, records: all.slice(2) }]), all);
   const reversed = g.prepareFiles(files.slice().reverse());
   check('T-B-R1-02 …whatever the order of the list of files: the same records, in reading order', reversed, all);
+  const bad = g.prepareRecord(null, I0, 3);
+  check('T-B-R1-02 a record that is not an object stops, and preparing it again gives the same', [bad.motivo, g.prepareRecord(bad, I0, 3)],
+    ['record_illeggibile', bad]);
   check('T-B-R1-02 a missing list of files fails', thrown(() => g.prepareFiles(undefined)), 'files_missing');
   check('T-B-R1-02 …an empty one is no work', g.prepareFiles([]), []);
 }

@@ -177,7 +177,9 @@ const RIGHE = /^notizie_righe_(\d{8}T\d{6}Z)\.json$/;
  *  stops (`fermo`) with its motive, never guessed. Preparing a prepared record gives the same. */
 function prepareRecord(record, inizio, index) {
   const base = { inizio, index };
-  if (!record || typeof record !== 'object' || Array.isArray(record)) return Object.assign(base, { stato: 'fermo', motivo: 'record_illeggibile' });
+  const unreadable = !record || typeof record !== 'object' || Array.isArray(record)
+    || (record.stato === 'fermo' && record.motivo === 'record_illeggibile' && !has(record, 'url'));
+  if (unreadable) return Object.assign(base, { stato: 'fermo', motivo: 'record_illeggibile' });
   const stop = (motivo, extra) => Object.assign({}, record, base, extra || {}, { stato: 'fermo', motivo });
   let recordId;
   try { recordId = canonicalUrl(record.url); } catch (e) { return stop('url_illeggibile'); }
