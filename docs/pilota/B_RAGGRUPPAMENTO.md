@@ -1,6 +1,7 @@
 # Workstream B · Notizie: il raggruppamento dei record in fatti
 
-Stato: progetto, 15 novembre 2026, rivisto il 16. Nessun codice: arriva con le PR della sezione 9.
+Stato: progetto, 15 novembre 2026, rivisto il 16. Il 17 l'owner ha preso le scelte 1, 2 e 3 (sezione 10);
+B-R1 (`code-nodes/news-group.js`, sezione 9) porta i passi 1, 3 e 5.
 Le regole stanno altrove e qui si rimanda: elemento, identità, capofila e pubblicabilità in
 `docs/pilota/CONTRATTI.md`, sezione 7, «B · Notizie»; le regole della cronaca in DEC-034 (R-C01,
 R-C02, R-C04, R-C06, R-C08) e DEC-108; la fase 3, P-03 e P-09 in
@@ -368,7 +369,7 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 
 | PR | Che cosa | Modello |
 |---|---|---|
-| B-R1 | `code-nodes/news-group.js` con `tests/test_news_group.js`: i passi 1, 3 e 5, il controllo delle risposte, e sopra a `news-fact.js` se il raggruppamento lascia pubblicare un fatto e l'elenco dei dubbi del giorno (scelta 3) | no |
+| B-R1 | `code-nodes/news-group.js` con `tests/test_news_group.js`: i passi 1, 3 e 5, il controllo delle risposte, e sopra a `news-fact.js` se il raggruppamento lascia pubblicare un fatto e l'elenco dei dubbi del giorno (scelta 3). In tre PR, perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4): B-R1a il passo 1 e il controllo delle schede; B-R1b i confronti, i candidati e il controllo dei giudizi; B-R1c il passo 5, la corsa e la pubblicazione | no |
 | contratti | del coordinatore: le righe di CONTRATTI che B-R2 usa (sezione 11). Viene prima di B-R2 | |
 | B-R2 | i due prompt, il flusso della prova (esportato in `workflows/`), le Data table; la prova della sezione 8; l'avvio in esercizio (sezione 6) solo dopo la prova | sì, in staging |
 | dopo | i dubbi nella coda (scelta 3), poi geografia, filtro, scrittura e verifica | |
@@ -382,19 +383,21 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
    la trova simile a un fatto della stampa o se la lista dei suoi candidati è tagliata, cioè quasi
    sempre (sezione 5, «Dubbio» e «La lista tagliata»); e i suoi fatti senza data, quando le liste
    sono piene, mandano in dubbio anche le schede della stampa dei giorni vicini. Il builder consiglia
-   sì.
+   sì. **Scelta presa dall'owner il 17 novembre 2026: sì.**
 2. **Quando due notizie si fondono da sole.** La prova di giugno aveva due regole «certa»: due
    dettagli concordi fra comunicati e testate (`ISTRUZIONI_AVANTI.md`), uno solo per i titoli delle
    testate chiuse (`ISTRUZIONI_CHIUSE.md`), con circa un abbinamento debole su dieci (`CRONACA_PROCESSO`,
    sezione 4.6). Più fusioni automatiche vogliono una decisione dell'owner, come per gli eventi
    (DEC-025, regola 4). Il builder consiglia due dettagli, con le soglie della sezione 8, e di
-   rivederla dopo la prova.
+   rivederla dopo la prova. **Scelta presa dall'owner il 17 novembre 2026: due dettagli, da rivedere
+   dopo la prova** (`REGOLE` in `news-group.js`).
 3. **Che cosa diventa un dubbio quando si pubblicherà:** (a) una riga nella coda, con due decisioni
    nuove («stesso fatto di …», «fatto diverso») e un ritmo quotidiano per le notizie, che la coda oggi
    non ha (DEC-034, «Blocks»; `docs/REVIEW_QUEUE.md`); oppure (b) un fatto in dubbio, anche ufficiale, non si
    pubblica e compare in un elenco del giorno, e nessuno lo scioglie: anche un aggiornamento finito in
    dubbio resta staccato dal suo fatto (sezione 5). Per la prova non serve. Il builder consiglia (b)
-   per il pilota privato e (a) prima del lancio.
+   per il pilota privato e (a) prima del lancio. **Scelta presa dall'owner il 17 novembre 2026: (b) per il
+   pilota privato.** Che cosa vale prima del lancio resta aperto.
 4. **Quale indice delle testate chiuse, e a che costo.** DEC-108 le ammette come solo titolo, link e
    ora presi da un indice terzo, e le conta come secondo editore; quale indice e con quale spesa è
    ancora da decidere (`CRONACA_PROCESSO_2026-10.md`, sezione 7, punto 4). Senza, saranno pubblicabili
