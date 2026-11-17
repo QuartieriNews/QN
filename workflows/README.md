@@ -77,9 +77,9 @@ calls after it for the 120 minutes of the rule. A long call may answer after its
 up: its outcome is still in `scritture/`. The listing of `C Eventi/` reads the whole folder, so its
 time grows with the archive that the folder keeps; reading only the names of the call, in batches,
 changes the flow and is not done yet. Both were saved in n8n on 16 November 2026, with the
-workflows off, and n8n kept every node and setting; since then the review has changed the code of
-the four Code nodes, so n8n holds the earlier code until they are saved again from this export,
-before the first trial. Not yet tried in n8n, with the workflows off: that the listing returns `md5Checksum` (without
+workflows off, and n8n kept every node and setting; the four Code nodes were saved again from these
+exports on 17 November 2026, still off, and n8n read back gives these exports node for node. Not
+yet tried in n8n, with the workflows off: that the listing returns `md5Checksum` (without
 it a file is updated, never duplicated), what the error outputs carry, whether a reading with both
 a retry and an error output is retried before it takes the error output, that a failed
 «Prenotazioni» gives only its error item although it keeps `alwaysOutputData`, the merge of five
