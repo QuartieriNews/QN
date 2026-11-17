@@ -1,10 +1,11 @@
 /**
- * news-group.js — workstream B: which records tell the same fact. This part carries steps 1 and
- * 3 of docs/pilota/B_RAGGRUPPAMENTO.md (preparation, candidates) and the check of the model's
- * answers of steps 2 and 4; step 5 and what the grouping adds to news-fact.js come with the last
- * part of B-R1 (section 9). The rules are in that document, sections 2, 3, 5 and 6, and in
- * docs/pilota/CONTRATTI.md, section 7 («B · Notizie»); this file does not restate them.
- * The model reads and proposes, this code decides (section 4).
+ * news-group.js — workstream B: which records tell the same fact. Steps 1, 3 and 5 of
+ * docs/pilota/B_RAGGRUPPAMENTO.md (preparation, candidates, verification and place), the
+ * check of the model's answers of steps 2 and 4, and on top of news-fact.js whether the
+ * grouping lets a fact be published and the day's list of doubts (owner choice 3(b)). The
+ * rules are in that document, sections 3, 5 and 6, and in docs/pilota/CONTRATTI.md, section 7
+ * («B · Notizie»); this file does not restate them. The model reads and proposes, this code
+ * decides (section 4).
  *
  * Three tables of this file are builder proposals that the document asks for without fixing
  * them (section 5): the families of `tipo` (FAMIGLIE), the cap of 10 candidates and the three
@@ -570,14 +571,258 @@ function checkGiudizio(risposta, lista) {
   return { ok: true, giudizi };
 }
 
+/* ----- step 5: verification and place --------------------------------------- */
+
+const STATI = ['aperto', 'in_dubbio', 'unito'];
+const RUOLI = ['apre', 'stesso_fatto', 'aggiornamento'];
+/** The motives of a doubt (B_RAGGRUPPAMENTO.md, section 3, «I dubbi»). */
+const MOTIVI = ['prove', 'forse', 'nomi', 'certa', 'risposta', 'lista_tagliata', 'aggiornamento_senza_fatto'];
+
+/** The two rules for «Certa» (section 5; the comparison rule of section 8, point 2). `dettagli`
+ *  is owner choice 2 for the rule in use, none for the comparison rule. */
+const REGOLE = Object.freeze({
+  esercizio: Object.freeze({ livelli: ['via', 'luogo'], dettagli: 2 }),
+  confronto: Object.freeze({ livelli: ['via', 'luogo', 'quartiere'], dettagli: 0 }),
+});
+/** Section 6: runs that sent a call before a missing answer stops the work; answers missed in a
+ *  row before steps 2 and 4 stop. */
+const TENTATIVI = 3;
+const MANCATE_DI_FILA = 5;
+
+/** The reading order (section 5, «L'ordine di lettura»): file, then record in the file. */
+function readingOrder(a, b) {
+  return a.inizio < b.inizio ? -1 : a.inizio > b.inizio ? 1 : a.index - b.index;
+}
+
+/** Whether the proof of a `stesso` holds (section 5, «Certa»): the cited scheda is one the model
+ *  saw, of the same family, with the cited place at a level of the rule in both schede, every
+ *  cited detail in both, enough of them, and the dates in place. A cited thing that is not there
+ *  makes the proof fail: the code checks that the proof is there, not that the model is right. */
+function proofHolds(s, cited, prove, regola) {
+  const rule = REGOLE[regola];
+  if (!cited || !sameFamily(s.tipo, cited.tipo)) return false;
+  if (!prove.luogo) return false;
+  const place = normKey(prove.luogo);
+  if (place === '' || !sharedPlaces(s, cited, rule.livelli).includes(place)) return false;
+  const shared = new Set(sharedDetails(s, cited));
+  const keys = [...new Set(prove.dettagli.map(detailKey))];
+  if (keys.some((k) => !shared.has(k))) return false;
+  if (keys.length < rule.dettagli) return false;
+  return datesInPlace(s, cited);
+}
+
+/** Step 5 for one scheda: join a fact, open one, or open one in doubt (section 5, «Certa»,
+ *  «Dubbio», «La lista tagliata», «Un aggiornamento che non trova il suo fatto», «Diverso»).
+ *  `giudizio` is the checked judgment, `{ mancato: true }` after the runs of section 6, or null
+ *  for a list without candidates. */
+function decide(s, lista, giudizio, facts, regola) {
+  if (!has(REGOLE, regola)) throw new Error('regola_unknown');
+  const byId = new Map(facts.map((f) => [f.content_id, f]));
+  const doubt = (motivi) => ({ azione: 'apri', stato: 'in_dubbio', motivi });
+  const noMatch = () => {
+    if (s.aggiornamento) return doubt([{ content_id: null, motivo: lista.tagliata ? 'lista_tagliata' : 'aggiornamento_senza_fatto' }]);
+    if (lista.tagliata) return doubt([{ content_id: null, motivo: 'lista_tagliata' }]);
+    return { azione: 'apri', stato: 'aperto', motivi: [] };
+  };
+  if (lista.candidati.length === 0) return noMatch();
+  if (!giudizio) throw new Error('giudizio_missing');
+  if (giudizio.mancato) return doubt(lista.candidati.map((c) => ({ content_id: c.content_id, motivo: 'risposta' })));
+  const certain = [];
+  const doubts = [];
+  for (const c of lista.candidati) {
+    const g = giudizio.giudizi[c.content_id];
+    if (!g) throw new Error('giudizio_incomplete');
+    if (g.verdetto === 'diverso') continue;
+    if (g.verdetto === 'forse') { doubts.push({ content_id: c.content_id, motivo: 'forse' }); continue; }
+    const cited = c.mostrate.find((t) => t.scheda_id === g.prove.scheda_id);
+    if (!proofHolds(s, cited, g.prove, regola)) { doubts.push({ content_id: c.content_id, motivo: 'prove' }); continue; }
+    const fact = byId.get(c.content_id);
+    if (s.fa_nomi && fact.schede.some((t) => t.fa_nomi)) { doubts.push({ content_id: c.content_id, motivo: 'nomi' }); continue; }
+    certain.push(c.content_id);
+  }
+  if (certain.length === 1 && doubts.length === 0) {
+    return { azione: 'unisci', content_id: certain[0], ruolo: s.aggiornamento ? 'aggiornamento' : 'stesso_fatto', motivi: [] };
+  }
+  if (certain.length + doubts.length === 0) return noMatch();
+  // A bridge: certain with one fact and anything but `diverso` with another, or certain with two.
+  return doubt([...certain.map((id) => ({ content_id: id, motivo: 'certa' })), ...doubts]
+    .sort((a, b) => (a.content_id < b.content_id ? -1 : a.content_id > b.content_id ? 1 : 0)));
+}
+
+/** Writes a decision into the facts (a new array; the input is not touched). `now` is the
+ *  instant of the first write of a new fact (`aperto_il`), which never changes; a run writes its
+ *  facts one after the other, `seq` milliseconds after its start, so the older fact is the one
+ *  opened first in reading order (section 5, «Due fatti che diventano uno»). */
+function applyDecision(facts, s, decision, now, regola, seq) {
+  if (!validInstant(now)) throw new Error('now_invalid');
+  const out = facts.slice();
+  const placed = Object.assign({}, s);
+  if (decision.azione === 'unisci') {
+    const i = out.findIndex((f) => f.content_id === decision.content_id);
+    if (i < 0) throw new Error('fact_missing');
+    placed.ruolo = decision.ruolo;
+    out[i] = Object.assign({}, out[i], { schede: [...out[i].schede, placed] });
+    return out;
+  }
+  const id = factId(s);
+  if (out.some((f) => f.content_id === id)) throw new Error(`content_id_taken: ${id}`);
+  placed.ruolo = 'apre';
+  const inDoubt = decision.stato === 'in_dubbio';
+  out.push({
+    content_id: id,
+    aperto_il: new Date(Date.parse(now) + (Number.isSafeInteger(seq) && seq > 0 ? seq : 0)).toISOString(),
+    stato: decision.stato,
+    regola,
+    schede: [placed],
+    dubbio: inDoubt ? { candidati: decision.motivi.map((m) => m.content_id).filter(Boolean), motivi: decision.motivi } : null,
+    quality: { review_flags: inDoubt ? ['duplicate_doubt'] : [], requires_review: inDoubt },
+  });
+  return out;
+}
+
+/* ----- section 6: answers that do not come --------------------------------- */
+
+/** One more run that sent a call and got no answer, or one out of form: after TENTATIVI the
+ *  record stops (step 2) or the scheda goes in doubt (step 4). */
+function missedAnswer(tentativi) {
+  const n = (Number.isSafeInteger(tentativi) && tentativi > 0 ? tentativi : 0) + 1;
+  return { tentativi: n, esito: n >= TENTATIVI ? 'ferma' : 'riprova' };
+}
+
+/** Whether answers missed in a row stop steps 2 and 4, with the alert. */
+function stepsHalted(mancateDiFila) {
+  return Number.isSafeInteger(mancateDiFila) && mancateDiFila >= MANCATE_DI_FILA;
+}
+
+/* ----- a run: the schede take their place ----------------------------------- */
+
+/** The schede take their place in reading order, up to the first work that still waits for
+ *  an answer of the model (section 5, «L'ordine di lettura»; section 6).
+ *  - `records`: prepared records of the files with pending work;
+ *  - `schede`: by `record_id`, the saved answer (`{ risposta }`) or `{ fermo: true, motivo }`;
+ *  - `giudizi`: by `scheda_id`, the saved judgments, each `{ lista, risposta }` (the key of the
+ *    list it answers) or `{ lista, mancato: true }`: one or a list of them, because the two rules
+ *    of the trial may ask one scheda about different lists (sections 7 and 8);
+ *  - `facts`: the table of facts of this rule; `now`; `regola`: `esercizio` or `confronto`.
+ *  A record restarted by hand (`ripartito: true`) takes its place out of order and holds no one.
+ *  Returns the facts, the places taken, the requests for the model and the bookmark: the oldest
+ *  file with pending work (stopped records do not count). */
+function placeAll({ records, schede, giudizi, facts, now, regola }) {
+  if (!Array.isArray(records) || !Array.isArray(facts)) throw new Error('input_invalid');
+  if (!has(REGOLE, regola)) throw new Error('regola_unknown');
+  const savedSchede = schede || {};
+  const savedGiudizi = giudizi || {};
+  let table = facts.slice();
+  const placedIds = new Set(table.flatMap((f) => f.schede.map((t) => t.scheda_id)));
+  const ordered = records.slice().sort(readingOrder);
+  const posti = [];
+  const fermi = [];
+  const richiesteSchede = [];
+  let richiestaGiudizio = null;
+  let blocked = false;
+  let segnalibro = null;
+  let opened = 0;
+  const pending = (r) => { if (segnalibro === null || r.inizio < segnalibro) segnalibro = r.inizio; };
+  for (const r of ordered) {
+    if (r.stato !== 'pronto') { fermi.push({ record_id: r.record_id || null, inizio: r.inizio, index: r.index, motivo: r.motivo }); continue; }
+    const saved = has(savedSchede, r.record_id) ? savedSchede[r.record_id] : null;
+    if (saved && saved.fermo) { fermi.push({ record_id: r.record_id, inizio: r.inizio, index: r.index, motivo: saved.motivo || 'fermo' }); continue; }
+    if (!saved) {
+      richiesteSchede.push(r.record_id);
+      pending(r);
+      if (!r.ripartito) blocked = true;
+      continue;
+    }
+    const check = checkSchede(saved.risposta, r);
+    if (!check.ok) throw new Error(`saved_schede_invalid: ${r.record_id} ${check.motivo}`);
+    const mine = check.schede.map((s) => withRecord(s, r, check.schede.length));
+    const open = mine.filter((s) => s.ambito === 'cronaca' && !placedIds.has(s.scheda_id));
+    if (open.length === 0) continue;
+    if (blocked && !r.ripartito) { pending(r); continue; }
+    for (const s of open) {
+      const lista = candidates(s, table);
+      let giudizio = null;
+      if (lista.candidati.length > 0) {
+        const key = listKey(lista);
+        const mineSaved = has(savedGiudizi, s.scheda_id) ? [].concat(savedGiudizi[s.scheda_id]) : [];
+        const g = mineSaved.find((x) => x && x.lista === key) || null;
+        if (!g) {
+          if (richiestaGiudizio === null) richiestaGiudizio = { scheda_id: s.scheda_id, scheda: s, lista, lista_key: key };
+          pending(r);
+          if (!r.ripartito) blocked = true;
+          break;
+        }
+        if (g.mancato) {
+          giudizio = { mancato: true };
+        } else {
+          const c = checkGiudizio(g.risposta, lista);
+          if (!c.ok) throw new Error(`saved_giudizio_invalid: ${s.scheda_id} ${c.motivo}`);
+          giudizio = c;
+        }
+      }
+      const decision = decide(s, lista, giudizio, table, regola);
+      table = applyDecision(table, s, decision, now, regola, opened);
+      if (decision.azione === 'apri') opened += 1;
+      placedIds.add(s.scheda_id);
+      posti.push({ scheda_id: s.scheda_id, azione: decision.azione, content_id: decision.azione === 'unisci' ? decision.content_id : factId(s),
+        stato: decision.stato || null, motivi: decision.motivi, tagliata: lista.tagliata, esclusi: lista.esclusi });
+    }
+  }
+  return { facts: table, posti, fermi, richieste_schede: richiesteSchede, richiesta_giudizio: richiestaGiudizio, segnalibro };
+}
+
+/* ----- on top of news-fact.js: publication and the day's doubts ------------ */
+
+/** The records of a fact in the form news-fact.js reads, each with its scheda and role. */
+function factRecords(fact) {
+  return fact.schede.map((t) => ({ source_id: t.source_id, url: t.url, source_channel: t.source_channel,
+    published_at_utc: t.published_at_utc, agency: t.agency, categories: t.categories, scheda_id: t.scheda_id, ruolo: t.ruolo }));
+}
+
+/** Whether the grouping lets a fact be published, given what news-fact.js says of its sources
+ *  (`pubblicazione`): never a fact in doubt or merged (owner choice 3(b)), never a fact of the
+ *  comparison rule (section 8, point 2). */
+function groupingAllows(fact, pubblicazione) {
+  if (!fact || !STATI.includes(fact.stato)) throw new Error('fact_invalid');
+  if (fact.regola !== 'esercizio') return { pubblicabile: false, motivo: 'regola_confronto' };
+  if (fact.stato === 'in_dubbio') return { pubblicabile: false, motivo: 'in_dubbio' };
+  if (fact.stato === 'unito') return { pubblicabile: false, motivo: 'unito' };
+  if (!pubblicazione || pubblicazione.pubblicabile !== true) return { pubblicabile: false, motivo: 'fonti' };
+  return { pubblicabile: true, motivo: null };
+}
+
+/** The day's list of doubts (owner choice 3(b)): the facts of the rule in use opened in doubt
+ *  on that day of Rome, with their motives and candidates, without texts. Nobody resolves them. */
+function doubtsOfDay(facts, day) {
+  if (!validDay(day)) throw new Error('day_invalid');
+  return facts
+    .filter((f) => f.regola === 'esercizio' && f.stato === 'in_dubbio' && romeDay(f.aperto_il) === day)
+    .sort((a, b) => (a.aperto_il < b.aperto_il ? -1 : a.aperto_il > b.aperto_il ? 1 : a.content_id < b.content_id ? -1 : 1))
+    .map((f) => ({ content_id: f.content_id, aperto_il: f.aperto_il, motivi: f.dubbio.motivi, candidati: f.dubbio.candidati,
+      record: f.schede.map((t) => t.url) }));
+}
+
+/** Counts for the report of the trial (section 8, point 2), numbers only. */
+function counts(facts) {
+  const out = { fatti: 0, schede: 0, stati: {}, motivi: {}, ruoli: {} };
+  for (const f of facts) {
+    out.fatti += 1;
+    out.stati[f.stato] = (out.stati[f.stato] || 0) + 1;
+    for (const t of f.schede) { out.schede += 1; out.ruoli[t.ruolo] = (out.ruoli[t.ruolo] || 0) + 1; }
+    if (f.dubbio) for (const m of f.dubbio.motivi) out.motivi[m.motivo] = (out.motivi[m.motivo] || 0) + 1;
+  }
+  return out;
+}
+
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
-  module.exports = { TRACKING_PARAM, PAGE, comparable, PATH_ENCODE, LONE_SURROGATE, formEncode, formDecode,
-    canonicalUrl, sha256, newsIdentity, ISO_INSTANT, validInstant, SOURCE_CHANNELS, TIPI, FAMIGLIE, AMBITI, LIVELLI,
-    GENERI, AGGIORNAMENTI, VERDETTI, FINESTRA_FATTO, FINESTRA_PUBBLICAZIONE, MAX_CANDIDATI, SCHEDE_MOSTRATE, romeDay,
-    validDay, undatedFact, inLimit, prepareRecord, prepareFile, checkSchede, withRecord, factId, normKey, sameFamily,
-    detailKey, sharedPlaces, sharedDetails, sameThings, dateWindow, datesInPlace, candidates, listKey, checkGiudizio };
+  module.exports = { TRACKING_PARAM, PAGE, comparable, PATH_ENCODE, LONE_SURROGATE, formEncode, formDecode, canonicalUrl, sha256, newsIdentity,
+    ISO_INSTANT, validInstant, SOURCE_CHANNELS, TIPI, FAMIGLIE, AMBITI, LIVELLI, GENERI, AGGIORNAMENTI, VERDETTI, STATI, RUOLI,
+    MOTIVI, REGOLE, FINESTRA_FATTO, FINESTRA_PUBBLICAZIONE, MAX_CANDIDATI, SCHEDE_MOSTRATE, TENTATIVI, MANCATE_DI_FILA,
+    romeDay, validDay, undatedFact, inLimit, prepareRecord, prepareFile, readingOrder, checkSchede, withRecord, factId, normKey, sameFamily,
+    detailKey, sharedPlaces, sharedDetails, sameThings, dateWindow, datesInPlace, candidates, listKey, checkGiudizio,
+    proofHolds, decide, applyDecision, missedAnswer, stepsHalted, placeAll, factRecords, groupingAllows, doubtsOfDay, counts };
   return;
 }
 
@@ -590,6 +835,13 @@ if (stage === 'prepare') {
   $json.check = checkSchede($json.risposta, $json.record);
 } else if (stage === 'check_giudizio') {
   $json.check = checkGiudizio($json.risposta, $json.lista);
+} else if (stage === 'place') {
+  $json.result = placeAll({ records: $json.records, schede: $json.schede, giudizi: $json.giudizi, facts: $json.facts,
+    now: $json.now, regola: $json.regola });
+} else if (stage === 'publication') {
+  $json.raggruppamento = groupingAllows($json.fact, $json.pubblicazione);
+} else if (stage === 'doubts') {
+  $json.dubbi = doubtsOfDay($json.facts, $json.day);
 } else {
   throw new Error(`stage_unknown: ${stage}`);
 }
