@@ -226,15 +226,23 @@ function prepareFile({ name, records }) {
 }
 
 /** Step 1 for every file with pending work (section 2). A record whose id is already prepared
- *  in these files, the same page with its query written otherwise, stops (`record_ripetuto`,
- *  with the first one): one record id has one set of schede (section 3). */
+ *  earlier in the reading order (file `<inizio>`, then place in the file: section 5), the same
+ *  page with its query written otherwise, stops (`record_ripetuto`, with the first one): one
+ *  record id has one set of schede (section 3), whatever the order of the list of files. */
 function prepareFiles(files) {
   if (!Array.isArray(files)) throw new Error('files_missing');
+  const prepared = files.flatMap(prepareFile);
+  const before = (a, b) => a.inizio < b.inizio || (a.inizio === b.inizio && a.index < b.index);
   const first = new Map();
-  return files.flatMap(prepareFile).map((r) => {
+  for (const r of prepared) {
+    if (r.stato !== 'pronto') continue;
+    const seen = first.get(r.record_id);
+    if (!seen || before(r, seen)) first.set(r.record_id, r);
+  }
+  return prepared.map((r) => {
     if (r.stato !== 'pronto') return r;
     const seen = first.get(r.record_id);
-    if (!seen) { first.set(r.record_id, r); return r; }
+    if (seen === r) return r;
     return Object.assign({}, r, { stato: 'fermo', motivo: 'record_ripetuto', primo: { inizio: seen.inizio, index: seen.index } });
   });
 }
