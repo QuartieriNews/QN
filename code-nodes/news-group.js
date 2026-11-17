@@ -1,12 +1,16 @@
 /**
- * news-group.js — workstream B: which records tell the same fact. This part carries step 1 of
- * docs/pilota/B_RAGGRUPPAMENTO.md (preparation) and the check of the model's answer of step 2;
- * steps 3 to 5, the check of step 4 and what the grouping adds to news-fact.js come with the
- * next parts of B-R1 (section 9). The rules are in that document, sections 2, 3 and 6, and in
+ * news-group.js — workstream B: which records tell the same fact. This part carries steps 1 and
+ * 3 of docs/pilota/B_RAGGRUPPAMENTO.md (preparation, candidates) and the check of the model's
+ * answers of steps 2 and 4; step 5 and what the grouping adds to news-fact.js come with the last
+ * part of B-R1 (section 9). The rules are in that document, sections 2, 3, 5 and 6, and in
  * docs/pilota/CONTRATTI.md, section 7 («B · Notizie»); this file does not restate them.
  * The model reads and proposes, this code decides (section 4).
  *
- * The canonical URL and `validInstant` are copies of
+ * Three tables of this file are builder proposals that the document asks for without fixing
+ * them (section 5): the families of `tipo` (FAMIGLIE), the cap of 10 candidates and the three
+ * schede shown per candidate. Each has its test in tests/test_news_group.js.
+ *
+ * The identity code (canonical URL, content_id) and `validInstant` are copies of
  * news-identity.js and news-fact.js, because an n8n Code node cannot require another file;
  * tests/test_news_group.js keeps them byte-equal.
  *
@@ -318,12 +322,262 @@ function withRecord(s, record, total) {
   }, s);
 }
 
+/* ----- comparisons ---------------------------------------------------------- */
+
+/** The families of `tipo` (builder proposal, B_RAGGRUPPAMENTO.md section 5, «Candidati»): two
+ *  types are of the same family when one group holds both. The groups overlap, because an
+ *  official release says «arresto» where the press names the offence. `altro` is only its own
+ *  family: a fact the model could not type is never certain with a typed one. */
+const FAMIGLIE = Object.freeze({
+  patrimonio: ['furto', 'rapina', 'truffa', 'arresto'],
+  persona: ['aggressione', 'rapina', 'morte', 'arresto'],
+  droga: ['droga', 'sequestro', 'controlli', 'arresto'],
+  strada: ['incidente', 'soccorso', 'morte'],
+  fuoco: ['incendio', 'soccorso', 'morte'],
+  ordine: ['sgombero', 'controlli', 'sequestro', 'arresto'],
+});
+const VERDETTI = ['stesso', 'forse', 'diverso'];
+
+/** Candidate search: days around the fact (P-09), days between publications (section 5). */
+const FINESTRA_FATTO = 3;
+const FINESTRA_PUBBLICAZIONE = 7;
+/** Builder proposals of section 5: candidates per scheda, schede shown per candidate. */
+const MAX_CANDIDATI = 10;
+const SCHEDE_MOSTRATE = 3;
+
+/** A day as a number of days, for distances between days. */
+function dayNumber(day) {
+  const m = ISO_DAY.exec(day);
+  return Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])) / 86400000;
+}
+
+
+function sameFamily(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  return Object.values(FAMIGLIE).some((g) => g.includes(a) && g.includes(b));
+}
+
+/** The key of a detail: `oggetto` and `mezzo` are one kind (section 3). */
+function detailKey(d) {
+  const kind = d.genere === 'mezzo' ? 'oggetto' : d.genere;
+  return `${kind}:${typeof d.valore === 'number' ? String(d.valore) : normKey(d.valore)}`;
+}
+
+/** The places of two schede that are the same, at the given levels: normalized texts. */
+function sharedPlaces(a, b, livelli) {
+  const keys = (s) => s.luoghi.filter((l) => livelli.includes(l.livello)).map((l) => normKey(l.testo)).filter((k) => k !== '');
+  const mine = new Set(keys(a));
+  return [...new Set(keys(b))].filter((k) => mine.has(k));
+}
+
+function sharedDetails(a, b) {
+  const keys = (s) => s.dettagli.map(detailKey).filter((k) => !k.endsWith(':'));
+  const mine = new Set(keys(a));
+  return [...new Set(keys(b))].filter((k) => mine.has(k));
+}
+
+/** What the code can already compare (section 5): the same place at `via` or `luogo` counts
+ *  one, each equal detail one. */
+function sameThings(a, b) {
+  return (sharedPlaces(a, b, ['via', 'luogo']).length ? 1 : 0) + sharedDetails(a, b).length;
+}
+
+/** The publication day of a scheda in the date search: none for an update (R-C08). */
+const pubDay = (s) => (s.aggiornamento ? null : s.giorno);
+const pubClean = (s) => !s.giorno_da_retrieved;
+const within = (x, y, n) => Math.abs(dayNumber(x) - dayNumber(y)) <= n;
+
+/** The date search of section 5 for one pair: `any` when the window holds, `clean` when it holds
+ *  without a day taken from `retrieved_at`. */
+function dateWindow(a, b) {
+  if (a.data_fatto && b.data_fatto) {
+    const ok = within(a.data_fatto, b.data_fatto, FINESTRA_FATTO);
+    return { any: ok, clean: ok };
+  }
+  let any = false;
+  let clean = false;
+  const note = (ok, isClean) => { if (ok) { any = true; if (isClean) clean = true; } };
+  const pa = pubDay(a);
+  const pb = pubDay(b);
+  if (pa && pb) note(within(pa, pb, FINESTRA_PUBBLICAZIONE), pubClean(a) && pubClean(b));
+  if (a.data_fatto && pb) note(within(a.data_fatto, pb, FINESTRA_PUBBLICAZIONE), pubClean(b));
+  if (b.data_fatto && pa) note(within(b.data_fatto, pa, FINESTRA_PUBBLICAZIONE), pubClean(a));
+  return { any, clean };
+}
+
+/** «Le date a posto» of section 5, «Certa», for the incoming scheda `s` and the cited one `t`:
+ *  the date window without days from `retrieved_at`, or an update without the day of its fact
+ *  whose cited scheda comes before it. */
+function datesInPlace(s, t) {
+  if (dateWindow(s, t).clean) return true;
+  if (!s.aggiornamento || s.data_fatto || s.giorno_da_retrieved) return false;
+  if (t.data_fatto) return t.data_fatto <= s.giorno;
+  if (t.aggiornamento || t.giorno_da_retrieved) return false;
+  return t.giorno <= s.giorno;
+}
+
+/** The day of a scheda for «i più vicini per data»: the day of the fact, else its publication. */
+const refDay = (s) => s.data_fatto || pubDay(s);
+
+/* ----- step 3: candidates --------------------------------------------------- */
+
+/* The identity of a fact: copies of news-identity.js, kept byte-equal by the tests. */
+const crypto = require('crypto');
+
+const sha256 = (text) => crypto.createHash('sha256').update(text, 'utf8').digest('hex');
+
+/** CONTRATTI.md section 7 (B): one fact, one id. `fact_index` is set only when one source
+ *  record holds several facts, and then it is the fact's place in that record, from 1. */
+function newsIdentity({ opening_url, fact_index }) {
+  const key = sha256(canonicalUrl(opening_url)).slice(0, 16);
+  let suffix = '';
+  if (fact_index !== undefined && fact_index !== null) {
+    if (!Number.isSafeInteger(fact_index) || fact_index < 1) throw new Error('fact_index_invalid');
+    suffix = `-f${fact_index}`;
+  }
+  return {
+    content_id: `qn:roma:nws:${key}${suffix}`,
+    canonical_file_name: `roma__nws__${key}${suffix}.json`,
+  };
+}
+
+/** The content_id of the fact a scheda opens: `-f<n>` when its record holds more than one
+ *  scheda, fixed at the first division (CONTRATTI.md section 7 B, «Identità»). */
+function factId(scheda) {
+  return newsIdentity({ opening_url: scheda.url, fact_index: scheda.n_schede > 1 ? scheda.n : null }).content_id;
+}
+
+/** Whether a scheda looks among all the facts of the table (section 5, third way). */
+function searchesAll(s) {
+  return Boolean(s.aggiornamento) || (s.source_channel === 'news_official' && !s.data_fatto);
+}
+
+/** A fact without a date (section 5, third way): no scheda says the day of the fact, because
+ *  it was opened by a release without it or an update that does not say it. A press scheda
+ *  without the day of its fact has its day of publication, which the date search reads. */
+function undatedFact(fact) {
+  return fact.schede.every((t) => !t.data_fatto && (Boolean(t.aggiornamento) || t.source_channel === 'news_official'));
+}
+
+/** The day of the first record of a fact. */
+function firstDay(fact) {
+  return fact.schede.map((t) => t.giorno).sort()[0];
+}
+
+/** A fact without a date is «nel limite» of a scheda (section 5, «La lista tagliata»). */
+function inLimit(s, fact) {
+  const first = firstDay(fact);
+  if (s.data_fatto) return s.data_fatto <= first;
+  return dayNumber(s.giorno) - dayNumber(first) <= FINESTRA_PUBBLICAZIONE;
+}
+
+/** The schede of a candidate the model sees: the one that opened the fact and the two with more
+ *  things equal, at equal count the first by `scheda_id`. */
+function shownSchede(s, fact) {
+  const opener = fact.schede.find((t) => t.ruolo === 'apre') || fact.schede[0];
+  const others = fact.schede.filter((t) => t !== opener)
+    .map((t) => ({ t, k: sameThings(s, t) }))
+    .sort((x, y) => (y.k - x.k) || (x.t.scheda_id < y.t.scheda_id ? -1 : x.t.scheda_id > y.t.scheda_id ? 1 : 0))
+    .slice(0, SCHEDE_MOSTRATE - 1)
+    .map((x) => x.t);
+  return [opener, ...others];
+}
+
+/** Step 3 (section 5, «Candidati» and «La lista tagliata»): for one scheda of cronaca, the facts
+ *  it may be, at most MAX_CANDIDATI, each with the schede the model sees, and whether the cut
+ *  list sends the scheda in doubt (`tagliata`). Facts holding a scheda of the same record are
+ *  never candidates: the facts of one record are different facts (R-C01). */
+function candidates(s, facts) {
+  if (s.ambito !== 'cronaca') throw new Error('not_cronaca');
+  const all = searchesAll(s);
+  const found = [];
+  for (const f of facts) {
+    if (f.stato === 'unito') continue;
+    if (f.schede.some((t) => t.record_id === s.record_id)) continue;
+    const cron = f.schede.filter((t) => t.ambito === 'cronaca');
+    const fam = cron.filter((t) => sameFamily(s.tipo, t.tipo));
+    const byDate = fam.some((t) => dateWindow(s, t).any);
+    const byPlace = fam.some((t) => sharedPlaces(s, t, ['via', 'luogo']).length > 0);
+    const undated = undatedFact(f);
+    const byUndated = undated && fam.length > 0;
+    const byAll = s.aggiornamento ? cron.length > 0 : all && fam.length > 0;
+    if (!(byDate || byPlace || byUndated || byAll)) continue;
+    const pool = s.aggiornamento ? cron : fam;
+    const best = Math.max(0, ...pool.map((t) => sameThings(s, t)));
+    const maybeCertain = fam.some((t) => sharedPlaces(s, t, ['via', 'luogo']).length > 0 && datesInPlace(s, t));
+    const mine = refDay(s);
+    const dists = pool.map((t) => refDay(t)).filter((d) => d && mine).map((d) => Math.abs(dayNumber(d) - dayNumber(mine)));
+    found.push({
+      fact: f,
+      maybeCertain,
+      best,
+      tier: byDate ? 0 : fam.length > 0 ? 1 : 2,
+      dist: dists.length ? Math.min(...dists) : Infinity,
+      undated,
+      trovato: { data: byDate, luogo: byPlace, senza_data: byUndated, tutti: byAll },
+    });
+  }
+  found.sort((a, b) => (Number(b.maybeCertain) - Number(a.maybeCertain)) || (b.best - a.best) || (a.tier - b.tier) ||
+    (a.dist - b.dist) || (a.fact.content_id < b.fact.content_id ? -1 : a.fact.content_id > b.fact.content_id ? 1 : 0));
+  const kept = found.slice(0, MAX_CANDIDATI);
+  const left = found.slice(MAX_CANDIDATI);
+  const tagliata = left.some((c) => all || (c.undated && inLimit(s, c.fact)));
+  return {
+    scheda_id: s.scheda_id,
+    candidati: kept.map((c) => ({ content_id: c.fact.content_id, mostrate: shownSchede(s, c.fact), trovato: c.trovato })),
+    esclusi: left.length,
+    tagliata,
+  };
+}
+
+/** The key of a list a judgment answers: the candidates and, of each, the schede shown. A saved
+ *  judgment counts only for the same key (section 6). */
+function listKey(lista) {
+  return JSON.stringify(lista.candidati.map((c) => [c.content_id, c.mostrate.map((t) => t.scheda_id).sort()])
+    .sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0)));
+}
+
+/* ----- step 4: the check of a judgment ---------------------------------- */
+
+/** Step 4, the code's part: the model's judgment for one list, `{ ok: true, giudizi }` keyed by
+ *  content_id, or `{ ok: false, motivo }` for an answer out of form. Every candidate has one
+ *  verdict, and `stesso` carries its proof: the cited scheda, the place, the details. */
+function checkGiudizio(risposta, lista) {
+  if (!plainObject(risposta) || !Array.isArray(risposta.giudizi) || Object.keys(risposta).length !== 1) return { ok: false, motivo: 'forma' };
+  const want = new Set(lista.candidati.map((c) => c.content_id));
+  const giudizi = {};
+  for (const g of risposta.giudizi) {
+    if (!plainObject(g) || !want.has(g.content_id) || has(giudizi, g.content_id)) return { ok: false, motivo: 'candidati' };
+    if (Object.keys(g).some((k) => !['content_id', 'verdetto', 'prove'].includes(k))) return { ok: false, motivo: 'forma' };
+    if (!VERDETTI.includes(g.verdetto)) return { ok: false, motivo: 'verdetto' };
+    if (g.verdetto !== 'stesso') {
+      if (g.prove !== undefined && g.prove !== null) return { ok: false, motivo: 'prove' };
+      giudizi[g.content_id] = { verdetto: g.verdetto };
+      continue;
+    }
+    const p = g.prove;
+    if (!plainObject(p) || Object.keys(p).some((k) => !['scheda_id', 'luogo', 'dettagli'].includes(k))) return { ok: false, motivo: 'prove' };
+    if (typeof p.scheda_id !== 'string') return { ok: false, motivo: 'prove' };
+    if (p.luogo !== null && p.luogo !== undefined && !comparable(p.luogo, 120)) return { ok: false, motivo: 'prove' };
+    const det = p.dettagli === undefined || p.dettagli === null ? [] : p.dettagli;
+    if (!Array.isArray(det)) return { ok: false, motivo: 'prove' };
+    const checked = det.map(checkDetail);
+    if (checked.some((d) => d === null)) return { ok: false, motivo: 'prove' };
+    giudizi[g.content_id] = { verdetto: 'stesso', prove: { scheda_id: p.scheda_id, luogo: p.luogo || null, dettagli: checked } };
+  }
+  if (Object.keys(giudizi).length !== want.size) return { ok: false, motivo: 'candidati' };
+  return { ok: true, giudizi };
+}
+
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
 
 if (typeof $input === 'undefined') {
   module.exports = { TRACKING_PARAM, PAGE, comparable, PATH_ENCODE, LONE_SURROGATE, formEncode, formDecode,
-    canonicalUrl, ISO_INSTANT, validInstant, SOURCE_CHANNELS, TIPI, AMBITI, LIVELLI, GENERI, AGGIORNAMENTI, romeDay,
-    validDay, prepareRecord, prepareFile, checkSchede, withRecord, normKey };
+    canonicalUrl, sha256, newsIdentity, ISO_INSTANT, validInstant, SOURCE_CHANNELS, TIPI, FAMIGLIE, AMBITI, LIVELLI,
+    GENERI, AGGIORNAMENTI, VERDETTI, FINESTRA_FATTO, FINESTRA_PUBBLICAZIONE, MAX_CANDIDATI, SCHEDE_MOSTRATE, romeDay,
+    validDay, undatedFact, inLimit, prepareRecord, prepareFile, checkSchede, withRecord, factId, normKey, sameFamily,
+    detailKey, sharedPlaces, sharedDetails, sameThings, dateWindow, datesInPlace, candidates, listKey, checkGiudizio };
   return;
 }
 
@@ -334,6 +588,8 @@ if (stage === 'prepare') {
   $json.records = ($json.files || []).flatMap(prepareFile);
 } else if (stage === 'check_schede') {
   $json.check = checkSchede($json.risposta, $json.record);
+} else if (stage === 'check_giudizio') {
+  $json.check = checkGiudizio($json.risposta, $json.lista);
 } else {
   throw new Error(`stage_unknown: ${stage}`);
 }

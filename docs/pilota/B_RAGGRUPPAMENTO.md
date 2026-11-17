@@ -134,7 +134,9 @@ inventati.
       (P-03);
     - per ogni scheda, i **fatti senza data** della stessa famiglia: quelli in cui nessuna scheda
       dice il giorno del fatto, perché li ha aperti un comunicato senza la data del fatto o un
-      aggiornamento che non la dice. Un fatto così può essere avvenuto mesi prima del suo primo
+      aggiornamento che non la dice. Una scheda di stampa senza la data del fatto ha il giorno
+      della sua pubblicazione, che la ricerca per data legge: un fatto in cui ce n'è una non è
+      senza data (una proposta del builder, che legge così il «perché» qui sopra). Un fatto così può essere avvenuto mesi prima del suo primo
       record (P-03): la ricerca vale nei due versi, qualunque dei due arrivi prima.
 
   Al più 10 candidati, scelti con quello che il codice sa già confrontare, guardando di ogni fatto
@@ -142,7 +144,9 @@ inventati.
   luogo di livello `via` o `luogo` e le date a posto, anche se poi la sesta scelta li manda in
   dubbio); poi gli altri, prima quelli con più cose uguali (lo stesso luogo ne conta una, ogni
   dettaglio uguale una) e, a parità, prima quelli trovati per data, poi quelli della stessa
-  famiglia; poi i più vicini per data; infine in ordine di `content_id`.
+  famiglia; poi i più vicini per data; infine in ordine di `content_id`. Un fatto che ha già una
+  scheda dello stesso record non è mai candidato: i fatti di un record sono fatti diversi (una
+  lettura del builder da R-C01).
   Così un fatto che ha le prove non esce dalla lista per far posto a fatti solo più recenti, e i
   fatti vecchi di un luogo dove ne accadono molti non tolgono il posto a quelli dei giorni vicini.
   Di ogni candidato il modello vede al più tre schede: quella che ha aperto il fatto e le due con
