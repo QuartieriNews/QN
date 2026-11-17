@@ -64,7 +64,8 @@ own error. Any other call saves its reservation in `C Eventi/scritture/` before 
 (`prenotazione_<day>_<start>_<execution>.json`, `<day>` being the UTC day of `<start>`, with the
 names of its files and never their text), waits 5 seconds, reads the reservations again and goes on
 only when no earlier one still holds and its own still does (a call resumed more than 120 minutes
-after its reservation stops); otherwise it stops and answers 409, and a later retry is safe. The reading after 5 seconds sees the reservations Drive already lists: one saved just before
+after its reservation stops; one that pauses that long after its turn is not stopped, as Drive gives
+no fencing token); otherwise it stops and answers 409, and a later retry is safe. The reading after 5 seconds sees the reservations Drive already lists: one saved just before
 but not yet listed does not stop the call, and two calls may then write together; the
 duplicate this can leave is found by the next call that writes that name (T24). Each file is then
 looked up by its exact name (specification v2.5, phase 5.2) and created, updated or left unchanged,
@@ -73,7 +74,9 @@ after it. The answer is that outcome, a body with `status`: 200 when every file 
 unchanged, 500 when one is not, or when a reading or a step of code failed after the reservation,
 which the outcome records. A call that dies outright, or whose outcome cannot be saved, holds the
 calls after it for the 120 minutes of the rule. A long call may answer after its caller has given
-up: its outcome is still in `scritture/`. Both were saved in n8n on 16 November 2026, with the
+up: its outcome is still in `scritture/`. The listing of `C Eventi/` reads the whole folder, so its
+time grows with the archive that the folder keeps; reading only the names of the call, in batches,
+changes the flow and is not done yet. Both were saved in n8n on 16 November 2026, with the
 workflows off, and n8n kept every node and setting; since then the review has changed the code of
 the four Code nodes, so n8n holds the earlier code until they are saved again from this export,
 before the first trial. Not yet tried in n8n, with the workflows off: that the listing returns `md5Checksum` (without

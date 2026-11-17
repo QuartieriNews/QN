@@ -77,7 +77,11 @@ const NOW_T = '2026-11-16T09:00:10.000Z';
   const old = { id: 'idOld', name: 'prenotazione_2026-11-16_20261116T060000Z_499.json', createdTime: '2026-11-16T07:00:01.000Z' };
   const mine = { id: 'idM', name: 'prenotazione_2026-11-16_20261116T090001Z_510.json', createdTime: '2026-11-16T09:00:01.000Z' };
   check('T28: a reservation without outcome holds no more after 120 minutes, and is named stale', m.turn({ now: NOW_T, reservations: [old, mine], mine: 'idM' }), { holds: true, busy: [], stale: [old.name], reason: null });
-  check('T28: one second short of 120 minutes it still holds', m.turn({ now: NOW_T, reservations: [Object.assign({}, old, { createdTime: '2026-11-16T07:00:02.000Z' }), mine], mine: 'idM' }).holds, false);
+  check('T28: one second short of 120 minutes at the turn it still holds', m.turn({ now: '2026-11-16T09:00:01.000Z', reservations: [Object.assign({}, old, { createdTime: '2026-11-16T07:00:02.000Z' }), mine], mine: 'idM' }).holds, false);
+  const at0900 = { id: 'id9', name: 'prenotazione_2026-11-16_20261116T090000Z_520.json', createdTime: '2026-11-16T09:00:00.000Z' };
+  const at1030 = { id: 'id10', name: 'prenotazione_2026-11-16_20261116T103000Z_521.json', createdTime: '2026-11-16T10:30:00.000Z' };
+  check('T28: an earlier reservation is aged at the turn, not at the call\'s own reservation', m.turn({ now: '2026-11-16T11:01:00.000Z', reservations: [at0900, at1030], mine: 'id10' }),
+    { holds: true, busy: [], stale: [at0900.name], reason: null });
   check('a call that does not see its own reservation yet stops, and its outcome frees the next', m.turn({ now: NOW_T, reservations: [a], mine: 'idB' }),
     { holds: false, busy: [], stale: [], reason: 'the call\'s own reservation is not listed yet' });
   const late = { id: 'idL', name: 'prenotazione_2026-11-16_20261116T090002Z_511.json', createdTime: '2026-11-16T09:00:02.000Z' };

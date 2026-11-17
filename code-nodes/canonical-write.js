@@ -108,7 +108,7 @@ function request({ workflow, execution_id, started_at, files }) {
  *  A call whose own reservation is already older than HOLD_MS at `now` stops: the calls after it
  *  no longer wait for it (T28).
  *  It goes on only if every reservation written before its own, in Drive's order, has its outcome
- *  or is older than HOLD_MS: of two calls that overlap, the second stops before any canonical
+ *  or is older than HOLD_MS at `now`: of two calls that overlap, the second stops before any canonical
  *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call
  *  that does not see its own reservation yet stops too: it has written nothing canonical, and its
  *  outcome frees the calls after it. */
@@ -135,8 +135,8 @@ function turn({ reservations, mine, now }) {
   if (idx < 0) return { holds: false, busy: [], stale: [], reason: 'the call\'s own reservation is not listed yet' };
   if (nowAt - order[idx].at >= HOLD_MS) return { holds: false, busy: [], stale: [], reason: 'the call\'s own reservation holds no more' };
   const open = order.slice(0, idx).filter((r) => !finished.has(r.id));
-  const busy = open.filter((r) => order[idx].at - r.at < HOLD_MS).map((r) => r.name);
-  const stale = open.filter((r) => order[idx].at - r.at >= HOLD_MS).map((r) => r.name);
+  const busy = open.filter((r) => nowAt - r.at < HOLD_MS).map((r) => r.name);
+  const stale = open.filter((r) => nowAt - r.at >= HOLD_MS).map((r) => r.name);
   return { holds: busy.length === 0, busy, stale, reason: busy.length ? 'an earlier write has no outcome yet' : null };
 }
 
