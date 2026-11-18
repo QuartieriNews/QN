@@ -154,6 +154,11 @@ for (const [k, wf] of Object.entries(D)) {
 }
 check('the reading starts only from its schedule',
   D.list.nodes.filter((n) => /Trigger$/.test(n.type)).map((n) => n.type).join() === 'n8n-nodes-base.scheduleTrigger');
+// Pins the start of the night chosen in workflows/README.md, «Atti Web»: one run at a time
+// (CONTRATTI.md, «Una corsa alla volta») also through the change of time, and away from 05:00 UTC.
+const dSchedule = D.list.nodes.find((n) => n.type === 'n8n-nodes-base.scheduleTrigger');
+check('D schedule: the reading starts at 1:13, Rome time', D.list.settings.timezone === 'Europe/Rome' &&
+  JSON.stringify(dSchedule.parameters.rule) === JSON.stringify({ interval: [{ field: 'cronExpression', expression: '13 1 * * *' }] }));
 // CONTRATTI.md, «Una corsa alla volta»: two scheduled runs never overlap because the reading starts
 // no tipologia past 20 hours. n8n's own timeout is not used: n8n Cloud cuts any value to 5 minutes
 // (test of 12 November 2026), and sub-workflows stop with it.

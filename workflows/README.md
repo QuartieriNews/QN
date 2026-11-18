@@ -97,3 +97,19 @@ one run can give (`MAX_FIXTURE_EVENTS` in `code-nodes/apify-run.js`). «Prova?»
 prova» before any paid call: it never reaches Apify and writes no cost, and its events reach «To
 JSON file» and `C Eventi/originali/` where the dataset of a run would, in a file whose name ends in
 `_prova`. A body with both `startUrls` and `fixture` stops before any call.
+
+### Atti Web
+
+`staging_D_attiweb_list` starts the night at 1:13, Rome time. Until 18 November 2026 it started at
+4:13, and on 13, 16, 17 and 18 November the download stopped at 05:00 UTC, within a minute each
+night; on 14 and 15 November it ran past 05:00 without error. On 16, 17 and 18 November Google Drive
+answered 403 to «Salva PDF» or «Salva record», «Quota exceeded … Requests per minute», for the
+consumer project of the credential (on 13 November only the stop is recorded, not its text). None of
+our workflows starts at that minute, and the same credential writes every hour at :07 for the B
+collection. A quota shared with others and full at that minute on some nights fits these facts; four
+nights do not prove it. The night that starts at 1:13 ends, by the runs of November, at about 3:30
+Rome time: before the weekly backup at 4:41 (CONTRATTI.md, «Lo storico»), and in winter and summer
+before 05:00 UTC. 1:13 is also outside the hour from 2:00 to 3:00 that the change of time skips in
+March and repeats in October, when a schedule there would not run or would run twice. If a night
+stops again on a Drive 403, the next step is a Google credential with its own project, which is the
+owner's to create.
