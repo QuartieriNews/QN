@@ -1,7 +1,9 @@
 # DEC-042 — La seconda verifica di DEC-015 vale già nel pilota privato
 
 Status: DECIDED (18 novembre 2026, owner nella sessione del coordinatore)
-Applica DEC-015 al pilota privato; non sostituisce DEC-015 né altre decisioni.
+Applica DEC-015 al pilota privato; non sostituisce DEC-015.
+Supersedes in part: DEC-036, punto 1, la condizione «se l'owner la conferma per il pilota» sulla
+seconda verifica di DEC-015, che ora vale nel pilota; il resto di DEC-036 resta valido.
 Blocks: niente. Ogni canale del pilota che scrive elementi pubblicabili porta la seconda
 verifica prima di scriverli (Regola, punto 2).
 
@@ -42,8 +44,10 @@ pilota».
    fonte originale, non il testo della prima AI soltanto.
 
 Impact:
-- **Amministrazione (A).** La seconda verifica entra con A5; serve la chiave di un modello di un'altra famiglia
-  (`docs/pilota/WORKSTREAM_A.md`, sezione 3).
+- **Amministrazione (A).** La seconda verifica entra con A5. Quali modelli e quali fornitori li
+  propone quella PR, con la sola condizione dell'indipendenza funzionale di DEC-015; se serva la
+  chiave di un modello di un'altra famiglia (`docs/pilota/WORKSTREAM_A.md`, sezione 3) non lo
+  decide questa entry.
 - **Notizie (B).** La seconda verifica di DEC-108 per le notizie (CONTRATTI, sezione 7 B) segue questa
   regola.
 - **Eventi (C) e gli altri canali.** Il coordinatore controlla, canale per canale, se oggi scrive elementi

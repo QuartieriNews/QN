@@ -97,7 +97,7 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 | Fixture dei test | DA COSTRUIRE | byte e testi inventati (DEC-109), mai presi da una fonte |
 | Credenziali condivise e DEC-036 | DALL'OWNER, fatto il 14/11 | |
 | Chiave di un servizio Whisper più economico, per il confronto dei modelli | DALL'OWNER, se il confronto lo prova | DEC-037, punto 4; sezione 6 |
-| Chiave di un modello di un'altra famiglia, per la seconda verifica di DEC-015 | DALL'OWNER, con A5 | serve: DEC-015 vale nel pilota (DEC-042); su n8n oggi c'è solo OpenAI |
+| Chiave di un modello di un'altra famiglia, per la seconda verifica di DEC-015 | DALL'OWNER, con A5, se la PR di A5 la propone | la seconda verifica vale nel pilota (DEC-042); quali modelli la fanno lo propone A5, con l'indipendenza di DEC-015; su n8n oggi c'è solo OpenAI |
 | Foglio della coda di revisione | DALL'OWNER, con A5 | non esiste su Drive |
 | Piano n8n superiore | DALL'OWNER, solo se serve | se le corse chiamate da un altro flusso contano, A non sta nel piano già con A2 e A3: la domanda arriva con la misura di A2 (sezione 4) |
 

@@ -39,6 +39,17 @@ ChatGPT recommendation: the same.
   political profiling. It requires neither a partner nor a second responsible person
   and does not block the launch (DEC-014, "Legal verifications and the launch").
 
+Impact (added on 18 November 2026, PR #67, from the Rule above; no new choice):
+- Site: a commercial page and a few standard advertising blocks at launch, marked as
+  advertising and kept apart from editorial content.
+- Commercial: prices, packages and structure are defined within six months of launch;
+  each of the six items listed before the first sale is fixed before it.
+- KPIs: free campaigns are recorded as free and stay out of the first-payment KPI
+  (DEC-017).
+- Political advertising: no political campaign runs until the legal verification and a
+  minimum policy exist; newsletter data are never used for political profiling.
+- Legal: the political-advertising policy waits for the legal verification of DEC-014.
+
 Blocks: nothing (this entry unblocks the site's advertising blocks and the commercial
 page).
 
