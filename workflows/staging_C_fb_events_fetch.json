@@ -27,7 +27,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://api.apify.com/v2/acts/apify~facebook-events-scraper/runs?memory=2048",
+        "url": "https://api.apify.com/v2/acts/apify~facebook-events-scraper/runs?memory=2048&timeout=3600",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
@@ -112,7 +112,7 @@
       "parameters": {
         "operation": "toJson",
         "options": {
-          "fileName": "=apify_fb_events_{{ $now.toFormat('yyyy-LL-dd_HHmm') }}.json"
+          "fileName": "=apify_fb_events_{{ $now.toFormat('yyyy-LL-dd_HHmm') }}{{ $('Build Apify input').first().json.fixture ? '_prova' : '' }}.json"
         }
       },
       "type": "n8n-nodes-base.convertToFile",
@@ -157,7 +157,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "/**\n * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request\n * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch\n * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and\n * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost\n * (docs/pilota/CONTRATTI.md, «Costi»). A retried\n * request is still not recognised: that needs a record visible to a second execution while the first\n * runs, and stays in the list of workflows/README.md.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for Each Item\", JavaScript) the same\n * file runs its adapter. `stage` on the item says which step it takes:\n *   - 'input': the webhook body becomes the Apify input, within its caps;\n *   - 'poll': the state of the run says whether to wait, read the dataset or stop;\n *   - 'cost': the finished run becomes one cost entry.\n */\n'use strict';\n\n/** The caps of a request, as the workflow had them before this file. */\nconst MAX_URLS = 60;\nconst MAX_EVENTS_PER_URL = 5;\n/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this\n *  point, as TIMED-OUT. */\nconst APIFY_TIMEOUT_S = 3600;\n/** How long the workflow waits for one run before it stops: past the run's own timeout, so the\n *  last state it reads is Apify's. */\nconst MAX_WAIT_MS = 75 * 60 * 1000;\n/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read\n *  again before its cost is written. */\nconst SETTLE_MS = 15 * 1000;\n/** Apify's run states: the waiting ones include the two in transition to an end, which have no\n *  `finishedAt` yet and stay under MAX_WAIT_MS. */\nconst WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];\nconst FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];\n\n/** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */\nfunction buildInput(body) {\n  const b = body || {};\n  const urls = Array.isArray(b.startUrls) ? b.startUrls : [];\n  const clean = [...new Set(urls.map((u) => String(u).trim()).filter((u) => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\n  if (clean.length === 0 || clean.length > MAX_URLS) throw new Error(`startUrls: 1 to ${MAX_URLS} facebook.com URLs required`);\n  const maxEvents = Math.min(Math.max(parseInt(b.maxEvents || MAX_EVENTS_PER_URL, 10) || MAX_EVENTS_PER_URL, 1), MAX_EVENTS_PER_URL);\n  return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };\n}\n\n/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than\n *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops\n *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */\nfunction pollDecision(run, now) {\n  const status = run && typeof run.status === 'string' ? run.status : null;\n  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {\n    const finished = Date.parse(run.finishedAt);\n    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };\n    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };\n  }\n  if (status && WAITING.includes(status)) {\n    const started = Date.parse(run.startedAt);\n    if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };\n    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };\n    return { next: 'wait', reason: null };\n  }\n  return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };\n}\n\n/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,\n *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,\n *  never with a guessed value. */\nfunction costEntry(run, events) {\n  if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');\n  const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;\n  return {\n    workstream: 'C', servizio: 'apify', actor: run.actId || null, run_id: run.id,\n    started_at: run.startedAt || null, finished_at: run.finishedAt || null, status: run.status || null,\n    unita: 'eventi', quantita: Number.isInteger(events) && events >= 0 ? events : null, usd,\n  };\n}\n\n/** The file of one cost entry: Drive cannot append to `costi.jsonl`, so each entry is a file of\n *  its own (CONTRATTI.md, «Costi»). */\nfunction costFileName(entry) {\n  return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,\n    costFileName };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter. */\nif ($json.stage === 'input') {\n  return { json: buildInput($json.body) };\n}\nif ($json.stage === 'poll') {\n  Object.assign($json, pollDecision($json.data, new Date().toISOString()));\n  return $input.item;\n}\nif ($json.stage === 'cost') {\n  const entry = costEntry($json.run, $json.events);\n  const name = costFileName(entry);\n  const content = JSON.stringify(entry, null, 2) + '\\n';\n  return { json: { cost: entry, cost_file_name: name },\n    binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } };\n}\nthrow new Error(`apify-run.js: unknown stage ${JSON.stringify($json.stage)}`);\n"
+        "jsCode": "/**\n * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request\n * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch\n * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and\n * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost\n * (docs/pilota/CONTRATTI.md, «Costi»). A retried\n * request is still not recognised: that needs a record visible to a second execution while the first\n * runs, and stays in the list of workflows/README.md.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for Each Item\", JavaScript) the same\n * file runs its adapter. `stage` on the item says which step it takes:\n *   - 'input': the webhook body becomes the Apify input, within its caps, or the request for a\n *     saved dataset that takes the place of a run (workflows/README.md, «Prova senza Apify»);\n *   - 'poll': the state of the run says whether to wait, read the dataset or stop;\n *   - 'cost': the finished run becomes one cost entry;\n *   - 'fixture': the saved dataset, read from its file, becomes the events a run would have given.\n */\n'use strict';\n\n/** The caps of a request, as the workflow had them before this file. */\nconst MAX_URLS = 60;\nconst MAX_EVENTS_PER_URL = 5;\n/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this\n *  point, as TIMED-OUT. */\nconst APIFY_TIMEOUT_S = 3600;\n/** How long the workflow waits for one run before it stops: past the run's own timeout, so the\n *  last state it reads is Apify's. */\nconst MAX_WAIT_MS = 75 * 60 * 1000;\n/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read\n *  again before its cost is written. */\nconst SETTLE_MS = 15 * 1000;\n/** Apify's run states: the waiting ones include the two in transition to an end, which have no\n *  `finishedAt` yet and stay under MAX_WAIT_MS. */\nconst WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];\nconst FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];\n\n/** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */\nfunction buildInput(body) {\n  const b = body || {};\n  const urls = Array.isArray(b.startUrls) ? b.startUrls : [];\n  const clean = [...new Set(urls.map((u) => String(u).trim()).filter((u) => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\n  if (clean.length === 0 || clean.length > MAX_URLS) throw new Error(`startUrls: 1 to ${MAX_URLS} facebook.com URLs required`);\n  const maxEvents = Math.min(Math.max(parseInt(b.maxEvents || MAX_EVENTS_PER_URL, 10) || MAX_EVENTS_PER_URL, 1), MAX_EVENTS_PER_URL);\n  return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };\n}\n\n/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than\n *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops\n *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */\nfunction pollDecision(run, now) {\n  const status = run && typeof run.status === 'string' ? run.status : null;\n  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {\n    const finished = Date.parse(run.finishedAt);\n    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };\n    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };\n  }\n  if (status && WAITING.includes(status)) {\n    const started = Date.parse(run.startedAt);\n    if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };\n    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };\n    return { next: 'wait', reason: null };\n  }\n  return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };\n}\n\n/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,\n *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,\n *  never with a guessed value. */\nfunction costEntry(run, events) {\n  if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');\n  const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;\n  return {\n    workstream: 'C', servizio: 'apify', actor: run.actId || null, run_id: run.id,\n    started_at: run.startedAt || null, finished_at: run.finishedAt || null, status: run.status || null,\n    unita: 'eventi', quantita: Number.isInteger(events) && events >= 0 ? events : null, usd,\n  };\n}\n\n/** The file of one cost entry: Drive cannot append to `costi.jsonl`, so each entry is a file of\n *  its own (CONTRATTI.md, «Costi»). */\nfunction costFileName(entry) {\n  return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;\n}\n\n/** A saved dataset stands for one run, so it gives at most the events one run can give. */\nconst MAX_FIXTURE_EVENTS = MAX_URLS * MAX_EVENTS_PER_URL;\nconst DRIVE_FILE_ID = /^[A-Za-z0-9_-]{20,200}$/;\n\n/** Stage 'input': a body with `fixture` asks for a saved dataset and never reaches Apify; any other\n *  body is a run, within its caps. A body that asks for both stops before any call. */\nfunction buildRequest(body) {\n  const b = body || {};\n  if (b.fixture === undefined) return buildInput(b);\n  if (b.startUrls !== undefined) throw new Error('a request is startUrls or fixture, never both');\n  const f = b.fixture !== null && typeof b.fixture === 'object' ? b.fixture : {};\n  const fileId = typeof f.file_id === 'string' ? f.file_id.trim() : '';\n  if (!DRIVE_FILE_ID.test(fileId)) throw new Error('fixture.file_id: the id of a Drive file required');\n  const limit = f.limit === undefined ? MAX_FIXTURE_EVENTS : f.limit;\n  if (!Number.isInteger(limit) || limit < 1 || limit > MAX_FIXTURE_EVENTS) throw new Error(`fixture.limit: 1 to ${MAX_FIXTURE_EVENTS}`);\n  return { fixture: { file_id: fileId, limit } };\n}\n\n/** Stage 'fixture': the file holds a dataset as Apify gives it, a JSON array of events; its first\n *  `limit` events go on where the events of a run would. Any other content stops. */\nfunction fixtureEvents(data, fixture) {\n  if (!Array.isArray(data) || data.length === 0) throw new Error('fixture: the file must hold a non-empty JSON array of events');\n  if (!data.every((e) => e !== null && typeof e === 'object' && !Array.isArray(e))) throw new Error('fixture: every element of the file must be an event object');\n  const f = fixture || {};\n  const limit = Number.isInteger(f.limit) && f.limit >= 1 ? Math.min(f.limit, MAX_FIXTURE_EVENTS) : MAX_FIXTURE_EVENTS;\n  const events = data.slice(0, limit);\n  return { events, fixture: { file_id: typeof f.file_id === 'string' ? f.file_id : null, limit, events: events.length, in_file: data.length } };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,\n    costFileName, MAX_FIXTURE_EVENTS, buildRequest, fixtureEvents };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter. */\nif ($json.stage === 'input') {\n  return { json: buildRequest($json.body) };\n}\nif ($json.stage === 'fixture') {\n  return { json: fixtureEvents($json.data, $json.fixture) };\n}\nif ($json.stage === 'poll') {\n  Object.assign($json, pollDecision($json.data, new Date().toISOString()));\n  return $input.item;\n}\nif ($json.stage === 'cost') {\n  const entry = costEntry($json.run, $json.events);\n  const name = costFileName(entry);\n  const content = JSON.stringify(entry, null, 2) + '\\n';\n  return { json: { cost: entry, cost_file_name: name },\n    binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } };\n}\nthrow new Error(`apify-run.js: unknown stage ${JSON.stringify($json.stage)}`);\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -219,7 +219,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "/**\n * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request\n * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch\n * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and\n * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost\n * (docs/pilota/CONTRATTI.md, «Costi»). A retried\n * request is still not recognised: that needs a record visible to a second execution while the first\n * runs, and stays in the list of workflows/README.md.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for Each Item\", JavaScript) the same\n * file runs its adapter. `stage` on the item says which step it takes:\n *   - 'input': the webhook body becomes the Apify input, within its caps;\n *   - 'poll': the state of the run says whether to wait, read the dataset or stop;\n *   - 'cost': the finished run becomes one cost entry.\n */\n'use strict';\n\n/** The caps of a request, as the workflow had them before this file. */\nconst MAX_URLS = 60;\nconst MAX_EVENTS_PER_URL = 5;\n/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this\n *  point, as TIMED-OUT. */\nconst APIFY_TIMEOUT_S = 3600;\n/** How long the workflow waits for one run before it stops: past the run's own timeout, so the\n *  last state it reads is Apify's. */\nconst MAX_WAIT_MS = 75 * 60 * 1000;\n/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read\n *  again before its cost is written. */\nconst SETTLE_MS = 15 * 1000;\n/** Apify's run states: the waiting ones include the two in transition to an end, which have no\n *  `finishedAt` yet and stay under MAX_WAIT_MS. */\nconst WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];\nconst FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];\n\n/** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */\nfunction buildInput(body) {\n  const b = body || {};\n  const urls = Array.isArray(b.startUrls) ? b.startUrls : [];\n  const clean = [...new Set(urls.map((u) => String(u).trim()).filter((u) => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\n  if (clean.length === 0 || clean.length > MAX_URLS) throw new Error(`startUrls: 1 to ${MAX_URLS} facebook.com URLs required`);\n  const maxEvents = Math.min(Math.max(parseInt(b.maxEvents || MAX_EVENTS_PER_URL, 10) || MAX_EVENTS_PER_URL, 1), MAX_EVENTS_PER_URL);\n  return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };\n}\n\n/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than\n *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops\n *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */\nfunction pollDecision(run, now) {\n  const status = run && typeof run.status === 'string' ? run.status : null;\n  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {\n    const finished = Date.parse(run.finishedAt);\n    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };\n    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };\n  }\n  if (status && WAITING.includes(status)) {\n    const started = Date.parse(run.startedAt);\n    if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };\n    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };\n    return { next: 'wait', reason: null };\n  }\n  return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };\n}\n\n/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,\n *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,\n *  never with a guessed value. */\nfunction costEntry(run, events) {\n  if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');\n  const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;\n  return {\n    workstream: 'C', servizio: 'apify', actor: run.actId || null, run_id: run.id,\n    started_at: run.startedAt || null, finished_at: run.finishedAt || null, status: run.status || null,\n    unita: 'eventi', quantita: Number.isInteger(events) && events >= 0 ? events : null, usd,\n  };\n}\n\n/** The file of one cost entry: Drive cannot append to `costi.jsonl`, so each entry is a file of\n *  its own (CONTRATTI.md, «Costi»). */\nfunction costFileName(entry) {\n  return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,\n    costFileName };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter. */\nif ($json.stage === 'input') {\n  return { json: buildInput($json.body) };\n}\nif ($json.stage === 'poll') {\n  Object.assign($json, pollDecision($json.data, new Date().toISOString()));\n  return $input.item;\n}\nif ($json.stage === 'cost') {\n  const entry = costEntry($json.run, $json.events);\n  const name = costFileName(entry);\n  const content = JSON.stringify(entry, null, 2) + '\\n';\n  return { json: { cost: entry, cost_file_name: name },\n    binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } };\n}\nthrow new Error(`apify-run.js: unknown stage ${JSON.stringify($json.stage)}`);\n"
+        "jsCode": "/**\n * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request\n * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch\n * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and\n * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost\n * (docs/pilota/CONTRATTI.md, «Costi»). A retried\n * request is still not recognised: that needs a record visible to a second execution while the first\n * runs, and stays in the list of workflows/README.md.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for Each Item\", JavaScript) the same\n * file runs its adapter. `stage` on the item says which step it takes:\n *   - 'input': the webhook body becomes the Apify input, within its caps, or the request for a\n *     saved dataset that takes the place of a run (workflows/README.md, «Prova senza Apify»);\n *   - 'poll': the state of the run says whether to wait, read the dataset or stop;\n *   - 'cost': the finished run becomes one cost entry;\n *   - 'fixture': the saved dataset, read from its file, becomes the events a run would have given.\n */\n'use strict';\n\n/** The caps of a request, as the workflow had them before this file. */\nconst MAX_URLS = 60;\nconst MAX_EVENTS_PER_URL = 5;\n/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this\n *  point, as TIMED-OUT. */\nconst APIFY_TIMEOUT_S = 3600;\n/** How long the workflow waits for one run before it stops: past the run's own timeout, so the\n *  last state it reads is Apify's. */\nconst MAX_WAIT_MS = 75 * 60 * 1000;\n/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read\n *  again before its cost is written. */\nconst SETTLE_MS = 15 * 1000;\n/** Apify's run states: the waiting ones include the two in transition to an end, which have no\n *  `finishedAt` yet and stay under MAX_WAIT_MS. */\nconst WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];\nconst FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];\n\n/** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */\nfunction buildInput(body) {\n  const b = body || {};\n  const urls = Array.isArray(b.startUrls) ? b.startUrls : [];\n  const clean = [...new Set(urls.map((u) => String(u).trim()).filter((u) => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\n  if (clean.length === 0 || clean.length > MAX_URLS) throw new Error(`startUrls: 1 to ${MAX_URLS} facebook.com URLs required`);\n  const maxEvents = Math.min(Math.max(parseInt(b.maxEvents || MAX_EVENTS_PER_URL, 10) || MAX_EVENTS_PER_URL, 1), MAX_EVENTS_PER_URL);\n  return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };\n}\n\n/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than\n *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops\n *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */\nfunction pollDecision(run, now) {\n  const status = run && typeof run.status === 'string' ? run.status : null;\n  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {\n    const finished = Date.parse(run.finishedAt);\n    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };\n    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };\n  }\n  if (status && WAITING.includes(status)) {\n    const started = Date.parse(run.startedAt);\n    if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };\n    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };\n    return { next: 'wait', reason: null };\n  }\n  return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };\n}\n\n/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,\n *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,\n *  never with a guessed value. */\nfunction costEntry(run, events) {\n  if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');\n  const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;\n  return {\n    workstream: 'C', servizio: 'apify', actor: run.actId || null, run_id: run.id,\n    started_at: run.startedAt || null, finished_at: run.finishedAt || null, status: run.status || null,\n    unita: 'eventi', quantita: Number.isInteger(events) && events >= 0 ? events : null, usd,\n  };\n}\n\n/** The file of one cost entry: Drive cannot append to `costi.jsonl`, so each entry is a file of\n *  its own (CONTRATTI.md, «Costi»). */\nfunction costFileName(entry) {\n  return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;\n}\n\n/** A saved dataset stands for one run, so it gives at most the events one run can give. */\nconst MAX_FIXTURE_EVENTS = MAX_URLS * MAX_EVENTS_PER_URL;\nconst DRIVE_FILE_ID = /^[A-Za-z0-9_-]{20,200}$/;\n\n/** Stage 'input': a body with `fixture` asks for a saved dataset and never reaches Apify; any other\n *  body is a run, within its caps. A body that asks for both stops before any call. */\nfunction buildRequest(body) {\n  const b = body || {};\n  if (b.fixture === undefined) return buildInput(b);\n  if (b.startUrls !== undefined) throw new Error('a request is startUrls or fixture, never both');\n  const f = b.fixture !== null && typeof b.fixture === 'object' ? b.fixture : {};\n  const fileId = typeof f.file_id === 'string' ? f.file_id.trim() : '';\n  if (!DRIVE_FILE_ID.test(fileId)) throw new Error('fixture.file_id: the id of a Drive file required');\n  const limit = f.limit === undefined ? MAX_FIXTURE_EVENTS : f.limit;\n  if (!Number.isInteger(limit) || limit < 1 || limit > MAX_FIXTURE_EVENTS) throw new Error(`fixture.limit: 1 to ${MAX_FIXTURE_EVENTS}`);\n  return { fixture: { file_id: fileId, limit } };\n}\n\n/** Stage 'fixture': the file holds a dataset as Apify gives it, a JSON array of events; its first\n *  `limit` events go on where the events of a run would. Any other content stops. */\nfunction fixtureEvents(data, fixture) {\n  if (!Array.isArray(data) || data.length === 0) throw new Error('fixture: the file must hold a non-empty JSON array of events');\n  if (!data.every((e) => e !== null && typeof e === 'object' && !Array.isArray(e))) throw new Error('fixture: every element of the file must be an event object');\n  const f = fixture || {};\n  const limit = Number.isInteger(f.limit) && f.limit >= 1 ? Math.min(f.limit, MAX_FIXTURE_EVENTS) : MAX_FIXTURE_EVENTS;\n  const events = data.slice(0, limit);\n  return { events, fixture: { file_id: typeof f.file_id === 'string' ? f.file_id : null, limit, events: events.length, in_file: data.length } };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,\n    costFileName, MAX_FIXTURE_EVENTS, buildRequest, fixtureEvents };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter. */\nif ($json.stage === 'input') {\n  return { json: buildRequest($json.body) };\n}\nif ($json.stage === 'fixture') {\n  return { json: fixtureEvents($json.data, $json.fixture) };\n}\nif ($json.stage === 'poll') {\n  Object.assign($json, pollDecision($json.data, new Date().toISOString()));\n  return $input.item;\n}\nif ($json.stage === 'cost') {\n  const entry = costEntry($json.run, $json.events);\n  const name = costFileName(entry);\n  const content = JSON.stringify(entry, null, 2) + '\\n';\n  return { json: { cost: entry, cost_file_name: name },\n    binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } };\n}\nthrow new Error(`apify-run.js: unknown stage ${JSON.stringify($json.stage)}`);\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -350,7 +350,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "/**\n * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request\n * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch\n * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and\n * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost\n * (docs/pilota/CONTRATTI.md, «Costi»). A retried\n * request is still not recognised: that needs a record visible to a second execution while the first\n * runs, and stays in the list of workflows/README.md.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for Each Item\", JavaScript) the same\n * file runs its adapter. `stage` on the item says which step it takes:\n *   - 'input': the webhook body becomes the Apify input, within its caps;\n *   - 'poll': the state of the run says whether to wait, read the dataset or stop;\n *   - 'cost': the finished run becomes one cost entry.\n */\n'use strict';\n\n/** The caps of a request, as the workflow had them before this file. */\nconst MAX_URLS = 60;\nconst MAX_EVENTS_PER_URL = 5;\n/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this\n *  point, as TIMED-OUT. */\nconst APIFY_TIMEOUT_S = 3600;\n/** How long the workflow waits for one run before it stops: past the run's own timeout, so the\n *  last state it reads is Apify's. */\nconst MAX_WAIT_MS = 75 * 60 * 1000;\n/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read\n *  again before its cost is written. */\nconst SETTLE_MS = 15 * 1000;\n/** Apify's run states: the waiting ones include the two in transition to an end, which have no\n *  `finishedAt` yet and stay under MAX_WAIT_MS. */\nconst WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];\nconst FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];\n\n/** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */\nfunction buildInput(body) {\n  const b = body || {};\n  const urls = Array.isArray(b.startUrls) ? b.startUrls : [];\n  const clean = [...new Set(urls.map((u) => String(u).trim()).filter((u) => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\n  if (clean.length === 0 || clean.length > MAX_URLS) throw new Error(`startUrls: 1 to ${MAX_URLS} facebook.com URLs required`);\n  const maxEvents = Math.min(Math.max(parseInt(b.maxEvents || MAX_EVENTS_PER_URL, 10) || MAX_EVENTS_PER_URL, 1), MAX_EVENTS_PER_URL);\n  return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };\n}\n\n/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than\n *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops\n *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */\nfunction pollDecision(run, now) {\n  const status = run && typeof run.status === 'string' ? run.status : null;\n  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {\n    const finished = Date.parse(run.finishedAt);\n    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };\n    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };\n  }\n  if (status && WAITING.includes(status)) {\n    const started = Date.parse(run.startedAt);\n    if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };\n    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };\n    return { next: 'wait', reason: null };\n  }\n  return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };\n}\n\n/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,\n *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,\n *  never with a guessed value. */\nfunction costEntry(run, events) {\n  if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');\n  const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;\n  return {\n    workstream: 'C', servizio: 'apify', actor: run.actId || null, run_id: run.id,\n    started_at: run.startedAt || null, finished_at: run.finishedAt || null, status: run.status || null,\n    unita: 'eventi', quantita: Number.isInteger(events) && events >= 0 ? events : null, usd,\n  };\n}\n\n/** The file of one cost entry: Drive cannot append to `costi.jsonl`, so each entry is a file of\n *  its own (CONTRATTI.md, «Costi»). */\nfunction costFileName(entry) {\n  return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,\n    costFileName };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter. */\nif ($json.stage === 'input') {\n  return { json: buildInput($json.body) };\n}\nif ($json.stage === 'poll') {\n  Object.assign($json, pollDecision($json.data, new Date().toISOString()));\n  return $input.item;\n}\nif ($json.stage === 'cost') {\n  const entry = costEntry($json.run, $json.events);\n  const name = costFileName(entry);\n  const content = JSON.stringify(entry, null, 2) + '\\n';\n  return { json: { cost: entry, cost_file_name: name },\n    binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } };\n}\nthrow new Error(`apify-run.js: unknown stage ${JSON.stringify($json.stage)}`);\n"
+        "jsCode": "/**\n * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request\n * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch\n * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and\n * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost\n * (docs/pilota/CONTRATTI.md, «Costi»). A retried\n * request is still not recognised: that needs a record visible to a second execution while the first\n * runs, and stays in the list of workflows/README.md.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for Each Item\", JavaScript) the same\n * file runs its adapter. `stage` on the item says which step it takes:\n *   - 'input': the webhook body becomes the Apify input, within its caps, or the request for a\n *     saved dataset that takes the place of a run (workflows/README.md, «Prova senza Apify»);\n *   - 'poll': the state of the run says whether to wait, read the dataset or stop;\n *   - 'cost': the finished run becomes one cost entry;\n *   - 'fixture': the saved dataset, read from its file, becomes the events a run would have given.\n */\n'use strict';\n\n/** The caps of a request, as the workflow had them before this file. */\nconst MAX_URLS = 60;\nconst MAX_EVENTS_PER_URL = 5;\n/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this\n *  point, as TIMED-OUT. */\nconst APIFY_TIMEOUT_S = 3600;\n/** How long the workflow waits for one run before it stops: past the run's own timeout, so the\n *  last state it reads is Apify's. */\nconst MAX_WAIT_MS = 75 * 60 * 1000;\n/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read\n *  again before its cost is written. */\nconst SETTLE_MS = 15 * 1000;\n/** Apify's run states: the waiting ones include the two in transition to an end, which have no\n *  `finishedAt` yet and stay under MAX_WAIT_MS. */\nconst WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];\nconst FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];\n\n/** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */\nfunction buildInput(body) {\n  const b = body || {};\n  const urls = Array.isArray(b.startUrls) ? b.startUrls : [];\n  const clean = [...new Set(urls.map((u) => String(u).trim()).filter((u) => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\n  if (clean.length === 0 || clean.length > MAX_URLS) throw new Error(`startUrls: 1 to ${MAX_URLS} facebook.com URLs required`);\n  const maxEvents = Math.min(Math.max(parseInt(b.maxEvents || MAX_EVENTS_PER_URL, 10) || MAX_EVENTS_PER_URL, 1), MAX_EVENTS_PER_URL);\n  return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };\n}\n\n/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than\n *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops\n *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */\nfunction pollDecision(run, now) {\n  const status = run && typeof run.status === 'string' ? run.status : null;\n  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {\n    const finished = Date.parse(run.finishedAt);\n    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };\n    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };\n  }\n  if (status && WAITING.includes(status)) {\n    const started = Date.parse(run.startedAt);\n    if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };\n    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };\n    return { next: 'wait', reason: null };\n  }\n  return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };\n}\n\n/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,\n *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,\n *  never with a guessed value. */\nfunction costEntry(run, events) {\n  if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');\n  const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;\n  return {\n    workstream: 'C', servizio: 'apify', actor: run.actId || null, run_id: run.id,\n    started_at: run.startedAt || null, finished_at: run.finishedAt || null, status: run.status || null,\n    unita: 'eventi', quantita: Number.isInteger(events) && events >= 0 ? events : null, usd,\n  };\n}\n\n/** The file of one cost entry: Drive cannot append to `costi.jsonl`, so each entry is a file of\n *  its own (CONTRATTI.md, «Costi»). */\nfunction costFileName(entry) {\n  return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;\n}\n\n/** A saved dataset stands for one run, so it gives at most the events one run can give. */\nconst MAX_FIXTURE_EVENTS = MAX_URLS * MAX_EVENTS_PER_URL;\nconst DRIVE_FILE_ID = /^[A-Za-z0-9_-]{20,200}$/;\n\n/** Stage 'input': a body with `fixture` asks for a saved dataset and never reaches Apify; any other\n *  body is a run, within its caps. A body that asks for both stops before any call. */\nfunction buildRequest(body) {\n  const b = body || {};\n  if (b.fixture === undefined) return buildInput(b);\n  if (b.startUrls !== undefined) throw new Error('a request is startUrls or fixture, never both');\n  const f = b.fixture !== null && typeof b.fixture === 'object' ? b.fixture : {};\n  const fileId = typeof f.file_id === 'string' ? f.file_id.trim() : '';\n  if (!DRIVE_FILE_ID.test(fileId)) throw new Error('fixture.file_id: the id of a Drive file required');\n  const limit = f.limit === undefined ? MAX_FIXTURE_EVENTS : f.limit;\n  if (!Number.isInteger(limit) || limit < 1 || limit > MAX_FIXTURE_EVENTS) throw new Error(`fixture.limit: 1 to ${MAX_FIXTURE_EVENTS}`);\n  return { fixture: { file_id: fileId, limit } };\n}\n\n/** Stage 'fixture': the file holds a dataset as Apify gives it, a JSON array of events; its first\n *  `limit` events go on where the events of a run would. Any other content stops. */\nfunction fixtureEvents(data, fixture) {\n  if (!Array.isArray(data) || data.length === 0) throw new Error('fixture: the file must hold a non-empty JSON array of events');\n  if (!data.every((e) => e !== null && typeof e === 'object' && !Array.isArray(e))) throw new Error('fixture: every element of the file must be an event object');\n  const f = fixture || {};\n  const limit = Number.isInteger(f.limit) && f.limit >= 1 ? Math.min(f.limit, MAX_FIXTURE_EVENTS) : MAX_FIXTURE_EVENTS;\n  const events = data.slice(0, limit);\n  return { events, fixture: { file_id: typeof f.file_id === 'string' ? f.file_id : null, limit, events: events.length, in_file: data.length } };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,\n    costFileName, MAX_FIXTURE_EVENTS, buildRequest, fixtureEvents };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter. */\nif ($json.stage === 'input') {\n  return { json: buildRequest($json.body) };\n}\nif ($json.stage === 'fixture') {\n  return { json: fixtureEvents($json.data, $json.fixture) };\n}\nif ($json.stage === 'poll') {\n  Object.assign($json, pollDecision($json.data, new Date().toISOString()));\n  return $input.item;\n}\nif ($json.stage === 'cost') {\n  const entry = costEntry($json.run, $json.events);\n  const name = costFileName(entry);\n  const content = JSON.stringify(entry, null, 2) + '\\n';\n  return { json: { cost: entry, cost_file_name: name },\n    binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } };\n}\nthrow new Error(`apify-run.js: unknown stage ${JSON.stringify($json.stage)}`);\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -362,6 +362,14 @@
       "name": "Costo"
     },
     {
+      "id": "6c682a87-2363-4f15-96e2-fbd000c92126",
+      "name": "Carica costo",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2256,
+        192
+      ],
       "parameters": {
         "name": "={{ $binary.data.fileName }}",
         "driveId": {
@@ -376,14 +384,12 @@
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        2256,
-        192
-      ],
-      "id": "6c682a87-2363-4f15-96e2-fbd000c92126",
-      "name": "Carica costo"
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
     },
     {
       "parameters": {
@@ -506,6 +512,139 @@
         84
       ],
       "parameters": {}
+    },
+    {
+      "id": "572c02bc-cb33-4b4b-9112-0c403d3c7156",
+      "name": "Prova?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        112,
+        -192
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "99fbd775-a2b7-4bd3-b9dc-f39474e22851",
+              "leftValue": "={{ $json.fixture !== undefined }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "8129636e-e613-48aa-8606-522d7f172051",
+      "name": "Scarica prova",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        336,
+        -352
+      ],
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.fixture.file_id }}"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "id": "82b54d0b-0e47-4341-8fd6-891457866950",
+      "name": "Leggi prova",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -352
+      ],
+      "parameters": {
+        "operation": "fromJson",
+        "destinationKey": "data",
+        "options": {}
+      }
+    },
+    {
+      "id": "678c1e88-3157-43e1-82da-6e65d9e220c4",
+      "name": "Prepara prova",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        784,
+        -352
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1079d5b-d4d8-45a2-8ca5-ae1942ecdb7f",
+              "name": "stage",
+              "value": "fixture",
+              "type": "string"
+            },
+            {
+              "id": "5fdf1cc4-f21d-4f89-a1d3-0816ae07cd10",
+              "name": "fixture",
+              "value": "={{ $('Build Apify input').first().json.fixture }}",
+              "type": "object"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      }
+    },
+    {
+      "id": "45c3863f-c950-41e9-bc46-4a6636cf8ea6",
+      "name": "Eventi di prova",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        -352
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/**\n * apify-run.js — workstream C: one paid Apify run of the Facebook events reader, from the request\n * to its cost. It closes the defects that the review of PR #48 found in staging_C_fb_events_fetch\n * (workflows/README.md): a run that does not end SUCCEEDED never reaches the dataset, the run and\n * the wait for it have an end, and every run that ends, failed or not, leaves its settled cost\n * (docs/pilota/CONTRATTI.md, «Costi»). A retried\n * request is still not recognised: that needs a record visible to a second execution while the first\n * runs, and stays in the list of workflows/README.md.\n *\n * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the\n * tail exports and stops; inside the n8n Code node (\"Run Once for Each Item\", JavaScript) the same\n * file runs its adapter. `stage` on the item says which step it takes:\n *   - 'input': the webhook body becomes the Apify input, within its caps, or the request for a\n *     saved dataset that takes the place of a run (workflows/README.md, «Prova senza Apify»);\n *   - 'poll': the state of the run says whether to wait, read the dataset or stop;\n *   - 'cost': the finished run becomes one cost entry;\n *   - 'fixture': the saved dataset, read from its file, becomes the events a run would have given.\n */\n'use strict';\n\n/** The caps of a request, as the workflow had them before this file. */\nconst MAX_URLS = 60;\nconst MAX_EVENTS_PER_URL = 5;\n/** The run's own timeout, set when the workflow starts it: Apify stops the paid run at this\n *  point, as TIMED-OUT. */\nconst APIFY_TIMEOUT_S = 3600;\n/** How long the workflow waits for one run before it stops: past the run's own timeout, so the\n *  last state it reads is Apify's. */\nconst MAX_WAIT_MS = 75 * 60 * 1000;\n/** Apify's costs settle a few seconds after a run ends: a run that ended more recently is read\n *  again before its cost is written. */\nconst SETTLE_MS = 15 * 1000;\n/** Apify's run states: the waiting ones include the two in transition to an end, which have no\n *  `finishedAt` yet and stay under MAX_WAIT_MS. */\nconst WAITING = ['READY', 'RUNNING', 'TIMING-OUT', 'ABORTING'];\nconst FAILED = ['FAILED', 'ABORTED', 'TIMED-OUT'];\n\n/** Stage 'input': the Apify input of one request; one outside the caps stops before any paid call. */\nfunction buildInput(body) {\n  const b = body || {};\n  const urls = Array.isArray(b.startUrls) ? b.startUrls : [];\n  const clean = [...new Set(urls.map((u) => String(u).trim()).filter((u) => /^https:\\/\\/(www\\.)?facebook\\.com\\//.test(u)))];\n  if (clean.length === 0 || clean.length > MAX_URLS) throw new Error(`startUrls: 1 to ${MAX_URLS} facebook.com URLs required`);\n  const maxEvents = Math.min(Math.max(parseInt(b.maxEvents || MAX_EVENTS_PER_URL, 10) || MAX_EVENTS_PER_URL, 1), MAX_EVENTS_PER_URL);\n  return { apifyInput: { startUrls: clean.map((url) => ({ url })), maxEvents } };\n}\n\n/** Stage 'poll': `next` is 'wait', 'settle', 'read' or 'stop'. A run that ended less than\n *  SETTLE_MS ago is read again first; then only SUCCEEDED reads the dataset, and a failed run stops\n *  after its cost is written. A run still waiting past MAX_WAIT_MS from its start stops too. */\nfunction pollDecision(run, now) {\n  const status = run && typeof run.status === 'string' ? run.status : null;\n  if (status === 'SUCCEEDED' || (status && FAILED.includes(status))) {\n    const finished = Date.parse(run.finishedAt);\n    if (Number.isNaN(finished) || Date.parse(now) - finished < SETTLE_MS) return { next: 'settle', reason: null };\n    return status === 'SUCCEEDED' ? { next: 'read', reason: null } : { next: 'stop', reason: `run ${status}` };\n  }\n  if (status && WAITING.includes(status)) {\n    const started = Date.parse(run.startedAt);\n    if (Number.isNaN(started)) return { next: 'stop', reason: 'run without a start time' };\n    if (Date.parse(now) - started >= MAX_WAIT_MS) return { next: 'stop', reason: 'run still waiting after 75 minutes' };\n    return { next: 'wait', reason: null };\n  }\n  return { next: 'stop', reason: `run state ${JSON.stringify(status)}` };\n}\n\n/** Stage 'cost': one cost entry of the run (CONTRATTI.md, «Costi»). `usd` is Apify's own total,\n *  in the currency Apify charges (DEC-035); a run that reports none is recorded with `usd: null`,\n *  never with a guessed value. */\nfunction costEntry(run, events) {\n  if (!run || typeof run.id !== 'string' || !run.id) throw new Error('run: an Apify run with its id required');\n  const usd = typeof run.usageTotalUsd === 'number' && Number.isFinite(run.usageTotalUsd) ? run.usageTotalUsd : null;\n  return {\n    workstream: 'C', servizio: 'apify', actor: run.actId || null, run_id: run.id,\n    started_at: run.startedAt || null, finished_at: run.finishedAt || null, status: run.status || null,\n    unita: 'eventi', quantita: Number.isInteger(events) && events >= 0 ? events : null, usd,\n  };\n}\n\n/** The file of one cost entry: Drive cannot append to `costi.jsonl`, so each entry is a file of\n *  its own (CONTRATTI.md, «Costi»). */\nfunction costFileName(entry) {\n  return `costo_apify_${String(entry.run_id).replace(/[^A-Za-z0-9_-]/g, '_')}.json`;\n}\n\n/** A saved dataset stands for one run, so it gives at most the events one run can give. */\nconst MAX_FIXTURE_EVENTS = MAX_URLS * MAX_EVENTS_PER_URL;\nconst DRIVE_FILE_ID = /^[A-Za-z0-9_-]{20,200}$/;\n\n/** Stage 'input': a body with `fixture` asks for a saved dataset and never reaches Apify; any other\n *  body is a run, within its caps. A body that asks for both stops before any call. */\nfunction buildRequest(body) {\n  const b = body || {};\n  if (b.fixture === undefined) return buildInput(b);\n  if (b.startUrls !== undefined) throw new Error('a request is startUrls or fixture, never both');\n  const f = b.fixture !== null && typeof b.fixture === 'object' ? b.fixture : {};\n  const fileId = typeof f.file_id === 'string' ? f.file_id.trim() : '';\n  if (!DRIVE_FILE_ID.test(fileId)) throw new Error('fixture.file_id: the id of a Drive file required');\n  const limit = f.limit === undefined ? MAX_FIXTURE_EVENTS : f.limit;\n  if (!Number.isInteger(limit) || limit < 1 || limit > MAX_FIXTURE_EVENTS) throw new Error(`fixture.limit: 1 to ${MAX_FIXTURE_EVENTS}`);\n  return { fixture: { file_id: fileId, limit } };\n}\n\n/** Stage 'fixture': the file holds a dataset as Apify gives it, a JSON array of events; its first\n *  `limit` events go on where the events of a run would. Any other content stops. */\nfunction fixtureEvents(data, fixture) {\n  if (!Array.isArray(data) || data.length === 0) throw new Error('fixture: the file must hold a non-empty JSON array of events');\n  if (!data.every((e) => e !== null && typeof e === 'object' && !Array.isArray(e))) throw new Error('fixture: every element of the file must be an event object');\n  const f = fixture || {};\n  const limit = Number.isInteger(f.limit) && f.limit >= 1 ? Math.min(f.limit, MAX_FIXTURE_EVENTS) : MAX_FIXTURE_EVENTS;\n  const events = data.slice(0, limit);\n  return { events, fixture: { file_id: typeof f.file_id === 'string' ? f.file_id : null, limit, events: events.length, in_file: data.length } };\n}\n\n/* ----- context switch: module under plain Node, adapter inside n8n ------- */\n\nif (typeof $input === 'undefined') {\n  module.exports = { MAX_URLS, MAX_EVENTS_PER_URL, APIFY_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, buildInput, pollDecision, costEntry,\n    costFileName, MAX_FIXTURE_EVENTS, buildRequest, fixtureEvents };\n  return;\n}\n\n/* n8n Code node, \"Run Once for Each Item\" — the adapter. */\nif ($json.stage === 'input') {\n  return { json: buildRequest($json.body) };\n}\nif ($json.stage === 'fixture') {\n  return { json: fixtureEvents($json.data, $json.fixture) };\n}\nif ($json.stage === 'poll') {\n  Object.assign($json, pollDecision($json.data, new Date().toISOString()));\n  return $input.item;\n}\nif ($json.stage === 'cost') {\n  const entry = costEntry($json.run, $json.events);\n  const name = costFileName(entry);\n  const content = JSON.stringify(entry, null, 2) + '\\n';\n  return { json: { cost: entry, cost_file_name: name },\n    binary: { data: { data: Buffer.from(content, 'utf8').toString('base64'), mimeType: 'application/json', fileName: name } } };\n}\nthrow new Error(`apify-run.js: unknown stage ${JSON.stringify($json.stage)}`);\n"
+      }
+    },
+    {
+      "id": "5da557c9-8575-493b-8177-0112e3cca63d",
+      "name": "Un evento per riga",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        -352
+      ],
+      "parameters": {
+        "fieldToSplitOut": "events",
+        "include": "noOtherFields",
+        "options": {}
+      }
     }
   ],
   "pinData": {},
@@ -585,7 +724,7 @@
       "main": [
         [
           {
-            "node": "Start Apify run",
+            "node": "Prova?",
             "type": "main",
             "index": 0
           }
@@ -761,6 +900,79 @@
           }
         ]
       ]
+    },
+    "Prova?": {
+      "main": [
+        [
+          {
+            "node": "Scarica prova",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Start Apify run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scarica prova": {
+      "main": [
+        [
+          {
+            "node": "Leggi prova",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leggi prova": {
+      "main": [
+        [
+          {
+            "node": "Prepara prova",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepara prova": {
+      "main": [
+        [
+          {
+            "node": "Eventi di prova",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Eventi di prova": {
+      "main": [
+        [
+          {
+            "node": "Un evento per riga",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Un evento per riga": {
+      "main": [
+        [
+          {
+            "node": "To JSON file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -770,7 +982,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "2effe7cc-c64a-49dd-8717-9b221cfc0615",
+  "versionId": "843f5ec5-3050-40e4-8737-f5d9ed107a07",
   "meta": null,
   "nodeGroups": [],
   "id": "a442LZE59XzO5ZJw",

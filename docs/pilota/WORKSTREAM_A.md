@@ -1,6 +1,6 @@
 # Workstream A · Amministrazione: il brief
 
-Stato: apertura del canale, PR A1 (14 novembre 2026). Le regole del canale stanno in
+Stato: la raccolta, PR A2 (15 novembre 2026). Le regole del canale stanno in
 `docs/pilota/CONTRATTI.md`, sezione 7, «A · Amministrazione», e le scelte dell'owner in
 DEC-036 e DEC-037: qui non si ripetono, si rimanda. Questo documento dice che cosa si
 costruisce, con quali mezzi e come si prova; la sessione che costruisce i flussi parte da qui.
@@ -74,13 +74,13 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 
 | Mezzo | Stato | Note |
 |---|---|---|
-| n8n Cloud, piano Starter (`quartierinews.app.n8n.cloud`) | PRESENTE | nodo Code con `require('crypto')` (AES-128-CBC), `Buffer`, `setTimeout`, `this.helpers.httpRequest` (testo o `arraybuffer`, risposta intera, errori HTTP senza eccezione); niente `process` (916); niente `URL` né il modulo `url` (non dalle sonde: commit 2e6a288, `code-nodes/news-collect.js`); altri moduli non provati, non si usano |
+| n8n Cloud, piano Starter (`quartierinews.app.n8n.cloud`) | PRESENTE | nodo Code con `require('crypto')` (AES-128-CBC), `Buffer`, `setTimeout`, `this.helpers.httpRequest` (testo o `arraybuffer`, risposta intera, errori HTTP senza eccezione; su n8n 2.x il nodo gira nel task runner, dove un file con `'use strict'` non ha `this` e `helpers` è una variabile globale: `code-nodes/source-guard.js`, esecuzione 1337); niente `process` (916); niente `URL` né il modulo `url` (non dalle sonde: commit 2e6a288, `code-nodes/news-collect.js`); altri moduli non provati, non si usano |
 | RomaTV raggiunto da n8n | PRESENTE | elenco (`search_frontend`), WebVTT, JSON del parlato, playlist, chiave e segmenti rispondono 200 (918, 921); l'elenco e la chiave sono stati chiesti sempre con `Origin` e `Referer` del portale, e se servono non è provato; WebVTT, JSON del parlato, playlist e segmenti hanno risposto senza (sezione 4, la strada dell'audio, passo 3) |
 | `www.youtube.com` da n8n | NON SI USA (DEC-037) | il 14/11: feed 200, pagina del video = pagina di consenso UE (918); dal 15/11 l'elenco e l'audio vengono da Apify, senza nessuna chiave di Google (sezione 2) |
-| Apify da n8n, per l'elenco e l'audio di YouTube | DA PROVARE, dal 20/11 | su n8n c'è la credenziale Apify del canale C, «Bearer Auth account» (`staging_C_fb_events_fetch`); il 14/11 l'API di n8n non la poteva usare e l'editor dell'owner non cambiava i nodi che la usano (`workflows/README.md`): se un flusso `staging_A` la può usare lo prova A2, con l'elenco, e se no la rende usabile l'owner. I due Actor dell'audio da provare: sezione 7; quello dell'elenco si sceglie alla prova; la prova: sezione 6 |
+| Apify da n8n, per l'elenco e l'audio di YouTube | DA PROVARE, dal 20/11 | su n8n c'è la credenziale Apify del canale C, «Bearer Auth account» (`staging_C_fb_events_fetch`); il 14/11 l'API di n8n non la poteva usare e l'editor dell'owner non cambiava i nodi che la usano (`workflows/README.md`); il 15/11 una sonda del coordinatore ha creato dall'API un flusso `staging_` con un nodo che la riferisce (mai eseguito, cancellato subito): un flusso nuovo fatto dall'API la può riferire; che una corsa la usi lo dice la prova dal 20 novembre. Resta da riprovare la modifica dei nodi che già la usano in `staging_C_fb_events_fetch`, che tocca al canale C. I due Actor dell'audio da provare: sezione 7; quello dell'elenco si sceglie alla prova; la prova: sezione 6 |
 | Riserva fuori da Apify, per l'audio di YouTube | DALL'OWNER, sulle opzioni del builder | DEC-037, punto 3; finché non c'è, la riserva è un secondo Actor (sezione 9) |
 | Credenziale «OpenAI account» (`openAiApi`) | PRESENTE | condivisa dall'owner il 14/11 col progetto dei flussi `staging_`; `gpt-4o-mini-transcribe` e `whisper-1` rispondono 200 su un M4A di 10 minuti (921) |
-| Credenziale «Google Drive account» (`googleDriveOAuth2Api`) | PRESENTE; via API DA PROVARE (A2) | condivisa il 14/11; c'è una quota di richieste al minuto (D si è fermato il 13/11). POST e PUT con la credenziale sono provati solo su nodi `openAiApi` (918, 921); per un nodo Drive le sessioni precedenti hanno visto il contrario (`PASSAGGIO_2026-11-12.md`, sezione 5): sezione 8, punto 3 |
+| Credenziale «Google Drive account» (`googleDriveOAuth2Api`) | PRESENTE; via API PROVATA il 15/11 (sezione 8, punto 3) | condivisa il 14/11; c'è una quota di richieste al minuto (D si è fermato il 13/11). POST e PUT con la credenziale provati sui nodi `openAiApi` il 14/11 (918, 921) e su un nodo Drive il 15/11 (`staging_A_confronto`), dopo che le sessioni precedenti avevano visto il contrario (`PASSAGGIO_2026-11-12.md`, sezione 5) |
 | Cartella Drive `A Amministrazione/` | PRESENTE | sotto `30 Staging pilota 2026-11`; gli id di questa cartella e delle sottocartelle sono nel passaggio `PASSAGGIO_2026-11-14_canale-A.md`, nella cartella di passaggio, non nel repository |
 | Sottocartelle di CONTRATTI, sezione 7 A | PRESENTI, vuote (create il 14/11) | `registrazioni/`, `temporanei/`, `originali/`, `letture/`, `costi/`; i loro id vanno nel nodo «Inizio» dei flussi |
 | Data table di n8n | PRESENTE | la licenza le ha (`GET /data-tables` 200), nessuna creata; le Variables no (403); i dati statici si salvano solo a fine corsa di produzione |
@@ -89,10 +89,11 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 | Gazetteer | PRESENTE | `raw.githubusercontent.com/QuartieriNews/QN/<commit>/gazetteer/gazetteer.json` risponde 200 dal sandbox; da n8n si prova in A5 |
 | Prototipo dell'audio, `hls-audio.js` | PRESENTE, fuori dal repository | provato in locale con ffprobe e su n8n (921); sta nella cartella di passaggio (`30 Staging pilota 2026-11/`), con la sua prova locale, il codice della sonda e le note delle sonde, nessun testo delle fonti; entra in A3 con i test |
 | Modello del flusso d'errore | PRESENTE | `staging_D_avviso`, che scrive solo nella cartella di D |
-| Data table `staging_A_registrazioni` | DA COSTRUIRE | A2 (sezione 4) |
-| Nodi Code della sezione 5, con i test | DA COSTRUIRE | A2–A5 |
-| `staging_A_elenco`, `staging_A_testo`, poi `staging_A_lettura` e `staging_A_elementi` | DA COSTRUIRE | A2–A5 |
-| `staging_A_avviso` | DA COSTRUIRE | A2; sempre attivo |
+| Data table `staging_A_registrazioni` | PRESENTE (16/11) | creata dall'API con le colonne di `COLUMNS` e le due righe delle prese; l'id è nel passaggio di A2 su n8n |
+| Nodi Code della sezione 5, con i test | quelli di A2 FATTI, provati con dati inventati; gli altri DA COSTRUIRE | A2 (sezione 5); A3–A5 |
+| `staging_A_elenco` | PRESENTE per RomaTV, spento (16/11) | provato il 16/11 sulle versioni che hanno portato a quella esportata: 1341 (i controlli di `robots.txt` e 87 righe nuove), 1344 (righe già presenti), 1347 (una riga ricreata); 1348, sulla versione 2026-11-16.4 (la presa tenuta da un'altra corsa: attesa, poi presa; i nodi della presa sono gli stessi della versione esportata, a parte la riga `deferred_rows` di `recording-state.js`, che la presa non usa; la versione esportata aggiunge `deferred_rows` e toglie il riprovare ad «Aggiorna scheda», il tetto delle schede c'era già); 1350, sulla versione 2026-11-16.5 (una riga nuova con la scheda nuova, una ricreata con la scheda aggiornata, una cambiata, una seduta nuova vera); 1355, sulla versione esportata 2026-11-16.6, che ha i nodi Code di `main` dopo la #58, a parte l'orario, la scadenza di prova e il salvataggio delle corse riuscite (quattro cataloghi completi, sei sedute nuove). Il salto della fonte, con la presa tenuta oltre l'attesa, non è provato su n8n. Le corse riuscite non si salvano su n8n: ne resta il registro in `letture/` |
+| `staging_A_testo`, poi `staging_A_lettura` e `staging_A_elementi` | DA COSTRUIRE | A3–A5 |
+| `staging_A_avviso` | PRESENTE, acceso (16/11) | provato con un errore forzato; esportato in `workflows/` |
 | Fixture dei test | DA COSTRUIRE | byte e testi inventati (DEC-109), mai presi da una fonte |
 | Credenziali condivise e DEC-036 | DALL'OWNER, fatto il 14/11 | |
 | Chiave di un servizio Whisper più economico, per il confronto dei modelli | DALL'OWNER, se il confronto lo prova | DEC-037, punto 4; sezione 6 |
@@ -115,7 +116,12 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 di riferimento, durata, se c'è la trascrizione della piattaforma, la prima parte della seduta
 quando è divisa, il segmento da cui riprendere, i tentativi, la presa e, per un video di
 YouTube, l'id della corsa di Apify e del suo storage. Mai un testo. La scheda in
-`registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A).
+`registrazioni/` copia lo stato quando cambia (CONTRATTI, sezione 7 A). Nella stessa tabella
+stanno le righe delle prese (`lease:romatv`, `lease:youtube`), quelle degli host
+(`host:<nome>`: se è fermo e fino a quando, gli errori di fila, il giorno dell'ultimo controllo di
+`robots.txt`) e quelle di YouTube (`fonte:youtube_elenco`, il suo stato e l'ultimo giorno riuscito;
+`fonte:youtube_audio`, i video del giorno). Le colonne sono `COLUMNS` di
+`code-nodes/recording-state.js`.
 
 | Stato | Lo mette | Vuol dire |
 |---|---|---|
@@ -125,11 +131,19 @@ YouTube, l'id della corsa di Apify e del suo storage. Mai un testo. La scheda in
 | `confini_fissati` | testo | testo della seduta aperta in `originali/`; niente più in `temporanei/` |
 | `letta` | lettura (A4) | fatti candidati in `letture/` |
 | `scartata` | elenco o testo | fuori perimetro, confine non fissabile, video di YouTube uscito dalla finestra senza testo: il motivo è nella riga; niente in `temporanei/`. Un video di YouTube di cui non si ottengono né l'audio né i sottotitoli non si scarta e non va in `errore`: resta `nuova`, con l'avviso, e si riprova nelle corse dopo finché è dentro la finestra (DEC-037, punto 3). Ogni quanto si riprova lo stesso video e si avvisa, e se una ripresa conta fra i 5 video al giorno, lo fissa la PR del testo (A3), con i test (T-A3-22) |
-| `errore` | qualunque flusso | tre tentativi falliti; parte l'avviso; la riga tiene lo stato da cui è caduta. Si riparte solo a mano, da quello stato (sotto, «La pulizia»): caduta durante il testo, i suoi file in `temporanei/` si cancellano subito e si riparte dal primo segmento; caduta in lettura o negli elementi, si riparte da `confini_fissati` o da `letta`, con il testo della seduta aperta che è già in `originali/` |
+| `errore` | qualunque flusso | tre tentativi falliti; parte l'avviso; la riga tiene lo stato da cui è caduta. Si riparte solo a mano, da quello stato, con i campi che dà la fase `restart` di `recording-state.js`, e per un video di YouTube solo dopo che la pulizia del giorno ne ha cancellato lo storage su Apify (sotto, «La pulizia»): caduta durante il testo, i suoi file in `temporanei/` si cancellano subito e si riparte dal primo segmento; caduta in lettura o negli elementi, si riparte da `confini_fissati` o da `letta`, con il testo della seduta aperta che è già in `originali/` |
 
 **La presa.** Una corsa scrive nella riga il proprio id di esecuzione e una scadenza (ora più 5
 minuti) solo se la riga è libera o la presa è scaduta, poi rilegge la riga e lavora solo se la
-presa letta è la sua. Ogni passo rinnova la scadenza; a fine corsa la presa si lascia. Due corse
+presa letta è la sua. Il «solo se» sta nella scrittura stessa: l'aggiornamento del nodo Data table
+porta la condizione, che `recording-state.js` dà con i campi (`claim`: `presa_fino_ms` passata, o
+per il rinnovo `presa_id` uguale; `release`: `presa_id` uguale), con «Must Match: All Conditions»
+(`where.match`; il nodo parte da «Any»). Le righe delle prese delle fonti si scrivono libere
+quando si crea la tabella (`LEASE_SEED`); quelle delle registrazioni nascono con le colonne della
+presa. Una riga si legge per `ref`, una per voce, mai con un elenco che il nodo tronca a 50
+righe. Se il filtro si applica nello stesso aggiornamento lo verifica la prima prova su n8n.
+L'elenco di YouTube tiene `lease:youtube` per tutta la sua attesa della corsa dell'Actor, al più
+20 minuti («I limiti misurati»), e la rinnova a ogni giro dell'attesa, che non supera il minuto. Ogni passo rinnova la scadenza; a fine corsa la presa si lascia. Due corse
 non lavorano sulla stessa registrazione, e una corsa morta libera la riga in 5 minuti. Lo stesso
 meccanismo, su una riga per fonte (`lease:romatv`, `lease:youtube`), tiene una richiesta alla
 volta per fonte anche fra flussi diversi (CONTRATTI, sezione 7 A, «Raccolta»). La sua grana è la
@@ -141,7 +155,11 @@ trova presa: l'elenco aspetta, con un nodo Wait, al più fino alla scadenza dell
 di 100 giorni recupera alla corsa dopo); il testo non comincia e finisce pulito, perché lo
 richiama l'elenco a fine corsa. L'ordine di scrittura è: file su Drive, poi la riga; un file
 già presente con lo stesso nome si sostituisce (specifica v2.5, fase 5.2), così una ripresa non
-lascia doppioni.
+lascia doppioni. La riga di una registrazione si scrive con un upsert sul suo `ref`, così la
+stessa registrazione due volte in una corsa dà una riga sola. Uno stop di un host o dell'elenco
+di YouTube dà il suo avviso subito, scritto prima della riga (`AVVISO_A_<ora>_<host>.json`,
+`…_youtube_elenco.json`); un elenco letto incompleto dà `AVVISO_A_<ora>_elenchi.json` a fine
+corsa, tranne quando l'host era già fermo.
 
 **La ripresa del testo.** Per il testo comandano i file, non la riga, che dice solo da dove
 cominciare a guardare. Prima di chiamare OpenAI per una registrazione, una corsa elenca i file
@@ -215,7 +233,26 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   Workflow con l'attesa spenta), così ogni corsa ha i suoi 300 secondi e una catena non muore
   dentro quelli della prima corsa. A2 lo prova con una sonda, `staging_A_sonda_catena`: un
   flusso a 300 secondi che si chiama due volte senza aspettare; l'ultima corsa deve finire
-  oltre i 300 secondi della prima.
+  oltre i 300 secondi della prima. Provato il 16 novembre 2026 (esecuzioni 1330, 1331, 1333):
+  tre corse da 200 secondi, l'ultima finita 602 secondi dopo l'inizio della prima, nessuna
+  tagliata. Su n8n 2.x un flusso chiamato deve essere acceso: la 1329, partita dall'orario, si è
+  fermata alla propria chiamata, fatta a sonda già spenta, con «Workflow is not active and
+  cannot be executed»; `staging_A_testo`
+  resta quindi acceso, anche se parte solo da chiamata.
+- Esecuzioni, misurate da A2 il 16 novembre 2026: il contatore del piano letto dall'owner è
+  salito da 268 a 273 per tre corse da trigger (1329, 1330 della sonda; 1332, il flusso B) e
+  due chiamate senza aspettare (1331, 1333). Fino alla lettura, l'API elenca dal 9 novembre 534
+  esecuzioni salvate: 191 da trigger, webhook o errore e 343 corse di D chiamate aspettando
+  (`waitForSubWorkflow: true`). Le esecuzioni dell'istanza cominciano il 9 novembre; il
+  ragionamento vale se il periodo del contatore, quello della fatturazione, comprende tutto il
+  9–16 novembre (la data in cui riparte si legge nel pannello del piano). Se queste contassero, il contatore non
+  potrebbe essere a 268:
+  non entrano nel contatore (la differenza fra 191 e 268 sono esecuzioni cancellate o non
+  salvate, che l'API non elenca). Una corsa chiamata conta quindi quando chi la chiama non la aspetta, cioè ogni
+  corsa del testo e della lettura. L'owner ha deciso il 16 novembre 2026 che l'obiettivo di 500
+  corse per A, scritto all'apertura, non vale più: il limite è il piano di 2.500, comune a tutti
+  i canali, con il margine per gli altri; il tetto del testo lo fissa A3 sul tempo misurato, e
+  il contatore del piano si legge ogni mese. Il conto che segue è quello dell'apertura.
 - Esecuzioni: 2.500 al mese sul piano Starter, con B e D. Oggi B e D fanno 25–29 corse al
   giorno da trigger e circa 49 corse chiamate da un altro flusso (sotto-workflow): 750–870 al
   mese se le seconde non contano, 2.220–2.340 se contano. Obiettivo di A: al massimo 500 corse
@@ -238,9 +275,9 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
     con la sonda della catena (il contatore del piano prima e dopo un numero noto di corse,
     letto dall'owner nel pannello di n8n se l'API non lo dà), prima di accendere l'elenco a
     orario; se contano, la domanda sul piano va all'owner allora (sezione 9).
-  - Il tetto del testo viene dall'obiettivo: 500 − 240 = 260 corse al mese, cioè 8 al giorno.
-    Vale finché A2 non dimostra che le corse chiamate non contano; allora lo rifissa A3 sul
-    tempo misurato. Con 8 corse da 20–25 minuti si trascrivono 80–100 ore al mese, meno delle
+  - Il tetto del testo veniva dall'obiettivo: 500 − 240 = 260 corse al mese, cioè 8 al giorno.
+    Superato dalla decisione dell'owner del 16 novembre (sopra): lo rifissa A3 sul tempo
+    misurato. Con 8 corse da 20–25 minuti si trascrivono 80–100 ore al mese, meno delle
     123,3 di giugno di RomaTV, e molto meno delle 165,4 con il Municipio I: anche questo va
     nella domanda all'owner.
 - Binari e memoria: un binario costruito in base64 in un nodo Code resta nel JSON
@@ -258,6 +295,42 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   messaggio e ora; l'id dell'esecuzione può mancare, perché l'esecuzione non si salva.
   Nessun nodo di esito porta un campione di testo (la sonda 921 lo faceva; quell'esecuzione
   è cancellata).
+- L'elenco di YouTube (`youtube-list.js`, come `apify-run.js` per C). La richiesta che avvia la
+  corsa dell'Actor porta il suo tempo massimo, 15 minuti, e il tetto dei video chiesti; che Apify
+  tenga la corsa a quel tetto, e non solo l'Actor, si vede alla prova. Il flusso la aspetta al più
+  20 minuti e ne scrive la spesa dopo che si è assestata. L'id della corsa va nella riga
+  `fonte:youtube_elenco` appena parte, e lì resta finché la corsa non si legge: se l'esecuzione
+  muore, o la corsa aspetta ancora dopo 20 minuti, la corsa dopo la riprende, con la sua spesa,
+  prima di avviarne un'altra, anche con l'elenco fermo (riprendere non chiede niente a YouTube).
+  Una corsa che aspetta ancora dopo 20 minuti lascia l'elenco non letto in quella corsa: il
+  registro lo dice incompleto, con il motivo, e parte l'avviso; conta nella serie come una corsa
+  fallita, ma il suo id resta nella riga e la sua spesa si scrive quando la corsa si legge.
+  Cinque di fila fermano l'elenco con il suo avviso, e la corsa resta da riprendere finché Apify
+  non la chiude o non la si interrompe su Apify.
+  Vanno in `lost`, e contano come corsa fallita, solo un avvio che Apify rifiuta (400, 402, 404:
+  senza file di costo, perché non c'è una corsa), una corsa ripresa che Apify non ha più (con un
+  file di costo dai valori `null`) e uno stato che non si conosce (il suo file di costo porta la
+  corsa come Apify l'ha data). Un blocco dell'API (401, 403, 429) ferma Apify con il suo avviso e
+  non conta nella serie; un errore del server lascia l'id nella riga per la corsa dopo. Restano tre casi rari: un'esecuzione che muore fra l'avvio della
+  corsa e la scrittura del suo id lascia una corsa senza file di costo, come per C
+  (`workflows/README.md`); una corsa ripresa e sparita dopo che il suo file di costo era già
+  scritto ne sostituisce la spesa con `null`; un'esecuzione che muore durante l'attesa libera
+  `lease:youtube` dopo 5 minuti, e una corsa lasciata dopo 20 minuti la lascia a fine corsa,
+  mentre l'Actor può lavorare ancora: per questo A3 non avvia un Actor di YouTube finché
+  `fonte:youtube_elenco` ha un `apify_run_id` (T-A3-22).
+  Alla prova si guarda che l'Actor dia i video dal più recente (il criterio di «Raccolta» lo
+  presuppone) e che 300 video bastino: a giugno il canale ne aveva circa 257 in 100 giorni.
+- Le schede e le righe di una corsa dell'elenco si scrivono dopo l'ultimo rinnovo della presa,
+  al più 25 nuove e 25 cambiate per corsa: un file su Drive ha preso circa 3 secondi
+  (esecuzione 1341), così la scrittura sta dentro la presa. Le altre le scrive la corsa dopo, che
+  le ritrova; il registro le elenca (`deferred_rows`). Accade dopo un fermo lungo o alla prima
+  corsa. Una scheda che Drive non scrive ferma la corsa, con l'avviso, senza riprovare: la corsa
+  dopo ritrova le schede per nome e riscrive le righe.
+- Le risposte dell'elenco in `originali/` (CONTRATTI, sezione 7 A, «Raccolta»): lettura del
+  builder, del 16 novembre, che l'owner conferma con il merge. Ci vanno le risposte che
+  `source-guard.js` giudica dati (`ok`), con il corpo JSON come n8n lo ha letto e riscritto;
+  una risposta che ferma l'host o lascia l'elenco incompleto resta nel registro e nell'avviso,
+  con il suo motivo.
 - Prove con un trigger a orario: ogni corsa di prova ha una scadenza scritta nel codice, perché
   lo spegnimento via API arriva tardi (l'esecuzione 922 è partita un minuto dopo la 921).
 
@@ -308,7 +381,7 @@ proposte: li fissa la PR che li porta.
 | PR | Che cosa | Nodi Code e test | Su n8n e Drive |
 |---|---|---|---|
 | A1 apertura (questa), in due PR perché insieme passano le 1.000 righe (protocollo, sezione 2, punto 4) | A1a: CONTRATTI, sezioni 5, 6 e 7 A; DEC-036; questo brief. A1b: il nodo e i test | A1b: `institutional-identity.js`, `tests/test_institutional_identity.js` | niente |
-| A2 raccolta | elenco dei cataloghi e, per YouTube, dei video del canale da un Actor di Apify (DEC-037), schede, stato, presa, stop delle fonti, controllo di `robots.txt` | `romatv-list.js`, `youtube-list.js`, `recording-state.js` | Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
+| A2 raccolta, in due PR perché insieme passano di molto le 1.000 righe (protocollo, sezione 2, punto 4) | elenco dei cataloghi e, per YouTube, dei video del canale da un Actor di Apify (DEC-037), schede, stato, presa, stop delle fonti, controllo di `robots.txt`. A2a: i nodi e i test. A2b: il flusso, costruito sui nodi già rivisti, con la sua esportazione | A2a: `source-guard.js`, `romatv-list.js`, `youtube-list.js`, `recording-state.js`, con i loro test (T-A2-01…T-A2-13). A2b: T-A2-14 in `tests/test_workflow_exports.js` | A2a: niente. A2b: Data table; `staging_A_elenco`; `staging_A_avviso`; le sonde della sezione 6 |
 | A3 testo | la strada dell'audio di RomaTV; l'audio di YouTube da un Actor di Apify, con la riserva e, per ultimi, i sottotitoli automatici (DEC-037, punto 3); i pezzi da 60 secondi; i testi della piattaforma (JSON del parlato, WebVTT di riserva) e i sottotitoli di YouTube in una forma sola con i tempi; il confine della seduta; le spese | `hls-audio.js` (dal prototipo nella cartella di passaggio, sezione 3), `youtube-audio.js`, `recording-text.js`, `session-boundary.js` | `staging_A_testo` |
 | A4 lettura | i fatti candidati secondo `tools/sources-study/report2/SPECIFICA_VIDEO.md`, con l'evidenza `[mm:ss]`, in `letture/`, senza il riscontro con atti e notizie (sotto, «Il riscontro»); il modello di trascrizione si fissa qui, dopo il confronto (sezione 6) | il nodo della lettura | `staging_A_lettura` |
 | A5 elementi | il riscontro con atti e notizie (sotto); geografia con una porta JS della risoluzione del gazetteer sui luoghi estratti; classi editoriali di `institutional` dal build del gazetteer; seconda verifica di DEC-015; coda di revisione; proiezione per il prototipo | la porta del gazetteer, la scrittura dell'elemento | `staging_A_elementi`; gli elementi in `A Amministrazione/` |
@@ -321,7 +394,10 @@ Dove le formule mancano o si contraddicono, un modello legge solo i tratti intor
 precedente) solo quando la fonte le dichiara: stesso catalogo, organo e giorno di Roma; titoli
 che dicono la parte («parte 1», «I parte», «seconda parte») con numeri che si seguono; nessuna
 sovrapposizione, cioè la parte dopo comincia dopo la fine della precedente (ora di riferimento
-più durata). Stesso organo e stesso giorno non bastano. A giugno, con l'organo come lo dà il
+più durata). Stesso organo e stesso giorno non bastano. Lettura del builder (A2,
+`code-nodes/romatv-list.js`): l'organo è quello che il portale dà (`governmentBody`), se no il
+titolo senza la parte, come pubblicato; due registrazioni hanno lo stesso organo quando questo
+coincide senza maiuscole, spazi e punteggiatura. Un video di YouTube non si lega mai: sta a sé. A giugno, con l'organo come lo dà il
 CSV A3, 127 gruppi di catalogo, organo e giorno su 300 hanno più di una registrazione, e in 118
 coppie consecutive la seconda comincia prima che finisca la prima: per esempio due commissioni
 del X del 9 giugno, alle 13:00 per 68 minuti e alle 14:00. Ogni altra registrazione sta a sé.
@@ -353,7 +429,7 @@ A5.
 A1: T-A1-01…T-A1-19 in `tests/test_institutional_identity.js`: identità, nomi dei file,
 colonne della coda, ora e durata, `source_hash`, l'adattatore di n8n.
 
-A2:
+A2 (T-A2-01…T-A2-13 con A2a; T-A2-14 con A2b):
 - T-A2-01 una pagina di catalogo: guid in minuscolo, titolo come pubblicato, ora di riferimento
   con offset portata in UTC, durata `hh:mm:ss.fffffff` in secondi, trascrizione della
   piattaforma riconosciuta dalle tracce, SMIL solo audio.
@@ -374,8 +450,8 @@ A2:
 - T-A2-07 gli stop di RomaTV della riga «Raccolta», uno per caso: l'host si ferma, parte
   l'avviso, e riparte solo quando l'owner lo dice; un errore del server lascia la voce per la
   corsa dopo, cinque di fila fermano l'host fino al giorno dopo.
-- T-A2-08 `robots.txt` cambiato rispetto al 14 novembre, o illeggibile dove si leggeva: l'host
-  si ferma e parte l'avviso.
+- T-A2-08 `robots.txt` cambiato rispetto al 14 novembre, o illeggibile dove si leggeva, nella
+  lettura di CONTRATTI, sezione 7 A, «Raccolta»: l'host si ferma e parte l'avviso.
 - T-A2-09 elenco di YouTube da un Actor di Apify (DEC-037, punto 2), con un Apify finto:
   `youtube:<id>` solo per un id di 11 caratteri; `source_id` è il canale; si tengono i video
   dentro la finestra di T-A2-04, e un video già visto non dà una seconda riga; un elenco che
@@ -385,17 +461,29 @@ A2:
   di Apify ferma Apify, parte l'avviso, e riparte solo quando l'owner lo dice, come per
   RomaTV (T-A2-07); una corsa fallita dell'Actor dell'elenco lascia l'elenco non letto in
   quella corsa e ha il suo file di costo, e cinque di fila fermano l'elenco fino al giorno
-  dopo, con l'avviso; con Apify fermo nessuna richiesta parte; nessuna richiesta va a YouTube, né
+  dopo, con l'avviso; una corsa lasciata perché aspetta ancora dopo 20 minuti lascia anche lei
+  l'elenco non letto in quella corsa e conta nella serie, con il suo id che resta nella riga e
+  senza file di costo finché non si legge; con Apify fermo nessuna richiesta parte; nessuna richiesta va a YouTube, né
   al sito né all'interfaccia ufficiale; ogni richiesta di n8n porta lo user agent dichiarato.
 - T-A2-12 il ritmo della riga «Raccolta», con un orologio finto: le pause minime per host,
   dalla fine di una risposta alla richiesta seguente (5 secondi agli host di RomaTV, 1 a quello
   dei media), una richiesta alla volta per fonte, e per YouTube la cadenza dell'elenco che
-  fissa A2, un video alla volta e al più 5 video per giorno di Roma; lo stesso modulo dà il
-  ritmo ai segmenti di A3.
+  fissa A2, un video alla volta e al più 5 video per giorno di Roma (`youtube-list.js`); le pause
+  stanno in `source-guard.js`, che dà il ritmo anche ai segmenti di A3, e la richiesta alla volta
+  nella presa (`recording-state.js`).
 - T-A2-11 la presa: due corse sulla stessa riga, una sola lavora; una presa scaduta si riprende;
   gli stati cambiano solo lungo la tabella della sezione 4. La presa di una fonte tenuta dal
   testo: l'elenco aspetta al più fino alla scadenza, poi salta la fonte e lo scrive nel
   registro; il testo che la trova presa non comincia.
+- T-A2-14 (A2b: arriva con il flusso, non con i nodi) esportazione di `staging_A_elenco`
+  (`tests/test_workflow_exports.js`): i nodi Code identici ai file; `fetch` riceve un item per esecuzione; ogni scrittura della presa e
+  di una riga porta il suo `where`, con «Must Match» preso da `where.match`; una riga si legge per
+  `ref`; il file dell'avviso viene prima della riga dell'host o dell'elenco; ogni nodo HTTP verso
+  Apify viene dopo `may`, porta lo user agent dichiarato e passa la risposta ad `answer`; da
+  `poll`, `leave` scrive la lettura nel registro e lo stato dell'elenco nella sua riga, con l'id
+  della corsa, e finisce la corsa, e `lost` passa dalla fase `lost`; `poll` riceve la riga
+  dell'elenco (`list_row`) e `lost`, per uno stato che non si conosce, la corsa (`run`); un blocco
+  o un errore del server dell'API di Apify non arriva mai a `lost`.
 - T-A2-13 il tetto delle pagine (CONTRATTI, sezione 7 A, «Raccolta»): un catalogo che ripete
   una pagina, le cui date risalgono da una pagina all'altra, o che in 4 pagine non esce dalla
   finestra di T-A2-04 si ferma, mai oltre la quarta richiesta; il registro
@@ -477,6 +565,7 @@ A3:
   riprende dal pezzo seguente, senza un'altra corsa dell'Actor e senza una seconda spesa. Si
   cancella quando il testo è completo e dopo un fallimento dell'Actor; quello di una riga
   finita in `errore` o `scartata`, o rimasto senza riga, lo cancella la pulizia del giorno.
+  Nessun Actor di YouTube parte finché `fonte:youtube_elenco` ha un `apify_run_id` (sezione 4).
   Ogni corsa di Apify, anche fallita, ha il suo file di costo (CONTRATTI, sezione 7 A,
   «Costi»), e nessuna richiesta porta cookie o un login.
 
@@ -494,7 +583,7 @@ la delega di DEC-036, punto 6.
 | Uno o due video del Municipio I con i due Actor di Apify, dal 20 novembre, con la spesa prevista dichiarata prima (DEC-037, punto 6) | qualità dell'audio (traccia e bitrate), durata intera, tempo e costo vero della corsa; quale Actor è il principale e quale la riserva | 0,5 € (due video di un'ora: Apify e trascrizione) |
 | La stessa registrazione rifatta | nessun file doppio, nessuna spesa doppia | 0 € |
 | Un errore forzato | `staging_A_avviso` scrive l'avviso in `letture/`, anche con i dati degli errori non salvati | 0 € |
-| Un nodo Drive con la credenziale, creato con POST e cambiato con PUT, che scrive in `letture/` (A2) | la credenziale Drive regge sui flussi fatti dall'API (sezione 8, punto 3) | 0 € |
+| Un nodo Drive con la credenziale, creato con POST e cambiato con PUT, che scrive in `letture/` (fatta il 15 novembre, con il confronto dei modelli) | la credenziale Drive regge sui flussi fatti dall'API (sezione 8, punto 3) | 0 € |
 | `staging_A_sonda_catena` (A2) | i 300 secondi non passano a una corsa chiamata senza attesa; se le corse chiamate contano nel piano (sezione 4) | 0 € |
 | Elenco (A2) e chiave (A3) senza `Origin` e `Referer`, una volta | se servono (sezione 4, la strada dell'audio, passo 3) | 0 € |
 | Chiusura | `temporanei/` vuota e nessun suo file nel cestino (`trashed = true`); nessuna esecuzione con dati di audio o testo su n8n; nessuno storage di corsa rimasto su Apify | 0 € |
@@ -536,7 +625,7 @@ converte il totale del mese con il tasso della BCE (CONTRATTI, sezione 5; DEC-03
 | Trascrizione nostra | 165,4 ore, con le 42,1 del Municipio I (DEC-037), a 0,157 $ l'ora (misura di giugno: 318 registrazioni, 227,7 ore, 35,76 $) | circa 24 |
 | Apify, per l'audio di YouTube | 77 video e 42,1 ore a giugno, ai prezzi di listino letti il 15 novembre, da verificare alla prova: 0,006 $ a video (`datapipe/youtube-video-downloader`) o 0,002 $ al minuto (`lurkapi/youtube-to-mp3-audio-downloader`) | da 0,4 a 4,6 |
 | Lettura e confine | circa 178 ore di testo (nostro e della piattaforma; di YouTube solo in ultima riserva) con un modello di fascia media, al prezzo di `gpt-4.1-mini`, che si spegne il 14 gennaio 2027 (sezione 6): il prezzo si rilegge con il modello che sceglie A4 | 2–3 |
-| Apify, per l'elenco di YouTube | l'Actor si sceglie alla prova e il suo prezzo si legge prima; la cadenza la fissa A2 | non ancora stimato |
+| Apify, per l'elenco di YouTube | l'Actor si sceglie alla prova e il suo prezzo si legge prima; una corsa al giorno, una seconda se la prima non riesce, con al più 300 video (A2; CONTRATTI, sezione 7 A, «Raccolta»): a finestra piena circa 9.000 video al mese, sotto i 5 € se l'Actor costa meno di circa 0,60 $ ogni 1.000 video (DEC-036, punto 6) | non ancora stimato |
 | Imprevisti | 20 % | da 5 a 6 |
 | Totale | | da circa 32 a circa 38, senza l'elenco di YouTube, a cavallo della quota di A di 33 € (CONTRATTI, sezione 5) |
 
@@ -550,7 +639,7 @@ Fuori dalla stima restano voci note, tutte verso l'alto:
   registrazioni su 318 con più del 10 % di testo ripetuto, sezione 6): da 5 a 6 € in più;
 - la scrittura e la seconda verifica di A5: si fissano con A5, su quanto resta della quota;
 - l'elenco di YouTube da Apify, non ancora stimato (tabella): il prezzo dell'Actor si legge
-  prima della prova e la cadenza la fissa A2.
+  prima della prova; la cadenza è una corsa riuscita al giorno (A2).
 
 Con le prime tre, e senza l'elenco di YouTube, la stima arriva a circa 41–48 €, sopra la
 quota. Lo dicono le spese vere del primo mese, nei file di `costi/`: il coordinatore avvisa
@@ -585,11 +674,11 @@ Il grosso è la trascrizione, non Apify.
    `staging_A_avviso`), `executionTimeout`.
 3. **Cambiare.** `PUT /workflows/{id}`. Dal 14 novembre POST e PUT funzionano sui nodi
    `openAiApi` con credenziale, perché le credenziali sono condivise col progetto (918, 921);
-   sui nodi Google Drive non è provato, e le sessioni precedenti hanno visto che la query di un
-   nodo Drive con credenziale cambia solo ricreando il flusso con POST, con un id nuovo
-   (`PASSAGGIO_2026-11-12.md`, sezione 5). A2 prova un nodo Drive con la credenziale
-   «Google Drive account» in un flusso `staging_A`: creato con POST, cambiato con PUT, che scrive in
-   `letture/`; finché non regge, i flussi non ci contano. Prima del PUT, nessuna esecuzione in
+   le sessioni precedenti avevano visto che la query di un nodo Drive con credenziale cambia solo
+   ricreando il flusso con POST, con un id nuovo (`PASSAGGIO_2026-11-12.md`, sezione 5). Il 15
+   novembre un nodo Drive con la credenziale «Google Drive account», creato con POST e cambiato
+   con PUT in un flusso `staging_A`, ha scritto in `letture/` (`staging_A_confronto`, passaggio
+   `PASSAGGIO_2026-11-15_confronto-trascrittori.md`): regge. Prima del PUT, nessuna esecuzione in
    corso (`GET /executions?status=running`); dopo, un flusso attivo si spegne e si riaccende.
 4. **Accendere e spegnere.** `POST /workflows/{id}/activate` e `/deactivate`. `staging_A_avviso`
    resta sempre acceso: n8n non chiama un flusso d'errore spento.
@@ -625,14 +714,14 @@ Il grosso è la trascrizione, non Apify.
 | Citazioni testuali del parlato | owner | A4 |
 | Atti capitolini (ordini del giorno, convocazioni) per verificare i fatti: fuori da DEC-033, che copre gli atti dei Municipi I, V e X | owner | A4 |
 | Prati: deciso con DEC-037 (15 novembre). Il testo viene dall'audio; l'elenco e l'audio da Apify. Manca la prova degli Actor | builder | dal 20 novembre |
-| Gli Actor di Apify per YouTube, quello dell'elenco e, per l'audio, principale e riserva, dopo la prova (sezione 6); quante volte al giorno si chiede l'elenco; come arrivano i sottotitoli di ultima riserva; la credenziale Apify usabile da un flusso `staging_A` (sezione 3) | builder; l'owner per la credenziale | dal 20 novembre: l'Actor dell'elenco, la cadenza e la credenziale con A2; il resto prima di A3 |
+| Gli Actor di Apify per YouTube, quello dell'elenco e, per l'audio, principale e riserva, dopo la prova (sezione 6); i campi dell'Actor dell'elenco scelto, al posto di quelli provvisori di `youtube-list.js` (`ACTOR_FIELDS`, `actorInput`); come arrivano i sottotitoli di ultima riserva. La cadenza dell'elenco l'ha fissata A2 (CONTRATTI, sezione 7 A, «Raccolta»). La credenziale Apify usabile da una corsa di un flusso `staging_A` (sezione 3) | builder; l'owner per la credenziale | dal 20 novembre: l'Actor dell'elenco, i suoi campi e la credenziale; il resto prima di A3 |
 | La riserva fuori da Apify (un programma su un computer con connessione di casa, o un servizio di un'altra azienda): il builder porta le opzioni, con costi e manutenzione (DEC-037, punto 3) | owner | prima che A3 vada a regime |
 | L'audio di un video intero di YouTube su n8n: memoria per esecuzione, formato e divisione in pezzi; come si trova lo storage di una corsa di Apify rimasto senza riga | builder | A3 |
 | Che cosa il servizio di trascrizione conserva dell'audio che riceve, di RomaTV e di YouTube: le sue condizioni si leggono prima di fissare il modello (DEC-037, punto 2) | il builder legge; l'owner se serve una scelta | A4 |
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
-| L'ora di riferimento di un video di YouTube: quale ora dell'elenco dell'Actor vale, la pubblicazione o l'inizio della diretta | builder | A2 |
+| L'ora di riferimento di un video di YouTube: fissata da A2, l'inizio della diretta quando l'Actor lo dà, se no la pubblicazione (CONTRATTI, sezione 7 A, «Raccolta»); se l'Actor scelto la dà si vede alla prova | builder | dal 20 novembre |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
-| Se le corse chiamate da un altro flusso contano nel piano: se contano, A non ci sta già con A2 e A3 (sezione 4), e servono il piano superiore o meno corse | il builder misura, l'owner decide il piano | A2, prima di accendere l'elenco a orario |
+| Il piano a regime, con tutti i Municipi: a giugno circa 340–350 ore da trascrivere, 800–1.050 corse di testo a 20–25 minuti per corsa, circa 1.800–2.150 con l'elenco, B e D, prima di C (`docs/sources/FATTIBILITA_RICOSTRUZIONE_2026-06.md`); le leve sono corse di testo più lunghe, il testo fuori da n8n, un piano superiore. A3 misura quante corse costa una seduta | il builder misura, l'owner decide | prima di allargare oltre i Municipi del pilota |
 | `Origin` e `Referer` del portale nelle richieste all'elenco e alla chiave: se servono, la PR che lo misura lo scrive in CONTRATTI, sezione 7 A | builder | A2 (elenco), A3 (chiave) |
 | La stima di spesa con le voci che ne restano fuori arriva a circa 41–48 €, senza l'elenco di YouTube, sopra la quota di 33 € (sezione 7) | il coordinatore, sulle spese del primo mese; l'owner se si va oltre | fine del primo mese |
 | File del repository che hanno già testo di notizie preso dalle fonti: `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md`, sezione 6 («Possibili notizie»), e `docs/wiki/`. Segnalati, non toccati qui | owner | ora |
