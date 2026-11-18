@@ -111,9 +111,14 @@ function request({ workflow, execution_id, started_at, files }) {
  *  or is older than HOLD_MS at `now`: of two calls that overlap, the second stops before any canonical
  *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call
  *  that does not see its own reservation yet stops too: it has written nothing canonical, and its
- *  outcome frees the calls after it. */
+ *  outcome frees the calls after it. An empty item is no reservation; an error item is the reading
+ *  that failed, and throws (T29). */
 function turn({ reservations, mine, now }) {
   if (!Array.isArray(reservations)) throw new Error('reservations must list the reservations and outcomes read again');
+  // T29: the reading that failed reaches the turn as n8n's error item (workflows/README.md, «The
+  // canonical write»); its error, not «not listed yet», is the outcome.
+  const unread = reservations.find((r) => r && r.error !== undefined && typeof r.name !== 'string');
+  if (unread) throw new Error(`the reservations could not be read again: ${typeof unread.error === 'string' ? unread.error : JSON.stringify(unread.error)}`);
   if (typeof mine !== 'string' || !ID.test(mine)) throw new Error('mine must be the Drive id of the call\'s reservation');
   const nowAt = utcInstant(now);
   if (nowAt === null) throw new Error('now must be a UTC instant');
@@ -250,7 +255,7 @@ if (items.length !== 1) throw new Error(`one item expected, ${items.length} rece
 const j = items[0].json;
 if (j.stage === 'request') return [{ json: Object.assign({}, j, request(j)) }];
 if (j.stage === 'turn') {
-  const out = Object.assign({}, j, { turn: turn({ reservations: (j.reservations || []).filter((r) => r && r.name), mine: j.reservation_id, now: new Date().toISOString() }) });
+  const out = Object.assign({}, j, { turn: turn({ reservations: j.reservations || [], mine: j.reservation_id, now: new Date().toISOString() }) });
   delete out.reservations;
   return [{ json: out }];
 }

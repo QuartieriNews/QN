@@ -534,6 +534,9 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
     node('Elenco C Eventi').parameters.folderId === undefined && node('Elenco C Eventi').parameters.queryString === `'${node('Carica').parameters.folderId.value}' in parents and trashed = false`);
   // A failed listing must give no empty item on its success output: that would plan every file as a creation.
   check('C canonical: the listing of C Eventi gives no empty item, and its folders come with it', !node('Elenco C Eventi').alwaysOutputData && node('Elenco C Eventi').parameters.options.fields.includes('mimeType'));
+  // n8n leaves out a setting at its default: from version 1.1 of the Wait node the unit is seconds.
+  check('C canonical: the pause after the reservation is in seconds',
+    node('Attesa conferma').typeVersion === 1.1 && [undefined, 'seconds'].includes(node('Attesa conferma').parameters.unit) && node('Attesa conferma').parameters.resume === undefined);
   // Reachability: with the turn's "go on" branch cut, no canonical write is reachable.
   const reach = (from, cut) => {
     const seen = new Set([from]);
@@ -570,9 +573,16 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
   // A step that fails after the reservation still leaves its outcome (specification v2.5, Part I, 4.2).
   const errTo = (name) => reach(((((CW.connections[name] || {}).main || [])[1] || [])[0] || {}).node || '-');
   check('C canonical: every reading, step of code and write between the reservation and the outcome has an error route to it',
-    ['Prenotazioni', 'Turno', 'Elenco C Eventi', 'Piano', 'Carica', 'Aggiorna'].every((n) => node(n).onError === 'continueErrorOutput' && errTo(n).has('Salva esito') && errTo(n).has('Rispondi')));
+    ['Turno', 'Elenco C Eventi', 'Piano', 'Carica', 'Aggiorna'].every((n) => node(n).onError === 'continueErrorOutput' && errTo(n).has('Salva esito') && errTo(n).has('Rispondi')));
+  // With an error output, n8n's alwaysOutputData adds an empty item to the main output beside the error item,
+  // and both branches would write an outcome: the reading again keeps its error item on its one output,
+  // where the turn throws it to its own error route (T29).
+  check('C canonical: the reading again has one output, its error item goes to the turn',
+    node('Prenotazioni').onError === 'continueRegularOutput' && node('Prenotazioni').alwaysOutputData === true &&
+    ((CW.connections.Prenotazioni || {}).main || []).length === 1 && out('Prenotazioni') === 'Elenco prenotazioni#0' &&
+    CW.nodes.every((n) => !(n.alwaysOutputData && n.onError === 'continueErrorOutput')));
   check('C canonical: an error before the turn stops the call, one after it fails the call before any canonical write',
-    out('Prenotazioni', 1) === 'Prepara guasto prima#0' && out('Turno', 1) === 'Prepara guasto prima#0' && !('turn' in Object.fromEntries((node('Prepara guasto prima').parameters.assignments.assignments).map((a) => [a.name, 1]))) &&
+    out('Turno', 1) === 'Prepara guasto prima#0' && !('turn' in Object.fromEntries((node('Prepara guasto prima').parameters.assignments.assignments).map((a) => [a.name, 1]))) &&
     out('Elenco C Eventi', 1) === 'Prepara guasto dopo#0' && out('Piano', 1) === 'Prepara guasto dopo#0' && !errTo('Piano').has('Carica') && !errTo('Elenco C Eventi').has('Aggiorna'));
   check('C canonical: the outcome is saved, then sent back with its status',
     out('Esito') === 'Testo esito#0' && out('Testo esito') === 'File esito#0' && out('File esito') === 'Salva esito#0' && out('Salva esito') === 'Rispondi#0' &&
