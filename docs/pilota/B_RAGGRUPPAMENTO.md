@@ -175,7 +175,8 @@ inventati.
   casi niente è certo, e la scheda va in dubbio: quando ha trovato il fatto solo per luogo, quando è
   un comunicato senza la data del fatto a più di 7 giorni dal suo fatto, quando la scheda citata è
   un aggiornamento senza la data del fatto. Quanti dettagli è la scelta 2. Una scheda le cui date
-  vengono solo da `retrieved_at` non è mai certa. Il codice controlla che le prove ci siano, non che
+  vengono solo da `retrieved_at` non è mai certa, e nemmeno una scheda che cita una scheda le cui
+  date vengono solo da lì (una proposta del builder). Il codice controlla che le prove ci siano, non che
   il modello abbia ragione: quello lo misura la prova (sezione 8).
 - **Dubbio:** un `stesso` senza prove verificate, o un `forse`; un `stesso` con le prove quando la
   scheda e una del fatto fanno nomi (motivo `nomi`); una scheda certa con un fatto e, con un altro,

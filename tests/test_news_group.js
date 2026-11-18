@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Executable acceptance for code-nodes/news-group.js, parts B-R1a and B-R1b: steps 1 and 3 and the
- * checks of the model's answers (docs/pilota/B_RAGGRUPPAMENTO.md, sections 2, 3, 5 and 6; section
- * 8, point 1, lists what this file must cover by the end of B-R1), the copies kept equal to
- * news-identity.js, news-fact.js and news-collect.js, and the n8n adapter evaluated from the exact
- * committed file with stubbed $input/$json. Every URL,
+ * Executable acceptance for code-nodes/news-group.js: which records of workstream B tell the
+ * same fact (docs/pilota/B_RAGGRUPPAMENTO.md, sections 3, 5 and 6; section 8, point 1, lists
+ * what this file must cover), the copies kept equal to news-identity.js, news-fact.js and
+ * news-collect.js, what the grouping adds on top of news-fact.js (owner choice 3(b)), and the
+ * n8n adapter evaluated from the exact committed file with stubbed $input/$json. Every URL,
  * place and text is invented (DEC-109, DEC-031 point 4); the hosts are the sources of
  * CONTRATTI.md section 7 B, with invented paths. T-B-R1-nn name the cases.
  *
@@ -559,6 +559,410 @@ console.log('T-B-R1-26 the stage check_giudizio of the n8n adapter');
   const l = g.candidates(one(rec('abit', 'b', '2026-11-11T07:00:00Z'), { luoghi: [VIA('Via X')] }), t);
   check('T-B-R1-26 check_giudizio', adapter({ stage: 'check_giudizio', risposta: { giudizi: [{ content_id: l.candidati[0].content_id, verdetto: 'diverso' }] },
     lista: l }).item.json.check.ok, true);
+}
+
+/* ===== step 5, a run, publication ===== */
+
+const factNode = require(path.join(__dirname, '..', 'code-nodes', 'news-fact.js'));
+
+console.log('T-B-R1-31 the facts written by hand in these tests are those the code writes');
+{
+  const s = one(rec('quest', 'a', '2026-11-10T07:00:00Z'), {});
+  check('T-B-R1-31 an open fact', open([], s), g.applyDecision([], s, { azione: 'apri', stato: 'aperto', motivi: [] }, NOW, 'esercizio'));
+  check('T-B-R1-31 a fact in doubt', open([], s, 'in_dubbio'), g.applyDecision([], s, { azione: 'apri', stato: 'in_dubbio',
+    motivi: [{ content_id: null, motivo: 'nomi' }] }, NOW, 'esercizio'));
+  const t = open([], s);
+  const s2 = one(rec('abit', 'b', '2026-11-11T07:00:00Z'), {});
+  check('T-B-R1-31 a scheda that joins', join(t, s2, t[0].content_id), g.applyDecision(t, s2, { azione: 'unisci', content_id: t[0].content_id,
+    ruolo: 'stesso_fatto', motivi: [] }, NOW, 'esercizio'));
+}
+
+/* ----- T-B-R1-12 certain: the invented example of section 5 ---------------------- */
+
+console.log('T-B-R1-12 certain, the example of section 5');
+{
+  const release = rec('quest', 'due-interventi', '2026-11-10T09:00:00Z');
+  const [fire, car] = schede(release, [
+    { tipo: 'incendio', data_fatto: '2026-11-09', luoghi: [VIA('via dei Mandorli Finti')], dettagli: [PERS(2), ETA(70)] },
+    { tipo: 'furto', data_fatto: '2026-11-09', dettagli: [OGG('auto')] },
+  ]);
+  let t = open([], fire);
+  t = open(t, car);
+  const press = one(rec('abit', 'incendio-garage', '2026-11-11T07:00:00Z'),
+    { tipo: 'incendio', luoghi: [VIA('Via dei Mandorli Finti')], dettagli: [PERS(2), ETA(70)] });
+  const l = g.candidates(press, t);
+  const id = g.factId(fire);
+  const d = g.decide(press, l, judge(l, { [id]: { verdetto: 'stesso', luogo: 'via dei Mandorli Finti', dettagli: [PERS(2), ETA(70)] } }), t, 'esercizio');
+  check('T-B-R1-12 the press scheda joins the fact of scheda 1', d, { azione: 'unisci', content_id: id, ruolo: 'stesso_fatto', motivi: [] });
+  check('T-B-R1-12 the fact keeps the id of the release, with -f1', id, `${identity.newsIdentity({ opening_url: release.url, fact_index: 1 }).content_id}`);
+  check('T-B-R1-12 …which ends in -f1', id.endsWith('-f1'), true);
+  t = g.applyDecision(t, press, d, '2026-11-11T08:00:00Z', 'esercizio');
+  const f = t.find((x) => x.content_id === id);
+  check('T-B-R1-12 the fact has two sources, roles apre and stesso_fatto', f.schede.map((x) => x.ruolo), ['apre', 'stesso_fatto']);
+  check('T-B-R1-12 aperto_il does not change when a scheda joins', f.aperto_il, NOW);
+  const res = factNode.factSources(g.factRecords(f));
+  check('T-B-R1-12 news-fact.js reads the records of the fact as they are', [res.categoria, res.capofila.source_id], ['ufficiale', 'questure.poliziadistato.it']);
+  const solo = one(rec('faro', 'solo', '2026-11-11T07:00:00Z'), {});
+  check('T-B-R1-12 a record of one fact has no -f', g.factId(solo).endsWith('-f1'), false);
+}
+
+/* ----- T-B-R1-13 proofs that do not hold, the two rules ------------------------- */
+
+console.log('T-B-R1-13 proofs that do not hold, and the comparison rule');
+{
+  const a = one(rec('faro', 'a', '2026-11-10T07:00:00Z'), { luoghi: [VIA('Via X'), Q('Quartiere Y')], dettagli: [ETA(30), PERS(1)] });
+  const t = open([], a);
+  const id = g.factId(a);
+  const s = one(rec('abit', 'b', '2026-11-11T07:00:00Z'), { luoghi: [VIA('Via X'), Q('Quartiere Y')], dettagli: [ETA(30), PERS(1)] });
+  const l = g.candidates(s, t);
+  const dec = (v, rule) => g.decide(s, l, judge(l, { [id]: Object.assign({ verdetto: 'stesso' }, v) }), t, rule || 'esercizio');
+  check('T-B-R1-13 place and two details: certain', dec({ luogo: 'Via X', dettagli: [ETA(30), PERS(1)] }).azione, 'unisci');
+  check('T-B-R1-13 a cited detail that is not there: doubt, prove', dec({ luogo: 'Via X', dettagli: [ETA(30), PERS(1), ETA(31)] }).motivi,
+    [{ content_id: id, motivo: 'prove' }]);
+  check('T-B-R1-13 a cited place that is not there: doubt', dec({ luogo: 'Via Z', dettagli: [ETA(30), PERS(1)] }).stato, 'in_dubbio');
+  check('T-B-R1-13 a cited scheda the model did not see: doubt', dec({ scheda_id: 'https://x.it/y#1', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] }).stato,
+    'in_dubbio');
+  check('T-B-R1-13 one detail only (owner choice 2): doubt', dec({ luogo: 'Via X', dettagli: [ETA(30)] }).stato, 'in_dubbio');
+  check('T-B-R1-13 the same detail twice counts once', dec({ luogo: 'Via X', dettagli: [ETA(30), ETA(30)] }).stato, 'in_dubbio');
+  check('T-B-R1-13 a quarter only: doubt with the rule in use', dec({ luogo: 'Quartiere Y' }).stato, 'in_dubbio');
+  check('T-B-R1-13 a quarter only and no detail: certain with the comparison rule', dec({ luogo: 'Quartiere Y' }, 'confronto').azione, 'unisci');
+  check('T-B-R1-13 no place at all is never certain, with either rule', [dec({ luogo: null, dettagli: [ETA(30), PERS(1)] }).stato,
+    dec({ luogo: null }, 'confronto').stato], ['in_dubbio', 'in_dubbio']);
+  check('T-B-R1-13 forse is a doubt', g.decide(s, l, judge(l, { [id]: { verdetto: 'forse' } }), t, 'esercizio').motivi, [{ content_id: id, motivo: 'forse' }]);
+  check('T-B-R1-13 diverso opens a fact of its own', g.decide(s, l, judge(l, {}), t, 'esercizio'), { azione: 'apri', stato: 'aperto', motivi: [] });
+  check('T-B-R1-13 an unknown rule is refused', thrown(() => g.decide(s, l, judge(l, {}), t, 'larga')), 'regola_unknown');
+}
+
+/* ----- T-B-R1-14 days from retrieved_at ------------------------------------------- */
+
+console.log('T-B-R1-14 dates only from retrieved_at are never certain');
+{
+  const a = one(rec('faro', 'a', '2026-11-11T07:00:00Z'), { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] });
+  const t = open([], a);
+  const id = g.factId(a);
+  const s = one(rec('quest', 'b', null, '2026-11-12T08:00:00Z'), { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] });
+  const l = g.candidates(s, t);
+  check('T-B-R1-14 a scheda whose days come from retrieved_at goes in doubt',
+    g.decide(s, l, judge(l, { [id]: { verdetto: 'stesso', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] } }), t, 'esercizio').motivi,
+    [{ content_id: id, motivo: 'prove' }]);
+  const s2 = one(rec('quest', 'c', null, '2026-11-12T08:00:00Z'), { data_fatto: '2026-11-10', luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] });
+  const l2 = g.candidates(s2, t);
+  check('T-B-R1-14 …unless it gives the day of its fact and the window holds on it',
+    g.decide(s2, l2, judge(l2, { [id]: { verdetto: 'stesso', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] } }), t, 'esercizio').azione, 'unisci');
+}
+
+/* ----- T-B-R1-15 names (owner choice 6) ----------------------------------------- */
+
+console.log('T-B-R1-15 the names of the sixth choice');
+{
+  const proof = { verdetto: 'stesso', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] };
+  const S = { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] };
+  const run = (factNames, mineNames, extraNames, upd) => {
+    const a = one(rec('faro', 'a', '2026-11-10T07:00:00Z'), Object.assign({}, S, { fa_nomi: factNames }));
+    let t = open([], a);
+    const id = g.factId(a);
+    if (extraNames !== undefined) t = join(t, one(rec('faro', 'a2', '2026-11-10T09:00:00Z'), Object.assign({}, S, { fa_nomi: extraNames })), id);
+    const s = one(rec('abit', 'b', '2026-11-11T07:00:00Z'), Object.assign({}, S, { fa_nomi: mineNames }, upd ? { aggiornamento: 'convalida', data_fatto: '2026-11-10' } : {}));
+    const l = g.candidates(s, t);
+    return g.decide(s, l, judge(l, { [id]: Object.assign({ scheda_id: a.scheda_id }, proof) }), t, 'esercizio');
+  };
+  check('T-B-R1-15 names in both: doubt, nomi', run(true, true).motivi.map((m) => m.motivo), ['nomi']);
+  check('T-B-R1-15 names in one only: certain', [run(true, false).azione, run(false, true).azione], ['unisci', 'unisci']);
+  check('T-B-R1-15 names in a scheda of the fact the model does not cite: doubt', run(false, true, true).motivi.map((m) => m.motivo), ['nomi']);
+  check('T-B-R1-15 an update with names, to a fact with names: doubt', run(true, true, undefined, true).motivi.map((m) => m.motivo), ['nomi']);
+}
+
+/* ----- T-B-R1-16 bridges ----------------------------------------------------------- */
+
+console.log('T-B-R1-16 a bridge never merges two facts alone');
+{
+  const S = { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] };
+  const proof = { verdetto: 'stesso', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] };
+  const a = one(rec('faro', 'a', '2026-11-10T07:00:00Z'), Object.assign({ fa_nomi: true }, S));
+  const b = one(rec('abit', 'b', '2026-11-10T08:00:00Z'), Object.assign({ fa_nomi: true }, S));
+  let t = open([], a);
+  t = open(t, b, 'in_dubbio'); // in doubt for the names
+  const [ia, ib] = [g.factId(a), g.factId(b)];
+  const release = one(rec('quest', 'c', '2026-11-11T07:00:00Z'), Object.assign({ data_fatto: '2026-11-10' }, S));
+  const l = g.candidates(release, t);
+  const both = g.decide(release, l, judge(l, { [ia]: proof, [ib]: proof }), t, 'esercizio');
+  check('T-B-R1-16 certain with two facts, one in doubt for the names: doubt, certa twice', both.motivi.map((m) => m.motivo), ['certa', 'certa']);
+  const mixed = g.decide(release, l, judge(l, { [ia]: proof, [ib]: { verdetto: 'forse' } }), t, 'esercizio');
+  check('T-B-R1-16 certain with one, forse with another: doubt', [mixed.stato, mixed.motivi.map((m) => m.motivo).sort()], ['in_dubbio', ['certa', 'forse']]);
+  const t2 = g.applyDecision(t, release, mixed, NOW, 'esercizio');
+  const f = t2[t2.length - 1];
+  check('T-B-R1-16 the scheda in doubt opens its fact with the candidates and the signals of the events',
+    [f.stato, f.dubbio.candidati.length, f.quality], ['in_dubbio', 2, { review_flags: ['duplicate_doubt'], requires_review: true }]);
+  check('T-B-R1-16 the candidates go on: the dubious scheda touches no other fact', t2.slice(0, 2).map((x) => x.schede.length), [1, 1]);
+}
+
+/* ----- T-B-R1-17 updates --------------------------------------------------------- */
+
+console.log('T-B-R1-17 updates');
+{
+  const S = { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] };
+  const proof = { verdetto: 'stesso', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] };
+  const a = one(rec('faro', 'a', '2026-03-10T07:00:00Z'), Object.assign({ tipo: 'rapina', data_fatto: '2026-03-09' }, S));
+  const t = open([], a);
+  const id = g.factId(a);
+  const upd = one(rec('abit', 'sentenza', '2026-11-11T07:00:00Z'), Object.assign({ tipo: 'rapina', aggiornamento: 'sentenza' }, S));
+  const l = g.candidates(upd, t);
+  check('T-B-R1-17 an update attaches to its fact months after, as aggiornamento', g.decide(upd, l, judge(l, { [id]: proof }), t, 'esercizio'),
+    { azione: 'unisci', content_id: id, ruolo: 'aggiornamento', motivi: [] });
+  const other = one(rec('abit', 'sentenza-altra', '2026-11-11T07:00:00Z'), Object.assign({ tipo: 'droga', aggiornamento: 'sentenza' }, S));
+  const lo = g.candidates(other, t);
+  check('T-B-R1-17 an update of another family is a candidate, never certain', [lo.candidati.length,
+    g.decide(other, lo, judge(lo, { [id]: proof }), t, 'esercizio').stato], [1, 'in_dubbio']);
+  const fire = one(rec('abit', 'sentenza-fuoco', '2026-11-11T07:00:00Z'), { tipo: 'incendio', aggiornamento: 'sentenza' });
+  const lf = g.candidates(fire, t);
+  check('T-B-R1-17 an update that does not find its fact opens it in doubt', g.decide(fire, lf, judge(lf, {}), t, 'esercizio'),
+    { azione: 'apri', stato: 'in_dubbio', motivi: [{ content_id: null, motivo: 'aggiornamento_senza_fatto' }] });
+  check('T-B-R1-17 …also with no candidate at all', g.decide(fire, g.candidates(fire, []), null, [], 'esercizio').motivi[0].motivo, 'aggiornamento_senza_fatto');
+  const dated = one(rec('abit', 'convalida', '2026-11-11T07:00:00Z'), Object.assign({ tipo: 'rapina', aggiornamento: 'convalida', data_fatto: '2026-11-01' }, S));
+  const ld = g.candidates(dated, t);
+  check('T-B-R1-17 an update that gives the day of its fact counts the window', g.decide(dated, ld, judge(ld, { [id]: proof }), t, 'esercizio').stato, 'in_dubbio');
+  // The cited scheda comes after the update: not in place.
+  const later = one(rec('faro', 'dopo', '2026-11-20T07:00:00Z'), Object.assign({ tipo: 'rapina' }, S));
+  const tl = open([], later);
+  const early = one(rec('abit', 'prima', '2026-11-11T07:00:00Z'), Object.assign({ tipo: 'rapina', aggiornamento: 'indagini' }, S));
+  const le = g.candidates(early, tl);
+  check('T-B-R1-17 an update before its cited scheda is not in place', g.decide(early, le, judge(le, { [g.factId(later)]: proof }), tl, 'esercizio').stato,
+    'in_dubbio');
+  // The cited scheda is an update without the day of its fact.
+  const tu = open([], one(rec('faro', 'agg-vecchio', '2026-10-01T07:00:00Z'), Object.assign({ tipo: 'rapina', aggiornamento: 'convalida' }, S)));
+  check('T-B-R1-17 a cited update without the day of its fact is never in place', g.datesInPlace(upd, tu[0].schede[0]), false);
+}
+
+/* ----- T-B-R1-18 releases without the day of the fact ---------------------------- */
+
+console.log('T-B-R1-18 releases without the day of the fact');
+{
+  const S = { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] };
+  const proof = { verdetto: 'stesso', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] };
+  const a = one(rec('faro', 'a', '2026-10-01T07:00:00Z'), Object.assign({ data_fatto: '2026-09-30' }, S));
+  const t = open([], a);
+  const late = one(rec('quest', 'tardi', '2026-11-11T07:00:00Z'), S);
+  const l = g.candidates(late, t);
+  check('T-B-R1-18 a release without the day of its fact, more than 7 days after: found, but in doubt',
+    [l.candidati.length, g.decide(late, l, judge(l, { [g.factId(a)]: proof }), t, 'esercizio').stato], [1, 'in_dubbio']);
+  const near = one(rec('quest', 'vicino', '2026-10-03T07:00:00Z'), S);
+  const ln = g.candidates(near, t);
+  check('T-B-R1-18 …within 7 days of the day of the fact it is certain', g.decide(near, ln, judge(ln, { [g.factId(a)]: proof }), t, 'esercizio').azione, 'unisci');
+}
+
+/* ----- T-B-R1-19 a run: order, ids, resumption ---------------------------------- */
+
+console.log('T-B-R1-19 a run: the reading order, stable ids, resumption');
+{
+  const F1 = '20261111T080000Z';
+  const F2 = '20261111T090000Z';
+  const S = { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] };
+  const recs = [
+    rec('abit', 'secondo', '2026-11-11T08:30:00Z', '2026-11-11T09:00:05Z', F2, 0),
+    rec('quest', 'primo', '2026-11-11T07:30:00Z', '2026-11-11T08:00:05Z', F1, 0),
+    rec('faro', 'terzo', '2026-11-11T08:40:00Z', '2026-11-11T09:00:05Z', F2, 1),
+  ];
+  const [r2, r1, r3] = recs;
+  const answers = {
+    [r1.record_id]: { risposta: { schede: [Object.assign({}, BASE, S, { data_fatto: '2026-11-10' }), Object.assign({}, BASE, { tipo: 'incendio' })] } },
+    [r2.record_id]: { risposta: { schede: [Object.assign({}, BASE, S)] } },
+    [r3.record_id]: { risposta: { schede: [Object.assign({}, BASE, { ambito: 'non_cronaca', tipo: null })] } },
+  };
+  const first = g.placeAll({ records: recs, schede: { [r2.record_id]: answers[r2.record_id] }, giudizi: {}, facts: [], now: NOW, regola: 'esercizio' });
+  check('T-B-R1-19 nothing takes its place before the first record without schede', [first.posti.length, first.facts.length], [0, 0]);
+  check('T-B-R1-19 …the requests follow the reading order', first.richieste_schede, [r1.record_id, r3.record_id]);
+  check('T-B-R1-19 …and the bookmark is the oldest file with pending work', first.segnalibro, F1);
+
+  const second = g.placeAll({ records: recs, schede: answers, giudizi: {}, facts: [], now: NOW, regola: 'esercizio' });
+  check('T-B-R1-19 the two facts of the first record open, then a judgment is asked for the second',
+    [second.posti.map((p) => p.content_id), second.richiesta_giudizio.scheda_id],
+    [[`${identity.newsIdentity({ opening_url: r1.url, fact_index: 1 }).content_id}`, `${identity.newsIdentity({ opening_url: r1.url, fact_index: 2 }).content_id}`],
+      `${r2.record_id}#1`]);
+  check('T-B-R1-19 …the bookmark moves to the file that waits', second.segnalibro, F2);
+
+  const req = second.richiesta_giudizio;
+  const fid = req.lista.candidati[0].content_id;
+  const giudizi = { [req.scheda_id]: { lista: req.lista_key, risposta: { giudizi: [{ content_id: fid, verdetto: 'stesso',
+    prove: { scheda_id: req.lista.candidati[0].mostrate[0].scheda_id, luogo: 'Via X', dettagli: [ETA(30), PERS(1)] } }] } } };
+  const done = g.placeAll({ records: recs, schede: answers, giudizi, facts: second.facts, now: '2026-11-15T11:00:00Z', regola: 'esercizio' });
+  check('T-B-R1-19 with the judgment saved the scheda joins its fact', done.posti.map((p) => [p.azione, p.content_id]), [['unisci', fid]]);
+  check('T-B-R1-19 a scheda that is not cronaca takes no place and is not pending', [done.segnalibro, done.richieste_schede], [null, []]);
+
+  const clean = g.placeAll({ records: recs, schede: answers, giudizi, facts: [], now: NOW, regola: 'esercizio' });
+  check('T-B-R1-19 a run with every answer saved gives the same facts as the interrupted one',
+    clean.facts, done.facts);
+  const again = g.placeAll({ records: recs, schede: answers, giudizi, facts: done.facts, now: NOW, regola: 'esercizio' });
+  check('T-B-R1-19 run again on the same records: no request, the same facts', [again.posti.length, again.richiesta_giudizio, JSON.stringify(again.facts) ===
+    JSON.stringify(done.facts)], [0, null, true]);
+
+  // A stopped record holds no one; restarted by hand it takes its place out of order.
+  const stopped = g.placeAll({ records: recs, schede: Object.assign({}, answers, { [r1.record_id]: { fermo: true, motivo: 'schede_mancate' } }), giudizi: {},
+    facts: [], now: NOW, regola: 'esercizio' });
+  check('T-B-R1-19 a stopped record does not hold the others', [stopped.fermi.map((x) => x.motivo), stopped.posti.map((p) => p.scheda_id)],
+    [['schede_mancate'], [`${r2.record_id}#1`]]);
+  const restarted = Object.assign({}, r1, { ripartito: true });
+  const back = g.placeAll({ records: [r2, restarted, r3], schede: answers, giudizi: {}, facts: stopped.facts, now: NOW, regola: 'esercizio' });
+  const r2Fact = identity.newsIdentity({ opening_url: r2.url }).content_id;
+  check('T-B-R1-19 restarted, it is asked about the fact a later record opened',
+    [back.richiesta_giudizio.scheda_id, back.richiesta_giudizio.lista.candidati.map((c) => c.content_id)], [`${r1.record_id}#1`, [r2Fact]]);
+  const rq = back.richiesta_giudizio;
+  const joined = g.placeAll({ records: [r2, restarted, r3], schede: answers, giudizi: { [rq.scheda_id]: { lista: rq.lista_key, risposta: { giudizi: [
+    { content_id: r2Fact, verdetto: 'stesso', prove: { scheda_id: `${r2.record_id}#1`, luogo: 'Via X', dettagli: [ETA(30), PERS(1)] } }] } } },
+    facts: stopped.facts, now: NOW, regola: 'esercizio' });
+  const kept = joined.facts.find((f) => f.content_id === r2Fact);
+  check('T-B-R1-19 …joins it, and the fact keeps the id it was given by the later record',
+    [kept.schede.map((t) => [t.scheda_id, t.ruolo]), joined.facts.some((f) => f.content_id === g.factId(back.richiesta_giudizio.scheda))],
+    [[[`${r2.record_id}#1`, 'apre'], [`${r1.record_id}#1`, 'stesso_fatto']], false]);
+
+  // A saved judgment counts only for the same list: a candidate whose shown schede changed asks again.
+  const changed = second.facts.map((f) => (f.content_id === fid ? Object.assign({}, f, { schede: [...f.schede,
+    Object.assign({}, f.schede[0], { scheda_id: 'https://altro.it/x#1', record_id: 'https://altro.it/x', ruolo: 'stesso_fatto' })] }) : f));
+  const asked = g.placeAll({ records: recs, schede: answers, giudizi, facts: changed, now: NOW, regola: 'esercizio' });
+  check('T-B-R1-19 a list whose shown schede changed is not the same list', [asked.posti.length, asked.richiesta_giudizio.scheda_id], [0, `${r2.record_id}#1`]);
+  check('T-B-R1-19 a saved answer out of form is a fault, never placed', thrown(() => g.placeAll({ records: [r1], schede: { [r1.record_id]: { risposta: { schede: [] } } },
+    giudizi: {}, facts: [], now: NOW, regola: 'esercizio' })), `saved_schede_invalid: ${r1.record_id} nessuna_scheda`);
+  check('T-B-R1-19 an identity already given is never given again', thrown(() => g.applyDecision(done.facts, done.facts[0].schede[0],
+    { azione: 'apri', stato: 'aperto', motivi: [] }, NOW, 'esercizio')), `content_id_taken: ${done.facts[0].content_id}`);
+}
+
+/* ----- T-B-R1-20 answers that do not come ---------------------------------------- */
+
+console.log('T-B-R1-20 answers that do not come');
+check('T-B-R1-20 the first two misses retry, the third stops', [g.missedAnswer(0).esito, g.missedAnswer(1).esito, g.missedAnswer(2)],
+  ['riprova', 'riprova', { tentativi: 3, esito: 'ferma' }]);
+check('T-B-R1-20 five misses in a row stop steps 2 and 4', [g.stepsHalted(4), g.stepsHalted(5)], [false, true]);
+{
+  const a = one(rec('faro', 'a', '2026-11-10T07:00:00Z'), { luoghi: [VIA('Via X')] });
+  const t = open([], a);
+  const s = one(rec('abit', 'b', '2026-11-11T07:00:00Z'), { luoghi: [VIA('Via X')] });
+  const l = g.candidates(s, t);
+  check('T-B-R1-20 a judgment missed three times sends the scheda in doubt', g.decide(s, l, { mancato: true }, t, 'esercizio').motivi,
+    [{ content_id: g.factId(a), motivo: 'risposta' }]);
+  const run = g.placeAll({ records: [rec('abit', 'b', '2026-11-11T07:00:00Z')], schede: { [s.record_id]: { risposta: { schede: [Object.assign({}, BASE, { luoghi: [VIA('Via X')] })] } } },
+    giudizi: { [s.scheda_id]: { lista: g.listKey(l), mancato: true } }, facts: t, now: NOW, regola: 'esercizio' });
+  check('T-B-R1-20 …also in a run', run.posti.map((p) => [p.stato, p.motivi[0].motivo]), [['in_dubbio', 'risposta']]);
+}
+
+/* ----- T-B-R1-21 on top of news-fact.js -------------------------------------------- */
+
+console.log('T-B-R1-21 publication and the day\'s doubts (owner choice 3(b))');
+{
+  const a = one(rec('quest', 'a', '2026-11-10T07:00:00Z'), {});
+  const t = open([], a);
+  const pub = factNode.factSources(g.factRecords(t[0]));
+  check('T-B-R1-21 an open official fact may be published', g.groupingAllows(t[0], pub), { pubblicabile: true, motivo: null });
+  check('T-B-R1-21 a fact in doubt never', g.groupingAllows(Object.assign({}, t[0], { stato: 'in_dubbio' }), pub).motivo, 'in_dubbio');
+  check('T-B-R1-21 a merged fact never', g.groupingAllows(Object.assign({}, t[0], { stato: 'unito' }), pub).motivo, 'unito');
+  check('T-B-R1-21 a fact of the comparison rule never', g.groupingAllows(Object.assign({}, t[0], { regola: 'confronto' }), pub).motivo, 'regola_confronto');
+  const press = open([], one(rec('faro', 'b', '2026-11-10T07:00:00Z'), {}));
+  check('T-B-R1-21 a press fact of one source: what news-fact.js says', g.groupingAllows(press[0], factNode.factSources(g.factRecords(press[0]))).motivo, 'fonti');
+  const d1 = g.applyDecision([], one(rec('abit', 'c', '2026-11-10T07:00:00Z'), {}), { azione: 'apri', stato: 'in_dubbio',
+    motivi: [{ content_id: null, motivo: 'lista_tagliata' }] }, '2026-11-15T22:30:00Z', 'esercizio');
+  const d2 = g.applyDecision(d1, one(rec('abit', 'd', '2026-11-10T07:00:00Z'), {}), { azione: 'apri', stato: 'in_dubbio',
+    motivi: [{ content_id: null, motivo: 'forse' }] }, '2026-11-15T23:30:00Z', 'confronto');
+  const list = g.doubtsOfDay(d2.concat(t), '2026-11-15');
+  check('T-B-R1-21 the day\'s doubts: the day of Rome, the rule in use, no texts', [list.length, Object.keys(list[0])],
+    [1, ['content_id', 'aperto_il', 'motivi', 'candidati', 'record']]);
+  check('T-B-R1-21 …a doubt of 23:30 UTC is of the next day in Rome', g.doubtsOfDay(d1, '2026-11-15').length + g.doubtsOfDay(d1, '2026-11-16').length, 1);
+  check('T-B-R1-21 the counts for the report', g.counts(d2), { fatti: 2, schede: 2, stati: { in_dubbio: 2 }, motivi: { lista_tagliata: 1, forse: 1 }, ruoli: { apre: 2 } });
+}
+
+/* ----- T-B-R1-29 more of section 8, point 1: the place -------------------------- */
+
+console.log('T-B-R1-29 more of section 8, point 1: the place');
+{
+  let full = [];
+  for (let i = 0; i < 11; i += 1) full = open(full, one(rec('abit', `pieno-${String(i).padStart(2, '0')}`, '2026-11-10T07:00:00Z'), {}));
+  const release = one(rec('quest', 'comunicato', '2026-11-11T07:00:00Z'), {});
+  const lr = g.candidates(release, full);
+  check('T-B-R1-29 a release without the day of its fact, with a cut list, all diverso: doubt, lista_tagliata',
+    g.decide(release, lr, judge(lr, {}), full, 'esercizio').motivi, [{ content_id: null, motivo: 'lista_tagliata' }]);
+  const id0 = lr.candidati[0].content_id;
+  check('T-B-R1-29 …a forse among the ten is a doubt about it, not about the cut',
+    g.decide(release, lr, judge(lr, { [id0]: { verdetto: 'forse' } }), full, 'esercizio').motivi, [{ content_id: id0, motivo: 'forse' }]);
+  const cited = one(rec('quest', 'citata', null, '2026-11-10T08:00:00Z'), { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] });
+  const tc = open([], cited);
+  const incoming = one(rec('faro', 'arriva', '2026-11-11T07:00:00Z'), { luoghi: [VIA('Via X')], dettagli: [ETA(30), PERS(1)] });
+  const lc = g.candidates(incoming, tc);
+  check('T-B-R1-29 a scheda citing one dated only by retrieved_at is never certain',
+    g.decide(incoming, lc, judge(lc, { [g.factId(cited)]: { verdetto: 'stesso', luogo: 'Via X', dettagli: [ETA(30), PERS(1)] } }), tc, 'esercizio').stato, 'in_dubbio');
+}
+
+/* ----- T-B-R1-30 the two rules and the order of writing --------------------------- */
+
+console.log('T-B-R1-30 the two rules of the trial, the order of writing');
+{
+  // The two rules of the trial ask one scheda about different lists: both judgments are kept.
+  const F = '20261111T080000Z';
+  const S = { luoghi: [VIA('Via X'), Q('Quartiere Y')], dettagli: [ETA(30), PERS(1)] };
+  const r1 = rec('faro', 'uno', '2026-11-11T07:00:00Z', null, F, 0);
+  const r2 = rec('abit', 'due', '2026-11-11T07:10:00Z', null, F, 1);
+  const r3 = rec('abit', 'tre', '2026-11-11T07:20:00Z', null, F, 2);
+  const answers = {
+    [r1.record_id]: { risposta: { schede: [Object.assign({}, BASE, S)] } },
+    [r2.record_id]: { risposta: { schede: [Object.assign({}, BASE, { luoghi: [Q('Quartiere Y')] })] } },
+    [r3.record_id]: { risposta: { schede: [Object.assign({}, BASE, S)] } },
+  };
+  const recs = [r1, r2, r3];
+  // The model cites what the two schede share: the street when there is one, else the quarter.
+  const answer = (req) => ({ lista: req.lista_key, risposta: { giudizi: req.lista.candidati.map((c) => {
+    const t = c.mostrate[0];
+    const street = g.sharedPlaces(req.scheda, t, ['via']).length > 0;
+    return { content_id: c.content_id, verdetto: 'stesso', prove: { scheda_id: t.scheda_id, luogo: street ? 'Via X' : 'Quartiere Y',
+      dettagli: street ? [ETA(30), PERS(1)] : [] } };
+  }) } });
+  const replay = (rule, saved) => {
+    let facts = [];
+    const giudizi = Object.assign({}, saved);
+    let calls = 0;
+    for (let i = 0; i < 10; i += 1) {
+      const res = g.placeAll({ records: recs, schede: answers, giudizi, facts, now: NOW, regola: rule });
+      facts = res.facts;
+      if (!res.richiesta_giudizio) return { facts, calls, giudizi };
+      calls += 1;
+      const id = res.richiesta_giudizio.scheda_id;
+      giudizi[id] = [].concat(giudizi[id] || [], [answer(res.richiesta_giudizio)]);
+    }
+    throw new Error('replay did not end');
+  };
+  // A replay is a later run: its facts are the same, written at the instants of that run.
+  const sansTime = (facts) => facts.map((f) => Object.assign({}, f, { aperto_il: null }));
+  const first = replay('esercizio', {});
+  const both = replay('confronto', first.giudizi);
+  const again = replay('esercizio', both.giudizi);
+  const againWide = replay('confronto', both.giudizi);
+  check('T-B-R1-30 the two rules give different facts on the same records: the quarter merges only with the comparison rule',
+    [first.facts.map((f) => f.stato), both.facts.map((f) => f.schede.length)], [['aperto', 'in_dubbio', 'in_dubbio'], [3]]);
+  check('T-B-R1-30 the comparison rule reused the judgments whose list is the same', both.calls, 1);
+  check('T-B-R1-30 a replay of either rule after both makes no call and gives the same facts',
+    [again.calls, againWide.calls, JSON.stringify(sansTime(again.facts)) === JSON.stringify(sansTime(first.facts)),
+      JSON.stringify(sansTime(againWide.facts)) === JSON.stringify(sansTime(both.facts))],
+    [0, 0, true, true]);
+  check('T-B-R1-30 the facts of the comparison rule say so, and are never published',
+    [both.facts.every((f) => f.regola === 'confronto'), g.groupingAllows(both.facts[0], { pubblicabile: true }).motivo], [true, 'regola_confronto']);
+  const oneRun = g.placeAll({ records: recs, schede: answers, giudizi: again.giudizi, facts: [], now: NOW, regola: 'esercizio' });
+  const written = [...first.facts, ...both.facts];
+  check('T-B-R1-30 every state, role and motive written is in its list', [
+    written.every((f) => g.STATI.includes(f.stato)),
+    written.every((f) => f.schede.every((t) => g.RUOLI.includes(t.ruolo))),
+    written.every((f) => !f.dubbio || f.dubbio.motivi.every((m) => g.MOTIVI.includes(m.motivo)))], [true, true, true]);
+  check('T-B-R1-30 facts opened in one run are older in reading order', oneRun.facts.map((f) => f.aperto_il),
+    ['2026-11-15T10:00:00.000Z', '2026-11-15T10:00:00.001Z', '2026-11-15T10:00:00.002Z']);
+}
+
+
+/* ----- T-B-R1-28 the stages of the run in the adapter ---------------------------- */
+
+console.log('T-B-R1-28 the stages place, publication and doubts of the n8n adapter');
+{
+  const r = rec('quest', 'a', '2026-11-10T07:00:00Z');
+  const place = adapter({ stage: 'place', records: [r], schede: { [r.record_id]: { risposta: { schede: [BASE] } } }, giudizi: {}, facts: [], now: NOW,
+    regola: 'esercizio' }).item;
+  check('T-B-R1-28 the place stage', place.json.result.posti.length, 1);
+  const t = place.json.result.facts;
+  check('T-B-R1-28 publication', adapter({ stage: 'publication', fact: t[0], pubblicazione: { pubblicabile: true } }).item.json.raggruppamento,
+    { pubblicabile: true, motivo: null });
+  check('T-B-R1-28 doubts', adapter({ stage: 'doubts', facts: t, day: '2026-11-15' }).item.json.dubbi, []);
 }
 
 console.log(failures ? `\n${failures} FAILED of ${checks}` : `\nALL PASS (${checks} checks)`);
