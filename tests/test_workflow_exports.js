@@ -154,6 +154,11 @@ for (const [k, wf] of Object.entries(D)) {
 }
 check('the reading starts only from its schedule',
   D.list.nodes.filter((n) => /Trigger$/.test(n.type)).map((n) => n.type).join() === 'n8n-nodes-base.scheduleTrigger');
+// Pins the start of the night chosen in workflows/README.md, «Atti Web»: one run at a time
+// (CONTRATTI.md, «Una corsa alla volta») also through the change of time, and away from 05:00 UTC.
+const dSchedule = D.list.nodes.find((n) => n.type === 'n8n-nodes-base.scheduleTrigger');
+check('D schedule: the reading starts at 1:13, Rome time', D.list.settings.timezone === 'Europe/Rome' &&
+  JSON.stringify(dSchedule.parameters.rule) === JSON.stringify({ interval: [{ field: 'cronExpression', expression: '13 1 * * *' }] }));
 // CONTRATTI.md, «Una corsa alla volta»: two scheduled runs never overlap because the reading starts
 // no tipologia past 20 hours. n8n's own timeout is not used: n8n Cloud cuts any value to 5 minutes
 // (test of 12 November 2026), and sub-workflows stop with it.
@@ -478,6 +483,98 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
   check('avviso: started only by an error', avTrig.length === 1 && avTrig[0].type === 'n8n-nodes-base.errorTrigger');
   check('avviso: one file, in A\'s letture/', drive.length === 1);
   check('avviso: its own successful runs are not kept', AV.settings.saveDataSuccessExecution === 'none');
+}
+
+// The canonical write of channel C (code-nodes/canonical-write.js; workflows/README.md, «The
+// canonical write»): the write and the update are one flow under two webhooks, a call reserves
+// before any canonical write, and every call that reserved writes its outcome and answers with it.
+{
+  const CW = load('staging_C_write_canonical');
+  const CU = load('staging_C_update_canonical');
+  const strip = (wf) => wf.nodes.map((n) => {
+    const c = JSON.parse(JSON.stringify(n));
+    delete c.id; delete c.position; delete c.webhookId;
+    if (c.type === 'n8n-nodes-base.webhook') { delete c.parameters.path; delete c.parameters.options; }
+    return c;
+  });
+  check('C canonical: the write and the update have the same nodes and connections',
+    JSON.stringify(strip(CW)) === JSON.stringify(strip(CU)) && JSON.stringify(CW.connections) === JSON.stringify(CU.connections));
+  const cw = fs.readFileSync(path.join(CODE, 'canonical-write.js'), 'utf8');
+  const node = (name) => CW.nodes.find((n) => n.name === name) || { parameters: {} };
+  const out = (name, o) => (((CW.connections[name] || {}).main || [])[o || 0] || []).map((x) => `${x.node}#${x.index}`).join();
+  const stageOf = (name) => ((node(name).parameters.assignments || {}).assignments || []).find((a) => a.name === 'stage');
+  const STAGES = { Richiesta: ['Prepara richiesta', 'request'], Turno: ['Prepara turno', 'turn'], Piano: ['Prepara piano', 'plan'], Esito: ['Prepara esito', 'outcome'] };
+  check('C canonical: the four steps run canonical-write.js, each on the one item of its stage',
+    Object.entries(STAGES).every(([code, [prep, stage]]) => node(code).parameters.jsCode === cw && node(code).parameters.mode === 'runOnceForAllItems' &&
+      out(prep) === `${code}#0` && (stageOf(prep) || {}).value === stage) &&
+    ['Prepara fermo', 'Prepara guasto prima', 'Prepara guasto dopo'].every((n) => (stageOf(n) || {}).value === 'outcome' && out(n) === 'Esito#0'));
+  check('C canonical: the reservation is written, and read again after a pause, before the turn',
+    out('Richiesta') === 'Testo prenotazione#0' && out('Testo prenotazione') === 'File prenotazione#0' && out('File prenotazione') === 'Salva prenotazione#0' &&
+    out('Salva prenotazione') === 'Attesa conferma#0' && Number(node('Attesa conferma').parameters.amount) >= 5 &&
+    out('Attesa conferma') === 'Prenotazioni#0' && out('Prenotazioni') === 'Elenco prenotazioni#0' && out('Elenco prenotazioni') === 'Prepara turno#0' &&
+    out('Prepara turno') === 'Turno#0' && out('Turno') === 'Tocca a noi?#0');
+  const scritture = node('Salva prenotazione').parameters.folderId.value;
+  check('C canonical: reservations and outcomes share their folder, and the reading again covers it with the times of writing',
+    node('Salva esito').parameters.folderId.value === scritture && scritture !== node('Carica').parameters.folderId.value &&
+    node('Prenotazioni').parameters.queryString.startsWith(`='${scritture}' in parents and trashed = false and `) &&
+    /\$\('Richiesta'\)\.first\(\)\.json\.reservations_query/.test(node('Prenotazioni').parameters.queryString) &&
+    ['id', 'name', 'createdTime'].every((f) => node('Prenotazioni').parameters.options.fields.includes(f)));
+  check('C canonical: the turn is the reservation the call wrote', ((node('Prepara turno').parameters.assignments.assignments.find((a) => a.name === 'reservation_id') || {}).value) === "={{ $('Salva prenotazione').first().json.id }}");
+  // A create sent twice is two files on Drive: the reservation and the canonical upload are never retried.
+  check('C canonical: nothing that creates a reservation or a canonical file is retried', !node('Salva prenotazione').retryOnFail && !node('Carica').retryOnFail);
+  check('C canonical: the readings and the outcome are retried 5 times 5 seconds apart, the interval of D',
+    ['Prenotazioni', 'Elenco C Eventi', 'Salva esito'].every((n) => node(n).retryOnFail === true && node(n).maxTries >= 5 && node(n).waitBetweenTries >= 5000));
+  check('C canonical: the listing of C Eventi has the times of writing and the MD5 of each file',
+    ['id', 'name', 'createdTime', 'md5Checksum'].every((f) => node('Elenco C Eventi').parameters.options.fields.includes(f)) &&
+    node('Elenco C Eventi').parameters.folderId === undefined && node('Elenco C Eventi').parameters.queryString === `'${node('Carica').parameters.folderId.value}' in parents and trashed = false`);
+  // A failed listing must give no empty item on its success output: that would plan every file as a creation.
+  check('C canonical: the listing of C Eventi gives no empty item, and its folders come with it', !node('Elenco C Eventi').alwaysOutputData && node('Elenco C Eventi').parameters.options.fields.includes('mimeType'));
+  // Reachability: with the turn's "go on" branch cut, no canonical write is reachable.
+  const reach = (from, cut) => {
+    const seen = new Set([from]);
+    const todo = [from];
+    while (todo.length) {
+      const n = todo.pop();
+      ((CW.connections[n] || {}).main || []).forEach((br, o) => (br || []).forEach((t) => {
+        if (cut && n === cut[0] && o === cut[1]) return;
+        if (!seen.has(t.node)) { seen.add(t.node); todo.push(t.node); }
+      }));
+    }
+    return seen;
+  };
+  const cut = reach('Webhook', ['Tocca a noi?', 0]);
+  check('C canonical: no canonical write without the turn', !cut.has('Carica') && !cut.has('Aggiorna') && !cut.has('Elenco C Eventi'));
+  check('C canonical: a call that stops still writes its outcome and answers', out('Tocca a noi?', 1) === 'Prepara fermo#0' && cut.has('Salva esito') && cut.has('Rispondi'));
+  check('C canonical: create, update or leave each file, by its plan',
+    out('Piano') === 'Da scrivere?#0' && out('Da scrivere?', 0) === 'Nuovo?#0' && out('Da scrivere?', 1) === 'Risultati#2' &&
+    node('Da scrivere?').parameters.conditions.conditions[0].leftValue === "={{ $json.action === 'create' || $json.action === 'update' }}" &&
+    out('Nuovo?', 0) === 'Carica#0' && out('Nuovo?', 1) === 'Aggiorna#0' && node('Aggiorna').parameters.operation === 'update' &&
+    node('Aggiorna').parameters.fileId.value === '={{ $json.file_id }}' && node('Carica').parameters.name === '={{ $binary.data.fileName }}');
+  // Each input of the merge has one parent: a node fed by two parents runs twice, and so would the merge.
+  check('C canonical: a write that fails is a result too, so the outcome is written (T29)',
+    node('Carica').onError === 'continueErrorOutput' && node('Aggiorna').onError === 'continueErrorOutput' &&
+    out('Carica', 0) === 'Creato#0' && out('Aggiorna', 0) === 'Aggiornato#0' && out('Carica', 1) === 'Non caricato#0' && out('Aggiorna', 1) === 'Non aggiornato#0' &&
+    out('Creato') === 'Risultati#0' && out('Aggiornato') === 'Risultati#1' && out('Non caricato') === 'Risultati#3' && out('Non aggiornato') === 'Risultati#4' &&
+    Number(node('Risultati').parameters.numberInputs) === 5);
+  const parents = (target) => Object.entries(CW.connections).flatMap(([k, v]) => (v.main || []).flatMap((br) => (br || []).filter((t) => t.node === target).map((t) => `${k}>${t.index}`)));
+  check('C canonical: every input of the merge has a parent of its own', [0, 1, 2, 3, 4].every((i) => parents('Risultati').filter((p) => p.endsWith(`>${i}`)).length === 1));
+  const field = (name, f) => ((node(name).parameters.assignments.assignments.find((a) => a.name === f) || {}).value);
+  check('C canonical: the result of a write takes the Drive id the write returns (phase 5.2, step 3)', field('Creato', 'file_id') === "={{ $json.id || '' }}" && field('Aggiornato', 'file_id') === "={{ $json.id || '' }}");
+  check('C canonical: the results read their file one step back, the item the Drive node was given',
+    ['Creato', 'Aggiornato', 'Non caricato', 'Non aggiornato'].every((n) => /^=\{\{ \$\('Nuovo\?'\)\.item\.json\.name \}\}$/.test(field(n, 'name')) && /\$\('Nuovo\?'\)\.item\.json\.duplicates/.test(field(n, 'duplicates'))));
+  // A step that fails after the reservation still leaves its outcome (specification v2.5, Part I, 4.2).
+  const errTo = (name) => reach(((((CW.connections[name] || {}).main || [])[1] || [])[0] || {}).node || '-');
+  check('C canonical: every reading, step of code and write between the reservation and the outcome has an error route to it',
+    ['Prenotazioni', 'Turno', 'Elenco C Eventi', 'Piano', 'Carica', 'Aggiorna'].every((n) => node(n).onError === 'continueErrorOutput' && errTo(n).has('Salva esito') && errTo(n).has('Rispondi')));
+  check('C canonical: an error before the turn stops the call, one after it fails the call before any canonical write',
+    out('Prenotazioni', 1) === 'Prepara guasto prima#0' && out('Turno', 1) === 'Prepara guasto prima#0' && !('turn' in Object.fromEntries((node('Prepara guasto prima').parameters.assignments.assignments).map((a) => [a.name, 1]))) &&
+    out('Elenco C Eventi', 1) === 'Prepara guasto dopo#0' && out('Piano', 1) === 'Prepara guasto dopo#0' && !errTo('Piano').has('Carica') && !errTo('Elenco C Eventi').has('Aggiorna'));
+  check('C canonical: the outcome is saved, then sent back with its status',
+    out('Esito') === 'Testo esito#0' && out('Testo esito') === 'File esito#0' && out('File esito') === 'Salva esito#0' && out('Salva esito') === 'Rispondi#0' &&
+    node('Webhook').parameters.responseMode === 'responseNode' && node('Rispondi').type === 'n8n-nodes-base.respondToWebhook' &&
+    /\$\('Esito'\)\.first\(\)\.json\.status_code/.test(node('Rispondi').parameters.options.responseCode));
+  check('C canonical: the only webhook answers only through «Rispondi»',
+    CW.nodes.filter((n) => n.type === 'n8n-nodes-base.webhook').length === 1 && CW.nodes.filter((n) => n.type === 'n8n-nodes-base.respondToWebhook').length === 1);
 }
 
 console.log('');

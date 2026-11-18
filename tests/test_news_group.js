@@ -161,6 +161,9 @@ const I0 = '20261111T080000Z';
     { name: files[1].name, records: all.slice(2) }]), all);
   const reversed = g.prepareFiles(files.slice().reverse());
   check('T-B-R1-02 …whatever the order of the list of files: the same records, in reading order', reversed, all);
+  const bad = g.prepareRecord(null, I0, 3);
+  check('T-B-R1-02 a record that is not an object stops, and preparing it again gives the same', [bad.motivo, g.prepareRecord(bad, I0, 3)],
+    ['record_illeggibile', bad]);
   check('T-B-R1-02 a missing list of files fails', thrown(() => g.prepareFiles(undefined)), 'files_missing');
   check('T-B-R1-02 …an empty one is no work', g.prepareFiles([]), []);
 }
@@ -194,6 +197,7 @@ console.log('T-B-R1-04 step 2, the check of the model\'s schede');
     ok({ ambito: 'non_cronaca', tipo: null, aggiornamento: 'sentenza' }).motivo, 'scheda_1:aggiornamento');
   check('T-B-R1-04 an update out of the list is out of form', ok({ aggiornamento: 'appello' }).motivo, 'scheda_1:aggiornamento');
   check('T-B-R1-04 a sintesi of two lines is out of form', ok({ sintesi: 'riga\nriga' }).motivo, 'scheda_1:sintesi');
+  check('T-B-R1-04 …so is one split by a Unicode line or paragraph separator', [ok({ sintesi: 'riga\u2028riga' }).motivo, ok({ sintesi: 'riga\u2029riga' }).motivo], ['scheda_1:sintesi', 'scheda_1:sintesi']);
   check('T-B-R1-04 a place without a known level is out of form', ok({ luoghi: [{ testo: 'x', livello: 'zona' }] }).motivo, 'scheda_1:luoghi');
   check('T-B-R1-04 non_cronaca has no tipo', ok({ ambito: 'non_cronaca', tipo: 'furto' }).motivo, 'scheda_1:tipo');
   check('T-B-R1-04 a record not prepared is refused', thrown(() => g.checkSchede({ schede: [BASE] }, { stato: 'fermo' })), 'record_not_prepared');
@@ -534,6 +538,12 @@ console.log('T-B-R1-24 more of section 8, point 1: the candidates');
   const dated = one(rec('abit', 'datata', '2026-11-20T07:00:00Z'), { data_fatto: '2026-10-31' });
   check('T-B-R1-24 …with the day of its fact, when the fact is not after the first record', [g.inLimit(dated, undated),
     g.inLimit(Object.assign({}, dated, { data_fatto: '2026-11-02' }), undated)], [true, false]);
+  // A record published before the opening one, which joined the fact later (a stopped record restarted):
+  // the limit still counts from the record that opened the fact.
+  const earlier = Object.assign({}, one(rec('quest', 'prima', null, '2026-10-25T08:00:00Z'), {}), { ruolo: 'stesso_fatto' });
+  const joined = Object.assign({}, undated, { schede: [earlier].concat(undated.schede) });
+  check('T-B-R1-24 …from the day of the record that opened the fact, not the earliest record joined to it',
+    [g.inLimit(p7, joined), g.inLimit(Object.assign({}, dated, { data_fatto: '2026-10-28' }), joined), g.inLimit(p8, joined)], [true, true, false]);
   let full = [];
   for (let i = 0; i < 11; i += 1) full = open(full, one(rec('abit', `pieno-${String(i).padStart(2, '0')}`, '2026-11-10T07:00:00Z'), {}));
   const release = one(rec('quest', 'comunicato', '2026-11-11T07:00:00Z'), {});

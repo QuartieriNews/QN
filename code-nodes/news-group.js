@@ -182,7 +182,9 @@ const RIGHE = /^notizie_righe_(\d{8}T\d{6}Z)\.json$/;
  *  stops (`fermo`) with its motive, never guessed. Preparing a prepared record gives the same. */
 function prepareRecord(record, inizio, index) {
   const base = { inizio, index };
-  if (!record || typeof record !== 'object' || Array.isArray(record)) return Object.assign(base, { stato: 'fermo', motivo: 'record_illeggibile' });
+  const unreadable = !record || typeof record !== 'object' || Array.isArray(record)
+    || (record.stato === 'fermo' && record.motivo === 'record_illeggibile' && !has(record, 'url'));
+  if (unreadable) return Object.assign(base, { stato: 'fermo', motivo: 'record_illeggibile' });
   const stop = (motivo, extra) => Object.assign({}, record, base, extra || {}, { stato: 'fermo', motivo });
   let recordId;
   try { recordId = canonicalUrl(record.url); } catch (e) { return stop('url_illeggibile'); }
@@ -252,7 +254,7 @@ function prepareFiles(files) {
 /* ----- step 2: the check of the schede ------------------------------------ */
 
 const plainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
-const shortText = (v, max) => typeof v === 'string' && v.trim() !== '' && v.length <= max && !/[\r\n]/.test(v);
+const shortText = (v, max) => typeof v === 'string' && v.trim() !== '' && v.length <= max && !/[\r\n\u2028\u2029]/.test(v);
 /** Text compared as section 3 says: no case, accents, punctuation or repeated spaces. */
 function normKey(v) {
   return String(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
@@ -488,9 +490,15 @@ function undatedFact(fact) {
   return fact.schede.every((t) => !t.data_fatto && (Boolean(t.aggiornamento) || t.source_channel === 'news_official'));
 }
 
-/** The day of the first record of a fact. */
+/** The scheda of the first record of a fact, the one with the role `apre` (section 3; section 5,
+ *  «Un aggiornamento che non trova il suo fatto»). */
+function openerOf(fact) {
+  return fact.schede.find((t) => t.ruolo === 'apre') || fact.schede[0];
+}
+
+/** The day of the first record of a fact, even when a record published earlier joined it later. */
 function firstDay(fact) {
-  return fact.schede.map((t) => t.giorno).sort()[0];
+  return openerOf(fact).giorno;
 }
 
 /** A fact without a date is «nel limite» of a scheda (section 5, «La lista tagliata»). */
@@ -503,7 +511,7 @@ function inLimit(s, fact) {
 /** The schede of a candidate the model sees: the one that opened the fact and the two with more
  *  things equal, at equal count the first by `scheda_id`. */
 function shownSchede(s, fact) {
-  const opener = fact.schede.find((t) => t.ruolo === 'apre') || fact.schede[0];
+  const opener = openerOf(fact);
   const others = fact.schede.filter((t) => t !== opener)
     .map((t) => ({ t, k: sameThings(s, t) }))
     .sort((x, y) => (y.k - x.k) || (x.t.scheda_id < y.t.scheda_id ? -1 : x.t.scheda_id > y.t.scheda_id ? 1 : 0))
