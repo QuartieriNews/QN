@@ -27,7 +27,9 @@ count of its events. «Start Apify run» gives the run its own timeout (`APIFY_T
 `apify-run.js`), so Apify stops a run before the wait ends and the wait reads its last state; on 16
 November 2026 it is not yet tried with a run. The three Apify nodes use the credential «Bearer Auth
 account»: until the owner shared it with the workflow's project, on 14 November 2026, the n8n API
-refused a change to one of them; since then it saves one, as it saved this timeout. Still open:
+refused a change to one of them; since then it saves one, as it saved this timeout. «Carica costo», the
+node that writes the cost file, carries «Google Drive account» like the other two Drive nodes of the
+workflow since 18 November 2026 (T-C-costo). Still open:
 
 - `staging_C_fusion`, «Cambiati»: the file name is rebuilt from `content_id`, which for a web
   series differs from `canonical_file_name` (`code-nodes/web-event-identity.js`); the listed name
@@ -44,10 +46,6 @@ refused a change to one of them; since then it saves one, as it saved this timeo
 - `staging_C_fb_events_fetch`: a retried call starts a second paid run, because nothing that a
   second execution can see records the call before «Start Apify run» (the workflow's static data
   is saved only when an execution ends).
-- `staging_C_fb_events_fetch`, «Carica costo»: the node that writes the cost file has no Google
-  Drive credential yet. «Google Drive account» is shared with the workflow's project since 14
-  November 2026, and «Scarica prova», added on 15 November 2026, carries it: it can be attached to
-  «Carica costo» the same way, by the API or in the editor.
 - `staging_C_fb_events_fetch`, «Get dataset items»: the cost of a run that succeeded comes after
   its dataset, for the count of its events (the owner's choice of 14 November 2026, PR #51), so a
   dataset read that fails stops the execution before the cost is written. The node has no retry
