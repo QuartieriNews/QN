@@ -1,7 +1,8 @@
 # Workstream B · Notizie: il raggruppamento dei record in fatti
 
-Stato: progetto, 15 novembre 2026, rivisto il 16. Il 17 l'owner ha preso le scelte 1, 2 e 3 (sezione 10);
-B-R1 (`code-nodes/news-group.js`, sezione 9) porta i passi 1, 3 e 5.
+Stato: progetto, 15 novembre 2026, rivisto il 16. Il 17 l'owner ha preso le scelte 1, 2 e 3, il 18 la 4 e
+la 5 (sezione 10; DEC-039);
+B-R1 (`code-nodes/news-group.js`, sezione 9), unita con le PR #61, #63 e #66, porta i passi 1, 3 e 5.
 Le regole stanno altrove e qui si rimanda: elemento, identità, capofila e pubblicabilità in
 `docs/pilota/CONTRATTI.md`, sezione 7, «B · Notizie»; le regole della cronaca in DEC-034 (R-C01,
 R-C02, R-C04, R-C06, R-C08) e DEC-108; la fase 3, P-03 e P-09 in
@@ -240,7 +241,8 @@ inventati.
   stesso risultato. Il passo arriva con la coda (sezione 9), con il suo test: un dubbio sciolto fra
   un fatto ufficiale e uno di stampa. Un comunicato che arriva dopo la stampa si aggiunge al fatto
   e ne diventa la capofila (`news-fact.js`); il `content_id` resta.
-- **Le schede `non_cronaca`** si scrivono e si fermano lì: aspettano la scelta 5.
+- **Le schede `non_cronaca`** si scrivono e si fermano lì finché non ci sono i temi e le regole della
+  scelta 5 (DEC-039, punto 5).
 
 **Esempio inventato.** Il comunicato di un ente racconta due interventi in un quartiere immaginario:
 l'incendio di un garage in via dei Mandorli Finti, con due persone di 70 anni soccorse, e il recupero
@@ -362,10 +364,8 @@ La prova scrive solo nelle Data table della sezione 3, in `B Notizie/prove/` e i
    e due; oltre i dieci, un fatto che ha in comune solo il quartiere può restare fuori, e la regola
    larga risulta un po' meno larga di quanto è. Nel passaggio solo i numeri.
 
-Spesa massima dichiarata: 1 €; la replica si ferma se la supera. L'esito proposto (scelta 2): almeno
-il 95% delle fusioni automatiche giuste; nessuna fusione sbagliata che renda pubblicabile un fatto o
-gli dia una fonte che non ne ha scritto; dubbi sotto il 10% delle schede di cronaca. Se le fusioni
-sbagliano, la regola si stringe; non si allarga.
+Spesa massima dichiarata: 1 €; la replica si ferma se la supera. L'esito che la prova deve dare, e
+che cosa succede alla regola dopo, sono in DEC-039, punto 2.
 
 Che cosa mostrerà comunque: pochi fatti di stampa arrivano a due editori, perché a giugno la seconda
 fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezione 4.6).
@@ -380,6 +380,14 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 | dopo | i dubbi nella coda (scelta 3), poi geografia, filtro, scrittura e verifica | |
 
 ## 10. Le scelte dell'owner
+
+L'owner le ha prese per delega il 15 novembre 2026 e poi espresse il 16 (6 e 7), il 17 (1, 2 e 3) e il
+18 novembre (4 e 5). Le scelte 1–5 sono in DEC-039 e la 6 in DEC-040, che vincono su questa sezione; la
+7 non è ancora in un'entry di `decisions/`, e finché non c'è resta una scelta di progetto, non una
+decisione (`decisions/README.md`). Qui sotto
+restano con il consiglio del builder, com'erano alla domanda tranne due frasi che vengono dalla
+revisione: nella scelta 1 quella sulla lista tagliata, nella 3(b) quella sull'aggiornamento in
+dubbio. In DEC-039 sono letture del builder.
 
 1. **Leggere la pagina di ogni record nuovo** della Questura, dei Carabinieri e di Abitare a Roma:
    circa 30 richieste al giorno, con le regole della raccolta. Senza, un riepilogo della Questura si
@@ -407,9 +415,14 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
    ora presi da un indice terzo, e le conta come secondo editore; quale indice e con quale spesa è
    ancora da decidere (`CRONACA_PROCESSO_2026-10.md`, sezione 7, punto 4). Senza, saranno pubblicabili
    quasi solo i fatti ufficiali. Il builder consiglia di aprirlo dopo la prova, con una PR sua.
+   **Scelta presa dall'owner il 18 novembre 2026: prova gratuita di GDELT e, se copre Roma, di un
+   servizio a pagamento, poi l'owner decide se pagare; Google News è escluso dal suo `robots.txt`**
+   (DEC-039, punto 4).
 5. **Le notizie che non sono cronaca,** circa due terzi dei record delle testate: il blocco Notizie del
    pilota le porta? DEC-034 e DEC-108 parlano di cronaca; per le altre servono temi e una regola di
-   pubblicazione. Il builder consiglia di tenerle ferme fino al primo mese di cronaca.
+   pubblicazione. Il builder consiglia di tenerle ferme fino al primo mese di cronaca. **Scelta presa
+   dall'owner il 18 novembre 2026: tutte, da subito, con temi e una regola di pubblicazione per
+   ciascuno prima di partire** (DEC-039, punto 5).
 6. **Le persone nominate.** Le schede non hanno nomi (sezione 3), e due fatti diversi con lo stesso
    tipo, luogo, giorno e dettagli si fonderebbero da soli anche quando gli articoli nominano persone
    diverse; R-C01 definisce il fatto anche con i protagonisti. Scelta presa dall'owner il 16
@@ -435,8 +448,8 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 
 ## 11. Che cosa chiede ai contratti
 
-Questo documento non cambia CONTRATTI. Le righe che servono le propone al coordinatore il passaggio
-della sessione (`PASSAGGIO_2026-11-15_B-raggruppamento.md`, nella cartella di passaggio): il
-raggruppamento in 7 B; la lettura delle pagine, se l'owner la sceglie; le Data table di B e `prove/`
-nella sezione 3; i file di spesa di B; i segnali presi dagli eventi; `source_channel` e `source_id`
-nei record.
+Questo documento non cambia CONTRATTI. Le righe che servivano sono in CONTRATTI con DEC-039: nella
+sezione 7 B il raggruppamento, la lettura delle pagine, i file di spesa di B e i segnali presi dagli
+eventi; nella sezione 3 le Data table di B e `prove/`. `source_channel` e `source_id` nei record non
+sono righe di CONTRATTI: li sistema il passo 1 (sezione 2), e scriverli all'origine tocca alla PR di
+B su `news-parse.js`.
