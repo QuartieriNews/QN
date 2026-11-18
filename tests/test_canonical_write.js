@@ -98,6 +98,8 @@ const NOW_T = '2026-11-16T09:00:10.000Z';
     thrown(() => m.turn({ now: NOW_T, reservations: [{ error: 'Drive 403 Quota exceeded' }], mine: 'idB' })), 'the reservations could not be read again: Drive 403 Quota exceeded');
   check('T29: an error item beside reservations is still the error of the call',
     /could not be read again/.test(thrown(() => m.turn({ now: NOW_T, reservations: [a, b, { error: { message: 'x' } }], mine: 'idB' })) || ''), true);
+  check('T27: the reading that gave back its input is the error of the call, never a turn held alone',
+    thrown(() => m.turn({ now: NOW_T, reservations: [{ reading_input: true }], mine: 'idB' })), 'the reservations could not be read again: the reading gave back its input');
   check('the empty item of an empty reading is no reservation: not listed yet', m.turn({ now: NOW_T, reservations: [{}], mine: 'idB' }).reason, 'the call\'s own reservation is not listed yet');
   check('other names in the folder are not reservations', m.turn({ now: NOW_T, reservations: [{ id: 'z', name: 'appunti.txt' }, { name: 'esito_bad.json' }, b], mine: 'idB' }).holds, true);
 }

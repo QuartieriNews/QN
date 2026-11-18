@@ -111,14 +111,14 @@ function request({ workflow, execution_id, started_at, files }) {
  *  or is older than HOLD_MS at `now`: of two calls that overlap, the second stops before any canonical
  *  write (T27). One without its outcome past HOLD_MS is `stale` and holds no more (T28). A call
  *  that does not see its own reservation yet stops too: it has written nothing canonical, and its
- *  outcome frees the calls after it. An empty item is no reservation; an error item is the reading
- *  that failed, and throws (T29). */
+ *  outcome frees the calls after it. An empty item is no reservation; an error item, or the input
+ *  of the reading given back, is the reading that failed, and throws (T29). */
 function turn({ reservations, mine, now }) {
   if (!Array.isArray(reservations)) throw new Error('reservations must list the reservations and outcomes read again');
-  // T29: the reading that failed reaches the turn as n8n's error item (workflows/README.md, «The
-  // canonical write»); its error, not «not listed yet», is the outcome.
-  const unread = reservations.find((r) => r && r.error !== undefined && typeof r.name !== 'string');
-  if (unread) throw new Error(`the reservations could not be read again: ${typeof unread.error === 'string' ? unread.error : JSON.stringify(unread.error)}`);
+  // T27, T29: a reading that failed reaches the turn as n8n's error item, or as its own input given
+  // back (workflows/README.md, «The canonical write»); either is the error of the call, never a turn.
+  const unread = reservations.find((r) => r && typeof r.name !== 'string' && (r.error !== undefined || r.reading_input === true));
+  if (unread) throw new Error(`the reservations could not be read again: ${unread.error === undefined ? 'the reading gave back its input' : typeof unread.error === 'string' ? unread.error : JSON.stringify(unread.error)}`);
   if (typeof mine !== 'string' || !ID.test(mine)) throw new Error('mine must be the Drive id of the call\'s reservation');
   const nowAt = utcInstant(now);
   if (nowAt === null) throw new Error('now must be a UTC instant');

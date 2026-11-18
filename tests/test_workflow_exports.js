@@ -516,7 +516,7 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
   check('C canonical: the reservation is written, and read again after a pause, before the turn',
     out('Richiesta') === 'Testo prenotazione#0' && out('Testo prenotazione') === 'File prenotazione#0' && out('File prenotazione') === 'Salva prenotazione#0' &&
     out('Salva prenotazione') === 'Attesa conferma#0' && Number(node('Attesa conferma').parameters.amount) >= 5 &&
-    out('Attesa conferma') === 'Prenotazioni#0' && out('Prenotazioni') === 'Elenco prenotazioni#0' && out('Elenco prenotazioni') === 'Prepara turno#0' &&
+    out('Attesa conferma') === 'Prima della lettura#0' && out('Prima della lettura') === 'Prenotazioni#0' && out('Prenotazioni') === 'Elenco prenotazioni#0' && out('Elenco prenotazioni') === 'Prepara turno#0' &&
     out('Prepara turno') === 'Turno#0' && out('Turno') === 'Tocca a noi?#0');
   const scritture = node('Salva prenotazione').parameters.folderId.value;
   check('C canonical: reservations and outcomes share their folder, and the reading again covers it with the times of writing',
@@ -581,6 +581,13 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
     node('Prenotazioni').onError === 'continueRegularOutput' && node('Prenotazioni').alwaysOutputData === true &&
     ((CW.connections.Prenotazioni || {}).main || []).length === 1 && out('Prenotazioni') === 'Elenco prenotazioni#0' &&
     CW.nodes.every((n) => !(n.alwaysOutputData && n.onError === 'continueErrorOutput')));
+  // A Drive node that fails outside its handling of each item gives back its input (n8n-core,
+  // handleNodeExecutionError): that input is the marker alone, never the call's own reservation (T27).
+  check('C canonical (T27): the reading again is given the marker alone, which the turn refuses',
+    node('Prima della lettura').type === 'n8n-nodes-base.set' && node('Prima della lettura').typeVersion >= 3.3 &&
+    node('Prima della lettura').parameters.mode === 'manual' && node('Prima della lettura').parameters.includeOtherFields === false &&
+    JSON.stringify(node('Prima della lettura').parameters.assignments.assignments.map((a) => [a.name, a.value, a.type])) === JSON.stringify([['reading_input', true, 'boolean']]) &&
+    /r\.reading_input === true/.test(cw));
   check('C canonical: an error before the turn stops the call, one after it fails the call before any canonical write',
     out('Turno', 1) === 'Prepara guasto prima#0' && !('turn' in Object.fromEntries((node('Prepara guasto prima').parameters.assignments.assignments).map((a) => [a.name, 1]))) &&
     out('Elenco C Eventi', 1) === 'Prepara guasto dopo#0' && out('Piano', 1) === 'Prepara guasto dopo#0' && !errTo('Piano').has('Carica') && !errTo('Elenco C Eventi').has('Aggiorna'));
