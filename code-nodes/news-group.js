@@ -249,7 +249,7 @@ function prepareFiles(files) {
 /* ----- step 2: the check of the schede ------------------------------------ */
 
 const plainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
-const shortText = (v, max) => typeof v === 'string' && v.trim() !== '' && v.length <= max && !/[\r\n]/.test(v);
+const shortText = (v, max) => typeof v === 'string' && v.trim() !== '' && v.length <= max && !/[\r\n\u2028\u2029]/.test(v);
 /** Text compared as section 3 says: no case, accents, punctuation or repeated spaces. */
 function normKey(v) {
   return String(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();

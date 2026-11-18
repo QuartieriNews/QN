@@ -197,6 +197,7 @@ console.log('T-B-R1-04 step 2, the check of the model\'s schede');
     ok({ ambito: 'non_cronaca', tipo: null, aggiornamento: 'sentenza' }).motivo, 'scheda_1:aggiornamento');
   check('T-B-R1-04 an update out of the list is out of form', ok({ aggiornamento: 'appello' }).motivo, 'scheda_1:aggiornamento');
   check('T-B-R1-04 a sintesi of two lines is out of form', ok({ sintesi: 'riga\nriga' }).motivo, 'scheda_1:sintesi');
+  check('T-B-R1-04 …so is one split by a Unicode line or paragraph separator', [ok({ sintesi: 'riga\u2028riga' }).motivo, ok({ sintesi: 'riga\u2029riga' }).motivo], ['scheda_1:sintesi', 'scheda_1:sintesi']);
   check('T-B-R1-04 a place without a known level is out of form', ok({ luoghi: [{ testo: 'x', livello: 'zona' }] }).motivo, 'scheda_1:luoghi');
   check('T-B-R1-04 non_cronaca has no tipo', ok({ ambito: 'non_cronaca', tipo: 'furto' }).motivo, 'scheda_1:tipo');
   check('T-B-R1-04 a record not prepared is refused', thrown(() => g.checkSchede({ schede: [BASE] }, { stato: 'fermo' })), 'record_not_prepared');
