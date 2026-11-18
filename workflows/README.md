@@ -78,7 +78,9 @@ changes the flow and is not done yet. Both were saved in n8n on 16 November 2026
 workflows off, and n8n kept every node and setting; the four Code nodes were saved again from these
 exports on 17 November 2026, still off, and n8n read back gave these exports node for node. On 18
 November «Prenotazioni» lost its error output, «Prima della lettura» came before it and the four
-Code nodes took the new turn: not yet saved in n8n. Read in the sources of n8n 2.48.4
+Code nodes took the new turn: both were saved again from these exports that day, still off, after
+n8n was found equal to the earlier exports, and n8n read back gives these exports node
+for node, with the versionIds they carry. Read in the sources of n8n 2.48.4
 (`n8n-core` and `n8n-nodes-base`), not tried: a
 merge in append mode runs with the inputs that received data; a node with an error output and
 `alwaysOutputData` sends an empty item to its main output beside the error item, so «Prenotazioni»
