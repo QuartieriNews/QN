@@ -5,6 +5,8 @@ Punto 3 (YouTube del Municipio I) superato da DEC-037, che porta la regola di og
 DEC-037 tocca anche, nel punto 4, la cifra della quota di A, che ora è quella di CONTRATTI,
 sezione 5, e nel punto 5 il «solo» per il testo dei sottotitoli di YouTube di ultima riserva.
 Il resto di questa decisione resta valido.
+Punto 1, la condizione «se l'owner la conferma per il pilota» sulla seconda verifica di DEC-015:
+superata da DEC-042 (18 novembre 2026), per cui la seconda verifica vale nel pilota.
 Blocks: nothing.
 
 Question: come si apre il canale A del pilota (DEC-031, punto 2A) sulle sedute registrate: da
