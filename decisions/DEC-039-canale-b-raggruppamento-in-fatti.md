@@ -1,10 +1,13 @@
 # DEC-039 — Canale B: le scelte sul raggruppamento delle notizie in fatti
 
-Status: DECIDED (15 novembre 2026, owner nella sessione del workstream B, sui consigli del builder)
+Status: DECIDED (15 novembre 2026, owner nella sessione del workstream B, sui consigli del
+builder; punti 1, 2 e 3 per il pilota privato confermati dall'owner il 17 novembre 2026, punti 4
+e 5 decisi dall'owner il 18 novembre 2026)
 Punto 2 superato in parte da DEC-040 (16 novembre 2026): una scheda che fa nomi non si aggiunge
 da sola a un fatto in cui un'altra scheda fa nomi. Il resto di questa decisione resta valido.
-Blocks: niente per il pilota privato. Prima del lancio pubblico del blocco «Notizie» serve la
-coda del punto 3, con una decisione a sé.
+Blocks: niente per il pilota privato. Prima del lancio pubblico del blocco «Notizie» serve una
+decisione a sé su che cosa diventa un dubbio (punto 3). Una notizia che non è cronaca si pubblica
+solo dopo la regola del punto 5.
 
 Question: il progetto del raggruppamento dei record di B in fatti lascia all'owner cinque scelte
 (`docs/pilota/B_RAGGRUPPAMENTO.md`, sezione 10). Che cosa vale per il pilota privato?
@@ -43,8 +46,27 @@ mese di cronaca.
 
 Owner's words, 15 novembre 2026, nella sessione del workstream B: «Scegli tu le scelte
 migliori». Le scelte sono quindi quelle che il builder consigliava, prese dall'owner per
-delega: l'owner le conferma con il merge di questa entry. Dove un punto va oltre il consiglio
+delega: l'owner le conferma con il merge di questa entry, salvo i punti 4 e 5, che ha deciso
+il 18 novembre (sotto). Dove un punto va oltre il consiglio
 scritto nel progetto lo dice: è una lettura del builder.
+
+Owner's words, 17 novembre 2026, al coordinatore: «Scelte 1, 2 e 3 di B_RAGGRUPPAMENTO.md: 1 sì;
+2 due dettagli, da rivedere dopo la prova; 3 (b) per il pilota privato, (a) prima del lancio
+ancora aperta.» Per i punti 1, 2 e 3 la delega del 15 novembre diventa una scelta espressa.
+
+Owner's words, 18 novembre 2026, al coordinatore.
+- Punto 4. Alla domanda su come avere titolo, link e ora delle testate chiuse, con le opzioni
+  «Provare GDELT, gratis» (consigliata), «Dopo la prova delle notizie» e «Un servizio a
+  pagamento»: «1 e 3 , valutiamo anche abbonamentj a pagamento e utilizzo del browser». Poi, letta
+  la ricerca su indici, servizi e abbonamenti, fra «Prova gratis, poi scegli» (consigliata), «Solo
+  Google News», «Subito un servizio a pagamento» e «Nessuno per ora», l'owner ha scelto «Prova
+  gratis, poi scegli», così descritta: «Nel pilota privato uso Google News e GDELT solo per titolo,
+  link e ora, con poche richieste; tu apri una prova gratuita di un servizio a pagamento; tra due
+  settimane ti porto i numeri dei tre e decidi se pagare. Spesa oggi: zero.»
+- Punto 5. Fra «Ferme per il primo mese» (consigliata), «Solo alcuni temi utili» e «Tutte, da
+  subito», l'owner ha scelto «Tutte, da subito», così descritta: «Servono temi e una regola di
+  pubblicazione per ciascuno prima di partire: più lavoro e più rischio di errori visibili.»
+Per i punti 4 e 5 la delega del 15 novembre non vale più.
 
 ## Regola
 
@@ -81,25 +103,47 @@ scritto nel progetto lo dice: è una lettura del builder.
      dubbio, dove prima apriva un fatto suo.
 3. **Nel pilota privato un fatto in dubbio non si pubblica,** nemmeno se è ufficiale, e
    compare in un elenco del giorno: l'opzione (b). Nel pilota nessuno scioglie i dubbi.
-   Prima del lancio pubblico serve l'opzione (a): nella coda (`docs/REVIEW_QUEUE.md`) due
-   decisioni per i dubbi di raggruppamento, «stesso fatto di …» e «fatto diverso», e un
-   ritmo per le notizie, che DEC-034 chiede già («Blocks»). Le porta una decisione a sé.
+   Che cosa vale prima del lancio pubblico resta aperto (owner, 17 novembre 2026). Il builder
+   consiglia l'opzione (a): nella coda (`docs/REVIEW_QUEUE.md`) due decisioni per i dubbi di
+   raggruppamento, «stesso fatto di …» e «fatto diverso», e un ritmo per le notizie, che DEC-034
+   chiede già («Blocks»). La porta una decisione a sé.
    - Lettura del builder: vale anche per un aggiornamento finito in dubbio. Resta staccato
      dal suo fatto, che tiene il `case_status` di prima, finché il dubbio non è sciolto
      (progetto, sezione 5). R-C04, che DEC-034 fa valere già nel pilota privato, vuole che
      gli sviluppi arrivino al fatto: finché la coda non c'è, per un aggiornamento in dubbio
      questo resta indietro. È una delle ragioni per cui la coda serve prima del lancio.
-4. **L'indice delle testate chiuse è GDELT,** come nella prova di giugno
-   (`tools/cronaca-prova/README.md`, passo 9). Si apre con una PR di B a sé, dopo la prova
-   del raggruppamento, e la spesa prevista si dichiara prima. Finché non c'è, B non ha una
-   fonte `news_index`, e sono pubblicabili quasi solo i fatti ufficiali.
-   - Lettura del builder: il progetto consigliava quando aprire l'indice, non quale. GDELT è
-     la scelta fatta per delega, perché è l'indice già provato a giugno. Nessun file ne
-     indica la spesa (`docs/sources/CRONACA_PROCESSO_2026-10.md`, sezione 7, punto 4, lascia
-     all'owner costo e canale): per questo si dichiara prima di aprirlo.
-5. **Le notizie che non sono cronaca ricevono la scheda e si fermano lì** fino al primo mese
-   di cronaca. Poi l'owner decide se il blocco Notizie le porta: DEC-034 e DEC-108 parlano
-   di cronaca, e per le altre servono temi e una regola di pubblicazione.
+4. **Il secondo editore dalle testate chiuse si sceglie dopo una prova gratuita di tre fonti:**
+   Google News e GDELT, nel pilota privato, solo per titolo, link e ora, con poche richieste
+   (DEC-108), e un servizio a pagamento in prova gratuita. Dopo due settimane il coordinatore porta
+   all'owner i numeri dei tre, e l'owner decide se pagare. La misura arriva con una PR di B, che
+   dichiara prima le richieste e la spesa. Finché non c'è, B non ha una fonte `news_index`, e sono
+   pubblicabili quasi solo i fatti ufficiali.
+   - Il servizio a pagamento provato è GNews, con la chiave del piano gratuito aperta dall'owner il
+     18 novembre 2026. Sugli ultimi 30 giorni, in italiano, ha dato in tutto 6 articoli su Acilia,
+     16 su Centocelle e 54 su «Prati Roma», questi quasi tutti fuori tema; con il paese limitato
+     all'Italia, 3 per quartiere, tutti del Corriere. Negli articoli restituiti (al più 10 per
+     ricerca con il piano gratuito) non c'erano RomaToday, Il Messaggero né Ostia TV. Google News,
+     cercando «<quartiere> Roma» sugli ultimi 30 giorni, ha dato 38, 43 e 39 voci, con RomaToday
+     per tutti e tre, Ostia TV per Acilia e Il Messaggero per Centocelle e Prati.
+   - Lettura del coordinatore: con questi numeri GNews non serve, e un altro servizio a pagamento
+     entra nella misura solo se una sua prova mostra le testate di Roma.
+   - Lettura del coordinatore: «la testata», cioè il nome dell'editore, si legge con titolo, link e
+     ora perché DEC-108 conta gli editori; il testo dell'articolo non si legge mai.
+   - Lettura del coordinatore: leggere un giornale a pagamento con un browser automatico e un
+     abbonamento, che l'owner aveva chiesto di valutare, è escluso. La dichiarazione di Il
+     Messaggero sul text and data mining vieta l'uso automatico dei contenuti e dice che «I divieti
+     ... si applicano anche ad Utenti abbonati, sia consumer che professionali».
+   - Lettura del coordinatore: i termini di Google non danno un permesso esplicito per l'uso
+     automatico della ricerca di Google News, che può smettere di rispondere senza preavviso. Per
+     questo la misura usa poche richieste, e Google News non è la scelta finale.
+5. **Le notizie che non sono cronaca entrano nel blocco Notizie del pilota da subito.** Il blocco
+   le comprende; per pubblicarle servono temi e una regola di pubblicazione per ciascuno (le parole
+   dell'opzione scelta). DEC-034 e DEC-108 restano la regola della cronaca: questo punto allarga il
+   blocco oltre la cronaca senza cambiare i loro testi.
+   - Lettura del coordinatore: i temi e le regole li propone il progetto di B e l'owner li approva
+     prima che una di queste notizie si pubblichi. Fino ad allora la raccolta le tiene, con la loro
+     scheda, e non le pubblica: «da subito» vuol dire che entrano nel blocco, non che si pubblicano
+     senza regola.
 
 Impact:
 - `docs/pilota/CONTRATTI.md`, sezione 7 B: l'apertura e le righe «Raccolta» (punto 1),
@@ -113,14 +157,15 @@ Impact:
   di CONTRATTI.
 - Codice: `code-nodes/news-group.js`, che arriva con la PR B-R1 (progetto, sezione 9),
   applica i punti 2, 3 e 5; la stessa PR porta a questa entry i rimandi alle scelte 2, 3(b)
-  e 5 nel nodo e nei test. La lettura delle pagine (punto 1) e l'indice (punto 4) arrivano
-  con PR di B.
+  e 5 nel nodo e nei test. La lettura delle pagine (punto 1) e la misura degli indici (punto 4)
+  arrivano con PR di B. Il punto 5 com'è dal 18 novembre cambia il nodo: oggi ferma le notizie
+  che non sono cronaca, e le porterà avanti con la regola dei temi, in una PR di B.
 - `docs/REVIEW_QUEUE.md` non cambia ora: cambia con la decisione del punto 3, prima del
   lancio.
 - DEC-034, DEC-108 e DEC-025 restano invariate. Nessun cambiamento a gazetteer, prompt, n8n
   di produzione, lane gate o CI.
 
-Decided by: owner · Date: 15 novembre 2026 · Affected components: canale B del pilota,
+Decided by: owner · Date: 15 novembre 2026; 17 e 18 novembre 2026 · Affected components: canale B del pilota,
 `docs/pilota/CONTRATTI.md` (sezioni 3, 5 e 7 B), `docs/pilota/B_RAGGRUPPAMENTO.md`,
 `code-nodes/news-group.js`, `code-nodes/news-collect.js` (punto 1), `docs/REVIEW_QUEUE.md`
 (prima del lancio).
