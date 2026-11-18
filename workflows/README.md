@@ -86,7 +86,8 @@ reading that fails gives an item with `error`, retried before it is given; the W
 1.1, counts in seconds. Not yet tried in n8n, with the workflows off: that the listing returns
 `md5Checksum` (without it a file is updated, never duplicated), what the error item of a Code node
 carries, `$('Nuovo?').item` after the Drive nodes, and the id that «Aggiorna» returns. «Aggiorna»
-retried sends the same bytes to the same file again: a Drive revision more, no file more. Two
+retried sends the same bytes to the same file again: a Drive revision more, no file more; n8n
+retries on the error of its first item, and a later item that fails goes to «Non aggiornato». Two
 known limits: a Drive node that fails outside its own handling of each item passes its input on,
 so «Prenotazioni» would give the call's own reservation alone and the turn would hold without
 having read the others; a listing of `C Eventi/` that Drive returns empty reaches no node, and the
