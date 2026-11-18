@@ -1,10 +1,11 @@
 # DEC-006 — Municipality fallback for thin pages in site v1
 
 Status: OPEN (residual only)
-Closed in part by DEC-014 — the question below is answered yes: the fallback is a launch
-requirement (11 September 2026). What stays open here is only the residual DEC-014
-records as deferred: Municipio vs. adjacent neighbourhoods, section vs. single flow,
-geographic presentation — decided at UI design time on real data.
+Closed in part by DEC-014 — a geographic fallback for thin pages is a launch requirement
+(11 September 2026). What stays open here is only the residual DEC-014 records as
+deferred: its form (the Municipio or the adjacent neighbourhoods), section vs. single flow,
+geographic presentation — decided at UI design time on real data. Clarified by the owner on 18 November 2026 (PR #67): the
+fallback is required, its form is not yet chosen, and nothing here makes it the Municipio.
 Blocks: site layout decision only; not the pipeline
 
 Question: enable the municipality-level render-time fallback for thin zone pages in

@@ -3,7 +3,9 @@
 Status: DECIDED
 Supersedes in part: DEC-103 (unchanged and not reopened; the clause "every fix lands in
 the gazetteer, the venue registry or the source registry, never in the individual item",
-limited to content corrections and rectifications concerning persons).
+for every correction of content, rectifications concerning persons included; geographic
+fixes stay in the registries). Clarified by the owner on 18 November 2026 (PR #67): a wrong date or a wrong institutional fact is
+corrected in the item, as any other content error.
 
 Question: how are errors in published content corrected?
 

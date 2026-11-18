@@ -8,8 +8,9 @@ content must every page show at launch?
 
 Options:
 A. **CHOSEN.** All 89 pages at launch, with Amministrazione, Cronaca and Eventi as
-   required blocks and Conversation optional; minimum visible stocks 5/1/10/2 per page
-   with a geographic fallback for events.
+   required blocks and Conversation optional; minimum visible stocks 5/1/10 per page
+   (Amministrazione, Cronaca, future events) with a geographic fallback for events, and
+   Conversation where the censused groups provide it, with no minimum (Clarified by the owner on 18 November 2026 (PR #67)).
 B. Public launch staggered by block.
 C. Public launch staggered by Municipio or by source readiness.
 D. Depth vs. base pages as a natural experiment.
@@ -41,7 +42,10 @@ ChatGPT recommendation: as above; neither perspective chose.
   every page. If they do not, widen the search or the sources; the Posts channel
   (events derived from group posts) then becomes a launch dependency.
 - Launch requirements are the eight listed in the owner's response ("Requisiti minimi
-  per il lancio"), as registered in the Round 2 Reconciliation §5.
+  per il lancio"), as registered in the Round 2 Reconciliation §5. That document is not
+  found in the repository or on Drive (`docs/PHASE_0_EXECUTION.md`, P0-S5-01). Clarified by the owner on 18 November 2026 (PR #67):
+  until the list is recovered and written here, the launch gate is the rules written in
+  this entry and in the other decisions; nobody infers the missing requirements.
 
 ## Order of the two pre-launch activities
 

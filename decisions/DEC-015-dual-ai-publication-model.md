@@ -57,14 +57,17 @@ sampled items (DEC-017).
 ## DEC-103 clauses
 
 Superseded: "every fix lands in the gazetteer, the venue registry or the source registry,
-never in the individual item" — for content corrections and rectifications concerning
-persons, which are per item with internal traceability (DEC-020); and the scope limited
-to Events — this model covers every block.
+never in the individual item" — for every correction of content, rectifications
+concerning persons included, which is per item with internal traceability (DEC-020);
+geographic fixes stay in the registries (Clarified by the owner on 18 November 2026 (PR #67)); and the scope limited to Events —
+this model covers every block.
 
 Qualified, not cancelled: the weekly sample of 20 published and 10 auto-excluded items
-remains the reference size as the provisional Events baseline above, with its
-composition now stratified by type — the owner has not declared its size or cadence
-superseded; "one reviewer, 20–40 min/week" remains the Events baseline and is no longer
+remains the reference size as the provisional Events baseline above, and it stays whole
+for Events. Every other block gets a sample of its own, fixed when the block starts,
+with the same error guardrails; the stratification by type is the sum of these samples,
+not a division of the Events one (Clarified by the owner on 18 November 2026 (PR #67)). The owner has not declared its size or
+cadence superseded; "one reviewer, 20–40 min/week" remains the Events baseline and is no longer
 read as a total budget (the owner's 30 hours per week are the total, with no automatic
 thresholds: DEC-017).
 
