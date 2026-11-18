@@ -501,7 +501,7 @@
           "interval": [
             {
               "field": "cronExpression",
-              "expression": "13 4 * * *"
+              "expression": "13 1 * * *"
             }
           ]
         }
@@ -1049,7 +1049,7 @@
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "de89fb0c-e81d-41cd-80bf-285febead96a",
+  "versionId": "88b1bf0b-fe2c-4816-bef7-f219b06be15b",
   "meta": {},
   "nodeGroups": [],
   "id": "MSR74xpgrjd2Kw3E",
