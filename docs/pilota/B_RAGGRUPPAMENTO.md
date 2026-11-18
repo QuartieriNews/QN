@@ -1,7 +1,7 @@
 # Workstream B · Notizie: il raggruppamento dei record in fatti
 
-Stato: progetto, 15 novembre 2026, rivisto il 16. Il 17 l'owner ha preso le scelte 1, 2 e 3, il 18 la 4 e
-la 5 (sezione 10; DEC-039);
+Stato: progetto, 15 novembre 2026, rivisto il 16. Il 16 l'owner ha preso le scelte 6 e 7, il 17
+la 1, la 2 e la 3, il 18 la 4 e la 5 (sezione 10; DEC-039, DEC-040, DEC-043);
 B-R1 (`code-nodes/news-group.js`, sezione 9), unita con le PR #61, #63 e #66, porta i passi 1, 3 e 5.
 Le regole stanno altrove e qui si rimanda: elemento, identità, capofila e pubblicabilità in
 `docs/pilota/CONTRATTI.md`, sezione 7, «B · Notizie»; le regole della cronaca in DEC-034 (R-C01,
@@ -339,8 +339,8 @@ La prova scrive solo nelle Data table della sezione 3, in `B Notizie/prove/` e i
    `news-fact.js`, chiamate e spesa. La replica ha pochi giorni di dati: un aggiornamento o un
    comunicato arrivati dopo mesi li provano solo i test del punto 1. E rilegge record senza la
    pagina: nel suo conto mancano i nomi che stanno solo nelle pagine.
-   **La regola di confronto** (settima scelta). La stessa replica gira una seconda volta sugli
-   stessi record con una regola larga, l'altro estremo: per «certa» basta il luogo di livello
+   **La regola di confronto** (settima scelta, DEC-043). La stessa replica gira una seconda volta
+   sugli stessi record con una regola larga, l'altro estremo: per «certa» basta il luogo di livello
    `quartiere`, e non serve nessun dettaglio. Tutto il resto resta uguale: il tipo della stessa
    famiglia, le date a posto, i nomi della sesta scelta, il ponte, la lista tagliata, e il modo di
    scegliere i candidati. Le schede e le risposte sono quelle di `staging_B_schede`; i fatti vanno
@@ -365,7 +365,7 @@ La prova scrive solo nelle Data table della sezione 3, in `B Notizie/prove/` e i
    larga risulta un po' meno larga di quanto è. Nel passaggio solo i numeri.
 
 Spesa massima dichiarata: 1 €; la replica si ferma se la supera. L'esito che la prova deve dare, e
-che cosa succede alla regola dopo, sono in DEC-039, punto 2.
+che cosa succede alla regola dopo, sono in DEC-039, punto 2, e in DEC-043.
 
 Che cosa mostrerà comunque: pochi fatti di stampa arrivano a due editori, perché a giugno la seconda
 fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezione 4.6).
@@ -382,12 +382,10 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 ## 10. Le scelte dell'owner
 
 L'owner le ha prese per delega il 15 novembre 2026 e poi espresse il 16 (6 e 7), il 17 (1, 2 e 3) e il
-18 novembre (4 e 5). Le scelte 1–5 sono in DEC-039 e la 6 in DEC-040, che vincono su questa sezione; la
-7 non è ancora in un'entry di `decisions/`, e finché non c'è resta una scelta di progetto, non una
-decisione (`decisions/README.md`). Qui sotto
-restano con il consiglio del builder, com'erano alla domanda tranne due frasi che vengono dalla
-revisione: nella scelta 1 quella sulla lista tagliata, nella 3(b) quella sull'aggiornamento in
-dubbio. In DEC-039 sono letture del builder.
+18 novembre (4 e 5). Le scelte 1–5 sono in DEC-039, la 6 in DEC-040 e la 7 in DEC-043, che vincono su
+questa sezione. Qui sotto restano con il consiglio del builder, com'erano alla domanda tranne i rimandi
+alle entry e due frasi che vengono dalla revisione: nella scelta 1 quella sulla lista tagliata, nella
+3(b) quella sull'aggiornamento in dubbio. In DEC-039 sono letture del builder.
 
 1. **Leggere la pagina di ogni record nuovo** della Questura, dei Carabinieri e di Abitare a Roma:
    circa 30 richieste al giorno, con le regole della raccolta. Senza, un riepilogo della Questura si
@@ -444,7 +442,8 @@ dubbio. In DEC-039 sono letture del builder.
    Una regola troppo larga fonde notizie diverse: sono errori che si vedono e che tolgono serietà
    al progetto. Per questo la prova fa girare accanto alla regola di esercizio una regola larga di
    confronto (sezione 8, punto 2), e la misura (punto 5) conta che cosa cambia fra le due. Dopo la
-   prova l'owner sceglie sui numeri: tenere la regola, allargarla o stringerla.
+   prova l'owner sceglie sui numeri: tenere la regola, allargarla o stringerla. La scelta è in
+   DEC-043.
 
 ## 11. Che cosa chiede ai contratti
 
