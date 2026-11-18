@@ -2,7 +2,7 @@
 
 Stato: progetto, 15 novembre 2026, rivisto il 16. Il 17 l'owner ha preso le scelte 1, 2 e 3, il 18 la 4 e
 la 5 (sezione 10; DEC-039);
-B-R1 (`code-nodes/news-group.js`, sezione 9) porta i passi 1, 3 e 5.
+B-R1 (`code-nodes/news-group.js`, sezione 9), unita con le PR #61, #63 e #66, porta i passi 1, 3 e 5.
 Le regole stanno altrove e qui si rimanda: elemento, identità, capofila e pubblicabilità in
 `docs/pilota/CONTRATTI.md`, sezione 7, «B · Notizie»; le regole della cronaca in DEC-034 (R-C01,
 R-C02, R-C04, R-C06, R-C08) e DEC-108; la fase 3, P-03 e P-09 in
