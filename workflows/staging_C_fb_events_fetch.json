@@ -362,6 +362,14 @@
       "name": "Costo"
     },
     {
+      "id": "6c682a87-2363-4f15-96e2-fbd000c92126",
+      "name": "Carica costo",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2256,
+        192
+      ],
       "parameters": {
         "name": "={{ $binary.data.fileName }}",
         "driveId": {
@@ -376,14 +384,12 @@
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        2256,
-        192
-      ],
-      "id": "6c682a87-2363-4f15-96e2-fbd000c92126",
-      "name": "Carica costo"
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
     },
     {
       "parameters": {
@@ -976,7 +982,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "87f3ea37-a146-4987-ae81-99e34190b4d3",
+  "versionId": "843f5ec5-3050-40e4-8737-f5d9ed107a07",
   "meta": null,
   "nodeGroups": [],
   "id": "a442LZE59XzO5ZJw",

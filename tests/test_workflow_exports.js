@@ -63,6 +63,11 @@ for (const f of files) {
   const apify = fs.readFileSync(path.join(CODE, 'apify-run.js'), 'utf8');
   check('C fetch: the request, the check of the run, the cost and the saved dataset run apify-run.js',
     ['Build Apify input', 'Controlla corsa', 'Costo', 'Eventi di prova'].every((nm) => node(nm) && node(nm).parameters.jsCode === apify));
+  // T-C-costo: a Drive node without a credential fails at its first write (workflows/README.md).
+  const drive = F.nodes.filter((n) => n.type === 'n8n-nodes-base.googleDrive');
+  check('T-C-costo: every Drive node of C fetch, «Carica costo» too, carries the Google Drive credential',
+    drive.length === 3 && drive.some((n) => n.name === 'Carica costo') &&
+    drive.every((n) => ((n.credentials || {}).googleDriveOAuth2Api || {}).id === '7nJkjb7aldPHyXv4'));
   check('C fetch: the run state goes to the check, never straight to the dataset', to('Get run') === 'Prepara controllo' && to('Prepara controllo') === 'Controlla corsa');
   check('C fetch: only a run to read reaches the dataset',
     Object.entries(F.connections).filter(([, v]) => (v.main || []).some((br) => (br || []).some((x) => x.node === 'Get dataset items'))).map(([k]) => k).join() === 'Da leggere?');
