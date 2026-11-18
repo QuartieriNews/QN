@@ -1,10 +1,11 @@
 # DEC-039 — Canale B: le scelte sul raggruppamento delle notizie in fatti
 
-Status: DECIDED (15 novembre 2026, owner nella sessione del workstream B, sui consigli del builder)
+Status: DECIDED (15 novembre 2026, owner nella sessione del workstream B, sui consigli del
+builder; punti 1, 2 e 3 per il pilota privato confermati dall'owner il 17 novembre 2026)
 Punto 2 superato in parte da DEC-040 (16 novembre 2026): una scheda che fa nomi non si aggiunge
 da sola a un fatto in cui un'altra scheda fa nomi. Il resto di questa decisione resta valido.
-Blocks: niente per il pilota privato. Prima del lancio pubblico del blocco «Notizie» serve la
-coda del punto 3, con una decisione a sé.
+Blocks: niente per il pilota privato. Prima del lancio pubblico del blocco «Notizie» serve una
+decisione a sé su che cosa diventa un dubbio (punto 3).
 
 Question: il progetto del raggruppamento dei record di B in fatti lascia all'owner cinque scelte
 (`docs/pilota/B_RAGGRUPPAMENTO.md`, sezione 10). Che cosa vale per il pilota privato?
@@ -46,6 +47,11 @@ migliori». Le scelte sono quindi quelle che il builder consigliava, prese dall'
 delega: l'owner le conferma con il merge di questa entry. Dove un punto va oltre il consiglio
 scritto nel progetto lo dice: è una lettura del builder.
 
+Owner's words, 17 novembre 2026, al coordinatore: «Scelte 1, 2 e 3 di B_RAGGRUPPAMENTO.md: 1 sì;
+2 due dettagli, da rivedere dopo la prova; 3 (b) per il pilota privato, (a) prima del lancio
+ancora aperta.» Per i punti 1, 2 e 3 la delega del 15 novembre diventa una scelta espressa. Lo
+stesso giorno l'owner ha detto che i punti 4 e 5 restano decisi per delega, come qui sotto.
+
 ## Regola
 
 1. **La pagina di ogni record nuovo si legge,** per la Questura, i Carabinieri e Abitare a
@@ -81,9 +87,10 @@ scritto nel progetto lo dice: è una lettura del builder.
      dubbio, dove prima apriva un fatto suo.
 3. **Nel pilota privato un fatto in dubbio non si pubblica,** nemmeno se è ufficiale, e
    compare in un elenco del giorno: l'opzione (b). Nel pilota nessuno scioglie i dubbi.
-   Prima del lancio pubblico serve l'opzione (a): nella coda (`docs/REVIEW_QUEUE.md`) due
-   decisioni per i dubbi di raggruppamento, «stesso fatto di …» e «fatto diverso», e un
-   ritmo per le notizie, che DEC-034 chiede già («Blocks»). Le porta una decisione a sé.
+   Che cosa vale prima del lancio pubblico resta aperto (owner, 17 novembre 2026). Il builder
+   consiglia l'opzione (a): nella coda (`docs/REVIEW_QUEUE.md`) due decisioni per i dubbi di
+   raggruppamento, «stesso fatto di …» e «fatto diverso», e un ritmo per le notizie, che
+   DEC-034 chiede già («Blocks»). La porta una decisione a sé.
    - Lettura del builder: vale anche per un aggiornamento finito in dubbio. Resta staccato
      dal suo fatto, che tiene il `case_status` di prima, finché il dubbio non è sciolto
      (progetto, sezione 5). R-C04, che DEC-034 fa valere già nel pilota privato, vuole che
