@@ -94,6 +94,13 @@ const NOW_T = '2026-11-16T09:00:10.000Z';
   check('T28: one second short of 120 minutes it goes on', m.turn({ now: '2026-11-16T11:00:00.999Z', reservations: [mine], mine: 'idM' }).holds, true);
   check('the turn needs the instant it is taken', thrown(() => m.turn({ reservations: [mine], mine: 'idM' })), 'now must be a UTC instant');
   check('a reservation without its time is an error', /without the time/.test(thrown(() => m.turn({ now: NOW_T, reservations: [{ id: 'x', name: a.name }, b], mine: 'idB' })) || ''), true);
+  check('T29: the reading again that failed reaches the turn as its error item, and is the error of the call',
+    thrown(() => m.turn({ now: NOW_T, reservations: [{ error: 'Drive 403 Quota exceeded' }], mine: 'idB' })), 'the reservations could not be read again: Drive 403 Quota exceeded');
+  check('T29: an error item beside reservations is still the error of the call',
+    /could not be read again/.test(thrown(() => m.turn({ now: NOW_T, reservations: [a, b, { error: { message: 'x' } }], mine: 'idB' })) || ''), true);
+  check('T27: the reading that gave back its input is the error of the call, never a turn held alone',
+    thrown(() => m.turn({ now: NOW_T, reservations: [{ reading_input: true }], mine: 'idB' })), 'the reservations could not be read again: the reading gave back its input');
+  check('the empty item of an empty reading is no reservation: not listed yet', m.turn({ now: NOW_T, reservations: [{}], mine: 'idB' }).reason, 'the call\'s own reservation is not listed yet');
   check('other names in the folder are not reservations', m.turn({ now: NOW_T, reservations: [{ id: 'z', name: 'appunti.txt' }, { name: 'esito_bad.json' }, b], mine: 'idB' }).holds, true);
 }
 
@@ -243,6 +250,8 @@ console.log('n8n adapter, from the exact committed file');
   const justNow = new Date(Date.now() - 1000).toISOString();
   const t = run({ stage: 'turn', reservation_id: 'idA', reservations: [{ id: 'idA', name: 'prenotazione_2026-11-16_20261116T090000Z_701.json', createdTime: justNow }, {}] });
   check('turn: the decision, without the list read again', [t[0].json.turn, 'reservations' in t[0].json], [{ holds: true, busy: [], stale: [], reason: null }, false]);
+  check('T29: turn throws the error item of the reading again, for the route of its node',
+    /could not be read again: Drive 503/.test(thrown(() => run({ stage: 'turn', reservation_id: 'idA', reservations: [{ error: 'Drive 503' }] })) || ''), true);
   const late = run({ stage: 'turn', reservation_id: 'idA', reservations: [{ id: 'idA', name: 'prenotazione_2026-11-16_20261116T090000Z_701.json', createdTime: T0 }] });
   check('T28: turn takes the instant of the node, so an own reservation of yesterday holds no more', late[0].json.turn.holds, false);
   const a = fb('4002');

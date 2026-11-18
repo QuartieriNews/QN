@@ -76,13 +76,23 @@ up: its outcome is still in `scritture/`. The listing of `C Eventi/` reads the w
 time grows with the archive that the folder keeps; reading only the names of the call, in batches,
 changes the flow and is not done yet. Both were saved in n8n on 16 November 2026, with the
 workflows off, and n8n kept every node and setting; the four Code nodes were saved again from these
-exports on 17 November 2026, still off, and n8n read back gives these exports node for node. Not
-yet tried in n8n, with the workflows off: that the listing returns `md5Checksum` (without
-it a file is updated, never duplicated), what the error outputs carry, whether a reading with both
-a retry and an error output is retried before it takes the error output, that a failed
-«Prenotazioni» gives only its error item although it keeps `alwaysOutputData`, the merge of five
-inputs when some stay empty, `$('Nuovo?').item` after the Drive nodes, and the id that «Aggiorna»
-returns. A listing of `C Eventi/` that does not show `scritture/` stops the call before any
+exports on 17 November 2026, still off, and n8n read back gave these exports node for node. On 18
+November «Prenotazioni» lost its error output, «Prima della lettura» came before it and the four
+Code nodes took the new turn: not yet saved in n8n. Read in the sources of n8n 2.48.4
+(`n8n-core` and `n8n-nodes-base`), not tried: a
+merge in append mode runs with the inputs that received data; a node with an error output and
+`alwaysOutputData` sends an empty item to its main output beside the error item, so «Prenotazioni»
+keeps its error item on its one output and «Turno» throws it to its error route (T29); a Drive
+reading that fails gives an item with `error`, retried before it is given; the Wait node, version
+1.1, counts in seconds. Not yet tried in n8n, with the workflows off: that the listing returns
+`md5Checksum` (without it a file is updated, never duplicated), what the error item of a Code node
+carries, `$('Nuovo?').item` after the Drive nodes, and the id that «Aggiorna» returns. «Aggiorna»
+retried sends the same bytes to the same file again: a Drive revision more, no file more; n8n
+retries on the error of its first item, and a later item that fails goes to «Non aggiornato». A Drive
+node that fails outside its own handling of each item gives back its input on its main output:
+«Prima della lettura» makes that input a marker, never the call's own reservation, and «Turno»
+throws it to its error route (T27, T29). Known limit: a listing of `C Eventi/` that Drive returns
+empty reaches no node, and the call dies without its outcome. A listing of `C Eventi/` that does not show `scritture/` stops the call before any
 canonical write.
 
 ### Prova senza Apify
