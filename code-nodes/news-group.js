@@ -181,7 +181,9 @@ const RIGHE = /^notizie_righe_(\d{8}T\d{6}Z)\.json$/;
  *  stops (`fermo`) with its motive, never guessed. Preparing a prepared record gives the same. */
 function prepareRecord(record, inizio, index) {
   const base = { inizio, index };
-  if (!record || typeof record !== 'object' || Array.isArray(record)) return Object.assign(base, { stato: 'fermo', motivo: 'record_illeggibile' });
+  const unreadable = !record || typeof record !== 'object' || Array.isArray(record)
+    || (record.stato === 'fermo' && record.motivo === 'record_illeggibile' && !has(record, 'url'));
+  if (unreadable) return Object.assign(base, { stato: 'fermo', motivo: 'record_illeggibile' });
   const stop = (motivo, extra) => Object.assign({}, record, base, extra || {}, { stato: 'fermo', motivo });
   let recordId;
   try { recordId = canonicalUrl(record.url); } catch (e) { return stop('url_illeggibile'); }
@@ -251,7 +253,7 @@ function prepareFiles(files) {
 /* ----- step 2: the check of the schede ------------------------------------ */
 
 const plainObject = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
-const shortText = (v, max) => typeof v === 'string' && v.trim() !== '' && v.length <= max && !/[\r\n]/.test(v);
+const shortText = (v, max) => typeof v === 'string' && v.trim() !== '' && v.length <= max && !/[\r\n\u2028\u2029]/.test(v);
 /** Text compared as section 3 says: no case, accents, punctuation or repeated spaces. */
 function normKey(v) {
   return String(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
