@@ -538,6 +538,12 @@ console.log('T-B-R1-24 more of section 8, point 1: the candidates');
   const dated = one(rec('abit', 'datata', '2026-11-20T07:00:00Z'), { data_fatto: '2026-10-31' });
   check('T-B-R1-24 …with the day of its fact, when the fact is not after the first record', [g.inLimit(dated, undated),
     g.inLimit(Object.assign({}, dated, { data_fatto: '2026-11-02' }), undated)], [true, false]);
+  // A record published before the opening one, which joined the fact later (a stopped record restarted):
+  // the limit still counts from the record that opened the fact.
+  const earlier = Object.assign({}, one(rec('quest', 'prima', null, '2026-10-25T08:00:00Z'), {}), { ruolo: 'stesso_fatto' });
+  const joined = Object.assign({}, undated, { schede: [earlier].concat(undated.schede) });
+  check('T-B-R1-24 …from the day of the record that opened the fact, not the earliest record joined to it',
+    [g.inLimit(p7, joined), g.inLimit(Object.assign({}, dated, { data_fatto: '2026-10-28' }), joined), g.inLimit(p8, joined)], [true, true, false]);
   let full = [];
   for (let i = 0; i < 11; i += 1) full = open(full, one(rec('abit', `pieno-${String(i).padStart(2, '0')}`, '2026-11-10T07:00:00Z'), {}));
   const release = one(rec('quest', 'comunicato', '2026-11-11T07:00:00Z'), {});
