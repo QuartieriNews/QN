@@ -97,7 +97,7 @@ esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di
 | Fixture dei test | DA COSTRUIRE | byte e testi inventati (DEC-109), mai presi da una fonte |
 | Credenziali condivise e DEC-036 | DALL'OWNER, fatto il 14/11 | |
 | Chiave di un servizio Whisper più economico, per il confronto dei modelli | DALL'OWNER, se il confronto lo prova | DEC-037, punto 4; sezione 6 |
-| Chiave di un modello di un'altra famiglia, per la seconda verifica di DEC-015 | DALL'OWNER, con A5 | solo se l'owner dice che DEC-015 vale per il pilota (sezione 9); su n8n oggi c'è solo OpenAI |
+| Chiave di un modello di un'altra famiglia, per la seconda verifica di DEC-015 | DALL'OWNER, con A5, se la PR di A5 la propone | la seconda verifica vale nel pilota (DEC-042); quali modelli la fanno lo propone A5, con l'indipendenza di DEC-015; su n8n oggi c'è solo OpenAI |
 | Foglio della coda di revisione | DALL'OWNER, con A5 | non esiste su Drive |
 | Piano n8n superiore | DALL'OWNER, solo se serve | se le corse chiamate da un altro flusso contano, A non sta nel piano già con A2 e A3: la domanda arriva con la misura di A2 (sezione 4) |
 
@@ -707,7 +707,7 @@ Il grosso è la trascrizione, non Apify.
 
 | Punto | Chi decide | Quando |
 |---|---|---|
-| DEC-014..DEC-021 sono citate come decise su `main` (DEC-022, DEC-034, DEC-108) ma stanno solo nel branch non unito `claude/quartieri-news-strategic-review-tzkl78`: DEC-015 (seconda verifica con un'altra AI, coda manuale, campione stratificato), DEC-014 (almeno 5 elementi di Amministrazione per pagina), DEC-020 (versioni e sospensione di un elemento). Valgono per il pilota? | owner | prima di A5 |
+| Deciso il 18 novembre 2026: DEC-014…021 sono nel registro così come decise a settembre, con i chiarimenti dell'owner (PR #67), e la seconda verifica di DEC-015 vale nel pilota (DEC-042) | owner | fatto |
 | I valori di `editorial_class` per `institutional`: si aggiungono con il build del gazetteer (CONTRATTI, sezione 2) | il builder propone, l'owner decide | A5 |
 | Come una pagina pilota mostra i fatti di livello città e di livello Municipio (DEC-106, DEC-006); come un elemento porta più pagine e la portata | owner | A5 |
 | Immagini degli elementi: nessuna regola decisa per questo blocco (DEC-101 è per gli eventi) | owner | A5 |

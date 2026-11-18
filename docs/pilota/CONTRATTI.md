@@ -322,8 +322,8 @@ questa sezione non scrive elementi (sezione 3).
 
 Il canale si apre a passi. Questa sezione fissa l'elemento, la sua identità, le fonti, la
 raccolta, il testo, il confine della seduta e i costi. La lettura dei fatti candidati, la
-geografia, le classi editoriali, la scrittura e, se l'owner la conferma per il pilota, la seconda
-verifica di DEC-015 arrivano con le PR successive. Finché non ci sono, il canale non scrive elementi: in `A Amministrazione/` scrive
+geografia, le classi editoriali, la scrittura e la seconda verifica di DEC-015, che vale nel pilota
+(DEC-042), arrivano con le PR successive. Finché non ci sono, il canale non scrive elementi: in `A Amministrazione/` scrive
 solo le schede di `registrazioni/`, le risposte dell'elenco e il testo della seduta aperta in
 `originali/`, i registri in `letture/` e le spese in `costi/`. `temporanei/` tiene un testo
 intero solo finché non è fissato il confine della seduta.
