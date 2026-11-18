@@ -63,6 +63,13 @@ Owner's words, 18 novembre 2026, al coordinatore.
   gratis, poi scegli», così descritta: «Nel pilota privato uso Google News e GDELT solo per titolo,
   link e ora, con poche richieste; tu apri una prova gratuita di un servizio a pagamento; tra due
   settimane ti porto i numeri dei tre e decidi se pagare. Spesa oggi: zero.»
+  La stessa sera Codex ha fatto notare che il `robots.txt` di Google News lo esclude per tutti i
+  robot (`docs/sources/CRONACA_PROCESSO_2026-10.md`, «Altri canali provati»), contro quello che la
+  ricerca aveva riportato; alla domanda su come cambiare la prova, con le opzioni «GDELT più un
+  servizio a pagamento» (consigliata), «Solo GDELT» e «Google News con permesso», l'owner ha scelto
+  «GDELT più un servizio a pagamento», così descritta: «Si tolgono Google News e il browser; la prova
+  usa i file gratuiti di GDELT (titolo, link, ora ogni 15 minuti, già indicati dal progetto) e, se ne
+  trovo uno che copre Roma, un servizio a pagamento in prova gratuita. Spesa zero finché non decidi.»
 - Punto 5. Fra «Ferme per il primo mese» (consigliata), «Solo alcuni temi utili» e «Tutte, da
   subito», l'owner ha scelto «Tutte, da subito», così descritta: «Servono temi e una regola di
   pubblicazione per ciascuno prima di partire: più lavoro e più rischio di errori visibili.»
@@ -112,30 +119,25 @@ Per i punti 4 e 5 la delega del 15 novembre non vale più.
      (progetto, sezione 5). R-C04, che DEC-034 fa valere già nel pilota privato, vuole che
      gli sviluppi arrivino al fatto: finché la coda non c'è, per un aggiornamento in dubbio
      questo resta indietro. È una delle ragioni per cui la coda serve prima del lancio.
-4. **Il secondo editore dalle testate chiuse si sceglie dopo una prova gratuita di tre fonti:**
-   Google News e GDELT, nel pilota privato, solo per titolo, link e ora, con poche richieste
-   (DEC-108), e un servizio a pagamento in prova gratuita. Dopo due settimane il coordinatore porta
-   all'owner i numeri dei tre, e l'owner decide se pagare. La misura arriva con una PR di B, che
+4. **Il secondo editore dalle testate chiuse si sceglie dopo una prova gratuita:** GDELT, dai suoi
+   file pubblici ogni 15 minuti, solo per titolo, link e ora (DEC-108), e, se una sua prova mostra le
+   testate di Roma, un servizio a pagamento in prova gratuita. Google News non si usa: il suo
+   `robots.txt` lo esclude per tutti i robot (`docs/pilota/CONTRATTI.md`, sezione 6). Leggere un
+   giornale a pagamento con un browser automatico non si fa. Dopo due settimane il coordinatore
+   porta all'owner i numeri, e l'owner decide se pagare. La misura arriva con una PR di B, che
    dichiara prima le richieste e la spesa. Finché non c'è, B non ha una fonte `news_index`, e sono
    pubblicabili quasi solo i fatti ufficiali.
-   - Il servizio a pagamento provato è GNews, con la chiave del piano gratuito aperta dall'owner il
-     18 novembre 2026. Sugli ultimi 30 giorni, in italiano, ha dato in tutto 6 articoli su Acilia,
-     16 su Centocelle e 54 su «Prati Roma», questi quasi tutti fuori tema; con il paese limitato
-     all'Italia, 3 per quartiere, tutti del Corriere. Negli articoli restituiti (al più 10 per
-     ricerca con il piano gratuito) non c'erano RomaToday, Il Messaggero né Ostia TV. Google News,
-     cercando «<quartiere> Roma» sugli ultimi 30 giorni, ha dato 38, 43 e 39 voci, con RomaToday
-     per tutti e tre, Ostia TV per Acilia e Il Messaggero per Centocelle e Prati.
-   - Lettura del coordinatore: con questi numeri GNews non serve, e un altro servizio a pagamento
-     entra nella misura solo se una sua prova mostra le testate di Roma.
-   - Lettura del coordinatore: «la testata», cioè il nome dell'editore, si legge con titolo, link e
-     ora perché DEC-108 conta gli editori; il testo dell'articolo non si legge mai.
-   - Lettura del coordinatore: leggere un giornale a pagamento con un browser automatico e un
-     abbonamento, che l'owner aveva chiesto di valutare, è escluso. La dichiarazione di Il
-     Messaggero sul text and data mining vieta l'uso automatico dei contenuti e dice che «I divieti
-     ... si applicano anche ad Utenti abbonati, sia consumer che professionali».
-   - Lettura del coordinatore: i termini di Google non danno un permesso esplicito per l'uso
-     automatico della ricerca di Google News, che può smettere di rispondere senza preavviso. Per
-     questo la misura usa poche richieste, e Google News non è la scelta finale.
+   - Il servizio a pagamento provato il 18 novembre 2026 è GNews, con la chiave del piano gratuito
+     aperta dall'owner. Sugli ultimi 30 giorni, in italiano, ha dato in tutto 6 articoli su Acilia, 16
+     su Centocelle e 54 su «Prati Roma», questi quasi tutti fuori tema; con il paese limitato
+     all'Italia, 3 per quartiere, tutti del Corriere. Negli articoli restituiti (al più 10 per ricerca
+     con il piano gratuito) non c'erano RomaToday, Il Messaggero né Ostia TV. Lettura del
+     coordinatore: con questi numeri GNews non entra nella misura.
+   - Lettura del coordinatore: con titolo, link e ora si legge anche il nome della testata, perché
+     DEC-108 conta gli editori; il testo dell'articolo non si legge mai.
+   - Lettura del coordinatore: la dichiarazione di Il Messaggero sul text and data mining vieta l'uso
+     automatico dei contenuti e dice che «I divieti ... si applicano anche ad Utenti abbonati, sia
+     consumer che professionali».
 5. **Le notizie che non sono cronaca entrano nel blocco Notizie del pilota da subito.** Il blocco
    le comprende; per pubblicarle servono temi e una regola di pubblicazione per ciascuno (le parole
    dell'opzione scelta). DEC-034 e DEC-108 restano la regola della cronaca: questo punto allarga il

@@ -382,7 +382,9 @@ fonte era quasi sempre una testata chiusa (`CRONACA_PROCESSO_2026-10.md`, sezion
 ## 10. Le scelte dell'owner
 
 L'owner le ha prese per delega il 15 novembre 2026 e poi espresse il 16 (6 e 7), il 17 (1, 2 e 3) e il
-18 novembre (4 e 5): sono in DEC-039, che vince su questa sezione. Qui sotto
+18 novembre (4 e 5). Le scelte 1–5 sono in DEC-039 e la 6 in DEC-040, che vincono su questa sezione; la
+7 non è ancora in un'entry di `decisions/`, e finché non c'è resta una scelta di progetto, non una
+decisione (`decisions/README.md`). Qui sotto
 restano con il consiglio del builder, com'erano alla domanda tranne due frasi che vengono dalla
 revisione: nella scelta 1 quella sulla lista tagliata, nella 3(b) quella sull'aggiornamento in
 dubbio. In DEC-039 sono letture del builder.
@@ -413,8 +415,9 @@ dubbio. In DEC-039 sono letture del builder.
    ora presi da un indice terzo, e le conta come secondo editore; quale indice e con quale spesa è
    ancora da decidere (`CRONACA_PROCESSO_2026-10.md`, sezione 7, punto 4). Senza, saranno pubblicabili
    quasi solo i fatti ufficiali. Il builder consiglia di aprirlo dopo la prova, con una PR sua.
-   **Scelta presa dall'owner il 18 novembre 2026: prova gratuita di tre fonti (Google News, GDELT e un
-   servizio a pagamento in prova), poi l'owner decide se pagare** (DEC-039, punto 4).
+   **Scelta presa dall'owner il 18 novembre 2026: prova gratuita di GDELT e, se copre Roma, di un
+   servizio a pagamento, poi l'owner decide se pagare; Google News è escluso dal suo `robots.txt`**
+   (DEC-039, punto 4).
 5. **Le notizie che non sono cronaca,** circa due terzi dei record delle testate: il blocco Notizie del
    pilota le porta? DEC-034 e DEC-108 parlano di cronaca; per le altre servono temi e una regola di
    pubblicazione. Il builder consiglia di tenerle ferme fino al primo mese di cronaca. **Scelta presa
