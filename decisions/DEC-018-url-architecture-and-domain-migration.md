@@ -18,9 +18,12 @@ ChatGPT recommendation: the same ("canonical strategy before publication").
 
 - One central domain with URLs organised by neighbourhood
   (`quartierinews.it/acilia/`, `quartierinews.it/acilia/articolo-x`).
-- Every content has a permanent internal identity, one main neighbourhood and one
-  canonical URL. When it appears on several pages, the cards link to the same content;
-  no indexable copies.
+- Every content has a permanent internal identity and one canonical URL, and one main
+  neighbourhood when it has one. A content at the level of a Municipio or of the city
+  (a municipal commission, a city-wide service) has no main neighbourhood: none is
+  invented for it, and its canonical URL sits at its own level, in a form fixed with the
+  site (Clarified by the owner on 18 November 2026 (PR #67); `docs/PROJECT_VISION.md`). When it appears on several pages, the cards
+  link to the same content; no indexable copies.
 - Autonomous domains (`acilia.news`) are bought and activated in a later phase, with a
   one-to-one correspondence and permanent redirects, without double indexing. Strong
   brand autonomy per masthead, with the QN group membership evident.

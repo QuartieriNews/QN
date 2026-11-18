@@ -37,7 +37,8 @@ ChatGPT recommendation: as above; neither perspective chose.
   from a wider pool — the whole Municipio or the adjacent neighbourhoods; which one is
   decided at UI design time on real data (DEC-006 residual). The geographic provenance
   of every item is always understandable. An event is one canonical content shown on
-  several pages: 890 is the number of visible placements at launch, not of unique events.
+  several pages: 890 is the minimum number of visible placements at launch, since ten
+  per page is a floor (Clarified by the owner on 18 November 2026 (PR #67)), not the number of unique events.
 - Before launch, verify that the initial sources plus the fallback reach the floor on
   every page. If they do not, widen the search or the sources; the Posts channel
   (events derived from group posts) then becomes a launch dependency.
