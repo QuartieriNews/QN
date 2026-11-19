@@ -57,19 +57,6 @@ for (const f of files) {
   }
 }
 
-// T-WF-attivo (workflows/README.md): n8n calls no error workflow that is off (CONTRATTI.md, «Lo storico»,
-// «Segnali di blocco»; docs/pilota/WORKSTREAM_A.md, section 8, point 4), so this folder cannot say a
-// workflow on and its error workflow off.
-{
-  const exported = files.map((f) => JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')));
-  const byId = new Map(exported.map((wf) => [wf.id, wf]));
-  for (const wf of exported.filter((w) => w.active === true && (w.settings || {}).errorWorkflow)) {
-    const target = byId.get(wf.settings.errorWorkflow);
-    check(`T-WF-attivo: ${wf.name} is on, and so is its error workflow`, !!target && target.active === true,
-      target ? `${target.name} says active: ${target.active}` : `the error workflow ${wf.settings.errorWorkflow} is not in workflows/`);
-  }
-}
-
 // The Apify run of staging_C_fb_events_fetch (code-nodes/apify-run.js; workflows/README.md): only a
 // SUCCEEDED run reaches the dataset, the wait ends, and every run writes its cost.
 {

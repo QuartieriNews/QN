@@ -20,9 +20,10 @@ the commit that brings the file: `true` if it was on, `false` if it was off. Swi
 on or off is not a structural change; the export keeps the state of its day until the workflow is
 exported again. An export taken with the API (`GET /workflows/{id}`, docs/pilota/WORKSTREAM_A.md,
 section 8, point 9) takes `active` and `versionId` as n8n gives them, and each node with every key
-n8n gives. The test checks that every export says `true` or `false`, and that an export that is on
-and names an error workflow (`settings.errorWorkflow`) names one of this folder that is on too
-(T-WF-attivo).
+n8n gives. The test checks that every export says `true` or `false` (T-WF-attivo). It does not
+compare `active` across files: two exports can be of different days, so whether a workflow that is
+on has its error workflow on too is checked on n8n, not here (docs/pilota/WORKSTREAM_A.md, section 8,
+point 4).
 
 **`staging_C_*` are off, and stay off until the defects found in the review of their first export
 (PR #48) are fixed.** They are in the workflows as they stand; the fix goes to n8n and comes back
