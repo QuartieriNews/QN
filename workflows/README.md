@@ -15,6 +15,15 @@ the same way but without their static data, which holds the state of the runs.
 `tests/test_workflow_exports.js` checks that every Code node taken from `code-nodes/` is that
 file byte for byte.
 
+**`active` in an export** is the state the workflow had on n8n when it was exported, on the day of
+the commit that brings the file: `true` if it was on, `false` if it was off. Switching a workflow
+on or off is not a structural change; the export keeps the state of its day until the workflow is
+exported again. An export taken with the API (`GET /workflows/{id}`, docs/pilota/WORKSTREAM_A.md,
+section 8, point 9) takes `active` and `versionId` as n8n gives them, and each node with every key
+n8n gives. The test checks that every export says `true` or `false`, and that an export that is on
+and names an error workflow (`settings.errorWorkflow`) names one of this folder that is on too
+(T-WF-attivo).
+
 **`staging_C_*` are off, and stay off until the defects found in the review of their first export
 (PR #48) are fixed.** They are in the workflows as they stand; the fix goes to n8n and comes back
 here as a new export, in the pull request that turns channel C on again. Any other finding of that
@@ -123,3 +132,8 @@ before 05:00 UTC. 1:13 is also outside the hour from 2:00 to 3:00 that the chang
 March and repeats in October, when a schedule there would not run or would run twice. If a night
 stops again on a Drive 403, the next step is a Google credential with its own project, which is the
 owner's to create.
+
+The night of 19 November 2026 stopped at 02:03 UTC on a block signal of the portal, not on that
+quota: «Controllo PDF» of `staging_D_attiweb_download` (execution 1903) had a 403 in answer to a
+PDF, and the reading stopped (DEC-033, rule 4). `staging_D_attiweb_list` was then switched off,
+and it stays off until the owner decides.

@@ -696,7 +696,8 @@ Il grosso è la trascrizione, non Apify.
    id vanno nell'«Inizio». I file grandi li muove solo n8n (CONTRATTI, sezione 3).
 9. **Esportare.** `GET /workflows/{id}` e `workflows/<nome>.json` con la ricetta di
    `PASSAGGIO_2026-11-12.md` su Drive, appendice B: i campi del Download dell'editor, senza
-   `staticData`. I nodi Code identici byte per byte ai file di `code-nodes/`
+   `staticData`, salvo `active`, `versionId` e le chiavi dei nodi, che si prendono come le dà n8n
+   (`workflows/README.md`, T-WF-attivo). I nodi Code identici byte per byte ai file di `code-nodes/`
    (`tests/test_workflow_exports.js`); `workflow_version` dell'«Inizio» cambia a ogni modifica.
 10. **Chiudere.** Flussi di prova spenti, nessuna esecuzione con audio o testo su n8n,
     `temporanei/` vuota e senza file nel cestino (`trashed = true`), nessuno storage di corsa

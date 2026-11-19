@@ -4,7 +4,8 @@
  * node whose text is a file of code-nodes/ (it opens with that file's header line, "name.js —")
  * must be byte-identical to the file. An export never carries staticData: a workflow's static
  * data holds the state of its runs (URLs seen, hosts stopped), and source data stays out of
- * the repository (DEC-109).
+ * the repository (DEC-109). Each export says whether the workflow was on when it was exported
+ * (T-WF-attivo, workflows/README.md).
  *
  * The Atti Web workflows (staging_D_attiweb_*) run one execution at a time (DEC-033, rule 2;
  * CONTRATTI.md, «Lo storico»): no webhook, each sub-workflow callable only by its one caller,
@@ -42,6 +43,8 @@ const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.json')).sort();
 for (const f of files) {
   const wf = JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8'));
   check(`${f}: no staticData in the export`, !Object.prototype.hasOwnProperty.call(wf, 'staticData'));
+  check(`T-WF-attivo: ${f} says whether the workflow was on (active is true or false)`, typeof wf.active === 'boolean',
+    `active: ${JSON.stringify(wf.active)}`);
   for (const n of wf.nodes || []) {
     if (n.type !== 'n8n-nodes-base.code') continue;
     const js = (n.parameters || {}).jsCode || '';
@@ -51,6 +54,19 @@ for (const f of files) {
     const exists = fs.existsSync(file);
     check(`${f}: node "${n.name}" is code-nodes/${m[1]}, byte for byte`, exists && fs.readFileSync(file, 'utf8') === js,
       exists ? 'the node text differs from the file' : 'the file does not exist');
+  }
+}
+
+// T-WF-attivo (workflows/README.md): n8n calls no error workflow that is off (CONTRATTI.md, «Lo storico»,
+// «Segnali di blocco»; docs/pilota/WORKSTREAM_A.md, section 8, point 4), so this folder cannot say a
+// workflow on and its error workflow off.
+{
+  const exported = files.map((f) => JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')));
+  const byId = new Map(exported.map((wf) => [wf.id, wf]));
+  for (const wf of exported.filter((w) => w.active === true && (w.settings || {}).errorWorkflow)) {
+    const target = byId.get(wf.settings.errorWorkflow);
+    check(`T-WF-attivo: ${wf.name} is on, and so is its error workflow`, !!target && target.active === true,
+      target ? `${target.name} says active: ${target.active}` : `the error workflow ${wf.settings.errorWorkflow} is not in workflows/`);
   }
 }
 
