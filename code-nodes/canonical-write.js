@@ -151,11 +151,16 @@ function turn({ reservations, mine, now }) {
  *  moved or deleted (T24); `unchanged` when its MD5 is the file's, so a retried call writes nothing
  *  (T02), `update` otherwise (T03). A listing without the MD5 counts as changed. A Drive file of the
  *  same name (GOOGLE) is never the one written: it is one of the duplicates, and when it is the only
- *  file of that name the file `failed`, so that no second file appears. A listing without
- *  RESERVATIONS_FOLDER stops the call before any canonical write. */
+ *  file of that name the file `failed`, so that no second file appears. An error item, the listing
+ *  that failed, throws with its error (T29). A listing without RESERVATIONS_FOLDER stops the call
+ *  before any canonical write: so does the empty item of a listing that Drive returned empty
+ *  (T-C-elenco-vuoto), or the input given back (T29). */
 function plan({ files, listing }) {
   if (!Array.isArray(files) || files.length === 0) throw new Error('files must list the files of the call');
   if (!Array.isArray(listing)) throw new Error('listing must list the files of C Eventi');
+  // T29: «Elenco C Eventi» keeps its error item on its one output (workflows/README.md, «The canonical write»).
+  const unread = listing.find((f) => f && typeof f.name !== 'string' && f.error !== undefined);
+  if (unread) throw new Error(`the listing of C Eventi could not be read: ${typeof unread.error === 'string' ? unread.error : JSON.stringify(unread.error)}`);
   if (!listing.some((f) => f && f.name === RESERVATIONS_FOLDER && f.mimeType === GOOGLE + 'folder')) {
     throw new Error(`the listing does not show ${RESERVATIONS_FOLDER}/: it is not the listing of C Eventi`);
   }

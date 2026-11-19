@@ -2,7 +2,8 @@
 /**
  * Executable acceptance for code-nodes/canonical-write.js: the canonical write of channel C one call
  * at a time and the same after a retry (workflows/README.md, «The canonical write»), with the
- * T-cases of specification v2.5 it answers (T02, T03, T23, T24, T27, T28, T29), and the n8n adapter
+ * T-cases of specification v2.5 it answers (T02, T03, T23, T24, T27, T28, T29) and channel C's own
+ * (T-C-elenco-vuoto: a listing of `C Eventi/` that Drive returns empty), and the n8n adapter
  * evaluated from the exact committed file with a stubbed $input. A small Drive in memory plays the
  * calls through every stage. Every name, id and event is invented (DEC-109).
  *
@@ -137,8 +138,15 @@ const SCR = { id: 'SCR', name: 'scritture', mimeType: 'application/vnd.google-ap
   check('only a Google Drive file of that name: the file fails, no second file appears', m.plan({ files: [g], listing: [SCR, docOld, { id: 'SC', name: g.name, mimeType: 'application/vnd.google-apps.shortcut' }] })[0],
     { name: g.name, action: 'failed', file_id: null, duplicates: ['GDOC', 'SC'], content: null, error: 'only a Google Drive file of this name in C Eventi' });
   check('a listing that does not show scritture/ is not the listing of C Eventi: no file becomes a creation',
-    [[{}], [{ error: 'Drive 503' }], [{ stage: 'turn', turn: { holds: true } }], [{ id: 'x', name: 'scritture', mimeType: 'application/json' }]]
+    [[{}], [{ stage: 'turn', turn: { holds: true } }], [{ id: 'x', name: 'scritture', mimeType: 'application/json' }]]
       .every((l) => /not the listing of C Eventi/.test(thrown(() => m.plan({ files: [g], listing: l })) || '')), true);
+  check('T-C-elenco-vuoto: a listing Drive returned empty reaches the plan as the empty item of alwaysOutputData, and stops the call',
+    thrown(() => m.plan({ files: [g, h], listing: [{}] })), 'the listing does not show scritture/: it is not the listing of C Eventi');
+  check('T29: the listing that failed reaches the plan as its error item, and the error of the call is the reading\'s',
+    thrown(() => m.plan({ files: [g], listing: [{ error: 'Drive 503 Backend Error' }] })), 'the listing of C Eventi could not be read: Drive 503 Backend Error');
+  check('T29: an error that is not text is written out, and an error item beside files is still the error of the call',
+    [thrown(() => m.plan({ files: [g], listing: [{ error: { code: 503 } }] })), /could not be read/.test(thrown(() => m.plan({ files: [g], listing: [SCR, { error: 'x' }] })) || '')],
+    ['the listing of C Eventi could not be read: {"code":503}', true]);
   check('a folder of that name counts the same way', m.plan({ files: [g], listing: [SCR, { id: 'FD', name: g.name, mimeType: 'application/vnd.google-apps.folder' }] })[0].action, 'failed');
 }
 
@@ -239,6 +247,25 @@ console.log('the calls played through a Drive in memory');
   refuse = null;
   const healed = finish(reserve([fb('3004'), fb('3005')], '607'));
   check('T29: the next call goes on, and its retry writes only what is missing', [healed.status_code, healed.esito.files.map((f) => f.action)], [200, ['unchanged', 'created']]);
+  // T-C-elenco-vuoto: Drive lists nothing in C Eventi; n8n gives «Elenco C Eventi»'s empty item, the
+  // plan throws, and its error route («Prepara guasto dopo») takes the call to its outcome.
+  const finishEmpty = ({ r, res }) => {
+    const tr = m.turn({ now: NOW_T, reservations: drive.scritture.map(({ id, name, createdTime }) => ({ id, name, createdTime })), mine: res.id });
+    const failure = thrown(() => m.plan({ files: r.files, listing: [{}] }));
+    const o = m.outcome({ workflow: U, execution_id: r.reservation.execution_id, started_at: r.reservation.started_at,
+      finished_at: new Date(clock).toISOString(), reservation_id: res.id, names: r.names, turn: tr, failure });
+    create('scritture', o.esito_name, JSON.stringify(o.esito));
+    return { tr, o };
+  };
+  const before = canonical();
+  const empty = finishEmpty(reserve([fb('3006'), fb('3004')], '608'));
+  check('T-C-elenco-vuoto: a call whose listing comes back empty holds its turn, fails every file (500) and writes nothing canonical',
+    [empty.tr.holds, empty.o.status_code, empty.o.esito.status, empty.o.esito.counts, canonical() - before],
+    [true, 500, 'incomplete', { created: 0, updated: 0, unchanged: 0, failed: 2 }, 0]);
+  check('T-C-elenco-vuoto: its outcome is next to its reservation and says why', [drive.scritture.filter((f) => f.name === empty.o.esito_name).length, empty.o.esito.files[0].error],
+    [1, 'the listing does not show scritture/: it is not the listing of C Eventi']);
+  const after = finish(reserve([fb('3006'), fb('3004')], '609'));
+  check('T-C-elenco-vuoto: the next call goes on, and its retry writes what the empty listing left', [after.status_code, after.esito.files.map((f) => f.action)], [200, ['created', 'unchanged']]);
 }
 
 console.log('n8n adapter, from the exact committed file');
@@ -261,6 +288,9 @@ console.log('n8n adapter, from the exact committed file');
   const gp = run({ stage: 'plan', files: [a], listing: [SCR, { id: 'GD', name: a.name, mimeType: 'application/vnd.google-apps.document' }] });
   check('plan: a file that cannot be written carries its reason, and no binary', [gp[0].json.action, gp[0].json.error, !!gp[0].binary], ['failed', 'only a Google Drive file of this name in C Eventi', false]);
   check('plan: the binary is the file as sent', [Buffer.from(p[0].binary.data.data, 'base64').toString('utf8'), p[0].binary.data.fileName, p[0].binary.data.mimeType], [a.content, a.name, 'application/json']);
+  check('T-C-elenco-vuoto, T29: plan throws the empty item and the error item of the listing, for the route of its node',
+    [/not the listing of C Eventi/.test(thrown(() => run({ stage: 'plan', files: [a], listing: [{}] })) || ''),
+      /could not be read: Drive 503/.test(thrown(() => run({ stage: 'plan', files: [a], listing: [{ error: 'Drive 503' }] })) || '')], [true, true]);
   const o = run({ stage: 'outcome', workflow: W, execution_id: '701', started_at: T0, finished_at: T0, reservation_id: 'idA', names: [a.name], turn: { holds: true }, results: [{ name: a.name, action: 'created', file_id: 'A1', duplicates: [] }] });
   check('outcome: the answer and its file name', [o[0].json.status_code, o[0].json.esito_name], [200, 'esito_2026-11-16_20261116T090000Z_idA.json']);
   check('an unknown stage is an error', /unknown stage/.test(thrown(() => run({ stage: 'x' })) || ''), true);
