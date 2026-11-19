@@ -1,6 +1,9 @@
 # DEC-037 — Canale A: le sedute di YouTube dall'audio, e la spesa tenuta sotto controllo
 
 Status: DECIDED (15 novembre 2026, owner, sulle proposte del builder)
+Punto 4, «il tetto della prova resta 1 €»: DEC-044 registra le eccezioni dell'owner del 16 e del 19
+novembre 2026, per le sole spese e prove che elenca; non è un cambio generale del tetto. Il resto di
+questa decisione resta valido.
 Supersedes in part: DEC-036, punto 3 (YouTube del Municipio I: il feed e i sottotitoli
 automatici, mai l'audio); nel punto 4 la sola cifra della quota di A; nel punto 5 il «solo»
 per il testo dei sottotitoli di ultima riserva, che prima di `temporanei/` passa dallo

@@ -601,7 +601,8 @@ allarga il confronto. Entrano i servizi più economici basati su Whisper (per es
 Ogni modello si prova con e senza una guida dei nomi, corta, fatta con l'ordine del giorno
 della seduta (atti del canale D) e con i luoghi principali del Municipio nel gazetteer. Si
 giudica prima sulla correttezza dei nomi di luogo (vie, piazze, luoghi del Municipio), poi sul
-resto, poi sul costo. Il tetto resta 1 €: se le prove in più non ci stanno, si riducono le ore.
+resto, poi sul costo. Il tetto resta 1 € (le eccezioni dell'owner sono in DEC-044): se le prove in
+più non ci stanno, si riducono le ore.
 A4 fissa un modello che non si spenga a pilota in corso, scelto in quell'ordine. Si misurano
 parole, quota di testo ripetuto (a giugno 57 registrazioni su 318
 oltre il 10 %), grana dei tempi, nomi del gazetteer riconosciuti, tempo e spesa. In `letture/`
@@ -650,7 +651,8 @@ punto 6, al totale). Nessuna di queste soglie ferma un flusso.
 I testi della piattaforma non costano; i sottotitoli di ultima riserva costano la sola corsa
 di Apify. `whisper-1` per tutto (0,006 $ al
 minuto) farebbe circa 55 €, più del doppio: fuori quota. Una
-tantum, questo mese: le prove in staging (tetto 2 €) e il confronto (tetto 1 €). La spesa è una
+tantum, questo mese: le prove in staging (tetto 2 €) e il confronto (tetto 1 €, con le eccezioni
+di DEC-044). La spesa è una
 stima dall'uso che OpenAI restituisce (CONTRATTI, sezione 7 A, «Costi»); la somma del mese la fa
 il coordinatore.
 
