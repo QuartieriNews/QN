@@ -1,15 +1,17 @@
 # DEC-044 — Canale A: le eccezioni dell'owner al tetto di 1 € della prova (DEC-037, punto 4)
 
 Status: DECIDED (16 novembre 2026, owner nelle sessioni del builder del canale A, punti 1 e 2;
-19 novembre 2026, owner nella sessione del coordinatore, punto 3; registrata dal coordinatore
-nella notte fra il 19 e il 20 novembre 2026)
+19 novembre 2026, owner nella sessione del coordinatore, punto 3; 20 novembre 2026, owner nella
+sessione del coordinatore, che cosa si fa quando la stima non ci sta nel punto 3; registrata dal
+coordinatore nella notte fra il 19 e il 20 novembre 2026)
 Supersedes in part: DEC-037, punto 4, la sola frase «il tetto della prova resta 1 €», per le sole
 spese e prove della Regola (punti 1–3): la prova di confronto l'ha passata il 16 novembre per
 scelta dell'owner, e due prove nuove sui luoghi hanno un tetto loro. Non è un cambio generale del
 tetto. DEC-037 resta invariata e non si riapre; riceve un rimando sotto la riga `Status:`
 (`decisions/README.md`, regola 2). Per tutto il resto DEC-037 resta in vigore, compresi i punti 5
 e 6.
-Blocks: niente. Lo stress test dei luoghi continua dentro il suo tetto (Regola, punto 3).
+Blocks: niente. Lo stress test dei luoghi continua dentro il suo tetto, o di poco sopra se è quasi
+finito (Regola, punto 3).
 
 Question: DEC-037, punto 4, tiene a 1 € il tetto della prova di confronto della trascrizione. Fra
 il 16 e il 19 novembre l'owner ha chiesto di spendere di più su quella prova e ha dato un tetto a
@@ -60,8 +62,10 @@ Claude recommendation:
   testo della domanda non c'è.
 
 Owner's words. Sulla spesa e sui tetti, le sole parole dell'owner fra virgolette nei passaggi sono
-quelle del 19 novembre, «sì, va bene così, procedi». Il resto è come lo riportano i passaggi del
-builder e del coordinatore, copiato com'è; nelle citazioni il grassetto dei passaggi è tolto.
+quelle del 19 novembre, «sì, va bene così, procedi»; la scelta del 20 novembre è una risposta
+dell'owner a una domanda con opzioni, in questa sessione del coordinatore. Il resto è come lo
+riportano i passaggi del builder e del coordinatore, copiato com'è; nelle citazioni il grassetto dei
+passaggi è tolto.
 - 16 novembre, mattina, sessione del builder (`PASSAGGIO_2026-11-16_sedute-intere.md`, sezione 1):
   «In chat, il 16/11, l'owner ha chiesto:», fra l'altro, «di mettere a confronto gpt-transcribe (il
   top di gamma) e Groq turbo con guida (il migliore per costi e benefici) su almeno una seduta
@@ -78,6 +82,13 @@ builder e del coordinatore, copiato com'è; nelle citazioni il grassetto dei pas
   ha approvato: il piano della sezione 5, «tre sedute nuove più quella del Municipio V già passata
   dal piccolo, tetto di spesa 2 € per tutto lo stress test (trascrizione più modello; eccezione a
   DEC-037 da registrare dal coordinatore), e il criterio di successo della sezione 6».
+- 20 novembre 2026, circa le 00:44 di Roma, sessione del coordinatore (questa entry, revisione di
+  Codex sulla PR): la domanda, in inglese come la sessione con l'owner, «For the places stress test
+  you approved a 2 € cap. Before every paid call the chat estimates the worst case, but nobody has
+  said what to do if that estimate no longer fits under the 2 €. What should the chat do then?»;
+  le opzioni «Stop and ask me» (consigliata dal coordinatore), «Shrink the test» e «Finish it».
+  L'owner ha scelto «Finish it», così descritta: «If the test is almost done, the chat finishes it
+  even if it goes a little over (DEC-031's 10-15 € rule), and tells you afterwards.»
 
 ## Regola
 
@@ -103,8 +114,10 @@ builder e del coordinatore, copiato com'è; nelle citazioni il grassetto dei pas
    altro Municipio». Una risposta dell'owner sulla cifra i passaggi non la citano.
 3. **Lo stress test dei luoghi: tetto 2 € (19 novembre).** Per tutto lo stress test (sezioni 4–6
    del passaggio del coordinatore del 19/11), trascrizione più modello. Prima di ogni chiamata, la
-   stima del caso peggiore contro il tetto (stesso passaggio, sezione 5); che cosa si fa se la stima
-   non ci sta, il passaggio non lo dice. Al passaggio dei passi 1 e 2 la spesa era 0; il passo 3 lo
+   stima del caso peggiore contro il tetto (stesso passaggio, sezione 5). Se la stima non ci sta e
+   la prova è quasi finita, la chat la finisce anche passando di poco il tetto, come il lavoro quasi
+   finito di DEC-031, punto 6, e lo dice all'owner dopo (scelta del 20 novembre, sopra). Il passo 3
+   è l'ultimo della prova. Per una prova lontana dalla fine la risposta non dice niente. Al passaggio dei passi 1 e 2 la spesa era 0; il passo 3 lo
    fa una chat a sé, e la sua spesa la dichiara il suo passaggio (DEC-037, punto 6).
 4. **Che cosa non cambia.**
    - Sono cifre una tantum, per queste prove sole: non alzano la quota mensile di A (DEC-037,
@@ -119,15 +132,14 @@ builder e del coordinatore, copiato com'è; nelle citazioni il grassetto dei pas
 
 Impact:
 - DEC-037: il rimando sotto la riga `Status:` (`decisions/README.md`, regola 2).
-- Nessun altro file. `docs/pilota/WORKSTREAM_A.md` dice ancora «Il tetto resta 1 €» (sezione 6) e
-  conta «il confronto (tetto 1 €)» fra le spese una tantum (sezione 7): un rimando lì è un lavoro
-  a sé, fuori da questa entry.
+- `docs/pilota/WORKSTREAM_A.md`, sezioni 6 e 7: accanto al tetto di 1 € del confronto, un rimando
+  a questa entry.
 - Spesa: nessuna nuova. Le cifre sono già spese o già autorizzate; questa entry non apre spesa.
   Il tetto della notte del 19→20 novembre (`MANDATO_NOTTE_2026-11-19.md`) non è fra queste
   eccezioni e questa entry non lo tocca.
 - DEC-031, punto 6, DEC-035, DEC-036, punto 6, e DEC-037, punti 5 e 6, restano invariate. Niente
   in produzione; gazetteer, prompt, registro dei venue, flussi n8n e CI invariati.
 
-Decided by: owner · Date: 16 e 19 novembre 2026 · Affected components: canale A del pilota (le
+Decided by: owner · Date: 16, 19 e 20 novembre 2026 · Affected components: canale A del pilota (le
 prove di confronto e dei luoghi in staging, flussi `staging_A_confronto*`), `costi/` di A,
 DEC-037 (il rimando).
