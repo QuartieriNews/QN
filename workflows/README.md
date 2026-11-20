@@ -90,10 +90,11 @@ exports on 17 November 2026, still off, and n8n read back gave these exports nod
 November «Prenotazioni» lost its error output, «Prima della lettura» came before it and the four
 Code nodes took the new turn: both were saved again from these exports that day, still off, after
 n8n was found equal to the earlier exports, and n8n read back gave those exports node
-for node, with the versionIds these carry. On 19 November «Elenco C Eventi» took the shape of
-«Prenotazioni» and the four Code nodes the new plan, in these exports only: the workflows on n8n,
-found equal that day to the exports of 18 November, are saved from `main` after the merge, still
-off. Read in the sources
+for node, with the versionIds of that day. On 19 November «Elenco C Eventi» took the shape of
+«Prenotazioni» and the four Code nodes the new plan: on 20 November, after the merge, both were
+saved again from `main`, still off, after n8n was found equal to the exports of 18 November, and
+n8n read back gives these exports node for node, with the versionIds they carry (`268bc318…` for
+`staging_C_write_canonical`, `744ece96…` for `staging_C_update_canonical`). Read in the sources
 of n8n 2.48.4 (`n8n-core` and `n8n-nodes-base`), not tried: a
 merge in append mode runs with the inputs that received data; a node with an error output and
 `alwaysOutputData` sends an empty item to its main output beside the error item, so «Prenotazioni»
