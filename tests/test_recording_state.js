@@ -47,7 +47,7 @@ const raw = (o) => Object.assign({ guid: GUID, title: `Commissione ${MARK} inven
 const rec = (o) => list.readEntry(raw(o), 'Municipio X').rec;
 const VIDEO = 'Inv3ntato_0';
 const ytRec = yt.readVideo({ id: VIDEO, channelId: yt.CHANNEL_ID, channelName: 'Canale inventato', title: `Seduta ${MARK}`,
-  publishedAt: '2026-11-13T18:00:00Z', liveStartedAt: '2026-11-13T15:00:00Z', duration: 'PT1H30M' }).rec;
+  date: '2026-11-13T18:00:00Z', durationSeconds: 5400 }).rec;
 
 console.log('the Data table and the row of a recording');
 {

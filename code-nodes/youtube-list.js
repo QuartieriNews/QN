@@ -9,11 +9,11 @@
  * Registrazione and Costi); this file does not restate them. n8n asks nothing of YouTube: the
  * Apify calls are HTTP Request nodes with the Apify credential, each after source-guard.js says
  * Apify may be asked ('may') and judged by it after ('answer'); a stopped Apify never reaches the
- * stages here. Acceptance: tests/test_youtube_list.js (T-A2-09, T-A2-10, T-A2-12).
+ * stages here. Acceptance: tests/test_youtube_list.js (T-A2-09, T-A2-10, T-A2-12, T-A2-15, T-A2-16).
  *
- * The Actor of the list is chosen at the trial (WORKSTREAM_A, section 6, from 20 November 2026):
- * ACTOR_FIELDS and actorInput are this file's reading of a list Actor, to be matched to the
- * chosen one before the flow asks it; the tests run on an invented Actor.
+ * The Actor of the list is LIST_ACTOR, chosen at the trial of 20 November 2026 (WORKSTREAM_A,
+ * sections 6 and 7): actorInput is its input and ACTOR_FIELDS the fields its items have; the
+ * tests run on invented items of that form.
  *
  * ONE SOURCE, TWO CONTEXTS (code-nodes/README.md): under plain Node `$input` is undefined, so the
  * tail exports and stops; inside the n8n Code node ("Run Once for Each Item") the same file runs
@@ -48,7 +48,8 @@ const RUNS_FAILED_TO_STOP = 5;
 const VIDEOS_PER_DAY = 5;
 /** The limits of one run of the list, as code-nodes/apify-run.js has them for channel C: Apify
  *  stops the run at RUN_TIMEOUT_S, the flow stops waiting at MAX_WAIT_MS from its start, and a
- *  cost is read SETTLE_MS after the run ends. */
+ *  cost is read SETTLE_MS after the run ends. No cap of the charge: what a run is charged above
+ *  its `maxItems` shows in its cost file (DEC-037, point 6; WORKSTREAM_A, section 4). */
 const RUN_TIMEOUT_S = 900;
 const MAX_WAIT_MS = 20 * 60 * 1000;
 const SETTLE_MS = 15 * 1000;
@@ -85,25 +86,35 @@ function videosToAsk(now) {
   return Math.min(MAX_VIDEOS, days * PER_DAY + MARGIN);
 }
 
-/** The input of the list Actor (see the head of this file). */
+/** The list Actor (see the head of this file), as the Apify API names it. */
+const LIST_ACTOR = 'grow_media~youtube-channel-video-scraper';
+
+/** T-A2-12: the input of LIST_ACTOR — the channel by its id, its newest long videos first, as many
+ *  as a run asks for. The Actor takes one `videoType` a run; its Shorts listing of this channel was
+ *  empty at the trial, and its long listing carries the short videos (WORKSTREAM_A, section 9). */
 function actorInput(now) {
-  return { startUrls: [{ url: `https://www.youtube.com/channel/${CHANNEL_ID}` }], maxResults: videosToAsk(now) };
+  return { channelId: CHANNEL_ID, maxResults: videosToAsk(now), videoType: 'long', sortOrder: 'latest' };
 }
 
-/** The request that starts a run of `actor` (`user~name`), with the run's timeout and the cap
- *  of its results in the request itself. That Apify, and not only the Actor, holds the run to
- *  `maxItems` is to be confirmed at the trial (WORKSTREAM_A, section 4). */
-function startRequest(actor, now) {
-  if (typeof actor !== 'string' || !/^[A-Za-z0-9_.-]+~[A-Za-z0-9_.-]+$/.test(actor)) throw new Error('actor_invalid');
+/** T-A2-16: an Actor the flow names must be LIST_ACTOR; no other is ever started. */
+function listActor(actor) {
+  if (actor !== undefined && actor !== null && actor !== LIST_ACTOR) throw new Error('actor_not_list_actor');
+  return LIST_ACTOR;
+}
+
+/** T-A2-16: the request that starts a run of LIST_ACTOR, with the run's timeout and the cap of
+ *  its results in the request itself (WORKSTREAM_A, section 4). */
+function startRequest(now) {
   const n = videosToAsk(now);
-  return { url: `https://api.apify.com/v2/acts/${actor}/runs?timeout=${RUN_TIMEOUT_S}&maxItems=${n}`, method: 'POST', body: actorInput(now), asked: n };
+  return { url: `https://api.apify.com/v2/acts/${LIST_ACTOR}/runs?timeout=${RUN_TIMEOUT_S}&maxItems=${n}`, method: 'POST', body: actorInput(now), asked: n };
 }
 
-/** The fields a list Actor's item is read from, first valid one wins (see the head of this file). */
+/** The fields an item of LIST_ACTOR is read from, first valid one wins (see the head of this file).
+ *  It gives no start of a live broadcast (WORKSTREAM_A, section 6): the reference of its videos is
+ *  their publication (CONTRATTI section 7 (A), row Raccolta). */
 const ACTOR_FIELDS = Object.freeze({
-  id: ['id', 'videoId'], url: ['url', 'videoUrl'], channel: ['channelId', 'channel_id'], channel_name: ['channelName', 'channelTitle'],
-  published: ['publishedAt', 'date', 'uploadDate'], live_start: ['liveStartedAt', 'actualStartTime', 'streamStartedAt'],
-  duration: ['duration', 'lengthSeconds'],
+  id: ['id'], url: ['url'], channel: ['channelId'], channel_name: ['channelName'],
+  published: ['date'], live_start: [], duration: ['durationSeconds', 'duration'],
 });
 const first = (raw, names) => names.map((n) => raw[n]).find((v) => v !== undefined && v !== null && v !== '');
 const VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
@@ -147,6 +158,8 @@ function seconds(v) {
 function readVideo(raw) {
   const it = raw && typeof raw === 'object' ? raw : {};
   const id = ACTOR_FIELDS.id.map((n) => it[n]).concat(ACTOR_FIELDS.url.map((n) => idFromUrl(it[n]))).find((v) => typeof v === 'string' && VIDEO_ID.test(v));
+  // T-A2-15: the Actor's own error item, in the place of a video.
+  if (!id && typeof it.error === 'string' && it.error) return { ok: false, reason: 'actor_error', id: null };
   if (!id) {
     const shown = first(it, ACTOR_FIELDS.id);
     return { ok: false, reason: 'video_id_invalid', id: typeof shown === 'string' ? shown.slice(0, 40) : null };
@@ -330,14 +343,15 @@ function takeVideoSlot(row, now) {
 
 if (typeof $input === 'undefined') {
   module.exports = { CHANNEL_ID, MUNICIPALITY, WINDOW_DAYS, LIST_FROM_HOUR, MAX_VIDEOS, PER_DAY, MARGIN, RUNS_FAILED_TO_STOP,
-    VIDEOS_PER_DAY, RUN_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, LOST_CAUSES, ACTOR_FIELDS, rome, windowStartMs, inWindow, videosToAsk,
-    actorInput, startRequest, utcSecond, seconds, readVideo, readDataset, pollDecision, finishedRun, costEntry, costFileName, listState,
+    VIDEOS_PER_DAY, RUN_TIMEOUT_S, MAX_WAIT_MS, SETTLE_MS, WAITING, FAILED, LOST_CAUSES, LIST_ACTOR, ACTOR_FIELDS, rome, windowStartMs, inWindow, videosToAsk,
+    actorInput, listActor, startRequest, utcSecond, seconds, readVideo, readDataset, pollDecision, finishedRun, costEntry, costFileName, listState,
     listPlan, startedFields, afterListRun, afterListFailure, afterListLeft, stopAlert, takeVideoSlot };
   return;
 }
 
-/* n8n Code node, "Run Once for Each Item" — the adapter. 'plan' reads `list_row` and `actor` and
- * writes `plan` and, to start, `start` (the request) and `asked`; 'started' reads `run` and writes
+/* n8n Code node, "Run Once for Each Item" — the adapter. 'plan' reads `list_row` and, if the flow
+ * names one, `actor`, which must be LIST_ACTOR whatever the plan, and writes `plan` and, to start,
+ * `start` (the request) and `asked`; 'started' reads `run` and writes
  * `fields` (the run's id for the list's row); 'poll' reads `run` and writes `next` and `reason`,
  * and to leave the run it reads `list_row` too; 'dataset' reads `run`, `items` (the dataset of a
  * run that succeeded, when it could be read) and `list_row`; 'lost' reads `cause` (LOST_CAUSES),
@@ -348,8 +362,9 @@ if (typeof $input === 'undefined') {
  * read with the run) and for a start refused. 'slot' reads `slot_row` and writes `slot`. */
 const now = new Date().toISOString();
 if ($json.stage === 'plan') {
+  listActor($json.actor);
   const plan = listPlan($json.list_row, now);
-  const start = plan.action === 'start' ? startRequest($json.actor, now) : null;
+  const start = plan.action === 'start' ? startRequest(now) : null;
   Object.assign($json, { plan, start, asked: start ? start.asked : null });
   return $input.item;
 }

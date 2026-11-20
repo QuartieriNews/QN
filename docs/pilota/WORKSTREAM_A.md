@@ -63,22 +63,24 @@ DEC-036, punto 4.
   di consenso UE, senza tracce dei sottotitoli: per DEC-036, punto 3, era un segnale di blocco,
   e `www.youtube.com` si è fermato. Dal 15 novembre vale DEC-037: l'elenco dei video e
   l'audio vengono da Actor di Apify e il testo dalla nostra trascrizione; n8n non chiede più
-  niente a YouTube. Manca ancora la prova degli Actor (sezione 6; dal 20 novembre, quando
-  Apify è di nuovo disponibile, come dice il passaggio del 15 novembre): fino ad allora A2 e
-  A3 costruiscono e provano con fixture, e Prati resta senza testo.
+  niente a YouTube. La prova degli Actor del 20 novembre (sezione 6) ha scelto quello
+  dell'elenco; l'audio no: quella notte YouTube ha bloccato tutti e due gli Actor dell'audio, su
+  due video. Finché l'audio non arriva, A3 costruisce e prova con fixture, e Prati resta senza
+  testo.
 
 ## 3. I mezzi
 
-Stato al 14 novembre 2026; le righe su YouTube e Apify sono del 15 (DEC-037). Gli id delle
-esecuzioni sono quelli delle sonde (`staging_A_sonda_*`, spente dopo le corse di prova).
+Stato al 14 novembre 2026; le righe su YouTube e Apify sono del 15 (DEC-037) e del 19–20 (la
+prova degli Actor, sezione 6). Gli id delle esecuzioni sono quelli delle sonde
+(`staging_A_sonda_*` e `staging_A_prova_apify*`, spente dopo le corse di prova).
 
 | Mezzo | Stato | Note |
 |---|---|---|
 | n8n Cloud, piano Starter (`quartierinews.app.n8n.cloud`) | PRESENTE | nodo Code con `require('crypto')` (AES-128-CBC), `Buffer`, `setTimeout`, `this.helpers.httpRequest` (testo o `arraybuffer`, risposta intera, errori HTTP senza eccezione; su n8n 2.x il nodo gira nel task runner, dove un file con `'use strict'` non ha `this` e `helpers` è una variabile globale: `code-nodes/source-guard.js`, esecuzione 1337); niente `process` (916); niente `URL` né il modulo `url` (non dalle sonde: commit 2e6a288, `code-nodes/news-collect.js`); altri moduli non provati, non si usano |
 | RomaTV raggiunto da n8n | PRESENTE | elenco (`search_frontend`), WebVTT, JSON del parlato, playlist, chiave e segmenti rispondono 200 (918, 921); l'elenco e la chiave sono stati chiesti sempre con `Origin` e `Referer` del portale, e se servono non è provato; WebVTT, JSON del parlato, playlist e segmenti hanno risposto senza (sezione 4, la strada dell'audio, passo 3) |
 | `www.youtube.com` da n8n | NON SI USA (DEC-037) | il 14/11: feed 200, pagina del video = pagina di consenso UE (918); dal 15/11 l'elenco e l'audio vengono da Apify, senza nessuna chiave di Google (sezione 2) |
-| Apify da n8n, per l'elenco e l'audio di YouTube | DA PROVARE, dal 20/11 | su n8n c'è la credenziale Apify del canale C, «Bearer Auth account» (`staging_C_fb_events_fetch`); il 14/11 l'API di n8n non la poteva usare e l'editor dell'owner non cambiava i nodi che la usano (`workflows/README.md`); il 15/11 una sonda del coordinatore ha creato dall'API un flusso `staging_` con un nodo che la riferisce (mai eseguito, cancellato subito): un flusso nuovo fatto dall'API la può riferire; che una corsa la usi lo dice la prova dal 20 novembre. Resta da riprovare la modifica dei nodi che già la usano in `staging_C_fb_events_fetch`, che tocca al canale C. I due Actor dell'audio da provare: sezione 7; quello dell'elenco si sceglie alla prova; la prova: sezione 6 |
-| Riserva fuori da Apify, per l'audio di YouTube | DALL'OWNER, sulle opzioni del builder | DEC-037, punto 3; finché non c'è, la riserva è un secondo Actor (sezione 9) |
+| Apify da n8n, per l'elenco e l'audio di YouTube | PRESENTE; letture e cancellazioni provate il 19–20/11, l'avvio di una corsa da n8n no | su n8n c'è la credenziale Apify del canale C, «Bearer Auth account» (`staging_C_fb_events_fetch`); il 14/11 l'API di n8n non la poteva usare e l'editor dell'owner non cambiava i nodi che la usano (`workflows/README.md`); il 15/11 una sonda del coordinatore ha creato dall'API un flusso `staging_` con un nodo che la riferisce (mai eseguito, cancellato subito): un flusso nuovo fatto dall'API la può riferire. Il 19/11 la prima corsa che la usa, la sonda `staging_A_prova_apify` (spenta), ha avuto da Apify 401 `user-or-token-not-found` (esecuzioni 2003 e 2004): la chiave salvata non valeva più. L'owner l'ha rimessa la sera stessa; la stessa sonda (2007) ha letto il conto, che è quello del collegamento ad Apify delle sessioni, e le sue corse. Il 20/11 le sonde `staging_A_prova_apify_*` (spente) l'hanno usata per leggere le corse della prova e per cancellarne gli storage (sezione 6). Resta da riprovare la modifica dei nodi che già la usano in `staging_C_fb_events_fetch`, che tocca al canale C. Gli Actor: sezione 7; la prova: sezione 6 |
+| Riserva fuori da Apify, per l'audio di YouTube | DALL'OWNER, sulle opzioni del builder | DEC-037, punto 3; finché non c'è, la riserva è un secondo Actor (sezione 9). Il 20/11 YouTube ha bloccato tutti e due gli Actor dell'audio (sezione 6) |
 | Credenziale «OpenAI account» (`openAiApi`) | PRESENTE | condivisa dall'owner il 14/11 col progetto dei flussi `staging_`; `gpt-4o-mini-transcribe` e `whisper-1` rispondono 200 su un M4A di 10 minuti (921) |
 | Credenziale «Google Drive account» (`googleDriveOAuth2Api`) | PRESENTE; via API PROVATA il 15/11 (sezione 8, punto 3) | condivisa il 14/11; c'è una quota di richieste al minuto (D si è fermato il 13/11). POST e PUT con la credenziale provati sui nodi `openAiApi` il 14/11 (918, 921) e su un nodo Drive il 15/11 (`staging_A_confronto`), dopo che le sessioni precedenti avevano visto il contrario (`PASSAGGIO_2026-11-12.md`, sezione 5) |
 | Cartella Drive `A Amministrazione/` | PRESENTE | sotto `30 Staging pilota 2026-11`; gli id di questa cartella e delle sottocartelle sono nel passaggio `PASSAGGIO_2026-11-14_canale-A.md`, nella cartella di passaggio, non nel repository |
@@ -296,8 +298,12 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   Nessun nodo di esito porta un campione di testo (la sonda 921 lo faceva; quell'esecuzione
   è cancellata).
 - L'elenco di YouTube (`youtube-list.js`, come `apify-run.js` per C). La richiesta che avvia la
-  corsa dell'Actor porta il suo tempo massimo, 15 minuti, e il tetto dei video chiesti; che Apify
-  tenga la corsa a quel tetto, e non solo l'Actor, si vede alla prova. Il flusso la aspetta al più
+  corsa dell'Actor porta il suo tempo massimo, 15 minuti, e il tetto dei video chiesti
+  (`maxItems`, T-A2-16). Alla prova del 20 novembre Apify non ha tenuto a quel tetto l'Actor
+  scelto, che si paga a evento: 80 voci addebitate con un tetto di 75. Una corsa addebitata oltre
+  il suo tetto si vede nel suo file di costo, in `costi/`, e il coordinatore la riporta: la spesa si
+  tiene sotto controllo, non si blocca (DEC-037, punto 6), e la richiesta non porta un tetto della
+  spesa. Il flusso la aspetta al più
   20 minuti e ne scrive la spesa dopo che si è assestata. L'id della corsa va nella riga
   `fonte:youtube_elenco` appena parte, e lì resta finché la corsa non si legge: se l'esecuzione
   muore, o la corsa aspetta ancora dopo 20 minuti, la corsa dopo la riprende, con la sua spesa,
@@ -318,8 +324,11 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   `lease:youtube` dopo 5 minuti, e una corsa lasciata dopo 20 minuti la lascia a fine corsa,
   mentre l'Actor può lavorare ancora: per questo A3 non avvia un Actor di YouTube finché
   `fonte:youtube_elenco` ha un `apify_run_id` (T-A3-22).
-  Alla prova si guarda che l'Actor dia i video dal più recente (il criterio di «Raccolta» lo
-  presuppone) e che 300 video bastino: a giugno il canale ne aveva circa 257 in 100 giorni.
+  Alla prova l'Actor ha dato i video dal più recente (il criterio di «Raccolta» lo presuppone).
+  Dal 1° al 19 novembre il canale ne ha pubblicati 55 in 19 giorni, 2,9 al giorno, più di giugno
+  (2,6 al giorno, circa 257 in 100 giorni): a finestra piena sarebbero circa 290, dentro i 300,
+  con poco margine; è una stima, perché la prova ha coperto la finestra di quel giorno (19 giorni).
+  Se il ritmo sale, l'elenco esce incompleto con il suo avviso, e il tetto si rivede.
 - Le schede e le righe di una corsa dell'elenco si scrivono dopo l'ultimo rinnovo della presa,
   al più 25 nuove e 25 cambiate per corsa: un file su Drive ha preso circa 3 secondi
   (esecuzione 1341), così la scrittura sta dentro la presa. Le altre le scrive la corsa dopo, che
@@ -429,7 +438,7 @@ A5.
 A1: T-A1-01…T-A1-19 in `tests/test_institutional_identity.js`: identità, nomi dei file,
 colonne della coda, ora e durata, `source_hash`, l'adattatore di n8n.
 
-A2 (T-A2-01…T-A2-13 con A2a; T-A2-14 con A2b):
+A2 (T-A2-01…T-A2-13 con A2a; T-A2-14 con A2b; T-A2-15 e T-A2-16 con la prova degli Actor del 20 novembre):
 - T-A2-01 una pagina di catalogo: guid in minuscolo, titolo come pubblicato, ora di riferimento
   con offset portata in UTC, durata `hh:mm:ss.fffffff` in secondi, trascrizione della
   piattaforma riconosciuta dalle tracce, SMIL solo audio.
@@ -489,6 +498,18 @@ A2 (T-A2-01…T-A2-13 con A2a; T-A2-14 con A2b):
   finestra di T-A2-04 si ferma, mai oltre la quarta richiesta; il registro
   lo dice incompleto, con il motivo, e parte l'avviso; gli altri cataloghi della corsa si
   leggono.
+- T-A2-15 una voce di errore dell'Actor dell'elenco (`error`, `input`, `note`, come quella della
+  corsa di verifica del 20 novembre con `videoType` `short`, che ha dato `NO_VIDEOS`) non è un
+  video: resta fuori, con il suo motivo, e un elenco che ha solo voci così non copre la finestra.
+  Limite noto: una corsa riuscita
+  con solo voci di errore è un elenco letto e incompleto, con l'avviso di ogni corsa, non una corsa
+  fallita, quindi non conta nei cinque di fila e ne azzera la serie. Uno Short dentro la finestra
+  si tiene, come ogni video della finestra (CONTRATTI, sezione 7 A, «Raccolta»; la domanda è nella
+  sezione 9).
+- T-A2-16 la richiesta che avvia la corsa dell'elenco avvia l'Actor scelto alla prova
+  (`LIST_ACTOR`), con il tempo massimo e il tetto dei video, senza un tetto della spesa (DEC-037,
+  punto 6); un altro Actor nominato dal flusso si rifiuta, qualunque sia il piano della corsa; il
+  suo ingresso nomina il canale per id, senza un indirizzo di YouTube.
 
 A3:
 - T-A3-01 playlist con un IV per segmento; senza IV, il numero di sequenza (RFC 8216); la chiave
@@ -571,7 +592,8 @@ A3:
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
 repository. Totale atteso circa 1,2 € più la corsa dell'elenco di YouTube, tetto 2 €, dentro
-la delega di DEC-036, punto 6.
+la delega di DEC-036, punto 6. La prova degli Actor del 20 novembre è costata 0,0957 $ in sei
+corse (righe qui sotto, e la corsa di verifica degli Short, sezione 9; i file in `costi/`).
 
 | Prova | Che cosa dimostra | Costo atteso |
 |---|---|---|
@@ -579,8 +601,8 @@ la delega di DEC-036, punto 6.
 | Una commissione del X | la strada dell'audio intera, pezzi, spesa | 0,07 € (30 minuti) |
 | Una commissione capitolina | catalogo capitolino, nessun Municipio dal titolo | 0,10 € (45 minuti) |
 | Una parte dell'Assemblea di 3 ore o più | memoria per esecuzione e tempo, ripresa su più corse | 0,50 € (3,5 ore) |
-| L'elenco del canale del Municipio I con un Actor di Apify, dal 20 novembre, con la spesa prevista dichiarata prima (DEC-037, punto 6) | che l'elenco copra la finestra di 100 giorni; quali ore dà per un video; tempo e costo vero della corsa | da leggere prima sulla pagina dell'Actor |
-| Uno o due video del Municipio I con i due Actor di Apify, dal 20 novembre, con la spesa prevista dichiarata prima (DEC-037, punto 6) | qualità dell'audio (traccia e bitrate), durata intera, tempo e costo vero della corsa; quale Actor è il principale e quale la riserva | 0,5 € (due video di un'ora: Apify e trascrizione) |
+| L'elenco del canale del Municipio I con un Actor di Apify, dal 20 novembre, con la spesa prevista dichiarata prima (DEC-037, punto 6) | che l'elenco copra la finestra di 100 giorni; quali ore dà per un video; tempo e costo vero della corsa. **Fatta il 20 novembre** (corsa `yZRVmUUAhfftEY7QU`, avviata dal collegamento ad Apify della sessione, sullo stesso conto di n8n): `grow_media/youtube-channel-video-scraper` con l'ingresso di `youtube-list.js`, 80 video chiesti, 13 secondi. I video vengono dal più recente; 55 stanno nella finestra di quel giorno (19 giorni, dal 1° novembre) e 25 sono di prima: la copre; la finestra di 100 giorni è una stima (sezione 4). L'ora è la pubblicazione, in UTC al secondo (`date`); l'Actor non dà un inizio di diretta (nessun campo), e nessun video era in diretta o programmato alla corsa (`liveBroadcastContent` `none`). La durata è in secondi (`durationSeconds`). Fra i video lunghi l'Actor dà anche due Short su 80 (sezione 9), e non tiene il tetto `maxItems` (T-A2-16). Lo storage della corsa si è cancellato dopo la lettura | 0,01605 $: 80 voci a 0,0002 $ e l'avvio |
+| Uno o due video del Municipio I con i due Actor di Apify, dal 20 novembre, con la spesa prevista dichiarata prima (DEC-037, punto 6) | qualità dell'audio (traccia e bitrate), durata intera, tempo e costo vero della corsa; quale Actor è il principale e quale la riserva. **Fatta il 20 novembre su due video** (49 e 20 minuti), una corsa alla volta, fra le 00:08 e le 00:19 UTC, avviate dal collegamento ad Apify della sessione come l'elenco, sullo stesso conto: la prova era stata preparata così mentre la chiave di n8n non valeva ancora (sezione 3); n8n ne ha letto le corse e cancellato gli storage. YouTube ha bloccato tutte e quattro le corse. `datapipe/youtube-video-downloader` ha avuto il controllo anti-bot («Sign in to confirm you're not a bot») sul primo video e un 403 sui dati del secondo; `lurkapi/youtube-to-mp3-audio-downloader` ha avuto «YouTube is still blocking this video» sul primo (39 secondi) e «temporarily blocked the audio transfer» sul secondo, dopo 8 minuti di tentativi. Le corse finiscono `SUCCEEDED` anche senza audio: il fallimento si legge nella voce del dataset (per T-A3-22). Si pagano anche fallite, perché tutti e due gli Actor fanno pagare l'uso della piattaforma oltre agli eventi; se il tetto della spesa conti anche l'uso non si è visto: nessuna corsa l'ha raggiunto. Nessun audio è stato salvato; gli storage delle cinque corse della prova sono cancellati e verificati (sonda `staging_A_prova_apify_pulizia`). Qualità, durata, principale e riserva restano da misurare (sezione 9) | 0,0794 $ in quattro corse senza audio, contro i 0,5 € previsti |
 | La stessa registrazione rifatta | nessun file doppio, nessuna spesa doppia | 0 € |
 | Un errore forzato | `staging_A_avviso` scrive l'avviso in `letture/`, anche con i dati degli errori non salvati | 0 € |
 | Un nodo Drive con la credenziale, creato con POST e cambiato con PUT, che scrive in `letture/` (fatta il 15 novembre, con il confronto dei modelli) | la credenziale Drive regge sui flussi fatti dall'API (sezione 8, punto 3) | 0 € |
@@ -624,11 +646,11 @@ converte il totale del mese con il tasso della BCE (CONTRATTI, sezione 5; DEC-03
 | Voce | Base | € al mese |
 |---|---|---|
 | Trascrizione nostra | 165,4 ore, con le 42,1 del Municipio I (DEC-037), a 0,157 $ l'ora (misura di giugno: 318 registrazioni, 227,7 ore, 35,76 $) | circa 24 |
-| Apify, per l'audio di YouTube | 77 video e 42,1 ore a giugno, ai prezzi di listino letti il 15 novembre, da verificare alla prova: 0,006 $ a video (`datapipe/youtube-video-downloader`) o 0,002 $ al minuto (`lurkapi/youtube-to-mp3-audio-downloader`) | da 0,4 a 4,6 |
+| Apify, per l'audio di YouTube | 77 video e 42,1 ore a giugno, ai prezzi di listino letti il 15 novembre e riletti uguali il 19: 0,006 $ a video (`datapipe/youtube-video-downloader`) o 0,002 $ al minuto (`lurkapi/youtube-to-mp3-audio-downloader`), più 0,00005 $ per GB di memoria all'avvio. Alla prova (sezione 6) tutti e due hanno fatto pagare anche l'uso della piattaforma: una corsa senza audio è costata da 0,004 a 0,055 $, e quanto aggiunge l'uso a una corsa riuscita non è misurato | da 0,4 a 4,6, più l'uso |
 | Lettura e confine | circa 178 ore di testo (nostro e della piattaforma; di YouTube solo in ultima riserva) con un modello di fascia media, al prezzo di `gpt-4.1-mini`, che si spegne il 14 gennaio 2027 (sezione 6): il prezzo si rilegge con il modello che sceglie A4 | 2–3 |
-| Apify, per l'elenco di YouTube | l'Actor si sceglie alla prova e il suo prezzo si legge prima; una corsa al giorno, una seconda se la prima non riesce, con al più 300 video (A2; CONTRATTI, sezione 7 A, «Raccolta»): a finestra piena circa 9.000 video al mese, sotto i 5 € se l'Actor costa meno di circa 0,60 $ ogni 1.000 video (DEC-036, punto 6) | non ancora stimato |
-| Imprevisti | 20 % | da 5 a 6 |
-| Totale | | da circa 32 a circa 38, senza l'elenco di YouTube, a cavallo della quota di A di 33 € (CONTRATTI, sezione 5) |
+| Apify, per l'elenco di YouTube | `grow_media/youtube-channel-video-scraper`, scelto alla prova (sezione 6): 0,0002 $ a video, più 0,00005 $ per GB di memoria all'avvio, senza l'uso della piattaforma (prova: 0,01605 $ per 80 video). Una corsa al giorno, una seconda se la prima non riesce, con al più 300 video (A2; CONTRATTI, sezione 7 A, «Raccolta»): a finestra piena circa 9.000 video al mese, circa 1,8 $, sotto la soglia di 0,60 $ ogni 1.000 video (DEC-036, punto 6) | circa 1,7 |
+| Imprevisti | 20 % | da 6 a 7 |
+| Totale | | da circa 34 a circa 40, sopra la quota di A di 33 € (CONTRATTI, sezione 5) |
 
 Fuori dalla stima restano voci note, tutte verso l'alto:
 - i Consigli del V e del X che l'elenco vede senza la trascrizione della piattaforma passano
@@ -637,13 +659,12 @@ Fuori dalla stima restano voci note, tutte verso l'alto:
 - le commissioni capitoline di novembre vanno più forte di giugno: 9,3 ore in 3 giorni
   lavorativi, circa 65 al mese contro 51,6, circa 1,9 € in più;
 - gli imprevisti al 40 % invece del 20, per le trascrizioni da rifare (a giugno 57
-  registrazioni su 318 con più del 10 % di testo ripetuto, sezione 6): da 5 a 6 € in più;
+  registrazioni su 318 con più del 10 % di testo ripetuto, sezione 6): da 6 a 7 € in più;
 - la scrittura e la seconda verifica di A5: si fissano con A5, su quanto resta della quota;
-- l'elenco di YouTube da Apify, non ancora stimato (tabella): il prezzo dell'Actor si legge
-  prima della prova; la cadenza è una corsa riuscita al giorno (A2).
+- l'uso della piattaforma che gli Actor dell'audio fanno pagare, e le loro corse fallite
+  (tabella).
 
-Con le prime tre, e senza l'elenco di YouTube, la stima arriva a circa 41–48 €, sopra la
-quota. Lo dicono le spese vere del primo mese, nei file di `costi/`: il coordinatore avvisa
+Con le prime tre la stima arriva a circa 43–50 €, sopra la quota. Lo dicono le spese vere del primo mese, nei file di `costi/`: il coordinatore avvisa
 l'owner quando la quota di A o il totale del pilota passano il 50 % e l'80 % (DEC-037,
 punto 6), e quando la quota di 33 € è superata, anche se il totale del pilota resta sotto i
 50 € (regola di questo brief, più stretta di CONTRATTI, sezione 5, che applica DEC-031,
@@ -660,8 +681,9 @@ il coordinatore.
 capitoline e l'Assemblea, a giugno le ore da trascrivere noi sarebbero circa 410 al mese
 (RomaTV circa 330, YouTube circa 80; altre 77 ore di Consigli le trascrive già la
 piattaforma), circa 80 € al mese per il canale A al modello di oggi e con il prezzo di Apify
-a video (circa 90 con quello al minuto), prima della scrittura e senza l'elenco di YouTube.
-Il grosso è la trascrizione, non Apify.
+a video (circa 90 con quello al minuto), prima della scrittura e senza l'uso della piattaforma
+che gli Actor dell'audio fanno pagare; l'elenco di YouTube aggiunge circa 1,7 € al mese per
+canale letto. Il grosso è la trascrizione, non Apify.
 
 ## 8. Come si lavora su n8n da una sessione
 
@@ -716,15 +738,16 @@ Il grosso è la trascrizione, non Apify.
 | Immagini degli elementi: nessuna regola decisa per questo blocco (DEC-101 è per gli eventi) | owner | A5 |
 | Citazioni testuali del parlato | owner | A4 |
 | Atti capitolini (ordini del giorno, convocazioni) per verificare i fatti: fuori da DEC-033, che copre gli atti dei Municipi I, V e X | owner | A4 |
-| Prati: deciso con DEC-037 (15 novembre). Il testo viene dall'audio; l'elenco e l'audio da Apify. Manca la prova degli Actor | builder | dal 20 novembre |
-| Gli Actor di Apify per YouTube, quello dell'elenco e, per l'audio, principale e riserva, dopo la prova (sezione 6); i campi dell'Actor dell'elenco scelto, al posto di quelli provvisori di `youtube-list.js` (`ACTOR_FIELDS`, `actorInput`); come arrivano i sottotitoli di ultima riserva. La cadenza dell'elenco l'ha fissata A2 (CONTRATTI, sezione 7 A, «Raccolta»). La credenziale Apify usabile da una corsa di un flusso `staging_A` (sezione 3) | builder; l'owner per la credenziale | dal 20 novembre: l'Actor dell'elenco, i suoi campi e la credenziale; il resto prima di A3 |
-| La riserva fuori da Apify (un programma su un computer con connessione di casa, o un servizio di un'altra azienda): il builder porta le opzioni, con costi e manutenzione (DEC-037, punto 3) | owner | prima che A3 vada a regime |
+| Prati: deciso con DEC-037 (15 novembre). Il testo viene dall'audio; l'elenco e l'audio da Apify. L'elenco è provato (20 novembre, sezione 6); l'audio no: YouTube ha bloccato tutti e due gli Actor, su due video. Un'altra prova di giorno, una corsa per Actor, avviata da n8n come vuole DEC-037, punto 2, con la spesa dichiarata prima | builder | dal 20 novembre |
+| Gli Actor di Apify per YouTube: quello dell'elenco è scelto (`grow_media/youtube-channel-video-scraper`, `LIST_ACTOR` di `youtube-list.js`, con i suoi campi in `ACTOR_FIELDS` e `actorInput`; 20 novembre, sezione 6), e la credenziale Apify è usabile da una corsa di un flusso `staging_A` (sezione 3). Restano, per l'audio, principale e riserva, dopo una prova che riesca; come arrivano i sottotitoli di ultima riserva; per A3, che una corsa dell'audio riuscita senza audio è una corsa fallita (sezione 6) e che anche quella si paga. La cadenza dell'elenco l'ha fissata A2 (CONTRATTI, sezione 7 A, «Raccolta») | builder | prima di A3 |
+| La riserva fuori da Apify (un programma su un computer con connessione di casa, o un servizio di un'altra azienda): il builder porta le opzioni, con costi e manutenzione (DEC-037, punto 3). Il 20 novembre YouTube ha bloccato tutti e due gli Actor dell'audio (sezione 6): se una prova di giorno non riesce, resta la riserva fuori da Apify, o un altro Actor da provare | owner | prima che A3 vada a regime |
 | L'audio di un video intero di YouTube su n8n: memoria per esecuzione, formato e divisione in pezzi; come si trova lo storage di una corsa di Apify rimasto senza riga | builder | A3 |
 | Che cosa il servizio di trascrizione conserva dell'audio che riceve, di RomaTV e di YouTube: le sue condizioni si leggono prima di fissare il modello (DEC-037, punto 2) | il builder legge; l'owner se serve una scelta | A4 |
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
-| L'ora di riferimento di un video di YouTube: fissata da A2, l'inizio della diretta quando l'Actor lo dà, se no la pubblicazione (CONTRATTI, sezione 7 A, «Raccolta»); se l'Actor scelto la dà si vede alla prova | builder | dal 20 novembre |
+| L'ora di riferimento di un video di YouTube: fissata da A2, l'inizio della diretta quando l'Actor lo dà, se no la pubblicazione (CONTRATTI, sezione 7 A, «Raccolta»). L'Actor scelto non la dà: vale la pubblicazione (`youtube-list.js`, `ACTOR_FIELDS`). Con `videoType` `long` non si sa se l'Actor elenchi anche la scheda delle dirette del canale; a giugno lì non c'era nessun video (CSV A4) | builder | fatto il 20 novembre |
+| Gli Short del canale: CONTRATTI, sezione 7 A, «Raccolta», tiene ogni video della finestra, e `youtube-list.js` li tiene. Ma il perimetro sono le sedute (DEC-036, punto 4), e uno Short non lo è: nell'elenco del 20 novembre 2 voci su 80 (49 e 9 secondi, `type` `short`), date dall'Actor anche chiedendo i video lunghi. L'ingresso dell'Actor prende un tipo solo per corsa (`videoType` `long` o `short`); una corsa di verifica con `short` (20 novembre, 01:19 UTC, `Vbooc1VCC4RftruxN`, 0,00025 $) ha dato `NO_VIDEOS`: l'elenco degli Short del canale è vuoto, e i due `short` vengono dall'elenco dei video lunghi, che l'elenco già chiede. Se il canale comincia a pubblicare Short, chiederli costa una seconda corsa per elenco: 0,00025 $ a corsa finché è vuoto, 0,0002 $ per ogni Short, circa 0,01 $ al mese a una corsa al giorno, e una seconda corsa nello stato dell'elenco. Lettura del builder da scrivere in «Raccolta» con una PR di CONTRATTI: uno Short non è una seduta, non entra e non copre la finestra; poi il codice | builder; l'owner con il merge | con la prossima PR di CONTRATTI |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
 | Il piano a regime, con tutti i Municipi: a giugno circa 340–350 ore da trascrivere, 800–1.050 corse di testo a 20–25 minuti per corsa, circa 1.800–2.150 con l'elenco, B e D, prima di C (`docs/sources/FATTIBILITA_RICOSTRUZIONE_2026-06.md`); le leve sono corse di testo più lunghe, il testo fuori da n8n, un piano superiore. A3 misura quante corse costa una seduta | il builder misura, l'owner decide | prima di allargare oltre i Municipi del pilota |
 | `Origin` e `Referer` del portale nelle richieste all'elenco e alla chiave: se servono, la PR che lo misura lo scrive in CONTRATTI, sezione 7 A | builder | A2 (elenco), A3 (chiave) |
-| La stima di spesa con le voci che ne restano fuori arriva a circa 41–48 €, senza l'elenco di YouTube, sopra la quota di 33 € (sezione 7) | il coordinatore, sulle spese del primo mese; l'owner se si va oltre | fine del primo mese |
+| La stima di spesa con le voci che ne restano fuori arriva a circa 43–50 €, con l'elenco di YouTube, sopra la quota di 33 € (sezione 7) | il coordinatore, sulle spese del primo mese; l'owner se si va oltre | fine del primo mese |
 | File del repository che hanno già testo di notizie preso dalle fonti: `docs/sources/VIDEO_RICOGNIZIONE_2026-06.md`, sezione 6 («Possibili notizie»), e `docs/wiki/`. Segnalati, non toccati qui | owner | ora |
