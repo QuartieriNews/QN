@@ -535,8 +535,8 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
   check('C canonical: the listing of C Eventi has the times of writing and the MD5 of each file',
     ['id', 'name', 'createdTime', 'md5Checksum'].every((f) => node('Elenco C Eventi').parameters.options.fields.includes(f)) &&
     node('Elenco C Eventi').parameters.folderId === undefined && node('Elenco C Eventi').parameters.queryString === `'${node('Carica').parameters.folderId.value}' in parents and trashed = false`);
-  // A failed listing must give no empty item on its success output: that would plan every file as a creation.
-  check('C canonical: the listing of C Eventi gives no empty item, and its folders come with it', !node('Elenco C Eventi').alwaysOutputData && node('Elenco C Eventi').parameters.options.fields.includes('mimeType'));
+  // The plan refuses a listing without scritture/ (canonical-write.js), so an empty item never plans a creation.
+  check('C canonical: the folders of C Eventi come with its listing', node('Elenco C Eventi').parameters.options.fields.includes('mimeType'));
   // n8n leaves out a setting at its default: from version 1.1 of the Wait node the unit is seconds.
   check('C canonical: the pause after the reservation is in seconds',
     node('Attesa conferma').typeVersion === 1.1 && [undefined, 'seconds'].includes(node('Attesa conferma').parameters.unit) && node('Attesa conferma').parameters.resume === undefined);
@@ -575,8 +575,8 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
     ['Creato', 'Aggiornato', 'Non caricato', 'Non aggiornato'].every((n) => /^=\{\{ \$\('Nuovo\?'\)\.item\.json\.name \}\}$/.test(field(n, 'name')) && /\$\('Nuovo\?'\)\.item\.json\.duplicates/.test(field(n, 'duplicates'))));
   // A step that fails after the reservation still leaves its outcome (specification v2.5, Part I, 4.2).
   const errTo = (name) => reach(((((CW.connections[name] || {}).main || [])[1] || [])[0] || {}).node || '-');
-  check('C canonical: every reading, step of code and write between the reservation and the outcome has an error route to it',
-    ['Turno', 'Elenco C Eventi', 'Piano', 'Carica', 'Aggiorna'].every((n) => node(n).onError === 'continueErrorOutput' && errTo(n).has('Salva esito') && errTo(n).has('Rispondi')));
+  check('C canonical: every step of code and write between the reservation and the outcome has an error route to it',
+    ['Turno', 'Piano', 'Carica', 'Aggiorna'].every((n) => node(n).onError === 'continueErrorOutput' && errTo(n).has('Salva esito') && errTo(n).has('Rispondi')));
   // With an error output, n8n's alwaysOutputData adds an empty item to the main output beside the error item,
   // and both branches would write an outcome: the reading again keeps its error item on its one output,
   // where the turn throws it to its own error route (T29).
@@ -584,6 +584,32 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
     node('Prenotazioni').onError === 'continueRegularOutput' && node('Prenotazioni').alwaysOutputData === true &&
     ((CW.connections.Prenotazioni || {}).main || []).length === 1 && out('Prenotazioni') === 'Elenco prenotazioni#0' &&
     CW.nodes.every((n) => !(n.alwaysOutputData && n.onError === 'continueErrorOutput')));
+  // T-C-elenco-vuoto: the listing of C Eventi takes the same shape, so that a listing Drive returns
+  // empty reaches the plan. What reaches «Piano», as read in n8n-core 2.48.3 (workflow-execute.js):
+  // processNodeOutput moves an error item to the error output, if the node has one, then
+  // ensureAlwaysOutputData puts one empty item on an empty main output; a node that throws gives
+  // back its input on its main output (handleNodeExecutionError).
+  const plan = require(path.join(CODE, 'canonical-write.js')).plan;
+  const thrownBy = (fn) => { try { fn(); return false; } catch (e) { return true; } };
+  const outputs = (n, items, threw) => {
+    if (threw) return [items];
+    const isError = (j) => j.error !== undefined && Object.keys(j).every((k) => ['error', 'message', 'details'].includes(k));
+    const o = n.onError === 'continueErrorOutput' ? [items.filter((j) => !isError(j)), items.filter(isError)] : [items];
+    if (o[0].length === 0 && n.alwaysOutputData === true) o[0] = [{}];
+    return o;
+  };
+  const routes = (items, threw) => outputs(node('Elenco C Eventi'), items, threw).flatMap((its, o) => {
+    if (its.length === 0) return [];
+    if (out('Elenco C Eventi', o) !== 'Elenco file#0') return [out('Elenco C Eventi', o)];
+    const file = { name: 'roma__evt__facebook__1.json', content: '{}' };
+    return [thrownBy(() => plan({ files: [file], listing: its })) ? out('Piano', 1) : out('Piano', 0)];
+  });
+  const SCR = { id: 'SCR', name: 'scritture', mimeType: 'application/vnd.google-apps.folder', createdTime: '2026-11-15T15:57:00.578Z' };
+  const seen = { files: routes([SCR]), empty: routes([]), error: routes([{ error: 'Drive 503' }]), threw: routes([{ stage: 'turn', turn: { holds: true } }], true) };
+  check('C canonical (T-C-elenco-vuoto, T29): the listing of C Eventi has one output; files, nothing, an error or its input given back reach the outcome by one route',
+    node('Elenco C Eventi').onError === 'continueRegularOutput' && node('Elenco C Eventi').alwaysOutputData === true &&
+    ((CW.connections['Elenco C Eventi'] || {}).main || []).length === 1 && out('Elenco file') === 'Prepara piano#0' &&
+    seen.files.join() === 'Da scrivere?#0' && ['empty', 'error', 'threw'].every((k) => seen[k].join() === 'Prepara guasto dopo#0'), JSON.stringify(seen));
   // A Drive node that fails outside its handling of each item gives back its input (n8n-core,
   // handleNodeExecutionError): that input is the marker alone, never the call's own reservation (T27).
   check('C canonical (T27): the reading again is given the marker alone, which the turn refuses',
@@ -593,7 +619,7 @@ check('the download keeps the run_limit the reading passes', runLimit({ run_limi
     /r\.reading_input === true/.test(cw));
   check('C canonical: an error before the turn stops the call, one after it fails the call before any canonical write',
     out('Turno', 1) === 'Prepara guasto prima#0' && !('turn' in Object.fromEntries((node('Prepara guasto prima').parameters.assignments.assignments).map((a) => [a.name, 1]))) &&
-    out('Elenco C Eventi', 1) === 'Prepara guasto dopo#0' && out('Piano', 1) === 'Prepara guasto dopo#0' && !errTo('Piano').has('Carica') && !errTo('Elenco C Eventi').has('Aggiorna'));
+    out('Piano', 1) === 'Prepara guasto dopo#0' && !errTo('Piano').has('Carica') && !errTo('Piano').has('Aggiorna'));
   check('C canonical: the outcome is saved, then sent back with its status',
     out('Esito') === 'Testo esito#0' && out('Testo esito') === 'File esito#0' && out('File esito') === 'Salva esito#0' && out('Salva esito') === 'Rispondi#0' &&
     node('Webhook').parameters.responseMode === 'responseNode' && node('Rispondi').type === 'n8n-nodes-base.respondToWebhook' &&

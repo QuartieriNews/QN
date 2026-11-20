@@ -89,12 +89,16 @@ workflows off, and n8n kept every node and setting; the four Code nodes were sav
 exports on 17 November 2026, still off, and n8n read back gave these exports node for node. On 18
 November «Prenotazioni» lost its error output, «Prima della lettura» came before it and the four
 Code nodes took the new turn: both were saved again from these exports that day, still off, after
-n8n was found equal to the earlier exports, and n8n read back gives these exports node
-for node, with the versionIds they carry. Read in the sources of n8n 2.48.4
-(`n8n-core` and `n8n-nodes-base`), not tried: a
+n8n was found equal to the earlier exports, and n8n read back gave those exports node
+for node, with the versionIds these carry. On 19 November «Elenco C Eventi» took the shape of
+«Prenotazioni» and the four Code nodes the new plan, in these exports only: the workflows on n8n,
+found equal that day to the exports of 18 November, are saved from `main` after the merge, still
+off. Read in the sources
+of n8n 2.48.4 (`n8n-core` and `n8n-nodes-base`), not tried: a
 merge in append mode runs with the inputs that received data; a node with an error output and
 `alwaysOutputData` sends an empty item to its main output beside the error item, so «Prenotazioni»
 keeps its error item on its one output and «Turno» throws it to its error route (T29); a Drive
+search that finds nothing gives no item, and with `alwaysOutputData` one empty item; a Drive
 reading that fails gives an item with `error`, retried before it is given; the Wait node, version
 1.1, counts in seconds. Not yet tried in n8n, with the workflows off: that the listing returns
 `md5Checksum` (without it a file is updated, never duplicated), what the error item of a Code node
@@ -103,9 +107,12 @@ retried sends the same bytes to the same file again: a Drive revision more, no f
 retries on the error of its first item, and a later item that fails goes to «Non aggiornato». A Drive
 node that fails outside its own handling of each item gives back its input on its main output:
 «Prima della lettura» makes that input a marker, never the call's own reservation, and «Turno»
-throws it to its error route (T27, T29). Known limit: a listing of `C Eventi/` that Drive returns
-empty reaches no node, and the call dies without its outcome. A listing of `C Eventi/` that does not show `scritture/` stops the call before any
-canonical write.
+throws it to its error route (T27, T29). «Elenco C Eventi», the listing of `C Eventi/`, has the
+same shape as «Prenotazioni», one output and `alwaysOutputData`: a listing that Drive returns empty
+reaches «Piano» as an empty item, one that fails as its error item, one that fails outside its
+handling of each item as the input it was given. «Piano» throws each to its error route, the error
+item with the error of the reading (T29): a listing of `C Eventi/` that does not show `scritture/`,
+an empty one too, stops the call before any canonical write, with its outcome (T-C-elenco-vuoto).
 
 ### Prova senza Apify
 
