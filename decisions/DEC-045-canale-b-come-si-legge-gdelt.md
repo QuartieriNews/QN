@@ -86,15 +86,17 @@ Owner's words:
    fonte si ferma solo dopo 6 corse di fila con un 429, con l'avviso. Gli altri segnali di blocco
    della riga «Raccolta» la fermano subito, come per ogni fonte.
    - Lettura del builder: vale anche un 429 di `robots.txt`. Una corsa che chiede e non ha 429
-     rimette il conto a zero; una che non chiede niente lo lascia com'è. Alla ripartenza della
-     notte il conto è partito da zero: la prima corsa, con la regola di prima, non conta.
+     rimette il conto a zero; una che non chiede niente lo lascia com'è.
+   - Le sei corse di fila contano dalla prima: il 429 della prima corsa (19 novembre 2026, 23:28
+     UTC), avuto con la regola di prima, è la prima delle sei, come dice l'opzione scelta («6 runs
+     in a row with a 429»).
    - Lettura del builder: «you get an alert» è `AVVISO_gdelt_<inizio>.json` in
      `B Notizie/letture/`, che il coordinatore legge e porta all'owner, come gli avvisi degli altri
      canali.
-   - Lettura del builder: una fonte ferma la riaccende il coordinatore, che ne riceve l'avviso
-     (CONTRATTI, sezione 7 B, «Raccolta»); toglie la fermata e azzera i conti delle corse di fila nei
-     dati statici del flusso, quello dei 429 e quello degli errori del server della riga
-     «Raccolta».
+   - Una fonte ferma resta ferma finché l'owner non dice di riaccenderla: l'opzione scelta dà lo
+     stop e l'avviso, non una ripartenza. Quando l'owner lo dice, il coordinatore toglie la fermata
+     e azzera i conti delle corse di fila nei dati statici del flusso, quello dei 429 e quello degli
+     errori del server della riga «Raccolta».
 
 Impact:
 - DEC-039: il rimando sotto la riga `Status:` (`decisions/README.md`, regola 2).
