@@ -112,15 +112,13 @@ console.log('T-A2-09 — the videos of the window, and whether the list covers i
 
 console.log('T-A2-09 — the run of the list: its limits and its cost file');
 {
-  const st = y.startRequest('inventato~elenco', NOW);
-  check('T-A2-16 the request that starts the run carries its timeout, the cap of its items and the cap of its charge', [st.url, st.method, st.asked],
-    ['https://api.apify.com/v2/acts/inventato~elenco/runs?timeout=900&maxItems=68&maxTotalChargeUsd=0.1', 'POST', 68]);
-  check('T-A2-16 the charge cap stays above a full window at the price of the trial (WORKSTREAM_A, section 7)',
-    y.MAX_CHARGE_USD >= y.MAX_VIDEOS * 0.0002 + 0.00005, true);
-  check('T-A2-16 the Actor of the trial is a valid name for the request, its input the body',
-    [y.startRequest(y.LIST_ACTOR, NOW).url.startsWith('https://api.apify.com/v2/acts/grow_media~youtube-channel-video-scraper/runs?'), y.startRequest(y.LIST_ACTOR, NOW).body],
-    [true, y.actorInput(NOW)]);
-  check('an actor that is not of the form user~name is refused', thrown(() => y.startRequest('https://evil.invalid', NOW)), 'actor_invalid');
+  const st = y.startRequest(NOW);
+  check('T-A2-16 the request starts LIST_ACTOR with its timeout and the cap of its items, and no cap of its charge (DEC-037, point 6)',
+    [st.url, st.method, st.asked, st.body],
+    ['https://api.apify.com/v2/acts/grow_media~youtube-channel-video-scraper/runs?timeout=900&maxItems=68', 'POST', 68, y.actorInput(NOW)]);
+  check('T-A2-16 an Actor named by the flow must be LIST_ACTOR; none named is LIST_ACTOR',
+    [y.listActor(y.LIST_ACTOR), y.listActor(undefined), y.listActor(null), thrown(() => y.listActor('inventato~elenco')), thrown(() => y.listActor('https://evil.invalid'))],
+    [y.LIST_ACTOR, y.LIST_ACTOR, y.LIST_ACTOR, 'actor_not_list_actor', 'actor_not_list_actor']);
   check('T-A2-09 a running run is waited for 20 minutes from its start, then left in the row for the next run',
     [y.pollDecision(run('RUNNING', { startedAt: ago(NOW, 60000) }), NOW).next, y.pollDecision(run('RUNNING', { startedAt: ago(NOW, 21 * 60000) }), NOW).next,
       y.pollDecision(run('RUNNING', { startedAt: null }), NOW).next],
@@ -255,8 +253,12 @@ function runNode(json) {
     { item: { json } }, json, require, undefined, undefined, undefined, undefined);
 }
 {
-  const plan = runNode({ stage: 'plan', list_row: { apify_run_id: 'runY' }, actor: 'inventato~elenco' });
+  const plan = runNode({ stage: 'plan', list_row: { apify_run_id: 'runY' }, actor: y.LIST_ACTOR });
   check('plan: a run left behind is resumed, and no new run starts', [plan.json.plan.action, plan.json.start], ['resume', null]);
+  check('T-A2-16 plan: another Actor named by the flow is refused, whatever the plan; none named is fine',
+    [thrown(() => runNode({ stage: 'plan', list_row: { apify_run_id: 'runY' }, actor: 'inventato~elenco' })),
+      runNode({ stage: 'plan', list_row: { apify_run_id: 'runY' } }).json.plan.action],
+    ['actor_not_list_actor', 'resume']);
   const real = new Date().toISOString();
   const okRun = run('SUCCEEDED', { startedAt: ago(real, 600000), finishedAt: ago(real, 60000) });
   const ok = runNode({ stage: 'dataset', run: okRun, items: [item(1, { date: ago(real, 3600000) }), item(2, { date: '2026-10-30T10:00:00Z' })], list_row: {} });

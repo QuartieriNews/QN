@@ -298,13 +298,12 @@ dopo il confine riparte dallo stato da cui è caduta, senza audio e senza trascr
   Nessun nodo di esito porta un campione di testo (la sonda 921 lo faceva; quell'esecuzione
   è cancellata).
 - L'elenco di YouTube (`youtube-list.js`, come `apify-run.js` per C). La richiesta che avvia la
-  corsa dell'Actor porta il suo tempo massimo, 15 minuti, il tetto dei video chiesti e quello della
-  spesa: alla prova del 20 novembre Apify non ha tenuto al tetto dei video l'Actor scelto, che si
-  paga a evento (80 voci addebitate con un tetto di 75); il tetto che un Actor a evento rispetta è
-  quello della spesa (`maxTotalChargeUsd`, T-A2-16), sopra una finestra piena al prezzo della prova
-  (sezione 7). Secondo la documentazione di Apify, al tetto della spesa la corsa si interrompe
-  (`ABORTED`): è una corsa fallita (T-A2-10); alla prova nessuna corsa l'ha raggiunto, e il suo
-  comportamento non è ancora misurato. Il flusso la aspetta al più
+  corsa dell'Actor porta il suo tempo massimo, 15 minuti, e il tetto dei video chiesti
+  (`maxItems`, T-A2-16). Alla prova del 20 novembre Apify non ha tenuto a quel tetto l'Actor
+  scelto, che si paga a evento: 80 voci addebitate con un tetto di 75. Una corsa addebitata oltre
+  il suo tetto si vede nel suo file di costo, in `costi/`, e il coordinatore la riporta: la spesa si
+  tiene sotto controllo, non si blocca (DEC-037, punto 6), e la richiesta non porta un tetto della
+  spesa. Il flusso la aspetta al più
   20 minuti e ne scrive la spesa dopo che si è assestata. L'id della corsa va nella riga
   `fonte:youtube_elenco` appena parte, e lì resta finché la corsa non si legge: se l'esecuzione
   muore, o la corsa aspetta ancora dopo 20 minuti, la corsa dopo la riprende, con la sua spesa,
@@ -499,17 +498,18 @@ A2 (T-A2-01…T-A2-13 con A2a; T-A2-14 con A2b; T-A2-15 e T-A2-16 con la prova d
   finestra di T-A2-04 si ferma, mai oltre la quarta richiesta; il registro
   lo dice incompleto, con il motivo, e parte l'avviso; gli altri cataloghi della corsa si
   leggono.
-- T-A2-15 una voce di errore dell'Actor dell'elenco (la forma che ne dà la sua pagina, `error`,
-  `input`, `note`; alla prova non ne è uscita nessuna) non è un video: resta fuori, con il suo
-  motivo, e un elenco che ha solo voci così non copre la finestra. Limite noto: una corsa riuscita
+- T-A2-15 una voce di errore dell'Actor dell'elenco (`error`, `input`, `note`, come quella della
+  corsa di verifica del 20 novembre con `videoType` `short`, che ha dato `NO_VIDEOS`) non è un
+  video: resta fuori, con il suo motivo, e un elenco che ha solo voci così non copre la finestra.
+  Limite noto: una corsa riuscita
   con solo voci di errore è un elenco letto e incompleto, con l'avviso di ogni corsa, non una corsa
   fallita, quindi non conta nei cinque di fila e ne azzera la serie. Uno Short dentro la finestra
   si tiene, come ogni video della finestra (CONTRATTI, sezione 7 A, «Raccolta»; la domanda è nella
   sezione 9).
-- T-A2-16 la richiesta che avvia la corsa dell'elenco porta il tempo massimo, il tetto dei video e
-  il tetto della spesa, sopra una finestra piena al prezzo della prova (sezione 7); l'Actor è
-  quello scelto alla prova (`LIST_ACTOR`) e il suo ingresso nomina il canale per id, senza un
-  indirizzo di YouTube.
+- T-A2-16 la richiesta che avvia la corsa dell'elenco avvia l'Actor scelto alla prova
+  (`LIST_ACTOR`), con il tempo massimo e il tetto dei video, senza un tetto della spesa (DEC-037,
+  punto 6); un altro Actor nominato dal flusso si rifiuta, qualunque sia il piano della corsa; il
+  suo ingresso nomina il canale per id, senza un indirizzo di YouTube.
 
 A3:
 - T-A3-01 playlist con un IV per segmento; senza IV, il numero di sequenza (RFC 8216); la chiave
@@ -592,8 +592,8 @@ A3:
 
 **Prove in staging** su n8n, con fonti vere e tutto privato: niente di queste prove entra nel
 repository. Totale atteso circa 1,2 € più la corsa dell'elenco di YouTube, tetto 2 €, dentro
-la delega di DEC-036, punto 6. La prova degli Actor del 20 novembre è costata 0,0955 $ in cinque
-corse (righe qui sotto; i file in `costi/`).
+la delega di DEC-036, punto 6. La prova degli Actor del 20 novembre è costata 0,0957 $ in sei
+corse (righe qui sotto, e la corsa di verifica degli Short, sezione 9; i file in `costi/`).
 
 | Prova | Che cosa dimostra | Costo atteso |
 |---|---|---|
@@ -745,7 +745,7 @@ canale letto. Il grosso è la trascrizione, non Apify.
 | Che cosa il servizio di trascrizione conserva dell'audio che riceve, di RomaTV e di YouTube: le sue condizioni si leggono prima di fissare il modello (DEC-037, punto 2) | il builder legge; l'owner se serve una scelta | A4 |
 | Come si riconosce che due registrazioni di piattaforme diverse sono la stessa seduta. Quale apre il fatto lo dice già CONTRATTI, sezione 7 A, righe «Elemento» e «Identità»: la prima in cui il fatto è letto; le altre sono provenienza | builder | A5 |
 | L'ora di riferimento di un video di YouTube: fissata da A2, l'inizio della diretta quando l'Actor lo dà, se no la pubblicazione (CONTRATTI, sezione 7 A, «Raccolta»). L'Actor scelto non la dà: vale la pubblicazione (`youtube-list.js`, `ACTOR_FIELDS`). Con `videoType` `long` non si sa se l'Actor elenchi anche la scheda delle dirette del canale; a giugno lì non c'era nessun video (CSV A4) | builder | fatto il 20 novembre |
-| Gli Short del canale: CONTRATTI, sezione 7 A, «Raccolta», tiene ogni video della finestra, e `youtube-list.js` li tiene. Ma il perimetro sono le sedute (DEC-036, punto 4), e uno Short non lo è: nell'elenco del 20 novembre 2 voci su 80 (49 e 9 secondi, `type` `short`), date dall'Actor anche chiedendo i video lunghi. Lettura del builder da scrivere in «Raccolta» con una PR di CONTRATTI: uno Short non è una seduta, non entra e non copre la finestra; poi il codice (T-A2-15) | builder; l'owner con il merge | con la prossima PR di CONTRATTI |
+| Gli Short del canale: CONTRATTI, sezione 7 A, «Raccolta», tiene ogni video della finestra, e `youtube-list.js` li tiene. Ma il perimetro sono le sedute (DEC-036, punto 4), e uno Short non lo è: nell'elenco del 20 novembre 2 voci su 80 (49 e 9 secondi, `type` `short`), date dall'Actor anche chiedendo i video lunghi. L'ingresso dell'Actor prende un tipo solo per corsa (`videoType` `long` o `short`); una corsa di verifica con `short` (20 novembre, 01:19 UTC, `Vbooc1VCC4RftruxN`, 0,00025 $) ha dato `NO_VIDEOS`: l'elenco degli Short del canale è vuoto, e i due `short` vengono dall'elenco dei video lunghi, che l'elenco già chiede. Se il canale comincia a pubblicare Short, chiederli costa una seconda corsa per elenco: 0,00025 $ a corsa finché è vuoto, 0,0002 $ per ogni Short, circa 0,01 $ al mese a una corsa al giorno, e una seconda corsa nello stato dell'elenco. Lettura del builder da scrivere in «Raccolta» con una PR di CONTRATTI: uno Short non è una seduta, non entra e non copre la finestra; poi il codice | builder; l'owner con il merge | con la prossima PR di CONTRATTI |
 | Il modello di trascrizione e quello della lettura: `gpt-4o-mini-transcribe` e `whisper-1` si spengono il 26 febbraio 2027, `gpt-4.1-mini` il 14 gennaio 2027 (API di OpenAI, sonda 918; sezione 6). A4 sceglie un modello che non si spenga a pilota in corso | builder; l'owner se il cambio costa 5 € o più | A4 |
 | Il piano a regime, con tutti i Municipi: a giugno circa 340–350 ore da trascrivere, 800–1.050 corse di testo a 20–25 minuti per corsa, circa 1.800–2.150 con l'elenco, B e D, prima di C (`docs/sources/FATTIBILITA_RICOSTRUZIONE_2026-06.md`); le leve sono corse di testo più lunghe, il testo fuori da n8n, un piano superiore. A3 misura quante corse costa una seduta | il builder misura, l'owner decide | prima di allargare oltre i Municipi del pilota |
 | `Origin` e `Referer` del portale nelle richieste all'elenco e alla chiave: se servono, la PR che lo misura lo scrive in CONTRATTI, sezione 7 A | builder | A2 (elenco), A3 (chiave) |
