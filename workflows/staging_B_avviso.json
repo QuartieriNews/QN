@@ -1,0 +1,147 @@
+{
+  "name": "staging_B_avviso",
+  "nodes": [
+    {
+      "id": "8d3987ca-6a19-5c4b-b01a-a3a36872563c",
+      "name": "Errore",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "d2b5a30b-b7cf-5567-b31d-fd0e6012a4a0",
+      "name": "Avviso",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a8dce4eb-aff7-52b4-90f5-3e9d3b1c7895",
+              "name": "name",
+              "type": "string",
+              "value": "=AVVISO_B_{{ $now.toUTC().toFormat(\"yyyyLLdd'T'HHmmss'Z'\") }}.json"
+            },
+            {
+              "id": "b7da34b9-c14e-5925-a760-1c968146e201",
+              "name": "text",
+              "type": "string",
+              "value": "={{ JSON.stringify({ avviso: 'un flusso del canale B si è fermato con un errore: avvisare il coordinatore (docs/pilota/CONTRATTI.md, sezione 7 B, «Misura GDELT»)', workflow: $json.workflow.name, workflow_id: $json.workflow.id, esecuzione: ($json.execution || {}).id || null, nodo: ($json.execution || {}).lastNodeExecuted || null, messaggio: String((($json.execution || {}).error || {}).message || '').slice(0, 300), modo: ($json.execution || {}).mode || null, alle: $now.toUTC().toISO() }, null, 1) }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d65b6d5b-543d-572a-a358-c1797d21e383",
+      "name": "File avviso",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      }
+    },
+    {
+      "id": "7306ba00-b94b-5a22-bcd4-2c668b5d4098",
+      "name": "Salva avviso",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "name": "={{ $binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0"
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "7nJkjb7aldPHyXv4",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Errore": {
+      "main": [
+        [
+          {
+            "node": "Avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avviso": {
+      "main": [
+        [
+          {
+            "node": "File avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File avviso": {
+      "main": [
+        [
+          {
+            "node": "Salva avviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "none",
+    "timezone": "Europe/Rome",
+    "executionOrder": "v1"
+  },
+  "versionId": "4d7cada5-4bb5-4c9d-b460-38283b98e193",
+  "meta": {},
+  "nodeGroups": [],
+  "id": "THfODY1g9xTkRCb2",
+  "tags": []
+}

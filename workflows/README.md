@@ -145,3 +145,78 @@ The night of 19 November 2026 stopped at 02:03 UTC on a block signal of the port
 quota: «Controllo PDF» of `staging_D_attiweb_download` (execution 1903) had a 403 in answer to a
 PDF, and the reading stopped (DEC-033, rule 4). `staging_D_attiweb_list` was then switched off,
 and it stays off until the owner decides.
+
+### La misura di GDELT
+
+`staging_B_gdelt_misura` is the two-week measure of DEC-039, point 4, read as DEC-045 says
+(`docs/pilota/CONTRATTI.md`, section 7 B, «Misura GDELT», holds its rules): every two hours, at :37
+of the odd hours of Rome, thirteen searches of GDELT's free search service (DOC 2.0 API), one at a
+time, in an order that turns by one place every two hours. Its Code nodes are
+`code-nodes/news-gdelt.js`. A search is sent only after «Prima» has seen that the host did not stop,
+answer 429, or fail to answer earlier in the run; it leaves the search it lets go in the static data
+(`news_gdelt_request`), where «Dopo la risposta» takes it, so an answer never depends on reading an
+earlier node of the loop back. The files of a run go to `B Notizie/letture/` one after the other,
+rows, register, alert. Each Drive node retries five times, as in the B collection, and then goes on,
+so the execution ends and n8n saves its static data. «Conferma» then makes the windows and the counts
+of the run the state of the flow only if the rows and the register were written (every run that is
+not past the end writes its rows file, empty when it kept no article, and no register is written
+after rows that were not); a stop holds at once with the two counts that go with it, and names a file not written for the next run's register and
+alert; a run whose files fail is read again by the next one. A stop holds at once, the one the
+close decides on the sixth run with a 429 or the fifth with a server error included: a run whose
+files fail is read again, but its stop is not undone. The register carries the
+`workflow_version` of «Inizio», which changes with every change of the flow. The flow saves no data of
+a successful execution, because the answers carry titles. Its error flow is `staging_B_avviso`, which
+writes `AVVISO_B_<time>.json` in the same folder and stays on: n8n does not call an error flow that
+is off. The alerts of both reach the owner through the coordinator, who reads `letture/`.
+
+**It reads the search service, not the 15-minute files (DEC-045, point 1).** The owner's words, in
+the night mandate of 19 November 2026 (`MANDATO_NOTTE_2026-11-19.md` on Drive): if the files do not
+hold on n8n, «Sì, usa la ricerca», with the same data, title, link and hour only. The numbers, read
+on 19 November 2026 between 22:45 and 23:10 UTC:
+- the translation stream of GDELT, where Italian articles are, gives a GKG file every 15 minutes:
+  the latest, 22:45 UTC, is 5.6 MB zipped and 17.7 MB unzipped; at 09:00, 12:00, 15:00 and 18:00
+  UTC of the same day the files are 11.4–13.0 MB zipped, and 15.1 MB at 12:00 on 18 November: about
+  35–48 MB of text for a daytime quarter of an hour, 96 a day. The title is there (`<PAGE_TITLE>` in
+  `V2.1EXTRASXML`, 1,425 of the 1,446 rows of the 22:45 file);
+- n8n Cloud, Starter plan, by n8n's documentation («Cloud data management»): 640 MiB of RAM for the
+  instance, of which the software takes about 180 MiB, 10 millicore of CPU, and 2,500 executions a
+  month for every flow of the pilot;
+- of Node's modules, only `crypto` has been tried in a Code node here (`docs/pilota/WORKSTREAM_A.md`,
+  section 3), so unzipping goes through n8n's own nodes, which hand the 35–48 MB of text on as JSON
+  in the execution (a reading of how n8n works, not tried); one execution per file is 2,880 a month,
+  more than the plan, and four files in one execution are 140–190 MB of text;
+- an answer of the search service is a few kilobytes.
+
+From this sandbox the service answered 200 twice and then 429 («Please limit requests to one every
+5 seconds») with 8 seconds between requests: the limit counts the address, and the sandbox's is
+shared. In October the source study had found the same (`docs/sources/CRONACA_PROCESSO_2026-10.md`,
+section 5.2: the service «risponde 429 (troppe richieste da un indirizzo condiviso)»; section 5.3,
+point 5: «GDELT da un indirizzo non condiviso»).
+
+**The first run on n8n stopped the host (DEC-045, point 2, came after it).** On 19 November 2026 at
+23:28 UTC (00:28 of 20 November in Rome), with a one-off schedule: robots.txt answered 404 (no rules),
+and the first search, 10 seconds later, answered 429. The host stopped, as the rule of the collection
+said then, the other twelve searches were not sent, no window moved, and the run wrote
+`gdelt_20261119T232800Z.json` and `AVVISO_gdelt_20261119T232800Z.json` in `B Notizie/letture/`; the
+execution was not saved, as its settings say. A 429 at the first request fits an address that n8n
+Cloud shares with others, as the sandbox's is shared; one run does not prove it. The flow was then
+off from 23:37 to 23:46 UTC. On 20 November 2026, at about 00:44 in Rome, the owner chose «Retry, stop
+after 6» (DEC-045, point 2): the flow was saved again with that rule and with the stop cleared from its
+static data, and it was switched on, on its schedule. The series of runs with a 429 starts at the first
+run: the run of 23:28 UTC on 19 November is the first of the six. The run of 00:37 UTC on 20 November
+read one search and then met a 429: it is the second, and the count was set to 2 in the static data at
+00:40 UTC (the update kept the versionId). The runs count in a row: while the host is not stopped,
+any run without a 429, one that asks nothing included, sets the count back to zero, and the count of
+runs with a server error or no answer works the same way. Once the host is stopped, both counts stay
+as they are until the restart.
+A draft email asking GDELT for access is in the hand-off folder on Drive, for the owner to send.
+
+**Restarting and ending.** A host that stopped, on six runs in a row with a 429, on five with a server
+error or no answer, or on any other block signal, stays stopped until the owner says to restart it.
+Only then does the coordinator clear `news_gdelt.host.stopped` in the flow's static data and set both
+counts of runs in a row, `throttled_runs` and `errors_in_row`, to zero (n8n's API takes `staticData`
+with an update of the workflow); the coordinator never restarts it alone. After the measure, from 02:00 in Rome on 4 December 2026, a run asks and writes nothing,
+except the first, which writes `AVVISO_gdelt_fine_<start>.json` (if the notice is not written, the
+next run writes it): the coordinator then switches the flow off, since every run is still an
+execution of the plan. `staging_B_avviso` retries its Drive write five times, as the alert flows of A
+and D do.
