@@ -39,8 +39,10 @@ const NOW = '2026-11-16T19:10:00Z'; // 20:10 in Rome
 const ago = (now, ms) => new Date(Date.parse(now) - ms).toISOString().slice(0, 19) + 'Z';
 // Invented video ids of 11 characters, and an invented Actor's items.
 const vid = (n) => `Vid${String(n).padStart(8, '0')}`;
-const item = (n, o) => Object.assign({ id: vid(n), channelId: y.CHANNEL_ID, channelName: 'Canale inventato', title: `Seduta inventata ${n}`,
-  publishedAt: '2026-11-13T18:00:00Z', duration: '1:02:03' }, o || {});
+// The form of an item of LIST_ACTOR (WORKSTREAM_A, section 6, the trial of 20 November 2026).
+const item = (n, o) => Object.assign({ id: vid(n), url: `https://www.youtube.com/watch?v=${vid(n)}`, channelId: y.CHANNEL_ID,
+  channelName: 'Canale inventato', title: `Seduta inventata ${n}`, date: '2026-11-13T18:00:00Z', durationSeconds: 3723, duration: '01:02:03',
+  type: 'video' }, o || {});
 const run = (status, o) => Object.assign({ id: `run${status}`, actId: 'inventato~elenco', status, startedAt: ago(NOW, 600000),
   finishedAt: ago(NOW, 60000), usageTotalUsd: 0.0123 }, o || {});
 
@@ -50,32 +52,48 @@ console.log('T-A2-09 — one video of the list');
   check('T-A2-09 youtube:<id> for an id of 11 characters', [v.ok, v.rec.recording_ref], [true, `youtube:${vid(1)}`]);
   check('T-A2-09 the reference agrees with institutional-identity.js', v.rec.recording_ref, identity.recordingRef('youtube', vid(1)));
   check('T-A2-09 no reference for an id of another length or form',
-    [y.readVideo(item(2, { id: 'Vid12345' })).reason, y.readVideo(item(3, { id: `${vid(3)}x` })).reason, y.readVideo(item(4, { id: 'Vid0000000!' })).reason],
+    [y.readVideo(item(2, { id: 'Vid12345', url: null })).reason, y.readVideo(item(3, { id: `${vid(3)}x`, url: null })).reason, y.readVideo(item(4, { id: 'Vid0000000!', url: null })).reason],
     ['video_id_invalid', 'video_id_invalid', 'video_id_invalid']);
-  check('T-A2-09 the id read from videoId or from the address, also when `id` is something else',
-    [y.readVideo({ videoId: vid(5), publishedAt: NOW, duration: 60 }).rec.recording_ref,
-      y.readVideo({ id: 'item-0001', url: `https://www.youtube.com/watch?v=${vid(6)}&t=1`, publishedAt: NOW, duration: 60 }).rec.recording_ref,
-      y.readVideo({ url: `https://youtu.be/${vid(7)}`, publishedAt: NOW, duration: 60 }).rec.recording_ref,
-      y.readVideo({ url: `https://www.youtube.com/live/${vid(8)}?si=x`, publishedAt: NOW, duration: 60 }).rec.recording_ref],
+  check('T-A2-09 the id read from `id` or from the address, also when `id` is something else',
+    [y.readVideo({ id: vid(5), date: NOW, durationSeconds: 60 }).rec.recording_ref,
+      y.readVideo({ id: 'item-0001', url: `https://www.youtube.com/watch?v=${vid(6)}&t=1`, date: NOW, durationSeconds: 60 }).rec.recording_ref,
+      y.readVideo({ url: `https://youtu.be/${vid(7)}`, date: NOW, durationSeconds: 60 }).rec.recording_ref,
+      y.readVideo({ url: `https://www.youtube.com/live/${vid(8)}?si=x`, date: NOW, durationSeconds: 60 }).rec.recording_ref],
     [`youtube:${vid(5)}`, `youtube:${vid(6)}`, `youtube:${vid(7)}`, `youtube:${vid(8)}`]);
   check('T-A2-09 source_id is the channel; the Municipality comes from the channel', [v.rec.source_id, v.rec.municipality_code], [y.CHANNEL_ID, 'I']);
   check('T-A2-09 a video of another channel is not kept', y.readVideo(item(9, { channelId: 'UCinventatoinventato000' })).reason, 'other_channel');
-  check('T-A2-09 the reference is the start of the live broadcast when the Actor gives it, else the publication',
-    [y.readVideo(item(10, { liveStartedAt: '2026-11-13T15:00:00+01:00' })).rec.ora_riferimento_utc, v.rec.ora_riferimento_utc, v.rec.ora_pubblicazione_utc],
-    ['2026-11-13T14:00:00Z', '2026-11-13T18:00:00Z', '2026-11-13T18:00:00Z']);
+  check('T-A2-09 the Actor gives no start of a live broadcast: the reference is the publication, whatever else the item carries',
+    [y.ACTOR_FIELDS.live_start, y.readVideo(item(10, { liveStreamingDetails: { actualStartTime: '2026-11-13T15:00:00+01:00' }, actualStartTime: '2026-11-13T14:00:00Z' })).rec.ora_riferimento_utc,
+      v.rec.ora_riferimento_utc, v.rec.ora_pubblicazione_utc],
+    [[], '2026-11-13T18:00:00Z', '2026-11-13T18:00:00Z', '2026-11-13T18:00:00Z']);
+  check('T-A2-09 a publication with its offset is brought to UTC to the second',
+    [y.readVideo(item(18, { date: '2026-11-13T15:00:00+01:00' })).rec.ora_riferimento_utc, y.utcSecond('2026-11-13T15:00:00.123-0230')],
+    ['2026-11-13T14:00:00Z', '2026-11-13T17:30:00Z']);
   check('T-A2-09 a date without its offset, a day that does not exist or the hour 24 are not dates',
-    [y.readVideo(item(11, { publishedAt: '2026-11-13 18:00' })).reason, y.utcSecond('2026-02-30T10:00:00Z'), y.utcSecond('2026-11-13T24:00:00Z')],
+    [y.readVideo(item(11, { date: '2026-11-13 18:00' })).reason, y.utcSecond('2026-02-30T10:00:00Z'), y.utcSecond('2026-11-13T24:00:00Z')],
     ['date_invalid', null, null]);
   check('T-A2-09 the duration as seconds, h:mm:ss, m:ss or ISO 8601',
     [3723, '1:02:03', '62:03', 'PT1H2M3S', '3723'].map((d) => y.seconds(d)), [3723, 3723, 3723, 3723, 3723]);
   check('T-A2-09 a duration of zero is not yet a recording', [0, '0', '0:00', 'PT0S'].map((d) => y.seconds(d)), [null, null, null, null]);
   check('T-A2-09 the page of the video for the reader', v.rec.url, `https://www.youtube.com/watch?v=${vid(1)}`);
+  check('T-A2-09 the duration from durationSeconds, else from duration', [v.rec.durata_secondi, y.readVideo(item(12, { durationSeconds: undefined })).rec.durata_secondi],
+    [3723, 3723]);
+  check('T-A2-09 the duration as the Actor writes it, hh:mm:ss', y.readVideo(item(13, { durationSeconds: undefined, duration: '00:17:21' })).rec.durata_secondi, 1041);
+  check('T-A2-09 a Short of the window is kept, as every video of the window (CONTRATTI 7 A, «Raccolta»; the question: WORKSTREAM_A, section 9)',
+    [y.readVideo(item(15, { type: 'short', durationSeconds: 49 })).ok, y.readDataset([item(17, { type: 'short', date: '2026-10-30T10:00:00Z' })], NOW).complete],
+    [true, true]);
+  const err = { error: 'invented error', input: 'invented', note: 'invented note' };
+  check('T-A2-15 an error item of the Actor is no video, with its own reason', y.readVideo(err), { ok: false, reason: 'actor_error', id: null });
+  check('T-A2-15 a list of error items only is incomplete; one beside the videos is listed and changes nothing else',
+    [y.readDataset([err], NOW).reason, y.readDataset([err, item(14, { date: '2026-10-30T10:00:00Z' })], NOW).complete,
+      y.readDataset([err, item(14, { date: '2026-10-30T10:00:00Z' })], NOW).skipped],
+    ['no valid video in the list', true, [{ id: null, reason: 'actor_error' }]]);
 }
 
 console.log('T-A2-09 — the videos of the window, and whether the list covers it');
 {
-  const items = [item(20, { publishedAt: '2026-11-15T10:00:00Z' }), item(21, { publishedAt: '2026-11-02T10:00:00Z' }),
-    item(20, { publishedAt: '2026-11-15T10:00:00Z' }), item(22, { publishedAt: '2026-10-30T10:00:00Z' }), item(23, { id: 'x' })];
+  const items = [item(20, { date: '2026-11-15T10:00:00Z' }), item(21, { date: '2026-11-02T10:00:00Z' }),
+    item(20, { date: '2026-11-15T10:00:00Z' }), item(22, { date: '2026-10-30T10:00:00Z' }), item(23, { id: 'x', url: null })];
   const d = y.readDataset(items, NOW);
   check('T-A2-09 the videos inside the window are kept, each once', d.records.map((r) => r.recording_ref), [`youtube:${vid(20)}`, `youtube:${vid(21)}`]);
   check('T-A2-09 the others are listed with their reason', d.skipped, [{ id: vid(20), reason: 'repeated in the list' }, { id: 'x', reason: 'video_id_invalid' }]);
@@ -84,7 +102,7 @@ console.log('T-A2-09 — the videos of the window, and whether the list covers i
     [y.readDataset(items.filter((x) => x.id !== vid(22)), NOW).complete, y.readDataset(items.filter((x) => x.id !== vid(22)), NOW).reason],
     [false, 'the list does not reach the start of the window']);
   check('T-A2-09 an empty list and a list of nothing valid are incomplete, with their reason',
-    [y.readDataset([], NOW).reason, y.readDataset([item(24, { publishedAt: 'ieri' })], NOW).reason], ['empty list', 'no valid video in the list']);
+    [y.readDataset([], NOW).reason, y.readDataset([item(24, { date: 'ieri' })], NOW).reason], ['empty list', 'no valid video in the list']);
   const late = '2027-03-01T10:00:00Z';
   check('T-A2-09 past 1 November the window is 100 days: a video at 100 days is in, one at 101 out',
     [y.inWindow(ago(late, 100 * 86400000), late), y.inWindow(ago(late, 101 * 86400000), late)], [true, false]);
@@ -95,8 +113,13 @@ console.log('T-A2-09 — the videos of the window, and whether the list covers i
 console.log('T-A2-09 — the run of the list: its limits and its cost file');
 {
   const st = y.startRequest('inventato~elenco', NOW);
-  check('T-A2-09 the request that starts the run carries its timeout and the cap of its items (that Apify holds the cap: at the trial)', [st.url, st.method, st.asked],
-    ['https://api.apify.com/v2/acts/inventato~elenco/runs?timeout=900&maxItems=68', 'POST', 68]);
+  check('T-A2-16 the request that starts the run carries its timeout, the cap of its items and the cap of its charge', [st.url, st.method, st.asked],
+    ['https://api.apify.com/v2/acts/inventato~elenco/runs?timeout=900&maxItems=68&maxTotalChargeUsd=0.1', 'POST', 68]);
+  check('T-A2-16 the charge cap stays above a full window at the price of the trial (WORKSTREAM_A, section 7)',
+    y.MAX_CHARGE_USD >= y.MAX_VIDEOS * 0.0002 + 0.00005, true);
+  check('T-A2-16 the Actor of the trial is a valid name for the request, its input the body',
+    [y.startRequest(y.LIST_ACTOR, NOW).url.startsWith('https://api.apify.com/v2/acts/grow_media~youtube-channel-video-scraper/runs?'), y.startRequest(y.LIST_ACTOR, NOW).body],
+    [true, y.actorInput(NOW)]);
   check('an actor that is not of the form user~name is refused', thrown(() => y.startRequest('https://evil.invalid', NOW)), 'actor_invalid');
   check('T-A2-09 a running run is waited for 20 minutes from its start, then left in the row for the next run',
     [y.pollDecision(run('RUNNING', { startedAt: ago(NOW, 60000) }), NOW).next, y.pollDecision(run('RUNNING', { startedAt: ago(NOW, 21 * 60000) }), NOW).next,
@@ -141,7 +164,7 @@ console.log('T-A2-10 — the stops of the list, and a run left behind');
     flags, [[false, 1, false], [false, 2, false], [false, 3, false], [false, 4, false], [false, 5, true]]);
   check('T-A2-10 until the next day of Rome', [s.fermo, s.fermo_fino, y.listPlan(s, '2026-11-16T20:00:00Z').action], ['giorno', '2026-11-17', 'none']);
   check('T-A2-10 the next day the list is asked again', y.listPlan(s, '2026-11-17T18:30:00Z').action, 'start');
-  const recovered = y.afterListRun(s, run('SUCCEEDED'), '2026-11-17T18:30:00Z', y.readDataset([item(30, { publishedAt: '2026-10-30T10:00:00Z' })], '2026-11-17T18:30:00Z'));
+  const recovered = y.afterListRun(s, run('SUCCEEDED'), '2026-11-17T18:30:00Z', y.readDataset([item(30, { date: '2026-10-30T10:00:00Z' })], '2026-11-17T18:30:00Z'));
   check('T-A2-10 a run that succeeds after it ends the streak', [recovered.state.errori_di_fila, recovered.state.fermo], [0, '']);
   check('T-A2-10 ABORTED and TIMED-OUT are failed runs as well', ['ABORTED', 'TIMED-OUT'].map((st) => y.afterListRun({}, run(st), NOW, null).state.errori_di_fila), [1, 1]);
   check('T-A2-10 a list stopped by the owner, or with a stop written by hand, is not asked',
@@ -175,7 +198,7 @@ console.log('T-A2-10 — the stops of the list, and a run left behind');
     (() => { const r = y.afterListLeft(left, { id: 'runStuck1234', status: 'RUNNING' }, 'run still waiting', '2026-11-17T18:40:00Z'); return [r.state.fermo, r.state.fermo_fino, r.state.errori_di_fila, r.stopped_now]; })(),
     ['', '', 1, false]);
   check('T-A2-10 once Apify ends that run well, its list is read and its id leaves the row',
-    (() => { const r = y.afterListRun(left, run('SUCCEEDED'), '2026-11-17T18:40:00Z', y.readDataset([item(33, { publishedAt: '2026-10-30T10:00:00Z' })], '2026-11-17T18:40:00Z')); return [r.state.apify_run_id, r.read, r.state.errori_di_fila]; })(),
+    (() => { const r = y.afterListRun(left, run('SUCCEEDED'), '2026-11-17T18:40:00Z', y.readDataset([item(33, { date: '2026-10-30T10:00:00Z' })], '2026-11-17T18:40:00Z')); return [r.state.apify_run_id, r.read, r.state.errori_di_fila]; })(),
     ['', true, 0]);
   check('T-A2-10 once Apify closes that run it is read as any other, and its id leaves the row',
     (() => { const r = y.afterListRun(left, run('ABORTED'), '2026-11-16T20:40:00Z', null); return [r.state.apify_run_id, r.read, r.stopped_now]; })(), ['', false, false]);
@@ -196,14 +219,14 @@ console.log('T-A2-10 — the stops of the list, and a run left behind');
   check('T-A2-10 a resumed run that cannot be read leaves the row and counts; five in a row stop the list',
     seen, [['resume', '', false], ['start', '', false], ['start', '', false], ['start', '', false], ['start', '', true]]);
   check('T-A2-10 and the next day the list starts again', y.listPlan(lost, '2026-11-17T18:40:00Z').action, 'start');
-  const day = y.afterListRun({}, run('SUCCEEDED', { startedAt: '2026-11-16T20:05:00Z' }), '2026-11-17T06:10:00Z', y.readDataset([item(32, { publishedAt: '2026-10-30T10:00:00Z' })], '2026-11-17T06:10:00Z'));
+  const day = y.afterListRun({}, run('SUCCEEDED', { startedAt: '2026-11-16T20:05:00Z' }), '2026-11-17T06:10:00Z', y.readDataset([item(32, { date: '2026-10-30T10:00:00Z' })], '2026-11-17T06:10:00Z'));
   check('T-A2-12 a run of the 21:00 of the 16th read the next morning closes the 16th, not the 17th',
     [day.state.ultimo_ok_giorno, y.listPlan(day.state, '2026-11-17T18:40:00Z').action], ['2026-11-16', 'start']);
 }
 
 console.log('T-A2-12 — the cadence of the list and the five videos a day, with a fake clock');
 {
-  const complete = y.readDataset([item(31, { publishedAt: '2026-10-30T10:00:00Z' })], NOW);
+  const complete = y.readDataset([item(31, { date: '2026-10-30T10:00:00Z' })], NOW);
   check('T-A2-12 not asked before 19:00 in Rome', y.listPlan({}, '2026-11-16T17:00:00Z').action, 'none');
   check('T-A2-12 asked in the first run from 19:00', y.listPlan({}, '2026-11-16T18:35:00Z').action, 'start');
   const done = y.afterListRun({}, run('SUCCEEDED'), '2026-11-16T18:40:00Z', complete).state;
@@ -213,8 +236,8 @@ console.log('T-A2-12 — the cadence of the list and the five videos a day, with
   check('T-A2-12 a failed run too', y.listPlan(y.afterListRun({}, run('FAILED'), '2026-11-16T18:40:00Z', null).state, '2026-11-16T20:35:00Z').action, 'start');
   check('T-A2-12 the days of the window ask for the videos they need',
     [y.videosToAsk('2026-11-16T19:00:00Z'), y.videosToAsk('2027-01-15T19:00:00Z'), y.videosToAsk('2027-05-01T19:00:00Z')], [68, 248, 300]);
-  check('T-A2-12 the input of the Actor names the channel and how many videos', y.actorInput(NOW),
-    { startUrls: [{ url: `https://www.youtube.com/channel/${y.CHANNEL_ID}` }], maxResults: 68 });
+  check('T-A2-12 the input of the Actor names the channel by its id and how many of its newest long videos', y.actorInput(NOW),
+    { channelId: y.CHANNEL_ID, maxResults: 68, videoType: 'long', sortOrder: 'latest' });
   let slot = {};
   const taken = [];
   for (let i = 0; i < 6; i++) {
@@ -236,7 +259,7 @@ function runNode(json) {
   check('plan: a run left behind is resumed, and no new run starts', [plan.json.plan.action, plan.json.start], ['resume', null]);
   const real = new Date().toISOString();
   const okRun = run('SUCCEEDED', { startedAt: ago(real, 600000), finishedAt: ago(real, 60000) });
-  const ok = runNode({ stage: 'dataset', run: okRun, items: [item(1, { publishedAt: ago(real, 3600000) }), item(2, { publishedAt: '2026-10-30T10:00:00Z' })], list_row: {} });
+  const ok = runNode({ stage: 'dataset', run: okRun, items: [item(1, { date: ago(real, 3600000) }), item(2, { date: '2026-10-30T10:00:00Z' })], list_row: {} });
   check('dataset: the recordings, the cost file, and the items not carried on',
     [ok.json.list.records.length, ok.json.list.complete, ok.json.cost_file_name, JSON.parse(ok.json.cost_file).quantita, 'items' in ok.json], [1, true, 'costo_apify_runSUCCEEDED.json', 2, false]);
   const ko = runNode({ stage: 'dataset', run: run('FAILED', { startedAt: ago(real, 600000), finishedAt: ago(real, 60000) }), list_row: { errori_di_fila: 4 } });
@@ -306,6 +329,7 @@ check('no URL global', /\bURL\b|URLSearchParams/.test(code), false);
 check('no process', /\bprocess\b/.test(code), false);
 check('no module required', code.match(/require\('[^']+'\)/g), null);
 check('T-A2-10 the node makes no request', /httpRequest|helpers/.test(code), false);
+check('T-A2-10 the input of the Actor names the channel by its id, no address of YouTube', JSON.stringify(y.actorInput(NOW)).includes('youtube.com'), false);
 
 console.log('');
 if (failures === 0) {
