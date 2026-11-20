@@ -5,6 +5,9 @@ builder; punti 1, 2 e 3 per il pilota privato confermati dall'owner il 17 novemb
 e 5 decisi dall'owner il 18 novembre 2026)
 Punto 2 superato in parte da DEC-040 (16 novembre 2026): una scheda che fa nomi non si aggiunge
 da sola a un fatto in cui un'altra scheda fa nomi. Il resto di questa decisione resta valido.
+Punto 4 superato in parte da DEC-045 (19 novembre 2026), solo nel modo di leggere GDELT: il
+servizio di ricerca al posto dei file da 15 minuti. Il resto del punto 4 resta valido. DEC-045 tiene
+anche l'eccezione del 429 per GDELT (20 novembre 2026), che è della riga «Raccolta» di CONTRATTI.
 Blocks: niente per il pilota privato. Prima del lancio pubblico del blocco «Notizie» serve una
 decisione a sé su che cosa diventa un dubbio (punto 3). Una notizia che non è cronaca si pubblica
 solo dopo la regola del punto 5.
