@@ -85,8 +85,9 @@ Owner's words:
 2. **Il 429 di GDELT.** Per GDELT soltanto, un 429 chiude la corsa invece di fermare la fonte. La
    fonte si ferma solo dopo 6 corse di fila con un 429, con l'avviso. Gli altri segnali di blocco
    della riga «Raccolta» la fermano subito, come per ogni fonte.
-   - Lettura del builder: vale anche un 429 di `robots.txt`. Una corsa che chiede e non ha 429
-     rimette il conto a zero; una che non chiede niente lo lascia com'è.
+   - Lettura del builder: vale anche un 429 di `robots.txt`.
+   - «In a row» vuol dire di fila: ogni corsa senza un 429, anche una che non chiede niente, rimette
+     il conto a zero.
    - Le sei corse di fila contano dalla prima: il 429 della prima corsa (19 novembre 2026, 23:28
      UTC), avuto con la regola di prima, è la prima delle sei, come dice l'opzione scelta («6 runs
      in a row with a 429»).
