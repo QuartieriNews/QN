@@ -536,6 +536,44 @@ check('T-B-G1-19 rules served with the wrong type are still rules, as in the col
   rob({ statusCode: 200, headers: { 'content-type': 'text/html' }, body: 'User-agent: *\nDisallow: /data/\n' }).requests.length, 13);
 check('T-B-G1-19 an empty robots.txt served as text allows everything (RFC 9309)', rob({ statusCode: 200, headers: { 'content-type': 'text/plain' }, body: '' }).requests.length, 13);
 
+/* ----- T-B-G1-20 … T-B-G1-22: Codex on #76, cycle 2 ------------------------------ */
+
+console.log('T-B-G1-20 a stopped host keeps both counts until the restart (DEC-045)');
+const stoppedSix = JSON.parse(JSON.stringify(sixth.state));
+const idleStopped = m.closeRun({ state: stoppedSix, now: runAt(6), started_at: runAt(6), results: [], robots_events: [], robots_stopped: [] });
+check('T-B-G1-20 runs of a stopped host ask nothing and leave the 429 count at six', [idleStopped.state.host.stopped.reason, idleStopped.state.host.throttled_runs],
+  ['HTTP 429 in 6 runs in a row', 6]);
+const fiveErr = JSON.parse(JSON.stringify(fifth.state));
+check('T-B-G1-20 and the count of server errors at five', m.closeRun({ state: fiveErr, now: runAt(5), started_at: runAt(5), results: [], robots_events: [],
+  robots_stopped: [] }).state.host.errors_in_row, 5);
+const withTwo = JSON.parse(JSON.stringify(r0.state));
+withTwo.host.throttled_runs = 2;
+withTwo.host.errors_in_row = 3;
+const signalStop = oneRun(withTwo, 0, 403);
+check('T-B-G1-20 a stop by another signal in a run leaves both counts as they were', [signalStop.state.host.stopped.reason, signalStop.state.host.throttled_runs,
+  signalStop.state.host.errors_in_row], ['HTTP 403', 2, 3]);
+check('T-B-G1-20 while the host answers, a run without a 429 still resets the count', oneRun(withTwo, 0, 200).state.host.throttled_runs, 0);
+
+console.log('T-B-G1-21 the end-of-measure notice is given again until it is written');
+const noticeRun = m.closeRun({ state: endState, now: '2026-12-04T02:38:00.000Z', started_at: '2026-12-04T02:37:00.000Z', results: [], robots_events: [],
+  robots_stopped: [], ended: true });
+const noticeLost = m.commitRun({ state: endState, pending: noticeRun.state, failed: ['avviso'], started_at: '2026-12-04T02:37:00.000Z', now: '2026-12-04T02:39:00.000Z' });
+check('T-B-G1-21 a notice not written does not commit: the notice is not yet given', [noticeLost.committed, noticeLost.state.over_notice, noticeLost.state.write_failures[0].files],
+  [false, null, ['avviso']]);
+const noticeAgain = m.closeRun({ state: noticeLost.state, now: '2026-12-04T04:38:00.000Z', started_at: '2026-12-04T04:37:00.000Z', results: [], robots_events: [],
+  robots_stopped: [], ended: true });
+check('T-B-G1-21 the next run gives it, naming the notice that was not written', [noticeAgain.alert_file_name, noticeAgain.alert.previous_write_failure.length],
+  ['AVVISO_gdelt_fine_20261204T043700Z.json', 1]);
+const noticeOk = m.commitRun({ state: noticeLost.state, pending: noticeAgain.state, failed: [], started_at: '2026-12-04T04:37:00.000Z', now: '2026-12-04T04:39:00.000Z' });
+check('T-B-G1-21 once written, the notice is given and the runs after write nothing', [noticeOk.committed, noticeOk.state.over_notice,
+  m.closeRun({ state: noticeOk.state, now: '2026-12-04T06:38:00.000Z', started_at: '2026-12-04T06:37:00.000Z', results: [], robots_events: [], robots_stopped: [], ended: true }).alert_file_name],
+  [true, '2026-12-04T04:38:00.000Z', null]);
+check('T-B-G1-21 an alert not written in an ordinary run does not block the commit', m.commitRun({ state: r0.state, pending: pendingOk, failed: ['avviso'] }).committed, true);
+
+console.log('T-B-G1-22 the error flow of B retries its Drive write as A and D do');
+check('T-B-G1-22 «Salva avviso» of staging_B_avviso retries five times', A.nodes.filter((n) => n.type === 'n8n-nodes-base.googleDrive').map((n) => [n.retryOnFail, n.maxTries, n.waitBetweenTries]),
+  [[true, 5, 5000]]);
+
 console.log('');
 if (failures === 0) {
   console.log(`ALL PASS (${checks} checks)`);

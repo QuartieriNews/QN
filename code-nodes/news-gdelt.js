@@ -484,9 +484,11 @@ function closeRun({ state, now, started_at, results, robots_events, robots_stopp
     s.over_notice = now;
     const left = searches().filter((q) => !s.until[q.id] || Date.parse(s.until[q.id]) < Date.parse(END_UTC))
       .map((q) => ({ id: q.id, from: s.until[q.id] || START_UTC, until: END_UTC }));
+    const failures = Array.isArray(s.write_failures) && s.write_failures.length ? s.write_failures : null;
+    delete s.write_failures;
     return Object.assign(nothing, { alert_file_name: `AVVISO_gdelt_fine_${stamp}.json`,
       alert: { avviso: 'la misura di GDELT è finita: il coordinatore spegne staging_B_gdelt_misura', workflow: 'staging_B_gdelt_misura',
-        workflow_version: workflow_version || null, measure_end: END_UTC, at: now, windows_not_read: left } });
+        workflow_version: workflow_version || null, measure_end: END_UTC, at: now, windows_not_read: left, previous_write_failure: failures } });
   }
   const byUrl = new Map();
   const requests = [];
@@ -505,11 +507,13 @@ function closeRun({ state, now, started_at, results, robots_events, robots_stopp
     }
     requests.push(Object.assign({}, r, { rows: undefined }));
   }
+  // While the host is stopped the counts stay as they are: only the restart the owner decides sets
+  // them back (DEC-045).
   const count = (key, hit, limit, reason) => {
     if (hit) {
       h[key] = (h[key] || 0) + 1;
       if (!h.stopped && h[key] >= limit) { h.stopped = { at: now, reason }; stopped_now.push({ source_id: HOST, reason }); }
-    } else {
+    } else if (!h.stopped) {
       h[key] = 0;
     }
   };
@@ -539,12 +543,14 @@ function closeRun({ state, now, started_at, results, robots_events, robots_stopp
 
 /** Stage 'commit', after the files of the run (`failed`: the ones a Drive node did not write). Only
  *  when the rows and the register are written does the state the run left (`pending`) become the
- *  state of the flow; otherwise the flow keeps its own, with the stops already in it, and the next
- *  run reads the windows again. A file not written is named in the state, and the next run's
- *  register and alert say so. */
+ *  state of the flow, and, for the run that gives the end-of-measure notice, only when the notice is;
+ *  otherwise the flow keeps its own, with the stops already in it, and the next run does the work
+ *  again. A file not written is named in the state, and the next run's register and alert, or its
+ *  notice, say so. */
 function commitRun({ state, pending, failed, started_at, now }) {
   const lost = Array.isArray(failed) ? failed.filter((f) => typeof f === 'string' && f) : [];
-  const keep = !pending || lost.includes('righe') || lost.includes('registro');
+  const notice = Boolean(pending && pending.over_notice && !(state && state.over_notice));
+  const keep = !pending || lost.includes('righe') || lost.includes('registro') || (notice && lost.includes('avviso'));
   const s = freshState(keep ? state : pending);
   if (keep && pending && pending.host && pending.host.stopped && !s.host.stopped) s.host.stopped = pending.host.stopped;
   if (lost.length) s.write_failures = (Array.isArray(s.write_failures) ? s.write_failures : []).concat([{ run: started_at || null, files: lost, at: now || null }]);

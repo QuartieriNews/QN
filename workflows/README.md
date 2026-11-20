@@ -197,9 +197,10 @@ after 6» (DEC-045, point 2): the flow was saved again with that rule and with t
 static data, and it was switched on, on its schedule. The series of runs with a 429 starts at the first
 run: the run of 23:28 UTC on 19 November is the first of the six. The run of 00:37 UTC on 20 November
 read one search and then met a 429: it is the second, and the count was set to 2 in the static data at
-00:40 UTC (the update kept the versionId). The runs count in a row: any run without a 429, one that
-asks nothing included, sets the count back to zero, and the count of runs with a server error or no
-answer works the same way.
+00:40 UTC (the update kept the versionId). The runs count in a row: while the host is not stopped,
+any run without a 429, one that asks nothing included, sets the count back to zero, and the count of
+runs with a server error or no answer works the same way. Once the host is stopped, both counts stay
+as they are until the restart.
 A draft email asking GDELT for access is in the hand-off folder on Drive, for the owner to send.
 
 **Restarting and ending.** A host that stopped, on six runs in a row with a 429, on five with a server
@@ -207,5 +208,7 @@ error or no answer, or on any other block signal, stays stopped until the owner 
 Only then does the coordinator clear `news_gdelt.host.stopped` in the flow's static data and set both
 counts of runs in a row, `throttled_runs` and `errors_in_row`, to zero (n8n's API takes `staticData`
 with an update of the workflow); the coordinator never restarts it alone. After the measure, from 02:00 in Rome on 4 December 2026, a run asks and writes nothing,
-except the first, which writes `AVVISO_gdelt_fine_<start>.json`: the coordinator then switches the
-flow off, since every run is still an execution of the plan.
+except the first, which writes `AVVISO_gdelt_fine_<start>.json` (if the notice is not written, the
+next run writes it): the coordinator then switches the flow off, since every run is still an
+execution of the plan. `staging_B_avviso` retries its Drive write five times, as the alert flows of A
+and D do.
