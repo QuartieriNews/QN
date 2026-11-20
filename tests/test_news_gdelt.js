@@ -277,8 +277,8 @@ check('T-B-G1-08 the register names the flow, the spend and every outcome, and c
 check('T-B-G1-08 the register says where the measure ends and the stop', [closed.log.measure_end, closed.log.stopped_now, closed.log.rows],
   [m.END_UTC, [{ source_id: 'api.gdeltproject.org', reason: 'HTTP 403' }], 4]);
 const quiet = m.closeRun({ state: r0.state, now: '2026-11-20T00:11:00.000Z', started_at: NOW, results: [empty.result], robots_events: [], robots_stopped: [] });
-check('T-B-G1-08 a run without stops and without rows writes only its register', [quiet.rows_file_name, quiet.alert_file_name, quiet.log_file_name],
-  [null, null, 'gdelt_20261120T000512Z.json']);
+check('T-B-G1-08 T-B-G1-24 a run without stops and without rows writes an empty rows file and its register, no alert',
+  [quiet.rows_file_name, quiet.rows, quiet.alert_file_name, quiet.log_file_name], ['gdelt_righe_20261120T000512Z.json', [], null, 'gdelt_20261120T000512Z.json']);
 const cut = byId(m.windows(r0.state, '2026-11-21T02:37:00.000Z', 10000), 'pagina:prati');
 const cutClose = m.closeRun({ state: r0.state, now: '2026-11-21T02:40:00.000Z', started_at: '2026-11-21T02:37:00.000Z',
   results: [Object.assign({}, m.beforeRequest({ state: stoppedState, request: cut }).result)], robots_events: [], robots_stopped: [] });
@@ -340,9 +340,14 @@ function runNode(j) {
   const sixthClose = runNode({ stage: 'close', now: '2026-11-20T02:40:00.000Z', started_at: '2026-11-20T02:37:00.000Z',
     results: [{ id: 'pagina:prati', from: m.START_UTC, until: '2026-11-20T02:15:00Z', lost_from: null, status: 429, outcome: 'throttled', reason: 'HTTP 429' }],
     robots_events: [], robots_stopped: [], ended: false, workflow_version: 'prova-inventata' });
-  check('T-B-G1-09 T-B-G1-14 a stop decided at the close holds at once, before the files and the commit',
-    [sixthClose.json.alert_file_name, store.news_gdelt.host.stopped && store.news_gdelt.host.stopped.reason, store.news_gdelt.host.throttled_runs, 'news_gdelt_pending' in store],
-    ['AVVISO_gdelt_20261120T023700Z.json', 'HTTP 429 in 6 runs in a row', 5, true]);
+  check('T-B-G1-09 T-B-G1-14 T-B-G1-23 a stop decided at the close holds at once, with its count, before the files and the commit',
+    [sixthClose.json.alert_file_name, store.news_gdelt.host.stopped && store.news_gdelt.host.stopped.reason, store.news_gdelt.host.throttled_runs,
+      store.news_gdelt.until['pagina:prati'], 'news_gdelt_pending' in store],
+    ['AVVISO_gdelt_20261120T023700Z.json', 'HTTP 429 in 6 runs in a row', 6, undefined, true]);
+  const lostSixth = runNode({ stage: 'commit', failed: ['registro'], started_at: '2026-11-20T02:37:00.000Z', now: '2026-11-20T02:41:00.000Z' });
+  check('T-B-G1-23 its files not written: the stop and its count stay, the windows of the run do not',
+    [lostSixth.json.committed, store.news_gdelt.host.stopped.reason, store.news_gdelt.host.throttled_runs, store.news_gdelt.until, store.news_gdelt.write_failures.length],
+    [false, 'HTTP 429 in 6 runs in a row', 6, { 'pagina:acilia': '2026-11-19T23:45:00Z' }, 1]);
   delete store.news_gdelt_pending;
   check('T-B-G1-09 an unknown stage is a workflow error', /unknown stage/.test(thrown(() => runNode({ stage: 'altro' })) || ''), true);
 }
@@ -573,6 +578,35 @@ check('T-B-G1-21 an alert not written in an ordinary run does not block the comm
 console.log('T-B-G1-22 the error flow of B retries its Drive write as A and D do');
 check('T-B-G1-22 «Salva avviso» of staging_B_avviso retries five times', A.nodes.filter((n) => n.type === 'n8n-nodes-base.googleDrive').map((n) => [n.retryOnFail, n.maxTries, n.waitBetweenTries]),
   [[true, 5, 5000]]);
+
+/* ----- T-B-G1-23 … T-B-G1-24: Codex on #76, cycle 3 ------------------------------ */
+
+console.log('T-B-G1-23 a stop decided at the close keeps its count when the run\'s files are not written');
+let five = { state: r0.state };
+for (let k = 0; k < m.THROTTLED_RUNS_TO_STOP - 1; k += 1) five = { state: m.commitRun({ state: five.state, pending: oneRun(five.state, k, 429).state, failed: [] }).state };
+const sixthPending = oneRun(five.state, 5, 429).state;
+const beforeCommit = JSON.parse(JSON.stringify(five.state));
+Object.assign(beforeCommit.host, { stopped: sixthPending.host.stopped, throttled_runs: sixthPending.host.throttled_runs, errors_in_row: sixthPending.host.errors_in_row });
+for (const [label, st] of [['the flow\'s own state', five.state], ['the state with the stop already copied at the close', beforeCommit]]) {
+  const kept = m.commitRun({ state: st, pending: sixthPending, failed: ['righe'], started_at: runAt(5), now: runAt(5) });
+  check(`T-B-G1-23 from ${label}: stop, six, and no window of the failed run`,
+    [kept.committed, kept.state.host.stopped.reason, kept.state.host.throttled_runs, kept.state.until], [false, 'HTTP 429 in 6 runs in a row', 6, five.state.until]);
+}
+let four = { state: r0.state };
+for (let k = 0; k < m.ERRORS_TO_STOP - 1; k += 1) four = { state: m.commitRun({ state: four.state, pending: oneRun(four.state, k, 503).state, failed: [] }).state };
+const fifthPending = oneRun(four.state, 4, 503).state;
+check('T-B-G1-23 the same for the fifth run with a server error', [m.commitRun({ state: four.state, pending: fifthPending, failed: ['registro'] }).state.host.stopped.reason,
+  m.commitRun({ state: four.state, pending: fifthPending, failed: ['registro'] }).state.host.errors_in_row], ['a server error or no answer in 5 runs in a row', 5]);
+check('T-B-G1-23 a run that does not stop the host and whose files fail keeps the counts of before', m.commitRun({ state: five.state,
+  pending: oneRun(five.state, 5, 200).state, failed: ['righe'] }).state.host.throttled_runs, 5);
+
+console.log('T-B-G1-24 every run that is not past the end writes its rows, empty if it kept no article');
+const noArticles = oneRun(r0.state, 0, 200);
+check('T-B-G1-24 searches read with no article: an empty rows file, then the register', [noArticles.rows_file_name, noArticles.rows, noArticles.log_file_name, noArticles.log.rows],
+  ['gdelt_righe_20261120T003700Z.json', [], 'gdelt_20261120T003700Z.json', 0]);
+check('T-B-G1-24 a run of a stopped host writes them too', [idleStopped.rows_file_name, idleStopped.log_file_name], [`gdelt_righe_${runAt(6).slice(0, 19).replace(/[-:]/g, '')}Z.json`,
+  `gdelt_${runAt(6).slice(0, 19).replace(/[-:]/g, '')}Z.json`]);
+check('T-B-G1-24 a run past the end writes no rows, no register', [fin2.rows_file_name, fin2.log_file_name], [null, null]);
 
 console.log('');
 if (failures === 0) {

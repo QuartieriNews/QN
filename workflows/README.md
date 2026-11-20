@@ -151,8 +151,9 @@ answer 429, or fail to answer earlier in the run; it leaves the search it lets g
 earlier node of the loop back. The files of a run go to `B Notizie/letture/` one after the other,
 rows, register, alert. Each Drive node retries five times, as in the B collection, and then goes on,
 so the execution ends and n8n saves its static data. «Conferma» then makes the windows and the counts
-of the run the state of the flow only if the rows and the register were written (no register is
-written after rows that were not), and names a file not written for the next run's register and
+of the run the state of the flow only if the rows and the register were written (every run that is
+not past the end writes its rows file, empty when it kept no article, and no register is written
+after rows that were not); a stop holds at once with the two counts that go with it, and names a file not written for the next run's register and
 alert; a run whose files fail is read again by the next one. A stop holds at once, the one the
 close decides on the sixth run with a 429 or the fifth with a server error included: a run whose
 files fail is read again, but its stop is not undone. The register carries the

@@ -466,8 +466,8 @@ function afterAnswer({ state, now, request, answer }) {
 
 /** Stage 'close': the outcomes of the run (`results`) move the window of each search that was read
  *  (and, for one left unread, its start past a part named as lost), and become the rows file, one
- *  row per link with the searches that found it, the register and, when the host stopped in this run,
- *  the alert. A run with a 429 adds one to the runs in a row with a 429, a run with a server error or
+ *  row per link with the searches that found it (written with no row too: every register has its
+ *  rows), the register and, when the host stopped in this run, the alert. A run with a 429 adds one to the runs in a row with a 429, a run with a server error or
  *  no answer one to the runs in a row with one; the THROTTLED_RUNS_TO_STOP-th and the
  *  ERRORS_TO_STOP-th stop the host; every run without one, one that asked nothing too, sets that
  *  count back to zero: the runs are in a row. A run of an ended measure writes one notice the first time
@@ -527,7 +527,7 @@ function closeRun({ state, now, started_at, results, robots_events, robots_stopp
   return {
     state: s,
     rows,
-    rows_file_name: rows.length ? `gdelt_righe_${stamp}.json` : null,
+    rows_file_name: `gdelt_righe_${stamp}.json`,
     log_file_name: `gdelt_${stamp}.json`,
     alert_file_name: stopped_now.length || previous_write_failure ? `AVVISO_gdelt_${stamp}.json` : null,
     alert: stopped_now.length || previous_write_failure ? { avviso: [stopped_now.length ? 'host fermato in questa corsa' : null,
@@ -541,6 +541,9 @@ function closeRun({ state, now, started_at, results, robots_events, robots_stopp
   };
 }
 
+/** The stop of a host and the two counts of runs in a row that go with it. */
+const stopOf = (h) => ({ stopped: h.stopped, throttled_runs: h.throttled_runs || 0, errors_in_row: h.errors_in_row || 0 });
+
 /** Stage 'commit', after the files of the run (`failed`: the ones a Drive node did not write). Only
  *  when the rows and the register are written does the state the run left (`pending`) become the
  *  state of the flow, and, for the run that gives the end-of-measure notice, only when the notice is;
@@ -552,7 +555,8 @@ function commitRun({ state, pending, failed, started_at, now }) {
   const notice = Boolean(pending && pending.over_notice && !(state && state.over_notice));
   const keep = !pending || lost.includes('righe') || lost.includes('registro') || (notice && lost.includes('avviso'));
   const s = freshState(keep ? state : pending);
-  if (keep && pending && pending.host && pending.host.stopped && !s.host.stopped) s.host.stopped = pending.host.stopped;
+  // A stop the run decided holds with the counts that go with it, even when its windows do not.
+  if (keep && pending && pending.host && pending.host.stopped) Object.assign(s.host, stopOf(pending.host));
   if (lost.length) s.write_failures = (Array.isArray(s.write_failures) ? s.write_failures : []).concat([{ run: started_at || null, files: lost, at: now || null }]);
   return { state: s, committed: !keep };
 }
@@ -618,7 +622,7 @@ if ($json.stage === 'plan') {
   store.news_gdelt_pending = out.state;
   // A stop decided here holds at once, as a stop by a signal does: files that fail leave the run to
   // be read again, never the host to be asked again.
-  if (out.state.host.stopped && !store.news_gdelt.host.stopped) store.news_gdelt.host.stopped = out.state.host.stopped;
+  if (out.state.host.stopped) Object.assign(store.news_gdelt.host, stopOf(out.state.host));
 } else if ($json.stage === 'commit') {
   out = commitRun({ state: store.news_gdelt, pending: store.news_gdelt_pending, failed: $json.failed, started_at: $json.started_at, now: $json.now });
   store.news_gdelt = out.state;
