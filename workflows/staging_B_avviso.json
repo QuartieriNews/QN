@@ -65,6 +65,9 @@
       "name": "Salva avviso",
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
       "position": [
         660,
         0
@@ -136,7 +139,7 @@
     "timezone": "Europe/Rome",
     "executionOrder": "v1"
   },
-  "versionId": "8fed50d9-3169-4a99-8bf6-d31b95b8b13e",
+  "versionId": "4d7cada5-4bb5-4c9d-b460-38283b98e193",
   "meta": {},
   "nodeGroups": [],
   "id": "THfODY1g9xTkRCb2",
