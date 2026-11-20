@@ -50,7 +50,7 @@ const OUTLETS = Object.freeze([
   Object.freeze({ domain: 'corriere.it', closed: true }),
   Object.freeze({ domain: 'repubblica.it', closed: true }),
   Object.freeze({ domain: 'leggo.it', closed: true }),
-  Object.freeze({ domain: 'today.it', closed: true }),
+  Object.freeze({ domain: 'today.it', closed: true, exact: true }),
   Object.freeze({ domain: 'agenzianova.com', closed: true }),
   Object.freeze({ domain: 'abitarearoma.it', closed: false }),
   Object.freeze({ domain: 'ilfaroonline.it', closed: false }),
@@ -229,10 +229,13 @@ const siteOf = (u) => hostOf(u).replace(/^www\./, '');
 const belongsTo = (site, domain) => site === domain || site.endsWith('.' + domain);
 const RUN_MS = 2 * 60 * 60 * 1000;
 
-/** Every search, page searches first: its id, the query sent and, for an outlet, its domain. */
+/** Every search, page searches first: its id, the query sent and, for an outlet, its domain. The
+ *  service's `domain:` matches every name that ends with the domain, subdomains (the Rome sections of
+ *  an outlet) and other sites alike, and the rows keep only the outlet and its subdomains; an outlet
+ *  whose domain ends the names of other outlets (OUTLETS, `exact`) is searched with `domainis:`. */
 function searches() {
   return PAGES.map((p) => ({ id: `pagina:${p.zone}`, query: `${/\s/.test(p.query) ? `"${p.query}"` : p.query} sourcelang:${LANGUAGE}` }))
-    .concat(OUTLETS.map((o) => ({ id: `testata:${o.domain}`, query: `domain:${o.domain}`, domain: o.domain })));
+    .concat(OUTLETS.map((o) => ({ id: `testata:${o.domain}`, query: `${o.exact ? 'domainis' : 'domain'}:${o.domain}`, domain: o.domain })));
 }
 
 /** The searches in the order a run asks them: the list turned by one place every two hours, so the
@@ -243,9 +246,13 @@ function searchOrder(now) {
   return list.slice(k).concat(list.slice(0, k));
 }
 
+/** The request of a window. The service takes articles «after» its start and «before» its end, and
+ *  does not say whether an instant on the edge is in: the request starts a second early, and the
+ *  answer keeps only `from <= seen < until` (afterAnswer), so an article on an edge between two
+ *  windows is in one of them. */
 function searchUrl(query, fromMs, untilMs) {
   return `${API_URL}?query=${encodeURIComponent(query)}&mode=artlist&format=json&maxrecords=${MAX_RECORDS}` +
-    `&sort=datedesc&startdatetime=${serviceStamp(fromMs)}&enddatetime=${serviceStamp(untilMs)}`;
+    `&sort=datedesc&startdatetime=${serviceStamp(fromMs - 1000)}&enddatetime=${serviceStamp(untilMs)}`;
 }
 
 /** The window of each search: from where it was last read (from START_UTC for a search never read)
@@ -307,7 +314,10 @@ function afterRobots({ state, now, answers }) {
       events.push({ source_id: HOST, url: ROBOTS_URL, status: 429, outcome: 'throttled', reason: 'robots.txt: HTTP 429' });
       continue;
     }
-    const htmlPage = code === 200 && /<!doctype\s+html|<html[\s>]|<body[\s>]/i.test(bodyText(a));
+    // An HTML document is a page whatever type it is served with; one served as HTML that holds no rule
+    // is a page too, never an empty set of rules that allows everything.
+    const htmlPage = code === 200 && (/<!doctype\s+html|<html[\s>]|<body[\s>]/i.test(bodyText(a)) ||
+      (/html/i.test(String((a.headers || {})['content-type'] || '')) && parseRobots(bodyText(a)).length === 0));
     const signal = blockSignal(code !== 200 ? a
       : htmlPage ? Object.assign({}, a, { headers: Object.assign({}, a.headers, { 'content-type': 'text/html' }) })
         : Object.assign({}, a, { body: '' }), ROBOTS_URL);
@@ -507,20 +517,38 @@ function closeRun({ state, now, started_at, results, robots_events, robots_stopp
   count('errors_in_row', errored, ERRORS_TO_STOP, `a server error or no answer in ${ERRORS_TO_STOP} runs in a row`);
   if (h.throttled_run === started_at) h.throttled_run = null;
   if (h.unread_run === started_at) { h.unread_run = null; h.unread_reason = null; }
+  const previous_write_failure = Array.isArray(s.write_failures) && s.write_failures.length ? s.write_failures : null;
+  delete s.write_failures;
   const rows = [...byUrl.values()].sort((x, y) => (x.seen_at_utc < y.seen_at_utc ? -1 : x.seen_at_utc > y.seen_at_utc ? 1 : x.url < y.url ? -1 : x.url > y.url ? 1 : 0));
   return {
     state: s,
     rows,
     rows_file_name: rows.length ? `gdelt_righe_${stamp}.json` : null,
     log_file_name: `gdelt_${stamp}.json`,
-    alert_file_name: stopped_now.length ? `AVVISO_gdelt_${stamp}.json` : null,
-    alert: stopped_now.length ? { avviso: 'host fermato in questa corsa: avvisare il coordinatore', stopped_now, started_at } : null,
+    alert_file_name: stopped_now.length || previous_write_failure ? `AVVISO_gdelt_${stamp}.json` : null,
+    alert: stopped_now.length || previous_write_failure ? { avviso: [stopped_now.length ? 'host fermato in questa corsa' : null,
+      previous_write_failure ? 'i file di una corsa precedente non sono stati scritti' : null].filter(Boolean).join('; ') + ': avvisare il coordinatore',
+    stopped_now, previous_write_failure, started_at } : null,
     log: { workflow: 'staging_B_gdelt_misura', workflow_version: workflow_version || null, started_at, finished_at: now,
       user_agent: USER_AGENT, host: HOST, measure_start: START_UTC, measure_end: END_UTC, spend_eur: 0, robots: events,
       requests: requests.map((r) => JSON.parse(JSON.stringify(r))), rows: rows.length, throttled, server_error: errored,
-      throttled_runs: h.throttled_runs, error_runs: h.errors_in_row, stopped_now,
+      throttled_runs: h.throttled_runs, error_runs: h.errors_in_row, previous_write_failure, stopped_now,
       stopped: h.stopped ? { source_id: HOST, since: h.stopped.at, reason: h.stopped.reason } : null },
   };
+}
+
+/** Stage 'commit', after the files of the run (`failed`: the ones a Drive node did not write). Only
+ *  when the rows and the register are written does the state the run left (`pending`) become the
+ *  state of the flow; otherwise the flow keeps its own, with the stops already in it, and the next
+ *  run reads the windows again. A file not written is named in the state, and the next run's
+ *  register and alert say so. */
+function commitRun({ state, pending, failed, started_at, now }) {
+  const lost = Array.isArray(failed) ? failed.filter((f) => typeof f === 'string' && f) : [];
+  const keep = !pending || lost.includes('righe') || lost.includes('registro');
+  const s = freshState(keep ? state : pending);
+  if (keep && pending && pending.host && pending.host.stopped && !s.host.stopped) s.host.stopped = pending.host.stopped;
+  if (lost.length) s.write_failures = (Array.isArray(s.write_failures) ? s.write_failures : []).concat([{ run: started_at || null, files: lost, at: now || null }]);
+  return { state: s, committed: !keep };
 }
 
 /* ----- context switch: module under plain Node, adapter inside n8n ------- */
@@ -529,19 +557,21 @@ if (typeof $input === 'undefined') {
   module.exports = { HOST, API_URL, API_PATH, ROBOTS_URL, PAGES, LANGUAGE, OUTLETS, PAUSE_MS, MAX_RECORDS, SLOT_MS, LAG_MS,
     MAX_WINDOW_MS, START_UTC, END_UTC, ASK_UNTIL_UTC, THROTTLED_RUNS_TO_STOP, USER_AGENT, AGENT_TOKENS, ERRORS_TO_STOP, urlParts,
     parseRobots, ruleMatches, groupAllows, robotsVerdict, resolveLocation, blockSignal, searches, searchOrder, searchUrl, windows,
-    seenAt, planRun, afterRobots, beforeRequest, afterAnswer, closeRun };
+    seenAt, planRun, afterRobots, beforeRequest, afterAnswer, closeRun, commitRun };
   return;
 }
 
 /* n8n Code node, "Run Once for Each Item" — the adapter: the state of the host and of each search
- * lives in the workflow's static data, saved by n8n when an execution ends. The state a run leaves
- * waits in `news_gdelt_pending` until 'commit', after the files are on Drive: a run that fails on the
- * way leaves the flow's state as it found it, except the stops, the one decided at the close too, and
- * the marks of its own run. */
+ * lives in the workflow's static data, saved by n8n when an execution ends. The search being sent
+ * waits in `news_gdelt_request` from 'before' to 'answer'. The state a run leaves waits in
+ * `news_gdelt_pending` until 'commit', after the files: the Drive nodes go on when they fail, so the
+ * execution ends and its static data is saved, and commitRun decides what of the run holds; the
+ * stops, the one decided at the close too, and the marks of the run hold at once. */
 const store = $getWorkflowStaticData('global');
 let out;
 if ($json.stage === 'plan') {
   delete store.news_gdelt_pending;
+  delete store.news_gdelt_request;
   out = planRun({ state: store.news_gdelt, now: $json.now });
   $json.robots = out.robots;
   $json.ended = out.ended;
@@ -555,15 +585,21 @@ if ($json.stage === 'plan') {
   store.news_gdelt = out.state;
 } else if ($json.stage === 'before') {
   out = beforeRequest({ state: store.news_gdelt, request: $json });
+  delete store.news_gdelt_request;
   if (out.skip) {
     for (const k of Object.keys($json)) delete $json[k];
     Object.assign($json, out.result, { skip: true });
   } else {
     $json.skip = false;
+    // The search about to be sent: its answer is judged against it, with no lookup of an earlier node.
+    store.news_gdelt_request = { id: $json.id, url: $json.url, from: $json.from, until: $json.until, lost_from: $json.lost_from || null, run: $json.run || null };
   }
   store.news_gdelt = out.state;
 } else if ($json.stage === 'answer') {
-  out = afterAnswer({ state: store.news_gdelt, now: $json.now, request: $json.request,
+  const request = store.news_gdelt_request;
+  if (!request) throw new Error('an answer with no search sent before it');
+  delete store.news_gdelt_request;
+  out = afterAnswer({ state: store.news_gdelt, now: $json.now, request,
     answer: { statusCode: $json.statusCode, headers: $json.headers, body: $json.body, error: $json.error } });
   for (const k of Object.keys($json)) delete $json[k];
   Object.assign($json, out.result);
@@ -578,9 +614,10 @@ if ($json.stage === 'plan') {
   // be read again, never the host to be asked again.
   if (out.state.host.stopped && !store.news_gdelt.host.stopped) store.news_gdelt.host.stopped = out.state.host.stopped;
 } else if ($json.stage === 'commit') {
-  if (store.news_gdelt_pending) store.news_gdelt = store.news_gdelt_pending;
+  out = commitRun({ state: store.news_gdelt, pending: store.news_gdelt_pending, failed: $json.failed, started_at: $json.started_at, now: $json.now });
+  store.news_gdelt = out.state;
   delete store.news_gdelt_pending;
-  $json.committed = true;
+  $json.committed = out.committed;
 } else {
   throw new Error(`unknown stage ${JSON.stringify($json.stage)}`);
 }

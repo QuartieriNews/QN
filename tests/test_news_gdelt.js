@@ -81,8 +81,8 @@ check('T-B-G1-02 thirteen searches a run, pages first', [S.length, S.slice(0, 3)
 check('T-B-G1-02 a page search is its query in Italian, an outlet search its domain',
   [S[0].query, S[3].query, S[3].domain], ['Acilia sourcelang:italian', 'domain:romatoday.it', 'romatoday.it']);
 const U = m.searchUrl('Acilia sourcelang:italian', Date.parse('2026-11-19T21:45:00Z'), Date.parse('2026-11-19T23:45:00Z'));
-check('T-B-G1-02 the request: the list of articles in JSON, at most 250, the window in the service\'s form', U,
-  'https://api.gdeltproject.org/api/v2/doc/doc?query=Acilia%20sourcelang%3Aitalian&mode=artlist&format=json&maxrecords=250&sort=datedesc&startdatetime=20261119214500&enddatetime=20261119234500');
+check('T-B-G1-02 T-B-G1-17 the request: the list of articles in JSON, at most 250, the window in the service\'s form, from a second early', U,
+  'https://api.gdeltproject.org/api/v2/doc/doc?query=Acilia%20sourcelang%3Aitalian&mode=artlist&format=json&maxrecords=250&sort=datedesc&startdatetime=20261119214459&enddatetime=20261119234500');
 check('T-B-G1-02 the order turns by one place every two hours: in thirteen runs each search is asked first once',
   new Set(Array.from({ length: 13 }, (_, k) => m.searchOrder(new Date(Date.parse('2026-11-20T00:37:00Z') + k * 7200000).toISOString())[0].id)).size, 13);
 check('T-B-G1-02 the only host is the search service', [m.HOST, /^https:\/\/api\.gdeltproject\.org\//.test(m.API_URL), m.ROBOTS_URL],
@@ -312,11 +312,18 @@ function runNode(j) {
   const acilia = r.json.requests.find((x) => x.id === 'pagina:acilia');
   const b = runNode(Object.assign({}, acilia));
   check('T-B-G1-09 before: a search to send keeps its request', [b.json.skip, b.json.url === acilia.url], [false, true]);
-  const a = runNode({ stage: 'answer', now: NOW, request: b.json, statusCode: 200, headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ articles: [art('https://www.romatoday.it/inventato.html', 'Titolo inventato', '20261119T230000Z')] }), error: '' });
-  check('T-B-G1-09 answer: the outcome only, the body dropped', [a.json.outcome, a.json.kept, 'body' in a.json, 'request' in a.json], ['read', 1, false, false]);
+  check('T-B-G1-15 before: the search about to be sent waits in the static data', store.news_gdelt_request,
+    { id: 'pagina:acilia', url: acilia.url, from: acilia.from, until: acilia.until, lost_from: null, run: NOW });
   const other = r.json.requests.filter((x) => x.id !== 'pagina:acilia');
-  const stop = runNode({ stage: 'answer', now: NOW, request: other[0], statusCode: 429, headers: {}, body: '', error: '' });
+  // An item that names another search (as $('Prima') read from the wrong run would) changes nothing.
+  const a = runNode({ stage: 'answer', now: NOW, request: other[3], statusCode: 200, headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ articles: [art('https://www.romatoday.it/inventato.html', 'Titolo inventato', '20261119T230000Z')] }), error: '' });
+  check('T-B-G1-09 T-B-G1-15 answer: judged against the search sent, the outcome only, the body dropped',
+    [a.json.id, a.json.outcome, a.json.kept, 'body' in a.json, 'request' in a.json, 'news_gdelt_request' in store], ['pagina:acilia', 'read', 1, false, false, false]);
+  check('T-B-G1-15 an answer with no search sent before it is a workflow error',
+    /no search sent/.test(thrown(() => runNode({ stage: 'answer', now: NOW, statusCode: 200, headers: {}, body: '{}', error: '' })) || ''), true);
+  runNode(Object.assign({}, other[0]));
+  const stop = runNode({ stage: 'answer', now: NOW, statusCode: 429, headers: {}, body: '', error: '' });
   const b2 = runNode(Object.assign({}, other[1]));
   check('T-B-G1-09 a 429 persists between nodes: the next search of the run is skipped', [stop.json.outcome, b2.json.skip, b2.json.outcome, 'url' in b2.json], ['throttled', true, 'skipped', false]);
   const c = runNode({ stage: 'close', now: '2026-11-20T00:11:00.000Z', started_at: NOW, results: [a.json, stop.json, b2.json], robots_events: r.json.robots_events,
@@ -325,7 +332,7 @@ function runNode(j) {
     [1, 'gdelt_righe_20261120T000512Z.json', 'gdelt_20261120T000512Z.json', null, undefined, 'prova-inventata']);
   check('T-B-G1-09 T-B-G1-14 close: the state of the run waits apart, the flow keeps its own until the files are written',
     [store.news_gdelt.until, store.news_gdelt_pending.until, store.news_gdelt_pending.host.throttled_runs], [{}, { 'pagina:acilia': '2026-11-19T23:45:00Z' }, 1]);
-  const k = runNode({ stage: 'commit' });
+  const k = runNode({ stage: 'commit', failed: [], started_at: NOW, now: '2026-11-20T00:12:00.000Z' });
   check('T-B-G1-09 T-B-G1-14 commit: after the files, the state of the run is the state of the flow',
     [k.json.committed, store.news_gdelt.until, store.news_gdelt.host.throttled_runs, store.news_gdelt.host.throttled_run, 'news_gdelt_pending' in store],
     [true, { 'pagina:acilia': '2026-11-19T23:45:00Z' }, 1, null, false]);
@@ -374,15 +381,25 @@ check('T-B-G1-10 T-B-G1-14 the files are written one after the other, rows, regi
     to(W, 'Registro?', 0), to(W, 'Registro?', 1), to(W, 'Salva registro'), to(W, 'Avviso?', 0), to(W, 'Avviso?', 1), to(W, 'Salva avviso'), to(W, 'Prepara conferma')],
   ['Esiti', 'Prepara chiusura', 'Chiusura', 'Righe?', 'Testo righe', 'Registro?', 'Registro?', 'Testo registro', 'Avviso?', 'Avviso?', 'Testo avviso',
     'Prepara conferma', 'Prepara conferma', 'Conferma']);
-check('T-B-G1-10 T-B-G1-14 the files read what «Chiusura» gave, whatever node comes before',
+check('T-B-G1-10 T-B-G1-14 T-B-G1-16 the files read what «Chiusura» gave, whatever node comes before, and no register follows rows not written',
   ['Righe?', 'Registro?', 'Avviso?'].map((n) => node(W, n).parameters.conditions.conditions[0].leftValue),
-  ["={{ $('Chiusura').first().json.rows_file_name }}", "={{ $('Chiusura').first().json.log_file_name }}", "={{ $('Chiusura').first().json.alert_file_name }}"]);
+  ["={{ $('Chiusura').first().json.rows_file_name }}",
+    "={{ $('Chiusura').first().json.log_file_name && !($('Salva righe').isExecuted && $('Salva righe').first().json.error) ? $('Chiusura').first().json.log_file_name : '' }}",
+    "={{ $('Chiusura').first().json.alert_file_name }}"]);
+const conferma = Object.fromEntries(node(W, 'Prepara conferma').parameters.assignments.assignments.map((x) => [x.name, x.value]));
+check('T-B-G1-16 «Prepara conferma» names every file a Drive node did not write, and the run',
+  [['righe', 'registro', 'avviso'].every((f) => conferma.failed.includes(`$('Salva ${f}').isExecuted && $('Salva ${f}').first().json.error) ? '${f}'`)), conferma.started_at, conferma.stage],
+  [true, "={{ $('Inizio').first().json.now }}", 'commit']);
+check('T-B-G1-15 «Risposta» carries the answer only: the search comes from «Prima» through the static data, and no node reads «Prima» back',
+  [node(W, 'Risposta').parameters.assignments.assignments.map((x) => x.name), JSON.stringify(W.nodes.filter((n) => n.type !== 'n8n-nodes-base.code')).includes("$('Prima')")],
+  [['stage', 'now', 'statusCode', 'headers', 'body', 'error'], false]);
 const drives = W.nodes.filter((n) => n.type === 'n8n-nodes-base.googleDrive').concat(A.nodes.filter((n) => n.type === 'n8n-nodes-base.googleDrive'));
 check('T-B-G1-10 every file goes to B Notizie/letture/, with the Google Drive credential', drives.map((n) => [n.name, n.parameters.folderId.value, n.credentials.googleDriveOAuth2Api.id]),
   [['Salva righe', '1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0', '7nJkjb7aldPHyXv4'], ['Salva registro', '1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0', '7nJkjb7aldPHyXv4'],
     ['Salva avviso', '1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0', '7nJkjb7aldPHyXv4'], ['Salva avviso', '1CPtWeMWYd3LthCyocObAAIegVyW5iiJ0', '7nJkjb7aldPHyXv4']]);
-check('T-B-G1-10 T-B-G1-14 every Drive node of the flow retries as the B collection does',
-  W.nodes.filter((n) => n.type === 'n8n-nodes-base.googleDrive').map((n) => [n.retryOnFail, n.maxTries, n.waitBetweenTries]), [[true, 5, 5000], [true, 5, 5000], [true, 5, 5000]]);
+check('T-B-G1-10 T-B-G1-14 T-B-G1-16 every Drive node retries as the B collection does, then goes on, so the execution ends and saves its static data',
+  W.nodes.filter((n) => n.type === 'n8n-nodes-base.googleDrive').map((n) => [n.retryOnFail, n.maxTries, n.waitBetweenTries, n.onError]),
+  [[true, 5, 5000, 'continueRegularOutput'], [true, 5, 5000, 'continueRegularOutput'], [true, 5, 5000, 'continueRegularOutput']]);
 check('T-B-G1-10 the error flow of B starts from an error and writes its alert', [A.name, A.nodes[0].type, to(A, 'Errore'), to(A, 'Avviso'), to(A, 'File avviso')],
   ['staging_B_avviso', 'n8n-nodes-base.errorTrigger', 'Avviso', 'File avviso', 'Salva avviso']);
 check('T-B-G1-10 the error flow is exported on: n8n does not call an error flow that is off', A.active, true);
@@ -471,6 +488,53 @@ check('T-B-G1-13 the first ended run writes only the notice, with the windows ne
 const fin2 = m.closeRun({ state: fin1.state, now: '2026-12-04T04:38:00.000Z', started_at: '2026-12-04T04:37:00.000Z', results: [], robots_events: [], robots_stopped: [], ended: true });
 check('T-B-G1-13 the runs after it write nothing', [fin2.log_file_name, fin2.rows_file_name, fin2.alert_file_name], [null, null, null]);
 check('T-B-G1-13 the measure is over from ASK_UNTIL_UTC, two hours after its end', [m.ASK_UNTIL_UTC, Date.parse(m.ASK_UNTIL_UTC) - Date.parse(m.END_UTC)], ['2026-12-04T01:00:00Z', 2 * 3600 * 1000]);
+
+/* ----- T-B-G1-15 … T-B-G1-19: Codex on #76, cycle 1 ------------------------------ */
+
+console.log('T-B-G1-16 files that fail: the run is read again, its stops hold, and the next run says so');
+const pendingOk = oneRun(r0.state, 0, 200).state;
+const stopPending = JSON.parse(JSON.stringify(pendingOk));
+stopPending.host.stopped = { at: runAt(0), reason: 'HTTP 429 in 6 runs in a row' };
+const lostRegister = m.commitRun({ state: r0.state, pending: stopPending, failed: ['registro'], started_at: runAt(0), now: runAt(0) });
+check('T-B-G1-16 a register not written: nothing of the run commits but its stop, and the failure is named',
+  [lostRegister.committed, lostRegister.state.until, lostRegister.state.host.stopped.reason, lostRegister.state.write_failures],
+  [false, {}, 'HTTP 429 in 6 runs in a row', [{ run: runAt(0), files: ['registro'], at: runAt(0) }]]);
+check('T-B-G1-16 rows not written: the same', m.commitRun({ state: r0.state, pending: pendingOk, failed: ['righe'], started_at: runAt(0), now: runAt(0) }).committed, false);
+const lostAlert = m.commitRun({ state: r0.state, pending: pendingOk, failed: ['avviso'], started_at: runAt(0), now: runAt(0) });
+check('T-B-G1-16 only the alert not written: the run commits, and the failure is named for the next run',
+  [lostAlert.committed, Object.keys(lostAlert.state.until).length, lostAlert.state.write_failures[0].files], [true, 13, ['avviso']]);
+check('T-B-G1-16 all files written: the run commits, nothing to name', [m.commitRun({ state: r0.state, pending: pendingOk, failed: [] }).committed,
+  'write_failures' in m.commitRun({ state: r0.state, pending: pendingOk, failed: [] }).state], [true, false]);
+const twice = m.commitRun({ state: lostRegister.state, pending: pendingOk, failed: ['righe'], started_at: runAt(1), now: runAt(1) });
+check('T-B-G1-16 two failures in a row are both named', twice.state.write_failures.map((f) => f.files[0]), ['registro', 'righe']);
+const afterFail = m.closeRun({ state: twice.state, now: runAt(2), started_at: runAt(2), results: [], robots_events: [], robots_stopped: [] });
+check('T-B-G1-16 the next run names them in its register and its alert, then forgets them',
+  [afterFail.log.previous_write_failure.length, afterFail.alert_file_name !== null, /precedente non sono stati scritti/.test(afterFail.alert.avviso), 'write_failures' in afterFail.state],
+  [2, true, true, false]);
+
+console.log('T-B-G1-17 an article on the edge of two windows is in one of them');
+const edgeA = { id: 'pagina:acilia', from: '2026-11-20T00:15:00Z', until: '2026-11-20T02:15:00Z', run: NOW, url: m.searchUrl('Acilia sourcelang:italian', Date.parse('2026-11-20T00:15:00Z'), Date.parse('2026-11-20T02:15:00Z')) };
+const edgeB = { id: 'pagina:acilia', from: '2026-11-20T02:15:00Z', until: '2026-11-20T04:15:00Z', run: NOW, url: m.searchUrl('Acilia sourcelang:italian', Date.parse('2026-11-20T02:15:00Z'), Date.parse('2026-11-20T04:15:00Z')) };
+const onEdge = json({ articles: [art('https://www.romatoday.it/bordo-inventato.html', 'Sul bordo', '20261120T021500Z')] });
+check('T-B-G1-17 the window ending on it leaves it out, the one starting on it keeps it, and asks from a second before',
+  [ans(edgeA, onEdge).result.kept, ans(edgeA, onEdge).result.outside_window, ans(edgeB, onEdge).result.kept, /startdatetime=20261120021459&enddatetime=20261120041500/.test(edgeB.url)],
+  [0, 1, 1, true]);
+
+console.log('T-B-G1-18 the outlet searches: domain: for an outlet and its Rome sections, domainis: where a domain ends other outlets');
+check('T-B-G1-18 today.it, whose name ends RomaToday and the other city sites, is searched exactly; the others with their subdomains',
+  S.filter((q) => q.domain).map((q) => q.query),
+  ['domain:romatoday.it', 'domain:ilmessaggero.it', 'domain:ansa.it', 'domain:corriere.it', 'domain:repubblica.it', 'domain:leggo.it', 'domainis:today.it',
+    'domain:agenzianova.com', 'domain:abitarearoma.it', 'domain:ilfaroonline.it']);
+check('T-B-G1-18 no other domain of the list ends with the domain of an outlet searched by domain:', m.OUTLETS.filter((o) => !o.exact)
+  .filter((o) => m.OUTLETS.some((x) => x.domain !== o.domain && x.domain.endsWith(o.domain))).map((o) => o.domain), []);
+
+console.log('T-B-G1-19 robots.txt served as HTML');
+check('T-B-G1-19 a page served as HTML with no rule in it stops the host, never reads as «allow everything»',
+  rob({ statusCode: 200, headers: { 'content-type': 'text/html; charset=utf-8' }, body: 'Pagina non trovata' }).state.host.stopped.reason,
+  'robots.txt unreadable: an HTML page instead of the rules');
+check('T-B-G1-19 rules served with the wrong type are still rules, as in the collection',
+  rob({ statusCode: 200, headers: { 'content-type': 'text/html' }, body: 'User-agent: *\nDisallow: /data/\n' }).requests.length, 13);
+check('T-B-G1-19 an empty robots.txt served as text allows everything (RFC 9309)', rob({ statusCode: 200, headers: { 'content-type': 'text/plain' }, body: '' }).requests.length, 13);
 
 console.log('');
 if (failures === 0) {

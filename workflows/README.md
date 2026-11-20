@@ -146,10 +146,14 @@ and it stays off until the owner decides.
 of the odd hours of Rome, thirteen searches of GDELT's free search service (DOC 2.0 API), one at a
 time, in an order that turns by one place every two hours. Its Code nodes are
 `code-nodes/news-gdelt.js`. A search is sent only after «Prima» has seen that the host did not stop,
-answer 429, or fail to answer earlier in the run. The files of a run go to `B Notizie/letture/` one
-after the other, rows, register, alert, each Drive node retrying five times as in the B collection;
-only after the last one does «Conferma» make the windows and the counts of the run the state of the
-flow, so a run that fails on the way is read again by the next one. A stop holds at once, the one the
+answer 429, or fail to answer earlier in the run; it leaves the search it lets go in the static data
+(`news_gdelt_request`), where «Dopo la risposta» takes it, so an answer never depends on reading an
+earlier node of the loop back. The files of a run go to `B Notizie/letture/` one after the other,
+rows, register, alert. Each Drive node retries five times, as in the B collection, and then goes on,
+so the execution ends and n8n saves its static data. «Conferma» then makes the windows and the counts
+of the run the state of the flow only if the rows and the register were written (no register is
+written after rows that were not), and names a file not written for the next run's register and
+alert; a run whose files fail is read again by the next one. A stop holds at once, the one the
 close decides on the sixth run with a 429 or the fifth with a server error included: a run whose
 files fail is read again, but its stop is not undone. The register carries the
 `workflow_version` of «Inizio», which changes with every change of the flow. The flow saves no data of
